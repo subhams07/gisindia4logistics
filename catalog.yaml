@@ -22,9 +22,9 @@ datasets:
   - name: India states/UTs boundaries (current, LGD)
     category: administrative
     description: 36 states/UTs from the PAN INDIA LGD-coded dataset
-    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
-    source_url: null
-    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
+    source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
+    license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution (see docs/legal_compliance.md)
     vintage: current
     resolution: state
     access: committed
@@ -36,9 +36,9 @@ datasets:
   - name: India district boundaries (current, LGD)
     category: administrative
     description: 780 districts with LGD codes — post-2011 districts included
-    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
-    source_url: null
-    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
+    source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
+    license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution (see docs/legal_compliance.md)
     vintage: current (~780 districts)
     resolution: district
     access: committed
@@ -50,9 +50,9 @@ datasets:
   - name: India sub-district boundaries (current, LGD)
     category: administrative
     description: 6,639 talukas/tehsils/blocks with LGD codes and type
-    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
-    source_url: null
-    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
+    source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
+    license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution (see docs/legal_compliance.md)
     vintage: current
     resolution: sub-district
     access: committed

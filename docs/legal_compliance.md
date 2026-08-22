@@ -27,33 +27,45 @@ an official depiction of India's external or disputed boundaries
 prerogative of the Survey of India. Maps and notebooks in this repo carry this
 disclaimer, and derived works should too.
 
-## Survey of India village boundaries — redistribution posture
+## Survey of India boundary data — redistribution posture
 
-The SoI "Village Boundary Data Base of Entire India"
+Covers BOTH the "Village Boundary Data Base of Entire India" page
 (surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india)
-publishes free, login-free per-state downloads of official LGD-coded village
-polygons for 27 states/UTs on a public government portal.
+and the **Administrative Boundary Data Base (ABDB)** — the state/district/
+sub-district layers ("PAN INDIA" archive) are SoI's own ABDB product, as
+confirmed by official ISO 19115 metadata (see `docs/metadata/abdb/`):
+provider "DIRECTOR, NGDR & UGID, SURVEY OF INDIA", lineage from the 1:50,000
+Digital Topographical Database, harmonized with ORGI 2024–2025, published
+2026-05-06, horizontal accuracy RMSE ±12.5 m.
+
+**Official constraints (per metadata):** accessConstraints = copyright;
+useConstraints = copyright; otherConstraints = "Geospatial Guidelines 2021
+to be followed. Any violation of the Guidelines will be dealt under the
+applicable laws." No explicit open-data license is granted.
 
 **Repo decision (maintainer, 2026-08):** the data is redistributed in this
-repository in good faith, based on its free public availability, with
-attribution ("Village boundaries: Survey of India, Government of India")
-embedded in every file. The page itself states no explicit open-data license,
-so this is a good-faith interpretation, not a documented grant — if Survey of
-India objects, the files will be removed promptly (open an issue or contact
-the maintainers).
+repository in good faith, based on its free, login-free public availability
+on a government portal, with attribution ("Boundary data: Survey of India,
+Government of India — ABDB") embedded in files and docs. Because the metadata
+does state "copyright", this is a good-faith interpretation rather than a
+documented grant — **before flipping this repository public, the maintainer
+should either obtain written confirmation from SoI or re-evaluate**; if SoI
+objects at any point, the files will be removed promptly (open an issue or
+contact the maintainers).
 
 Grounds and mitigations:
-- The 2021 Geospatial Data Guidelines encourage wide availability of
-  non-restricted civilian geospatial data; this dataset is unrestricted-class
-  (administrative boundaries, no negative-list attributes or areas).
-- No circumvention is involved: the same public URLs the script uses are
-  linked from the SoI page without registration or terms-clickthrough.
-- Attribution is preserved per file; raw SoI zips are NOT committed — only
-  standardized derivatives (reprojected to EPSG:4326, simplified ~50 m,
-  renamed columns).
-- Nine border/NE states are not published by SoI at village level; treat that
-  gap as deliberate and do not source those boundaries elsewhere without
-  checking terms.
+- The 2021 Geospatial Data Guidelines (the stated governing constraint)
+  encourage wide availability of unrestricted civilian geospatial data; this
+  dataset is unrestricted-class (administrative boundaries, no negative-list
+  attributes or areas), and the repo follows the Guidelines.
+- No circumvention is involved: the same public URLs the scripts use are
+  linked from SoI's page without registration or terms-clickthrough.
+- Attribution is preserved per file; raw SoI zips/rars are NOT committed —
+  only standardized derivatives (reprojected to EPSG:4326, simplified
+  ≥50 m, which stays within the source's ±12.5 m RMSE at district+ scales).
+- Nine border/NE states are not published by SoI at village level; treat
+  that gap as deliberate and do not source those boundaries elsewhere
+  without checking terms.
 
 ## License obligations per dataset
 

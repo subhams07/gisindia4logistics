@@ -21,9 +21,9 @@ its quality status. Quality statuses:
 
 | Source | URL | License | Use |
 |---|---|---|---|
-| PAN INDIA LGD dataset (maintainer-provided) | — (local archive `data/raw/panindia/`) | no explicit license; schema consistent with SoI/LGD; good-faith redistribution | **Current** states (36) / districts (780) / sub-districts (6,639), LGD-coded — committed |
+| Survey of India ABDB (state/district/sub-district) | surveyofindia.gov.in — ISO 19115 metadata in `docs/metadata/abdb/` | copyright per metadata; governed by Geospatial Guidelines 2021 (good-faith posture in legal_compliance.md) | **Current** states (36) / districts (780) / sub-districts (6,639), LGD-coded — committed (PAN INDIA archive, provider confirmed: NGDR & UGID, SoI; 1:50k DTDB lineage, ORGI-harmonized 2024–25, published 2026-05-06, RMSE ±12.5 m) |
 | DataMeet maps | github.com/datameet/maps | CC BY 4.0 | States + Census-2011 districts (640) used for census joins — committed |
-| Survey of India villages | surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india | no explicit open license; free download | **Official village boundaries** (LGD-coded, 27 states/UTs) — committed (good-faith posture below) |
+| Survey of India villages | surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india | same ABDB constraints | **Official village boundaries** (LGD-coded, 27 states/UTs) — committed |
 | ISRO Bhuvan | bhuvan.nrsc.gov.in | Free registration; check terms per layer | Alternative official boundaries — manual |
 | LGD | lgdirectory.gov.in | Government open data | Canonical state/district codes |
 

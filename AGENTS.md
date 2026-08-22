@@ -135,11 +135,18 @@ legal_compliance.md), `catalog.yaml`.
 19. State-level spot checks passed: Sikkim 447/6/18, Pune 1,884 villages/14
     sub-districts (= OSM taluka count), Telangana 33 districts, UP 75.
 
-### Phase 5: PAN INDIA LGD boundaries (maintainer-provided)
+### Phase 5: PAN INDIA LGD boundaries (SoI ABDB)
 20. User supplied `State_District_Subdistrict_PAN INDIA.rar` (202 MB).
     No 7-Zip on the machine — **Windows' built-in bsdtar
     (`C:\Windows\System32\tar.exe`) reads RAR fine**. Extracted to
     `data/raw/panindia/`.
+20b. **Provenance resolved later**: user supplied SoI's official ISO 19115
+    metadata (`docs/metadata/abdb/*.xlsx`) — the archive is SoI's ABDB
+    product (provider: DIRECTOR, NGDR & UGID, Survey of India; lineage:
+    1:50,000 DTDB, ORGI-harmonized 2024–25; published 2026-05-06; horizontal
+    RMSE ±12.5 m; constraints: copyright, governed by Geospatial Guidelines
+    2021 — good-faith redistribution posture documented in
+    legal_compliance.md; re-evaluate before making the repo public).
 21. Processed by `scripts/clean/process_panindia_boundaries.py`:
     - States 40 → **36** after dropping 4 "DISPUTED (X & Y)" inter-state
       slivers.
