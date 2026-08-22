@@ -62,14 +62,31 @@ def bbox_query(bbox, timeout_s=600):
     """
 
 
+def nh_from_ref(ref) -> str:
+    """Extract clean NH route numbers from an OSM ref tag.
+
+    Accepts 'NH44', 'old NH7', 'NH544;SH60' — returns '44;7;544' style.
+    Tokens that don't parse as NH routes are dropped."""
+    if not ref:
+        return ""
+    parts = []
+    for tok in re.split(r"[;,]", str(ref)):
+        tok = tok.strip().upper().replace("OLD NH", "NH").replace("OLDNH", "NH")
+        m = re.fullmatch(r"NH\s*-?(\d{1,4}[A-Z]?)", tok)
+        if m and m.group(1):
+            parts.append(m.group(1))
+    return ";".join(dict.fromkeys(parts))
+
+
 def to_features(data: dict) -> list[dict]:
     features = []
     for el in data.get("elements", []):
         if el.get("type") != "way" or "geometry" not in el:
             continue
         tags = el.get("tags", {})
-        refs = [r.strip() for r in re.split(r"[;,]", str(tags.get("ref", ""))) if "NH" in r.upper()]
-        nh_numbers = sorted({re.sub(r"^NH", "", r, flags=re.I).strip() for r in refs})
+        nh = nh_from_ref(tags.get("ref"))
+        if not nh:
+            continue
         coords = [[p["lon"], p["lat"]] for p in el["geometry"]]
         if len(coords) < 2:
             continue
@@ -80,7 +97,7 @@ def to_features(data: dict) -> list[dict]:
                 "osm_id": el["id"],
                 "name": tags.get("name"),
                 "ref": tags.get("ref"),
-                "nh": ";".join(nh_numbers),
+                "nh": nh,
                 "highway": tags.get("highway"),
             },
         })
@@ -138,8 +155,12 @@ def main() -> None:
 
     if args.simplify > 0:
         import geopandas as gpd
+        import shapely
         gdf = gpd.GeoDataFrame.from_features(features, crs=4326)
-        gdf.geometry = gdf.geometry.simplify(args.simplify).make_valid()
+        gdf.geometry = gdf.geometry.simplify(args.simplify)
+        gdf.geometry = shapely.set_precision(gdf.geometry, 1e-5)
+        gdf.geometry = gdf.geometry.make_valid()
+        gdf = gdf[gdf.geometry.notna() & ~gdf.geometry.is_empty]
         features = json.loads(gdf.to_json())["features"]
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

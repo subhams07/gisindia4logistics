@@ -26,6 +26,7 @@ import pathlib
 import sys
 
 import geopandas as gpd
+import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from standardize import DATA_DIR, clean_state_name, write_geojson  # noqa: E402
@@ -92,8 +93,17 @@ def process(layer: str) -> gpd.GeoDataFrame:
         n_disputed = int((gdf["state"].isna() & rem.str.contains("DISPUTED", na=False)).sum())
         gdf = gdf[gdf["state"].notna()]
     gdf["state"] = gdf["state"].map(clean_state_name).str.title()
+    # .title() capitalizes "and" — restore canonical LGD spellings
+    gdf["state"] = gdf["state"].str.replace(" And ", " and ", regex=False)
     n_unmapped = int(gdf["state"].isna().sum())
     assert n_unmapped == 0, f"[{layer}] unmapped state names remain"
+
+    # LGD codes arrive as zero-padded strings ("095") — normalize to integers
+    for code_col in ("district_code", "sub_district_code", "state_code"):
+        if code_col in gdf:
+            gdf[code_col] = pd.to_numeric(
+                gdf[code_col].astype(str).str.extract(r"^(\d+)", expand=False),
+                errors="coerce").astype("Int64")
 
     for col in ("district", "sub_district"):
         if col in gdf:
@@ -121,6 +131,14 @@ def main() -> None:
                          ("districts", "india_districts_lgd.geojson"),
                          ("subdistricts", "india_subdistricts_lgd.gpkg")):
         gdf = process(layer)
+        if layer == "districts":
+            gdf = reconcile_districts(gdf)
+        if layer == "subdistricts":
+            n0 = len(gdf)
+            gdf = gdf.drop_duplicates(subset=["state", "district", "sub_district",
+                                              "sub_district_code"], keep="first")
+            if len(gdf) < n0:
+                print(f"[subdistricts] dropped {n0 - len(gdf)} exact duplicate rows")
         key = {"states": "state", "districts": "district_code",
                "subdistricts": "sub_district_code"}[layer]
         dup = int(gdf[key].duplicated().sum()) if key in gdf else 0
@@ -138,6 +156,31 @@ def main() -> None:
         print(f"[{layer}] wrote {len(gdf)} features, dup {key}={dup}, "
               f"valid_geom={bool(gdf.geometry.is_valid.all())}, "
               f"{path.stat().st_size/1e6:.1f} MB -> {path}")
+
+
+def reconcile_districts(districts: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """The source's subdistrict layer is newer than its district layer: e.g.
+    Maharashtra's Dhule split (LGD 598, Malegaon, 2024) exists in subdistricts
+    but not districts. Derive missing districts by dissolving their
+    subdistrict polygons so the two layers join cleanly."""
+    sub = process("subdistricts").dropna(subset=["district_code"])
+    have = set(zip(districts.state, districts.district_code))
+    missing = sub[~sub.apply(lambda r: (r.state, r.district_code) in have, axis=1)]
+    if not len(missing):
+        return districts
+    rows = []
+    for (state, code), grp in missing.groupby(["state", "district_code"]):
+        geom = grp.geometry.union_all()
+        name = grp["district"].mode().iloc[0]
+        rows.append({"state": state, "state_code": grp.state_code.iloc[0],
+                     "district": name, "district_code": code,
+                     "remarks": "derived from subdistrict dissolve (absent from "
+                                "source district layer; e.g. LGD 598 Malegaon "
+                                "carved from Dhule 2024)", "geometry": geom})
+        print(f"[districts] derived missing district: {name} ({code}) from "
+              f"{len(grp)} subdistricts")
+    out = pd.concat([districts, gpd.GeoDataFrame(rows, crs=4326)], ignore_index=True)
+    return out.sort_values(["state", "district"]).reset_index(drop=True)
 
 
 if __name__ == "__main__":

@@ -291,6 +291,33 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     Pune extract existed — full state file (44,659 villages) generated and
     the analysis rerun at village level.
 
+### Phase 9: full data audit (2026-08-23)
+33. `scripts/audit/audit_all.py` — 212 checks across every dataset:
+    completeness vs verified references, schema, geometry validity on
+    re-read, coordinate sanity, cross-layer LGD joins, analysis
+    reproducibility (recomputes sample distances), catalog-vs-disk. Run it
+    after ANY data change; exits non-zero on FAIL. Report at
+    `docs/audit_report.md`.
+34. Three evaluate-fix-evaluate cycles: 28 FAIL -> 4 FAIL -> 0 FAIL
+    (201 PASS / 11 documented WARN). Real bugs found & fixed:
+    - **Malegaon (LGD 598) missing from districts** — the source's
+      subdistrict layer is NEWER than its district layer; derived the
+      district by dissolving its 4 subdistricts (now 781 districts;
+      `reconcile_districts()` in process_panindia_boundaries).
+    - TN/Puducherry `Subdist` column alias (sub-districts restored).
+    - MP `Villl_name` typo (names restored).
+    - 3 exact-dup subdistrict rows; NH junk refs ("Old NH7") + 2 degenerate
+      geometries; stray CR in district names (earlier).
+    - Reference table was stale vs 2024-25 district formations (Arunachal
+      27 incl. Bichom/Keyi Panyor, Chhattisgarh 33, Goa 3 incl. Kushavati).
+    Accepted WARNs: ~1k blank village names (SoI source), revenue-vs-census
+    village counting for Delhi/Chandigarh, documented gaps (Ladakh 2,
+    Puducherry 2/4, J&K PoK rows, Delhi Nazul).
+    **Audit-script lesson**: naive line-counting breaks on multiline CSV
+    names; NaN != "" comparisons don't filter; glob patterns in catalog
+    paths need expansion; quote YAML values with colons — THREE separate
+    audit-script bugs produced false FAILs that looked like data bugs.
+
 ## Enhancement backlog (suggested next steps)
 
 - Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
