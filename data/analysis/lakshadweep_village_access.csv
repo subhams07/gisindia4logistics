@@ -1,0 +1,31 @@
+village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+Chetlat Island,Lakshadweep,627032,village,UPPALA,262.21,ICD Mangalore (Panambur),269.26,New Mangalore Port,267.94,Mangaluru International Airport (IXE),275.32,Rupaidiha ICP,2018.94
+Kiltan Island,Lakshadweep,627033,village,KALANAD HALT,243.05,ICD Mangalore (Panambur),256.06,New Mangalore Port,254.95,Mangaluru International Airport (IXE),262.31,Rupaidiha ICP,2027.49
+Kadmat Island,Lakshadweep,627034,village,BEKAL FORT,278.8,ICD Mangalore (Panambur),293.63,New Mangalore Port,292.56,Mangaluru International Airport (IXE),299.9,Rupaidiha ICP,2063.59
+Amini Island,Lakshadweep,627030,village,BEKAL FORT,289.43,ICD Mangalore (Panambur),305.53,New Mangalore Port,304.48,Mangaluru International Airport (IXE),311.81,Rupaidiha ICP,2076.4
+Parali III Islet (Bangaram Island),Lakshadweep,627042,village,BEKAL FORT,335.83,ICD Mangalore (Panambur),350.24,New Mangalore Port,349.13,Mangaluru International Airport (IXE),356.49,Rupaidiha ICP,2110.53
+Parali II  Islet,Lakshadweep,627041,village,BEKAL FORT,336.09,ICD Mangalore (Panambur),350.55,New Mangalore Port,349.44,Mangaluru International Airport (IXE),356.8,Rupaidiha ICP,2110.9
+Parali I  Islet,Lakshadweep,627040,village,BEKAL FORT,336.41,ICD Mangalore (Panambur),350.89,New Mangalore Port,349.78,Mangaluru International Airport (IXE),357.14,Rupaidiha ICP,2111.24
+Tinnakara Islet (Bangaram Island),Lakshadweep,627039,village,BEKAL FORT,337.74,ICD Mangalore (Panambur),352.14,New Mangalore Port,351.03,Mangaluru International Airport (IXE),358.39,Rupaidiha ICP,2112.1
+Bangaram Island,Lakshadweep,627043,village,BEKAL FORT,341.16,ICD Mangalore (Panambur),355.32,New Mangalore Port,354.2,Mangaluru International Airport (IXE),361.56,Rupaidiha ICP,2114.17
+Agatti Island,Lakshadweep,627044,village,BEKAL FORT,355.75,ICD Mangalore (Panambur),370.35,New Mangalore Port,369.23,Mangaluru International Airport (IXE),376.59,Rupaidiha ICP,2128.12
+Kalpitti Islet  (Agatti Island),Lakshadweep,627045,village,BEKAL FORT,359.69,ICD Mangalore (Panambur),374.6,New Mangalore Port,373.49,Mangaluru International Airport (IXE),380.85,Rupaidiha ICP,2132.6
+Kavaratti Island,Lakshadweep,627038,village,PAYYANUR,328.15,ICD Mangalore (Panambur),356.52,New Mangalore Port,355.67,Mangaluru International Airport (IXE),362.83,Rupaidiha ICP,2138.09
+Androth Island,Lakshadweep,627046,village,PAYYANUR,218.74,ICD Mangalore (Panambur),266.57,New Mangalore Port,266.17,Calicut International Airport (CCJ),252.84,Rupaidiha ICP,2069.76
+Valiyakara Islet (Suheli Part),Lakshadweep,627037,village,PAYYANUR,382.52,ICD Mangalore (Panambur),414.35,New Mangalore Port,413.52,Calicut International Airport (CCJ),414.72,Rupaidiha ICP,2194.81
+Cheriyakara Islet (Suheli Part),Lakshadweep,627036,village,PAYYANUR,391.88,ICD Mangalore (Panambur),424.68,New Mangalore Port,423.86,Calicut International Airport (CCJ),421.88,Rupaidiha ICP,2205.55
+Minicoy Island,Lakshadweep,627056,village,PUNNAPRA,386.98,ICD Kochi (Edappally),406.74,Cochin Port,400.55,Cochin International Airport (COK),425.66,Petrapole ICP,2332.16
+Kalpeni Island,Lakshadweep,627054,village,TANUR,265.72,ICD Kochi (Edappally),293.7,Cochin Port,287.83,Calicut International Airport (CCJ),280.1,Petrapole ICP,2143.09
+Pitti Islet,Lakshadweep,627052,village,TANUR,268.15,ICD Kochi (Edappally),295.88,Cochin Port,290.0,Calicut International Airport (CCJ),282.53,Petrapole ICP,2145.38
+Tilakkam,Lakshadweep,627049,village,TANUR,267.54,ICD Kochi (Edappally),295.14,Cochin Port,289.26,Calicut International Airport (CCJ),281.94,Petrapole ICP,2144.99
+Cheriyam Islet (Kalpeni Island),Lakshadweep,627047,village,TANUR,261.61,ICD Kochi (Edappally),292.37,Cochin Port,286.56,Calicut International Airport (CCJ),275.71,Petrapole ICP,2137.04
+Bitra Island,Lakshadweep,627031,village,ULLAL,319.08,ICD Mangalore (Panambur),324.63,New Mangalore Port,323.22,Mangaluru International Airport (IXE),330.57,Rupaidiha ICP,2052.26
+Kodithala Islet,Lakshadweep,627048,village,TANUR,264.09,ICD Kochi (Edappally),293.25,Cochin Port,287.41,Calicut International Airport (CCJ),278.35,Petrapole ICP,2140.62
+Tilakkam Islet,Lakshadweep,627050,village,TANUR,267.99,ICD Kochi (Edappally),295.47,Cochin Port,289.59,Calicut International Airport (CCJ),282.4,Petrapole ICP,2145.48
+Tilakkam Islet,Lakshadweep,627051,village,TANUR,267.77,ICD Kochi (Edappally),295.27,Cochin Port,289.39,Calicut International Airport (CCJ),282.18,Petrapole ICP,2145.27
+Tilakkam Islet,Lakshadweep,000000,village,TANUR,267.76,ICD Kochi (Edappally),295.48,Cochin Port,289.6,Calicut International Airport (CCJ),282.14,Petrapole ICP,2145.06
+Viringili Islet (Minicoy Island),Lakshadweep,627055,village,PUNNAPRA,393.3,ICD Kochi (Edappally),412.97,Cochin Port,406.78,Cochin International Airport (COK),431.86,Petrapole ICP,2337.7
+Raggan Islet,Lakshadweep,000000,village,PUNNAPRA,392.07,ICD Kochi (Edappally),411.37,Cochin Port,405.18,Cochin International Airport (COK),430.2,Petrapole ICP,2335.41
+Tilakkam Islet,Lakshadweep,000000,village,TANUR,267.89,ICD Kochi (Edappally),295.39,Cochin Port,289.51,Calicut International Airport (CCJ),282.29,Petrapole ICP,2145.37
+Pitti Island,Lakshadweep,,village,PAYYANUR,384.11,ICD Mangalore (Panambur),416.73,New Mangalore Port,415.92,Calicut International Airport (CCJ),415.06,Rupaidiha ICP,2198.04
+Pitti Island,Lakshadweep,,village,PAYYANUR,325.61,ICD Mangalore (Panambur),346.48,New Mangalore Port,345.5,Mangaluru International Airport (IXE),352.78,Rupaidiha ICP,2119.5

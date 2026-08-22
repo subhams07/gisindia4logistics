@@ -129,7 +129,9 @@ def load_standardized(zip_path: pathlib.Path) -> gpd.GeoDataFrame:
         zf.extractall(td)
         gdf = gpd.read_file(pathlib.Path(td) / shp_member)
     # some states ship mixed-case columns (e.g. Telangana's Dist_LGD/Vill_cat)
+    # and MP has a typo'd VILLL_NAME
     gdf.columns = [c.upper() if c != "geometry" else c for c in gdf.columns]
+    gdf = gdf.rename(columns={"VILLL_NAME": "VILL_NAME"})
     cols = {k: v for k, v in RENAME.items() if k in gdf.columns}
     gdf = gdf.rename(columns=cols)
     keep = [c for c in RENAME.values() if c in gdf.columns] + ["geometry"]

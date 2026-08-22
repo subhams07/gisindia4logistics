@@ -266,6 +266,30 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
    would enforce the quality bar.
 8. Accessibility is straight-line only (EPSG:7755); road-network travel time
    via OSRM/Valhalla is the planned upgrade.
+9. The 9 border/NE states' accessibility uses district centroids (no village
+   data exists); re-run when SoI publishes those states.
+
+### Phase 8: all-India accessibility (2026-08-23)
+32. `nearest_facility.py --all` covers ALL 36 states/UTs. 27 at village
+    level (SoI polygons); the 9 border/NE states run on district centroids
+    (`unit` column = district_centroid; villages_geojson_path now returns
+    None instead of exiting). Committed outputs: per-village CSVs,
+    per-district summaries, and `data/analysis/india_district_access_
+    summary.csv` (817 rows incl. 36 `__STATE__` rows). National headline:
+    population-weighted mean distance to a rail station 13.6 km, to an ICD
+    121 km across the 27 village-level states (island UTs 300-1200 km).
+    Three bugs fixed during the run:
+    (a) sjoin_nearest equidistant ties duplicate rows -> dedupe index
+        before assigning values;
+    (b) MP's SoI file has a typo'd `Villl_name` column (three L's) ->
+        alias map in the loader (the old MP output silently lacked village
+        names; regenerated 58,686 villages);
+    (c) PAN INDIA district names carried stray `\r` (e.g. "CHIRANG\r") ->
+        strip() in process_panindia_boundaries; all three LGD layers
+        regenerated.
+    Maharashtra initially fell back to district centroids because only the
+    Pune extract existed — full state file (44,659 villages) generated and
+    the analysis rerun at village level.
 
 ## Enhancement backlog (suggested next steps)
 

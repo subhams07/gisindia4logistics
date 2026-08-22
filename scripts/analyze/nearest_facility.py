@@ -50,15 +50,13 @@ STATE_FILE_MAP = {
 }
 
 
-def villages_geojson_path(state: str) -> pathlib.Path:
+def villages_geojson_path(state: str):
+    """Path to the SoI village file, or None if the state isn't published
+    (caller falls back to district centroids)."""
     s = state.lower().replace(" ", "_")
     s = STATE_FILE_MAP.get(state.lower(), s)
     p = DATA_DIR / "administrative" / "villages" / f"{s}_soi_villages.geojson"
-    if not p.exists():
-        raise SystemExit(
-            f"Village file not found: {p}\n"
-            f"Generate it first: python scripts/fetch/fetch_village_boundaries_soi.py --state {state}")
-    return p
+    return p if p.exists() else None
 
 
 def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:
@@ -81,7 +79,10 @@ def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--state", required=True)
+    ap.add_argument("--state", help="one state, or omit with --all")
+    ap.add_argument("--all", action="store_true",
+                    help="run for every state/UT (villages where available, "
+                         "district centroids for the 9 states without village data)")
     ap.add_argument("--district", help="restrict analysis to one district")
     ap.add_argument("--facilities", default="rail_station,icd,port,air_cargo,icp",
                     help=f"comma list from: {','.join(FACILITY_SOURCES)}")
@@ -89,12 +90,48 @@ def main() -> None:
                     help="catchment distances in km for share-below stats")
     args = ap.parse_args()
 
+    if args.all:
+        states = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+        for st in sorted(states["state"].unique()):
+            print(f"\n########## {st} ##########", flush=True)
+            try:
+                run_one(st, args)
+            except SystemExit as e:
+                print(f"  SKIP: {e}", flush=True)
+            except Exception as e:
+                print(f"  ERROR: {e}", flush=True)
+        return
+    if not args.state:
+        ap.error("--state or --all required")
+    run_one(args.state, args)
+
+
+def run_one(state: str, args) -> None:
     thresholds = [float(t) for t in args.thresholds.split(",")]
     kinds = [k.strip() for k in args.facilities.split(",")]
+    args_state, args_district = state, args.district
+    # local aliases keep the body below unchanged
+    class _A: pass
+    args = _A()
+    args.state, args.district = args_state, args_district
 
     print(f"Loading villages for {args.state} ...")
-    villages = gpd.read_file(villages_geojson_path(args.state))
-    if args.district:
+    vpath = villages_geojson_path(args.state)
+    if vpath is not None:
+        villages = gpd.read_file(vpath)
+        unit = "village"
+    else:
+        # no SoI village file (9 border/NE states) — fall back to district
+        # centroids so every state has coverage; unit marked in outputs
+        districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
+        villages = districts[districts["state"].str.lower() == args.state.lower()].copy()
+        villages = villages.rename(columns={"district_code": "village_code"})
+        villages["village"] = villages["district"]
+        if not len(villages):
+            raise SystemExit(f"No village file and no districts for {args.state}")
+        unit = "district_centroid"
+        print(f"  no village data for {args.state} — using district centroids")
+    if args.district and "district" in villages:
         villages = villages[villages["district"].str.lower() == args.district.lower()]
         label = f"{args.state.lower().replace(' ', '_')}_{args.district.lower().replace(' ', '_')}"
     else:
@@ -113,11 +150,14 @@ def main() -> None:
         "village": villages["village"].values,
         "district": villages["district"].values if "district" in villages else None,
         "village_code": villages["village_code"].values,
+        "unit": unit,
     })
     for kind, gdf in facilities.items():
         fac = gdf.to_crs(PROJ)
         joined = gpd.sjoin_nearest(pts, fac[["fac_name", "geometry"]],
                                    how="left", distance_col=f"dist_{kind}")
+        # equidistant ties return duplicate rows — keep first (min distance)
+        joined = joined[~joined.index.duplicated(keep="first")]
         base[f"nearest_{kind}"] = joined["fac_name"].values
         base[f"dist_{kind}_km"] = (joined[f"dist_{kind}"].values / 1000).round(2)
 

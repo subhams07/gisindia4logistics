@@ -1,0 +1,370 @@
+village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+,SOUTH WEST,,village,BIJWASAN,1.36,ICD Garhi Harsaru,16.28,Dahej Port,868.13,Indira Gandhi International Airport (DEL),4.68,Attari ICP,363.9
+,SOUTH WEST,,village,BIJWASAN,3.43,ICD Garhi Harsaru,16.1,Dahej Port,868.11,Indira Gandhi International Airport (DEL),6.81,Attari ICP,361.49
+,SOUTH WEST,,village,BIJWASAN,5.11,ICD Garhi Harsaru,15.06,Dahej Port,866.94,Indira Gandhi International Airport (DEL),9.04,Attari ICP,360.09
+,SOUTH WEST,,village,BIJWASAN,7.45,ICD Garhi Harsaru,14.92,Dahej Port,866.29,Indira Gandhi International Airport (DEL),11.4,Attari ICP,358.12
+,SOUTH WEST,,village,BIJWASAN,5.26,ICD Garhi Harsaru,16.39,Dahej Port,868.28,Indira Gandhi International Airport (DEL),8.46,Attari ICP,359.67
+,SOUTH WEST,,village,PALAM VIHAR HALT,7.74,ICD Garhi Harsaru,13.6,Dahej Port,864.69,Indira Gandhi International Airport (DEL),12.68,Attari ICP,358.11
+,SOUTH WEST,,village,PALAM VIHAR HALT,8.07,ICD Garhi Harsaru,12.27,Dahej Port,863.11,Indira Gandhi International Airport (DEL),13.8,Attari ICP,358.36
+,SOUTH WEST,,village,GURGAON,9.61,ICD Garhi Harsaru,12.81,Dahej Port,862.85,Indira Gandhi International Airport (DEL),15.27,Attari ICP,356.95
+,SOUTH WEST,,village,GURGAON,8.42,ICD Garhi Harsaru,11.69,Dahej Port,862.18,Indira Gandhi International Airport (DEL),14.79,Attari ICP,358.18
+JAINPUR,SOUTH WEST,064037,village,BASAI DHANKOT,8.42,ICD Garhi Harsaru,10.3,Dahej Port,860.38,Indira Gandhi International Airport (DEL),16.12,Attari ICP,358.58
+,SOUTH WEST,,village,Sultanpur Kalia,9.03,ICD Garhi Harsaru,12.78,Dahej Port,859.18,Indira Gandhi International Airport (DEL),20.46,Attari ICP,354.74
+,SOUTH WEST,,village,Sultanpur Kalia,9.04,ICD Garhi Harsaru,11.81,Dahej Port,859.59,Indira Gandhi International Airport (DEL),18.99,Attari ICP,356.02
+,SOUTH WEST,,village,Sultanpur Kalia,10.76,ICD Garhi Harsaru,12.97,Dahej Port,861.34,Indira Gandhi International Airport (DEL),17.94,Attari ICP,355.43
+,SOUTH WEST,,village,GURGAON,10.78,ICD Garhi Harsaru,13.51,Dahej Port,862.89,Indira Gandhi International Airport (DEL),16.27,Attari ICP,355.81
+,SOUTH WEST,,village,PALAM VIHAR HALT,10.1,ICD Garhi Harsaru,13.86,Dahej Port,863.79,Indira Gandhi International Airport (DEL),15.2,Attari ICP,356.18
+,SOUTH WEST,,village,PALAM VIHAR HALT,9.08,ICD Garhi Harsaru,13.96,Dahej Port,864.48,Indira Gandhi International Airport (DEL),13.97,Attari ICP,356.9
+,SOUTH WEST,,village,BIJWASAN,8.48,ICD Garhi Harsaru,16.31,Dahej Port,867.42,Indira Gandhi International Airport (DEL),11.94,Attari ICP,356.76
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,8.1,ICD Garhi Harsaru,17.99,Dahej Port,869.38,Indira Gandhi International Airport (DEL),10.78,Attari ICP,356.78
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,6.42,ICD Garhi Harsaru,17.55,Dahej Port,869.31,Indira Gandhi International Airport (DEL),9.12,Attari ICP,358.41
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,4.8,ICD Garhi Harsaru,17.26,Dahej Port,869.22,Indira Gandhi International Airport (DEL),7.52,Attari ICP,360.01
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,2.55,ICD Garhi Harsaru,16.95,Dahej Port,868.93,Indira Gandhi International Airport (DEL),5.28,Attari ICP,362.47
+,SOUTH WEST,800441,village,SHAHABAD MOHAMADPUR,2.11,ICD Garhi Harsaru,19.55,Dahej Port,871.5,Indira Gandhi International Airport (DEL),4.25,Attari ICP,362.14
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,3.32,ICD Garhi Harsaru,18.46,Dahej Port,870.48,Indira Gandhi International Airport (DEL),5.93,Attari ICP,360.91
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,4.57,ICD Garhi Harsaru,20.07,Dahej Port,872.07,Indira Gandhi International Airport (DEL),6.81,Attari ICP,359.58
+,SOUTH WEST,,village,PALAM,1.81,ICD Patparganj,20.13,Dahej Port,872.72,Indira Gandhi International Airport (DEL),4.13,Attari ICP,362.13
+,SOUTH WEST,,village,SHAHABAD MOHAMADPUR,6.13,ICD Garhi Harsaru,19.7,Dahej Port,871.54,Indira Gandhi International Airport (DEL),8.57,Attari ICP,358.03
+,SOUTH WEST,,village,MUNDKA,7.48,ICD Garhi Harsaru,21.36,Dahej Port,872.69,Indira Gandhi International Airport (DEL),11.44,Attari ICP,355.03
+,SOUTH WEST,800441,village,MUNDKA,8.58,ICD Garhi Harsaru,20.26,Dahej Port,871.62,Indira Gandhi International Airport (DEL),11.08,Attari ICP,355.63
+,SOUTH WEST,,village,GHEVRA,8.82,ICD Garhi Harsaru,19.7,Dahej Port,870.52,Indira Gandhi International Airport (DEL),12.77,Attari ICP,354.4
+,SOUTH WEST,,village,GHEVRA,9.68,ICD Garhi Harsaru,18.86,Dahej Port,869.77,Indira Gandhi International Airport (DEL),12.39,Attari ICP,355.06
+,SOUTH WEST,,village,BIJWASAN,9.79,ICD Garhi Harsaru,17.03,Dahej Port,867.69,Indira Gandhi International Airport (DEL),13.11,Attari ICP,355.45
+,SOUTH WEST,,village,BIJWASAN,10.4,ICD Garhi Harsaru,16.53,Dahej Port,866.85,Indira Gandhi International Airport (DEL),13.96,Attari ICP,355.13
+,SOUTH WEST,,village,PALAM VIHAR HALT,10.8,ICD Garhi Harsaru,15.63,Dahej Port,865.5,Indira Gandhi International Airport (DEL),15.0,Attari ICP,355.02
+,SOUTH WEST,,village,GHEVRA,8.22,ICD Garhi Harsaru,20.51,Dahej Port,870.6,Indira Gandhi International Airport (DEL),14.68,Attari ICP,352.57
+,SOUTH WEST,,village,BAHADURGARH,11.51,ICD Garhi Harsaru,17.75,Dahej Port,865.68,Indira Gandhi International Airport (DEL),18.19,Attari ICP,351.73
+,SOUTH WEST,,village,BAHADURGARH,11.34,ICD Garhi Harsaru,17.67,Dahej Port,866.8,Indira Gandhi International Airport (DEL),16.26,Attari ICP,352.91
+,SOUTH WEST,,village,PALAM VIHAR HALT,12.04,ICD Garhi Harsaru,15.93,Dahej Port,865.02,Indira Gandhi International Airport (DEL),16.39,Attari ICP,353.97
+,SOUTH WEST,,village,Sultanpur Kalia,12.75,ICD Garhi Harsaru,15.26,Dahej Port,863.08,Indira Gandhi International Airport (DEL),18.39,Attari ICP,353.41
+,SOUTH WEST,,village,BAHADURGARH,13.2,ICD Garhi Harsaru,16.66,Dahej Port,863.63,Indira Gandhi International Airport (DEL),19.48,Attari ICP,351.87
+,SOUTH WEST,,village,Sultanpur Kalia,11.36,ICD Garhi Harsaru,14.86,Dahej Port,861.29,Indira Gandhi International Airport (DEL),20.22,Attari ICP,353.01
+,SOUTH WEST,,village,Sultanpur Kalia,12.54,ICD Garhi Harsaru,16.34,Dahej Port,862.02,Indira Gandhi International Airport (DEL),21.04,Attari ICP,351.53
+,SOUTH WEST,,village,GHEVRA,5.61,ICD Garhi Harsaru,22.95,Dahej Port,873.28,Indira Gandhi International Airport (DEL),14.76,Attari ICP,351.74
+,SOUTH WEST,,village,PALAM,4.13,ICD Patparganj,20.73,Dahej Port,874.79,Indira Gandhi International Airport (DEL),7.17,Attari ICP,359.24
+,WEST,,village,NANGLOI,3.25,ICD Patparganj,23.24,Dahej Port,877.87,Indira Gandhi International Airport (DEL),12.53,Attari ICP,354.11
+,SOUTH WEST,,village,PALAM,2.55,ICD Patparganj,20.05,Dahej Port,873.97,Indira Gandhi International Airport (DEL),5.52,Attari ICP,360.85
+,SOUTH WEST,,village,PALAM,1.5,ICD Patparganj,18.33,Dahej Port,874.75,Indira Gandhi International Airport (DEL),4.78,Attari ICP,362.11
+,SOUTH WEST,,village,PALAM,1.07,ICD Patparganj,17.33,Dahej Port,874.44,Indira Gandhi International Airport (DEL),3.6,Attari ICP,363.73
+,SOUTH WEST,,village,NASIRPUR HALT,1.81,ICD Patparganj,18.17,Dahej Port,875.79,Indira Gandhi International Airport (DEL),5.94,Attari ICP,361.24
+,SOUTH WEST,800441,village,BIJWASAN,3.68,ICD Garhi Harsaru,16.78,Dahej Port,867.44,Indira Gandhi International Airport (DEL),3.88,Attari ICP,368.22
+,SOUTH WEST,,village,BIJWASAN,1.12,ICD Garhi Harsaru,14.96,Dahej Port,866.43,Indira Gandhi International Airport (DEL),5.13,Attari ICP,366.02
+,SOUTH WEST,,village,BIJWASAN,2.12,ICD Garhi Harsaru,14.02,Dahej Port,865.34,Indira Gandhi International Airport (DEL),6.06,Attari ICP,366.74
+NANAK HERI,SOUTH WEST,064033,village,GURGAON,3.83,ICD Garhi Harsaru,10.1,Dahej Port,862.07,Indira Gandhi International Airport (DEL),11.48,Attari ICP,362.69
+RAGHUPUR,SOUTH WEST,064031,village,PALAM VIHAR HALT,2.68,ICD Garhi Harsaru,11.3,Dahej Port,863.32,Indira Gandhi International Airport (DEL),9.75,Attari ICP,363.39
+KANGAM HERI,SOUTH WEST,064029,village,PALAM VIHAR HALT,5.13,ICD Garhi Harsaru,12.43,Dahej Port,864.22,Indira Gandhi International Airport (DEL),10.84,Attari ICP,360.69
+,SOUTH WEST,,village,BIJWASAN,2.6,ICD Garhi Harsaru,14.24,Dahej Port,866.25,Indira Gandhi International Airport (DEL),7.31,Attari ICP,362.77
+SHIKARPUR,SOUTH WEST,064036,village,GURGAON,7.13,ICD Garhi Harsaru,9.74,Dahej Port,860.57,Indira Gandhi International Airport (DEL),15.01,Attari ICP,359.79
+JHATIKARA,SOUTH WEST,064034,village,GURGAON,5.68,ICD Garhi Harsaru,9.98,Dahej Port,861.49,Indira Gandhi International Airport (DEL),13.27,Attari ICP,360.91
+GUMAN HERA,SOUTH WEST,064038,village,Sultanpur Kalia,9.16,ICD Garhi Harsaru,10.62,Dahej Port,859.83,Indira Gandhi International Airport (DEL),17.38,Attari ICP,357.67
+RAWTA,SOUTH WEST,064043,village,Sultanpur Kalia,7.31,ICD Garhi Harsaru,10.03,Dahej Port,857.97,Indira Gandhi International Airport (DEL),19.29,Attari ICP,357.52
+DEORALA,SOUTH WEST,064044,village,Sultanpur Kalia,5.68,ICD Garhi Harsaru,9.54,Dahej Port,856.27,Indira Gandhi International Airport (DEL),20.81,Attari ICP,357.71
+GALIB PUR,SOUTH WEST,064042,village,Sultanpur Kalia,7.67,ICD Garhi Harsaru,11.83,Dahej Port,857.84,Indira Gandhi International Airport (DEL),21.06,Attari ICP,355.5
+SURAKH PUR,SOUTH WEST,064005,village,BAHADURGARH,8.32,ICD Garhi Harsaru,20.81,Dahej Port,869.97,Indira Gandhi International Airport (DEL),16.58,Attari ICP,351.02
+KAIR,SOUTH WEST,064046,village,BAHADURGARH,8.77,ICD Garhi Harsaru,20.42,Dahej Port,868.16,Indira Gandhi International Airport (DEL),18.78,Attari ICP,349.76
+,SOUTH WEST,,village,GHEVRA,10.38,ICD Garhi Harsaru,18.78,Dahej Port,868.37,Indira Gandhi International Airport (DEL),15.49,Attari ICP,352.79
+DHANSA,SOUTH WEST,064041,village,Farukhnagar,10.1,ICD Garhi Harsaru,14.95,Dahej Port,859.21,Indira Gandhi International Airport (DEL),22.56,Attari ICP,352.38
+ISSA PUR,SOUTH WEST,064020,village,Farukhnagar,11.8,ICD Garhi Harsaru,16.93,Dahej Port,860.61,Indira Gandhi International Airport (DEL),23.18,Attari ICP,350.48
+BAKARGARH,SOUTH WEST,064019,village,BAHADURGARH,12.57,ICD Garhi Harsaru,18.33,Dahej Port,863.77,Indira Gandhi International Airport (DEL),21.43,Attari ICP,349.83
+MUNDHELA KALAN,SOUTH WEST,064007,village,BAHADURGARH,11.08,ICD Garhi Harsaru,19.11,Dahej Port,865.35,Indira Gandhi International Airport (DEL),20.57,Attari ICP,349.62
+MUNDHELA KHURD,SOUTH WEST,064006,village,BAHADURGARH,9.53,ICD Garhi Harsaru,20.63,Dahej Port,866.81,Indira Gandhi International Airport (DEL),20.89,Attari ICP,348.46
+,SOUTH WEST,,village,BAHADURGARH,5.79,ICD Garhi Harsaru,23.39,Dahej Port,872.16,Indira Gandhi International Airport (DEL),17.95,Attari ICP,348.99
+,WEST,,village,GHEVRA,3.51,ICD Garhi Harsaru,25.24,Dahej Port,875.2,Indira Gandhi International Airport (DEL),16.49,Attari ICP,349.82
+,WEST,,village,GHEVRA,2.55,ICD Garhi Harsaru,26.01,Dahej Port,876.49,Indira Gandhi International Airport (DEL),15.7,Attari ICP,350.56
+,WEST,,village,MUNDKA,5.59,ICD Garhi Harsaru,23.25,Dahej Port,874.53,Indira Gandhi International Airport (DEL),12.24,Attari ICP,354.03
+,WEST,,village,MUNDKA,4.38,ICD Patparganj,24.56,Dahej Port,876.05,Indira Gandhi International Airport (DEL),12.26,Attari ICP,354.04
+,WEST,,village,MUNDKA,3.13,ICD Garhi Harsaru,25.72,Dahej Port,876.79,Indira Gandhi International Airport (DEL),14.06,Attari ICP,352.26
+,WEST,,village,MUNDKA,6.83,ICD Garhi Harsaru,22.57,Dahej Port,874.32,Indira Gandhi International Airport (DEL),9.94,Attari ICP,356.32
+,WEST,,village,MUNDKA,5.71,ICD Garhi Harsaru,23.54,Dahej Port,875.18,Indira Gandhi International Airport (DEL),10.9,Attari ICP,355.37
+,WEST,,village,PALAM,5.39,ICD Garhi Harsaru,21.37,Dahej Port,873.31,Indira Gandhi International Airport (DEL),7.93,Attari ICP,358.34
+,WEST,,village,KIRTI NAGAR,2.35,ICD Patparganj,11.07,Dahej Port,882.04,Indira Gandhi International Airport (DEL),10.83,Attari ICP,363.83
+,WEST,,village,PATEL NAGAR,1.54,ICD Patparganj,11.42,Dahej Port,883.15,Indira Gandhi International Airport (DEL),11.93,Attari ICP,362.78
+,WEST,,village,NASIRPUR HALT,3.37,ICD Patparganj,19.52,Dahej Port,875.67,Indira Gandhi International Airport (DEL),6.97,Attari ICP,359.79
+,WEST,,village,NASIRPUR HALT,3.18,ICD Patparganj,18.88,Dahej Port,876.59,Indira Gandhi International Airport (DEL),7.46,Attari ICP,359.69
+,WEST,,village,DELHI CANTT,2.04,ICD Patparganj,16.77,Dahej Port,878.33,Indira Gandhi International Airport (DEL),8.04,Attari ICP,360.54
+,WEST,,village,DELHI CANTT,3.72,ICD Patparganj,18.79,Dahej Port,877.65,Indira Gandhi International Airport (DEL),8.56,Attari ICP,358.91
+,WEST,,village,MANGOLPURI,4.97,ICD Patparganj,20.31,Dahej Port,877.59,Indira Gandhi International Airport (DEL),9.7,Attari ICP,357.34
+,WEST,,village,NANGLOI,5.83,ICD Patparganj,22.16,Dahej Port,875.82,Indira Gandhi International Airport (DEL),9.66,Attari ICP,356.76
+,WEST,,village,DELHI CANTT,3.97,ICD Patparganj,17.94,Dahej Port,879.22,Indira Gandhi International Airport (DEL),9.69,Attari ICP,358.63
+,WEST,,village,NANGLOI,3.84,ICD Patparganj,21.15,Dahej Port,878.17,Indira Gandhi International Airport (DEL),10.98,Attari ICP,356.04
+,WEST,,village,MANGOLPURI,3.94,ICD Patparganj,19.33,Dahej Port,878.79,Indira Gandhi International Airport (DEL),10.17,Attari ICP,357.49
+,WEST,,village,MANGOLPURI,3.57,ICD Patparganj,17.54,Dahej Port,880.14,Indira Gandhi International Airport (DEL),10.43,Attari ICP,358.41
+,WEST,,village,NARAINA VIHAR,2.91,ICD Patparganj,16.34,Dahej Port,880.06,Indira Gandhi International Airport (DEL),9.74,Attari ICP,359.7
+,WEST,800441,village,KIRTI NAGAR,1.44,ICD Patparganj,14.47,Dahej Port,882.37,Indira Gandhi International Airport (DEL),11.53,Attari ICP,360.16
+,WEST,,village,MANGOLPURI,2.43,ICD Patparganj,19.53,Dahej Port,880.14,Indira Gandhi International Airport (DEL),11.66,Attari ICP,356.4
+,WEST,,village,MANGOLPURI,0.63,ICD Patparganj,18.92,Dahej Port,882.34,Indira Gandhi International Airport (DEL),13.4,Attari ICP,355.79
+,WEST,,village,MANGOLPURI,1.94,ICD Patparganj,17.68,Dahej Port,882.17,Indira Gandhi International Airport (DEL),12.57,Attari ICP,357.1
+,WEST,,village,SHAKURBASTI,0.93,ICD Patparganj,16.33,Dahej Port,883.36,Indira Gandhi International Airport (DEL),13.15,Attari ICP,357.83
+,WEST,,village,NANGLOI,1.87,ICD Patparganj,22.13,Dahej Port,879.49,Indira Gandhi International Airport (DEL),12.99,Attari ICP,354.19
+,WEST,,village,MUNDKA,0.83,ICD Patparganj,25.16,Dahej Port,879.13,Indira Gandhi International Airport (DEL),15.27,Attari ICP,351.4
+,WEST,800441,village,NANGLOI,1.64,ICD Patparganj,21.07,Dahej Port,881.0,Indira Gandhi International Airport (DEL),13.54,Attari ICP,354.38
+,WEST,,village,GHEVRA,2.47,ICD Garhi Harsaru,27.01,Dahej Port,876.57,Indira Gandhi International Airport (DEL),18.1,Attari ICP,348.17
+,CENTRAL,,village,DELHI KISHANGANJ,1.21,ICD Patparganj,8.18,Dahej Port,885.59,Indira Gandhi International Airport (DEL),14.63,Attari ICP,364.82
+,CENTRAL,,village,VIVEKANAND PURI HALT,0.09,ICD Patparganj,10.4,Dahej Port,885.41,Indira Gandhi International Airport (DEL),14.19,Attari ICP,362.75
+,CENTRAL,,village,DAYA BASTI,1.48,ICD Patparganj,12.14,Dahej Port,886.52,Indira Gandhi International Airport (DEL),15.34,Attari ICP,360.73
+,CENTRAL,800441,village,NEW DELHI,0.17,ICD Patparganj,6.21,Dahej Port,885.2,Indira Gandhi International Airport (DEL),14.78,Attari ICP,366.91
+,CENTRAL,,village,SUBZI MANDI,0.86,ICD Patparganj,9.02,Dahej Port,887.48,Indira Gandhi International Airport (DEL),16.37,Attari ICP,363.55
+,CENTRAL,,village,SUBZI MANDI,1.8,ICD Patparganj,11.02,Dahej Port,887.56,Indira Gandhi International Airport (DEL),16.33,Attari ICP,361.59
+JAGATPUR DELHI,CENTRAL,063954,village,DELHI AZADPUR,6.16,ICD Loni,5.27,Dahej Port,894.48,Indira Gandhi International Airport (DEL),23.26,Attari ICP,359.62
+,CENTRAL,,village,NAYA AZADPUR,4.4,ICD Loni,7.22,Dahej Port,893.1,Indira Gandhi International Airport (DEL),21.92,Attari ICP,358.64
+,CENTRAL,,village,DELHI AZADPUR,5.05,ICD Loni,6.14,Dahej Port,893.06,Indira Gandhi International Airport (DEL),21.83,Attari ICP,360.42
+JAGATPUR SHAHDRA,CENTRAL,063953,village,BEHTA HAZIPUR HALT,6.7,ICD Loni,4.5,Dahej Port,894.7,Indira Gandhi International Airport (DEL),23.49,Attari ICP,360.48
+,CENTRAL,800441,village,DELHI AZADPUR,5.96,ICD Loni,5.33,Dahej Port,893.41,Indira Gandhi International Airport (DEL),22.22,Attari ICP,361.42
+,CENTRAL,,village,SUBZI MANDI,2.87,ICD Loni,8.9,Dahej Port,889.59,Indira Gandhi International Airport (DEL),18.44,Attari ICP,362.79
+,CENTRAL,,village,NAYA AZADPUR,3.17,ICD Loni,9.25,Dahej Port,892.45,Indira Gandhi International Airport (DEL),21.55,Attari ICP,356.71
+,CENTRAL,,village,NAYA AZADPUR,4.25,ICD Loni,8.47,Dahej Port,893.53,Indira Gandhi International Airport (DEL),22.58,Attari ICP,356.59
+,CENTRAL,800441,village,NAYA AZADPUR,5.98,ICD Loni,6.73,Dahej Port,895.13,Indira Gandhi International Airport (DEL),24.03,Attari ICP,357.21
+,CENTRAL,,village,BADLI,6.96,ICD Loni,7.84,Dahej Port,896.64,Indira Gandhi International Airport (DEL),25.76,Attari ICP,355.16
+BADARPUR,CENTRAL,063952,village,BADLI,8.12,ICD Loni,7.06,Dahej Port,897.61,Indira Gandhi International Airport (DEL),26.62,Attari ICP,355.54
+,CENTRAL,800441,village,TILAK BRIDGE,1.81,ICD Patparganj,3.82,Dahej Port,886.74,Indira Gandhi International Airport (DEL),17.06,Attari ICP,368.71
+,CENTRAL,800441,village,TILAK BRIDGE,3.34,ICD Patparganj,2.69,Dahej Port,887.87,Indira Gandhi International Airport (DEL),18.74,Attari ICP,369.93
+,EAST,,village,ANAND VIHAR,5.0,ICD Patparganj,3.81,Dahej Port,886.65,Indira Gandhi International Airport (DEL),21.26,Rupaidiha ICP,376.02
+CHILLA SARODA KHADAR,EAST,063990,village,DELHI H NIZAMUDDIN,4.12,ICD Patparganj,3.19,Dahej Port,884.96,Indira Gandhi International Airport (DEL),19.36,Attari ICP,375.59
+,EAST,,village,MANDAWALI CHANDER VIHAR,3.55,ICD Patparganj,1.78,Dahej Port,885.61,Indira Gandhi International Airport (DEL),19.01,Attari ICP,374.22
+,EAST,,village,MANDAWALI CHANDER VIHAR,3.02,ICD Patparganj,0.76,Dahej Port,886.15,Indira Gandhi International Airport (DEL),18.88,Attari ICP,373.23
+SHAKARPUR BARAMAD,EAST,063983,village,MANDAWALI CHANDER VIHAR,2.6,ICD Patparganj,0.17,Dahej Port,886.47,Indira Gandhi International Airport (DEL),18.62,Attari ICP,372.31
+,EAST,,village,MANDAWALI CHANDER VIHAR,2.91,ICD Patparganj,0.53,Dahej Port,886.9,Indira Gandhi International Airport (DEL),18.93,Attari ICP,372.14
+,EAST,,village,MANDAWALI CHANDER VIHAR,3.55,ICD Patparganj,1.34,Dahej Port,886.19,Indira Gandhi International Airport (DEL),19.28,Attari ICP,373.81
+,EAST,,village,MANDAWALI CHANDER VIHAR,4.43,ICD Patparganj,2.14,Dahej Port,886.53,Indira Gandhi International Airport (DEL),20.06,Attari ICP,374.52
+,EAST,,village,DELHI H NIZAMUDDIN,4.92,ICD Patparganj,3.65,Dahej Port,885.4,Indira Gandhi International Airport (DEL),20.15,Attari ICP,376.13
+,EAST,,village,ANAND VIHAR,4.64,ICD Patparganj,4.53,Dahej Port,887.6,Indira Gandhi International Airport (DEL),22.34,Rupaidiha ICP,375.05
+,EAST,,village,ANAND VIHAR,4.05,ICD Patparganj,5.22,Dahej Port,888.89,Indira Gandhi International Airport (DEL),23.45,Rupaidiha ICP,374.22
+,EAST,,village,ANAND VIHAR,3.32,ICD Patparganj,3.06,Dahej Port,887.92,Indira Gandhi International Airport (DEL),21.48,Attari ICP,374.7
+,EAST,,village,ANAND VIHAR,1.78,ICD Patparganj,3.96,Dahej Port,889.61,Indira Gandhi International Airport (DEL),22.63,Attari ICP,373.98
+,EAST,,village,ANAND VIHAR,1.42,ICD Patparganj,3.34,Dahej Port,889.45,Indira Gandhi International Airport (DEL),21.97,Attari ICP,373.11
+,EAST,,village,ANAND VIHAR,2.72,ICD Patparganj,1.8,Dahej Port,888.18,Indira Gandhi International Airport (DEL),20.35,Attari ICP,372.44
+,EAST,,village,ANAND VIHAR,2.8,ICD Patparganj,2.77,Dahej Port,888.98,Indira Gandhi International Airport (DEL),20.29,Attari ICP,370.83
+,NEW DELHI,,village,Shankar,1.7,ICD Tughlakabad,15.23,Dahej Port,872.03,Indira Gandhi International Airport (DEL),3.1,Attari ICP,368.87
+KUSUMPUR,NEW DELHI,064056,village,Shankar,1.31,ICD Tughlakabad,13.56,Dahej Port,873.76,Indira Gandhi International Airport (DEL),5.01,Attari ICP,369.63
+,NEW DELHI,,village,Shankar,3.4,ICD Tughlakabad,12.17,Dahej Port,872.32,Indira Gandhi International Airport (DEL),6.2,Attari ICP,371.76
+,NEW DELHI,,village,Shankar,3.42,ICD Tughlakabad,15.12,Dahej Port,870.37,Indira Gandhi International Airport (DEL),3.77,Attari ICP,370.02
+,NEW DELHI,,village,SHAHABAD MOHAMADPUR,4.22,ICD Tughlakabad,17.8,Dahej Port,868.83,Indira Gandhi International Airport (DEL),2.79,Attari ICP,368.35
+,NEW DELHI,,village,SHAHABAD MOHAMADPUR,2.4,ICD Tughlakabad,18.73,Dahej Port,870.37,Indira Gandhi International Airport (DEL),0.88,Attari ICP,366.37
+MURADABAD PAHARI,NEW DELHI,064055,village,Shankar,1.29,ICD Patparganj,13.68,Dahej Port,874.97,Indira Gandhi International Airport (DEL),5.03,Attari ICP,368.36
+,NEW DELHI,800442,village,DELHI SAFDARJUNG,2.24,ICD Patparganj,11.79,Dahej Port,875.87,Indira Gandhi International Airport (DEL),7.26,Attari ICP,370.23
+,NEW DELHI,,village,SARDAR PATEL ROAD,2.23,ICD Patparganj,13.04,Dahej Port,876.12,Indira Gandhi International Airport (DEL),5.67,Attari ICP,367.54
+,NEW DELHI,800442,village,SAROJINI NAGAR,0.92,ICD Patparganj,9.34,Dahej Port,877.89,Indira Gandhi International Airport (DEL),9.69,Attari ICP,371.06
+,NEW DELHI,,village,SHAHABAD MOHAMADPUR,0.55,ICD Garhi Harsaru,17.98,Dahej Port,869.68,Indira Gandhi International Airport (DEL),2.94,Attari ICP,364.36
+,NEW DELHI,,village,SHAHABAD MOHAMADPUR,1.32,ICD Garhi Harsaru,18.45,Dahej Port,870.36,Indira Gandhi International Airport (DEL),3.98,Attari ICP,362.84
+,NEW DELHI,800443,village,SHAHABAD MOHAMADPUR,0.7,ICD Garhi Harsaru,18.7,Dahej Port,870.53,Indira Gandhi International Airport (DEL),3.27,Attari ICP,363.44
+,NEW DELHI,,village,SHAHABAD MOHAMADPUR,0.92,ICD Garhi Harsaru,19.4,Dahej Port,871.15,Indira Gandhi International Airport (DEL),2.64,Attari ICP,363.77
+,NEW DELHI,,village,NASIRPUR HALT,0.6,ICD Patparganj,17.11,Dahej Port,875.73,Indira Gandhi International Airport (DEL),5.13,Attari ICP,362.56
+,NEW DELHI,,village,NASIRPUR HALT,0.38,ICD Patparganj,16.15,Dahej Port,876.47,Indira Gandhi International Airport (DEL),5.54,Attari ICP,362.96
+,NEW DELHI,,village,INDRAPURI,1.03,ICD Patparganj,14.04,Dahej Port,879.23,Indira Gandhi International Airport (DEL),8.09,Attari ICP,362.79
+,NEW DELHI,,village,INDRAPURI,1.46,ICD Patparganj,11.72,Dahej Port,880.59,Indira Gandhi International Airport (DEL),9.39,Attari ICP,364.22
+,NEW DELHI,,village,BRAR SQUARE,2.42,ICD Patparganj,14.02,Dahej Port,876.43,Indira Gandhi International Airport (DEL),5.31,Attari ICP,365.7
+,NEW DELHI,,village,Shankar,5.54,ICD Tughlakabad,15.98,Dahej Port,868.24,Indira Gandhi International Airport (DEL),4.8,Attari ICP,370.75
+,NEW DELHI,,village,Shankar,7.29,ICD Tughlakabad,14.29,Dahej Port,867.3,Indira Gandhi International Airport (DEL),7.53,Attari ICP,373.57
+,NEW DELHI,800442,village,SHIVAJI BRIDGE,2.59,ICD Patparganj,6.41,Dahej Port,882.35,Indira Gandhi International Airport (DEL),12.6,Attari ICP,368.74
+,NORTH,,village,DELHI AZADPUR,2.26,ICD Loni,9.83,Dahej Port,889.13,Indira Gandhi International Airport (DEL),17.9,Attari ICP,361.14
+,NORTH,,village,DELHI AZADPUR,0.88,ICD Loni,10.45,Dahej Port,889.09,Indira Gandhi International Airport (DEL),17.92,Attari ICP,359.77
+,NORTH,,village,DELHI AZADPUR,3.53,ICD Loni,7.76,Dahej Port,891.31,Indira Gandhi International Airport (DEL),20.08,Attari ICP,360.71
+,NORTH,,village,DELHI AZADPUR,2.92,ICD Loni,8.32,Dahej Port,891.39,Indira Gandhi International Airport (DEL),20.19,Attari ICP,359.46
+,NORTH,800441,village,DELHI AZADPUR,0.87,ICD Loni,10.78,Dahej Port,889.43,Indira Gandhi International Airport (DEL),18.4,Attari ICP,358.51
+,NORTH,,village,NAYA AZADPUR,0.38,ICD Loni,11.45,Dahej Port,889.58,Indira Gandhi International Airport (DEL),18.77,Attari ICP,357.23
+,NORTH,,village,ADARSH NAGAR DELHI,0.41,ICD Loni,11.33,Dahej Port,889.23,Indira Gandhi International Airport (DEL),18.3,Attari ICP,357.95
+SANJAR PUR,NORTH,063949,village,NAYA AZADPUR,2.47,ICD Loni,9.19,Dahej Port,891.56,Indira Gandhi International Airport (DEL),20.53,Attari ICP,357.83
+,NORTH,,village,BADLI,2.87,ICD Loni,10.87,Dahej Port,891.86,Indira Gandhi International Airport (DEL),21.3,Attari ICP,355.32
+,NORTH,,village,BADLI,6.22,ICD Loni,9.23,Dahej Port,896.54,Indira Gandhi International Airport (DEL),25.92,Attari ICP,353.83
+TAHDI DAULATPUR,NORTH,063899,village,BADLI,7.7,ICD Loni,8.75,Dahej Port,898.0,Indira Gandhi International Airport (DEL),27.29,Attari ICP,353.78
+,NORTH,,village,BADLI,5.89,ICD Loni,10.34,Dahej Port,896.55,Indira Gandhi International Airport (DEL),26.19,Attari ICP,352.73
+,NORTH,,village,KHERA KALAN,6.71,ICD Loni,11.33,Dahej Port,897.68,Indira Gandhi International Airport (DEL),27.58,Attari ICP,351.37
+,NORTH,,village,KHERA KALAN,7.75,ICD Loni,10.64,Dahej Port,898.5,Indira Gandhi International Airport (DEL),28.19,Attari ICP,351.82
+,NORTH,,village,BADLI,8.51,ICD Loni,10.2,Dahej Port,899.2,Indira Gandhi International Airport (DEL),28.76,Attari ICP,352.11
+,NORTH,,village,HOLAMBI KALAN,9.12,ICD Loni,11.2,Dahej Port,900.47,Indira Gandhi International Airport (DEL),30.19,Attari ICP,350.99
+SUNGARPUR - DELHI,NORTH,063877,village,FAKHARPUR HALT,8.25,ICD Loni,10.02,Dahej Port,901.43,Indira Gandhi International Airport (DEL),30.8,Attari ICP,352.19
+,NORTH,,village,FAKHARPUR HALT,8.19,ICD Loni,11.48,Dahej Port,902.57,Indira Gandhi International Airport (DEL),32.15,Attari ICP,350.82
+,NORTH,,village,NARELA,11.55,ICD Loni,29.7,Dahej Port,887.96,Indira Gandhi International Airport (DEL),29.34,Attari ICP,338.18
+,NORTH,,village,NARELA,10.22,ICD Loni,27.74,Dahej Port,888.37,Indira Gandhi International Airport (DEL),28.03,Attari ICP,339.91
+,NORTH,,village,HOLAMBI KALAN,8.15,ICD Loni,24.32,Dahej Port,887.06,Indira Gandhi International Airport (DEL),23.9,Attari ICP,344.4
+,NORTH,,village,KHERA KALAN,6.1,ICD Loni,21.93,Dahej Port,888.24,Indira Gandhi International Airport (DEL),23.25,Attari ICP,346.04
+,NORTH,,village,KHERA KALAN,5.22,ICD Loni,20.73,Dahej Port,887.81,Indira Gandhi International Airport (DEL),21.88,Attari ICP,347.68
+,NORTH,,village,BADLI,2.52,ICD Loni,14.82,Dahej Port,888.31,Indira Gandhi International Airport (DEL),18.63,Attari ICP,354.17
+,NORTH,,village,BADLI,0.53,ICD Loni,13.93,Dahej Port,890.26,Indira Gandhi International Airport (DEL),20.59,Attari ICP,353.24
+,NORTH,,village,BADLI,1.65,ICD Loni,12.34,Dahej Port,892.31,Indira Gandhi International Airport (DEL),22.3,Attari ICP,353.26
+,NORTH,,village,BADLI,1.35,ICD Loni,13.69,Dahej Port,891.94,Indira Gandhi International Airport (DEL),22.43,Attari ICP,352.06
+,NORTH,,village,KHERA KALAN,0.29,ICD Loni,15.69,Dahej Port,891.75,Indira Gandhi International Airport (DEL),23.15,Attari ICP,350.07
+,NORTH,,village,KHERA KALAN,3.47,ICD Loni,18.87,Dahej Port,888.84,Indira Gandhi International Airport (DEL),21.74,Attari ICP,348.88
+,NORTH,,village,KHERA KALAN,5.19,ICD Loni,19.57,Dahej Port,886.79,Indira Gandhi International Airport (DEL),19.8,Attari ICP,349.94
+,NORTH,,village,KHERA KALAN,2.54,ICD Loni,16.75,Dahej Port,889.3,Indira Gandhi International Airport (DEL),20.94,Attari ICP,350.85
+,NORTH,,village,KHERA KALAN,2.86,ICD Loni,18.77,Dahej Port,890.99,Indira Gandhi International Airport (DEL),24.04,Attari ICP,347.37
+,NORTH,,village,HOLAMBI KALAN,8.3,ICD Loni,25.9,Dahej Port,889.48,Indira Gandhi International Airport (DEL),27.56,Attari ICP,341.06
+,NORTH,,village,HOLAMBI KALAN,5.13,ICD Loni,22.96,Dahej Port,891.68,Indira Gandhi International Airport (DEL),27.46,Attari ICP,342.69
+,NORTH,,village,NARELA,3.73,ICD Loni,23.41,Dahej Port,894.15,Indira Gandhi International Airport (DEL),30.01,Attari ICP,341.0
+,NORTH,,village,NARELA,1.31,ICD Loni,20.17,Dahej Port,897.26,Indira Gandhi International Airport (DEL),30.83,Attari ICP,342.95
+,NORTH,,village,NARELA,2.59,ICD Loni,19.2,Dahej Port,896.36,Indira Gandhi International Airport (DEL),29.51,Attari ICP,344.19
+RAJAPUR KALAN,NORTH,063883,village,HOLAMBI KALAN,2.26,ICD Loni,19.51,Dahej Port,895.39,Indira Gandhi International Airport (DEL),28.8,Attari ICP,344.26
+,NORTH,,village,HOLAMBI KALAN,2.82,ICD Loni,20.64,Dahej Port,894.39,Indira Gandhi International Airport (DEL),28.51,Attari ICP,343.59
+,NORTH,,village,HOLAMBI KALAN,0.94,ICD Loni,18.87,Dahej Port,894.09,Indira Gandhi International Airport (DEL),27.22,Attari ICP,345.47
+,NORTH,,village,HOLAMBI KALAN,0.92,ICD Loni,18.67,Dahej Port,893.33,Indira Gandhi International Airport (DEL),26.37,Attari ICP,346.06
+IRADATNAGAR OR NAYA BANS,NORTH,063893,village,HOLAMBI KALAN,2.01,ICD Loni,19.1,Dahej Port,892.17,Indira Gandhi International Airport (DEL),25.46,Attari ICP,346.28
+,NORTH,800441,village,HOLAMBI KALAN,3.29,ICD Loni,14.76,Dahej Port,895.48,Indira Gandhi International Airport (DEL),26.6,Attari ICP,348.86
+SHAHPUR GARHI,NORTH,063881,village,HOLAMBI KALAN,2.11,ICD Loni,17.89,Dahej Port,896.16,Indira Gandhi International Airport (DEL),28.67,Attari ICP,345.53
+,NORTH,,village,HOLAMBI KALAN,7.04,ICD Loni,13.12,Dahej Port,899.55,Indira Gandhi International Airport (DEL),29.88,Attari ICP,349.21
+BAKOLI,NORTH,063909,village,HOLAMBI KALAN,4.17,ICD Loni,14.87,Dahej Port,897.3,Indira Gandhi International Airport (DEL),28.41,Attari ICP,348.06
+,NORTH,,village,HOLAMBI KALAN,3.6,ICD Loni,16.67,Dahej Port,897.57,Indira Gandhi International Airport (DEL),29.41,Attari ICP,346.24
+,NORTH,,village,NARELA,3.51,ICD Loni,17.94,Dahej Port,897.61,Indira Gandhi International Airport (DEL),30.02,Attari ICP,345.0
+SINGHOLA,NORTH,063869,village,NARELA,4.1,ICD Loni,17.88,Dahej Port,899.47,Indira Gandhi International Airport (DEL),31.63,Attari ICP,344.6
+,NORTH,,village,KHERA KALAN,5.3,ICD Loni,12.37,Dahej Port,896.59,Indira Gandhi International Airport (DEL),26.82,Attari ICP,350.73
+,NORTH,,village,KHERA KALAN,4.69,ICD Loni,12.28,Dahej Port,895.75,Indira Gandhi International Airport (DEL),25.95,Attari ICP,351.18
+,NORTH,,village,KHERA KALAN,2.66,ICD Loni,14.0,Dahej Port,894.21,Indira Gandhi International Airport (DEL),25.0,Attari ICP,350.25
+,NORTH,,village,BADLI,3.58,ICD Loni,11.66,Dahej Port,894.33,Indira Gandhi International Airport (DEL),24.28,Attari ICP,352.56
+,NORTH,,village,KHERA KALAN,2.67,ICD Loni,13.38,Dahej Port,893.52,Indira Gandhi International Airport (DEL),24.02,Attari ICP,351.3
+,NORTH,800441,village,NARELA,0.53,ICD Loni,20.94,Dahej Port,897.69,Indira Gandhi International Airport (DEL),31.61,Attari ICP,342.08
+MUNGESHPUR,NORTH,063888,village,NARELA,11.29,ICD Loni,30.46,Dahej Port,889.29,Indira Gandhi International Airport (DEL),31.11,Attari ICP,336.6
+OCHANDI,NORTH,063887,village,NARELA,9.22,ICD Loni,28.64,Dahej Port,890.74,Indira Gandhi International Airport (DEL),30.84,Attari ICP,337.58
+,NORTH,,village,NARELA,7.18,ICD Loni,27.28,Dahej Port,892.68,Indira Gandhi International Airport (DEL),31.42,Attari ICP,337.92
+,NORTH,,village,NARELA,7.01,ICD Loni,26.15,Dahej Port,891.7,Indira Gandhi International Airport (DEL),29.75,Attari ICP,339.52
+,NORTH,,village,NARELA,2.64,ICD Loni,24.0,Dahej Port,896.75,Indira Gandhi International Airport (DEL),32.59,Attari ICP,339.42
+,NORTH,,village,NARELA,1.33,ICD Loni,22.62,Dahej Port,896.84,Indira Gandhi International Airport (DEL),31.83,Attari ICP,340.72
+,NORTH,,village,NARELA,1.43,ICD Loni,22.05,Dahej Port,898.8,Indira Gandhi International Airport (DEL),33.14,Attari ICP,340.72
+,NORTH,,village,NARELA,2.44,ICD Loni,20.44,Dahej Port,899.71,Indira Gandhi International Airport (DEL),33.04,Attari ICP,342.08
+KULAKPUR,NORTH,063874,village,KHEKRA,8.38,ICD Loni,13.46,Dahej Port,904.05,Indira Gandhi International Airport (DEL),33.94,Attari ICP,349.0
+,NORTH,,village,HOLAMBI KALAN,8.53,ICD Loni,14.55,Dahej Port,901.9,Indira Gandhi International Airport (DEL),32.44,Attari ICP,347.63
+TAJPUR KALAN,NORTH,063871,village,HOLAMBI KALAN,7.44,ICD Loni,14.71,Dahej Port,900.87,Indira Gandhi International Airport (DEL),31.6,Attari ICP,347.51
+HAMIDPUR,NORTH,063870,village,HOLAMBI KALAN,5.61,ICD Loni,15.23,Dahej Port,899.19,Indira Gandhi International Airport (DEL),30.29,Attari ICP,347.23
+CHATESAR,NORTH WEST,063932,village,BAHADURGARH,7.37,ICD Loni,30.07,Dahej Port,883.57,Indira Gandhi International Airport (DEL),25.66,Attari ICP,341.04
+,NORTH WEST,,village,BAHADURGARH,8.82,ICD Loni,30.59,Dahej Port,884.89,Indira Gandhi International Airport (DEL),27.4,Attari ICP,339.43
+,NORTH WEST,,village,BAHADURGARH,11.31,ICD Loni,31.71,Dahej Port,886.93,Indira Gandhi International Airport (DEL),30.22,Attari ICP,336.84
+,SHAHADARA,,village,ANAND VIHAR,0.78,ICD Patparganj,4.39,Dahej Port,890.81,Indira Gandhi International Airport (DEL),22.53,Attari ICP,371.67
+BADOSARA,SOUTH WEST,064032,village,PALAM VIHAR HALT,4.77,ICD Garhi Harsaru,11.07,Dahej Port,862.92,Indira Gandhi International Airport (DEL),11.38,Attari ICP,361.59
+,SHAHADARA,,village,DELHI SHAHDARA,1.94,ICD Patparganj,4.3,Dahej Port,890.04,Indira Gandhi International Airport (DEL),20.68,Attari ICP,369.34
+,SHAHADARA,,village,DELHI SHAHDARA,0.02,ICD Patparganj,5.92,Dahej Port,891.96,Indira Gandhi International Airport (DEL),22.53,Attari ICP,369.1
+,SHAHADARA,,village,DELHI SHAHDARA,1.18,ICD Patparganj,5.96,Dahej Port,891.48,Indira Gandhi International Airport (DEL),21.69,Attari ICP,368.19
+,SHAHADARA,800441,village,DELHI SHAHDARA,3.14,ICD Patparganj,5.17,Dahej Port,889.57,Indira Gandhi International Airport (DEL),19.57,Attari ICP,367.73
+JAFRABAD,SHAHADARA,063981,village,DELHI SHAHDARA,1.9,ICD Patparganj,6.53,Dahej Port,891.63,Indira Gandhi International Airport (DEL),21.56,Attari ICP,367.38
+,SHAHADARA,,village,DELHI SHAHDARA,2.5,ICD Loni,6.52,Dahej Port,892.66,Indira Gandhi International Airport (DEL),22.38,Attari ICP,366.61
+,SHAHADARA,,village,DELHI SHAHDARA,2.12,ICD Loni,6.52,Dahej Port,893.02,Indira Gandhi International Airport (DEL),22.89,Attari ICP,367.07
+,SHAHADARA,,village,DELHI SHAHDARA BLOCK CABIN,1.34,ICD Loni,6.9,Dahej Port,893.29,Indira Gandhi International Airport (DEL),23.45,Attari ICP,367.92
+,SHAHADARA,,village,BEHTA HAZIPUR HALT,1.92,ICD Loni,5.56,Dahej Port,895.04,Indira Gandhi International Airport (DEL),25.03,Attari ICP,367.29
+,SHAHADARA,800441,village,DELHI SHAHDARA A PANEL,1.78,ICD Loni,7.5,Dahej Port,894.74,Indira Gandhi International Airport (DEL),25.46,Attari ICP,369.4
+SUNGARPUR - SHADRA,NORTH,063876,village,GOTRA HALT,8.67,ICD Loni,9.6,Dahej Port,900.68,Indira Gandhi International Airport (DEL),30.03,Attari ICP,352.58
+,NORTH,,village,NARELA,4.83,ICD Loni,17.84,Dahej Port,900.55,Indira Gandhi International Airport (DEL),32.54,Attari ICP,344.47
+PALLA,NORTH,063873,village,KHEKRA,9.78,ICD Loni,13.43,Dahej Port,902.65,Indira Gandhi International Airport (DEL),32.73,Attari ICP,348.81
+,NORTH EAST,,village,DELHI SHAHDARA,3.25,ICD Patparganj,6.26,Dahej Port,890.34,Indira Gandhi International Airport (DEL),20.04,Attari ICP,366.78
+,NORTH EAST,,village,DELHI SHAHDARA,2.54,ICD Patparganj,6.63,Dahej Port,891.28,Indira Gandhi International Airport (DEL),21.05,Attari ICP,366.91
+,NORTH EAST,,village,DELHI SHAHDARA,3.11,ICD Loni,6.53,Dahej Port,892.31,Indira Gandhi International Airport (DEL),21.85,Attari ICP,366.03
+,NORTH EAST,,village,OLD DELHI,3.98,ICD Loni,6.85,Dahej Port,891.52,Indira Gandhi International Airport (DEL),20.66,Attari ICP,364.35
+,NORTH EAST,,village,DELHI SHAHDARA,4.06,ICD Loni,6.33,Dahej Port,892.2,Indira Gandhi International Airport (DEL),21.52,Attari ICP,365.12
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,3.37,ICD Loni,5.01,Dahej Port,893.83,Indira Gandhi International Airport (DEL),23.24,Attari ICP,365.33
+KHANPUR DHANI,NORTH EAST,063974,village,DELHI SHAHDARA BLOCK CABIN,3.23,ICD Loni,5.5,Dahej Port,893.61,Indira Gandhi International Airport (DEL),23.2,Attari ICP,366.01
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,2.34,ICD Loni,5.34,Dahej Port,894.48,Indira Gandhi International Airport (DEL),24.26,Attari ICP,366.66
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,1.8,ICD Loni,3.51,Dahej Port,895.7,Indira Gandhi International Airport (DEL),25.1,Attari ICP,365.03
+,NORTH WEST,,village,BAHADURGARH,4.84,ICD Loni,30.1,Dahej Port,880.85,Indira Gandhi International Airport (DEL),22.94,Attari ICP,343.47
+,NORTH WEST,,village,BAHADURGARH,6.37,ICD Loni,29.93,Dahej Port,882.56,Indira Gandhi International Airport (DEL),24.51,Attari ICP,342.07
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,3.14,ICD Loni,2.79,Dahej Port,895.67,Indira Gandhi International Airport (DEL),24.79,Attari ICP,363.58
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,3.45,ICD Loni,4.23,Dahej Port,894.33,Indira Gandhi International Airport (DEL),23.56,Attari ICP,364.41
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,4.11,ICD Loni,4.93,Dahej Port,893.57,Indira Gandhi International Airport (DEL),22.79,Attari ICP,364.48
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,4.72,ICD Loni,5.05,Dahej Port,893.33,Indira Gandhi International Airport (DEL),22.43,Attari ICP,363.89
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,5.03,ICD Loni,3.54,Dahej Port,894.94,Indira Gandhi International Airport (DEL),23.83,Attari ICP,362.06
+,NORTH EAST,,village,BEHTA HAZIPUR HALT,5.54,ICD Loni,4.47,Dahej Port,894.0,Indira Gandhi International Airport (DEL),22.89,Attari ICP,362.18
+SADATPUR MUSLAMANAN,NORTH EAST,063964,village,BEHTA HAZIPUR HALT,6.16,ICD Loni,4.95,Dahej Port,893.66,Indira Gandhi International Airport (DEL),22.5,Attari ICP,361.76
+BAQIA BAD,NORTH EAST,063969,village,BEHTA HAZIPUR HALT,6.07,ICD Loni,3.7,Dahej Port,895.36,Indira Gandhi International Airport (DEL),24.16,Attari ICP,360.77
+,NORTH EAST,,village,NOLI,6.0,ICD Loni,3.03,Dahej Port,896.82,Indira Gandhi International Airport (DEL),25.6,Attari ICP,360.0
+SABAPUR DELHI,NORTH EAST,063962,village,NAYA AZADPUR,7.39,ICD Loni,4.8,Dahej Port,896.06,Indira Gandhi International Airport (DEL),24.84,Attari ICP,358.63
+PUR SHAHDARA,NORTH EAST,063961,village,NURSRATABAD KHARKHAR,7.14,ICD Loni,4.82,Dahej Port,897.6,Indira Gandhi International Airport (DEL),26.41,Attari ICP,357.74
+PUR DELHI,NORTH EAST,063960,village,NAYA AZADPUR,7.88,ICD Loni,5.35,Dahej Port,896.9,Indira Gandhi International Airport (DEL),25.73,Attari ICP,357.52
+BADARPUR KHADAR,NORTH EAST,063959,village,GOTRA HALT,8.25,ICD Loni,6.43,Dahej Port,898.01,Indira Gandhi International Airport (DEL),26.95,Attari ICP,356.02
+,NORTH WEST,,village,MANGOLPURI,2.23,ICD Loni,17.42,Dahej Port,884.52,Indira Gandhi International Airport (DEL),15.08,Attari ICP,355.52
+,NORTH WEST,,village,SHAKURBASTI,0.92,ICD Loni,16.05,Dahej Port,884.91,Indira Gandhi International Airport (DEL),14.68,Attari ICP,357.14
+,NORTH WEST,800441,village,SHAKURBASTI,1.29,ICD Patparganj,14.78,Dahej Port,885.05,Indira Gandhi International Airport (DEL),14.32,Attari ICP,358.65
+,NORTH WEST,,village,DAYA BASTI,0.94,ICD Patparganj,12.48,Dahej Port,885.53,Indira Gandhi International Airport (DEL),14.38,Attari ICP,360.7
+,NORTH WEST,,village,GHEVRA,0.23,ICD Loni,27.98,Dahej Port,878.67,Indira Gandhi International Airport (DEL),17.91,Attari ICP,348.46
+,NORTH WEST,,village,GHEVRA,1.83,ICD Loni,26.16,Dahej Port,880.44,Indira Gandhi International Airport (DEL),18.02,Attari ICP,348.68
+,NORTH WEST,,village,MUNDKA,1.82,ICD Loni,24.89,Dahej Port,881.31,Indira Gandhi International Airport (DEL),17.71,Attari ICP,349.31
+,NORTH WEST,,village,MUNDKA,3.14,ICD Loni,25.03,Dahej Port,882.21,Indira Gandhi International Airport (DEL),19.03,Attari ICP,348.1
+,NORTH WEST,,village,MUNDKA,2.77,ICD Loni,23.45,Dahej Port,882.63,Indira Gandhi International Airport (DEL),17.92,Attari ICP,349.61
+,NORTH WEST,,village,NANGLOI,2.38,ICD Loni,22.5,Dahej Port,882.77,Indira Gandhi International Airport (DEL),17.14,Attari ICP,350.68
+,NORTH WEST,,village,NANGLOI,1.39,ICD Loni,22.14,Dahej Port,882.29,Indira Gandhi International Airport (DEL),16.11,Attari ICP,351.75
+SULTANPUR MAZARA,NORTH WEST,063948,village,MANGOLPURI,1.71,ICD Loni,20.46,Dahej Port,882.77,Indira Gandhi International Airport (DEL),15.12,Attari ICP,353.47
+,NORTH WEST,,village,MANGOLPURI,1.46,ICD Loni,18.99,Dahej Port,883.81,Indira Gandhi International Airport (DEL),15.32,Attari ICP,354.16
+,NORTH WEST,,village,SHAKURBASTI,3.07,ICD Loni,16.57,Dahej Port,885.8,Indira Gandhi International Airport (DEL),16.32,Attari ICP,354.94
+,NORTH WEST,,village,DELHI AZADPUR,1.22,ICD Loni,12.16,Dahej Port,887.47,Indira Gandhi International Airport (DEL),16.38,Attari ICP,359.62
+,NORTH WEST,,village,SHAKURBASTI,2.38,ICD Loni,14.94,Dahej Port,886.44,Indira Gandhi International Airport (DEL),16.2,Attari ICP,356.48
+,NORTH WEST,,village,ADARSH NAGAR DELHI,2.1,ICD Loni,13.29,Dahej Port,887.14,Indira Gandhi International Airport (DEL),16.34,Attari ICP,358.1
+,NORTH WEST,,village,ADARSH NAGAR DELHI,1.22,ICD Loni,12.77,Dahej Port,888.16,Indira Gandhi International Airport (DEL),17.46,Attari ICP,357.29
+,NORTH WEST,,village,GHEVRA,2.42,ICD Loni,29.18,Dahej Port,879.24,Indira Gandhi International Airport (DEL),20.1,Attari ICP,346.25
+,NORTH WEST,800441,village,GHEVRA,4.29,ICD Loni,26.33,Dahej Port,882.73,Indira Gandhi International Airport (DEL),21.01,Attari ICP,345.99
+,NORTH WEST,,village,GHEVRA,5.19,ICD Loni,27.63,Dahej Port,882.85,Indira Gandhi International Airport (DEL),22.47,Attari ICP,344.38
+,NORTH WEST,,village,BAHADURGARH,10.42,ICD Loni,29.34,Dahej Port,886.59,Indira Gandhi International Airport (DEL),27.79,Attari ICP,339.49
+,NORTH WEST,,village,GHEVRA,8.73,ICD Loni,27.8,Dahej Port,885.84,Indira Gandhi International Airport (DEL),25.71,Attari ICP,341.64
+,NORTH WEST,,village,GHEVRA,8.02,ICD Loni,26.75,Dahej Port,885.76,Indira Gandhi International Airport (DEL),24.67,Attari ICP,342.82
+,SOUTH EAST,800441,village,SEWA NAGAR,0.41,ICD Patparganj,6.37,Dahej Port,880.35,Indira Gandhi International Airport (DEL),12.75,Attari ICP,372.18
+,SOUTH EAST,,village,TUGLAKABAD,3.29,ICD Tughlakabad,2.11,Dahej Port,875.19,Indira Gandhi International Airport (DEL),16.29,Attari ICP,380.26
+,SOUTH EAST,,village,TUGLAKABAD,1.47,ICD Tughlakabad,1.09,Dahej Port,875.89,Indira Gandhi International Airport (DEL),19.25,Rupaidiha ICP,378.02
+,SOUTH EAST,,village,TUGLAKABAD,2.46,ICD Tughlakabad,2.86,Dahej Port,876.18,Indira Gandhi International Airport (DEL),21.08,Rupaidiha ICP,376.33
+,SOUTH EAST,,village,TUGLAKABAD,3.34,ICD Tughlakabad,4.0,Dahej Port,876.75,Indira Gandhi International Airport (DEL),22.29,Rupaidiha ICP,375.09
+,SOUTH EAST,,village,TUGLAKABAD,3.51,ICD Tughlakabad,4.67,Dahej Port,879.03,Indira Gandhi International Airport (DEL),22.76,Rupaidiha ICP,374.08
+,SOUTH EAST,,village,SEWA NAGAR,2.42,ICD Tughlakabad,7.55,Dahej Port,877.94,Indira Gandhi International Airport (DEL),12.32,Attari ICP,374.22
+,SOUTH EAST,,village,LODI COLONY,1.23,ICD Patparganj,7.93,Dahej Port,878.68,Indira Gandhi International Airport (DEL),11.76,Attari ICP,372.82
+,SOUTH EAST,,village,TUGLAKABAD,0.43,ICD Tughlakabad,1.26,Dahej Port,877.01,Indira Gandhi International Airport (DEL),19.5,Rupaidiha ICP,377.48
+,SOUTH EAST,,village,TUGLAKABAD,2.43,ICD Tughlakabad,3.41,Dahej Port,877.72,Indira Gandhi International Airport (DEL),21.7,Rupaidiha ICP,375.34
+,SOUTH EAST,,village,TUGLAKABAD,2.5,ICD Tughlakabad,3.78,Dahej Port,879.42,Indira Gandhi International Airport (DEL),21.33,Rupaidiha ICP,375.32
+SAIDABAD LBE CHIRAG,SOUTH EAST,064080,village,TUGLAKABAD,1.73,ICD Tughlakabad,2.43,Dahej Port,878.6,Indira Gandhi International Airport (DEL),18.7,Rupaidiha ICP,377.88
+,SOUTH EAST,,village,TUGLAKABAD,2.84,ICD Tughlakabad,3.99,Dahej Port,880.15,Indira Gandhi International Airport (DEL),20.41,Rupaidiha ICP,376.08
+,SOUTH EAST,,village,TUGLAKABAD EAST CABIN,1.55,ICD Tughlakabad,4.43,Dahej Port,880.38,Indira Gandhi International Airport (DEL),18.57,Rupaidiha ICP,377.85
+,SOUTH EAST,,village,TUGLAKABAD,1.61,ICD Tughlakabad,1.59,Dahej Port,877.51,Indira Gandhi International Airport (DEL),17.87,Rupaidiha ICP,378.83
+,SOUTH EAST,,village,TUGLAKABAD EAST CABIN,1.29,ICD Tughlakabad,3.29,Dahej Port,879.0,Indira Gandhi International Airport (DEL),17.71,Rupaidiha ICP,378.76
+,SOUTH EAST,,village,OKHLA,1.68,ICD Tughlakabad,4.88,Dahej Port,878.41,Indira Gandhi International Airport (DEL),15.12,Attari ICP,376.97
+,SOUTH EAST,,village,TUGLAKABAD EAST CABIN,2.33,ICD Patparganj,6.17,Dahej Port,881.95,Indira Gandhi International Airport (DEL),18.48,Attari ICP,377.72
+,SOUTH EAST,,village,OKHLA,2.07,ICD Patparganj,5.58,Dahej Port,881.94,Indira Gandhi International Airport (DEL),17.72,Attari ICP,376.82
+,SOUTH EAST,,village,OKHLA,1.71,ICD Patparganj,5.31,Dahej Port,881.78,Indira Gandhi International Airport (DEL),17.05,Attari ICP,376.15
+,SOUTH EAST,,village,OKHLA,1.47,ICD Patparganj,5.43,Dahej Port,881.18,Indira Gandhi International Airport (DEL),15.75,Attari ICP,375.17
+,SOUTH EAST,,village,OKHLA,3.0,ICD Patparganj,4.53,Dahej Port,883.02,Indira Gandhi International Airport (DEL),18.16,Attari ICP,376.24
+,SOUTH EAST,,village,OKHLA,1.46,ICD Tughlakabad,6.28,Dahej Port,879.09,Indira Gandhi International Airport (DEL),14.43,Attari ICP,375.62
+,SOUTH EAST,,village,OKHLA,2.72,ICD Tughlakabad,6.24,Dahej Port,877.83,Indira Gandhi International Airport (DEL),13.38,Attari ICP,375.52
+,SOUTH EAST,,village,Delhi Hazrat Nizamuddin,0.11,ICD Patparganj,4.4,Dahej Port,882.03,Indira Gandhi International Airport (DEL),15.27,Attari ICP,373.56
+,SOUTH EAST,,village,DELHI H NIZAMUDDIN,0.86,ICD Patparganj,3.84,Dahej Port,882.62,Indira Gandhi International Airport (DEL),16.09,Attari ICP,373.96
+,SOUTH EAST,,village,DELHI H NIZAMUDDIN,1.97,ICD Patparganj,2.92,Dahej Port,883.69,Indira Gandhi International Airport (DEL),17.19,Attari ICP,374.14
+FATEHPUR BERI,SOUTH,064067,village,Shankar,12.54,ICD Tughlakabad,12.32,Dahej Port,865.15,Indira Gandhi International Airport (DEL),13.57,Attari ICP,379.66
+CHANDAN HULA,SOUTH,064071,village,Shankar,10.83,ICD Tughlakabad,10.57,Dahej Port,867.38,Indira Gandhi International Airport (DEL),12.38,Attari ICP,378.64
+,SOUTH,,village,Shankar,8.95,ICD Tughlakabad,12.66,Dahej Port,867.0,Indira Gandhi International Airport (DEL),9.85,Attari ICP,376.02
+,SOUTH,,village,Shankar,7.2,ICD Tughlakabad,11.98,Dahej Port,868.76,Indira Gandhi International Airport (DEL),8.57,Attari ICP,374.83
+,SOUTH,,village,Shankar,4.57,ICD Tughlakabad,10.37,Dahej Port,873.7,Indira Gandhi International Airport (DEL),7.97,Attari ICP,372.77
+,SOUTH,,village,Shankar,3.82,ICD Tughlakabad,11.05,Dahej Port,873.99,Indira Gandhi International Airport (DEL),7.36,Attari ICP,371.96
+,SOUTH,800441,village,Shankar,5.35,ICD Tughlakabad,12.24,Dahej Port,870.15,Indira Gandhi International Airport (DEL),7.06,Attari ICP,373.24
+,SOUTH,,village,TUGLAKABAD CABIN,8.36,ICD Tughlakabad,10.0,Dahej Port,866.23,Indira Gandhi International Airport (DEL),17.88,Attari ICP,384.14
+,SOUTH,,village,TUGLAKABAD CABIN,8.04,ICD Tughlakabad,8.67,Dahej Port,867.68,Indira Gandhi International Airport (DEL),16.46,Attari ICP,382.67
+,SOUTH,,village,TUGLAKABAD CABIN,9.51,ICD Tughlakabad,8.96,Dahej Port,867.99,Indira Gandhi International Airport (DEL),14.4,Attari ICP,380.62
+,SOUTH,,village,TUGLAKABAD CABIN,12.62,ICD Tughlakabad,13.34,Dahej Port,863.39,Indira Gandhi International Airport (DEL),15.9,Attari ICP,381.82
+,SOUTH,,village,Shankar,10.8,ICD Tughlakabad,13.44,Dahej Port,865.29,Indira Gandhi International Airport (DEL),11.4,Attari ICP,377.34
+,SOUTH,,village,Shankar,9.96,ICD Tughlakabad,15.46,Dahej Port,864.72,Indira Gandhi International Airport (DEL),9.72,Attari ICP,375.13
+,SOUTH,,village,TUGLAKABAD,8.54,ICD Tughlakabad,7.26,Dahej Port,870.18,Indira Gandhi International Airport (DEL),13.6,Attari ICP,379.52
+,SOUTH,,village,TUGLAKABAD,6.39,ICD Tughlakabad,5.11,Dahej Port,871.88,Indira Gandhi International Airport (DEL),14.92,Attari ICP,380.33
+,SOUTH,,village,Shankar,8.38,ICD Tughlakabad,10.4,Dahej Port,869.12,Indira Gandhi International Airport (DEL),10.21,Attari ICP,376.42
+,SOUTH,,village,Shankar,10.23,ICD Tughlakabad,9.08,Dahej Port,869.01,Indira Gandhi International Airport (DEL),12.27,Attari ICP,378.44
+,SOUTH,,village,Shankar,9.07,ICD Tughlakabad,8.94,Dahej Port,869.94,Indira Gandhi International Airport (DEL),11.31,Attari ICP,377.37
+,SOUTH,,village,TUGLAKABAD EAST CABIN,8.45,ICD Tughlakabad,7.29,Dahej Port,871.68,Indira Gandhi International Airport (DEL),11.91,Attari ICP,377.51
+,SOUTH,,village,Shankar,6.92,ICD Tughlakabad,9.19,Dahej Port,871.71,Indira Gandhi International Airport (DEL),9.63,Attari ICP,375.3
+,SOUTH,800441,village,Shankar,6.29,ICD Tughlakabad,9.27,Dahej Port,872.45,Indira Gandhi International Airport (DEL),9.24,Attari ICP,374.64
+,SOUTH,,village,SAROJINI NAGAR,6.1,ICD Tughlakabad,8.58,Dahej Port,873.32,Indira Gandhi International Airport (DEL),9.78,Attari ICP,374.78
+,SOUTH,,village,LODI COLONY,7.16,ICD Tughlakabad,7.71,Dahej Port,872.75,Indira Gandhi International Airport (DEL),10.85,Attari ICP,376.08
+,SOUTH,800441,village,LODI COLONY,6.28,ICD Tughlakabad,7.36,Dahej Port,873.7,Indira Gandhi International Airport (DEL),11.0,Attari ICP,375.79
+,SOUTH,,village,TUGLAKABAD EAST CABIN,6.11,ICD Tughlakabad,5.27,Dahej Port,873.81,Indira Gandhi International Airport (DEL),13.2,Attari ICP,377.89
+,SOUTH,800441,village,TUGLAKABAD,5.27,ICD Tughlakabad,4.14,Dahej Port,874.43,Indira Gandhi International Airport (DEL),14.26,Attari ICP,378.64
+,SOUTH,,village,TUGLAKABAD EAST CABIN,4.86,ICD Tughlakabad,4.66,Dahej Port,875.06,Indira Gandhi International Airport (DEL),13.68,Attari ICP,377.72
+,SOUTH,,village,OKHLA,5.82,ICD Tughlakabad,6.09,Dahej Port,874.41,Indira Gandhi International Airport (DEL),12.24,Attari ICP,376.64
+,SOUTH,,village,LODI COLONY,4.23,ICD Tughlakabad,7.19,Dahej Port,875.91,Indira Gandhi International Airport (DEL),11.48,Attari ICP,374.93
+,SOUTH,,village,LODI COLONY,4.81,ICD Tughlakabad,7.28,Dahej Port,875.21,Indira Gandhi International Airport (DEL),11.18,Attari ICP,375.09
+,SOUTH,800441,village,LODI COLONY,4.84,ICD Tughlakabad,7.68,Dahej Port,874.99,Indira Gandhi International Airport (DEL),10.75,Attari ICP,374.8
+,SOUTH,,village,LODI COLONY,4.31,ICD Tughlakabad,7.83,Dahej Port,875.47,Indira Gandhi International Airport (DEL),10.73,Attari ICP,374.45
+,SOUTH,,village,LODI COLONY,4.9,ICD Tughlakabad,8.19,Dahej Port,874.73,Indira Gandhi International Airport (DEL),10.21,Attari ICP,374.41
+,SOUTH,,village,SAROJINI NAGAR,4.79,ICD Tughlakabad,9.1,Dahej Port,874.36,Indira Gandhi International Airport (DEL),9.29,Attari ICP,373.69
+,SOUTH,,village,SAROJINI NAGAR,4.18,ICD Tughlakabad,8.78,Dahej Port,875.22,Indira Gandhi International Airport (DEL),9.79,Attari ICP,373.63
+,SOUTH,,village,SEWA NAGAR,3.81,ICD Tughlakabad,6.79,Dahej Port,876.66,Indira Gandhi International Airport (DEL),12.17,Attari ICP,375.12
+,SOUTH,,village,LODI COLONY,2.99,ICD Tughlakabad,8.06,Dahej Port,876.84,Indira Gandhi International Airport (DEL),11.15,Attari ICP,373.85
+,SOUTH,,village,LODI COLONY,3.16,ICD Tughlakabad,8.94,Dahej Port,876.3,Indira Gandhi International Airport (DEL),10.09,Attari ICP,373.13
+,SOUTH,,village,LODI COLONY,2.18,ICD Tughlakabad,8.53,Dahej Port,877.55,Indira Gandhi International Airport (DEL),11.2,Attari ICP,373.28
+,SOUTH,,village,LODI COLONY,2.41,ICD Tughlakabad,9.37,Dahej Port,876.99,Indira Gandhi International Airport (DEL),10.13,Attari ICP,372.55
+,SOUTH,,village,OKHLA,2.41,ICD Tughlakabad,6.64,Dahej Port,878.43,Indira Gandhi International Airport (DEL),13.51,Attari ICP,375.14
+,SOUTH,,village,SAROJINI NAGAR,2.53,ICD Tughlakabad,10.4,Dahej Port,876.14,Indira Gandhi International Airport (DEL),8.78,Attari ICP,371.77
+,SOUTH,,village,SAROJINI NAGAR,3.22,ICD Tughlakabad,10.07,Dahej Port,875.54,Indira Gandhi International Airport (DEL),8.75,Attari ICP,372.28
+,SOUTH,,village,SAROJINI NAGAR,4.05,ICD Tughlakabad,9.6,Dahej Port,874.88,Indira Gandhi International Airport (DEL),8.93,Attari ICP,372.98
+,NORTH WEST,,village,GHEVRA,8.18,ICD Loni,26.08,Dahej Port,886.2,Indira Gandhi International Airport (DEL),24.52,Attari ICP,343.19
+,NORTH WEST,,village,MUNDKA,3.95,ICD Loni,23.22,Dahej Port,883.7,Indira Gandhi International Airport (DEL),19.09,Attari ICP,348.7
+,NORTH WEST,,village,MUNDKA,5.39,ICD Loni,23.09,Dahej Port,884.97,Indira Gandhi International Airport (DEL),20.51,Attari ICP,347.59
+,NORTH WEST,,village,NANGLOI,3.41,ICD Loni,20.32,Dahej Port,884.5,Indira Gandhi International Airport (DEL),17.45,Attari ICP,351.47
+,NORTH WEST,,village,NANGLOI,4.89,ICD Loni,20.57,Dahej Port,885.7,Indira Gandhi International Airport (DEL),19.23,Attari ICP,349.84
+,NORTH WEST,,village,MANGOLPURI,4.15,ICD Loni,17.42,Dahej Port,886.49,Indira Gandhi International Airport (DEL),17.85,Attari ICP,352.9
+,NORTH WEST,,village,ADARSH NAGAR DELHI,1.99,ICD Loni,13.32,Dahej Port,888.53,Indira Gandhi International Airport (DEL),18.17,Attari ICP,355.94
+NIZAMPUR RASHIDPUR,NORTH WEST,063935,village,BAHADURGARH,3.54,ICD Garhi Harsaru,30.59,Dahej Port,879.16,Indira Gandhi International Airport (DEL),21.7,Attari ICP,344.59

@@ -97,7 +97,8 @@ def process(layer: str) -> gpd.GeoDataFrame:
 
     for col in ("district", "sub_district"):
         if col in gdf:
-            gdf[col] = gdf[col].map(fix_mojibake)
+            gdf[col] = gdf[col].map(fix_mojibake).map(
+                lambda s: s.strip() if isinstance(s, str) else s)  # strip stray \r
     if "remarks" in gdf:
         gdf["remarks"] = gdf["remarks"].map(fix_mojibake)
 

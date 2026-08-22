@@ -1,0 +1,3 @@
+village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+KARGIL,KARGIL,004,district_centroid,Anantnag,122.96,ICD Baddi,314.81,Deendayal Port (Kandla),1319.34,Sheikh ul-Alam International Airport (SXR),154.53,Kartarpur Sahib ICP,241.19
+LEH,LEH,003,district_centroid,Anantnag,307.9,ICD Baddi,434.8,Deendayal Port (Kandla),1489.95,Sheikh ul-Alam International Airport (SXR),328.64,Demchok (planned/under development),104.39
