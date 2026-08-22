@@ -71,11 +71,11 @@ STATE_ZIPS = {
 }
 
 RENAME = {
-    "STATE_UT": "state", "State_LGD": "state_code",
-    "District": "district", "Dist_LGD": "district_code",
-    "Sub_dist": "sub_district", "Subdis_LGD": "sub_district_code",
-    "Subdis_Typ": "sub_district_type",
-    "Vill_name": "village", "Vill_Cat": "village_category", "Vill_LGD": "village_code",
+    "STATE_UT": "state", "STATE_LGD": "state_code",
+    "DISTRICT": "district", "DIST_LGD": "district_code",
+    "SUB_DIST": "sub_district", "SUBDIS_LGD": "sub_district_code",
+    "SUBDIS_TYP": "sub_district_type",
+    "VILL_NAME": "village", "VILL_CAT": "village_category", "VILL_LGD": "village_code",
 }
 
 
@@ -128,6 +128,8 @@ def load_standardized(zip_path: pathlib.Path) -> gpd.GeoDataFrame:
     with tempfile.TemporaryDirectory() as td:  # shapefile sidecars needed on disk
         zf.extractall(td)
         gdf = gpd.read_file(pathlib.Path(td) / shp_member)
+    # some states ship mixed-case columns (e.g. Telangana's Dist_LGD/Vill_cat)
+    gdf.columns = [c.upper() if c != "geometry" else c for c in gdf.columns]
     cols = {k: v for k, v in RENAME.items() if k in gdf.columns}
     gdf = gdf.rename(columns=cols)
     keep = [c for c in RENAME.values() if c in gdf.columns] + ["geometry"]
