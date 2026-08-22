@@ -159,6 +159,35 @@ datasets:
     quality_status: sample
     quality_notes: 19,019 segments (NH 4,512 / SH 3,212 / MDR 2,821 / ODR 8,474), 5.6 MB after simplify + coordinate rounding
 
+  - name: National Highway network (numbered)
+    category: roads
+    description: All OSM ways with NH route refs (~145k segments, ~700 distinct NH numbers)
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: 2026-08 snapshot
+    resolution: national
+    access: committed
+    path: data/roads/india_nh_network.geojson
+    fetch_script: scripts/fetch/fetch_nh_network.py
+    quality_status: verified
+    quality_notes: NH44/NH27/NH48 correctly the longest routes; summed length ~198k km overcounts official ~146k km because dual carriageways are separate ways — use for geometry/routing, not length statistics
+
+  # ---------- analysis ----------
+  - name: Village accessibility analysis (nearest facility)
+    category: analysis
+    description: Straight-line distance from every village to nearest rail station / ICD / port / air-cargo / ICP; per-district summaries with Census-2011 population weighting
+    provider: derived in this repo (SoI villages x facility layers)
+    source_url: null
+    license: mixed upstream (see inputs)
+    vintage: 2026-08
+    resolution: village / district
+    access: script (example outputs committed for Sikkim + Haryana)
+    path: data/analysis/
+    fetch_script: scripts/analyze/nearest_facility.py
+    quality_status: verified
+    quality_notes: EPSG:7755 nearest joins; state row (__STATE__) is population-weighted; post-2011 districts carry no 2011 population; road-network travel time is a future upgrade
+
   # ---------- rail ----------
   - name: Railway stations
     category: rail
