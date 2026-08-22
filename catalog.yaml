@@ -46,19 +46,33 @@ datasets:
     fetch_script: scripts/fetch/fetch_admin_boundaries.py
     quality_status: verified
 
-  - name: Taluka / village boundaries
+  - name: Village boundaries (Survey of India — official)
     category: administrative
-    description: Sub-district boundaries via OSM admin relations; level numbering varies by state (script auto-probes 6/7)
+    description: Official village polygons with LGD codes at all levels (state/district/sub-district/village), village category Rural/Urban
+    provider: Survey of India
+    source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
+    license: no explicit open license (site footer "all rights reserved") — free download, redistribution unclear; NOT committed
+    vintage: current (published by SoI; page updated 2026)
+    resolution: village
+    access: script
+    path: data/administrative/villages/ (generated locally, not committed)
+    fetch_script: scripts/fetch/fetch_village_boundaries_soi.py
+    quality_status: verified
+    quality_notes: 27 states/UTs published (NE + border states absent); LGD-coded at every level; spot-validated Sikkim (447 villages, 6 districts, 18 sub-districts) and Pune (1,884 villages, 14 sub-districts — matches OSM taluka count); reprojected from national LCC to EPSG:4326
+
+  - name: Taluka boundaries (OSM — redistributable)
+    category: administrative
+    description: Sub-district boundaries assembled from OSM admin relations; level numbering varies by state (script auto-probes 6/7)
     provider: OpenStreetMap contributors
     source_url: https://www.openstreetmap.org
     license: ODbL
     vintage: live
-    resolution: sub-district / village
+    resolution: sub-district
     access: script
     path: data/administrative/ (generated)
     fetch_script: scripts/fetch/fetch_village_boundaries.py
     quality_status: community
-    quality_notes: village polygon coverage in OSM India is near-zero (villages are place nodes); official village boundaries are on Bhuvan (registration; redistribution terms apply) — see docs/sources.md
+    quality_notes: use SoI script (fetch_village_boundaries_soi.py --state X) for authoritative sub-district/village polygons with LGD codes; OSM variant is redistributable and fine for ODbL-compatible use
 
   - name: Pune district taluka boundaries (sample)
     category: administrative

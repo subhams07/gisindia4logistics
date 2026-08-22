@@ -27,6 +27,23 @@ an official depiction of India's external or disputed boundaries
 prerogative of the Survey of India. Maps and notebooks in this repo carry this
 disclaimer, and derived works should too.
 
+## Survey of India village boundaries — specific posture
+
+The SoI "Village Boundary Data Base of Entire India"
+(surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india)
+publishes free, login-free per-state downloads of official LGD-coded village
+polygons for 27 states/UTs. The page states no open-data license (site footer:
+"all rights reserved"). Accordingly:
+
+- `scripts/fetch/fetch_village_boundaries_soi.py` fetches and standardizes to
+  local `data/administrative/villages/` for **your own use** — this is what the
+  Guidelines permit and what SoI's free publication intends.
+- These files are **gitignored and never committed**; redistribution (e.g., in
+  this repo or a public mirror) only after written terms from SoI.
+- Nine border/NE states are not published by SoI at village level; treat that
+  gap as deliberate and do not source those boundaries from elsewhere without
+  checking terms.
+
 ## License obligations per dataset
 
 Maintained per dataset in `catalog.yaml` (`license` field) and

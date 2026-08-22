@@ -7,3 +7,7 @@ __pycache__/
 
 # session artifacts
 .zcode/
+
+# SoI village boundaries: fetched locally, not redistributed (see docs/legal_compliance.md)
+data/administrative/villages/
+data/raw/soi_villages/

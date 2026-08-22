@@ -22,10 +22,20 @@ its quality status. Quality statuses:
 | Source | URL | License | Use |
 |---|---|---|---|
 | DataMeet maps | github.com/datameet/maps | CC BY 4.0 | States (current), districts (2011) — committed |
-| ISRO Bhuvan | bhuvan.nrsc.gov.in | Free registration; check terms per layer | Official taluka/village boundaries — manual |
-| Survey of India | surveyofindia.gov.in | Restrictive | Authoritative; not redistributed |
+| Survey of India villages | surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india | no explicit open license; free download | **Official village boundaries** (LGD-coded, 27 states/UTs) — fetch script, not committed |
+| ISRO Bhuvan | bhuvan.nrsc.gov.in | Free registration; check terms per layer | Alternative official boundaries — manual |
 | GADM 4.1 | gadm.org | CC BY 4.0 (non-commercial-ish terms; cite) | Alternative districts (~post-2011) — not used |
 | LGD | lgdirectory.gov.in | Government open data | Canonical state/district codes (hard-coded mapping in `standardize.py`) |
+
+**SoI village database notes**: direct per-state zips (no login), shapefile in
+the national LCC projection, attributes include LGD codes for state, district,
+sub-district and village plus village name and Rural/Urban category. Reprojects
+cleanly to EPSG:4326 (`fetch_village_boundaries_soi.py`). Published for 27
+states/UTs — Assam, Arunachal Pradesh, Himachal Pradesh, Jammu & Kashmir,
+Ladakh, Manipur, Meghalaya, Mizoram and Nagaland are absent. Site footer is
+"all rights reserved" with no open-data grant, so files are fetched to
+`data/raw/` and outputs under `data/administrative/villages/` are gitignored —
+redistribute only after confirming terms with SoI.
 
 Caveat: committed district boundaries are Census 2011 vintage (640 districts).
 India now has ~780 districts; new districts since 2011 must come from Bhuvan/
