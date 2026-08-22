@@ -115,6 +115,10 @@ def main() -> None:
     ax.set_title(f"{args.district} district — logistics layers (OSM + committed datasets)")
     ax.legend(loc="lower left", fontsize=8, framealpha=0.9)
     ax.set_axis_off()
+    fig.text(0.99, 0.01,
+             "Boundaries indicative (DataMeet/OSM) — not authoritative "
+             "depictions; © OpenStreetMap contributors (ODbL)",
+             ha="right", fontsize=6, color="#555555")
     png = OUT_DIR / f"{args.district.lower().replace(' ', '_')}_logistics_map.png"
     fig.savefig(png, dpi=150, bbox_inches="tight")
     print(f"Wrote map -> {png}")

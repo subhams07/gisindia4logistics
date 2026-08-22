@@ -31,6 +31,15 @@ Thanks for helping build an open GIS data collection for Indian logistics!
 - [ ] Fetch script added under `scripts/fetch/` (if not committed directly)
 - [ ] README catalog table updated
 
+## Legal & policy checks (India geospatial — see docs/legal_compliance.md)
+
+- [ ] No defence/military/security-installation features (DST negative list of
+      sensitive attributes)
+- [ ] No DEM/terrain/gravity data finer than 2021 thresholds (~1 m horizontal /
+      3 m vertical DEM, 1 milli-gal gravity) without documented SoI clearance
+- [ ] No ground-truthing inside notified Negative List of Areas
+- [ ] Boundary data labelled indicative; maps carry the boundary disclaimer
+
 ## Reporting data errors
 
 Open an issue with: dataset name, affected feature(s), expected vs actual value,

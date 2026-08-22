@@ -59,13 +59,19 @@ docs/            # Source documentation and data standards
 catalog.yaml     # Machine-readable data catalog
 ```
 
-## Licensing
+## Licensing & legal
 
 - **Code** in this repository: MIT (see [LICENSE](LICENSE)).
 - **Data**: each dataset remains under its source's license — see the `license`
   field in `catalog.yaml` and [`docs/sources.md`](docs/sources.md). Sources with
   restrictive or unclear licensing (e.g., Survey of India village boundaries) are
   provided as fetch scripts only, not committed data.
+- **India geospatial law**: this repository complies with the 2021 DST
+  Geospatial Data Guidelines (unrestricted civilian data, self-certification
+  regime). See [`docs/legal_compliance.md`](docs/legal_compliance.md).
+- **Boundary disclaimer**: boundaries here are indicative community data
+  (DataMeet), not Survey of India products, and must not be treated as an
+  official depiction of India's external or disputed boundaries.
 
 ## Contributing
 
