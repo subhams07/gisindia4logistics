@@ -23,7 +23,8 @@ Directory) codes** as the join key across datasets.
 | Category | Dataset | Resolution | Format | How to get it |
 |---|---|---|---|---|
 | Administrative | India outline, States (36), Districts (~780) | National | GeoJSON | Committed in `data/administrative/` |
-| Administrative | Talukas / Villages | Sub-district | GeoJSON | `scripts/fetch/fetch_village_boundaries.py` |
+| Administrative | Talukas — any district (OSM) | Sub-district | GeoJSON | `scripts/fetch/fetch_village_boundaries.py` (Pune sample committed) |
+| Administrative | Villages | Village | GeoJSON | OSM polygon coverage near-zero; use Bhuvan (see `docs/sources.md`) |
 | Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` |
 | Rail | Railway stations (~8,000, code/name/zone/category) | National | CSV/GeoJSON | Committed in `data/rail/` |
 | Rail | Rail lines & freight sidings | National | GeoJSON | `scripts/fetch/fetch_rail.py` |

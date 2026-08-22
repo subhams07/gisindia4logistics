@@ -48,7 +48,7 @@ datasets:
 
   - name: Taluka / village boundaries
     category: administrative
-    description: Sub-district boundaries via OSM admin levels (7/10); coverage varies by state
+    description: Sub-district boundaries via OSM admin relations; level numbering varies by state (script auto-probes 6/7)
     provider: OpenStreetMap contributors
     source_url: https://www.openstreetmap.org
     license: ODbL
@@ -58,7 +58,21 @@ datasets:
     path: data/administrative/ (generated)
     fetch_script: scripts/fetch/fetch_village_boundaries.py
     quality_status: community
-    quality_notes: OSM village coverage uneven; official alternative is Bhuvan (registration) or Survey of India (restrictive license)
+    quality_notes: village polygon coverage in OSM India is near-zero (villages are place nodes); official village boundaries are on Bhuvan (registration; redistribution terms apply) — see docs/sources.md
+
+  - name: Pune district taluka boundaries (sample)
+    category: administrative
+    description: 14 taluka/subdistrict polygons assembled from OSM relations
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: 2026-08 snapshot
+    resolution: sub-district
+    access: committed
+    path: data/administrative/pune_taluka.geojson
+    fetch_script: scripts/fetch/fetch_village_boundaries.py --district Pune --state Maharashtra --level taluka
+    quality_status: verified
+    quality_notes: 14/14 official Pune talukas present; taluka area sum = 100.0% of district area; valid geometries; ring-stitched multipolygons (outer rings with holes)
 
   # ---------- roads ----------
   - name: Road network by class (NH/SH/MDR/ODR/village)
