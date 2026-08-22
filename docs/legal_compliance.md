@@ -27,21 +27,32 @@ an official depiction of India's external or disputed boundaries
 prerogative of the Survey of India. Maps and notebooks in this repo carry this
 disclaimer, and derived works should too.
 
-## Survey of India village boundaries — specific posture
+## Survey of India village boundaries — redistribution posture
 
 The SoI "Village Boundary Data Base of Entire India"
 (surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india)
 publishes free, login-free per-state downloads of official LGD-coded village
-polygons for 27 states/UTs. The page states no open-data license (site footer:
-"all rights reserved"). Accordingly:
+polygons for 27 states/UTs on a public government portal.
 
-- `scripts/fetch/fetch_village_boundaries_soi.py` fetches and standardizes to
-  local `data/administrative/villages/` for **your own use** — this is what the
-  Guidelines permit and what SoI's free publication intends.
-- These files are **gitignored and never committed**; redistribution (e.g., in
-  this repo or a public mirror) only after written terms from SoI.
+**Repo decision (maintainer, 2026-08):** the data is redistributed in this
+repository in good faith, based on its free public availability, with
+attribution ("Village boundaries: Survey of India, Government of India")
+embedded in every file. The page itself states no explicit open-data license,
+so this is a good-faith interpretation, not a documented grant — if Survey of
+India objects, the files will be removed promptly (open an issue or contact
+the maintainers).
+
+Grounds and mitigations:
+- The 2021 Geospatial Data Guidelines encourage wide availability of
+  non-restricted civilian geospatial data; this dataset is unrestricted-class
+  (administrative boundaries, no negative-list attributes or areas).
+- No circumvention is involved: the same public URLs the script uses are
+  linked from the SoI page without registration or terms-clickthrough.
+- Attribution is preserved per file; raw SoI zips are NOT committed — only
+  standardized derivatives (reprojected to EPSG:4326, simplified ~50 m,
+  renamed columns).
 - Nine border/NE states are not published by SoI at village level; treat that
-  gap as deliberate and do not source those boundaries from elsewhere without
+  gap as deliberate and do not source those boundaries elsewhere without
   checking terms.
 
 ## License obligations per dataset
@@ -59,6 +70,9 @@ Maintained per dataset in `catalog.yaml` (`license` field) and
   India community".
 - **Hub coordinates sourced from Wikipedia/Wikidata**: CC BY-SA 4.0
   (per-row `source_url` attribution is included).
+- **Survey of India village boundaries**: no explicit license stated;
+  redistributed in good faith per the decision above with attribution
+  ("Village boundaries: Survey of India, Government of India").
 
 ## Rules for future contributions (enforced via CONTRIBUTING checklist)
 

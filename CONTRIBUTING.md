@@ -18,8 +18,8 @@ Thanks for helping build an open GIS data collection for Indian logistics!
    where applicable; attribute names snake_case.
 3. **Metadata**: every dataset needs a `catalog.yaml` entry with: name,
    category, source_url, license, vintage, resolution, and how it is obtained.
-4. **Size**: committed files < 10 MB. Anything larger goes through a fetch
-   script (or Git LFS if derived and essential).
+4. **Size**: no hard limit; files >20 MB should use a Git LFS-routed format
+   (`*.gpkg`, `*.parquet`, `*.zip`) per `.gitattributes`.
 5. **License**: only commit data that is openly licensed or redistributable.
    Ambiguous-license sources are documented in `docs/sources.md` with a fetch
    script, not committed.

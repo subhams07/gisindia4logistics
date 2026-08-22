@@ -52,9 +52,13 @@ logistics_park, warehouse_cluster, dry_port, mmlp}
 
 ## File size policy
 
-- Committed files < 10 MB (prefer simplified geometry for boundaries —
-  tolerance 0.001° ≈ 100 m — plus full-resolution via fetch script).
-- Larger files via fetch scripts or Git LFS (`.gitattributes` patterns).
+- No hard size limit for committed datasets (maintainer decision 2026-08:
+  commit full-resolution state files; large vector layers >20 MB go through
+  Git LFS via `.gitattributes` patterns — `*.gpkg`, `*.pbf`, `*.parquet`,
+  `*.zip`, `*.tif`, `*.shp`; plain `*.geojson` files commit directly).
+- Geometry simplification is applied where precision isn't lost for the use
+  case (boundaries ~50–100 m) mainly to keep clones fast; regenerate at full
+  precision with the fetch scripts (`--simplify 0`).
 
 ## Metadata
 

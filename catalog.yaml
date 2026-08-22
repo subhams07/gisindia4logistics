@@ -17,7 +17,49 @@ datasets:
     path: data/administrative/india_states.geojson
     fetch_script: scripts/fetch/fetch_admin_boundaries.py
     quality_status: verified
-    quality_notes: 36 features, valid geometries, no unmapped state names
+    quality_notes: 36 features, valid geometries, no unmapped state names; superseded for most uses by india_states_lgd.geojson (current, LGD-coded)
+
+  - name: India states/UTs boundaries (current, LGD)
+    category: administrative
+    description: 36 states/UTs from the PAN INDIA LGD-coded dataset
+    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
+    source_url: null
+    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    vintage: current
+    resolution: state
+    access: committed
+    path: data/administrative/india_states_lgd.geojson
+    fetch_script: scripts/clean/process_panindia_boundaries.py
+    quality_status: verified
+    quality_notes: 36 features after dropping 4 inter-state disputed slivers; valid geometries
+
+  - name: India district boundaries (current, LGD)
+    category: administrative
+    description: 780 districts with LGD codes — post-2011 districts included
+    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
+    source_url: null
+    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    vintage: current (~780 districts)
+    resolution: district
+    access: committed
+    path: data/administrative/india_districts_lgd.geojson
+    fetch_script: scripts/clean/process_panindia_boundaries.py
+    quality_status: verified
+    quality_notes: 780 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (PoK, LGD code not available) kept with null codes; mojibake names fixed (<a >A #u legacy-font artifact, 169 rows)
+
+  - name: India sub-district boundaries (current, LGD)
+    category: administrative
+    description: 6,639 talukas/tehsils/blocks with LGD codes and type
+    provider: PAN INDIA dataset via repo maintainer (schema consistent with SoI/LGD)
+    source_url: null
+    license: no explicit license stated; redistributed in good faith (see docs/legal_compliance.md)
+    vintage: current
+    resolution: sub-district
+    access: committed
+    path: data/administrative/india_subdistricts_lgd.gpkg
+    fetch_script: scripts/clean/process_panindia_boundaries.py
+    quality_status: verified
+    quality_notes: 6,639 features; 89 source rows have null LGD codes ("Not under any Sub-District" etc.); one source code collision (3606: Bari Pattan J&K / Khirkiya MP); mojibake fixed; GeoPackage via Git LFS (22 MB)
 
   - name: India district boundaries (Census 2011)
     category: administrative
@@ -51,14 +93,14 @@ datasets:
     description: Official village polygons with LGD codes at all levels (state/district/sub-district/village), village category Rural/Urban
     provider: Survey of India
     source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
-    license: no explicit open license (site footer "all rights reserved") — free download, redistribution unclear; NOT committed
+    license: no explicit license stated; free public download — redistributed in good faith with attribution (see docs/legal_compliance.md)
     vintage: current (published by SoI; page updated 2026)
     resolution: village
-    access: script
-    path: data/administrative/villages/ (generated locally, not committed)
+    access: committed (states ≤10 MB; larger states script-generated)
+    path: data/administrative/villages/*_soi_villages.geojson
     fetch_script: scripts/fetch/fetch_village_boundaries_soi.py
     quality_status: verified
-    quality_notes: 27 states/UTs published (NE + border states absent); LGD-coded at every level; spot-validated Sikkim (447 villages, 6 districts, 18 sub-districts) and Pune (1,884 villages, 14 sub-districts — matches OSM taluka count); reprojected from national LCC to EPSG:4326
+    quality_notes: 27 states/UTs published (NE + border states absent); LGD-coded at every level; spot-validated Sikkim (447 villages, 6 districts, 18 sub-districts) and Pune (1,884 villages, 14 sub-districts — matches OSM taluka count); simplified ~50 m; some duplicate/null village LGD codes in source (Sikkim 20 dup/12 null)
 
   - name: Taluka boundaries (OSM — redistributable)
     category: administrative

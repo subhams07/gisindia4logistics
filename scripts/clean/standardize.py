@@ -71,6 +71,7 @@ STATE_NAME_FIXES = {
     "andaman & nicobar island": "andaman and nicobar islands",
     "andaman & nicobar islands": "andaman and nicobar islands",
     "dadra & nagar haveli": "dadra and nagar haveli and daman and diu",
+    "dadra & nagar haveli & daman & diu": "dadra and nagar haveli and daman and diu",
     "dadra and nagar haveli": "dadra and nagar haveli and daman and diu",
     "jammu & kashmir": "jammu and kashmir",
     "pondicherry": "puducherry",
@@ -114,11 +115,14 @@ def classify_osm_road(highway: str | None, ref: str | None) -> str | None:
 
 
 def load_states() -> gpd.GeoDataFrame:
-    return gpd.read_file(DATA_DIR / "administrative" / "india_states.geojson")
+    p = DATA_DIR / "administrative" / "india_states_lgd.geojson"
+    return gpd.read_file(p if p.exists() else DATA_DIR / "administrative" / "india_states.geojson")
 
 
 def load_districts() -> gpd.GeoDataFrame:
-    return gpd.read_file(DATA_DIR / "administrative" / "india_districts.geojson")
+    """Current LGD-coded districts when available (780), else Census-2011 file."""
+    p = DATA_DIR / "administrative" / "india_districts_lgd.geojson"
+    return gpd.read_file(p if p.exists() else DATA_DIR / "administrative" / "india_districts.geojson")
 
 
 def district_bbox(district: str, state: str | None = None) -> tuple:

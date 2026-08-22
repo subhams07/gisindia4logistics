@@ -8,14 +8,15 @@ national LCC projection with official LGD codes at state/district/
 sub-district/village levels — the highest-quality open village source for
 India and the canonical one for this repo.
 
-LICENSING: the SoI page carries no explicit open-data license (site footer is
-"all rights reserved"). Downloads are free for anyone; redistribution inside
-this repo is NOT clearly permitted, so this script fetches to your local
-data/raw/ and nothing is committed. See docs/legal_compliance.md.
+LICENSING: SoI publishes these as free, login-free downloads on a public
+government portal; this repo redistributes them in good faith on that basis,
+with attribution ("Village boundaries: Survey of India, Government of India").
+No explicit open-data license is stated on the page — see docs/legal_compliance.md
+for the full posture. Remove promptly if SoI objects.
 
-Coverage (27 states/UTs): the border/Himalayan and NE states (Andhra? no —
-Assam, Arunachal Pradesh, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur,
-Meghalaya, Mizoram, Nagaland) are NOT published on the SoI page.
+Coverage (27 states/UTs): the border/Himalayan and NE states (Assam, Arunachal
+Pradesh, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya,
+Mizoram, Nagaland) are NOT published on the SoI page.
 
 Usage:
     python scripts/fetch/fetch_village_boundaries_soi.py --state Sikkim
@@ -88,19 +89,37 @@ def slug_for(state_input: str) -> str:
 
 
 def fetch(slug: str) -> pathlib.Path:
+    import time
+    import zipfile
     raw = DATA_DIR / "raw" / "soi_villages"
     raw.mkdir(parents=True, exist_ok=True)
     dest = raw / f"{slug.replace(' ', '_')}.zip"
-    if dest.exists():
+    if dest.exists() and zipfile.is_zipfile(dest):
         return dest
+    if dest.exists():  # corrupt partial from an interrupted download
+        dest.unlink()
     from urllib.parse import quote
     url = f"{BASE}/{quote(slug)}.zip"
-    print(f"Downloading {url} ...")
-    r = http_session().get(url, timeout=900)
-    r.raise_for_status()
-    dest.write_bytes(r.content)
-    print(f"  saved {len(r.content)/1e6:.1f} MB -> {dest}")
-    return dest
+    last_err = None
+    for attempt in range(4):
+        try:
+            print(f"Downloading {url} ...")
+            r = http_session().get(url, timeout=1800)
+            r.raise_for_status()
+            if not r.content[:2] == b"PK":
+                raise ValueError("response is not a zip archive")
+            dest.write_bytes(r.content)
+            if not zipfile.is_zipfile(dest):
+                dest.unlink()
+                raise ValueError("truncated zip")
+            print(f"  saved {len(r.content)/1e6:.1f} MB -> {dest}")
+            return dest
+        except Exception as e:
+            last_err = e
+            if dest.exists():
+                dest.unlink()
+            time.sleep(30 * (attempt + 1))  # SoI throttles consecutive large downloads
+    raise RuntimeError(f"Download failed after retries: {last_err}")
 
 
 def load_standardized(zip_path: pathlib.Path) -> gpd.GeoDataFrame:
@@ -120,6 +139,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--state", help="state name as used in this repo (e.g. 'Sikkim')")
     ap.add_argument("--district", help="optionally filter to one district")
+    ap.add_argument("--simplify", type=float, default=0.0005, metavar="TOL",
+                    help="geometry simplification tolerance in degrees (default 0.0005 ~ 50 m; 0 disables)")
     ap.add_argument("--list", action="store_true", help="list states published by SoI")
     args = ap.parse_args()
 
@@ -140,9 +161,13 @@ def main() -> None:
     else:
         label = state_name.lower().replace(" ", "_")
 
-    # validation summary
+    if args.simplify > 0:
+        gdf.geometry = gdf.geometry.simplify(args.simplify)
+
+    # validation summary (some UT files lack sub-district columns entirely)
+    nsd = gdf["sub_district"].nunique() if "sub_district" in gdf else 0
     print(f"villages: {len(gdf)} | districts: {gdf.district.nunique()} | "
-          f"sub-districts: {gdf.sub_district.nunique()}")
+          f"sub-districts: {nsd}")
     print(f"unique village LGD codes: {gdf.village_code.nunique()} "
           f"(duplicates: {len(gdf) - gdf.village_code.nunique()})")
     print(f"null village codes: {gdf.village_code.isna().sum()} | "
@@ -150,11 +175,12 @@ def main() -> None:
 
     out_dir = DATA_DIR / "administrative" / "villages"
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"{label}_villages.geojson"
-    write_geojson(path, __import__("json").loads(gdf.to_json()))
+    path = out_dir / f"{label}_soi_villages.geojson"
+    fc = __import__("json").loads(gdf.to_json())
+    fc["name"] = f"{label}_soi_villages"
+    fc["attribution"] = "Village boundaries: Survey of India, Government of India"
+    write_geojson(path, fc)
     print(f"Wrote {path} ({path.stat().st_size/1e6:.1f} MB)")
-    print("NOT committed to the repo — check SoI redistribution terms first "
-          "(docs/legal_compliance.md).")
 
 
 if __name__ == "__main__":

@@ -150,7 +150,8 @@ def main() -> None:
     # keep only features mostly inside the district (bbox brings neighbors whose
     # borders merely touch/clip the district polygon)
     import geopandas as gpd
-    districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts.geojson")
+    from standardize import load_districts
+    districts = load_districts()
     dmask = (districts["district"].str.lower() == args.district.lower()) & \
             (districts["state"].str.lower() == args.state.lower())
     district_geom = districts[dmask].iloc[0].geometry

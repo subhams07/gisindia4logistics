@@ -45,7 +45,7 @@ def main() -> None:
     ap.add_argument("--state", default="Maharashtra")
     args = ap.parse_args()
 
-    districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts.geojson")
+    districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
     mask = (districts["district"].str.lower() == args.district.lower()) & \
            (districts["state"].str.lower() == args.state.lower())
     if not mask.any():

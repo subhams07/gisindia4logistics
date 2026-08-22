@@ -22,9 +22,9 @@ Directory) codes** as the join key across datasets.
 
 | Category | Dataset | Resolution | Format | How to get it |
 |---|---|---|---|---|
-| Administrative | India outline, States (36), Districts (~780) | National | GeoJSON | Committed in `data/administrative/` |
-| Administrative | Talukas — any district (OSM, redistributable) | Sub-district | GeoJSON | `scripts/fetch/fetch_village_boundaries.py` (Pune sample committed) |
-| Administrative | **Villages — official (Survey of India, LGD-coded)** | Village | GeoJSON | `scripts/fetch/fetch_village_boundaries_soi.py --state X [--district Y]` — fetched locally, not redistributed |
+| Administrative | **India / State / District / Taluka — current, LGD-coded** | National → sub-district | GeoJSON/GPKG | Committed in `data/administrative/` (36 states, 780 districts, 6,639 sub-districts) |
+| Administrative | Districts (Census 2011, for census joins) | District | GeoJSON | Committed in `data/administrative/` |
+| Administrative | **Villages — official (Survey of India, LGD-coded)** | Village | GeoJSON | Committed in `data/administrative/villages/` for all 27 published states; regenerable via `scripts/fetch/fetch_village_boundaries_soi.py` |
 | Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` |
 | Rail | Railway stations (~8,000, code/name/zone/category) | National | CSV/GeoJSON | Committed in `data/rail/` |
 | Rail | Rail lines & freight sidings | National | GeoJSON | `scripts/fetch/fetch_rail.py` |

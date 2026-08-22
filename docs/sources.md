@@ -21,21 +21,30 @@ its quality status. Quality statuses:
 
 | Source | URL | License | Use |
 |---|---|---|---|
-| DataMeet maps | github.com/datameet/maps | CC BY 4.0 | States (current), districts (2011) — committed |
-| Survey of India villages | surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india | no explicit open license; free download | **Official village boundaries** (LGD-coded, 27 states/UTs) — fetch script, not committed |
+| PAN INDIA LGD dataset (maintainer-provided) | — (local archive `data/raw/panindia/`) | no explicit license; schema consistent with SoI/LGD; good-faith redistribution | **Current** states (36) / districts (780) / sub-districts (6,639), LGD-coded — committed |
+| DataMeet maps | github.com/datameet/maps | CC BY 4.0 | States + Census-2011 districts (640) used for census joins — committed |
+| Survey of India villages | surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india | no explicit open license; free download | **Official village boundaries** (LGD-coded, 27 states/UTs) — committed (good-faith posture below) |
 | ISRO Bhuvan | bhuvan.nrsc.gov.in | Free registration; check terms per layer | Alternative official boundaries — manual |
-| GADM 4.1 | gadm.org | CC BY 4.0 (non-commercial-ish terms; cite) | Alternative districts (~post-2011) — not used |
-| LGD | lgdirectory.gov.in | Government open data | Canonical state/district codes (hard-coded mapping in `standardize.py`) |
+| LGD | lgdirectory.gov.in | Government open data | Canonical state/district codes |
+
+**PAN INDIA LGD dataset notes**: processed by `scripts/clean/process_panindia_boundaries.py`.
+Data-quality fixes applied: 4 inter-state "DISPUTED" slivers dropped from the
+states layer (28 from district/subdistrict layers); legacy-font mojibake in
+names fixed deterministically (`<`→a, `>`→A, `#`→u — e.g. `BR>HMAUR`→
+BRAHMAUR, `Bengal#ru`→BENGALURU); Mirpur and Muzaffarabad (PoK) kept with
+null LGD codes; 89 subdistrict rows carry null codes in the source.
 
 **SoI village database notes**: direct per-state zips (no login), shapefile in
 the national LCC projection, attributes include LGD codes for state, district,
 sub-district and village plus village name and Rural/Urban category. Reprojects
 cleanly to EPSG:4326 (`fetch_village_boundaries_soi.py`). Published for 27
 states/UTs — Assam, Arunachal Pradesh, Himachal Pradesh, Jammu & Kashmir,
-Ladakh, Manipur, Meghalaya, Mizoram and Nagaland are absent. Site footer is
-"all rights reserved" with no open-data grant, so files are fetched to
-`data/raw/` and outputs under `data/administrative/villages/` are gitignored —
-redistribute only after confirming terms with SoI.
+Ladakh, Manipur, Meghalaya, Mizoram and Nagaland are absent. Redistribution
+posture (good-faith, with attribution, remove-on-request) is documented in
+`docs/legal_compliance.md`. Files in `data/administrative/villages/` are
+standardized derivatives: simplified ~50 m, rounded coordinates, LGD schema;
+state files over the 10 MB commit policy are regenerated via the script
+(use `--district` for per-district extracts of large states).
 
 Caveat: committed district boundaries are Census 2011 vintage (640 districts).
 India now has ~780 districts; new districts since 2011 must come from Bhuvan/
