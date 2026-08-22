@@ -59,7 +59,7 @@ datasets:
     path: data/administrative/india_subdistricts_lgd.gpkg
     fetch_script: scripts/clean/process_panindia_boundaries.py
     quality_status: verified
-    quality_notes: 6,639 features; 89 source rows have null LGD codes ("Not under any Sub-District" etc.); one source code collision (3606: Bari Pattan J&K / Khirkiya MP); mojibake fixed; GeoPackage via Git LFS (22 MB)
+    quality_notes: "6,639 features; 89 source rows have null LGD codes ('Not under any Sub-District' etc.); one source code collision (3606 shared by Bari Pattan J&K / Khirkiya MP); mojibake fixed; 22 MB GeoPackage stored as a regular git blob"
 
   - name: India district boundaries (Census 2011)
     category: administrative
@@ -296,6 +296,44 @@ datasets:
     quality_status: verified
     quality_notes: 25 rows incl. big five (DEL/BOM/BLR/HYD/MAA)
 
+  - name: Multimodal Logistics Parks (MMLPs)
+    category: logistics_hubs
+    description: 20 MMLP sites — NHLML awarded roster (Jalna operational, Chennai/Bengaluru/Indore/Nagpur/Jogighopa...) + original 35-site identification not yet awarded
+    provider: NHLML (nhlml.org) + PIB + Wikipedia fallback
+    source_url: per-row source_url (nhlml.org/multi-modal-logistics-park primary)
+    license: GODL-India (official) / CC BY-SA 4.0 (Wikipedia rows)
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/mmlps.csv
+    quality_status: verified
+    quality_notes: awarded vs identified-only status flagged per row in capacity_notes
+
+  - name: Inland waterway terminals (IWAI)
+    category: logistics_hubs
+    description: 40 terminals across NW-1/2/3/4/5/16 with official capacities where published
+    provider: IWAI (iwai.gov.in)
+    source_url: per-row source_url (iwai.gov.in per-waterway pages)
+    license: GODL-India
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/inland_waterway_terminals.csv
+    quality_status: verified
+    quality_notes: NW number in every capacity_notes; NW-5 rows cite Jal Shakti PDF (IWAI page JS-rendered)
+
+  - name: FCI food godowns (major depots)
+    category: logistics_hubs
+    description: 77 notable FCI depots/regional hubs across all 5 zones
+    provider: FCI (fci.gov.in)
+    source_url: per-row source_url
+    license: GODL-India
+    vintage: 2026
+    resolution: national points (city-level)
+    access: committed
+    path: data/logistics_hubs/fci_depots.csv
+    quality_status: community
+    quality_notes: FCI publishes no complete depot register (JS site); city-level coordinates with caveat per row; 10 rows award-verified depots
   # ---------- demographics ----------
   - name: Census 2011 district key indicators
     category: demographic
