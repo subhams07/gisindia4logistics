@@ -1,0 +1,78 @@
+name,hub_type,state,city,latitude,longitude,operator,capacity_notes,source_url
+FCI FSD Moga,foodgodown,Punjab,Moga,30.7986,75.1720,Food Corporation of India (FCI),North Zone; among FCI's largest owned food storage depots; major paddy procurement hub; city-level location,https://fci.gov.in/
+FCI Depot Sangrur,foodgodown,Punjab,Sangrur,30.2361,75.8450,Food Corporation of India (FCI),North Zone; FCI food storage depot in paddy procurement belt; city-level location,https://fci.gov.in/
+FCI Depot Ludhiana,foodgodown,Punjab,Ludhiana,30.9010,75.8573,Food Corporation of India (FCI),North Zone; regional depot and district procurement centre; city-level location,https://fci.gov.in/
+FCI Depot Patiala,foodgodown,Punjab,Patiala,30.3398,76.3863,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Bathinda,foodgodown,Punjab,Bathinda,30.2110,74.9455,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Ferozepur,foodgodown,Punjab,Ferozepur,30.9253,74.6070,Food Corporation of India (FCI),North Zone; FCI food storage depot in border procurement district; city-level location,https://fci.gov.in/
+FCI Depot Karnal,foodgodown,Haryana,Karnal,29.6857,76.9905,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Panipat,foodgodown,Haryana,Panipat,29.3909,76.9635,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Kaithal,foodgodown,Haryana,Kaithal,29.8050,76.3980,Food Corporation of India (FCI),North Zone; FCI food storage depot in rice procurement belt; city-level location,https://fci.gov.in/
+FCI FSD Safidon,foodgodown,Haryana,Safidon (Jind district),29.4116,76.6552,Food Corporation of India (FCI),North Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Delhi (NCR),foodgodown,Delhi,New Delhi,28.6139,77.2090,Food Corporation of India (FCI),North Zone; Delhi Region depots serve NFSA distribution for NCT; city-level location,https://fci.gov.in/
+FCI Depot Meerut,foodgodown,Uttar Pradesh,Meerut,28.9845,77.7064,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Hapur,foodgodown,Uttar Pradesh,Hapur,28.7300,77.7800,Food Corporation of India (FCI),North Zone; depot town associated with FCI steel-silo (hub-and-spoke) programme; city-level location,https://fci.gov.in/
+FCI Depot Lucknow,foodgodown,Uttar Pradesh,Lucknow,26.8467,80.9462,Food Corporation of India (FCI),North Zone; FCI regional depot; city-level location,https://fci.gov.in/
+FCI Depot Kanpur,foodgodown,Uttar Pradesh,Kanpur,26.4499,80.3319,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Varanasi,foodgodown,Uttar Pradesh,Varanasi,25.3176,82.9739,Food Corporation of India (FCI),North Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Gorakhpur,foodgodown,Uttar Pradesh,Gorakhpur,26.7606,83.3732,Food Corporation of India (FCI),North Zone; FCI food storage depot for eastern UP; city-level location,https://fci.gov.in/
+FCI Depot Jaipur,foodgodown,Rajasthan,Jaipur,26.9124,75.7873,Food Corporation of India (FCI),North Zone; Rajasthan regional depot; city-level location,https://fci.gov.in/
+FCI Depot Jodhpur,foodgodown,Rajasthan,Jodhpur,26.2389,73.0243,Food Corporation of India (FCI),North Zone; FCI food storage depot for western Rajasthan; city-level location,https://fci.gov.in/
+FCI Depot Kota,foodgodown,Rajasthan,Kota,25.2138,75.8648,Food Corporation of India (FCI),North Zone; FCI food storage depot in Hadoti region; city-level location,https://fci.gov.in/
+FCI Depot Jammu,foodgodown,Jammu and Kashmir,Jammu,32.7266,74.8570,Food Corporation of India (FCI),North Zone; FCI depot serving J&K foodgrain supply; city-level location,https://fci.gov.in/
+FCI Depot Dehradun,foodgodown,Uttarakhand,Dehradun,30.3165,78.0322,Food Corporation of India (FCI),North Zone; Uttarakhand regional depot; city-level location,https://fci.gov.in/
+FCI Depot Kolkata,foodgodown,West Bengal,Kolkata,22.5726,88.3639,Food Corporation of India (FCI),East Zone; West Bengal regional depot; city-level location,https://fci.gov.in/
+FCI FSD Midnapur,foodgodown,West Bengal,Midnapore (Paschim Medinipur),22.4254,87.3189,Food Corporation of India (FCI),East Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Siliguri,foodgodown,West Bengal,Siliguri,26.7271,88.3953,Food Corporation of India (FCI),East Zone; FCI depot for north Bengal and hill supply; city-level location,https://fci.gov.in/
+FCI Depot Patna,foodgodown,Bihar,Patna,25.5941,85.1376,Food Corporation of India (FCI),East Zone; Bihar regional depot; city-level location,https://fci.gov.in/
+FCI Depot Muzaffarpur,foodgodown,Bihar,Muzaffarpur,26.1209,85.3647,Food Corporation of India (FCI),East Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Gaya,foodgodown,Bihar,Gaya,24.7914,85.0002,Food Corporation of India (FCI),East Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Ranchi,foodgodown,Jharkhand,Ranchi,23.3441,85.3096,Food Corporation of India (FCI),East Zone; Jharkhand regional depot; city-level location,https://fci.gov.in/
+FCI FSD Hirakud,foodgodown,Odisha,Hirakud (Sambalpur district),21.5300,84.0000,Food Corporation of India (FCI),East Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Bhubaneswar,foodgodown,Odisha,Bhubaneswar,20.2961,85.8245,Food Corporation of India (FCI),East Zone; Odisha regional depot; city-level location,https://fci.gov.in/
+FCI Depot Cuttack,foodgodown,Odisha,Cuttack,20.4625,85.8828,Food Corporation of India (FCI),East Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Sambalpur,foodgodown,Odisha,Sambalpur,21.4669,83.9709,Food Corporation of India (FCI),East Zone; FCI food storage depot for western Odisha; city-level location,https://fci.gov.in/
+FCI FSD Baripada,foodgodown,Odisha,Baripada (Mayurbhanj district),21.9333,86.7333,Food Corporation of India (FCI),East Zone; depot recognised in FCI depot-level awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Mumbai (Wadala),foodgodown,Maharashtra,Mumbai (Wadala),19.0186,72.8430,Food Corporation of India (FCI),West Zone; major FCI depot complex at Wadala serving Mumbai NFSA supply; city-level location,https://fci.gov.in/
+FCI Depot Pune,foodgodown,Maharashtra,Pune,18.5204,73.8567,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Nagpur,foodgodown,Maharashtra,Nagpur,21.1458,79.0882,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Nashik,foodgodown,Maharashtra,Nashik,19.9975,73.7898,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Ahmedabad,foodgodown,Gujarat,Ahmedabad,23.0225,72.5714,Food Corporation of India (FCI),West Zone; Gujarat regional depot; city-level location,https://fci.gov.in/
+FCI Depot Surat,foodgodown,Gujarat,Surat,21.1702,72.8311,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Rajkot,foodgodown,Gujarat,Rajkot,22.3039,70.8022,Food Corporation of India (FCI),West Zone; FCI food storage depot for Saurashtra; city-level location,https://fci.gov.in/
+FCI Depot Gandhidham,foodgodown,Gujarat,Gandhidham (Kandla),23.0810,70.1320,Food Corporation of India (FCI),West Zone; FCI depot near Kandla port for imported/evacuated foodgrain; city-level location,https://fci.gov.in/
+FCI FSD Ujjain,foodgodown,Madhya Pradesh,Ujjain,23.1793,75.7849,Food Corporation of India (FCI),West Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Bhopal,foodgodown,Madhya Pradesh,Bhopal,23.2599,77.4126,Food Corporation of India (FCI),West Zone; MP regional depot; city-level location,https://fci.gov.in/
+FCI Depot Indore,foodgodown,Madhya Pradesh,Indore,22.7196,75.8577,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Gwalior,foodgodown,Madhya Pradesh,Gwalior,26.2183,78.1828,Food Corporation of India (FCI),West Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI FSD Niwari,foodgodown,Madhya Pradesh,Niwari (Tikamgarh district),24.9000,78.5500,Food Corporation of India (FCI),West Zone; depot recognised in FCI depot-level awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI FSD Shahdol,foodgodown,Madhya Pradesh,Shahdol,23.0300,81.3610,Food Corporation of India (FCI),West Zone; depot recognised in FCI depot-level awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI FSD Durg,foodgodown,Chhattisgarh,Durg,21.1904,81.2849,Food Corporation of India (FCI),West Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Raipur,foodgodown,Chhattisgarh,Raipur,21.2514,81.6296,Food Corporation of India (FCI),West Zone; Chhattisgarh regional depot; city-level location,https://fci.gov.in/
+FCI Depot Hyderabad,foodgodown,Telangana,Hyderabad,17.3850,78.4867,Food Corporation of India (FCI),South Zone; Telangana/SCO regional depot; city-level location,https://fci.gov.in/
+FCI Depot Vijayawada,foodgodown,Andhra Pradesh,Vijayawada,16.5062,80.6480,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Visakhapatnam,foodgodown,Andhra Pradesh,Visakhapatnam,17.6868,83.2185,Food Corporation of India (FCI),South Zone; FCI depot near major port for coastal supply; city-level location,https://fci.gov.in/
+FCI Depot Guntur,foodgodown,Andhra Pradesh,Guntur,16.3067,80.4365,Food Corporation of India (FCI),South Zone; FCI food storage depot in paddy region; city-level location,https://fci.gov.in/
+FCI Depot Tirupati,foodgodown,Andhra Pradesh,Tirupati,13.6288,79.4192,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Bengaluru,foodgodown,Karnataka,Bengaluru,12.9716,77.5946,Food Corporation of India (FCI),South Zone; Karnataka regional depot; city-level location,https://fci.gov.in/
+FCI FSD Whitefield,foodgodown,Karnataka,Bengaluru (Whitefield),12.9698,77.7490,Food Corporation of India (FCI),South Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Mysuru,foodgodown,Karnataka,Mysuru,12.2958,76.6394,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Hubballi,foodgodown,Karnataka,Hubballi,15.3647,75.1240,Food Corporation of India (FCI),South Zone; FCI food storage depot for north Karnataka; city-level location,https://fci.gov.in/
+FCI FSD Koppal,foodgodown,Karnataka,Koppal,15.3477,76.1548,Food Corporation of India (FCI),South Zone; food storage depot recognised in FCI best-depot awards; city-level location,https://www.instagram.com/p/DZxID5RCYV3/
+FCI Depot Kalaburagi (Gulbarga),foodgodown,Karnataka,Kalaburagi,17.3290,76.8363,Food Corporation of India (FCI),South Zone; FCI food storage depot for Hyderabad-Karnataka region; city-level location,https://fci.gov.in/
+FCI Depot Chennai,foodgodown,Tamil Nadu,Chennai,13.0827,80.2707,Food Corporation of India (FCI),South Zone; Tamil Nadu regional depot; city-level location,https://fci.gov.in/
+FCI Depot Madurai,foodgodown,Tamil Nadu,Madurai,9.9252,78.1198,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Tiruchirappalli,foodgodown,Tamil Nadu,Tiruchirappalli,10.7905,78.7047,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Coimbatore,foodgodown,Tamil Nadu,Coimbatore,11.0168,76.9558,Food Corporation of India (FCI),South Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Kochi,foodgodown,Kerala,Kochi,9.9312,76.2673,Food Corporation of India (FCI),South Zone; FCI depot for central Kerala; city-level location,https://fci.gov.in/
+FCI Depot Kozhikode,foodgodown,Kerala,Kozhikode,11.2588,75.7804,Food Corporation of India (FCI),South Zone; FCI depot for northern Kerala; city-level location,https://fci.gov.in/
+FCI Depot Guwahati,foodgodown,Assam,Guwahati,26.1445,91.7362,Food Corporation of India (FCI),North-East Zone; Assam regional depot and NE zonal hub; city-level location,https://fci.gov.in/
+FCI Depot Dibrugarh,foodgodown,Assam,Dibrugarh,27.4728,94.9120,Food Corporation of India (FCI),North-East Zone; FCI depot for upper Assam; city-level location,https://fci.gov.in/
+FCI Depot Jorhat,foodgodown,Assam,Jorhat,26.7509,94.2037,Food Corporation of India (FCI),North-East Zone; FCI food storage depot; city-level location,https://fci.gov.in/
+FCI Depot Silchar,foodgodown,Assam,Silchar,24.8333,92.7789,Food Corporation of India (FCI),North-East Zone; FCI depot for Barak valley; city-level location,https://fci.gov.in/
+FCI Depot Agartala,foodgodown,Tripura,Agartala,23.8315,91.2868,Food Corporation of India (FCI),North-East Zone; FCI depot supplying Tripura; city-level location,https://fci.gov.in/
+FCI Depot Dimapur,foodgodown,Nagaland,Dimapur,25.9063,93.7276,Food Corporation of India (FCI),North-East Zone; FCI depot for Nagaland; city-level location,https://fci.gov.in/
+FCI Depot Imphal,foodgodown,Manipur,Imphal,24.8170,93.9368,Food Corporation of India (FCI),North-East Zone; FCI depot supplying Manipur; city-level location,https://fci.gov.in/
+FCI Depot Shillong,foodgodown,Meghalaya,Shillong,25.5788,91.8933,Food Corporation of India (FCI),North-East Zone; FCI depot for Meghalaya; city-level location,https://fci.gov.in/
+FCI Depot Itanagar,foodgodown,Arunachal Pradesh,Itanagar,27.0844,93.6053,Food Corporation of India (FCI),North-East Zone; FCI depot for Arunachal Pradesh; city-level location,https://fci.gov.in/
+FCI Depot Gangtok,foodgodown,Sikkim,Gangtok,27.3389,88.2663,Food Corporation of India (FCI),North-East Zone; FCI depot for Sikkim; city-level location,https://fci.gov.in/

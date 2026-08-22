@@ -212,15 +212,30 @@ legal_compliance.md), `catalog.yaml`.
 7. No CI. A GitHub Action running the validation checks (census totals,
    boundary counts, geometry validity) would enforce the quality bar.
 
+### Phase 7: analysis toolkit + national NH network (2026-08-23)
+27. **Accessibility analysis**: `scripts/analyze/nearest_facility.py` — per-
+    village straight-line distance to nearest facility of each type
+    (rail_station/icd/port/air_cargo/icp/mmlp/iw_terminal/fci_depot — any
+    CSV present in data/logistics_hubs or data/rail). EPSG:7755
+    `sjoin_nearest`; representative_point() for village polygons. Outputs:
+    per-village CSV + district summary with `__STATE__` population-weighted
+    row (Census 2011; post-2011 districts carry no population by design —
+    e.g. Haryana's Charki Dadri). Example outputs committed: Sikkim, Haryana
+    (headline: 92.5% of Haryana villages within 25 km of a rail station).
+    Gotcha: hub CSVs use `name`, stations table uses `station_name` —
+    loader normalizes to `fac_name`.
+28. **NH network**: `scripts/fetch/fetch_nh_network.py` →
+    `data/roads/india_nh_network.geojson` (35 MB). One India-bbox Overpass
+    query for ways with ref~NH on motorway/trunk/primary; 145k segments,
+    ~700 distinct NH numbers; simplify 0.0005 + make_valid. **Caveat**:
+    summed length ~198k km overcounts official ~146k km (dual carriageways
+    are separate ways) — fine for geometry/routing, not length stats.
+    Per-state fallback loop exists if the big query ever fails.
+
 ## Enhancement backlog (suggested next steps)
 
-- `make_demo.py --level village`: demo joining SoI villages (e.g., Pune
-  villages + roads + hubs accessibility scoring).
-- Accessibility analysis toolkit: nearest-hub/nearest-station computation per
-  village (543k points × hubs — use projected CRS, EPSG:7755, and spatial
-  indexing).
-- NH network with NH numbering from OSM refs (ref=NH44 etc.) as a committed
-  national layer (extract from Geofabrik PBF with osmium).
+- Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
+  straight-line distances in nearest_facility.py.
 - data.gov.in integration for rail station categories (API key via env var).
 - Freight data: Railway Board freight statistics, port throughput tables.
 - Per-state GeoPackage bundles (boundaries+villages+demo layers, one file

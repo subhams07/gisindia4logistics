@@ -25,7 +25,9 @@ Directory) codes** as the join key across datasets.
 | Administrative | **India / State / District / Taluka — current, LGD-coded** | National → sub-district | GeoJSON/GPKG | Committed in `data/administrative/` (36 states, 780 districts, 6,639 sub-districts) |
 | Administrative | Districts (Census 2011, for census joins) | District | GeoJSON | Committed in `data/administrative/` |
 | Administrative | **Villages — official (Survey of India, LGD-coded)** | Village | GeoJSON | Committed in `data/administrative/villages/` for all 27 published states; regenerable via `scripts/fetch/fetch_village_boundaries_soi.py` |
-| Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` |
+| Roads | **National Highway network (all numbered NH routes)** | National | GeoJSON | Committed in `data/roads/india_nh_network.geojson` (OSM) |
+| Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` (Pune sample committed) |
+| Analysis | **Village accessibility (nearest station/ICD/port/airport/ICP)** | Village/district | CSV | `scripts/analyze/nearest_facility.py --state X` (Sikkim + Haryana examples committed) |
 | Rail | Railway stations (~8,000, code/name/zone/category) | National | CSV/GeoJSON | Committed in `data/rail/` |
 | Rail | Rail lines & freight sidings | National | GeoJSON | `scripts/fetch/fetch_rail.py` |
 | Logistics hubs | Major/minor ports, ICDs/CFSs, ICPs, air-cargo terminals | National points | CSV/GeoJSON | Committed in `data/logistics_hubs/` |

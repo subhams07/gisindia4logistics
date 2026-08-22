@@ -203,6 +203,33 @@ datasets:
     quality_status: community
     quality_notes: coordinates present for 97% of rows; zone filled ~45%; official alternative is data.gov.in station resources (API key required)
 
+  - name: Station categories (NSG1-6)
+    category: rail
+    description: 5,941 stations mapped to NSG category (2017+ classification; NSG*P suburban variants)
+    provider: community compilation (railway-stations-classification.pages.dev)
+    source_url: https://railway-stations-classification.pages.dev/
+    license: unclear — reference use; cross-check before publication-grade use
+    vintage: ~2023
+    resolution: national
+    access: committed
+    path: data/rail/station_categories.csv
+    quality_status: community
+    quality_notes: 92.5% of codes join to railway_stations.csv; NSG1=22 (+6 NSG1P) consistent with official counts; data.gov.in remains the authoritative upgrade path
+
+  - name: Freight terminals (Gati Shakti GCTs)
+    category: rail
+    description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; 70 with coordinates
+    provider: Ministry of Railways via PIB (Annexure to Lok Sabha answer, PRID 1910049)
+    source_url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049
+    license: GODL-India
+    vintage: 2023 (identification list, tentative)
+    resolution: national points
+    access: committed
+    path: data/rail/freight_terminals.csv
+    fetch_script: scripts/fetch/build_gct_terminals.py
+    quality_status: verified
+    quality_notes: coordinates joined from stations table (exact/substring/fuzzy) + hub files for port GCTs; 14 greenfield sites have no coordinates yet (flagged per row); 306 GCTs approved / 118+ commissioned per PIB 2025 — list covers the 2023 identification annexure only
+
   - name: Rail lines
     category: rail
     description: Rail network geometry incl. usage/electrification tags
