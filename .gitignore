@@ -10,3 +10,4 @@ __pycache__/
 
 # SoI raw zips stay local; standardized village GeoJSONs are committed
 data/raw/soi_villages/
+data/administrative/villages/worker*.log
