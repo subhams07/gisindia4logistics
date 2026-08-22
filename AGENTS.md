@@ -17,27 +17,32 @@ datasets produced by fetch scripts.
 - Data quality bar: committed datasets must pass validation (counts vs official totals, geometry validity, coordinate sanity). "High quality only" is a maintainer requirement.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
-## Repository contents (as of 2026-08-23)
+## Repository contents (as of 2026-08-23, after phase 7)
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
-| States (current) | LGD-coded polygons | 36 | PAN INDIA dataset (maintainer-provided rar) | no explicit license; good-faith redistribution |
-| Districts (current) | LGD-coded | 780 | PAN INDIA dataset | same |
-| Sub-districts (current) | LGD-coded, GPKG | 6,639 | PAN INDIA dataset | same |
+| States (current) | LGD-coded polygons | 36 | SoI ABDB (PAN INDIA archive; provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
+| Districts (current) | LGD-coded | 780 | SoI ABDB | same |
+| Sub-districts (current) | LGD-coded, GPKG | 6,639 | SoI ABDB | same |
 | States + districts (2011) | joins to Census tables | 36 / 640 | DataMeet maps | CC BY 4.0 |
-| Villages | LGD-coded polygons, per state | 543,391 across 27 states | Survey of India | no explicit license; good-faith redistribution (decision below) |
+| Villages | LGD-coded polygons, per state | 543,391 across 27 states | Survey of India | same ABDB constraints |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
-| Roads | Pune sample + any-district fetcher | 19k segments | OSM/Overpass | ODbL |
+| Roads — NH network | all numbered NH routes | 145k segments, ~700 routes | OSM/Overpass | ODbL |
+| Roads — district fetcher | class-mapped (NH/SH/MDR/ODR) | Pune sample 19k | OSM/Overpass | ODbL |
 | Rail stations | codes/names/coords | 8,697 | DataMeet railways (2016) | none declared (reference) |
-| Rail lines | any district fetcher | — | OSM/Overpass | ODbL |
-| Logistics hubs | ports 22, ICPs 19, ICDs/CFSs 44, air cargo 25 | — | IPA/LPAI/CBIC/AAI + Wikipedia | GODL / CC BY-SA, per-row source_url |
+| Station categories | NSG1-6 (+P variants) | 5,941 | community (railway-stations-classification.pages.dev) | unclear — flagged |
+| Freight terminals | Gati Shakti GCTs, 70 geocoded | 84 | PIB PRID 1910049 | GODL-India |
+| Rail lines fetcher | any district | — | OSM/Overpass | ODbL |
+| Logistics hubs | ports 22, ICPs 19, ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI terminals 40, FCI depots 77 | 247 total points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + Wikipedia | GODL / CC BY-SA, per-row source_url |
 | Demographics | Census 2011 district indicators | 640 | community digitization, validated vs official | GODL-India |
+| Analysis | village accessibility (nearest facility) | Sikkim + Haryana examples | derived in-repo | mixed upstream |
 
-Key paths: `data/` (committed data), `scripts/fetch/` (downloaders),
-`scripts/clean/` (standardization + shared utils in `standardize.py`),
+Key paths: `data/` (committed data incl. `data/analysis/`), `scripts/fetch/`
+(downloaders), `scripts/clean/` (standardization + shared utils in
+`standardize.py`), `scripts/analyze/` (accessibility toolkit),
 `scripts/make_demo.py` (end-to-end district pipeline → GeoPackage + map PNG),
 `examples/` (notebook), `docs/` (sources.md, data_standards.md,
-legal_compliance.md), `catalog.yaml`.
+legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
 
 ## Build history — steps taken, in order
 
@@ -179,39 +184,6 @@ legal_compliance.md), `catalog.yaml`.
     recommended size: UP villages 72.7 MB, MP villages 52.3 MB. Hard limit
     is 100 MB — all files below it.
 
-## Critical gotchas for future agents
-
-- **Overpass API rejects clients without a User-Agent header** (HTTP 406) and
-  502s transiently → use `http_session()` from standardize.py + retries.
-- **SoI downloads throttle**: big states break mid-download; use the cached
-  zips or browser-download into `data/raw/soi_villages/`.
-- Shapefiles must be extracted to disk before `gpd.read_file` (sidecars).
-- Always re-read written GeoJSON and check `is_valid` — rounding can break
-  geometries; use the set_precision(1e-5)+make_valid pattern.
-- `district_bbox()`/demo use the **current 780-district** file; census joins
-  use the **2011 640-district** file — do not mix them up.
-- Telangana/Puducherry schema quirks (above) are handled in the SoI fetcher;
-  new states may need similar handling.
-- Windows quirks: bsdtar for rar; OneDrive path (C:\Users\Shubham\OneDrive\
-  Documents\GIS4logistics); git bash; CRLF warnings are noise.
-
-## Known gaps / debt
-
-1. 9 border/NE states have no village boundaries (SoI doesn't publish; do not
-   source elsewhere without checking terms — deliberate gap).
-2. Rail stations: 2016 vintage, zone 45% filled, no NSG category. Upgrade
-   path: data.gov.in station-category resources (needs API key) or Indian
-   Railways official lists.
-3. ICD/ICP coordinates are approximations (flagged in capacity_notes).
-4. Districts-by-decade: census 2011 ↔ current 780 mapping (census2011_lgd_
-   crosswalk.csv helps; new-district splits after 2011 need LGD parentage).
-5. Roads: no official PMGSY/NHAI network integration yet (documented
-   pointers only).
-6. Two village files >50 MB (GitHub warning). Options: LFS (needs quota),
-   per-district splits, or stronger simplification.
-7. No CI. A GitHub Action running the validation checks (census totals,
-   boundary counts, geometry validity) would enforce the quality bar.
-
 ### Phase 7: analysis toolkit + national NH network (2026-08-23)
 27. **Accessibility analysis**: `scripts/analyze/nearest_facility.py` — per-
     village straight-line distance to nearest facility of each type
@@ -257,18 +229,63 @@ legal_compliance.md), `catalog.yaml`.
     Rule: run `python -c "import yaml; yaml.safe_load(open('catalog.yaml'))"`
     after every catalog edit.
 
+## Critical gotchas for future agents
+
+- **Overpass API rejects clients without a User-Agent header** (HTTP 406) and
+  502s transiently → use `http_session()` from standardize.py + retries.
+- **SoI downloads throttle**: big states break mid-download; use the cached
+  zips or browser-download into `data/raw/soi_villages/`.
+- Shapefiles must be extracted to disk before `gpd.read_file` (sidecars).
+- Always re-read written GeoJSON and check `is_valid` — rounding can break
+  geometries; use the set_precision(1e-5)+make_valid pattern.
+- `district_bbox()`/demo use the **current 780-district** file; census joins
+  use the **2011 640-district** file — do not mix them up.
+- Telangana/Puducherry schema quirks (above) are handled in the SoI fetcher;
+  new states may need similar handling.
+- Windows quirks: bsdtar for rar; OneDrive path (C:\Users\Shubham\OneDrive\
+  Documents\GIS4logistics); git bash; CRLF warnings are noise.
+
+## Known gaps / debt
+
+1. 9 border/NE states have no village boundaries (SoI doesn't publish; do not
+   source elsewhere without checking terms — deliberate gap).
+2. Rail stations base table: 2016 vintage, zone 45% filled. Categories now
+   covered (5,941 NSG via community source — data.gov.in remains the
+   authoritative upgrade). Freight terminals cover the 2023 GCT annexure
+   only (306 approved / 118+ commissioned since then); 14 GCT sites lack
+   coordinates.
+3. ICD/ICP/FCI coordinates are approximations (flagged in capacity_notes).
+4. Districts-by-decade: census 2011 ↔ current 780 mapping (census2011_lgd_
+   crosswalk.csv helps; new-district splits after 2011 need LGD parentage).
+5. Roads: PMGSY/NHAI official networks not integrated (documented pointers);
+   NH network length stats unreliable (dual carriageways double-counted).
+6. Two village files >50 MB (GitHub warning): UP 72.7 MB, MP 52.3 MB.
+   Options: LFS (needs quota), per-district splits, stronger simplification.
+7. No CI. A GitHub Action running `yaml.safe_load(catalog.yaml)` + the
+   validation checks (census totals, boundary counts, geometry validity)
+   would enforce the quality bar.
+8. Accessibility is straight-line only (EPSG:7755); road-network travel time
+   via OSRM/Valhalla is the planned upgrade.
+
 ## Enhancement backlog (suggested next steps)
 
 - Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
-  straight-line distances in nearest_facility.py.
-- data.gov.in integration for rail station categories (API key via env var).
-- Freight data: Railway Board freight statistics, port throughput tables.
-- Per-state GeoPackage bundles (boundaries+villages+demo layers, one file
-  per state) for easy QGIS consumption.
-- CI workflow: catalog.yaml lint + dataset validation on push.
+  straight-line distances in nearest_facility.py; then accessibility maps
+  (district choropleths, population-beyond-threshold tables).
+- Run nearest_facility.py for all 27 states; commit the small district
+  summaries, keep per-village CSVs generated on demand.
+- Freight-flow data: Railway Board origin-destination tables, IPA port
+  throughput — enables corridor modelling on top of the NH/rail layers.
+- data.gov.in integration for authoritative station categories (API key via
+  env var) to replace the community NSG compilation.
+- Per-state GeoPackage bundles (boundaries + villages + analysis layers, one
+  file per state) for QGIS users.
+- CI workflow: catalog lint + dataset validation on push (gap 7).
+- Official population projections (NCP/MoHFW) to complement Census 2011
+  weights in accessibility summaries.
 - When making public: `gh repo edit subhams07/GIS4logistics --visibility
-  public`; consider Zenodo DOI release; recheck SoI redistribution posture
-  before public flip (maintainer decision pending).
+  public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
+  copyright — see legal_compliance.md); consider Zenodo DOI release.
 
 ## Environment
 
