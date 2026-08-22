@@ -232,6 +232,31 @@ legal_compliance.md), `catalog.yaml`.
     are separate ways) — fine for geometry/routing, not length stats.
     Per-state fallback loop exists if the big query ever fails.
 
+29. **Rail upgrade** (2026-08-23):
+    - `data/rail/station_categories.csv` — 5,941 stations NSG1-6 (+NSG*P
+      suburban variants) from community site
+      railway-stations-classification.pages.dev (license unclear — flagged);
+      92.5% code-join to railway_stations.csv; NSG1=22 matches official.
+    - `data/rail/freight_terminals.csv` — 84 Gati Shakti Cargo Terminals,
+      transcribed from PIB PRID 1910049 annexure (GODL-India).
+      `scripts/fetch/build_gct_terminals.py` reproduces the coordinate join:
+      exact -> substring -> difflib fuzzy (cutoff 0.82) against stations
+      table, then hub-CSV fallback for port GCTs (Krishnapatnam, Paradeep).
+      70/84 geocoded; 14 greenfield sites coordinate-pending (flagged).
+    - Note: agents died twice mid-research with a model "no text returned"
+      error — the station-categories file was salvaged from the partial run;
+      GCT compilation was done in-session afterward.
+30. **Hub gap datasets** (2026-08-23, agent-compiled then validated):
+    mmlps.csv (20 — NHLML awarded roster vs original 35-site identification,
+    status flagged per row), inland_waterway_terminals.csv (40 — NW-1/2/3/4/
+    5/16 with official capacities), fci_depots.csv (77 — city-level coords;
+    FCI publishes no complete register). All consumed automatically by
+    nearest_facility.py via FACILITY_SOURCES.
+31. **catalog.yaml had a latent YAML syntax error** (unquoted `3606: ` inside
+    a quality_notes scalar) — caught when adding a `yaml.safe_load` check.
+    Rule: run `python -c "import yaml; yaml.safe_load(open('catalog.yaml'))"`
+    after every catalog edit.
+
 ## Enhancement backlog (suggested next steps)
 
 - Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
