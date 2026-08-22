@@ -1,0 +1,20 @@
+name,hub_type,state,city,latitude,longitude,operator,capacity_notes,source_url
+Attari ICP,icp,Punjab,Attari (Amritsar),31.1050,74.6030,Land Ports Authority of India (LPAI),India-Pakistan border post on AH1/AH2; trade largely suspended since 2019; coordinates approximate,https://lpai.gov.in/en
+Kartarpur Sahib ICP,icp,Punjab,Dera Baba Nanak,31.9810,75.0050,Land Ports Authority of India (LPAI),Dedicated pilgrim corridor to Kartarpur Pakistan (opened 2019),https://en.wikipedia.org/wiki/Kartarpur_Corridor
+Petrapole ICP,icp,West Bengal,Petrapole (North 24 Parganas),23.0660,88.8510,Land Ports Authority of India (LPAI),Largest land port on India-Bangladesh border; highest trade volume among ICPs,https://en.wikipedia.org/wiki/Petrapole
+Agartala ICP (Akhaura),icp,Tripura,Agartala,23.8460,91.4120,Land Ports Authority of India (LPAI),India-Bangladesh trade gateway for Tripura; links to Akhaura (Bangladesh),https://en.wikipedia.org/wiki/Akhaura_Integrated_Check_Post
+Moreh ICP,icp,Manipur,Moreh (Churachandpur/Tengnoupal),24.2560,94.3030,Land Ports Authority of India (LPAI),India-Myanmar border post on AH1; key India-ASEAN corridor,https://en.wikipedia.org/wiki/Moreh
+Zorinpui ICP,icp,Mizoram,Lawngtlai district,22.9900,93.1800,Land Ports Authority of India (LPAI),India-Myanmar border (Chin state); part of Kaladan Multi-Modal corridor; coordinates approximate,https://en.wikipedia.org/wiki/Zorinpui
+Dawki ICP,icp,Meghalaya,Dawki (West Jaintia Hills),25.1920,92.0230,Land Ports Authority of India (LPAI),India-Bangladesh border crossing via Tamabil; coal and limestone trade,https://en.wikipedia.org/wiki/Dawki
+Sutarkandi ICP,icp,Assam,Sutarkandi (Karimganj),24.7200,92.4300,Land Ports Authority of India (LPAI),India-Bangladesh border post in Barak Valley,https://en.wikipedia.org/wiki/Sutarkandi
+Srimantapur ICP,icp,Tripura,Srimantapur (Sepahijala),23.8500,91.4200,Land Ports Authority of India (LPAI),India-Bangladesh trade post; coordinates approximate,https://lpai.gov.in/en
+Radhikapur ICP,icp,West Bengal,Radhikapur (Uttar Dinajpur),25.6200,88.6200,Land Ports Authority of India (LPAI),India-Bangladesh rail-linked land customs station upgraded to ICP; coordinates approximate,https://lpai.gov.in/en
+Raxaul ICP,icp,Bihar,Raxaul (East Champaran),26.9900,84.8500,Land Ports Authority of India (LPAI),Largest India-Nepal trade gateway (Birgunj on Nepal side),https://en.wikipedia.org/wiki/Raxaul
+Jogbani ICP,icp,Bihar,Jogbani (Araria),26.3800,87.2600,Land Ports Authority of India (LPAI),India-Nepal border post opposite Biratnagar,https://en.wikipedia.org/wiki/Jogbani
+Sunauli ICP,icp,Uttar Pradesh,Sunauli (Maharajganj/Siddharthnagar),27.4500,83.4700,Land Ports Authority of India (LPAI),India-Nepal border post (Bhairahawa/Lumbini side); heavy passenger traffic,https://en.wikipedia.org/wiki/Sunauli
+Rupaidiha ICP,icp,Uttar Pradesh,Rupaidiha (Bahraich),28.3700,81.2100,Land Ports Authority of India (LPAI),India-Nepal border post opposite Nepalgunj,https://en.wikipedia.org/wiki/Rupaidiha
+Darranga ICP,icp,Assam,Darranga (Tamulpur/Baksa),26.5500,92.1000,Land Ports Authority of India (LPAI),India-Bhutan trade post (Samdrup Jongkhar side); coordinates approximate,https://lpai.gov.in/en
+Mankachar ICP,icp,Assam,Mankachar (South Salmara),25.5300,90.1300,Land Ports Authority of India (LPAI),India-Bangladesh border post; coordinates approximate,https://lpai.gov.in/en
+Golakganj ICP,icp,Assam,Golakganj (Dhubri),26.1000,89.8300,Land Ports Authority of India (LPAI),India-Bangladesh border post; coordinates approximate,https://lpai.gov.in/en
+Sabroom ICP,icp,Tripura,Sabroom (South Tripura),23.1150,91.7150,Land Ports Authority of India (LPAI),India-Bangladesh post linked to Maitri Setu bridge and Chittagong port access,https://en.wikipedia.org/wiki/Sabroom
+Demchok (planned/under development),icp,Ladakh,Demchok,34.3500,79.3000,Land Ports Authority of India (LPAI),Proposed ICP on India-China LAC route; status under development,https://lpai.gov.in/en

@@ -1,0 +1,12 @@
+# Git LFS patterns for large geospatial files
+*.gpkg filter=lfs diff=lfs merge=lfs -text
+*.pbf filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.tif filter=lfs diff=lfs merge=lfs -text
+*.shp filter=lfs diff=lfs merge=lfs -text
+*.dbf filter=lfs diff=lfs merge=lfs -text
+*.geojson text diff=json
+*.csv text
+data/administrative/india_subdistricts_lgd.gpkg !text !filter !merge !diff
+*.parquet !text !filter !merge !diff

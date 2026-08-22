@@ -1,0 +1,23 @@
+name,hub_type,state,city,latitude,longitude,operator,capacity_notes,source_url
+Deendayal Port (Kandla),major_port,Gujarat,Kandla/Gandhidham,23.0344,70.2261,Deendayal Port Authority (Kandla Port Trust),Major port on Gulf of Kutch; handles largest cargo volume among Indian major ports; IPA-listed,https://en.wikipedia.org/wiki/Deendayal_Port
+Mumbai Port,major_port,Maharashtra,Mumbai,18.9430,72.8354,Mumbai Port Authority,Historic natural harbour; general and break-bulk cargo; IPA-listed,https://en.wikipedia.org/wiki/Mumbai_Port
+Jawaharlal Nehru Port (JNPT/Navi Mumbai),major_port,Maharashtra,Navi Mumbai,18.9497,72.9510,Jawaharlal Nehru Port Authority,India's premier container port; ~5-6.5 MTEU container capacity,https://en.wikipedia.org/wiki/Jawaharlal_Nehru_Port
+Mormugao Port,major_port,Goa,Vasco da Gama,15.4147,73.7928,Mormugao Port Authority,Primarily iron ore exports; IPA-listed,https://en.wikipedia.org/wiki/Mormugao_Port
+New Mangalore Port,major_port,Karnataka,Mangaluru,12.9250,74.8330,New Mangalore Port Authority,Iron ore concentrates; coffee; cashew and crude/petroleum products,https://en.wikipedia.org/wiki/New_Mangalore_Port
+Cochin Port,major_port,Kerala,Kochi,9.9630,76.2460,Cochin Port Authority,Deep-water port on Willingdon Island; transshipment hub (ICTT Vallarpadam),https://en.wikipedia.org/wiki/Cochin_Port
+V.O. Chidambaranar Port (Tuticorin),major_port,Tamil Nadu,Thoothukudi,8.7950,78.1900,V.O. Chidambaranar Port Authority,Southern port; coal; salt; fertilizers; containers,https://en.wikipedia.org/wiki/V.O._Chidambaranar_Port
+Chennai Port,major_port,Tamil Nadu,Chennai,13.1090,80.2930,Chennai Port Authority,Second-largest container handler among major ports; cars and general cargo,https://en.wikipedia.org/wiki/Chennai_Port
+Kamarajar Port (Ennore),major_port,Tamil Nadu,Ennore/Chennai,13.2600,80.3200,Kamarajar Port Authority (under MoPSW),India's first corporate-format major port; coal and liquid cargo; merged with Chennai Port Authority administration 2024-25,https://en.wikipedia.org/wiki/Kamarajar_Port
+Visakhapatnam Port,major_port,Andhra Pradesh,Visakhapatnam,17.6868,83.2185,Visakhapatnam Port Authority,Deepest landlocked harbour; iron ore; crude; containers,https://en.wikipedia.org/wiki/Visakhapatnam_Port
+Paradip Port,major_port,Odisha,Paradip,20.2667,86.7000,Paradip Port Authority (PPA),Bulk cargo port; iron ore and coal; expanding to 300+ MTPA with outer harbour,https://en.wikipedia.org/wiki/Paradip_Port
+Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,major_port,West Bengal,Kolkata / Haldia,22.5500,88.3300,Syama Prasad Mookerjee Port Authority,Riverine port with Haldia Dock System (Haldia: ~22.06 N 88.10 E); containers and bulk,https://en.wikipedia.org/wiki/Kolkata_Port
+Mundra Port,minor_port,Gujarat,Mundra,22.8420,69.7240,Adani Ports and SEZ Ltd (APSEZ),India's largest private/commercial port by cargo handled (~300+ MTPA capacity),https://en.wikipedia.org/wiki/Mundra_Port
+Pipavav Port,minor_port,Gujarat,Pipavav (Rajula),20.9580,71.5510,APM Terminals Pipavav,First private port in India; containers bulk liquid and dry bulk,https://en.wikipedia.org/wiki/Pipavav_Port
+Hazira Port,minor_port,Gujarat,Surat/Hazira,21.1000,72.6500,Adani Ports and SEZ Ltd,Bulk and container terminal near Surat,https://en.wikipedia.org/wiki/Hazira_Port
+Dahej Port,minor_port,Gujarat,Dahej,21.7050,72.5270,Adani Ports and SEZ Ltd,Liquid and dry bulk; industrial hinterland (PCPIR),https://en.wikipedia.org/wiki/Dahej
+Dhamra Port,minor_port,Odisha,Dhamra,20.7800,86.8900,Adani Dhamra Port Ltd,Deep-draught port; coal iron ore and LNG,https://en.wikipedia.org/wiki/Dhamra_Port
+Gangavaram Port,minor_port,Andhra Pradesh,Visakhapatnam,17.6850,83.2800,Adani Gangavaram Port Ltd,Deepest port in India at commissioning; multi-purpose bulk,https://en.wikipedia.org/wiki/Gangavaram_Port
+Krishnapatnam Port,minor_port,Andhra Pradesh,Krishnapatnam (Nellore),14.2530,80.1330,Adani Krishnapatnam Port Ltd,Large private deep-water port; coal and containers,https://en.wikipedia.org/wiki/Krishnapatnam_Port
+Karaikal Port,minor_port,Puducherry,Karaikal,10.9230,79.8420,Adani Karaikal Port Ltd,Multi-cargo port south of Nagapattinam,https://en.wikipedia.org/wiki/Karaikal_Port
+Vizhinjam International Seaport,minor_port,Kerala,Vizhinjam (Thiruvananthapuram),8.3740,76.9850,Vizhinjam International Seaport Ltd (Adani-operated),India's first dedicated deep-water transshipment port; partially operational since 2024,https://en.wikipedia.org/wiki/Vizhinjam_International_Seaport
+Kattupalli Port,minor_port,Tamil Nadu,Kattupalli (Chennai),13.2930,80.3310,Adani Kattupalli Port Ltd,Container and multi-cargo port near Ennore,https://en.wikipedia.org/wiki/Kattupalli_Port

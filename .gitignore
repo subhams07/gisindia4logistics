@@ -1,0 +1,9 @@
+# Raw downloads and generated outputs are reproducible via scripts
+data/raw/
+examples/output/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# session artifacts
+.zcode/

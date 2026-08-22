@@ -1,0 +1,45 @@
+name,hub_type,state,city,latitude,longitude,operator,capacity_notes,source_url
+ICD Tughlakabad,icd,Delhi,New Delhi (TKD),28.5070,77.2820,Container Corporation of India (CONCOR),Largest ICD in North India; rail-linked to Nhava Sheva/Pipavav; coordinates approximate,https://www.concorindia.co.in
+ICD Dadri,icd,Uttar Pradesh,Dadri (Gautam Buddha Nagar),28.5500,77.5500,Container Corporation of India (CONCOR),Major rail-linked ICD serving NCR; private sidings (Reliance GT etc.) nearby,https://en.wikipedia.org/wiki/Dadri
+ICD Garhi Harsaru,icd,Haryana,Gurugram,28.4350,76.9430,Container Corporation of India (CONCOR),Rail-linked ICD serving Delhi/NCR industrial belt,https://www.concorindia.co.in
+ICD Patparganj,icd,Delhi,Delhi,28.6200,77.2800,Container Corporation of India (CONCOR),Long-established Delhi ICD; city coordinates approximate,https://www.concorindia.co.in
+ICD Bawal,icd,Haryana,Bawal (Rewari),28.0800,76.5900,Container Corporation of India (CONCOR),Serving Rewar-Bawal industrial corridor (auto sector),https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Ballabhgarh,icd,Haryana,Faridabad,28.3400,77.3200,Container Corporation of India (CONCOR),Serving Faridabad-Palwal industrial belt,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Loni,icd,Uttar Pradesh,Ghaziabad,28.7500,77.2800,Container Corporation of India (CONCOR),Serving Ghaziabad/UP West industrial cluster,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Ludhiana,icd,Punjab,Ludhiana,30.9000,75.8500,Container Corporation of India (CONCOR),Rail-linked ICD for Punjab exporters (textiles machine tools),https://en.wikipedia.org/wiki/Ludhiana
+ICD Baddi,icd,Himachal Pradesh,Baddi (Solan),30.9600,76.7900,Container Corporation of India (CONCOR),Serving Baddi-Barotiwala-Nalagarh pharma hub,https://en.wikipedia.org/wiki/Baddi
+ICD Moradabad,icd,Uttar Pradesh,Moradabad,28.8400,78.7700,Container Corporation of India (CONCOR),Serving handicrafts export cluster,https://www.concorindia.co.in
+ICD Whitefield,icd,Karnataka,Bengaluru,12.9699,77.5900,Container Corporation of India (CONCOR),Major South India ICD serving Bengaluru tech and apparel exports,https://en.wikipedia.org/wiki/Whitefield
+ICD Nagpur (MIHAN),icd,Maharashtra,Nagpur,21.1000,79.0500,Container Corporation of India (CONCOR),Located in MIHAN SEZ; central India multi-modal hub,https://en.wikipedia.org/wiki/Multi-modal_International_Cargo_Hub_and_Airport_at_Nagpur
+ICD Chennai (Tondiarpet),icd,Tamil Nadu,Chennai,13.1300,80.2900,Container Corporation of India (CONCOR),Rail-linked to Chennai and Ennore ports,https://www.concorindia.co.in
+ICD Melpakkam,icd,Tamil Nadu,Arakkonam (near Chennai),13.0800,79.4200,Container Corporation of India (CONCOR),Rail-linked ICD north-west of Chennai; coordinates approximate,https://www.concorindia.co.in
+ICD Tiruppur,icd,Tamil Nadu,Tiruppur,11.1100,77.3400,Container Corporation of India (CONCOR),Serving knitwear export cluster,https://en.wikipedia.org/wiki/Tiruppur
+ICD Coimbatore,icd,Tamil Nadu,Coimbatore,11.0200,76.9600,Container Corporation of India (CONCOR),Serving textile and engineering exports,https://www.concorindia.co.in
+ICD Madurai,icd,Tamil Nadu,Madurai,9.9300,78.1200,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Salem,icd,Tamil Nadu,Salem,11.6600,78.1500,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Amingaon,icd,Assam,Guwahati,26.1800,91.6800,Container Corporation of India (CONCOR),Gateway ICD for North-East India on Brahmaputra river (river-sea cargo trials),https://en.wikipedia.org/wiki/Amingaon
+ICD Sabarmati,icd,Gujarat,Ahmedabad,23.0770,72.5850,Container Corporation of India (CONCOR),Serving Ahmedabad industrial region,https://www.concorindia.co.in
+ICD Kandla (GIDC),icd,Gujarat,Gandhidham,23.0700,70.1500,Container Corporation of India (CONCOR),Rail-linked to Deendayal (Kandla) Port,https://www.concorindia.co.in
+ICD Surat (Sachana GIDC),icd,Gujarat,Surat,21.1100,72.8800,Private/CBIC-notified,Serving Surat textile and diamond cluster; coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Morbi,icd,Gujarat,Morbi,22.8200,70.8500,Container Corporation of India (CONCOR),Ceramics export cluster; city centroid approximate,https://www.concorindia.co.in
+ICD Pithampur,icd,Madhya Pradesh,Pithampur (Indore),22.6200,75.6800,Container Corporation of India (CONCOR),Serving Indore-Pithampur industrial belt,https://en.wikipedia.org/wiki/Pithampur
+ICD Jaipur (Sitapura),icd,Rajasthan,Jaipur,26.7800,75.8500,Container Corporation of India (CONCOR),Serving Jaipur gem and jewellery exports,https://www.concorindia.co.in
+ICD Kanpur,icd,Uttar Pradesh,Kanpur,26.4600,80.3300,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Lucknow,icd,Uttar Pradesh,Lucknow,26.8500,80.9500,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Gwalior,icd,Madhya Pradesh,Gwalior,26.2200,78.1800,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Raipur,icd,Chhattisgarh,Raipur,21.2500,81.6300,Container Corporation of India (CONCOR),City centroid coordinates approximate,https://www.concorindia.co.in
+ICD Patna,icd,Bihar,Patna,25.6000,85.1400,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Ranchi,icd,Jharkhand,Ranchi,23.3500,85.3300,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Bhubaneswar,icd,Odisha,Bhubaneswar,20.2700,85.8400,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Tatanagar (Jamshedpur),icd,Jharkhand,Jamshedpur,22.8000,86.2000,Container Corporation of India (CONCOR),Serving Tata steel and engineering cluster,https://www.concorindia.co.in
+ICD Siliguri,icd,West Bengal,Siliguri,26.7200,88.4200,Private/CBIC-notified,Eastern-Dooars trade; city centroid approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Hyderabad (Sanathnagar),icd,Telangana,Hyderabad,17.4500,78.4700,Container Corporation of India (CONCOR),Serving Hyderabad pharma and engineering exports,https://www.concorindia.co.in
+ICD Nashik,icd,Maharashtra,Nashik,19.9900,73.7900,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Pune,icd,Maharashtra,Pune,18.5200,73.8600,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Rajkot,icd,Gujarat,Rajkot,22.3000,70.8000,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Mangalore (Panambur),icd,Karnataka,Mangaluru,12.9200,74.8500,Private/CBIC-notified,Near New Mangalore Port; coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+ICD Kanjikode (Palakkad),icd,Kerala,Palakkad,10.7900,76.6000,Container Corporation of India (CONCOR),Serving Palakkad industrial belt; coordinates approximate,https://www.concorindia.co.in
+ICD Kochi (Edappally),icd,Kerala,Kochi,9.9800,76.3000,Container Corporation of India (CONCOR),Rail-linked to Cochin Port/ICTT Vallarpadam,https://www.concorindia.co.in
+ICD Thiruvananthapuram,icd,Kerala,Thiruvananthapuram,8.5500,76.9500,Private/CBIC-notified,City centroid coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+CFS Mulund (Mumbai),cfs,Maharashtra,Mumbai,19.1800,72.9500,Private CFS operators (CBIC-notified),CFS cluster serving JNPT/Mumbai ports; coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D
+CFS Urse (JNPT hinterland),cfs,Maharashtra,Panvel,19.0000,73.1100,Private CFS operators (CBIC-notified),CFS serving Nhava Sheva; coordinates approximate,https://www.cbic.gov.in/entities/cbic-content-mst/MTIzMzE%253D

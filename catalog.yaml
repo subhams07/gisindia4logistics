@@ -1,0 +1,186 @@
+# GIS4Logistics India — data catalog
+# Fields: name, category, description, provider, source_url, license, vintage,
+# resolution, access (committed | script), path, fetch_script, quality_status,
+# quality_notes
+
+datasets:
+  # ---------- administrative ----------
+  - name: India states/UTs boundaries
+    category: administrative
+    description: 36 states and union territories, LGD state codes, simplified ~100 m
+    provider: DataMeet community (based on official sources)
+    source_url: https://github.com/datameet/maps
+    license: CC BY 4.0
+    vintage: current names (incl. Telangana, Ladakh)
+    resolution: state
+    access: committed
+    path: data/administrative/india_states.geojson
+    fetch_script: scripts/fetch/fetch_admin_boundaries.py
+    quality_status: verified
+    quality_notes: 36 features, valid geometries, no unmapped state names
+
+  - name: India district boundaries (Census 2011)
+    category: administrative
+    description: 640 districts with census state/district codes and LGD state codes
+    provider: DataMeet community (based on official sources)
+    source_url: https://github.com/datameet/maps
+    license: CC BY 4.0
+    vintage: 2011 (current districts ~780 — use GADM or Bhuvan for post-2011 splits)
+    resolution: district
+    access: committed
+    path: data/administrative/india_districts.geojson
+    fetch_script: scripts/fetch/fetch_admin_boundaries.py
+    quality_status: verified
+    quality_notes: 640 features after dropping 1 placeholder; joins 1:1 with census2011_district_key_indicators.csv via district_key
+
+  - name: Census 2011 ↔ LGD crosswalk
+    category: administrative
+    description: District name/spelling crosswalk and code mapping
+    provider: derived in this repo
+    source_url: https://lgdirectory.gov.in
+    license: CC BY 4.0 (derived)
+    vintage: 2011 ↔ current
+    resolution: district
+    access: committed
+    path: data/administrative/census2011_lgd_crosswalk.csv
+    fetch_script: scripts/fetch/fetch_admin_boundaries.py
+    quality_status: verified
+
+  - name: Taluka / village boundaries
+    category: administrative
+    description: Sub-district boundaries via OSM admin levels (7/10); coverage varies by state
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: live
+    resolution: sub-district / village
+    access: script
+    path: data/administrative/ (generated)
+    fetch_script: scripts/fetch/fetch_village_boundaries.py
+    quality_status: community
+    quality_notes: OSM village coverage uneven; official alternative is Bhuvan (registration) or Survey of India (restrictive license)
+
+  # ---------- roads ----------
+  - name: Road network by class (NH/SH/MDR/ODR/village)
+    category: roads
+    description: OSM highways mapped to Indian road classification, incl. surface/lanes
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: live
+    resolution: national (query per district/bbox)
+    access: script
+    path: data/roads/ (generated)
+    fetch_script: scripts/fetch/fetch_roads.py
+    quality_status: community
+    quality_notes: nation-wide use Geofabrik PBF + osmium; PMGSY (omerms.nic.in) is the official rural-road source (GODL, but bulk export is hard to script)
+
+  - name: Pune district roads (sample)
+    category: roads
+    description: Sample district road network committed for demo/testing (major classes, simplified ~50 m)
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: 2026-08 snapshot
+    resolution: district
+    access: committed
+    path: data/roads/pune_sample_roads.geojson
+    fetch_script: scripts/fetch/fetch_roads.py --district Pune --state Maharashtra --name pune_sample --simplify 0.0005
+    quality_status: sample
+    quality_notes: 19,019 segments (NH 4,512 / SH 3,212 / MDR 2,821 / ODR 8,474), 5.6 MB after simplify + coordinate rounding
+
+  # ---------- rail ----------
+  - name: Railway stations
+    category: rail
+    description: ~8,700 stations with code, zone (partial), state, coordinates
+    provider: DataMeet community (scraped from Indian Railways/erail)
+    source_url: https://github.com/datameet/railways
+    license: unclear (no license file) — treat as reference data
+    vintage: 2016
+    resolution: national
+    access: committed
+    path: data/rail/railway_stations.csv
+    fetch_script: null
+    quality_status: community
+    quality_notes: coordinates present for 97% of rows; zone filled ~45%; official alternative is data.gov.in station resources (API key required)
+
+  - name: Rail lines
+    category: rail
+    description: Rail network geometry incl. usage/electrification tags
+    provider: OpenStreetMap contributors
+    source_url: https://www.openstreetmap.org
+    license: ODbL
+    vintage: live
+    resolution: national (query per district/bbox)
+    access: script
+    path: data/rail/ (generated)
+    fetch_script: scripts/fetch/fetch_rail.py
+    quality_status: community
+
+  # ---------- logistics hubs ----------
+  - name: Ports (major + significant minor)
+    category: logistics_hubs
+    description: 12 major ports (IPA) + 10 significant private/non-major ports
+    provider: compiled from IPA list + public sources
+    source_url: per-row source_url column (ipa.nic.in reference)
+    license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/ports.csv
+    quality_status: verified
+    quality_notes: 22 rows, coordinates in India bbox, no duplicates
+
+  - name: Integrated Check Posts (ICPs)
+    category: logistics_hubs
+    description: Operating land border ports (LPAI)
+    provider: compiled from LPAI roster + public sources
+    source_url: per-row source_url column (lpai.gov.in reference)
+    license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/icps.csv
+    quality_status: verified
+    quality_notes: 19 rows; some border coordinates approximate (flagged per row)
+
+  - name: ICDs / CFSs
+    category: logistics_hubs
+    description: Inland container depots and container freight stations (CBIC-notified core)
+    provider: compiled from CBIC notified list + CONCOR network
+    source_url: per-row source_url column (cbic.gov.in / concorindia.co.in)
+    license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/icds.csv
+    quality_status: community
+    quality_notes: 44 rows; coordinates are city/depot approximations (flagged per row) — spot-check before publication-grade use
+
+  - name: Air cargo terminals
+    category: logistics_hubs
+    description: IATA airports with cargo terminals
+    provider: compiled from AAI + operator sites + Wikipedia
+    source_url: per-row source_url column
+    license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+    vintage: 2026
+    resolution: national points
+    access: committed
+    path: data/logistics_hubs/air_cargo.csv
+    quality_status: verified
+    quality_notes: 25 rows incl. big five (DEL/BOM/BLR/HYD/MAA)
+
+  # ---------- demographics ----------
+  - name: Census 2011 district key indicators
+    category: demographic
+    description: Population, literacy, workers, education, age structure per district
+    provider: community digitization of Census 2011 PCA
+    source_url: https://github.com/RajaBhavesh/India-Census-2011-Analysis-Using-Python
+    license: GODL-India (underlying data)
+    vintage: 2011
+    resolution: district
+    access: committed
+    path: data/demographic/census2011_district_key_indicators.csv
+    fetch_script: scripts/fetch/fetch_demographics.py
+    quality_status: verified
+    quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state totals match)
