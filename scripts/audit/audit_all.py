@@ -443,6 +443,31 @@ def audit_freight():
         check("road_indicators", ">= 10 series", "FAIL", len(rd) >= 10, f"{len(rd)}")
 
 
+def audit_geoparquet():
+    print("\n== geoparquet hybrid integrity ==")
+    # 1. NH Parquet vs GeoJSON
+    nh_pq = DATA_DIR / "roads" / "india_nh_network.parquet"
+    nh_gj = DATA_DIR / "roads" / "india_nh_network.geojson"
+    if nh_pq.exists() and nh_gj.exists():
+        gdf_pq = gpd.read_parquet(nh_pq)
+        gdf_gj = gpd.read_file(nh_gj)
+        check("geoparquet", "NH parquet row count matches GeoJSON", "FAIL", len(gdf_pq) == len(gdf_gj), f"{len(gdf_pq)} vs {len(gdf_gj)}")
+        check("geoparquet", "NH parquet valid geometries", "FAIL", gdf_pq.geometry.is_valid.all())
+
+    # 2. Districts Parquet
+    d_pq = DATA_DIR / "administrative" / "india_districts_lgd.parquet"
+    if d_pq.exists():
+        gdf_dpq = gpd.read_parquet(d_pq)
+        check("geoparquet", "districts parquet has 781 rows", "FAIL", len(gdf_dpq) == 781, f"{len(gdf_dpq)}")
+        check("geoparquet", "districts parquet valid geometries", "FAIL", gdf_dpq.geometry.is_valid.all())
+
+    # 3. Subdistricts Parquet
+    sd_pq = DATA_DIR / "administrative" / "india_subdistricts_lgd.parquet"
+    if sd_pq.exists():
+        gdf_sdpq = gpd.read_parquet(sd_pq)
+        check("geoparquet", "subdistricts parquet >= 6,500 features", "FAIL", len(gdf_sdpq) >= 6500, f"{len(gdf_sdpq)}")
+
+
 def audit_catalog():
     print("\n== catalog vs disk ==")
     import yaml
@@ -527,7 +552,7 @@ def main() -> None:
 
     heavy = () if args.fast else (audit_villages, audit_analysis)
     for fn in (audit_boundaries, audit_rail, audit_hubs, audit_freight, audit_demographics,
-               audit_catalog, check_baseline, *heavy):
+               audit_geoparquet, audit_catalog, check_baseline, *heavy):
         try:
             fn()
         except Exception:

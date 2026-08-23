@@ -136,11 +136,16 @@ class DataStore:
         print(f"DataStore initialized in {time.time()-t0:.2f}s")
 
     def _build_highway_graph(self):
-        nh_path = self.data_dir / "roads" / "india_nh_network.geojson"
-        if not nh_path.exists():
+        nh_pq = self.data_dir / "roads" / "india_nh_network.parquet"
+        nh_geojson = self.data_dir / "roads" / "india_nh_network.geojson"
+
+        if nh_pq.exists():
+            gdf_nh = gpd.read_parquet(nh_pq).to_crs(PROJ)
+        elif nh_geojson.exists():
+            gdf_nh = gpd.read_file(nh_geojson).to_crs(PROJ)
+        else:
             return
 
-        gdf_nh = gpd.read_file(nh_path).to_crs(PROJ)
         coords_set = set()
         segments = []
         speed_map = {"motorway": 90.0, "trunk": 70.0, "primary": 55.0}

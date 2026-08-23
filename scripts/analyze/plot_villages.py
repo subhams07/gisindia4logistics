@@ -36,11 +36,17 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     """Loads village geometries for a district and merges pre-computed accessibility metrics."""
     slug = state.lower().replace(" ", "_")
     
-    # 1. Geometry File (Polygon or Habitation point)
+    # 1. Geometry File (GeoParquet preferred, GeoJSON fallback)
+    p_poly_pq = DATA_DIR / "administrative" / "villages_parquet" / f"{slug}_soi_villages.parquet"
+    p_pts_pq = DATA_DIR / "administrative" / "villages_parquet" / f"{slug}_habitations.parquet"
     p_poly = DATA_DIR / "administrative" / "villages" / f"{slug}_soi_villages.geojson"
     p_pts = DATA_DIR / "administrative" / "villages" / f"{slug}_habitations.geojson"
     
-    if p_poly.exists():
+    if p_poly_pq.exists():
+        gdf = gpd.read_parquet(p_poly_pq)
+    elif p_pts_pq.exists():
+        gdf = gpd.read_parquet(p_pts_pq)
+    elif p_poly.exists():
         gdf = gpd.read_file(p_poly)
     elif p_pts.exists():
         gdf = gpd.read_file(p_pts)
