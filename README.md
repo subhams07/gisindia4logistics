@@ -75,10 +75,23 @@ Configure `mcp_config.json` in your agent workspace:
 ```
 Available Agent Tools:
 - `gis_get_district_scorecard`: Returns complete demographic, nearest highway, toll, rail, ICD, and port profiles for any of the 781 districts.
-- `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight costs with custom rates and delay parameters.
+- `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight costs with custom rates, tolls, and delay parameters.
 - `gis_find_nearest_facilities`: Finds nearest Ports, ICDs, MMLPs, Toll Plazas, and Rail Stations to any `(lat, lon)` coordinate.
 - `gis_highway_route_and_tolls`: Calculates driving distance, hours, toll counts, and FASTag toll expense.
 - `gis_simulate_port_catchment`: Models national port market contestability under the Huff gravity model.
+- `gis_plot_villages_map`: Generates interactive Leaflet HTML or static PNG maps of all villages in a district color-coded by accessibility.
+
+---
+
+## Interactive Village Mapping Engine
+
+Generate interactive Leaflet HTML maps with mouseover popups and facility overlays, or publication-quality static PNG maps:
+
+```bash
+# Generate both interactive HTML and 300 DPI PNG map for a district
+python scripts/analyze/plot_villages.py --state Haryana --district Ambala --metric dist_rail_station_km --format both
+```
+View directly in your browser: `http://localhost:8000/api/v1/admin/villages/map.html?state=Haryana&district=Ambala`
 
 ---
 
@@ -87,11 +100,11 @@ Available Agent Tools:
 ```bash
 pip install -r requirements.txt
 
-# Run server and MCP verification test suite
+# Run server and MCP verification test suite (12 tests)
 python tests/test_server.py
 
-# Fetch a district road network from OSM (roads classified NH/SH/MDR/ODR)
-python scripts/fetch/fetch_roads.py --district Pune --state Maharashtra --name pune_sample --simplify 0.0005
+# Run comprehensive data audit suite (75 validation checks)
+python scripts/audit/audit_all.py --fast
 
 # Build the end-to-end demo: one district, all layers merged into a GeoPackage + map
 python scripts/make_demo.py --district Pune --state Maharashtra
@@ -104,29 +117,29 @@ Demo notebook: [`examples/district_logistics_demo.ipynb`](examples/district_logi
 ## Repository layout
 
 ```
-data/            # Committed small datasets (GeoJSON/CSV)
-scripts/fetch/   # Download scripts, one per source
+data/            # Committed datasets (GeoJSON, GPKG, CSV)
+scripts/fetch/   # Download and ETL ingestion scripts
 scripts/clean/   # Standardization utilities (CRS, codes, schemas)
-examples/        # Notebooks
-docs/            # Source documentation and data standards
-catalog.yaml     # Machine-readable data catalog
+scripts/analyze/ # Spatial accessibility, Dijkstra routing, and cost simulation engines
+server/          # FastAPI REST backend and dependency injection store
+mcp_server/      # Model Context Protocol (MCP) stdio tool server
+plugins/         # Antigravity / Codex IDE plugin definitions
+skills/          # AI Agent skill runbooks and tool guides
+tests/           # Automated verification test suite
+docs/            # Source documentation, data standards, and legal compliance
+catalog.yaml     # Machine-readable data catalog (42 datasets)
 ```
 
-## Licensing & legal
+## Licensing & Legal Compliance
 
 - **Code** in this repository: MIT (see [LICENSE](LICENSE)).
-- **Data**: each dataset remains under its source's license — see the `license`
-  field in `catalog.yaml` and [`docs/sources.md`](docs/sources.md). Sources with
-  restrictive or unclear licensing (e.g., Survey of India village boundaries) are
-  provided as fetch scripts only, not committed data.
-- **India geospatial law**: this repository complies with the 2021 DST
-  Geospatial Data Guidelines (unrestricted civilian data, self-certification
-  regime). See [`docs/legal_compliance.md`](docs/legal_compliance.md).
-- **Boundary disclaimer**: boundaries here are indicative community data
-  (DataMeet), not Survey of India products, and must not be treated as an
-  official depiction of India's external or disputed boundaries.
+- **Data**: each dataset remains under its source's license — see `license` in `catalog.yaml` and [`docs/sources.md`](docs/sources.md):
+  - **OpenStreetMap data**: ODbL (Open Database License) — "© OpenStreetMap contributors".
+  - **Census & Ministry Portals (MoRTH, IPA, CBIC, AAI, NHLML, DFCCIL, FCI)**: Government Open Data License — India (GODL-India).
+  - **Survey of India boundaries**: Redistributed in good faith under the 2021 DST Geospatial Guidelines regime with attribution.
+- **India geospatial law**: this repository complies with the **2021 DST Geospatial Data Guidelines** (unrestricted civilian data, self-certification regime, no defence/strategic installations). See [`docs/legal_compliance.md`](docs/legal_compliance.md).
+- **Boundary disclaimer**: all external and state boundaries are indicative derivatives published for logistics analytics, not authoritative Survey of India boundary certifications.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). New datasets must document source, license,
-vintage and pass the standardization checks in `scripts/clean/`.
+See [CONTRIBUTING.md](CONTRIBUTING.md). New datasets must document source, license, vintage and pass `scripts/audit/audit_all.py`.
