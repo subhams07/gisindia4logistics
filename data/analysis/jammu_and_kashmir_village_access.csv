@@ -1,23 +1,23 @@
-village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
-ANANTNAG,ANANTNAG,014,district_centroid,Anantnag,15.69,ICD Ludhiana,324.72,Deendayal Port (Kandla),1271.99,Sheikh ul-Alam International Airport (SXR),48.33,Kartarpur Sahib ICP,202.71
-BADGAM,BADGAM,002,district_centroid,Anantnag,48.3,ICD Ludhiana,349.77,Deendayal Port (Kandla),1260.06,Sheikh ul-Alam International Airport (SXR),16.55,Kartarpur Sahib ICP,214.92
-BANDIPURA,BANDIPURA,009,district_centroid,Anantnag,89.09,ICD Ludhiana,408.61,Deendayal Port (Kandla),1335.56,Sheikh ul-Alam International Airport (SXR),62.54,Kartarpur Sahib ICP,281.43
-BARAMULA,BARAMULA,008,district_centroid,Anantnag,87.44,ICD Ludhiana,387.3,Deendayal Port (Kandla),1278.02,Sheikh ul-Alam International Airport (SXR),47.15,Kartarpur Sahib ICP,249.69
-DODA,DODA,016,district_centroid,UDHAMPUR,47.54,ICD Ludhiana,246.51,Deendayal Port (Kandla),1217.99,Sheikh ul-Alam International Airport (SXR),121.31,Kartarpur Sahib ICP,138.61
-GANDERBAL,GANDERBAL,011,district_centroid,Anantnag,58.54,ICD Ludhiana,378.17,Deendayal Port (Kandla),1306.99,Sheikh ul-Alam International Airport (SXR),34.01,Kartarpur Sahib ICP,250.45
-JAMMU,JAMMU,021,district_centroid,BAJALTA,3.04,ICD Ludhiana,222.96,Deendayal Port (Kandla),1154.7,Sri Guru Ram Dass Jee International Airport (ATQ),117.12,Kartarpur Sahib ICP,87.11
-KATHUA,KATHUA,007,district_centroid,KATHUA,21.05,ICD Ludhiana,186.07,Deendayal Port (Kandla),1164.12,Sri Guru Ram Dass Jee International Airport (ATQ),122.33,Kartarpur Sahib ICP,86.96
-KISHTWAR,KISHTWAR,018,district_centroid,Anantnag,72.55,ICD Ludhiana,298.62,Deendayal Port (Kandla),1276.97,Sheikh ul-Alam International Airport (SXR),109.8,Kartarpur Sahib ICP,197.57
-KULGAM,KULGAM,015,district_centroid,Anantnag,23.22,ICD Ludhiana,312.21,Deendayal Port (Kandla),1240.17,Sheikh ul-Alam International Airport (SXR),41.78,Kartarpur Sahib ICP,181.0
-KUPWARA,KUPWARA,001,district_centroid,Anantnag,118.55,ICD Ludhiana,425.98,Deendayal Port (Kandla),1311.74,Sheikh ul-Alam International Airport (SXR),77.61,Kartarpur Sahib ICP,288.84
-MIRPUR,MIRPUR,,district_centroid,S M V D KATRA,106.93,ICD Ludhiana,318.78,Deendayal Port (Kandla),1165.39,Sheikh ul-Alam International Airport (SXR),121.18,Kartarpur Sahib ICP,176.32
-MUZAFFARABAD,MUZAFFARABAD,,district_centroid,Anantnag,158.18,ICD Ludhiana,448.92,Deendayal Port (Kandla),1300.79,Sheikh ul-Alam International Airport (SXR),117.46,Kartarpur Sahib ICP,307.99
-PULWAMA,PULWAMA,012,district_centroid,Anantnag,24.15,ICD Ludhiana,343.77,Deendayal Port (Kandla),1278.71,Sheikh ul-Alam International Airport (SXR),25.01,Kartarpur Sahib ICP,216.91
-PUNCH,PUNCH,005,district_centroid,Anantnag,100.81,ICD Ludhiana,358.77,Deendayal Port (Kandla),1227.1,Sheikh ul-Alam International Airport (SXR),74.06,Kartarpur Sahib ICP,217.16
-RAJAURI,RAJAURI,006,district_centroid,S M V D KATRA,62.75,ICD Ludhiana,295.6,Deendayal Port (Kandla),1185.41,Sheikh ul-Alam International Airport (SXR),88.37,Kartarpur Sahib ICP,154.23
-RAMBAN,RAMBAN,017,district_centroid,UDHAMPUR,41.9,ICD Ludhiana,271.82,Deendayal Port (Kandla),1218.18,Sheikh ul-Alam International Airport (SXR),83.69,Kartarpur Sahib ICP,146.69
-RIASI,RIASI,020,district_centroid,S M V D KATRA,25.85,ICD Ludhiana,270.0,Deendayal Port (Kandla),1196.39,Sheikh ul-Alam International Airport (SXR),86.34,Kartarpur Sahib ICP,135.64
-SAMBA,SAMBA,022,district_centroid,SAMBA,5.21,ICD Ludhiana,196.2,Deendayal Port (Kandla),1143.03,Sri Guru Ram Dass Jee International Airport (ATQ),99.82,Kartarpur Sahib ICP,66.24
-SHUPIYAN,SHUPIYAN,013,district_centroid,Anantnag,36.41,ICD Ludhiana,321.18,Deendayal Port (Kandla),1238.12,Sheikh ul-Alam International Airport (SXR),36.3,Kartarpur Sahib ICP,186.77
-SRINAGAR,SRINAGAR,010,district_centroid,Anantnag,50.89,ICD Ludhiana,367.25,Deendayal Port (Kandla),1287.24,Sheikh ul-Alam International Airport (SXR),14.34,Kartarpur Sahib ICP,236.04
-UDHAMPUR,UDHAMPUR,019,district_centroid,UDHAMPUR,16.11,ICD Ludhiana,226.63,Deendayal Port (Kandla),1185.07,Sheikh ul-Alam International Airport (SXR),128.79,Kartarpur Sahib ICP,107.07
+village,district,district_code,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+ANANTNAG,ANANTNAG,,14.0,district_centroid,Anantnag,15.69,ICD Ludhiana,324.72,Deendayal Port (Kandla),1271.99,Sheikh ul-Alam International Airport (SXR),48.33,Kartarpur Sahib ICP,202.71
+BADGAM,BADGAM,,2.0,district_centroid,Anantnag,48.3,ICD Ludhiana,349.77,Deendayal Port (Kandla),1260.06,Sheikh ul-Alam International Airport (SXR),16.55,Kartarpur Sahib ICP,214.92
+BANDIPURA,BANDIPURA,,9.0,district_centroid,Anantnag,89.09,ICD Ludhiana,408.61,Deendayal Port (Kandla),1335.56,Sheikh ul-Alam International Airport (SXR),62.54,Kartarpur Sahib ICP,281.43
+BARAMULA,BARAMULA,,8.0,district_centroid,Anantnag,87.44,ICD Ludhiana,387.3,Deendayal Port (Kandla),1278.02,Sheikh ul-Alam International Airport (SXR),47.15,Kartarpur Sahib ICP,249.69
+DODA,DODA,,16.0,district_centroid,UDHAMPUR,47.54,ICD Ludhiana,246.51,Deendayal Port (Kandla),1217.99,Sheikh ul-Alam International Airport (SXR),121.31,Kartarpur Sahib ICP,138.61
+GANDERBAL,GANDERBAL,,11.0,district_centroid,Anantnag,58.54,ICD Ludhiana,378.17,Deendayal Port (Kandla),1306.99,Sheikh ul-Alam International Airport (SXR),34.01,Kartarpur Sahib ICP,250.45
+JAMMU,JAMMU,,21.0,district_centroid,BAJALTA,3.04,ICD Ludhiana,222.96,Deendayal Port (Kandla),1154.7,Sri Guru Ram Dass Jee International Airport (ATQ),117.12,Kartarpur Sahib ICP,87.11
+KATHUA,KATHUA,,7.0,district_centroid,KATHUA,21.05,ICD Ludhiana,186.07,Deendayal Port (Kandla),1164.12,Sri Guru Ram Dass Jee International Airport (ATQ),122.33,Kartarpur Sahib ICP,86.96
+KISHTWAR,KISHTWAR,,18.0,district_centroid,Anantnag,72.55,ICD Ludhiana,298.62,Deendayal Port (Kandla),1276.97,Sheikh ul-Alam International Airport (SXR),109.8,Kartarpur Sahib ICP,197.57
+KULGAM,KULGAM,,15.0,district_centroid,Anantnag,23.22,ICD Ludhiana,312.21,Deendayal Port (Kandla),1240.17,Sheikh ul-Alam International Airport (SXR),41.78,Kartarpur Sahib ICP,181.0
+KUPWARA,KUPWARA,,1.0,district_centroid,Anantnag,118.55,ICD Ludhiana,425.98,Deendayal Port (Kandla),1311.74,Sheikh ul-Alam International Airport (SXR),77.61,Kartarpur Sahib ICP,288.84
+MIRPUR,MIRPUR,,,district_centroid,S M V D KATRA,106.93,ICD Ludhiana,318.78,Deendayal Port (Kandla),1165.39,Sheikh ul-Alam International Airport (SXR),121.18,Kartarpur Sahib ICP,176.32
+MUZAFFARABAD,MUZAFFARABAD,,,district_centroid,Anantnag,158.18,ICD Ludhiana,448.92,Deendayal Port (Kandla),1300.79,Sheikh ul-Alam International Airport (SXR),117.46,Kartarpur Sahib ICP,307.99
+PULWAMA,PULWAMA,,12.0,district_centroid,Anantnag,24.15,ICD Ludhiana,343.77,Deendayal Port (Kandla),1278.71,Sheikh ul-Alam International Airport (SXR),25.01,Kartarpur Sahib ICP,216.91
+PUNCH,PUNCH,,5.0,district_centroid,Anantnag,100.81,ICD Ludhiana,358.77,Deendayal Port (Kandla),1227.1,Sheikh ul-Alam International Airport (SXR),74.06,Kartarpur Sahib ICP,217.16
+RAJAURI,RAJAURI,,6.0,district_centroid,S M V D KATRA,62.75,ICD Ludhiana,295.6,Deendayal Port (Kandla),1185.41,Sheikh ul-Alam International Airport (SXR),88.37,Kartarpur Sahib ICP,154.23
+RAMBAN,RAMBAN,,17.0,district_centroid,UDHAMPUR,41.9,ICD Ludhiana,271.82,Deendayal Port (Kandla),1218.18,Sheikh ul-Alam International Airport (SXR),83.69,Kartarpur Sahib ICP,146.69
+RIASI,RIASI,,20.0,district_centroid,S M V D KATRA,25.85,ICD Ludhiana,270.0,Deendayal Port (Kandla),1196.39,Sheikh ul-Alam International Airport (SXR),86.34,Kartarpur Sahib ICP,135.64
+SAMBA,SAMBA,,22.0,district_centroid,SAMBA,5.21,ICD Ludhiana,196.2,Deendayal Port (Kandla),1143.03,Sri Guru Ram Dass Jee International Airport (ATQ),99.82,Kartarpur Sahib ICP,66.24
+SHUPIYAN,SHUPIYAN,,13.0,district_centroid,Anantnag,36.41,ICD Ludhiana,321.18,Deendayal Port (Kandla),1238.12,Sheikh ul-Alam International Airport (SXR),36.3,Kartarpur Sahib ICP,186.77
+SRINAGAR,SRINAGAR,,10.0,district_centroid,Anantnag,50.89,ICD Ludhiana,367.25,Deendayal Port (Kandla),1287.24,Sheikh ul-Alam International Airport (SXR),14.34,Kartarpur Sahib ICP,236.04
+UDHAMPUR,UDHAMPUR,,19.0,district_centroid,UDHAMPUR,16.11,ICD Ludhiana,226.63,Deendayal Port (Kandla),1185.07,Sheikh ul-Alam International Airport (SXR),128.79,Kartarpur Sahib ICP,107.07

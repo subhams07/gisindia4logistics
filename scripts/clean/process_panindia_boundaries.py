@@ -72,6 +72,7 @@ def fix_mojibake(s):
     if s is None or (isinstance(s, float) and pd.isna(s)):
         return s
     s = str(s)
+    s = s.replace("|", "I")  # corrupted I in source names (PURBA MEDIN|PUR)
     for bad, good in NAME_CHAR_FIXES.items():
         s = s.replace(bad, good)
     return s

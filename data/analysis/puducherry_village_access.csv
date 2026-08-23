@@ -1,130 +1,130 @@
-village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
-PUDUCHERRY,PUDUCHERRY,804036,village,Puducherry,0.88,ICD Melpakkam,134.43,Karaikal Port,112.18,Chennai International Airport (MAA),123.08,Petrapole ICP,1541.08
-POORNANKUPPAM,PUDUCHERRY,644920,village,Puducherry,7.9,ICD Melpakkam,141.84,Karaikal Port,103.72,Chennai International Airport (MAA),131.85,Petrapole ICP,1549.23
-THAVALAKUPPAM,PUDUCHERRY,644919,village,Puducherry,7.29,ICD Melpakkam,140.38,Karaikal Port,104.9,Chennai International Airport (MAA),131.16,Petrapole ICP,1549.07
-PERUNGALUR,PUDUCHERRY,644957,village,Villianur,4.63,ICD Melpakkam,138.01,Karaikal Port,106.39,Chennai International Airport (MAA),131.43,Petrapole ICP,1550.66
-ARIYUR,PUDUCHERRY,644951,village,Chinna Babu Samudram,2.3,ICD Melpakkam,133.37,Karaikal Port,110.3,Chennai International Airport (MAA),130.59,Petrapole ICP,1551.58
-URUVAIYARU,PUDUCHERRY,644955,village,Villianur,2.72,ICD Melpakkam,135.74,Karaikal Port,108.55,Chennai International Airport (MAA),129.83,Petrapole ICP,1549.58
-MANAKUPPAM,PUDUCHERRY,644958,village,Chinna Babu Samudram,5.87,ICD Melpakkam,137.47,Karaikal Port,106.08,Chennai International Airport (MAA),134.81,Petrapole ICP,1555.41
-KIZHUR,PUDUCHERRY,644952,village,Chinna Babu Samudram,3.49,ICD Melpakkam,135.0,Karaikal Port,108.5,Chennai International Airport (MAA),133.25,Petrapole ICP,1554.39
-Korkadu,PUDUCHERRY,644965,village,Villianur,4.89,ICD Melpakkam,137.58,Karaikal Port,106.54,Chennai International Airport (MAA),132.0,Petrapole ICP,1551.63
-Parikkalpattu,PUDUCHERRY,644981,village,TIRUPADRIPULYUR,3.88,ICD Melpakkam,147.85,Karaikal Port,96.12,Chennai International Airport (MAA),141.53,Petrapole ICP,1559.58
-Irulansanthi,PUDUCHERRY,644977,village,VARAKALPATTU,5.0,ICD Melpakkam,145.27,Karaikal Port,98.47,Chennai International Airport (MAA),140.26,Petrapole ICP,1559.16
-Embalam,PUDUCHERRY,644964,village,Villianur,6.77,ICD Melpakkam,137.9,Karaikal Port,105.9,Chennai International Airport (MAA),133.68,Petrapole ICP,1553.73
-KARAYAMPATHUR,PUDUCHERRY,644975,village,NELLAIKUPPAM,5.26,ICD Melpakkam,141.46,Karaikal Port,101.96,Chennai International Airport (MAA),141.14,Petrapole ICP,1562.09
-Manapattu,PUDUCHERRY,644979,village,TIRUPPAPPULIYUR,6.51,ICD Melpakkam,147.04,Karaikal Port,97.59,Chennai International Airport (MAA),138.72,Petrapole ICP,1556.04
-Kirumampakkam,PUDUCHERRY,644971,village,TIRUPADRIPULYUR,9.39,ICD Melpakkam,144.15,Karaikal Port,100.64,Chennai International Airport (MAA),135.72,Petrapole ICP,1553.41
-Aranganoor,PUDUCHERRY,644970,village,VARAKALPATTU,9.26,ICD Melpakkam,142.25,Karaikal Port,101.87,Chennai International Airport (MAA),136.08,Petrapole ICP,1554.91
-KADUVANUR,PUDUCHERRY,644974,village,VARAKALPATTU,5.8,ICD Melpakkam,142.89,Karaikal Port,100.61,Chennai International Airport (MAA),139.94,Petrapole ICP,1559.87
-MANAMEDU,PUDUCHERRY,644976,village,NELLAIKUPPAM,3.91,ICD Melpakkam,143.76,Karaikal Port,99.66,Chennai International Airport (MAA),141.73,Petrapole ICP,1561.88
-PANAYADIKUPPAM,PUDUCHERRY,644969,village,MELPATTAM BAKKAM,6.71,ICD Melpakkam,139.8,Karaikal Port,103.62,Chennai International Airport (MAA),139.8,Petrapole ICP,1560.99
-ABISHEKAPAKKAM,PUDUCHERRY,644918,village,Villianur,6.64,ICD Melpakkam,139.89,Karaikal Port,105.2,Chennai International Airport (MAA),131.16,Petrapole ICP,1549.33
-THIMMANAICKENPALAYAM,PUDUCHERRY,644917,village,Villianur,7.0,ICD Melpakkam,140.52,Karaikal Port,104.06,Chennai International Airport (MAA),133.08,Petrapole ICP,1551.65
-ARIANKUPPAM,PUDUCHERRY,644921,village,Puducherry,3.7,ICD Melpakkam,137.71,Karaikal Port,108.11,Chennai International Airport (MAA),127.59,Petrapole ICP,1545.55
-MANAVELY (CT),PUDUCHERRY,644922,village,Puducherry,4.88,ICD Melpakkam,138.76,Karaikal Port,106.93,Chennai International Airport (MAA),128.8,Petrapole ICP,1546.66
-THIRUKANCHI,PUDUCHERRY,644956,village,Villianur,3.26,ICD Melpakkam,136.78,Karaikal Port,107.76,Chennai International Airport (MAA),129.93,Petrapole ICP,1549.22
-Odiampet,PUDUCHERRY,644960,village,Villianur,1.97,ICD Melpakkam,134.74,Karaikal Port,110.15,Chennai International Airport (MAA),127.16,Petrapole ICP,1546.46
-KURUMBAPET (CT),PUDUCHERRY,804038,village,Villianur,1.75,ICD Melpakkam,132.45,Karaikal Port,112.34,Chennai International Airport (MAA),125.42,Petrapole ICP,1545.21
-VILLIANUR,PUDUCHERRY,644959,village,Villianur,1.12,ICD Melpakkam,134.22,Karaikal Port,110.17,Chennai International Airport (MAA),128.19,Petrapole ICP,1548.09
-Utchimedu,PUDUCHERRY,644980,village,TIRUPPAPPULIYUR,5.35,ICD Melpakkam,147.77,Karaikal Port,96.69,Chennai International Airport (MAA),139.83,Petrapole ICP,1557.21
-Kuruvinatham,PUDUCHERRY,644982,village,VARAKALPATTU,3.84,ICD Melpakkam,146.66,Karaikal Port,97.05,Chennai International Airport (MAA),141.65,Petrapole ICP,1560.38
-Seliamedu,PUDUCHERRY,644973,village,TIRUPADRIPULYUR,8.18,ICD Melpakkam,143.89,Karaikal Port,100.31,Chennai International Airport (MAA),137.2,Petrapole ICP,1555.62
-Pillaiyarkuppam,PUDUCHERRY,644972,village,TIRUPPAPPULIYUR,7.97,ICD Melpakkam,145.49,Karaikal Port,99.2,Chennai International Airport (MAA),137.17,Petrapole ICP,1554.7
-KARKLAMPAKKAM,PUDUCHERRY,644966,village,Villianur,6.62,ICD Melpakkam,139.58,Karaikal Port,104.58,Chennai International Airport (MAA),133.6,Petrapole ICP,1552.84
-Bahur,PUDUCHERRY,644978,village,VARAKALPATTU,6.74,ICD Melpakkam,144.25,Karaikal Port,99.66,Chennai International Airport (MAA),138.63,Petrapole ICP,1557.42
-KARIAMANNIKAM,PUDUCHERRY,644962,village,Valavanur,6.69,ICD Melpakkam,134.62,Karaikal Port,108.9,Chennai International Airport (MAA),137.05,Petrapole ICP,1559.35
-ERIPAKKAM,PUDUCHERRY,644963,village,Chinna Babu Samudram,7.04,ICD Melpakkam,135.34,Karaikal Port,108.09,Chennai International Airport (MAA),136.55,Petrapole ICP,1558.47
-MADUKARAI,PUDUCHERRY,644961,village,Valavanur,6.15,ICD Melpakkam,135.21,Karaikal Port,108.45,Chennai International Airport (MAA),138.6,Petrapole ICP,1561.08
-PANDASHOZHANOOR,PUDUCHERRY,644967,village,Chinna Babu Samudram,7.75,ICD Melpakkam,137.43,Karaikal Port,105.99,Chennai International Airport (MAA),137.74,Petrapole ICP,1559.24
-NETTAPAKKAM,PUDUCHERRY,644968,village,Chinna Babu Samudram,8.47,ICD Melpakkam,136.67,Karaikal Port,106.8,Chennai International Airport (MAA),138.1,Petrapole ICP,1559.97
-SATHAMANGALAM,PUDUCHERRY,644953,village,Chinna Babu Samudram,5.15,ICD Melpakkam,135.97,Karaikal Port,107.84,Chennai International Airport (MAA),131.96,Petrapole ICP,1552.3
-MANGALAM,PUDUCHERRY,644954,village,Villianur,3.47,ICD Melpakkam,135.56,Karaikal Port,108.52,Chennai International Airport (MAA),130.41,Petrapole ICP,1550.43
-GOODAPAKKAM,PUDUCHERRY,644948,village,Villianur,3.7,ICD Melpakkam,131.23,Karaikal Port,112.8,Chennai International Airport (MAA),127.0,Petrapole ICP,1547.8
-KATTERY,PUDUCHERRY,644927,village,Chinna Babu Samudram,10.47,ICD Melpakkam,121.79,Karaikal Port,122.05,Chennai International Airport (MAA),120.04,Petrapole ICP,1542.43
-THUTIPET,PUDUCHERRY,644944,village,Chinna Babu Samudram,7.79,ICD Melpakkam,125.68,Karaikal Port,118.37,Chennai International Airport (MAA),122.25,Petrapole ICP,1543.86
-Sedarapet,PUDUCHERRY,644942,village,Villianur,8.61,ICD Melpakkam,125.11,Karaikal Port,119.61,Chennai International Airport (MAA),119.37,Petrapole ICP,1540.43
-KUPPAM,PUDUCHERRY,644928,village,Chinna Babu Samudram,8.86,ICD Melpakkam,123.5,Karaikal Port,120.35,Chennai International Airport (MAA),121.42,Petrapole ICP,1543.57
-PUDUKUPPAM,PUDUCHERRY,644926,village,Chinna Babu Samudram,11.65,ICD Melpakkam,120.42,Karaikal Port,123.38,Chennai International Airport (MAA),119.22,Petrapole ICP,1541.84
-SUTHUKENY,PUDUCHERRY,644925,village,Chinna Babu Samudram,9.89,ICD Melpakkam,121.88,Karaikal Port,121.78,Chennai International Airport (MAA),121.24,Petrapole ICP,1543.85
-THETTHAMPAKKAM,PUDUCHERRY,644929,village,Chinna Babu Samudram,7.92,ICD Melpakkam,123.76,Karaikal Port,119.85,Chennai International Airport (MAA),123.16,Petrapole ICP,1545.62
-KODATHUR,PUDUCHERRY,644930,village,Chinna Babu Samudram,9.45,ICD Melpakkam,122.15,Karaikal Port,121.37,Chennai International Airport (MAA),122.63,Petrapole ICP,1545.44
-Thondamanatham,PUDUCHERRY,644945,village,Villianur,6.26,ICD Melpakkam,127.65,Karaikal Port,116.44,Chennai International Airport (MAA),123.71,Petrapole ICP,1544.98
-OLAIVAIKAL,PUDUCHERRY,644949,village,Villianur,2.65,ICD Melpakkam,132.2,Karaikal Port,111.92,Chennai International Airport (MAA),127.41,Petrapole ICP,1547.93
-OUSSUDU,PUDUCHERRY,644950,village,Villianur,3.26,ICD Melpakkam,130.46,Karaikal Port,113.83,Chennai International Airport (MAA),125.31,Petrapole ICP,1545.92
-RAMANATHAPURAM,PUDUCHERRY,644946,village,Villianur,5.08,ICD Melpakkam,129.17,Karaikal Port,114.87,Chennai International Airport (MAA),125.2,Petrapole ICP,1546.29
-SELLIPET,PUDUCHERRY,644936,village,Chinna Babu Samudram,3.63,ICD Melpakkam,128.74,Karaikal Port,114.98,Chennai International Airport (MAA),126.4,Petrapole ICP,1547.98
-PILLAIYARKUPPAM,PUDUCHERRY,644947,village,Chinna Babu Samudram,4.71,ICD Melpakkam,128.02,Karaikal Port,115.79,Chennai International Airport (MAA),125.33,Petrapole ICP,1546.89
-KARASOOR,PUDUCHERRY,644943,village,Villianur,8.11,ICD Melpakkam,125.44,Karaikal Port,118.91,Chennai International Airport (MAA),120.89,Petrapole ICP,1542.23
-SORAPET,PUDUCHERRY,644934,village,Chinna Babu Samudram,4.71,ICD Melpakkam,126.96,Karaikal Port,116.52,Chennai International Airport (MAA),126.83,Petrapole ICP,1549.12
-VAMBUPET,PUDUCHERRY,644935,village,Chinna Babu Samudram,5.1,ICD Melpakkam,126.52,Karaikal Port,117.04,Chennai International Airport (MAA),125.74,Petrapole ICP,1547.93
-KALITHIRTHALKUPPAM,PUDUCHERRY,644938,village,Valavanur,6.25,ICD Melpakkam,128.84,Karaikal Port,114.59,Chennai International Airport (MAA),131.31,Petrapole ICP,1554.04
-Sanyasikuppam,PUDUCHERRY,644937,village,Chinna Babu Samudram,4.81,ICD Melpakkam,128.59,Karaikal Port,114.82,Chennai International Airport (MAA),129.86,Petrapole ICP,1552.34
-Thiruvandarkoil,PUDUCHERRY,644941,village,Chinna Babu Samudram,2.6,ICD Melpakkam,130.42,Karaikal Port,113.01,Chennai International Airport (MAA),130.46,Petrapole ICP,1552.5
-Thirubuvanai,PUDUCHERRY,644940,village,Chinna Babu Samudram,4.39,ICD Melpakkam,130.64,Karaikal Port,112.77,Chennai International Airport (MAA),131.79,Petrapole ICP,1554.08
-MADAGADIPET,PUDUCHERRY,644939,village,Chinna Babu Samudram,5.37,ICD Melpakkam,131.2,Karaikal Port,112.22,Chennai International Airport (MAA),132.87,Petrapole ICP,1555.25
-MANALIPET,PUDUCHERRY,644923,village,VIKRAVANDI,10.36,ICD Melpakkam,118.97,Karaikal Port,124.44,Chennai International Airport (MAA),122.17,Petrapole ICP,1545.71
-VADHANUR,PUDUCHERRY,644933,village,Chinna Babu Samudram,6.96,ICD Melpakkam,126.12,Karaikal Port,117.29,Chennai International Airport (MAA),128.23,Petrapole ICP,1551.09
-MANNADIPET,PUDUCHERRY,644932,village,Chinna Babu Samudram,9.42,ICD Melpakkam,123.43,Karaikal Port,119.98,Chennai International Airport (MAA),126.38,Petrapole ICP,1549.59
-KUNITCHAMPET,PUDUCHERRY,644931,village,VIKRAVANDI,10.66,ICD Melpakkam,120.88,Karaikal Port,122.53,Chennai International Airport (MAA),123.99,Petrapole ICP,1547.4
-CHETTYPET,PUDUCHERRY,644924,village,VIKRAVANDI,11.62,ICD Melpakkam,120.12,Karaikal Port,123.31,Chennai International Airport (MAA),122.48,Petrapole ICP,1545.8
-Thalatheru,KARAIKAL,948032,village,Karaikal,2.44,ICD Salem,200.61,Karaikal Port,2.81,Tiruchirappalli International Airport (TRZ),124.91,Petrapole ICP,1630.99
-Keezhaiyur (North),KARAIKAL,644991,village,Karaikal,5.53,ICD Salem,205.01,Karaikal Port,5.23,Tiruchirappalli International Airport (TRZ),125.22,Petrapole ICP,1636.72
-Keezhaiyur (South),KARAIKAL,644992,village,Nagore,4.8,ICD Salem,205.48,Karaikal Port,6.88,Tiruchirappalli International Airport (TRZ),124.81,Petrapole ICP,1638.25
-KEEZHAVOOR,KARAIKAL,645006,village,Karaikal,3.81,ICD Salem,198.87,Karaikal Port,4.09,Tiruchirappalli International Airport (TRZ),121.82,Petrapole ICP,1634.23
-Kottucherry,KARAIKAL,644987,village,Karaikal,4.45,ICD Salem,199.92,Karaikal Port,4.78,Tiruchirappalli International Airport (TRZ),125.44,Petrapole ICP,1629.11
-POLAGAM,KARAIKAL,644993,village,Nagore,5.07,ICD Salem,203.72,Karaikal Port,7.91,Tiruchirappalli International Airport (TRZ),122.5,Petrapole ICP,1640.02
-POOVAM,KARAIKAL,644984,village,Karaikal,7.71,ICD Salem,199.08,Karaikal Port,8.01,Tiruchirappalli International Airport (TRZ),126.51,Petrapole ICP,1626.08
-Thirumalarayanpattinam,KARAIKAL,644995,village,Karaikal,6.0,ICD Salem,203.89,Karaikal Port,5.77,Tiruchirappalli International Airport (TRZ),123.77,Petrapole ICP,1637.82
-THIRUVATTAKUDY,KARAIKAL,644985,village,Karaikal,6.08,ICD Salem,200.38,Karaikal Port,6.36,Tiruchirappalli International Airport (TRZ),126.93,Petrapole ICP,1627.03
-Vanjoor,KARAIKAL,644994,village,Nagore,2.87,ICD Salem,206.37,Karaikal Port,8.85,Tiruchirappalli International Airport (TRZ),124.68,Petrapole ICP,1639.87
-Varitchikudy (North),KARAIKAL,644983,village,Karaikal,7.84,ICD Salem,197.31,Karaikal Port,8.2,Tiruchirappalli International Airport (TRZ),124.52,Petrapole ICP,1627.37
-Varitchikudy (South) (CT),KARAIKAL,644986,village,Karaikal,6.38,ICD Salem,197.95,Karaikal Port,6.74,Tiruchirappalli International Airport (TRZ),124.26,Petrapole ICP,1628.62
-AMBAGARATHUR,KARAIKAL,645001,village,Peralam Jn,8.42,ICD Salem,190.13,Karaikal Port,12.68,Tiruchirappalli International Airport (TRZ),114.62,Petrapole ICP,1635.6
-Devamapuram,KARAIKAL,645003,village,Karaikal,8.53,ICD Salem,193.97,Karaikal Port,8.85,Tiruchirappalli International Airport (TRZ),117.87,Petrapole ICP,1634.78
-Kizhamanai,KARAIKAL,644989,village,Karaikal,5.45,ICD Salem,199.63,Karaikal Port,5.5,Tiruchirappalli International Airport (TRZ),120.71,Petrapole ICP,1637.35
-KURUMBAGARAM,KARAIKAL,644996,village,Karaikal,11.17,ICD Salem,191.65,Karaikal Port,11.55,Tiruchirappalli International Airport (TRZ),118.23,Petrapole ICP,1631.27
-MELAKASAKUDY,KARAIKAL,645000,village,Karaikal,5.43,ICD Salem,197.09,Karaikal Port,5.8,Tiruchirappalli International Airport (TRZ),121.65,Petrapole ICP,1632.16
-Nallazhundur,KARAIKAL,645002,village,Peralam Jn,9.99,ICD Salem,191.98,Karaikal Port,10.9,Tiruchirappalli International Airport (TRZ),115.91,Petrapole ICP,1635.67
-NEDUNKADU,KARAIKAL,644999,village,Karaikal,8.98,ICD Salem,193.57,Karaikal Port,9.34,Tiruchirappalli International Airport (TRZ),118.96,Petrapole ICP,1632.37
-Neravy,KARAIKAL,644990,village,Karaikal,4.5,ICD Salem,201.54,Karaikal Port,4.43,Tiruchirappalli International Airport (TRZ),122.48,Petrapole ICP,1636.79
-PETTAI,KARAIKAL,645011,village,Karaikal,5.74,ICD Salem,198.03,Karaikal Port,5.91,Tiruchirappalli International Airport (TRZ),119.88,Petrapole ICP,1636.63
-PONBETHY,KARAIKAL,644997,village,Karaikal,8.89,ICD Salem,194.21,Karaikal Port,9.27,Tiruchirappalli International Airport (TRZ),120.57,Petrapole ICP,1630.39
-PUTHAKUDY,KARAIKAL,644998,village,Karaikal,6.64,ICD Salem,196.53,Karaikal Port,7.03,Tiruchirappalli International Airport (TRZ),122.29,Petrapole ICP,1630.29
-SELLUR,KARAIKAL,645010,village,Karaikal,7.59,ICD Salem,195.8,Karaikal Port,7.82,Tiruchirappalli International Airport (TRZ),117.99,Petrapole ICP,1637.0
-SETHUR,KARAIKAL,645009,village,Punthottam,9.41,ICD Salem,192.33,Karaikal Port,10.97,Tiruchirappalli International Airport (TRZ),115.19,Petrapole ICP,1637.37
-SORAKUDY,KARAIKAL,645004,village,Karaikal,7.11,ICD Salem,195.4,Karaikal Port,7.43,Tiruchirappalli International Airport (TRZ),119.09,Petrapole ICP,1634.5
-SUPRAYAPURAM,KARAIKAL,645005,village,Karaikal,5.71,ICD Salem,196.72,Karaikal Port,6.05,Tiruchirappalli International Airport (TRZ),120.65,Petrapole ICP,1633.46
-THENNANKUDY,KARAIKAL,645008,village,Karaikal,9.46,ICD Salem,193.83,Karaikal Port,9.72,Tiruchirappalli International Airport (TRZ),116.19,Petrapole ICP,1637.58
-THIRUNALLAR,KARAIKAL,645007,village,Karaikal,5.69,ICD Salem,197.24,Karaikal Port,5.95,Tiruchirappalli International Airport (TRZ),119.93,Petrapole ICP,1635.44
-Vizhidiur,KARAIKAL,64988,village,Karaikal,7.83,ICD Salem,196.87,Karaikal Port,7.98,Tiruchirappalli International Airport (TRZ),117.91,Petrapole ICP,1638.6
-Thattanchavady,PUDUCHERRY,,village,Puducherry,4.89,ICD Melpakkam,131.37,Karaikal Port,114.1,Chennai International Airport (MAA),122.73,Petrapole ICP,1542.13
-Pillaichavady,PUDUCHERRY,937514,village,Puducherry,10.54,ICD Melpakkam,126.54,Karaikal Port,121.52,Chennai International Airport (MAA),113.43,Petrapole ICP,1532.07
-Alankuppam,PUDUCHERRY,937515,village,Puducherry,11.13,ICD Melpakkam,124.07,Karaikal Port,122.01,Chennai International Airport (MAA),115.03,Petrapole ICP,1535.3
-Kalapet,PUDUCHERRY,937516,village,Puducherry,12.94,ICD Melpakkam,124.7,Karaikal Port,123.81,Chennai International Airport (MAA),111.03,Petrapole ICP,1529.8
-Karuvadikuppam,PUDUCHERRY,937520,village,Puducherry,4.55,ICD Melpakkam,130.65,Karaikal Port,115.64,Chennai International Airport (MAA),120.34,Petrapole ICP,1539.28
-Saram,PUDUCHERRY,804037,village,Puducherry,2.61,ICD Melpakkam,132.59,Karaikal Port,113.75,Chennai International Airport (MAA),121.96,Petrapole ICP,1540.5
-Reddiarpalayam,PUDUCHERRY,937518,village,Puducherry,3.06,ICD Melpakkam,133.84,Karaikal Port,111.82,Chennai International Airport (MAA),124.5,Petrapole ICP,1543.31
-OZHUKARAI,PUDUCHERRY,937513,village,Villianur,3.01,ICD Melpakkam,132.87,Karaikal Port,112.29,Chennai International Airport (MAA),124.82,Petrapole ICP,1544.22
-Kommapakkam,PUDUCHERRY,947968,village,Villianur,3.51,ICD Melpakkam,135.45,Karaikal Port,109.78,Chennai International Airport (MAA),126.91,Petrapole ICP,1545.78
-Murungapakkam,PUDUCHERRY,947969,village,Puducherry,3.31,ICD Melpakkam,136.1,Karaikal Port,109.53,Chennai International Airport (MAA),126.56,Petrapole ICP,1544.98
-Thengaithittu,PUDUCHERRY,937557,village,Puducherry,1.85,ICD Melpakkam,136.5,Karaikal Port,109.67,Chennai International Airport (MAA),125.78,Petrapole ICP,1543.69
-Pudupalayam,PUDUCHERRY,937556,village,Puducherry,1.74,ICD Melpakkam,133.93,Karaikal Port,112.16,Chennai International Airport (MAA),123.65,Petrapole ICP,1542.12
-Olandai,PUDUCHERRY,947959,village,Puducherry,2.32,ICD Melpakkam,134.85,Karaikal Port,110.97,Chennai International Airport (MAA),125.04,Petrapole ICP,1543.54
-Akkaravattam,KARAIKAL,948025,village,Karaikal,3.2,ICD Salem,203.94,Karaikal Port,2.9,Tiruchirappalli International Airport (TRZ),125.37,Petrapole ICP,1634.83
-Oduthurai,KARAIKAL,948031,village,Karaikal,3.09,ICD Salem,201.56,Karaikal Port,3.06,Tiruchirappalli International Airport (TRZ),123.26,Petrapole ICP,1635.36
-Kizhavely,KARAIKAL,948030,village,Karaikal,0.87,ICD Salem,203.21,Karaikal Port,0.48,Tiruchirappalli International Airport (TRZ),126.04,Petrapole ICP,1632.52
-Dharmapuram,KARAIKAL,948026,village,Karaikal,2.55,ICD Salem,200.35,Karaikal Port,2.76,Tiruchirappalli International Airport (TRZ),123.02,Petrapole ICP,1634.09
-KARAIKAL,KARAIKAL,948027,village,Karaikal,1.08,ICD Salem,201.82,Karaikal Port,1.21,Tiruchirappalli International Airport (TRZ),124.57,Petrapole ICP,1633.28
-Kovilpattu,KARAIKAL,,village,Karaikal,1.5,ICD Salem,201.13,Karaikal Port,1.88,Tiruchirappalli International Airport (TRZ),124.88,Petrapole ICP,1631.75
-Kizhakasakudy,KARAIKAL,948028,village,Karaikal,3.22,ICD Salem,200.49,Karaikal Port,3.56,Tiruchirappalli International Airport (TRZ),125.31,Petrapole ICP,1630.09
-Pallur,PUDUCHERRY,,village,MAHE,2.75,ICD Mangalore (Panambur),152.53,New Mangalore Port,153.94,Calicut International Airport (CCJ),79.09,Petrapole ICP,1866.15
-ADIVIPALAM,PUDUCHERRY,<Null>,village,Kakinada Port,25.87,ICD Hyderabad (Sanathnagar),406.17,Visakhapatnam Port,146.06,Visakhapatnam International Airport (VTZ),149.23,Petrapole ICP,968.33
-Chalakkara,PUDUCHERRY,,village,JAGANNATH TEMPLE GATE,3.08,ICD Mangalore (Panambur),151.79,New Mangalore Port,153.18,Calicut International Airport (CCJ),79.97,Petrapole ICP,1867.28
-Kallayee,PUDUCHERRY,,village,MAHE,2.06,ICD Mangalore (Panambur),152.96,New Mangalore Port,154.35,Calicut International Airport (CCJ),78.85,Petrapole ICP,1867.98
-MAHE,PUDUCHERRY,958035,village,MAHE,1.27,ICD Mangalore (Panambur),154.13,New Mangalore Port,155.52,Calicut International Airport (CCJ),77.75,Petrapole ICP,1868.73
-Pandakkal,PUDUCHERRY,948037,village,JAGANNATH TEMPLE GATE,3.93,ICD Mangalore (Panambur),150.07,New Mangalore Port,151.48,Calicut International Airport (CCJ),81.48,Petrapole ICP,1864.63
-Mettakur,PUDUCHERRY,948041,village,Kakinada Port,23.13,ICD Hyderabad (Sanathnagar),401.05,Visakhapatnam Port,147.29,Visakhapatnam International Airport (VTZ),150.38,Petrapole ICP,969.46
-KANKALAPET,PUDUCHERRY,948040,village,Kakinada Port,24.6,ICD Hyderabad (Sanathnagar),399.47,Visakhapatnam Port,149.47,Visakhapatnam International Airport (VTZ),152.55,Petrapole ICP,971.62
-France-Thippa,PUDUCHERRY,948039,village,Kakinada Port,25.37,ICD Hyderabad (Sanathnagar),400.55,Visakhapatnam Port,149.48,Visakhapatnam International Airport (VTZ),152.58,Petrapole ICP,971.68
-Iskitippah,PUDUCHERRY,<Null>,village,Kakinada Port,26.45,ICD Hyderabad (Sanathnagar),410.59,Visakhapatnam Port,142.85,Visakhapatnam International Airport (VTZ),146.06,Petrapole ICP,965.11
-YANAM,PUDUCHERRY,948042,village,Kakinada Port,24.36,ICD Hyderabad (Sanathnagar),401.19,Visakhapatnam Port,148.24,Visakhapatnam International Airport (VTZ),151.34,Petrapole ICP,970.43
+village,district,district_code,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+PUDUCHERRY,PUDUCHERRY,635,804036,village,Puducherry,0.88,ICD Melpakkam,134.43,Karaikal Port,112.18,Chennai International Airport (MAA),123.08,Petrapole ICP,1541.08
+POORNANKUPPAM,PUDUCHERRY,635,644920,village,Puducherry,7.9,ICD Melpakkam,141.84,Karaikal Port,103.72,Chennai International Airport (MAA),131.85,Petrapole ICP,1549.23
+THAVALAKUPPAM,PUDUCHERRY,635,644919,village,Puducherry,7.29,ICD Melpakkam,140.38,Karaikal Port,104.9,Chennai International Airport (MAA),131.16,Petrapole ICP,1549.07
+PERUNGALUR,PUDUCHERRY,635,644957,village,Villianur,4.63,ICD Melpakkam,138.01,Karaikal Port,106.39,Chennai International Airport (MAA),131.43,Petrapole ICP,1550.66
+ARIYUR,PUDUCHERRY,635,644951,village,Chinna Babu Samudram,2.3,ICD Melpakkam,133.37,Karaikal Port,110.3,Chennai International Airport (MAA),130.59,Petrapole ICP,1551.58
+URUVAIYARU,PUDUCHERRY,635,644955,village,Villianur,2.72,ICD Melpakkam,135.74,Karaikal Port,108.55,Chennai International Airport (MAA),129.83,Petrapole ICP,1549.58
+MANAKUPPAM,PUDUCHERRY,635,644958,village,Chinna Babu Samudram,5.87,ICD Melpakkam,137.47,Karaikal Port,106.08,Chennai International Airport (MAA),134.81,Petrapole ICP,1555.41
+KIZHUR,PUDUCHERRY,635,644952,village,Chinna Babu Samudram,3.49,ICD Melpakkam,135.0,Karaikal Port,108.5,Chennai International Airport (MAA),133.25,Petrapole ICP,1554.39
+Korkadu,PUDUCHERRY,635,644965,village,Villianur,4.89,ICD Melpakkam,137.58,Karaikal Port,106.54,Chennai International Airport (MAA),132.0,Petrapole ICP,1551.63
+Parikkalpattu,PUDUCHERRY,635,644981,village,TIRUPADRIPULYUR,3.88,ICD Melpakkam,147.85,Karaikal Port,96.12,Chennai International Airport (MAA),141.53,Petrapole ICP,1559.58
+Irulansanthi,PUDUCHERRY,635,644977,village,VARAKALPATTU,5.0,ICD Melpakkam,145.27,Karaikal Port,98.47,Chennai International Airport (MAA),140.26,Petrapole ICP,1559.16
+Embalam,PUDUCHERRY,635,644964,village,Villianur,6.77,ICD Melpakkam,137.9,Karaikal Port,105.9,Chennai International Airport (MAA),133.68,Petrapole ICP,1553.73
+KARAYAMPATHUR,PUDUCHERRY,635,644975,village,NELLAIKUPPAM,5.26,ICD Melpakkam,141.46,Karaikal Port,101.96,Chennai International Airport (MAA),141.14,Petrapole ICP,1562.09
+Manapattu,PUDUCHERRY,635,644979,village,TIRUPPAPPULIYUR,6.51,ICD Melpakkam,147.04,Karaikal Port,97.59,Chennai International Airport (MAA),138.72,Petrapole ICP,1556.04
+Kirumampakkam,PUDUCHERRY,635,644971,village,TIRUPADRIPULYUR,9.39,ICD Melpakkam,144.15,Karaikal Port,100.64,Chennai International Airport (MAA),135.72,Petrapole ICP,1553.41
+Aranganoor,PUDUCHERRY,635,644970,village,VARAKALPATTU,9.26,ICD Melpakkam,142.25,Karaikal Port,101.87,Chennai International Airport (MAA),136.08,Petrapole ICP,1554.91
+KADUVANUR,PUDUCHERRY,635,644974,village,VARAKALPATTU,5.8,ICD Melpakkam,142.89,Karaikal Port,100.61,Chennai International Airport (MAA),139.94,Petrapole ICP,1559.87
+MANAMEDU,PUDUCHERRY,635,644976,village,NELLAIKUPPAM,3.91,ICD Melpakkam,143.76,Karaikal Port,99.66,Chennai International Airport (MAA),141.73,Petrapole ICP,1561.88
+PANAYADIKUPPAM,PUDUCHERRY,635,644969,village,MELPATTAM BAKKAM,6.71,ICD Melpakkam,139.8,Karaikal Port,103.62,Chennai International Airport (MAA),139.8,Petrapole ICP,1560.99
+ABISHEKAPAKKAM,PUDUCHERRY,635,644918,village,Villianur,6.64,ICD Melpakkam,139.89,Karaikal Port,105.2,Chennai International Airport (MAA),131.16,Petrapole ICP,1549.33
+THIMMANAICKENPALAYAM,PUDUCHERRY,635,644917,village,Villianur,7.0,ICD Melpakkam,140.52,Karaikal Port,104.06,Chennai International Airport (MAA),133.08,Petrapole ICP,1551.65
+ARIANKUPPAM,PUDUCHERRY,635,644921,village,Puducherry,3.7,ICD Melpakkam,137.71,Karaikal Port,108.11,Chennai International Airport (MAA),127.59,Petrapole ICP,1545.55
+MANAVELY (CT),PUDUCHERRY,635,644922,village,Puducherry,4.88,ICD Melpakkam,138.76,Karaikal Port,106.93,Chennai International Airport (MAA),128.8,Petrapole ICP,1546.66
+THIRUKANCHI,PUDUCHERRY,635,644956,village,Villianur,3.26,ICD Melpakkam,136.78,Karaikal Port,107.76,Chennai International Airport (MAA),129.93,Petrapole ICP,1549.22
+Odiampet,PUDUCHERRY,635,644960,village,Villianur,1.97,ICD Melpakkam,134.74,Karaikal Port,110.15,Chennai International Airport (MAA),127.16,Petrapole ICP,1546.46
+KURUMBAPET (CT),PUDUCHERRY,635,804038,village,Villianur,1.75,ICD Melpakkam,132.45,Karaikal Port,112.34,Chennai International Airport (MAA),125.42,Petrapole ICP,1545.21
+VILLIANUR,PUDUCHERRY,635,644959,village,Villianur,1.12,ICD Melpakkam,134.22,Karaikal Port,110.17,Chennai International Airport (MAA),128.19,Petrapole ICP,1548.09
+Utchimedu,PUDUCHERRY,635,644980,village,TIRUPPAPPULIYUR,5.35,ICD Melpakkam,147.77,Karaikal Port,96.69,Chennai International Airport (MAA),139.83,Petrapole ICP,1557.21
+Kuruvinatham,PUDUCHERRY,635,644982,village,VARAKALPATTU,3.84,ICD Melpakkam,146.66,Karaikal Port,97.05,Chennai International Airport (MAA),141.65,Petrapole ICP,1560.38
+Seliamedu,PUDUCHERRY,635,644973,village,TIRUPADRIPULYUR,8.18,ICD Melpakkam,143.89,Karaikal Port,100.31,Chennai International Airport (MAA),137.2,Petrapole ICP,1555.62
+Pillaiyarkuppam,PUDUCHERRY,635,644972,village,TIRUPPAPPULIYUR,7.97,ICD Melpakkam,145.49,Karaikal Port,99.2,Chennai International Airport (MAA),137.17,Petrapole ICP,1554.7
+KARKLAMPAKKAM,PUDUCHERRY,635,644966,village,Villianur,6.62,ICD Melpakkam,139.58,Karaikal Port,104.58,Chennai International Airport (MAA),133.6,Petrapole ICP,1552.84
+Bahur,PUDUCHERRY,635,644978,village,VARAKALPATTU,6.74,ICD Melpakkam,144.25,Karaikal Port,99.66,Chennai International Airport (MAA),138.63,Petrapole ICP,1557.42
+KARIAMANNIKAM,PUDUCHERRY,635,644962,village,Valavanur,6.69,ICD Melpakkam,134.62,Karaikal Port,108.9,Chennai International Airport (MAA),137.05,Petrapole ICP,1559.35
+ERIPAKKAM,PUDUCHERRY,635,644963,village,Chinna Babu Samudram,7.04,ICD Melpakkam,135.34,Karaikal Port,108.09,Chennai International Airport (MAA),136.55,Petrapole ICP,1558.47
+MADUKARAI,PUDUCHERRY,635,644961,village,Valavanur,6.15,ICD Melpakkam,135.21,Karaikal Port,108.45,Chennai International Airport (MAA),138.6,Petrapole ICP,1561.08
+PANDASHOZHANOOR,PUDUCHERRY,635,644967,village,Chinna Babu Samudram,7.75,ICD Melpakkam,137.43,Karaikal Port,105.99,Chennai International Airport (MAA),137.74,Petrapole ICP,1559.24
+NETTAPAKKAM,PUDUCHERRY,635,644968,village,Chinna Babu Samudram,8.47,ICD Melpakkam,136.67,Karaikal Port,106.8,Chennai International Airport (MAA),138.1,Petrapole ICP,1559.97
+SATHAMANGALAM,PUDUCHERRY,635,644953,village,Chinna Babu Samudram,5.15,ICD Melpakkam,135.97,Karaikal Port,107.84,Chennai International Airport (MAA),131.96,Petrapole ICP,1552.3
+MANGALAM,PUDUCHERRY,635,644954,village,Villianur,3.47,ICD Melpakkam,135.56,Karaikal Port,108.52,Chennai International Airport (MAA),130.41,Petrapole ICP,1550.43
+GOODAPAKKAM,PUDUCHERRY,635,644948,village,Villianur,3.7,ICD Melpakkam,131.23,Karaikal Port,112.8,Chennai International Airport (MAA),127.0,Petrapole ICP,1547.8
+KATTERY,PUDUCHERRY,635,644927,village,Chinna Babu Samudram,10.47,ICD Melpakkam,121.79,Karaikal Port,122.05,Chennai International Airport (MAA),120.04,Petrapole ICP,1542.43
+THUTIPET,PUDUCHERRY,635,644944,village,Chinna Babu Samudram,7.79,ICD Melpakkam,125.68,Karaikal Port,118.37,Chennai International Airport (MAA),122.25,Petrapole ICP,1543.86
+Sedarapet,PUDUCHERRY,635,644942,village,Villianur,8.61,ICD Melpakkam,125.11,Karaikal Port,119.61,Chennai International Airport (MAA),119.37,Petrapole ICP,1540.43
+KUPPAM,PUDUCHERRY,635,644928,village,Chinna Babu Samudram,8.86,ICD Melpakkam,123.5,Karaikal Port,120.35,Chennai International Airport (MAA),121.42,Petrapole ICP,1543.57
+PUDUKUPPAM,PUDUCHERRY,635,644926,village,Chinna Babu Samudram,11.65,ICD Melpakkam,120.42,Karaikal Port,123.38,Chennai International Airport (MAA),119.22,Petrapole ICP,1541.84
+SUTHUKENY,PUDUCHERRY,635,644925,village,Chinna Babu Samudram,9.89,ICD Melpakkam,121.88,Karaikal Port,121.78,Chennai International Airport (MAA),121.24,Petrapole ICP,1543.85
+THETTHAMPAKKAM,PUDUCHERRY,635,644929,village,Chinna Babu Samudram,7.92,ICD Melpakkam,123.76,Karaikal Port,119.85,Chennai International Airport (MAA),123.16,Petrapole ICP,1545.62
+KODATHUR,PUDUCHERRY,635,644930,village,Chinna Babu Samudram,9.45,ICD Melpakkam,122.15,Karaikal Port,121.37,Chennai International Airport (MAA),122.63,Petrapole ICP,1545.44
+Thondamanatham,PUDUCHERRY,635,644945,village,Villianur,6.26,ICD Melpakkam,127.65,Karaikal Port,116.44,Chennai International Airport (MAA),123.71,Petrapole ICP,1544.98
+OLAIVAIKAL,PUDUCHERRY,635,644949,village,Villianur,2.65,ICD Melpakkam,132.2,Karaikal Port,111.92,Chennai International Airport (MAA),127.41,Petrapole ICP,1547.93
+OUSSUDU,PUDUCHERRY,635,644950,village,Villianur,3.26,ICD Melpakkam,130.46,Karaikal Port,113.83,Chennai International Airport (MAA),125.31,Petrapole ICP,1545.92
+RAMANATHAPURAM,PUDUCHERRY,635,644946,village,Villianur,5.08,ICD Melpakkam,129.17,Karaikal Port,114.87,Chennai International Airport (MAA),125.2,Petrapole ICP,1546.29
+SELLIPET,PUDUCHERRY,635,644936,village,Chinna Babu Samudram,3.63,ICD Melpakkam,128.74,Karaikal Port,114.98,Chennai International Airport (MAA),126.4,Petrapole ICP,1547.98
+PILLAIYARKUPPAM,PUDUCHERRY,635,644947,village,Chinna Babu Samudram,4.71,ICD Melpakkam,128.02,Karaikal Port,115.79,Chennai International Airport (MAA),125.33,Petrapole ICP,1546.89
+KARASOOR,PUDUCHERRY,635,644943,village,Villianur,8.11,ICD Melpakkam,125.44,Karaikal Port,118.91,Chennai International Airport (MAA),120.89,Petrapole ICP,1542.23
+SORAPET,PUDUCHERRY,635,644934,village,Chinna Babu Samudram,4.71,ICD Melpakkam,126.96,Karaikal Port,116.52,Chennai International Airport (MAA),126.83,Petrapole ICP,1549.12
+VAMBUPET,PUDUCHERRY,635,644935,village,Chinna Babu Samudram,5.1,ICD Melpakkam,126.52,Karaikal Port,117.04,Chennai International Airport (MAA),125.74,Petrapole ICP,1547.93
+KALITHIRTHALKUPPAM,PUDUCHERRY,635,644938,village,Valavanur,6.25,ICD Melpakkam,128.84,Karaikal Port,114.59,Chennai International Airport (MAA),131.31,Petrapole ICP,1554.04
+Sanyasikuppam,PUDUCHERRY,635,644937,village,Chinna Babu Samudram,4.81,ICD Melpakkam,128.59,Karaikal Port,114.82,Chennai International Airport (MAA),129.86,Petrapole ICP,1552.34
+Thiruvandarkoil,PUDUCHERRY,635,644941,village,Chinna Babu Samudram,2.6,ICD Melpakkam,130.42,Karaikal Port,113.01,Chennai International Airport (MAA),130.46,Petrapole ICP,1552.5
+Thirubuvanai,PUDUCHERRY,635,644940,village,Chinna Babu Samudram,4.39,ICD Melpakkam,130.64,Karaikal Port,112.77,Chennai International Airport (MAA),131.79,Petrapole ICP,1554.08
+MADAGADIPET,PUDUCHERRY,635,644939,village,Chinna Babu Samudram,5.37,ICD Melpakkam,131.2,Karaikal Port,112.22,Chennai International Airport (MAA),132.87,Petrapole ICP,1555.25
+MANALIPET,PUDUCHERRY,635,644923,village,VIKRAVANDI,10.36,ICD Melpakkam,118.97,Karaikal Port,124.44,Chennai International Airport (MAA),122.17,Petrapole ICP,1545.71
+VADHANUR,PUDUCHERRY,635,644933,village,Chinna Babu Samudram,6.96,ICD Melpakkam,126.12,Karaikal Port,117.29,Chennai International Airport (MAA),128.23,Petrapole ICP,1551.09
+MANNADIPET,PUDUCHERRY,635,644932,village,Chinna Babu Samudram,9.42,ICD Melpakkam,123.43,Karaikal Port,119.98,Chennai International Airport (MAA),126.38,Petrapole ICP,1549.59
+KUNITCHAMPET,PUDUCHERRY,635,644931,village,VIKRAVANDI,10.66,ICD Melpakkam,120.88,Karaikal Port,122.53,Chennai International Airport (MAA),123.99,Petrapole ICP,1547.4
+CHETTYPET,PUDUCHERRY,635,644924,village,VIKRAVANDI,11.62,ICD Melpakkam,120.12,Karaikal Port,123.31,Chennai International Airport (MAA),122.48,Petrapole ICP,1545.8
+Thalatheru,KARAIKAL,637,948032,village,Karaikal,2.44,ICD Salem,200.61,Karaikal Port,2.81,Tiruchirappalli International Airport (TRZ),124.91,Petrapole ICP,1630.99
+Keezhaiyur (North),KARAIKAL,637,644991,village,Karaikal,5.53,ICD Salem,205.01,Karaikal Port,5.23,Tiruchirappalli International Airport (TRZ),125.22,Petrapole ICP,1636.72
+Keezhaiyur (South),KARAIKAL,637,644992,village,Nagore,4.8,ICD Salem,205.48,Karaikal Port,6.88,Tiruchirappalli International Airport (TRZ),124.81,Petrapole ICP,1638.25
+KEEZHAVOOR,KARAIKAL,637,645006,village,Karaikal,3.81,ICD Salem,198.87,Karaikal Port,4.09,Tiruchirappalli International Airport (TRZ),121.82,Petrapole ICP,1634.23
+Kottucherry,KARAIKAL,637,644987,village,Karaikal,4.45,ICD Salem,199.92,Karaikal Port,4.78,Tiruchirappalli International Airport (TRZ),125.44,Petrapole ICP,1629.11
+POLAGAM,KARAIKAL,637,644993,village,Nagore,5.07,ICD Salem,203.72,Karaikal Port,7.91,Tiruchirappalli International Airport (TRZ),122.5,Petrapole ICP,1640.02
+POOVAM,KARAIKAL,637,644984,village,Karaikal,7.71,ICD Salem,199.08,Karaikal Port,8.01,Tiruchirappalli International Airport (TRZ),126.51,Petrapole ICP,1626.08
+Thirumalarayanpattinam,KARAIKAL,637,644995,village,Karaikal,6.0,ICD Salem,203.89,Karaikal Port,5.77,Tiruchirappalli International Airport (TRZ),123.77,Petrapole ICP,1637.82
+THIRUVATTAKUDY,KARAIKAL,637,644985,village,Karaikal,6.08,ICD Salem,200.38,Karaikal Port,6.36,Tiruchirappalli International Airport (TRZ),126.93,Petrapole ICP,1627.03
+Vanjoor,KARAIKAL,637,644994,village,Nagore,2.87,ICD Salem,206.37,Karaikal Port,8.85,Tiruchirappalli International Airport (TRZ),124.68,Petrapole ICP,1639.87
+Varitchikudy (North),KARAIKAL,637,644983,village,Karaikal,7.84,ICD Salem,197.31,Karaikal Port,8.2,Tiruchirappalli International Airport (TRZ),124.52,Petrapole ICP,1627.37
+Varitchikudy (South) (CT),KARAIKAL,637,644986,village,Karaikal,6.38,ICD Salem,197.95,Karaikal Port,6.74,Tiruchirappalli International Airport (TRZ),124.26,Petrapole ICP,1628.62
+AMBAGARATHUR,KARAIKAL,637,645001,village,Peralam Jn,8.42,ICD Salem,190.13,Karaikal Port,12.68,Tiruchirappalli International Airport (TRZ),114.62,Petrapole ICP,1635.6
+Devamapuram,KARAIKAL,637,645003,village,Karaikal,8.53,ICD Salem,193.97,Karaikal Port,8.85,Tiruchirappalli International Airport (TRZ),117.87,Petrapole ICP,1634.78
+Kizhamanai,KARAIKAL,637,644989,village,Karaikal,5.45,ICD Salem,199.63,Karaikal Port,5.5,Tiruchirappalli International Airport (TRZ),120.71,Petrapole ICP,1637.35
+KURUMBAGARAM,KARAIKAL,637,644996,village,Karaikal,11.17,ICD Salem,191.65,Karaikal Port,11.55,Tiruchirappalli International Airport (TRZ),118.23,Petrapole ICP,1631.27
+MELAKASAKUDY,KARAIKAL,637,645000,village,Karaikal,5.43,ICD Salem,197.09,Karaikal Port,5.8,Tiruchirappalli International Airport (TRZ),121.65,Petrapole ICP,1632.16
+Nallazhundur,KARAIKAL,637,645002,village,Peralam Jn,9.99,ICD Salem,191.98,Karaikal Port,10.9,Tiruchirappalli International Airport (TRZ),115.91,Petrapole ICP,1635.67
+NEDUNKADU,KARAIKAL,637,644999,village,Karaikal,8.98,ICD Salem,193.57,Karaikal Port,9.34,Tiruchirappalli International Airport (TRZ),118.96,Petrapole ICP,1632.37
+Neravy,KARAIKAL,637,644990,village,Karaikal,4.5,ICD Salem,201.54,Karaikal Port,4.43,Tiruchirappalli International Airport (TRZ),122.48,Petrapole ICP,1636.79
+PETTAI,KARAIKAL,637,645011,village,Karaikal,5.74,ICD Salem,198.03,Karaikal Port,5.91,Tiruchirappalli International Airport (TRZ),119.88,Petrapole ICP,1636.63
+PONBETHY,KARAIKAL,637,644997,village,Karaikal,8.89,ICD Salem,194.21,Karaikal Port,9.27,Tiruchirappalli International Airport (TRZ),120.57,Petrapole ICP,1630.39
+PUTHAKUDY,KARAIKAL,637,644998,village,Karaikal,6.64,ICD Salem,196.53,Karaikal Port,7.03,Tiruchirappalli International Airport (TRZ),122.29,Petrapole ICP,1630.29
+SELLUR,KARAIKAL,637,645010,village,Karaikal,7.59,ICD Salem,195.8,Karaikal Port,7.82,Tiruchirappalli International Airport (TRZ),117.99,Petrapole ICP,1637.0
+SETHUR,KARAIKAL,637,645009,village,Punthottam,9.41,ICD Salem,192.33,Karaikal Port,10.97,Tiruchirappalli International Airport (TRZ),115.19,Petrapole ICP,1637.37
+SORAKUDY,KARAIKAL,637,645004,village,Karaikal,7.11,ICD Salem,195.4,Karaikal Port,7.43,Tiruchirappalli International Airport (TRZ),119.09,Petrapole ICP,1634.5
+SUPRAYAPURAM,KARAIKAL,637,645005,village,Karaikal,5.71,ICD Salem,196.72,Karaikal Port,6.05,Tiruchirappalli International Airport (TRZ),120.65,Petrapole ICP,1633.46
+THENNANKUDY,KARAIKAL,637,645008,village,Karaikal,9.46,ICD Salem,193.83,Karaikal Port,9.72,Tiruchirappalli International Airport (TRZ),116.19,Petrapole ICP,1637.58
+THIRUNALLAR,KARAIKAL,637,645007,village,Karaikal,5.69,ICD Salem,197.24,Karaikal Port,5.95,Tiruchirappalli International Airport (TRZ),119.93,Petrapole ICP,1635.44
+Vizhidiur,KARAIKAL,637,64988,village,Karaikal,7.83,ICD Salem,196.87,Karaikal Port,7.98,Tiruchirappalli International Airport (TRZ),117.91,Petrapole ICP,1638.6
+Thattanchavady,PUDUCHERRY,635,,village,Puducherry,4.89,ICD Melpakkam,131.37,Karaikal Port,114.1,Chennai International Airport (MAA),122.73,Petrapole ICP,1542.13
+Pillaichavady,PUDUCHERRY,635,937514,village,Puducherry,10.54,ICD Melpakkam,126.54,Karaikal Port,121.52,Chennai International Airport (MAA),113.43,Petrapole ICP,1532.07
+Alankuppam,PUDUCHERRY,635,937515,village,Puducherry,11.13,ICD Melpakkam,124.07,Karaikal Port,122.01,Chennai International Airport (MAA),115.03,Petrapole ICP,1535.3
+Kalapet,PUDUCHERRY,635,937516,village,Puducherry,12.94,ICD Melpakkam,124.7,Karaikal Port,123.81,Chennai International Airport (MAA),111.03,Petrapole ICP,1529.8
+Karuvadikuppam,PUDUCHERRY,635,937520,village,Puducherry,4.55,ICD Melpakkam,130.65,Karaikal Port,115.64,Chennai International Airport (MAA),120.34,Petrapole ICP,1539.28
+Saram,PUDUCHERRY,635,804037,village,Puducherry,2.61,ICD Melpakkam,132.59,Karaikal Port,113.75,Chennai International Airport (MAA),121.96,Petrapole ICP,1540.5
+Reddiarpalayam,PUDUCHERRY,635,937518,village,Puducherry,3.06,ICD Melpakkam,133.84,Karaikal Port,111.82,Chennai International Airport (MAA),124.5,Petrapole ICP,1543.31
+OZHUKARAI,PUDUCHERRY,635,937513,village,Villianur,3.01,ICD Melpakkam,132.87,Karaikal Port,112.29,Chennai International Airport (MAA),124.82,Petrapole ICP,1544.22
+Kommapakkam,PUDUCHERRY,635,947968,village,Villianur,3.51,ICD Melpakkam,135.45,Karaikal Port,109.78,Chennai International Airport (MAA),126.91,Petrapole ICP,1545.78
+Murungapakkam,PUDUCHERRY,635,947969,village,Puducherry,3.31,ICD Melpakkam,136.1,Karaikal Port,109.53,Chennai International Airport (MAA),126.56,Petrapole ICP,1544.98
+Thengaithittu,PUDUCHERRY,635,937557,village,Puducherry,1.85,ICD Melpakkam,136.5,Karaikal Port,109.67,Chennai International Airport (MAA),125.78,Petrapole ICP,1543.69
+Pudupalayam,PUDUCHERRY,635,937556,village,Puducherry,1.74,ICD Melpakkam,133.93,Karaikal Port,112.16,Chennai International Airport (MAA),123.65,Petrapole ICP,1542.12
+Olandai,PUDUCHERRY,635,947959,village,Puducherry,2.32,ICD Melpakkam,134.85,Karaikal Port,110.97,Chennai International Airport (MAA),125.04,Petrapole ICP,1543.54
+Akkaravattam,KARAIKAL,637,948025,village,Karaikal,3.2,ICD Salem,203.94,Karaikal Port,2.9,Tiruchirappalli International Airport (TRZ),125.37,Petrapole ICP,1634.83
+Oduthurai,KARAIKAL,637,948031,village,Karaikal,3.09,ICD Salem,201.56,Karaikal Port,3.06,Tiruchirappalli International Airport (TRZ),123.26,Petrapole ICP,1635.36
+Kizhavely,KARAIKAL,637,948030,village,Karaikal,0.87,ICD Salem,203.21,Karaikal Port,0.48,Tiruchirappalli International Airport (TRZ),126.04,Petrapole ICP,1632.52
+Dharmapuram,KARAIKAL,637,948026,village,Karaikal,2.55,ICD Salem,200.35,Karaikal Port,2.76,Tiruchirappalli International Airport (TRZ),123.02,Petrapole ICP,1634.09
+KARAIKAL,KARAIKAL,637,948027,village,Karaikal,1.08,ICD Salem,201.82,Karaikal Port,1.21,Tiruchirappalli International Airport (TRZ),124.57,Petrapole ICP,1633.28
+Kovilpattu,KARAIKAL,637,,village,Karaikal,1.5,ICD Salem,201.13,Karaikal Port,1.88,Tiruchirappalli International Airport (TRZ),124.88,Petrapole ICP,1631.75
+Kizhakasakudy,KARAIKAL,637,948028,village,Karaikal,3.22,ICD Salem,200.49,Karaikal Port,3.56,Tiruchirappalli International Airport (TRZ),125.31,Petrapole ICP,1630.09
+Pallur,PUDUCHERRY,635,,village,MAHE,2.75,ICD Mangalore (Panambur),152.53,New Mangalore Port,153.94,Calicut International Airport (CCJ),79.09,Petrapole ICP,1866.15
+ADIVIPALAM,PUDUCHERRY,635,<Null>,village,Kakinada Port,25.87,ICD Hyderabad (Sanathnagar),406.17,Visakhapatnam Port,146.06,Visakhapatnam International Airport (VTZ),149.23,Petrapole ICP,968.33
+Chalakkara,PUDUCHERRY,635,,village,JAGANNATH TEMPLE GATE,3.08,ICD Mangalore (Panambur),151.79,New Mangalore Port,153.18,Calicut International Airport (CCJ),79.97,Petrapole ICP,1867.28
+Kallayee,PUDUCHERRY,635,,village,MAHE,2.06,ICD Mangalore (Panambur),152.96,New Mangalore Port,154.35,Calicut International Airport (CCJ),78.85,Petrapole ICP,1867.98
+MAHE,PUDUCHERRY,635,958035,village,MAHE,1.27,ICD Mangalore (Panambur),154.13,New Mangalore Port,155.52,Calicut International Airport (CCJ),77.75,Petrapole ICP,1868.73
+Pandakkal,PUDUCHERRY,635,948037,village,JAGANNATH TEMPLE GATE,3.93,ICD Mangalore (Panambur),150.07,New Mangalore Port,151.48,Calicut International Airport (CCJ),81.48,Petrapole ICP,1864.63
+Mettakur,PUDUCHERRY,635,948041,village,Kakinada Port,23.13,ICD Hyderabad (Sanathnagar),401.05,Visakhapatnam Port,147.29,Visakhapatnam International Airport (VTZ),150.38,Petrapole ICP,969.46
+KANKALAPET,PUDUCHERRY,635,948040,village,Kakinada Port,24.6,ICD Hyderabad (Sanathnagar),399.47,Visakhapatnam Port,149.47,Visakhapatnam International Airport (VTZ),152.55,Petrapole ICP,971.62
+France-Thippa,PUDUCHERRY,635,948039,village,Kakinada Port,25.37,ICD Hyderabad (Sanathnagar),400.55,Visakhapatnam Port,149.48,Visakhapatnam International Airport (VTZ),152.58,Petrapole ICP,971.68
+Iskitippah,PUDUCHERRY,635,<Null>,village,Kakinada Port,26.45,ICD Hyderabad (Sanathnagar),410.59,Visakhapatnam Port,142.85,Visakhapatnam International Airport (VTZ),146.06,Petrapole ICP,965.11
+YANAM,PUDUCHERRY,635,948042,village,Kakinada Port,24.36,ICD Hyderabad (Sanathnagar),401.19,Visakhapatnam Port,148.24,Visakhapatnam International Airport (VTZ),151.34,Petrapole ICP,970.43

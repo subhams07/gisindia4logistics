@@ -100,10 +100,30 @@ def main() -> None:
                 print(f"  SKIP: {e}", flush=True)
             except Exception as e:
                 print(f"  ERROR: {e}", flush=True)
+        build_national_summary()
         return
     if not args.state:
         ap.error("--state or --all required")
     run_one(args.state, args)
+
+
+def build_national_summary() -> pd.DataFrame:
+    states_gdf = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+    frames = []
+    for st in sorted(states_gdf["state"].unique()):
+        label = st.lower().replace(" ", "_")
+        spath = ANALYSIS_DIR / f"{label}_district_access_summary.csv"
+        if spath.exists():
+            df = pd.read_csv(spath)
+            df.insert(0, "state", st)
+            frames.append(df)
+    if frames:
+        composite = pd.concat(frames, ignore_index=True)
+        out_path = ANALYSIS_DIR / "india_district_access_summary.csv"
+        composite.to_csv(out_path, index=False)
+        print(f"\nWrote national composite ({len(composite)} rows) -> {out_path}", flush=True)
+        return composite
+    return pd.DataFrame()
 
 
 def run_one(state: str, args) -> None:
@@ -149,6 +169,8 @@ def run_one(state: str, args) -> None:
     base = pd.DataFrame({
         "village": villages["village"].values,
         "district": villages["district"].values if "district" in villages else None,
+        "district_code": (pd.to_numeric(villages["district_code"], errors="coerce").values
+                          if "district_code" in villages else None),
         "village_code": villages["village_code"].values,
         "unit": unit,
     })
@@ -180,16 +202,52 @@ def run_one(state: str, args) -> None:
         rows.append(row)
     summary = pd.DataFrame(rows)
 
-    # population weighting (Census 2011 district names; post-2011 districts
-    # and renamed districts — e.g. Sikkim's Gyalshing vs "West District" —
-    # get no population weight, by design)
-    census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
-    ck = census["district"].astype(str).str.lower().str.replace(r"\s+", " ", regex=True).str.strip()
-    ck = ck.str.replace(r"\s*\([^)]*\)", "", regex=True)
-    sel = census["state"].str.lower() == args.state.lower()
-    census_map = dict(zip(ck[sel], census.loc[sel, "Population"]))
-    summary["census2011_population"] = (
-        summary["district"].astype(str).str.lower().str.strip().map(census_map))
+    # population weighting via state-scoped district_code / district name
+    # against the estimates file (covers all 781 current districts: exact census
+    # or allocated; see scripts/analyze/allocate_population.py).
+    import re as _re
+    import difflib as _difflib
+
+    def _norm(s):
+        s = _re.sub(r"\s+", " ", str(s).lower().strip())
+        s = _re.sub(r"\s*\([^)]*\)", "", s)
+        s = s.replace(">", "a").replace("<", "a").replace("|", "i").replace("#", "u")
+        return s.replace(" ", "")
+
+    est_path = DATA_DIR / "demographic" / "district_population_estimates.csv"
+    if est_path.exists():
+        est = pd.read_csv(est_path)
+        s_est = est[est["state"].str.lower() == args.state.lower()].copy()
+        code_map = {float(c): p for c, p in zip(s_est["district_code"], s_est["pop_2011"]) if pd.notna(c)}
+        name_map = {_norm(d): p for d, p in zip(s_est["district"], s_est["pop_2011"])}
+
+        pops = []
+        for d in summary["district"]:
+            grp_v = base[base["district"] == d]
+            dc = grp_v["district_code"].dropna().iloc[0] if ("district_code" in grp_v and len(grp_v.dropna(subset=["district_code"]))) else None
+            p = None
+            if dc is not None:
+                try:
+                    p = code_map.get(float(dc))
+                except (ValueError, TypeError):
+                    p = None
+            if p is None:
+                target = _norm(d)
+                p = name_map.get(target)
+                if p is None and name_map:
+                    matches = _difflib.get_close_matches(target, list(name_map.keys()), n=1, cutoff=0.7)
+                    if matches:
+                        p = name_map[matches[0]]
+            pops.append(p)
+        summary["census2011_population"] = pops
+    else:
+        census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
+        ck = census["district"].astype(str).str.lower().str.replace(r"\s+", " ", regex=True).str.strip()
+        ck = ck.str.replace(r"\s*\([^)]*\)", "", regex=True)
+        sel = census["state"].str.lower() == args.state.lower()
+        census_map = dict(zip(ck[sel], census.loc[sel, "Population"]))
+        summary["census2011_population"] = (
+            summary["district"].astype(str).str.lower().str.strip().map(census_map))
 
     # state-level row: district means weighted by Census 2011 population
     # (post-2011 districts carry no 2011 population and are excluded from weighting)

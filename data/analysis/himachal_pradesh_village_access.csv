@@ -1,13 +1,13 @@
-village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
-BILASPUR,BILASPUR,030,district_centroid,ANANDPUR SAHIB,23.13,ICD Baddi,50.75,Deendayal Port (Kandla),1104.52,Sri Guru Ram Dass Jee International Airport (ATQ),176.22,Kartarpur Sahib ICP,165.86
-CHAMBA,CHAMBA,023,district_centroid,NURPUR ROAD,53.51,ICD Ludhiana,198.74,Deendayal Port (Kandla),1199.29,Sri Guru Ram Dass Jee International Airport (ATQ),166.98,Kartarpur Sahib ICP,133.23
-HAM|RPUR,HAM|RPUR,028,district_centroid,Una Himachal,31.51,ICD Baddi,79.75,Deendayal Port (Kandla),1121.68,Sri Guru Ram Dass Jee International Airport (ATQ),163.66,Kartarpur Sahib ICP,148.28
-KANGRA,KANGRA,024,district_centroid,KANGRA MANDIR,3.11,ICD Baddi,130.65,Deendayal Port (Kandla),1147.87,Sri Guru Ram Dass Jee International Airport (ATQ),146.4,Kartarpur Sahib ICP,121.66
-KINNAUR,KINNAUR,034,district_centroid,Shimla,122.58,ICD Baddi,160.8,Dahej Port,1216.59,Sri Guru Ram Dass Jee International Airport (ATQ),332.03,Kartarpur Sahib ICP,314.87
-KULLU,KULLU,026,district_centroid,JOGINDER NAGAR,63.08,ICD Baddi,118.28,Deendayal Port (Kandla),1191.61,Sri Guru Ram Dass Jee International Airport (ATQ),249.36,Kartarpur Sahib ICP,229.22
-LAHUL & SPITI,LAHUL & SPITI,025,district_centroid,JOGINDER NAGAR,93.14,ICD Baddi,184.86,Deendayal Port (Kandla),1253.91,Sri Guru Ram Dass Jee International Airport (ATQ),274.51,Kartarpur Sahib ICP,247.37
-MANDI,MANDI,027,district_centroid,JOGINDER NAGAR,42.2,ICD Baddi,78.86,Deendayal Port (Kandla),1147.17,Sri Guru Ram Dass Jee International Airport (ATQ),207.79,Kartarpur Sahib ICP,191.39
-SHIMLA,SHIMLA,033,district_centroid,Shimla,54.14,ICD Baddi,92.17,Deendayal Port (Kandla),1152.75,Sri Guru Ram Dass Jee International Airport (ATQ),278.79,Kartarpur Sahib ICP,266.88
-SIRMAUR,SIRMAUR,032,district_centroid,Salogra,39.79,ICD Baddi,68.69,Dahej Port,1091.19,Indira Gandhi International Airport (DEL),236.33,Kartarpur Sahib ICP,269.69
-SOLAN,SOLAN,031,district_centroid,Sonwara,23.01,ICD Baddi,11.41,Deendayal Port (Kandla),1085.19,Sri Guru Ram Dass Jee International Airport (ATQ),205.61,Kartarpur Sahib ICP,200.59
-UNA,UNA,029,district_centroid,Panoh,4.83,ICD Ludhiana,83.22,Deendayal Port (Kandla),1099.15,Sri Guru Ram Dass Jee International Airport (ATQ),135.67,Kartarpur Sahib ICP,123.31
+village,district,district_code,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+BILASPUR,BILASPUR,,30.0,district_centroid,ANANDPUR SAHIB,23.13,ICD Baddi,50.75,Deendayal Port (Kandla),1104.52,Sri Guru Ram Dass Jee International Airport (ATQ),176.22,Kartarpur Sahib ICP,165.86
+CHAMBA,CHAMBA,,23.0,district_centroid,NURPUR ROAD,53.51,ICD Ludhiana,198.74,Deendayal Port (Kandla),1199.29,Sri Guru Ram Dass Jee International Airport (ATQ),166.98,Kartarpur Sahib ICP,133.23
+HAMIRPUR,HAMIRPUR,,28.0,district_centroid,Una Himachal,31.51,ICD Baddi,79.75,Deendayal Port (Kandla),1121.68,Sri Guru Ram Dass Jee International Airport (ATQ),163.66,Kartarpur Sahib ICP,148.28
+KANGRA,KANGRA,,24.0,district_centroid,KANGRA MANDIR,3.11,ICD Baddi,130.65,Deendayal Port (Kandla),1147.87,Sri Guru Ram Dass Jee International Airport (ATQ),146.4,Kartarpur Sahib ICP,121.66
+KINNAUR,KINNAUR,,34.0,district_centroid,Shimla,122.58,ICD Baddi,160.8,Dahej Port,1216.59,Sri Guru Ram Dass Jee International Airport (ATQ),332.03,Kartarpur Sahib ICP,314.87
+KULLU,KULLU,,26.0,district_centroid,JOGINDER NAGAR,63.08,ICD Baddi,118.28,Deendayal Port (Kandla),1191.61,Sri Guru Ram Dass Jee International Airport (ATQ),249.36,Kartarpur Sahib ICP,229.22
+LAHUL & SPITI,LAHUL & SPITI,,25.0,district_centroid,JOGINDER NAGAR,93.14,ICD Baddi,184.86,Deendayal Port (Kandla),1253.91,Sri Guru Ram Dass Jee International Airport (ATQ),274.51,Kartarpur Sahib ICP,247.37
+MANDI,MANDI,,27.0,district_centroid,JOGINDER NAGAR,42.2,ICD Baddi,78.86,Deendayal Port (Kandla),1147.17,Sri Guru Ram Dass Jee International Airport (ATQ),207.79,Kartarpur Sahib ICP,191.39
+SHIMLA,SHIMLA,,33.0,district_centroid,Shimla,54.14,ICD Baddi,92.17,Deendayal Port (Kandla),1152.75,Sri Guru Ram Dass Jee International Airport (ATQ),278.79,Kartarpur Sahib ICP,266.88
+SIRMAUR,SIRMAUR,,32.0,district_centroid,Salogra,39.79,ICD Baddi,68.69,Dahej Port,1091.19,Indira Gandhi International Airport (DEL),236.33,Kartarpur Sahib ICP,269.69
+SOLAN,SOLAN,,31.0,district_centroid,Sonwara,23.01,ICD Baddi,11.41,Deendayal Port (Kandla),1085.19,Sri Guru Ram Dass Jee International Airport (ATQ),205.61,Kartarpur Sahib ICP,200.59
+UNA,UNA,,29.0,district_centroid,Panoh,4.83,ICD Ludhiana,83.22,Deendayal Port (Kandla),1099.15,Sri Guru Ram Dass Jee International Airport (ATQ),135.67,Kartarpur Sahib ICP,123.31

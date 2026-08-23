@@ -1,434 +1,434 @@
-village,district,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
-Ponchavadi,SOUTH GOA,626864,village,SANVERDAM CHUCH,4.61,ICD Mangalore (Panambur),274.3,Mormugao Port,33.29,Mangaluru International Airport (IXE),271.31,Rupaidiha ICP,1596.31
-Conxem,SOUTH GOA,626862,village,CHANDAR,9.48,ICD Mangalore (Panambur),280.16,Mormugao Port,30.34,Mangaluru International Airport (IXE),277.15,Rupaidiha ICP,1591.61
-Shiroda,SOUTH GOA,626863,village,CHANDAR,7.09,ICD Mangalore (Panambur),278.91,Mormugao Port,28.57,Mangaluru International Airport (IXE),275.96,Rupaidiha ICP,1594.58
-Borim,SOUTH GOA,626872,village,CHANDAR,10.91,ICD Mangalore (Panambur),283.04,Mormugao Port,24.66,Mangaluru International Airport (IXE),280.13,Rupaidiha ICP,1592.92
-Nirancal,SOUTH GOA,626861,village,CHANDAR,10.53,ICD Mangalore (Panambur),280.82,Mormugao Port,30.78,Mangaluru International Airport (IXE),277.8,Rupaidiha ICP,1590.51
-Vadi,SOUTH GOA,626858,village,VERNA,8.15,ICD Mangalore (Panambur),285.5,Mormugao Port,21.1,Mangaluru International Airport (IXE),282.64,Rupaidiha ICP,1593.04
-Telaulim,SOUTH GOA,626857,village,VERNA,7.88,ICD Mangalore (Panambur),286.47,Mormugao Port,20.38,Mangaluru International Airport (IXE),283.62,Rupaidiha ICP,1592.54
-Durbhat,SOUTH GOA,626856,village,VERNA,6.41,ICD Mangalore (Panambur),287.27,Mormugao Port,18.62,Mangaluru International Airport (IXE),284.45,Rupaidiha ICP,1593.1
-Betora,SOUTH GOA,626859,village,CHANDAR,13.1,ICD Mangalore (Panambur),284.98,Mormugao Port,25.78,Mangaluru International Airport (IXE),282.02,Rupaidiha ICP,1589.88
-Codar,SOUTH GOA,626860,village,CHANDAR,14.34,ICD Mangalore (Panambur),285.27,Mormugao Port,28.62,Mangaluru International Airport (IXE),282.25,Rupaidiha ICP,1587.44
-Ponda(M CI),SOUTH GOA,252082,village,VERNA,11.52,ICD Mangalore (Panambur),287.61,Mormugao Port,23.07,Mangaluru International Airport (IXE),284.69,Rupaidiha ICP,1589.24
-Bandora,SOUTH GOA,626869,village,VERNA,9.25,ICD Mangalore (Panambur),289.21,Mormugao Port,19.93,Mangaluru International Airport (IXE),286.34,Rupaidiha ICP,1590.03
-Mercurim (CT),NORTH GOA,626735,village,DABOLIM,6.84,ICD Mangalore (Panambur),293.5,Mormugao Port,11.92,Mangaluru International Airport (IXE),290.76,Rupaidiha ICP,1592.04
-Marcaim,SOUTH GOA,626867,village,VERNA,7.87,ICD Mangalore (Panambur),291.74,Mormugao Port,16.03,Mangaluru International Airport (IXE),288.93,Rupaidiha ICP,1590.55
-Velinga,SOUTH GOA,626854,village,KARMALI,8.48,ICD Mangalore (Panambur),291.72,Mormugao Port,19.22,Mangaluru International Airport (IXE),288.85,Rupaidiha ICP,1588.21
-Candepar,SOUTH GOA,626853,village,KARMALI,14.31,ICD Mangalore (Panambur),288.97,Mormugao Port,26.39,Mangaluru International Airport (IXE),285.97,Rupaidiha ICP,1585.51
-Neura-O-Pequeno,NORTH GOA,626725,village,KARMALI,5.86,ICD Mangalore (Panambur),295.39,Mormugao Port,12.22,Mangaluru International Airport (IXE),292.65,Rupaidiha ICP,1590.24
-Malpona,NORTH GOA,626838,village,KULEM,14.38,ICD Mangalore (Panambur),287.44,Mormugao Port,41.1,Mangaluru International Airport (IXE),284.16,Rupaidiha ICP,1576.82
-Neura-O-Grande,NORTH GOA,626726,village,KARMALI,6.82,ICD Mangalore (Panambur),293.69,Mormugao Port,13.34,Mangaluru International Airport (IXE),290.92,Rupaidiha ICP,1590.82
-Siridao,NORTH GOA,626724,village,DABOLIM,5.49,ICD Mangalore (Panambur),296.68,Mormugao Port,7.88,Mangaluru International Airport (IXE),294.02,Rupaidiha ICP,1592.46
-Priol,SOUTH GOA,626868,village,KARMALI,10.48,ICD Mangalore (Panambur),291.13,Mormugao Port,22.52,Mangaluru International Airport (IXE),288.19,Rupaidiha ICP,1586.34
-Goa Velha,NORTH GOA,626734,village,DABOLIM,6.4,ICD Mangalore (Panambur),295.01,Mormugao Port,10.62,Mangaluru International Airport (IXE),292.3,Rupaidiha ICP,1591.71
-Mandur,NORTH GOA,626720,village,KARMALI,4.3,ICD Mangalore (Panambur),295.96,Mormugao Port,14.06,Mangaluru International Airport (IXE),293.18,Rupaidiha ICP,1588.47
-Govanem,NORTH GOA,626837,village,KULEM,15.53,ICD Mangalore (Panambur),288.83,Mormugao Port,41.83,Mangaluru International Airport (IXE),285.53,Rupaidiha ICP,1575.15
-Ambeli,NORTH GOA,626839,village,KULEM,16.25,ICD Mangalore (Panambur),289.13,Mormugao Port,39.94,Mangaluru International Airport (IXE),285.87,Rupaidiha ICP,1576.12
-Usgao,SOUTH GOA,626873,village,KARMALI,16.76,ICD Mangalore (Panambur),289.37,Mormugao Port,29.87,Mangaluru International Airport (IXE),286.3,Rupaidiha ICP,1582.7
-Gancim,NORTH GOA,626721,village,KARMALI,4.42,ICD Mangalore (Panambur),296.97,Mormugao Port,12.61,Mangaluru International Airport (IXE),294.21,Rupaidiha ICP,1588.81
-Creek,NORTH GOA,,village,VASCO DA GAMA,4.48,ICD Mangalore (Panambur),297.81,Mormugao Port,4.4,Mangaluru International Airport (IXE),295.21,Rupaidiha ICP,1594.34
-Vagurbem,SOUTH GOA,626851,village,KARMALI,11.39,ICD Mangalore (Panambur),293.09,Mormugao Port,25.37,Mangaluru International Airport (IXE),290.1,Rupaidiha ICP,1582.67
-Bambolim (CT),NORTH GOA,626733,village,DABOLIM,7.44,ICD Mangalore (Panambur),298.83,Mormugao Port,8.3,Mangaluru International Airport (IXE),296.16,Rupaidiha ICP,1590.85
-Melauli,NORTH GOA,626840,village,KULEM,17.26,ICD Mangalore (Panambur),289.21,Mormugao Port,37.27,Mangaluru International Airport (IXE),286.0,Rupaidiha ICP,1577.81
-Azossim,NORTH GOA,626719,village,KARMALI,3.16,ICD Mangalore (Panambur),296.86,Mormugao Port,14.82,Mangaluru International Airport (IXE),294.06,Rupaidiha ICP,1587.28
-Curca,NORTH GOA,626723,village,KARMALI,6.82,ICD Mangalore (Panambur),298.19,Mormugao Port,9.49,Mangaluru International Airport (IXE),295.49,Rupaidiha ICP,1590.31
-Queula,SOUTH GOA,626871,village,VERNA,9.15,ICD Mangalore (Panambur),286.92,Mormugao Port,21.25,Mangaluru International Airport (IXE),284.04,Rupaidiha ICP,1591.35
-Guleli,NORTH GOA,626828,village,KARMALI,20.25,ICD Mangalore (Panambur),291.89,Mormugao Port,34.79,Mangaluru International Airport (IXE),288.71,Rupaidiha ICP,1577.23
-Cuncoliem,SOUTH GOA,626849,village,KARMALI,6.66,ICD Mangalore (Panambur),294.97,Mormugao Port,20.62,Mangaluru International Airport (IXE),292.06,Rupaidiha ICP,1584.53
-Damocem,NORTH GOA,626831,village,KULEM,20.07,ICD Mangalore (Panambur),292.01,Mormugao Port,36.34,Mangaluru International Airport (IXE),288.81,Rupaidiha ICP,1576.11
-Cujira (OG),NORTH GOA,626740,village,KARMALI,7.49,ICD Mangalore (Panambur),300.22,Mormugao Port,9.18,Mangaluru International Airport (IXE),297.54,Rupaidiha ICP,1589.54
-Durgavado (OG),NORTH GOA,645599,village,VASCO DA GAMA,8.43,ICD Mangalore (Panambur),301.62,Mormugao Port,7.38,Mangaluru International Airport (IXE),298.99,Rupaidiha ICP,1590.69
-Goalim Moula,NORTH GOA,626717,village,KARMALI,3.15,ICD Mangalore (Panambur),298.36,Mormugao Port,13.3,Mangaluru International Airport (IXE),295.59,Rupaidiha ICP,1587.41
-Cundaim,SOUTH GOA,626855,village,KARMALI,5.36,ICD Mangalore (Panambur),294.66,Mormugao Port,17.67,Mangaluru International Airport (IXE),291.81,Rupaidiha ICP,1586.86
-Sirsodem,NORTH GOA,626835,village,KULEM,17.59,ICD Mangalore (Panambur),291.13,Mormugao Port,43.53,Mangaluru International Airport (IXE),287.79,Rupaidiha ICP,1572.15
-Padeli,NORTH GOA,626829,village,KARMALI,20.23,ICD Mangalore (Panambur),293.15,Mormugao Port,35.13,Mangaluru International Airport (IXE),289.97,Rupaidiha ICP,1576.0
-Cotorem,NORTH GOA,626832,village,KULEM,19.14,ICD Mangalore (Panambur),291.78,Mormugao Port,38.47,Mangaluru International Airport (IXE),288.54,Rupaidiha ICP,1574.89
-Cotombi,NORTH GOA,626760,village,KARMALI,11.71,ICD Mangalore (Panambur),294.87,Mormugao Port,26.6,Mangaluru International Airport (IXE),291.85,Rupaidiha ICP,1580.44
-Querim,SOUTH GOA,626850,village,KARMALI,8.67,ICD Mangalore (Panambur),294.35,Mormugao Port,22.8,Mangaluru International Airport (IXE),291.4,Rupaidiha ICP,1583.47
-Birondem,NORTH GOA,626830,village,KULEM,20.86,ICD Mangalore (Panambur),293.04,Mormugao Port,36.72,Mangaluru International Airport (IXE),289.83,Rupaidiha ICP,1575.04
-Taleigao,NORTH GOA,645598,village,VASCO DA GAMA,7.88,ICD Mangalore (Panambur),301.52,Mormugao Port,6.6,Mangaluru International Airport (IXE),298.91,Rupaidiha ICP,1591.46
-Talaulim,NORTH GOA,626716,village,KARMALI,4.14,ICD Mangalore (Panambur),299.48,Mormugao Port,12.19,Mangaluru International Airport (IXE),296.74,Rupaidiha ICP,1587.59
-Pale,NORTH GOA,626764,village,KARMALI,15.52,ICD Mangalore (Panambur),293.02,Mormugao Port,30.06,Mangaluru International Airport (IXE),289.93,Rupaidiha ICP,1579.51
-Calapor (CT),NORTH GOA,626732,village,VASCO DA GAMA,8.22,ICD Mangalore (Panambur),300.65,Mormugao Port,7.65,Mangaluru International Airport (IXE),298.0,Rupaidiha ICP,1590.63
-Vantem,NORTH GOA,626827,village,KARMALI,18.36,ICD Mangalore (Panambur),293.45,Mormugao Port,33.24,Mangaluru International Airport (IXE),290.3,Rupaidiha ICP,1577.03
-Xelopo Curdo,NORTH GOA,626833,village,KULEM,18.16,ICD Mangalore (Panambur),291.34,Mormugao Port,40.67,Mangaluru International Airport (IXE),288.06,Rupaidiha ICP,1573.82
-Adcolna,SOUTH GOA,626847,village,KARMALI,4.74,ICD Mangalore (Panambur),297.97,Mormugao Port,20.39,Mangaluru International Airport (IXE),295.06,Rupaidiha ICP,1582.57
-Carambolim,NORTH GOA,626718,village,KARMALI,3.49,ICD Mangalore (Panambur),296.45,Mormugao Port,16.98,Mangaluru International Airport (IXE),293.61,Rupaidiha ICP,1586.02
-Volvoi,SOUTH GOA,626845,village,KARMALI,9.16,ICD Mangalore (Panambur),296.92,Mormugao Port,24.64,Mangaluru International Airport (IXE),293.93,Rupaidiha ICP,1580.3
-Ponocem,NORTH GOA,626826,village,KARMALI,16.23,ICD Mangalore (Panambur),295.01,Mormugao Port,31.45,Mangaluru International Airport (IXE),291.9,Rupaidiha ICP,1577.04
-Renovadi (OG),NORTH GOA,626738,village,KARMALI,7.71,ICD Mangalore (Panambur),302.57,Mormugao Port,10.51,Mangaluru International Airport (IXE),299.89,Rupaidiha ICP,1587.72
-Savoi Verem,SOUTH GOA,626846,village,KARMALI,9.02,ICD Mangalore (Panambur),295.93,Mormugao Port,24.1,Mangaluru International Airport (IXE),292.95,Rupaidiha ICP,1581.38
-Sanvorcem,NORTH GOA,626824,village,KARMALI,21.87,ICD Mangalore (Panambur),294.47,Mormugao Port,37.12,Mangaluru International Airport (IXE),291.25,Rupaidiha ICP,1573.67
-Chimbel (CT),NORTH GOA,626730,village,KARMALI,4.66,ICD Mangalore (Panambur),301.44,Mormugao Port,12.55,Mangaluru International Airport (IXE),298.7,Rupaidiha ICP,1586.41
-Panelim (OG),NORTH GOA,626736,village,KARMALI,3.63,ICD Mangalore (Panambur),301.41,Mormugao Port,13.57,Mangaluru International Airport (IXE),298.65,Rupaidiha ICP,1585.63
-Bainguinim,NORTH GOA,626715,village,KARMALI,2.36,ICD Mangalore (Panambur),300.76,Mormugao Port,14.42,Mangaluru International Airport (IXE),297.97,Rupaidiha ICP,1585.28
-Velguem,NORTH GOA,626762,village,KARMALI,14.24,ICD Mangalore (Panambur),295.67,Mormugao Port,29.56,Mangaluru International Airport (IXE),292.59,Rupaidiha ICP,1577.82
-Corlim (CT),NORTH GOA,626729,village,KARMALI,2.12,ICD Mangalore (Panambur),299.13,Mormugao Port,18.17,Mangaluru International Airport (IXE),296.27,Rupaidiha ICP,1583.42
-Codqui,NORTH GOA,626823,village,KULEM,21.45,ICD Mangalore (Panambur),294.24,Mormugao Port,38.54,Mangaluru International Airport (IXE),290.99,Rupaidiha ICP,1572.92
-Carambolim Buzruco,NORTH GOA,626821,village,KULEM,20.32,ICD Mangalore (Panambur),293.76,Mormugao Port,42.12,Mangaluru International Airport (IXE),290.45,Rupaidiha ICP,1570.97
-Panaji (CCP),NORTH GOA,252071,village,VASCO DA GAMA,9.04,ICD Mangalore (Panambur),303.28,Mormugao Port,7.09,Mangaluru International Airport (IXE),300.69,Rupaidiha ICP,1591.37
-Vaguriem,NORTH GOA,626811,village,KARMALI,17.22,ICD Mangalore (Panambur),296.6,Mormugao Port,32.82,Mangaluru International Airport (IXE),293.46,Rupaidiha ICP,1574.95
-Advoi,NORTH GOA,626825,village,KARMALI,19.68,ICD Mangalore (Panambur),295.04,Mormugao Port,35.01,Mangaluru International Airport (IXE),291.86,Rupaidiha ICP,1574.63
-Creek,NORTH GOA,,village,VASCO DA GAMA,10.42,ICD Mangalore (Panambur),304.77,Mormugao Port,8.28,Mangaluru International Airport (IXE),302.19,Rupaidiha ICP,1590.66
-Codiem,NORTH GOA,626812,village,KARMALI,18.76,ICD Mangalore (Panambur),296.5,Mormugao Port,34.36,Mangaluru International Airport (IXE),293.33,Rupaidiha ICP,1574.0
-Betqui,SOUTH GOA,626844,village,KARMALI,6.81,ICD Mangalore (Panambur),298.55,Mormugao Port,22.75,Mangaluru International Airport (IXE),295.6,Rupaidiha ICP,1580.53
-Velguem,NORTH GOA,626822,village,KULEM,21.13,ICD Mangalore (Panambur),294.28,Mormugao Port,40.12,Mangaluru International Airport (IXE),291.0,Rupaidiha ICP,1571.86
-Cumbarjua (CT),NORTH GOA,626728,village,KARMALI,3.4,ICD Mangalore (Panambur),300.85,Mormugao Port,19.68,Mangaluru International Airport (IXE),297.96,Rupaidiha ICP,1581.35
-Surla,NORTH GOA,626761,village,KARMALI,12.95,ICD Mangalore (Panambur),295.09,Mormugao Port,28.02,Mangaluru International Airport (IXE),292.03,Rupaidiha ICP,1579.3
-Sanvordem,NORTH GOA,626816,village,CASTLE ROCK,21.9,ICD Mangalore (Panambur),295.47,Mormugao Port,42.21,Mangaluru International Airport (IXE),292.16,Rupaidiha ICP,1569.61
-Orgao,SOUTH GOA,626866,village,KARMALI,4.35,ICD Mangalore (Panambur),300.66,Mormugao Port,20.64,Mangaluru International Airport (IXE),297.76,Rupaidiha ICP,1580.75
-Reis-Magos,NORTH GOA,626699,village,KARMALI,11.7,ICD Mangalore (Panambur),305.59,Mormugao Port,10.45,Mangaluru International Airport (IXE),302.96,Rupaidiha ICP,1587.87
-Valpoi (M Cl),NORTH GOA,252079,village,KARMALI,23.22,ICD Mangalore (Panambur),296.96,Mormugao Port,38.92,Mangaluru International Airport (IXE),293.7,Rupaidiha ICP,1570.66
-Sonus Vonvoliem,NORTH GOA,626810,village,KARMALI,13.97,ICD Mangalore (Panambur),298.44,Mormugao Port,29.9,Mangaluru International Airport (IXE),295.36,Rupaidiha ICP,1575.65
-Navelim,NORTH GOA,626759,village,KARMALI,9.2,ICD Mangalore (Panambur),299.51,Mormugao Port,25.33,Mangaluru International Airport (IXE),296.51,Rupaidiha ICP,1578.11
-Naguem,NORTH GOA,626813,village,KARMALI,20.74,ICD Mangalore (Panambur),298.03,Mormugao Port,36.59,Mangaluru International Airport (IXE),294.82,Rupaidiha ICP,1571.43
-Penha-De-Franca,NORTH GOA,626701,village,KARMALI,9.6,ICD Mangalore (Panambur),305.43,Mormugao Port,11.88,Mangaluru International Airport (IXE),302.75,Rupaidiha ICP,1586.2
-Pissurlem,NORTH GOA,626809,village,KARMALI,15.55,ICD Mangalore (Panambur),298.82,Mormugao Port,31.53,Mangaluru International Airport (IXE),295.7,Rupaidiha ICP,1574.29
-Candolim,NORTH GOA,626697,village,VASCO DA GAMA,12.76,ICD Mangalore (Panambur),307.25,Mormugao Port,10.31,Mangaluru International Airport (IXE),304.7,Rupaidiha ICP,1590.03
-Cudcem,NORTH GOA,626815,village,KULEM,23.37,ICD Mangalore (Panambur),296.71,Mormugao Port,41.16,Mangaluru International Airport (IXE),293.41,Rupaidiha ICP,1569.38
-Pilerne,NORTH GOA,626700,village,KARMALI,12.49,ICD Mangalore (Panambur),307.72,Mormugao Port,12.53,Mangaluru International Airport (IXE),305.08,Rupaidiha ICP,1586.04
-Buimpal,NORTH GOA,626807,village,KARMALI,18.29,ICD Mangalore (Panambur),300.28,Mormugao Port,34.41,Mangaluru International Airport (IXE),297.11,Rupaidiha ICP,1571.38
-Amone,NORTH GOA,626758,village,KARMALI,7.77,ICD Mangalore (Panambur),302.38,Mormugao Port,24.01,Mangaluru International Airport (IXE),299.42,Rupaidiha ICP,1577.38
-Jua (CT),NORTH GOA,626727,village,KARMALI,4.97,ICD Mangalore (Panambur),303.43,Mormugao Port,20.52,Mangaluru International Airport (IXE),300.54,Rupaidiha ICP,1579.44
-Capao,NORTH GOA,626708,village,KARMALI,5.8,ICD Mangalore (Panambur),305.57,Mormugao Port,17.96,Mangaluru International Airport (IXE),302.76,Rupaidiha ICP,1580.65
-Cudnem,NORTH GOA,626757,village,KARMALI,10.99,ICD Mangalore (Panambur),301.56,Mormugao Port,27.27,Mangaluru International Airport (IXE),298.54,Rupaidiha ICP,1575.51
-Mauzi,NORTH GOA,626806,village,KARMALI,21.08,ICD Mangalore (Panambur),299.52,Mormugao Port,37.1,Mangaluru International Airport (IXE),296.3,Rupaidiha ICP,1570.08
-Caranzol,NORTH GOA,626820,village,CASTLE ROCK,18.58,ICD Mangalore (Panambur),294.0,Mormugao Port,45.92,Mangaluru International Airport (IXE),290.62,Rupaidiha ICP,1568.37
-Pendral,NORTH GOA,626819,village,CASTLE ROCK,17.44,ICD Mangalore (Panambur),294.73,Mormugao Port,50.18,Mangaluru International Airport (IXE),291.27,Rupaidiha ICP,1565.14
-Codvol,NORTH GOA,626818,village,CASTLE ROCK,17.84,ICD Mangalore (Panambur),295.63,Mormugao Port,51.9,Mangaluru International Airport (IXE),292.14,Rupaidiha ICP,1563.41
-Davem,NORTH GOA,626801,village,CASTLE ROCK,23.37,ICD Mangalore (Panambur),298.0,Mormugao Port,43.5,Mangaluru International Airport (IXE),294.67,Rupaidiha ICP,1566.94
-Salvador-Do-Mundo,NORTH GOA,626702,village,KARMALI,9.33,ICD Mangalore (Panambur),307.41,Mormugao Port,14.99,Mangaluru International Airport (IXE),304.68,Rupaidiha ICP,1583.07
-Nagargao,NORTH GOA,626804,village,CASTLE ROCK,25.78,ICD Mangalore (Panambur),299.77,Mormugao Port,42.0,Mangaluru International Airport (IXE),296.47,Rupaidiha ICP,1566.68
-Ustem,NORTH GOA,626800,village,CASTLE ROCK,22.68,ICD Mangalore (Panambur),298.54,Mormugao Port,45.97,Mangaluru International Airport (IXE),295.16,Rupaidiha ICP,1564.98
-Aturli,NORTH GOA,626754,village,KARMALI,7.61,ICD Mangalore (Panambur),307.07,Mormugao Port,20.99,Mangaluru International Airport (IXE),304.2,Rupaidiha ICP,1577.72
-Sankhali (M Cl),NORTH GOA,252077,village,KARMALI,11.39,ICD Mangalore (Panambur),303.68,Mormugao Port,27.62,Mangaluru International Airport (IXE),300.66,Rupaidiha ICP,1574.1
-Satorem,NORTH GOA,626805,village,KARMALI,24.92,ICD Mangalore (Panambur),299.69,Mormugao Port,40.93,Mangaluru International Airport (IXE),296.4,Rupaidiha ICP,1567.44
-Naroa,NORTH GOA,626755,village,KARMALI,6.6,ICD Mangalore (Panambur),305.87,Mormugao Port,20.72,Mangaluru International Airport (IXE),303.0,Rupaidiha ICP,1578.31
-Saligao,NORTH GOA,626696,village,THIVIM,13.13,ICD Mangalore (Panambur),310.08,Mormugao Port,13.96,Mangaluru International Airport (IXE),307.47,Rupaidiha ICP,1585.63
-Onda (CT),NORTH GOA,626842,village,KARMALI,15.32,ICD Mangalore (Panambur),301.57,Mormugao Port,31.57,Mangaluru International Airport (IXE),298.46,Rupaidiha ICP,1572.52
-Sangolda,NORTH GOA,626688,village,THIVIM,11.66,ICD Mangalore (Panambur),310.08,Mormugao Port,14.64,Mangaluru International Airport (IXE),307.44,Rupaidiha ICP,1584.39
-Piligao,NORTH GOA,626756,village,KARMALI,7.72,ICD Mangalore (Panambur),305.09,Mormugao Port,23.2,Mangaluru International Airport (IXE),302.16,Rupaidiha ICP,1576.68
-Nagoa,NORTH GOA,626674,village,THIVIM,13.01,ICD Mangalore (Panambur),312.14,Mormugao Port,15.7,Mangaluru International Airport (IXE),309.54,Rupaidiha ICP,1584.75
-Zarani,NORTH GOA,626799,village,CASTLE ROCK,21.65,ICD Mangalore (Panambur),298.76,Mormugao Port,49.26,Mangaluru International Airport (IXE),295.32,Rupaidiha ICP,1562.75
-Vainguinim,NORTH GOA,626753,village,THIVIM,7.84,ICD Mangalore (Panambur),308.15,Mormugao Port,20.78,Mangaluru International Airport (IXE),305.3,Rupaidiha ICP,1577.62
-Carambolim Brama,NORTH GOA,626793,village,CASTLE ROCK,26.16,ICD Mangalore (Panambur),300.87,Mormugao Port,43.25,Mangaluru International Airport (IXE),297.54,Rupaidiha ICP,1565.14
-Compordem,NORTH GOA,626790,village,KARMALI,23.1,ICD Mangalore (Panambur),301.08,Mormugao Port,39.25,Mangaluru International Airport (IXE),297.83,Rupaidiha ICP,1567.63
-Saleli,NORTH GOA,626787,village,KARMALI,18.29,ICD Mangalore (Panambur),301.99,Mormugao Port,34.53,Mangaluru International Airport (IXE),298.82,Rupaidiha ICP,1570.23
-Bastora,NORTH GOA,626678,village,THIVIM,7.57,ICD Mangalore (Panambur),313.05,Mormugao Port,18.74,Mangaluru International Airport (IXE),310.34,Rupaidiha ICP,1580.11
-Socorro,NORTH GOA,626703,village,THIVIM,9.64,ICD Mangalore (Panambur),309.52,Mormugao Port,15.67,Mangaluru International Airport (IXE),306.82,Rupaidiha ICP,1582.66
-Olaulim,NORTH GOA,626686,village,THIVIM,6.62,ICD Mangalore (Panambur),309.95,Mormugao Port,18.84,Mangaluru International Airport (IXE),307.17,Rupaidiha ICP,1579.22
-Cumarconda,NORTH GOA,626808,village,KARMALI,18.56,ICD Mangalore (Panambur),298.19,Mormugao Port,34.44,Mangaluru International Airport (IXE),295.02,Rupaidiha ICP,1572.75
-Navelim,NORTH GOA,626709,village,KARMALI,4.53,ICD Mangalore (Panambur),303.66,Mormugao Port,15.29,Mangaluru International Airport (IXE),300.88,Rupaidiha ICP,1583.42
-Candola,SOUTH GOA,626865,village,KARMALI,5.58,ICD Mangalore (Panambur),301.79,Mormugao Port,21.82,Mangaluru International Airport (IXE),298.87,Rupaidiha ICP,1579.29
-Marra,NORTH GOA,626689,village,VASCO DA GAMA,13.79,ICD Mangalore (Panambur),307.87,Mormugao Port,11.75,Mangaluru International Airport (IXE),305.27,Rupaidiha ICP,1587.43
-Goltim,NORTH GOA,626710,village,KARMALI,3.88,ICD Mangalore (Panambur),303.57,Mormugao Port,16.6,Mangaluru International Airport (IXE),300.76,Rupaidiha ICP,1582.4
-Sonal,NORTH GOA,626817,village,CASTLE ROCK,22.21,ICD Mangalore (Panambur),297.18,Mormugao Port,44.32,Mangaluru International Airport (IXE),293.83,Rupaidiha ICP,1567.0
-Nanorem,NORTH GOA,626797,village,CASTLE ROCK,24.06,ICD Mangalore (Panambur),300.63,Mormugao Port,47.61,Mangaluru International Airport (IXE),297.23,Rupaidiha ICP,1562.49
-Calangute,NORTH GOA,626695,village,THIVIM,14.87,ICD Mangalore (Panambur),311.04,Mormugao Port,14.24,Mangaluru International Airport (IXE),308.47,Rupaidiha ICP,1586.69
-Pomburpa,NORTH GOA,626687,village,THIVIM,7.49,ICD Mangalore (Panambur),309.52,Mormugao Port,17.81,Mangaluru International Airport (IXE),306.76,Rupaidiha ICP,1580.26
-Carapur (CT),NORTH GOA,626763,village,KARMALI,10.71,ICD Mangalore (Panambur),305.63,Mormugao Port,26.56,Mangaluru International Airport (IXE),302.64,Rupaidiha ICP,1573.92
-Maloli,NORTH GOA,626796,village,CASTLE ROCK,24.99,ICD Mangalore (Panambur),300.85,Mormugao Port,45.77,Mangaluru International Airport (IXE),297.48,Rupaidiha ICP,1563.52
-Naneli,NORTH GOA,626792,village,KARMALI,25.72,ICD Mangalore (Panambur),302.28,Mormugao Port,41.92,Mangaluru International Airport (IXE),298.99,Rupaidiha ICP,1565.09
-Paliem,NORTH GOA,626679,village,THIVIM,8.31,ICD Mangalore (Panambur),311.85,Mormugao Port,17.59,Mangaluru International Airport (IXE),309.15,Rupaidiha ICP,1581.1
-Zormen,NORTH GOA,626788,village,KARMALI,20.53,ICD Mangalore (Panambur),302.97,Mormugao Port,36.8,Mangaluru International Airport (IXE),299.77,Rupaidiha ICP,1568.09
-Vainguinim,NORTH GOA,626798,village,CASTLE ROCK,22.75,ICD Mangalore (Panambur),300.2,Mormugao Port,50.38,Mangaluru International Airport (IXE),296.74,Rupaidiha ICP,1561.04
-Xelopo Buzruco,NORTH GOA,626794,village,CASTLE ROCK,27.53,ICD Mangalore (Panambur),302.66,Mormugao Port,44.03,Mangaluru International Airport (IXE),299.33,Rupaidiha ICP,1563.46
-Podocem,NORTH GOA,626765,village,KARMALI,13.14,ICD Mangalore (Panambur),306.3,Mormugao Port,29.09,Mangaluru International Airport (IXE),303.27,Rupaidiha ICP,1571.74
-Arpora,NORTH GOA,626673,village,THIVIM,13.57,ICD Mangalore (Panambur),313.69,Mormugao Port,16.99,Mangaluru International Airport (IXE),311.11,Rupaidiha ICP,1584.4
-Parra,NORTH GOA,626675,village,THIVIM,11.41,ICD Mangalore (Panambur),313.42,Mormugao Port,17.33,Mangaluru International Airport (IXE),310.79,Rupaidiha ICP,1582.91
-Sarvona,NORTH GOA,626751,village,KARMALI,11.31,ICD Mangalore (Panambur),307.55,Mormugao Port,26.6,Mangaluru International Airport (IXE),304.57,Rupaidiha ICP,1573.09
-Sigonem,NORTH GOA,626795,village,CASTLE ROCK,28.0,ICD Mangalore (Panambur),303.48,Mormugao Port,44.8,Mangaluru International Airport (IXE),300.13,Rupaidiha ICP,1562.44
-Morlem,NORTH GOA,626786,village,KARMALI,17.37,ICD Mangalore (Panambur),305.43,Mormugao Port,33.6,Mangaluru International Airport (IXE),302.31,Rupaidiha ICP,1568.91
-Nachinola,NORTH GOA,626682,village,THIVIM,5.57,ICD Mangalore (Panambur),311.87,Mormugao Port,19.61,Mangaluru International Airport (IXE),309.11,Rupaidiha ICP,1578.58
-Pale,NORTH GOA,626783,village,KARMALI,24.12,ICD Mangalore (Panambur),304.3,Mormugao Port,40.41,Mangaluru International Airport (IXE),301.04,Rupaidiha ICP,1564.86
-Verla,NORTH GOA,626676,village,THIVIM,10.66,ICD Mangalore (Panambur),314.52,Mormugao Port,18.56,Mangaluru International Airport (IXE),311.88,Rupaidiha ICP,1581.74
-Poriem,NORTH GOA,626766,village,KARMALI,14.98,ICD Mangalore (Panambur),306.55,Mormugao Port,31.01,Mangaluru International Airport (IXE),303.48,Rupaidiha ICP,1570.21
-Maem,NORTH GOA,626752,village,THIVIM,6.87,ICD Mangalore (Panambur),309.42,Mormugao Port,22.4,Mangaluru International Airport (IXE),306.55,Rupaidiha ICP,1575.96
-Curchirem,NORTH GOA,626750,village,THIVIM,13.78,ICD Mangalore (Panambur),308.34,Mormugao Port,29.88,Mangaluru International Airport (IXE),305.3,Rupaidiha ICP,1570.26
-Moira,NORTH GOA,626692,village,THIVIM,4.81,ICD Mangalore (Panambur),313.62,Mormugao Port,20.75,Mangaluru International Airport (IXE),310.87,Rupaidiha ICP,1577.67
-Bicholim (M Cl),NORTH GOA,252075,village,THIVIM,8.94,ICD Mangalore (Panambur),309.5,Mormugao Port,25.77,Mangaluru International Airport (IXE),306.55,Rupaidiha ICP,1573.09
-Derodem,NORTH GOA,626779,village,TINAI GHAT,24.76,ICD Mangalore (Panambur),302.92,Mormugao Port,51.9,Mangaluru International Airport (IXE),299.44,Rupaidiha ICP,1558.24
-Dongurli,NORTH GOA,626782,village,KARMALI,27.26,ICD Mangalore (Panambur),304.87,Mormugao Port,43.54,Mangaluru International Airport (IXE),301.55,Rupaidiha ICP,1562.42
-Gonteli,NORTH GOA,626768,village,KARMALI,19.08,ICD Mangalore (Panambur),307.76,Mormugao Port,35.17,Mangaluru International Airport (IXE),304.61,Rupaidiha ICP,1566.62
-Codal,NORTH GOA,626780,village,CASTLE ROCK,26.93,ICD Mangalore (Panambur),303.62,Mormugao Port,47.97,Mangaluru International Airport (IXE),300.22,Rupaidiha ICP,1560.29
-Querim,NORTH GOA,626785,village,KARMALI,20.27,ICD Mangalore (Panambur),306.19,Mormugao Port,36.52,Mangaluru International Airport (IXE),303.01,Rupaidiha ICP,1566.46
-Corjuem,NORTH GOA,626683,village,THIVIM,4.18,ICD Mangalore (Panambur),311.75,Mormugao Port,21.93,Mangaluru International Airport (IXE),308.93,Rupaidiha ICP,1576.13
-Aldona,NORTH GOA,626704,village,THIVIM,4.38,ICD Mangalore (Panambur),312.06,Mormugao Port,20.9,Mangaluru International Airport (IXE),309.27,Rupaidiha ICP,1577.2
-Anjuna,NORTH GOA,626694,village,THIVIM,13.8,ICD Mangalore (Panambur),315.81,Mormugao Port,18.99,Mangaluru International Airport (IXE),313.23,Rupaidiha ICP,1583.29
-Gululem,NORTH GOA,626784,village,KARMALI,22.97,ICD Mangalore (Panambur),306.31,Mormugao Port,39.25,Mangaluru International Airport (IXE),303.08,Rupaidiha ICP,1564.5
-Ravona,NORTH GOA,626767,village,THIVIM,17.32,ICD Mangalore (Panambur),308.64,Mormugao Port,33.81,Mangaluru International Airport (IXE),305.53,Rupaidiha ICP,1567.2
-Ona,NORTH GOA,626748,village,THIVIM,8.51,ICD Mangalore (Panambur),311.53,Mormugao Port,27.73,Mangaluru International Airport (IXE),308.57,Rupaidiha ICP,1570.91
-Siroli,NORTH GOA,626769,village,THIVIM,20.19,ICD Mangalore (Panambur),309.21,Mormugao Port,37.04,Mangaluru International Airport (IXE),306.04,Rupaidiha ICP,1564.58
-Maulinguem North,NORTH GOA,626749,village,THIVIM,10.72,ICD Mangalore (Panambur),310.9,Mormugao Port,29.23,Mangaluru International Airport (IXE),307.9,Rupaidiha ICP,1569.85
-Assagao,NORTH GOA,626672,village,THIVIM,10.67,ICD Mangalore (Panambur),316.3,Mormugao Port,20.23,Mangaluru International Airport (IXE),313.66,Rupaidiha ICP,1580.6
-Marna,NORTH GOA,626671,village,THIVIM,9.61,ICD Mangalore (Panambur),317.55,Mormugao Port,21.8,Mangaluru International Airport (IXE),314.89,Rupaidiha ICP,1578.87
-Rivem,NORTH GOA,626781,village,CASTLE ROCK,29.68,ICD Mangalore (Panambur),305.82,Mormugao Port,46.54,Mangaluru International Airport (IXE),302.45,Rupaidiha ICP,1559.86
-Mapusa(M Cl),NORTH GOA,252061,village,THIVIM,7.0,ICD Mangalore (Panambur),315.09,Mormugao Port,20.56,Mangaluru International Airport (IXE),312.38,Rupaidiha ICP,1578.67
-Mulgao,NORTH GOA,626747,village,THIVIM,5.41,ICD Mangalore (Panambur),312.02,Mormugao Port,25.17,Mangaluru International Airport (IXE),309.12,Rupaidiha ICP,1573.05
-Anjunem,NORTH GOA,626770,village,THIVIM,22.35,ICD Mangalore (Panambur),308.97,Mormugao Port,38.98,Mangaluru International Airport (IXE),305.76,Rupaidiha ICP,1563.31
-Sircaim,NORTH GOA,626669,village,THIVIM,1.03,ICD Mangalore (Panambur),314.9,Mormugao Port,24.28,Mangaluru International Airport (IXE),312.08,Rupaidiha ICP,1573.86
-Quelaudem,NORTH GOA,626771,village,THIVIM,23.69,ICD Mangalore (Panambur),309.05,Mormugao Port,40.33,Mangaluru International Airport (IXE),305.82,Rupaidiha ICP,1562.31
-Ivrem Buzruco,NORTH GOA,626774,village,KARMALI,27.87,ICD Mangalore (Panambur),308.21,Mormugao Port,44.13,Mangaluru International Airport (IXE),304.9,Rupaidiha ICP,1560.11
-Ivrem Curdo,NORTH GOA,626775,village,KARMALI,29.19,ICD Mangalore (Panambur),307.98,Mormugao Port,45.47,Mangaluru International Airport (IXE),304.65,Rupaidiha ICP,1559.32
-Siolim,NORTH GOA,626690,village,PERNEM,10.43,ICD Pune,317.04,Mormugao Port,22.64,Mangaluru International Airport (IXE),316.01,Rupaidiha ICP,1578.63
-Choraundem,NORTH GOA,626773,village,KARMALI,26.63,ICD Mangalore (Panambur),308.43,Mormugao Port,42.88,Mangaluru International Airport (IXE),305.15,Rupaidiha ICP,1560.85
-Golauli,NORTH GOA,626776,village,KARMALI,31.07,ICD Mangalore (Panambur),307.68,Mormugao Port,47.36,Mangaluru International Airport (IXE),304.31,Rupaidiha ICP,1558.23
-Oxel,NORTH GOA,626662,village,PERNEM,9.19,ICD Pune,315.62,Mormugao Port,24.06,Mangaluru International Airport (IXE),317.36,Rupaidiha ICP,1577.41
-Tivim,NORTH GOA,626670,village,THIVIM,2.77,ICD Mangalore (Panambur),316.33,Mormugao Port,23.83,Mangaluru International Airport (IXE),313.54,Rupaidiha ICP,1574.73
-Satrem,NORTH GOA,626778,village,TINAI GHAT,28.06,ICD Mangalore (Panambur),306.48,Mormugao Port,52.25,Mangaluru International Airport (IXE),303.01,Rupaidiha ICP,1555.74
-Agarvado,NORTH GOA,626657,village,PERNEM,9.04,ICD Pune,314.78,Mormugao Port,25.04,Mangaluru International Airport (IXE),318.6,Rupaidiha ICP,1577.14
-Camurlim,NORTH GOA,626663,village,PERNEM,7.79,ICD Pune,314.88,Mormugao Port,24.7,Mangaluru International Airport (IXE),317.26,Rupaidiha ICP,1575.89
-Adwalpale,NORTH GOA,626745,village,THIVIM,2.7,ICD Pune,314.28,Mormugao Port,27.53,Mangaluru International Airport (IXE),313.94,Rupaidiha ICP,1570.57
-Surla,NORTH GOA,626777,village,CASTLE ROCK,31.88,ICD Mangalore (Panambur),308.9,Mormugao Port,49.69,Mangaluru International Airport (IXE),305.5,Rupaidiha ICP,1555.97
-Latambarcem,NORTH GOA,626744,village,THIVIM,6.71,ICD Pune,313.9,Mormugao Port,29.87,Mangaluru International Airport (IXE),312.93,Rupaidiha ICP,1568.26
-Nadora,NORTH GOA,626665,village,THIVIM,4.36,ICD Pune,311.75,Mormugao Port,28.78,Mangaluru International Airport (IXE),317.43,Rupaidiha ICP,1569.84
-Pirna,NORTH GOA,626666,village,THIVIM,4.0,ICD Pune,312.2,Mormugao Port,29.17,Mangaluru International Airport (IXE),316.13,Rupaidiha ICP,1569.05
-Dumacem,NORTH GOA,626742,village,THIVIM,6.33,ICD Pune,310.55,Mormugao Port,31.42,Mangaluru International Airport (IXE),317.07,Rupaidiha ICP,1566.72
-Parcem,NORTH GOA,626660,village,PERNEM,6.59,ICD Pune,312.19,Mormugao Port,27.53,Pune Airport (PNQ),319.21,Rupaidiha ICP,1574.51
-Tuem,NORTH GOA,626655,village,PERNEM,4.28,ICD Pune,311.51,Mormugao Port,28.08,Pune Airport (PNQ),318.46,Rupaidiha ICP,1572.42
-Mandrem,NORTH GOA,626659,village,PERNEM,9.69,ICD Pune,312.2,Mormugao Port,28.23,Pune Airport (PNQ),319.29,Rupaidiha ICP,1576.18
-Salem,NORTH GOA,626743,village,THIVIM,9.05,ICD Pune,310.04,Mormugao Port,33.45,Mangaluru International Airport (IXE),316.45,Rupaidiha ICP,1564.62
-Mencurem,NORTH GOA,626741,village,THIVIM,7.15,ICD Pune,309.17,Mormugao Port,32.31,Pune Airport (PNQ),315.93,Rupaidiha ICP,1565.96
-Virnora,NORTH GOA,626654,village,PERNEM,2.43,ICD Pune,309.81,Mormugao Port,29.84,Pune Airport (PNQ),316.74,Rupaidiha ICP,1570.31
-Arambol,NORTH GOA,626658,village,PERNEM,10.27,ICD Pune,310.19,Mormugao Port,30.57,Pune Airport (PNQ),317.31,Rupaidiha ICP,1574.99
-Dargalim,NORTH GOA,626653,village,PERNEM,4.21,ICD Pune,310.75,Mormugao Port,29.2,Pune Airport (PNQ),317.63,Rupaidiha ICP,1570.11
-Ozorim,NORTH GOA,626652,village,PERNEM,6.39,ICD Pune,308.91,Mormugao Port,31.82,Pune Airport (PNQ),315.72,Rupaidiha ICP,1566.8
-Ibrampur,NORTH GOA,626650,village,THIVIM,10.66,ICD Pune,307.48,Mormugao Port,35.54,Pune Airport (PNQ),314.16,Rupaidiha ICP,1562.53
-Querim,NORTH GOA,626636,village,PERNEM,12.34,ICD Pune,307.31,Mormugao Port,34.1,Pune Airport (PNQ),314.47,Rupaidiha ICP,1573.41
-Paliem,NORTH GOA,626637,village,PERNEM,9.94,ICD Pune,307.51,Mormugao Port,33.17,Pune Airport (PNQ),314.63,Rupaidiha ICP,1572.6
-Cansarvornem,NORTH GOA,626651,village,PERNEM,6.29,ICD Pune,306.63,Mormugao Port,34.03,Pune Airport (PNQ),313.44,Rupaidiha ICP,1564.74
-Tiracol,NORTH GOA,626635,village,PERNEM,13.98,ICD Pune,305.97,Mormugao Port,35.92,Pune Airport (PNQ),313.17,Rupaidiha ICP,1572.84
-Pernem,NORTH GOA,626639,village,PERNEM,0.63,ICD Pune,307.54,Mormugao Port,32.14,Pune Airport (PNQ),314.47,Rupaidiha ICP,1568.1
-Corgao,NORTH GOA,626638,village,PERNEM,6.12,ICD Pune,307.67,Mormugao Port,32.22,Pune Airport (PNQ),314.72,Rupaidiha ICP,1571.13
-Varconda,NORTH GOA,626642,village,PERNEM,3.37,ICD Pune,305.6,Mormugao Port,34.33,Pune Airport (PNQ),312.48,Rupaidiha ICP,1565.35
-Alorna,NORTH GOA,626649,village,THIVIM,10.97,ICD Pune,306.16,Mormugao Port,36.11,Pune Airport (PNQ),312.87,Rupaidiha ICP,1562.06
-Chandel,NORTH GOA,626648,village,PERNEM,8.18,ICD Pune,304.0,Mormugao Port,36.89,Pune Airport (PNQ),310.79,Rupaidiha ICP,1561.85
-Uguem,NORTH GOA,626644,village,PERNEM,5.14,ICD Pune,302.86,Mormugao Port,36.99,Pune Airport (PNQ),309.75,Rupaidiha ICP,1563.09
-Tamboxem,NORTH GOA,626645,village,PERNEM,5.99,ICD Pune,301.81,Mormugao Port,38.0,Pune Airport (PNQ),308.7,Rupaidiha ICP,1562.26
-Mopa,NORTH GOA,626647,village,PERNEM,6.93,ICD Pune,302.53,Mormugao Port,37.73,Pune Airport (PNQ),309.36,Rupaidiha ICP,1561.66
-Torxem,NORTH GOA,626646,village,MADURE,6.63,ICD Pune,299.34,Mormugao Port,40.83,Pune Airport (PNQ),306.18,Rupaidiha ICP,1558.89
-Assodem,NORTH GOA,626836,village,KULEM,16.26,ICD Mangalore (Panambur),289.79,Mormugao Port,43.45,Mangaluru International Airport (IXE),286.46,Rupaidiha ICP,1573.3
-Nerul,NORTH GOA,626698,village,VASCO DA GAMA,12.39,ICD Mangalore (Panambur),306.64,Mormugao Port,10.26,Mangaluru International Airport (IXE),304.05,Rupaidiha ICP,1588.92
-Batim,NORTH GOA,626722,village,KARMALI,5.98,ICD Mangalore (Panambur),297.32,Mormugao Port,10.59,Mangaluru International Airport (IXE),294.6,Rupaidiha ICP,1590.04
-Sirigao,NORTH GOA,626746,village,THIVIM,3.6,ICD Mangalore (Panambur),312.7,Mormugao Port,23.99,Mangaluru International Airport (IXE),309.84,Rupaidiha ICP,1574.09
-Ponsuli,NORTH GOA,626772,village,KARMALI,24.99,ICD Mangalore (Panambur),308.3,Mormugao Port,41.21,Mangaluru International Airport (IXE),305.04,Rupaidiha ICP,1562.07
-Dabem,NORTH GOA,626789,village,KARMALI,21.04,ICD Mangalore (Panambur),301.12,Mormugao Port,37.21,Mangaluru International Airport (IXE),297.9,Rupaidiha ICP,1568.96
-Bombedem,NORTH GOA,626802,village,CASTLE ROCK,24.48,ICD Mangalore (Panambur),298.48,Mormugao Port,42.22,Mangaluru International Airport (IXE),295.17,Rupaidiha ICP,1567.43
-Ambedem,NORTH GOA,626803,village,CASTLE ROCK,24.99,ICD Mangalore (Panambur),299.07,Mormugao Port,42.27,Mangaluru International Airport (IXE),295.76,Rupaidiha ICP,1566.99
-Edorem,NORTH GOA,626791,village,KARMALI,24.85,ICD Mangalore (Panambur),300.91,Mormugao Port,40.97,Mangaluru International Airport (IXE),297.63,Rupaidiha ICP,1566.6
-Ansolem,NORTH GOA,626814,village,KARMALI,20.64,ICD Mangalore (Panambur),296.06,Mormugao Port,36.18,Mangaluru International Airport (IXE),292.86,Rupaidiha ICP,1573.1
-Siranguli,NORTH GOA,626834,village,KULEM,18.29,ICD Mangalore (Panambur),291.76,Mormugao Port,42.52,Mangaluru International Airport (IXE),288.44,Rupaidiha ICP,1572.29
-Tivrem,SOUTH GOA,626843,village,KARMALI,4.57,ICD Mangalore (Panambur),299.38,Mormugao Port,20.71,Mangaluru International Airport (IXE),296.47,Rupaidiha ICP,1581.45
-Boma,SOUTH GOA,626848,village,KARMALI,4.71,ICD Mangalore (Panambur),296.74,Mormugao Port,19.57,Mangaluru International Airport (IXE),293.85,Rupaidiha ICP,1583.98
-Curti,SOUTH GOA,626870,village,KARMALI,13.85,ICD Mangalore (Panambur),288.27,Mormugao Port,25.01,Mangaluru International Airport (IXE),285.3,Rupaidiha ICP,1587.15
-Arvalem,NORTH GOA,917385,village,KARMALI,14.08,ICD Mangalore (Panambur),303.23,Mormugao Port,30.37,Mangaluru International Airport (IXE),300.15,Rupaidiha ICP,1572.39
-Poroscodem,NORTH GOA,626640,village,PERNEM,3.02,ICD Pune,304.39,Mormugao Port,35.22,Pune Airport (PNQ),311.33,Rupaidiha ICP,1565.69
-Velsao,SOUTH GOA,626882,village,CANSAULIM,1.13,ICD Mangalore (Panambur),286.89,Mormugao Port,12.43,Mangaluru International Airport (IXE),284.23,Rupaidiha ICP,1599.58
-Chandor,SOUTH GOA,626911,village,CHANDAR,1.26,ICD Mangalore (Panambur),271.64,Mormugao Port,32.87,Mangaluru International Airport (IXE),268.72,Rupaidiha ICP,1600.46
-Loliem,SOUTH GOA,627027,village,LOLIEM,0.86,ICD Mangalore (Panambur),236.91,Mormugao Port,60.88,Mangaluru International Airport (IXE),234.22,Rupaidiha ICP,1632.12
-Poinguinim,SOUTH GOA,627026,village,LOLIEM,4.66,ICD Mangalore (Panambur),240.84,Mormugao Port,57.78,Mangaluru International Airport (IXE),238.06,Rupaidiha ICP,1626.85
-Canacona (M CI),SOUTH GOA,252100,village,CANCONA,0.59,ICD Mangalore (Panambur),245.67,Mormugao Port,52.12,Mangaluru International Airport (IXE),242.99,Rupaidiha ICP,1626.55
-Cotigao,SOUTH GOA,627028,village,ASNOTI,13.41,ICD Mangalore (Panambur),236.69,Mormugao Port,65.84,Mangaluru International Airport (IXE),233.62,Rupaidiha ICP,1621.78
-Canacona,SOUTH GOA,627024,village,CANCONA,4.0,ICD Mangalore (Panambur),246.23,Mormugao Port,52.31,Mangaluru International Airport (IXE),243.47,Rupaidiha ICP,1623.74
-Gaodongrem,SOUTH GOA,627025,village,LOLIEM,10.29,ICD Mangalore (Panambur),243.54,Mormugao Port,56.86,Mangaluru International Airport (IXE),240.63,Rupaidiha ICP,1621.21
-Nundem,SOUTH GOA,627019,village,LOLIEM,17.68,ICD Mangalore (Panambur),245.24,Mormugao Port,58.81,Mangaluru International Airport (IXE),242.16,Rupaidiha ICP,1614.72
-Agonda,SOUTH GOA,627023,village,CANCONA,5.4,ICD Mangalore (Panambur),250.7,Mormugao Port,46.72,Mangaluru International Airport (IXE),248.08,Rupaidiha ICP,1625.13
-Quisconda,SOUTH GOA,626963,village,CANCONA,9.03,ICD Mangalore (Panambur),249.72,Mormugao Port,50.26,Mangaluru International Airport (IXE),246.87,Rupaidiha ICP,1618.35
-Mangal,SOUTH GOA,626968,village,CANCONA,16.16,ICD Mangalore (Panambur),246.43,Mormugao Port,56.74,Mangaluru International Airport (IXE),243.39,Rupaidiha ICP,1615.2
-Barcem,SOUTH GOA,626961,village,CANCONA,6.22,ICD Mangalore (Panambur),251.6,Mormugao Port,46.67,Mangaluru International Airport (IXE),248.88,Rupaidiha ICP,1621.23
-Corla,SOUTH GOA,626966,village,CANCONA,11.7,ICD Mangalore (Panambur),249.75,Mormugao Port,51.38,Mangaluru International Airport (IXE),246.83,Rupaidiha ICP,1616.32
-Cazur,SOUTH GOA,626967,village,CANCONA,14.57,ICD Mangalore (Panambur),248.98,Mormugao Port,53.53,Mangaluru International Airport (IXE),245.98,Rupaidiha ICP,1614.67
-Verlem,SOUTH GOA,627020,village,LOLIEM,21.92,ICD Mangalore (Panambur),242.73,Mormugao Port,64.04,Mangaluru International Airport (IXE),239.52,Rupaidiha ICP,1612.92
-Gocoldem,SOUTH GOA,626962,village,CANCONA,8.58,ICD Mangalore (Panambur),251.49,Mormugao Port,47.99,Mangaluru International Airport (IXE),248.68,Rupaidiha ICP,1618.31
-Cola,SOUTH GOA,627022,village,BALLI,9.49,ICD Mangalore (Panambur),256.35,Mormugao Port,40.9,Mangaluru International Airport (IXE),253.78,Rupaidiha ICP,1622.64
-Quedem,SOUTH GOA,626960,village,BALLI,6.93,ICD Mangalore (Panambur),255.04,Mormugao Port,43.02,Mangaluru International Airport (IXE),252.34,Rupaidiha ICP,1619.77
-Vichundrem,SOUTH GOA,627016,village,CANCONA,19.13,ICD Mangalore (Panambur),250.1,Mormugao Port,54.87,Mangaluru International Airport (IXE),247.01,Rupaidiha ICP,1610.88
-Padi,SOUTH GOA,626959,village,BALLI,6.79,ICD Mangalore (Panambur),254.61,Mormugao Port,44.31,Mangaluru International Airport (IXE),251.84,Rupaidiha ICP,1617.7
-Neturlim,SOUTH GOA,627018,village,CANCONA,21.96,ICD Mangalore (Panambur),247.53,Mormugao Port,58.93,Mangaluru International Airport (IXE),244.36,Rupaidiha ICP,1610.61
-Sulcorna,SOUTH GOA,626965,village,BALLI,15.78,ICD Mangalore (Panambur),251.5,Mormugao Port,52.0,Mangaluru International Airport (IXE),248.48,Rupaidiha ICP,1611.92
-Pirla,SOUTH GOA,626964,village,BALLI,12.02,ICD Mangalore (Panambur),252.86,Mormugao Port,48.95,Mangaluru International Airport (IXE),249.92,Rupaidiha ICP,1613.5
-Naquerim,SOUTH GOA,626952,village,BALLI,7.98,ICD Mangalore (Panambur),258.99,Mormugao Port,38.32,Mangaluru International Airport (IXE),256.41,Rupaidiha ICP,1620.51
-Sigonem,SOUTH GOA,627017,village,KALEEM,20.31,ICD Mangalore (Panambur),250.53,Mormugao Port,59.01,Mangaluru International Airport (IXE),247.27,Rupaidiha ICP,1605.85
-Maina,SOUTH GOA,626957,village,BALLI,8.36,ICD Mangalore (Panambur),254.8,Mormugao Port,45.76,Mangaluru International Airport (IXE),251.93,Rupaidiha ICP,1614.38
-Bendordem,SOUTH GOA,626955,village,BALLI,3.42,ICD Mangalore (Panambur),258.39,Mormugao Port,41.1,Mangaluru International Airport (IXE),255.6,Rupaidiha ICP,1614.26
-Curpem,SOUTH GOA,627015,village,BALLI,16.5,ICD Mangalore (Panambur),253.63,Mormugao Port,51.41,Mangaluru International Airport (IXE),250.56,Rupaidiha ICP,1608.9
-Porteem,SOUTH GOA,627011,village,KALEEM,18.01,ICD Mangalore (Panambur),252.91,Mormugao Port,54.33,Mangaluru International Airport (IXE),249.76,Rupaidiha ICP,1606.86
-Morpila,SOUTH GOA,626953,village,BALLI,4.47,ICD Mangalore (Panambur),258.35,Mormugao Port,39.69,Mangaluru International Airport (IXE),255.66,Rupaidiha ICP,1617.81
-Dongor,SOUTH GOA,627009,village,KALEEM,17.24,ICD Mangalore (Panambur),253.59,Mormugao Port,56.57,Mangaluru International Airport (IXE),250.34,Rupaidiha ICP,1603.66
-Naiquinim,SOUTH GOA,627010,village,KALEEM,15.93,ICD Mangalore (Panambur),254.84,Mormugao Port,53.9,Mangaluru International Airport (IXE),251.64,Rupaidiha ICP,1604.37
-Fatorpa,SOUTH GOA,626950,village,BALLI,3.22,ICD Mangalore (Panambur),261.1,Mormugao Port,37.04,Mangaluru International Airport (IXE),258.42,Rupaidiha ICP,1615.84
-Colomba,SOUTH GOA,627013,village,BALLI,12.91,ICD Mangalore (Panambur),256.29,Mormugao Port,47.67,Mangaluru International Airport (IXE),253.27,Rupaidiha ICP,1608.76
-Viliena,SOUTH GOA,627008,village,KALEEM,15.08,ICD Mangalore (Panambur),255.76,Mormugao Port,55.01,Mangaluru International Airport (IXE),252.51,Rupaidiha ICP,1602.0
-Velim,SOUTH GOA,626921,village,BALLI,5.5,ICD Mangalore (Panambur),263.26,Mormugao Port,34.5,Mangaluru International Airport (IXE),260.62,Rupaidiha ICP,1615.77
-Bali,SOUTH GOA,626949,village,BALLI,0.53,ICD Mangalore (Panambur),261.58,Mormugao Port,37.71,Mangaluru International Airport (IXE),258.81,Rupaidiha ICP,1612.85
-Adnem,SOUTH GOA,626948,village,BALLI,3.39,ICD Mangalore (Panambur),261.43,Mormugao Port,38.98,Mangaluru International Airport (IXE),258.6,Rupaidiha ICP,1610.91
-Molcopona,SOUTH GOA,626945,village,SANVERDAM CHUCH,10.53,ICD Mangalore (Panambur),259.61,Mormugao Port,46.12,Mangaluru International Airport (IXE),256.56,Rupaidiha ICP,1605.0
-Cumbari,SOUTH GOA,627007,village,SONALIUM,15.86,ICD Mangalore (Panambur),254.8,Mormugao Port,58.51,Mangaluru International Airport (IXE),251.47,Rupaidiha ICP,1600.28
-Rivona,SOUTH GOA,627014,village,BALLI,8.67,ICD Mangalore (Panambur),258.14,Mormugao Port,44.07,Mangaluru International Airport (IXE),255.21,Rupaidiha ICP,1610.01
-Undorna,SOUTH GOA,626944,village,SANVERDAM CHUCH,10.52,ICD Mangalore (Panambur),259.93,Mormugao Port,46.8,Mangaluru International Airport (IXE),256.85,Rupaidiha ICP,1603.79
-Curdem,SOUTH GOA,627012,village,SANVERDAM CHUCH,13.54,ICD Mangalore (Panambur),257.39,Mormugao Port,49.97,Mangaluru International Airport (IXE),254.26,Rupaidiha ICP,1604.43
-Molcarnem,SOUTH GOA,626946,village,SANVERDAM CHUCH,9.04,ICD Mangalore (Panambur),261.05,Mormugao Port,43.72,Mangaluru International Airport (IXE),258.04,Rupaidiha ICP,1605.33
-Cavelossim,SOUTH GOA,626920,village,BALLI,8.1,ICD Mangalore (Panambur),266.11,Mormugao Port,31.44,Mangaluru International Airport (IXE),263.49,Rupaidiha ICP,1614.84
-Zanodem,SOUTH GOA,626943,village,SANVERDAM CHUCH,8.01,ICD Mangalore (Panambur),262.19,Mormugao Port,44.2,Mangaluru International Airport (IXE),259.13,Rupaidiha ICP,1603.01
-Bati,SOUTH GOA,627006,village,KALEEM,13.49,ICD Mangalore (Panambur),257.85,Mormugao Port,55.2,Mangaluru International Airport (IXE),254.56,Rupaidiha ICP,1598.98
-Salauli,SOUTH GOA,627002,village,KALEEM,10.69,ICD Mangalore (Panambur),260.41,Mormugao Port,48.65,Mangaluru International Airport (IXE),257.25,Rupaidiha ICP,1601.27
-Xelpem,SOUTH GOA,627001,village,SANVERDAM CHUCH,9.43,ICD Mangalore (Panambur),261.73,Mormugao Port,46.49,Mangaluru International Airport (IXE),258.61,Rupaidiha ICP,1601.43
-Carmona,SOUTH GOA,626917,village,MADGAON,7.79,ICD Mangalore (Panambur),268.53,Mormugao Port,29.51,Mangaluru International Airport (IXE),265.88,Rupaidiha ICP,1611.69
-Nagvem,SOUTH GOA,626942,village,SANVERDAM CHUCH,6.3,ICD Mangalore (Panambur),263.76,Mormugao Port,42.06,Mangaluru International Airport (IXE),260.73,Rupaidiha ICP,1602.84
-Ambaulim,SOUTH GOA,626947,village,BALLI,5.81,ICD Mangalore (Panambur),265.06,Mormugao Port,36.25,Mangaluru International Airport (IXE),262.21,Rupaidiha ICP,1607.56
-Talvorda,SOUTH GOA,924823,village,BALLI,5.85,ICD Mangalore (Panambur),266.49,Mormugao Port,34.19,Mangaluru International Airport (IXE),263.67,Rupaidiha ICP,1607.73
-Chinchinim (CT),SOUTH GOA,626933,village,BALLI,6.91,ICD Mangalore (Panambur),268.06,Mormugao Port,30.85,Mangaluru International Airport (IXE),265.34,Rupaidiha ICP,1609.93
-Sirvoi,SOUTH GOA,626941,village,SANVERDAM CHUCH,6.38,ICD Mangalore (Panambur),264.65,Mormugao Port,39.28,Mangaluru International Airport (IXE),261.69,Rupaidiha ICP,1604.46
-Quepem (MCl),SOUTH GOA,252097,village,CHANDAR,6.8,ICD Mangalore (Panambur),265.35,Mormugao Port,36.98,Mangaluru International Airport (IXE),262.45,Rupaidiha ICP,1606.06
-Cotarli,SOUTH GOA,627000,village,SANVERDAM CHUCH,7.58,ICD Mangalore (Panambur),263.18,Mormugao Port,44.59,Mangaluru International Airport (IXE),260.08,Rupaidiha ICP,1601.16
-Paroda,SOUTH GOA,626912,village,CHANDAR,4.85,ICD Mangalore (Panambur),267.51,Mormugao Port,34.6,Mangaluru International Airport (IXE),264.64,Rupaidiha ICP,1605.23
-Potrem,SOUTH GOA,627005,village,SONALIUM,10.33,ICD Mangalore (Panambur),260.47,Mormugao Port,55.47,Mangaluru International Airport (IXE),257.12,Rupaidiha ICP,1595.4
-Orlim,SOUTH GOA,626916,village,MADGAON,5.67,ICD Mangalore (Panambur),270.86,Mormugao Port,27.4,Mangaluru International Airport (IXE),268.19,Rupaidiha ICP,1609.8
-Sanguem (M Cl),SOUTH GOA,252099,village,SANVERDAM CHUCH,7.15,ICD Mangalore (Panambur),264.11,Mormugao Port,44.46,Mangaluru International Airport (IXE),261.0,Rupaidiha ICP,1599.95
-Deussua,SOUTH GOA,626918,village,MADGAON,6.16,ICD Mangalore (Panambur),269.52,Mormugao Port,29.05,Mangaluru International Airport (IXE),266.83,Rupaidiha ICP,1609.82
-Tudou,SOUTH GOA,627004,village,KALEEM,9.0,ICD Mangalore (Panambur),262.14,Mormugao Port,51.41,Mangaluru International Airport (IXE),258.88,Rupaidiha ICP,1596.52
-Sarzora,SOUTH GOA,626914,village,MADGAON,6.49,ICD Mangalore (Panambur),268.82,Mormugao Port,31.09,Mangaluru International Airport (IXE),266.05,Rupaidiha ICP,1607.69
-Chaifi,SOUTH GOA,626940,village,CHANDAR,3.82,ICD Mangalore (Panambur),268.36,Mormugao Port,35.06,Mangaluru International Airport (IXE),265.44,Rupaidiha ICP,1603.22
-Avedem,SOUTH GOA,626939,village,CHANDAR,3.44,ICD Mangalore (Panambur),268.72,Mormugao Port,34.17,Mangaluru International Airport (IXE),265.83,Rupaidiha ICP,1603.66
-Mulem,SOUTH GOA,626913,village,CHANDAR,4.75,ICD Mangalore (Panambur),269.1,Mormugao Port,32.09,Mangaluru International Airport (IXE),266.28,Rupaidiha ICP,1605.63
-Varca (CT),SOUTH GOA,626932,village,MADGAON,6.45,ICD Mangalore (Panambur),271.27,Mormugao Port,26.61,Mangaluru International Airport (IXE),268.63,Rupaidiha ICP,1610.58
-Dramapur,SOUTH GOA,626908,village,MADGAON,3.81,ICD Mangalore (Panambur),271.39,Mormugao Port,28.31,Mangaluru International Airport (IXE),268.64,Rupaidiha ICP,1606.69
-Uguem,SOUTH GOA,627003,village,KALEEM,6.52,ICD Mangalore (Panambur),264.44,Mormugao Port,46.66,Mangaluru International Airport (IXE),261.26,Rupaidiha ICP,1597.53
-Cotombi,SOUTH GOA,626938,village,CHANDAR,2.59,ICD Mangalore (Panambur),269.55,Mormugao Port,33.89,Mangaluru International Airport (IXE),266.65,Rupaidiha ICP,1602.62
-Talaulim,SOUTH GOA,626907,village,MADGAON,3.43,ICD Mangalore (Panambur),272.5,Mormugao Port,26.38,Mangaluru International Airport (IXE),269.8,Rupaidiha ICP,1607.55
-Xeldem (CT),SOUTH GOA,626969,village,SANVERDAM CHUCH,3.89,ICD Mangalore (Panambur),268.0,Mormugao Port,36.71,Mangaluru International Airport (IXE),265.04,Rupaidiha ICP,1601.96
-Patiem,SOUTH GOA,626993,village,KALEEM,6.51,ICD Mangalore (Panambur),264.94,Mormugao Port,49.94,Mangaluru International Airport (IXE),261.66,Rupaidiha ICP,1594.18
-Muguli,SOUTH GOA,626999,village,SANVERDAM CHUCH,5.73,ICD Mangalore (Panambur),266.42,Mormugao Port,43.19,Mangaluru International Airport (IXE),263.3,Rupaidiha ICP,1597.94
-Curchorem (M Cl),SOUTH GOA,252096,village,SANVERDAM CHUCH,3.11,ICD Mangalore (Panambur),266.99,Mormugao Port,40.0,Mangaluru International Airport (IXE),263.95,Rupaidiha ICP,1600.1
-Comproi,SOUTH GOA,626998,village,SANVERDAM CHUCH,2.44,ICD Mangalore (Panambur),268.6,Mormugao Port,39.9,Mangaluru International Airport (IXE),265.53,Rupaidiha ICP,1597.96
-Cavorim,SOUTH GOA,626910,village,CHANDAR,2.08,ICD Mangalore (Panambur),270.8,Mormugao Port,31.82,Mangaluru International Airport (IXE),267.93,Rupaidiha ICP,1602.98
-Dicarpale,SOUTH GOA,626909,village,MADGAON,3.21,ICD Mangalore (Panambur),272.75,Mormugao Port,28.02,Mangaluru International Airport (IXE),269.96,Rupaidiha ICP,1604.37
-Aquem Baixo,SOUTH GOA,626929,village,MADGAON,1.92,ICD Mangalore (Panambur),273.43,Mormugao Port,26.77,Mangaluru International Airport (IXE),270.67,Rupaidiha ICP,1604.84
-Maulinguem,SOUTH GOA,626994,village,KALEEM,3.99,ICD Mangalore (Panambur),266.9,Mormugao Port,47.27,Mangaluru International Airport (IXE),263.66,Rupaidiha ICP,1593.88
-Sao Jose De Areal (CT),SOUTH GOA,626927,village,CHANDAR,3.74,ICD Mangalore (Panambur),272.17,Mormugao Port,29.46,Mangaluru International Airport (IXE),269.34,Rupaidiha ICP,1603.51
-Costi,SOUTH GOA,626996,village,KALEEM,4.18,ICD Mangalore (Panambur),267.68,Mormugao Port,43.71,Mangaluru International Airport (IXE),264.52,Rupaidiha ICP,1595.83
-Navelim (CT),SOUTH GOA,626930,village,MADGAON,1.79,ICD Mangalore (Panambur),273.4,Mormugao Port,26.39,Mangaluru International Airport (IXE),270.66,Rupaidiha ICP,1605.48
-Coranginim,SOUTH GOA,626997,village,SANVERDAM CHUCH,3.48,ICD Mangalore (Panambur),268.95,Mormugao Port,40.66,Mangaluru International Airport (IXE),265.85,Rupaidiha ICP,1596.81
-Adsulim,SOUTH GOA,626906,village,SURAVALI,3.23,ICD Mangalore (Panambur),276.19,Mormugao Port,22.25,Mangaluru International Airport (IXE),273.53,Rupaidiha ICP,1606.4
-Assolda,SOUTH GOA,626934,village,CHANDAR,2.23,ICD Mangalore (Panambur),270.91,Mormugao Port,33.89,Mangaluru International Airport (IXE),267.97,Rupaidiha ICP,1600.5
-Xelvona,SOUTH GOA,626936,village,SANVERDAM CHUCH,2.78,ICD Mangalore (Panambur),271.24,Mormugao Port,34.84,Mangaluru International Airport (IXE),268.27,Rupaidiha ICP,1599.05
-Cana,SOUTH GOA,626904,village,SURAVALI,2.52,ICD Mangalore (Panambur),276.68,Mormugao Port,21.99,Mangaluru International Airport (IXE),274.01,Rupaidiha ICP,1605.67
-Dudal,SOUTH GOA,626995,village,KALEEM,2.38,ICD Mangalore (Panambur),268.44,Mormugao Port,45.0,Mangaluru International Airport (IXE),265.24,Rupaidiha ICP,1593.8
-Sanvordem (CT),SOUTH GOA,627021,village,SANVERDAM CHUCH,1.41,ICD Mangalore (Panambur),270.9,Mormugao Port,37.74,Mangaluru International Airport (IXE),267.85,Rupaidiha ICP,1596.81
-Davorlim (CT),SOUTH GOA,626928,village,MADGAON,1.93,ICD Mangalore (Panambur),274.6,Mormugao Port,26.31,Mangaluru International Airport (IXE),271.82,Rupaidiha ICP,1603.25
-Guirdolim,SOUTH GOA,626903,village,CHANDAR,0.4,ICD Mangalore (Panambur),272.54,Mormugao Port,31.44,Mangaluru International Airport (IXE),269.64,Rupaidiha ICP,1600.61
-Sernabatim,SOUTH GOA,626905,village,SURAVALI,3.2,ICD Mangalore (Panambur),277.25,Mormugao Port,20.93,Mangaluru International Airport (IXE),274.61,Rupaidiha ICP,1606.36
-Antoriem,SOUTH GOA,626986,village,SANVERDAM CHUCH,3.28,ICD Mangalore (Panambur),270.43,Mormugao Port,39.68,Mangaluru International Airport (IXE),267.33,Rupaidiha ICP,1595.73
-Dongurli,SOUTH GOA,626992,village,KALEEM,4.31,ICD Mangalore (Panambur),267.67,Mormugao Port,48.43,Mangaluru International Airport (IXE),264.39,Rupaidiha ICP,1592.05
-Benaulim (CT),SOUTH GOA,626931,village,SURAVALI,3.85,ICD Mangalore (Panambur),275.55,Mormugao Port,22.79,Mangaluru International Airport (IXE),272.89,Rupaidiha ICP,1606.96
-Odxel,SOUTH GOA,626991,village,SONALIUM,5.16,ICD Mangalore (Panambur),268.1,Mormugao Port,50.9,Mangaluru International Airport (IXE),264.76,Rupaidiha ICP,1589.7
-Rumbrem,SOUTH GOA,626985,village,SANVERDAM CHUCH,2.84,ICD Mangalore (Panambur),272.04,Mormugao Port,37.7,Mangaluru International Airport (IXE),268.97,Rupaidiha ICP,1595.36
-Vanelim,SOUTH GOA,626898,village,SURAVALI,1.89,ICD Mangalore (Panambur),277.79,Mormugao Port,20.86,Mangaluru International Airport (IXE),275.12,Rupaidiha ICP,1605.11
-Gaundaulim,SOUTH GOA,626896,village,SURAVALI,2.15,ICD Mangalore (Panambur),279.19,Mormugao Port,19.36,Mangaluru International Airport (IXE),276.53,Rupaidiha ICP,1604.55
-Colva,SOUTH GOA,626897,village,SURAVALI,2.45,ICD Mangalore (Panambur),278.48,Mormugao Port,19.9,Mangaluru International Airport (IXE),275.83,Rupaidiha ICP,1605.26
-Macasana,SOUTH GOA,626902,village,CHANDAR,2.94,ICD Mangalore (Panambur),274.34,Mormugao Port,31.46,Mangaluru International Airport (IXE),271.39,Rupaidiha ICP,1597.98
-Seraulim,SOUTH GOA,626899,village,SURAVALI,0.69,ICD Mangalore (Panambur),278.18,Mormugao Port,21.08,Mangaluru International Airport (IXE),275.48,Rupaidiha ICP,1603.85
-Boma,SOUTH GOA,626990,village,SONALIUM,2.13,ICD Mangalore (Panambur),268.91,Mormugao Port,53.09,Mangaluru International Airport (IXE),265.51,Rupaidiha ICP,1587.23
-Moissal,SOUTH GOA,626983,village,SANVERDAM CHUCH,3.99,ICD Mangalore (Panambur),274.04,Mormugao Port,35.04,Mangaluru International Airport (IXE),271.0,Rupaidiha ICP,1595.11
-Margao (M CI),SOUTH GOA,252087,village,MADGAON,1.3,ICD Mangalore (Panambur),276.46,Mormugao Port,23.91,Mangaluru International Airport (IXE),273.71,Rupaidiha ICP,1603.08
-Duncolim,SOUTH GOA,626900,village,SURAVALI,0.45,ICD Mangalore (Panambur),279.27,Mormugao Port,20.28,Mangaluru International Airport (IXE),276.56,Rupaidiha ICP,1602.86
-Betalbatim,SOUTH GOA,626895,village,MAJORDA,1.95,ICD Mangalore (Panambur),280.02,Mormugao Port,18.76,Mangaluru International Airport (IXE),277.36,Rupaidiha ICP,1603.7
-Bandoli,SOUTH GOA,626984,village,SANVERDAM CHUCH,4.7,ICD Mangalore (Panambur),273.54,Mormugao Port,37.68,Mangaluru International Airport (IXE),270.45,Rupaidiha ICP,1593.5
-Gonsua,SOUTH GOA,626894,village,MAJORDA,1.78,ICD Mangalore (Panambur),281.54,Mormugao Port,17.03,Mangaluru International Airport (IXE),278.89,Rupaidiha ICP,1603.28
-Calata,SOUTH GOA,626891,village,MAJORDA,0.54,ICD Mangalore (Panambur),281.22,Mormugao Port,18.2,Mangaluru International Airport (IXE),278.53,Rupaidiha ICP,1602.09
-Sonauli,SOUTH GOA,626989,village,DUDH SAGAR,0.82,ICD Mangalore (Panambur),269.8,Mormugao Port,55.4,Mangaluru International Airport (IXE),266.34,Rupaidiha ICP,1584.69
-Curtorim (CT),SOUTH GOA,626926,village,CHANDAR,3.42,ICD Mangalore (Panambur),275.07,Mormugao Port,28.37,Mangaluru International Airport (IXE),272.2,Rupaidiha ICP,1600.04
-Raia (CT),SOUTH GOA,626925,village,MADGAON,4.32,ICD Mangalore (Panambur),278.74,Mormugao Port,23.32,Mangaluru International Airport (IXE),275.94,Rupaidiha ICP,1599.92
-Camarconda,SOUTH GOA,626982,village,SANVERDAM CHUCH,6.21,ICD Mangalore (Panambur),276.22,Mormugao Port,34.18,Mangaluru International Airport (IXE),273.17,Rupaidiha ICP,1593.13
-Majorda,SOUTH GOA,626892,village,MAJORDA,0.52,ICD Mangalore (Panambur),282.0,Mormugao Port,17.22,Mangaluru International Airport (IXE),279.32,Rupaidiha ICP,1602.0
-Nuvem (CT),SOUTH GOA,626924,village,SURAVALI,2.28,ICD Mangalore (Panambur),280.54,Mormugao Port,19.95,Mangaluru International Airport (IXE),277.81,Rupaidiha ICP,1600.97
-Calem,SOUTH GOA,626988,village,KULEM,3.03,ICD Mangalore (Panambur),271.2,Mormugao Port,48.22,Mangaluru International Airport (IXE),267.88,Rupaidiha ICP,1588.14
-Camurlim,SOUTH GOA,626890,village,SURAVALI,6.46,ICD Mangalore (Panambur),280.79,Mormugao Port,22.78,Mangaluru International Airport (IXE),277.97,Rupaidiha ICP,1597.45
-Utorda,SOUTH GOA,626893,village,MAJORDA,1.58,ICD Mangalore (Panambur),283.28,Mormugao Port,16.17,Mangaluru International Airport (IXE),280.6,Rupaidiha ICP,1601.06
-Sigao,SOUTH GOA,626978,village,KULEM,4.14,ICD Mangalore (Panambur),274.25,Mormugao Port,44.88,Mangaluru International Airport (IXE),270.98,Rupaidiha ICP,1587.18
-Arossim,SOUTH GOA,626884,village,CANSAULIM,1.29,ICD Mangalore (Panambur),284.53,Mormugao Port,14.63,Mangaluru International Airport (IXE),281.87,Rupaidiha ICP,1600.88
-Cansaulim,SOUTH GOA,626883,village,CANSAULIM,0.14,ICD Mangalore (Panambur),285.72,Mormugao Port,13.66,Mangaluru International Airport (IXE),283.06,Rupaidiha ICP,1600.02
-Codli,SOUTH GOA,626981,village,SANVERDAM CHUCH,8.07,ICD Mangalore (Panambur),277.12,Mormugao Port,36.34,Mangaluru International Airport (IXE),274.01,Rupaidiha ICP,1590.35
-Colem,SOUTH GOA,626977,village,KULEM,0.72,ICD Mangalore (Panambur),274.1,Mormugao Port,49.09,Mangaluru International Airport (IXE),270.74,Rupaidiha ICP,1584.38
-Caranzol,SOUTH GOA,626976,village,CARANZOL,1.63,ICD Mangalore (Panambur),275.06,Mormugao Port,53.38,Mangaluru International Airport (IXE),271.6,Rupaidiha ICP,1580.55
-Verna (CT),SOUTH GOA,626923,village,VERNA,3.31,ICD Mangalore (Panambur),284.25,Mormugao Port,17.64,Mangaluru International Airport (IXE),281.5,Rupaidiha ICP,1597.77
-Cuelim,SOUTH GOA,626877,village,VERNA,0.96,ICD Mangalore (Panambur),286.94,Mormugao Port,13.45,Mangaluru International Airport (IXE),284.26,Rupaidiha ICP,1598.3
-Loutulim,SOUTH GOA,626889,village,VERNA,7.35,ICD Mangalore (Panambur),283.28,Mormugao Port,21.3,Mangaluru International Airport (IXE),280.45,Rupaidiha ICP,1595.55
-Sangod,SOUTH GOA,626979,village,KALEEM,7.35,ICD Mangalore (Panambur),278.06,Mormugao Port,41.22,Mangaluru International Airport (IXE),274.84,Rupaidiha ICP,1585.72
-Nagoa,SOUTH GOA,626888,village,VERNA,1.19,ICD Mangalore (Panambur),286.19,Mormugao Port,15.19,Mangaluru International Airport (IXE),283.47,Rupaidiha ICP,1597.53
-Pale,SOUTH GOA,626878,village,SANKVAL,2.06,ICD Mangalore (Panambur),288.26,Mormugao Port,11.35,Mangaluru International Airport (IXE),285.61,Rupaidiha ICP,1598.64
-Chicolna,SOUTH GOA,626880,village,SANKVAL,2.34,ICD Mangalore (Panambur),290.21,Mormugao Port,7.64,Mangaluru International Airport (IXE),287.63,Rupaidiha ICP,1600.14
-Issorcim,SOUTH GOA,626879,village,SANKVAL,1.15,ICD Mangalore (Panambur),290.2,Mormugao Port,8.28,Mangaluru International Airport (IXE),287.59,Rupaidiha ICP,1599.21
-Molem,SOUTH GOA,626975,village,KULEM,5.8,ICD Mangalore (Panambur),279.13,Mormugao Port,48.45,Mangaluru International Airport (IXE),275.74,Rupaidiha ICP,1579.72
-Dabolim,SOUTH GOA,626874,village,DABOLIM,0.2,ICD Mangalore (Panambur),292.04,Mormugao Port,6.83,Mangaluru International Airport (IXE),289.44,Rupaidiha ICP,1597.97
-Cortalim,SOUTH GOA,626887,village,VERNA,3.45,ICD Mangalore (Panambur),289.14,Mormugao Port,13.74,Mangaluru International Airport (IXE),286.41,Rupaidiha ICP,1595.1
-Quelossim,SOUTH GOA,626876,village,VERNA,5.13,ICD Mangalore (Panambur),289.1,Mormugao Port,15.86,Mangaluru International Airport (IXE),286.31,Rupaidiha ICP,1593.35
-Sancoale,SOUTH GOA,626886,village,SANKVAL,2.38,ICD Mangalore (Panambur),290.84,Mormugao Port,9.91,Mangaluru International Airport (IXE),288.17,Rupaidiha ICP,1596.51
-Sancordem,SOUTH GOA,626972,village,KULEM,9.15,ICD Mangalore (Panambur),281.61,Mormugao Port,41.87,Mangaluru International Airport (IXE),278.34,Rupaidiha ICP,1581.69
-Chicalim,SOUTH GOA,626885,village,DABOLIM,1.34,ICD Mangalore (Panambur),292.3,Mormugao Port,5.8,Mangaluru International Airport (IXE),289.72,Rupaidiha ICP,1598.8
-Mormugao (M Cl),SOUTH GOA,252084,village,VASCO DA GAMA,0.34,ICD Mangalore (Panambur),294.3,Mormugao Port,2.99,Mangaluru International Airport (IXE),291.77,Rupaidiha ICP,1599.13
-Darbandora,SOUTH GOA,626971,village,KALEEM,12.6,ICD Mangalore (Panambur),283.0,Mormugao Port,36.11,Mangaluru International Airport (IXE),279.84,Rupaidiha ICP,1584.3
-Aglote,SOUTH GOA,626973,village,KULEM,12.85,ICD Mangalore (Panambur),285.23,Mormugao Port,39.92,Mangaluru International Airport (IXE),281.98,Rupaidiha ICP,1579.58
-Creek,SOUTH GOA,626875,village,VASCO DA GAMA,3.15,ICD Mangalore (Panambur),295.45,Mormugao Port,4.63,Mangaluru International Airport (IXE),292.85,Rupaidiha ICP,1595.91
-Surla,SOUTH GOA,626974,village,CASTLE ROCK,11.73,ICD Mangalore (Panambur),285.31,Mormugao Port,47.03,Mangaluru International Airport (IXE),281.92,Rupaidiha ICP,1574.88
-Sirlim,SOUTH GOA,626915,village,MADGAON,4.67,ICD Mangalore (Panambur),270.68,Mormugao Port,28.4,Mangaluru International Airport (IXE),267.96,Rupaidiha ICP,1608.15
-Rachol,SOUTH GOA,626901,village,MADGAON,6.49,ICD Mangalore (Panambur),278.89,Mormugao Port,25.16,Mangaluru International Airport (IXE),276.04,Rupaidiha ICP,1597.76
-Cavorem,SOUTH GOA,626956,village,BALLI,5.13,ICD Mangalore (Panambur),258.63,Mormugao Port,41.93,Mangaluru International Airport (IXE),255.78,Rupaidiha ICP,1612.23
-Cordem,SOUTH GOA,626958,village,BALLI,4.94,ICD Mangalore (Panambur),256.51,Mormugao Port,42.6,Mangaluru International Airport (IXE),253.73,Rupaidiha ICP,1616.14
-Tiloi,SOUTH GOA,626954,village,BALLI,1.97,ICD Mangalore (Panambur),259.7,Mormugao Port,38.98,Mangaluru International Airport (IXE),256.97,Rupaidiha ICP,1615.26
-Quitol,SOUTH GOA,626951,village,BALLI,6.56,ICD Mangalore (Panambur),261.69,Mormugao Port,35.79,Mangaluru International Airport (IXE),259.08,Rupaidiha ICP,1617.87
-Piliem,SOUTH GOA,626970,village,SANVERDAM CHUCH,15.52,ICD Mangalore (Panambur),285.35,Mormugao Port,31.71,Mangaluru International Airport (IXE),282.26,Rupaidiha ICP,1585.12
-Hodar,SOUTH GOA,626937,village,SANVERDAM CHUCH,1.55,ICD Mangalore (Panambur),270.32,Mormugao Port,36.19,Mangaluru International Airport (IXE),267.32,Rupaidiha ICP,1599.05
-Xic-Xelvona,SOUTH GOA,626935,village,SANVERDAM CHUCH,3.11,ICD Mangalore (Panambur),270.64,Mormugao Port,34.9,Mangaluru International Airport (IXE),267.67,Rupaidiha ICP,1599.86
-Angediva,SOUTH GOA,627029,village,KARWAR,10.46,ICD Mangalore (Panambur),217.76,Mormugao Port,79.45,Mangaluru International Airport (IXE),215.18,Rupaidiha ICP,1648.44
-Ella,NORTH GOA,626714,village,KARMALI,1.24,ICD Mangalore (Panambur),301.03,Mormugao Port,16.46,Mangaluru International Airport (IXE),298.2,Rupaidiha ICP,1583.62
-Malar,NORTH GOA,626711,village,KARMALI,4.3,ICD Mangalore (Panambur),304.06,Mormugao Port,18.05,Mangaluru International Airport (IXE),301.23,Rupaidiha ICP,1581.08
-Chorao,NORTH GOA,626706,village,KARMALI,6.36,ICD Mangalore (Panambur),305.79,Mormugao Port,16.57,Mangaluru International Airport (IXE),303.0,Rupaidiha ICP,1581.77
-Calvim,NORTH GOA,626685,village,THIVIM,7.37,ICD Mangalore (Panambur),308.58,Mormugao Port,19.55,Mangaluru International Airport (IXE),305.76,Rupaidiha ICP,1578.63
-Ucassaim,NORTH GOA,626681,village,THIVIM,6.27,ICD Mangalore (Panambur),312.35,Mormugao Port,19.17,Mangaluru International Airport (IXE),309.62,Rupaidiha ICP,1579.23
-Guirim,NORTH GOA,626693,village,THIVIM,9.93,ICD Mangalore (Panambur),312.09,Mormugao Port,16.86,Mangaluru International Airport (IXE),309.43,Rupaidiha ICP,1582.35
-Assonora,NORTH GOA,626668,village,THIVIM,2.43,ICD Mangalore (Panambur),314.25,Mormugao Port,25.15,Mangaluru International Airport (IXE),311.39,Rupaidiha ICP,1572.91
-Morgim,NORTH GOA,626661,village,PERNEM,11.93,ICD Pune,316.0,Mormugao Port,24.51,Mangaluru International Airport (IXE),318.79,Rupaidiha ICP,1579.55
-Colvale,NORTH GOA,626691,village,THIVIM,4.95,ICD Pune,315.58,Mormugao Port,24.25,Mangaluru International Airport (IXE),315.2,Rupaidiha ICP,1574.92
-Santona,SOUTH GOA,626987,village,KALEEM,4.32,ICD Mangalore (Panambur),271.78,Mormugao Port,40.17,Mangaluru International Airport (IXE),268.65,Rupaidiha ICP,1593.62
-Murda (CT),NORTH GOA,626731,village,KARMALI,7.74,ICD Mangalore (Panambur),301.26,Mormugao Port,9.5,Mangaluru International Airport (IXE),298.59,Rupaidiha ICP,1588.92
-Morombi-O-Pequeno(Merces),NORTH GOA,626739,village,KARMALI,8.64,ICD Mangalore (Panambur),302.88,Mormugao Port,9.96,Mangaluru International Airport (IXE),300.21,Rupaidiha ICP,1588.16
-Gangem,SOUTH GOA,626852,village,KARMALI,18.25,ICD Mangalore (Panambur),290.38,Mormugao Port,32.08,Mangaluru International Airport (IXE),287.26,Rupaidiha ICP,1580.31
-Conquirem,NORTH GOA,626841,village,KULEM,19.47,ICD Mangalore (Panambur),290.08,Mormugao Port,34.09,Mangaluru International Airport (IXE),286.93,Rupaidiha ICP,1579.2
-Ambarim,NORTH GOA,626705,village,THIVIM,7.37,ICD Mangalore (Panambur),308.84,Mormugao Port,18.67,Mangaluru International Airport (IXE),306.05,Rupaidiha ICP,1579.42
-Caraim,NORTH GOA,626707,village,KARMALI,6.98,ICD Mangalore (Panambur),306.74,Mormugao Port,18.39,Mangaluru International Airport (IXE),303.93,Rupaidiha ICP,1579.99
-Ambelim,SOUTH GOA,626922,village,BALLI,4.0,ICD Mangalore (Panambur),263.75,Mormugao Port,34.48,Mangaluru International Airport (IXE),261.06,Rupaidiha ICP,1614.0
-Canca,NORTH GOA,626677,village,THIVIM,9.46,ICD Mangalore (Panambur),313.93,Mormugao Port,18.5,Mangaluru International Airport (IXE),311.27,Rupaidiha ICP,1581.16
-Casnem,NORTH GOA,626641,village,PERNEM,2.16,ICD Pune,305.29,Mormugao Port,34.37,Pune Airport (PNQ),312.22,Rupaidiha ICP,1566.12
-Amberem,NORTH GOA,626643,village,PERNEM,3.34,ICD Pune,304.37,Mormugao Port,35.38,Pune Airport (PNQ),311.27,Rupaidiha ICP,1564.88
-Chopdem,NORTH GOA,626656,village,PERNEM,9.89,ICD Pune,315.0,Mormugao Port,25.01,Mangaluru International Airport (IXE),318.86,Rupaidiha ICP,1577.82
-Cormonem,SOUTH GOA,626980,village,KALEEM,4.74,ICD Mangalore (Panambur),274.87,Mormugao Port,40.07,Mangaluru International Airport (IXE),271.7,Rupaidiha ICP,1590.04
-Gandaulim,NORTH GOA,626713,village,KARMALI,2.67,ICD Mangalore (Panambur),301.24,Mormugao Port,18.8,Mangaluru International Airport (IXE),298.37,Rupaidiha ICP,1581.78
-Moitem,NORTH GOA,626667,village,THIVIM,3.04,ICD Mangalore (Panambur),314.94,Mormugao Port,26.42,Mangaluru International Airport (IXE),312.06,Rupaidiha ICP,1571.64
-Morombi-O-Grande(Merces),NORTH GOA,626737,village,KARMALI,6.29,ICD Mangalore (Panambur),301.36,Mormugao Port,10.91,Mangaluru International Airport (IXE),298.65,Rupaidiha ICP,1587.74
-Narao,NORTH GOA,626712,village,KARMALI,4.32,ICD Mangalore (Panambur),303.74,Mormugao Port,19.11,Mangaluru International Airport (IXE),300.88,Rupaidiha ICP,1580.38
-Ponolem,NORTH GOA,626684,village,THIVIM,6.94,ICD Mangalore (Panambur),308.98,Mormugao Port,20.38,Mangaluru International Airport (IXE),306.15,Rupaidiha ICP,1577.82
-Punola,NORTH GOA,626680,village,THIVIM,7.13,ICD Mangalore (Panambur),312.37,Mormugao Port,18.6,Mangaluru International Airport (IXE),309.65,Rupaidiha ICP,1579.96
-Revora,NORTH GOA,626664,village,THIVIM,3.2,ICD Pune,313.42,Mormugao Port,26.97,Mangaluru International Airport (IXE),316.14,Rupaidiha ICP,1571.67
-Pernem (M Cl),NORTH GOA,252057,village,PERNEM,3.06,ICD Pune,306.86,Mormugao Port,32.74,Pune Airport (PNQ),313.85,Rupaidiha ICP,1569.07
-Cuncolim (M Cl),SOUTH GOA,252095,village,BALLI,3.25,ICD Mangalore (Panambur),264.61,Mormugao Port,34.81,Mangaluru International Airport (IXE),261.84,Rupaidiha ICP,1610.87
-Assolna,SOUTH GOA,626919,village,BALLI,5.72,ICD Mangalore (Panambur),266.03,Mormugao Port,32.27,Mangaluru International Airport (IXE),263.34,Rupaidiha ICP,1612.5
-Virdi,NORTH GOA,924826,village,KARMALI,9.08,ICD Mangalore (Panambur),303.75,Mormugao Port,25.2,Mangaluru International Airport (IXE),300.78,Rupaidiha ICP,1575.82
-,SOUTH GOA,INGA025,village,VASCO DA GAMA,8.13,ICD Mangalore (Panambur),291.38,Mormugao Port,8.48,Mangaluru International Airport (IXE),288.99,Rupaidiha ICP,1606.54
-,SOUTH GOA,INGA024,village,VASCO DA GAMA,7.31,ICD Mangalore (Panambur),291.57,Mormugao Port,7.77,Mangaluru International Airport (IXE),289.17,Rupaidiha ICP,1605.79
-,SOUTH GOA,INGA023,village,VASCO DA GAMA,6.77,ICD Mangalore (Panambur),291.31,Mormugao Port,7.48,Mangaluru International Airport (IXE),288.89,Rupaidiha ICP,1605.41
-,SOUTH GOA,INGA019,village,VASCO DA GAMA,7.46,ICD Mangalore (Panambur),291.69,Mormugao Port,7.83,Mangaluru International Airport (IXE),289.29,Rupaidiha ICP,1605.88
-,SOUTH GOA,INGA017,village,VASCO DA GAMA,6.6,ICD Mangalore (Panambur),291.26,Mormugao Port,7.37,Mangaluru International Airport (IXE),288.84,Rupaidiha ICP,1605.27
-,SOUTH GOA,INGA021,village,VASCO DA GAMA,6.74,ICD Mangalore (Panambur),291.37,Mormugao Port,7.42,Mangaluru International Airport (IXE),288.95,Rupaidiha ICP,1605.36
-,SOUTH GOA,INGA022,village,VASCO DA GAMA,6.91,ICD Mangalore (Panambur),291.48,Mormugao Port,7.5,Mangaluru International Airport (IXE),289.07,Rupaidiha ICP,1605.48
-,SOUTH GOA,INGA020,village,VASCO DA GAMA,6.88,ICD Mangalore (Panambur),291.43,Mormugao Port,7.5,Mangaluru International Airport (IXE),289.01,Rupaidiha ICP,1605.47
-,SOUTH GOA,INGA016,village,VASCO DA GAMA,6.53,ICD Mangalore (Panambur),291.24,Mormugao Port,7.33,Mangaluru International Airport (IXE),288.82,Rupaidiha ICP,1605.21
-,SOUTH GOA,INGA018,village,VASCO DA GAMA,6.67,ICD Mangalore (Panambur),291.34,Mormugao Port,7.39,Mangaluru International Airport (IXE),288.92,Rupaidiha ICP,1605.31
-,SOUTH GOA,INGA015,village,VASCO DA GAMA,6.11,ICD Mangalore (Panambur),290.99,Mormugao Port,7.17,Mangaluru International Airport (IXE),288.55,Rupaidiha ICP,1604.87
-,SOUTH GOA,INGA014,village,VASCO DA GAMA,5.85,ICD Mangalore (Panambur),291.08,Mormugao Port,6.97,Mangaluru International Airport (IXE),288.64,Rupaidiha ICP,1604.62
-,SOUTH GOA,INGA013,village,VASCO DA GAMA,6.93,ICD Mangalore (Panambur),291.8,Mormugao Port,7.38,Mangaluru International Airport (IXE),289.39,Rupaidiha ICP,1605.4
-,SOUTH GOA,INGA008,village,VASCO DA GAMA,6.75,ICD Mangalore (Panambur),291.93,Mormugao Port,7.19,Mangaluru International Airport (IXE),289.52,Rupaidiha ICP,1605.21
-,SOUTH GOA,INGA007,village,VASCO DA GAMA,6.12,ICD Mangalore (Panambur),291.74,Mormugao Port,6.82,Mangaluru International Airport (IXE),289.31,Rupaidiha ICP,1604.74
-,SOUTH GOA,INGA006,village,VASCO DA GAMA,6.22,ICD Mangalore (Panambur),291.84,Mormugao Port,6.84,Mangaluru International Airport (IXE),289.42,Rupaidiha ICP,1604.8
-,SOUTH GOA,INGA012,village,VASCO DA GAMA,6.34,ICD Mangalore (Panambur),291.42,Mormugao Port,7.12,Mangaluru International Airport (IXE),288.99,Rupaidiha ICP,1605.0
-,SOUTH GOA,INGA002,village,DABOLIM,2.37,ICD Mangalore (Panambur),293.45,Mormugao Port,7.58,Mangaluru International Airport (IXE),290.81,Rupaidiha ICP,1595.52
+village,district,district_code,village_code,unit,nearest_rail_station,dist_rail_station_km,nearest_icd,dist_icd_km,nearest_port,dist_port_km,nearest_air_cargo,dist_air_cargo_km,nearest_icp,dist_icp_km
+Ponchavadi,SOUTH GOA,586,626864,village,SANVERDAM CHUCH,4.61,ICD Mangalore (Panambur),274.3,Mormugao Port,33.29,Mangaluru International Airport (IXE),271.31,Rupaidiha ICP,1596.31
+Conxem,SOUTH GOA,586,626862,village,CHANDAR,9.48,ICD Mangalore (Panambur),280.16,Mormugao Port,30.34,Mangaluru International Airport (IXE),277.15,Rupaidiha ICP,1591.61
+Shiroda,SOUTH GOA,586,626863,village,CHANDAR,7.09,ICD Mangalore (Panambur),278.91,Mormugao Port,28.57,Mangaluru International Airport (IXE),275.96,Rupaidiha ICP,1594.58
+Borim,SOUTH GOA,586,626872,village,CHANDAR,10.91,ICD Mangalore (Panambur),283.04,Mormugao Port,24.66,Mangaluru International Airport (IXE),280.13,Rupaidiha ICP,1592.92
+Nirancal,SOUTH GOA,586,626861,village,CHANDAR,10.53,ICD Mangalore (Panambur),280.82,Mormugao Port,30.78,Mangaluru International Airport (IXE),277.8,Rupaidiha ICP,1590.51
+Vadi,SOUTH GOA,586,626858,village,VERNA,8.15,ICD Mangalore (Panambur),285.5,Mormugao Port,21.1,Mangaluru International Airport (IXE),282.64,Rupaidiha ICP,1593.04
+Telaulim,SOUTH GOA,586,626857,village,VERNA,7.88,ICD Mangalore (Panambur),286.47,Mormugao Port,20.38,Mangaluru International Airport (IXE),283.62,Rupaidiha ICP,1592.54
+Durbhat,SOUTH GOA,586,626856,village,VERNA,6.41,ICD Mangalore (Panambur),287.27,Mormugao Port,18.62,Mangaluru International Airport (IXE),284.45,Rupaidiha ICP,1593.1
+Betora,SOUTH GOA,586,626859,village,CHANDAR,13.1,ICD Mangalore (Panambur),284.98,Mormugao Port,25.78,Mangaluru International Airport (IXE),282.02,Rupaidiha ICP,1589.88
+Codar,SOUTH GOA,586,626860,village,CHANDAR,14.34,ICD Mangalore (Panambur),285.27,Mormugao Port,28.62,Mangaluru International Airport (IXE),282.25,Rupaidiha ICP,1587.44
+Ponda(M CI),SOUTH GOA,586,252082,village,VERNA,11.52,ICD Mangalore (Panambur),287.61,Mormugao Port,23.07,Mangaluru International Airport (IXE),284.69,Rupaidiha ICP,1589.24
+Bandora,SOUTH GOA,586,626869,village,VERNA,9.25,ICD Mangalore (Panambur),289.21,Mormugao Port,19.93,Mangaluru International Airport (IXE),286.34,Rupaidiha ICP,1590.03
+Mercurim (CT),NORTH GOA,585,626735,village,DABOLIM,6.84,ICD Mangalore (Panambur),293.5,Mormugao Port,11.92,Mangaluru International Airport (IXE),290.76,Rupaidiha ICP,1592.04
+Marcaim,SOUTH GOA,586,626867,village,VERNA,7.87,ICD Mangalore (Panambur),291.74,Mormugao Port,16.03,Mangaluru International Airport (IXE),288.93,Rupaidiha ICP,1590.55
+Velinga,SOUTH GOA,586,626854,village,KARMALI,8.48,ICD Mangalore (Panambur),291.72,Mormugao Port,19.22,Mangaluru International Airport (IXE),288.85,Rupaidiha ICP,1588.21
+Candepar,SOUTH GOA,586,626853,village,KARMALI,14.31,ICD Mangalore (Panambur),288.97,Mormugao Port,26.39,Mangaluru International Airport (IXE),285.97,Rupaidiha ICP,1585.51
+Neura-O-Pequeno,NORTH GOA,585,626725,village,KARMALI,5.86,ICD Mangalore (Panambur),295.39,Mormugao Port,12.22,Mangaluru International Airport (IXE),292.65,Rupaidiha ICP,1590.24
+Malpona,NORTH GOA,585,626838,village,KULEM,14.38,ICD Mangalore (Panambur),287.44,Mormugao Port,41.1,Mangaluru International Airport (IXE),284.16,Rupaidiha ICP,1576.82
+Neura-O-Grande,NORTH GOA,585,626726,village,KARMALI,6.82,ICD Mangalore (Panambur),293.69,Mormugao Port,13.34,Mangaluru International Airport (IXE),290.92,Rupaidiha ICP,1590.82
+Siridao,NORTH GOA,585,626724,village,DABOLIM,5.49,ICD Mangalore (Panambur),296.68,Mormugao Port,7.88,Mangaluru International Airport (IXE),294.02,Rupaidiha ICP,1592.46
+Priol,SOUTH GOA,586,626868,village,KARMALI,10.48,ICD Mangalore (Panambur),291.13,Mormugao Port,22.52,Mangaluru International Airport (IXE),288.19,Rupaidiha ICP,1586.34
+Goa Velha,NORTH GOA,585,626734,village,DABOLIM,6.4,ICD Mangalore (Panambur),295.01,Mormugao Port,10.62,Mangaluru International Airport (IXE),292.3,Rupaidiha ICP,1591.71
+Mandur,NORTH GOA,585,626720,village,KARMALI,4.3,ICD Mangalore (Panambur),295.96,Mormugao Port,14.06,Mangaluru International Airport (IXE),293.18,Rupaidiha ICP,1588.47
+Govanem,NORTH GOA,585,626837,village,KULEM,15.53,ICD Mangalore (Panambur),288.83,Mormugao Port,41.83,Mangaluru International Airport (IXE),285.53,Rupaidiha ICP,1575.15
+Ambeli,NORTH GOA,585,626839,village,KULEM,16.25,ICD Mangalore (Panambur),289.13,Mormugao Port,39.94,Mangaluru International Airport (IXE),285.87,Rupaidiha ICP,1576.12
+Usgao,SOUTH GOA,586,626873,village,KARMALI,16.76,ICD Mangalore (Panambur),289.37,Mormugao Port,29.87,Mangaluru International Airport (IXE),286.3,Rupaidiha ICP,1582.7
+Gancim,NORTH GOA,585,626721,village,KARMALI,4.42,ICD Mangalore (Panambur),296.97,Mormugao Port,12.61,Mangaluru International Airport (IXE),294.21,Rupaidiha ICP,1588.81
+Creek,NORTH GOA,585,,village,VASCO DA GAMA,4.48,ICD Mangalore (Panambur),297.81,Mormugao Port,4.4,Mangaluru International Airport (IXE),295.21,Rupaidiha ICP,1594.34
+Vagurbem,SOUTH GOA,586,626851,village,KARMALI,11.39,ICD Mangalore (Panambur),293.09,Mormugao Port,25.37,Mangaluru International Airport (IXE),290.1,Rupaidiha ICP,1582.67
+Bambolim (CT),NORTH GOA,585,626733,village,DABOLIM,7.44,ICD Mangalore (Panambur),298.83,Mormugao Port,8.3,Mangaluru International Airport (IXE),296.16,Rupaidiha ICP,1590.85
+Melauli,NORTH GOA,585,626840,village,KULEM,17.26,ICD Mangalore (Panambur),289.21,Mormugao Port,37.27,Mangaluru International Airport (IXE),286.0,Rupaidiha ICP,1577.81
+Azossim,NORTH GOA,585,626719,village,KARMALI,3.16,ICD Mangalore (Panambur),296.86,Mormugao Port,14.82,Mangaluru International Airport (IXE),294.06,Rupaidiha ICP,1587.28
+Curca,NORTH GOA,585,626723,village,KARMALI,6.82,ICD Mangalore (Panambur),298.19,Mormugao Port,9.49,Mangaluru International Airport (IXE),295.49,Rupaidiha ICP,1590.31
+Queula,SOUTH GOA,586,626871,village,VERNA,9.15,ICD Mangalore (Panambur),286.92,Mormugao Port,21.25,Mangaluru International Airport (IXE),284.04,Rupaidiha ICP,1591.35
+Guleli,NORTH GOA,585,626828,village,KARMALI,20.25,ICD Mangalore (Panambur),291.89,Mormugao Port,34.79,Mangaluru International Airport (IXE),288.71,Rupaidiha ICP,1577.23
+Cuncoliem,SOUTH GOA,586,626849,village,KARMALI,6.66,ICD Mangalore (Panambur),294.97,Mormugao Port,20.62,Mangaluru International Airport (IXE),292.06,Rupaidiha ICP,1584.53
+Damocem,NORTH GOA,585,626831,village,KULEM,20.07,ICD Mangalore (Panambur),292.01,Mormugao Port,36.34,Mangaluru International Airport (IXE),288.81,Rupaidiha ICP,1576.11
+Cujira (OG),NORTH GOA,585,626740,village,KARMALI,7.49,ICD Mangalore (Panambur),300.22,Mormugao Port,9.18,Mangaluru International Airport (IXE),297.54,Rupaidiha ICP,1589.54
+Durgavado (OG),NORTH GOA,585,645599,village,VASCO DA GAMA,8.43,ICD Mangalore (Panambur),301.62,Mormugao Port,7.38,Mangaluru International Airport (IXE),298.99,Rupaidiha ICP,1590.69
+Goalim Moula,NORTH GOA,585,626717,village,KARMALI,3.15,ICD Mangalore (Panambur),298.36,Mormugao Port,13.3,Mangaluru International Airport (IXE),295.59,Rupaidiha ICP,1587.41
+Cundaim,SOUTH GOA,586,626855,village,KARMALI,5.36,ICD Mangalore (Panambur),294.66,Mormugao Port,17.67,Mangaluru International Airport (IXE),291.81,Rupaidiha ICP,1586.86
+Sirsodem,NORTH GOA,585,626835,village,KULEM,17.59,ICD Mangalore (Panambur),291.13,Mormugao Port,43.53,Mangaluru International Airport (IXE),287.79,Rupaidiha ICP,1572.15
+Padeli,NORTH GOA,585,626829,village,KARMALI,20.23,ICD Mangalore (Panambur),293.15,Mormugao Port,35.13,Mangaluru International Airport (IXE),289.97,Rupaidiha ICP,1576.0
+Cotorem,NORTH GOA,585,626832,village,KULEM,19.14,ICD Mangalore (Panambur),291.78,Mormugao Port,38.47,Mangaluru International Airport (IXE),288.54,Rupaidiha ICP,1574.89
+Cotombi,NORTH GOA,585,626760,village,KARMALI,11.71,ICD Mangalore (Panambur),294.87,Mormugao Port,26.6,Mangaluru International Airport (IXE),291.85,Rupaidiha ICP,1580.44
+Querim,SOUTH GOA,586,626850,village,KARMALI,8.67,ICD Mangalore (Panambur),294.35,Mormugao Port,22.8,Mangaluru International Airport (IXE),291.4,Rupaidiha ICP,1583.47
+Birondem,NORTH GOA,585,626830,village,KULEM,20.86,ICD Mangalore (Panambur),293.04,Mormugao Port,36.72,Mangaluru International Airport (IXE),289.83,Rupaidiha ICP,1575.04
+Taleigao,NORTH GOA,585,645598,village,VASCO DA GAMA,7.88,ICD Mangalore (Panambur),301.52,Mormugao Port,6.6,Mangaluru International Airport (IXE),298.91,Rupaidiha ICP,1591.46
+Talaulim,NORTH GOA,585,626716,village,KARMALI,4.14,ICD Mangalore (Panambur),299.48,Mormugao Port,12.19,Mangaluru International Airport (IXE),296.74,Rupaidiha ICP,1587.59
+Pale,NORTH GOA,585,626764,village,KARMALI,15.52,ICD Mangalore (Panambur),293.02,Mormugao Port,30.06,Mangaluru International Airport (IXE),289.93,Rupaidiha ICP,1579.51
+Calapor (CT),NORTH GOA,585,626732,village,VASCO DA GAMA,8.22,ICD Mangalore (Panambur),300.65,Mormugao Port,7.65,Mangaluru International Airport (IXE),298.0,Rupaidiha ICP,1590.63
+Vantem,NORTH GOA,585,626827,village,KARMALI,18.36,ICD Mangalore (Panambur),293.45,Mormugao Port,33.24,Mangaluru International Airport (IXE),290.3,Rupaidiha ICP,1577.03
+Xelopo Curdo,NORTH GOA,585,626833,village,KULEM,18.16,ICD Mangalore (Panambur),291.34,Mormugao Port,40.67,Mangaluru International Airport (IXE),288.06,Rupaidiha ICP,1573.82
+Adcolna,SOUTH GOA,586,626847,village,KARMALI,4.74,ICD Mangalore (Panambur),297.97,Mormugao Port,20.39,Mangaluru International Airport (IXE),295.06,Rupaidiha ICP,1582.57
+Carambolim,NORTH GOA,585,626718,village,KARMALI,3.49,ICD Mangalore (Panambur),296.45,Mormugao Port,16.98,Mangaluru International Airport (IXE),293.61,Rupaidiha ICP,1586.02
+Volvoi,SOUTH GOA,586,626845,village,KARMALI,9.16,ICD Mangalore (Panambur),296.92,Mormugao Port,24.64,Mangaluru International Airport (IXE),293.93,Rupaidiha ICP,1580.3
+Ponocem,NORTH GOA,585,626826,village,KARMALI,16.23,ICD Mangalore (Panambur),295.01,Mormugao Port,31.45,Mangaluru International Airport (IXE),291.9,Rupaidiha ICP,1577.04
+Renovadi (OG),NORTH GOA,585,626738,village,KARMALI,7.71,ICD Mangalore (Panambur),302.57,Mormugao Port,10.51,Mangaluru International Airport (IXE),299.89,Rupaidiha ICP,1587.72
+Savoi Verem,SOUTH GOA,586,626846,village,KARMALI,9.02,ICD Mangalore (Panambur),295.93,Mormugao Port,24.1,Mangaluru International Airport (IXE),292.95,Rupaidiha ICP,1581.38
+Sanvorcem,NORTH GOA,585,626824,village,KARMALI,21.87,ICD Mangalore (Panambur),294.47,Mormugao Port,37.12,Mangaluru International Airport (IXE),291.25,Rupaidiha ICP,1573.67
+Chimbel (CT),NORTH GOA,585,626730,village,KARMALI,4.66,ICD Mangalore (Panambur),301.44,Mormugao Port,12.55,Mangaluru International Airport (IXE),298.7,Rupaidiha ICP,1586.41
+Panelim (OG),NORTH GOA,585,626736,village,KARMALI,3.63,ICD Mangalore (Panambur),301.41,Mormugao Port,13.57,Mangaluru International Airport (IXE),298.65,Rupaidiha ICP,1585.63
+Bainguinim,NORTH GOA,585,626715,village,KARMALI,2.36,ICD Mangalore (Panambur),300.76,Mormugao Port,14.42,Mangaluru International Airport (IXE),297.97,Rupaidiha ICP,1585.28
+Velguem,NORTH GOA,585,626762,village,KARMALI,14.24,ICD Mangalore (Panambur),295.67,Mormugao Port,29.56,Mangaluru International Airport (IXE),292.59,Rupaidiha ICP,1577.82
+Corlim (CT),NORTH GOA,585,626729,village,KARMALI,2.12,ICD Mangalore (Panambur),299.13,Mormugao Port,18.17,Mangaluru International Airport (IXE),296.27,Rupaidiha ICP,1583.42
+Codqui,NORTH GOA,585,626823,village,KULEM,21.45,ICD Mangalore (Panambur),294.24,Mormugao Port,38.54,Mangaluru International Airport (IXE),290.99,Rupaidiha ICP,1572.92
+Carambolim Buzruco,NORTH GOA,585,626821,village,KULEM,20.32,ICD Mangalore (Panambur),293.76,Mormugao Port,42.12,Mangaluru International Airport (IXE),290.45,Rupaidiha ICP,1570.97
+Panaji (CCP),NORTH GOA,585,252071,village,VASCO DA GAMA,9.04,ICD Mangalore (Panambur),303.28,Mormugao Port,7.09,Mangaluru International Airport (IXE),300.69,Rupaidiha ICP,1591.37
+Vaguriem,NORTH GOA,585,626811,village,KARMALI,17.22,ICD Mangalore (Panambur),296.6,Mormugao Port,32.82,Mangaluru International Airport (IXE),293.46,Rupaidiha ICP,1574.95
+Advoi,NORTH GOA,585,626825,village,KARMALI,19.68,ICD Mangalore (Panambur),295.04,Mormugao Port,35.01,Mangaluru International Airport (IXE),291.86,Rupaidiha ICP,1574.63
+Creek,NORTH GOA,585,,village,VASCO DA GAMA,10.42,ICD Mangalore (Panambur),304.77,Mormugao Port,8.28,Mangaluru International Airport (IXE),302.19,Rupaidiha ICP,1590.66
+Codiem,NORTH GOA,585,626812,village,KARMALI,18.76,ICD Mangalore (Panambur),296.5,Mormugao Port,34.36,Mangaluru International Airport (IXE),293.33,Rupaidiha ICP,1574.0
+Betqui,SOUTH GOA,586,626844,village,KARMALI,6.81,ICD Mangalore (Panambur),298.55,Mormugao Port,22.75,Mangaluru International Airport (IXE),295.6,Rupaidiha ICP,1580.53
+Velguem,NORTH GOA,585,626822,village,KULEM,21.13,ICD Mangalore (Panambur),294.28,Mormugao Port,40.12,Mangaluru International Airport (IXE),291.0,Rupaidiha ICP,1571.86
+Cumbarjua (CT),NORTH GOA,585,626728,village,KARMALI,3.4,ICD Mangalore (Panambur),300.85,Mormugao Port,19.68,Mangaluru International Airport (IXE),297.96,Rupaidiha ICP,1581.35
+Surla,NORTH GOA,585,626761,village,KARMALI,12.95,ICD Mangalore (Panambur),295.09,Mormugao Port,28.02,Mangaluru International Airport (IXE),292.03,Rupaidiha ICP,1579.3
+Sanvordem,NORTH GOA,585,626816,village,CASTLE ROCK,21.9,ICD Mangalore (Panambur),295.47,Mormugao Port,42.21,Mangaluru International Airport (IXE),292.16,Rupaidiha ICP,1569.61
+Orgao,SOUTH GOA,586,626866,village,KARMALI,4.35,ICD Mangalore (Panambur),300.66,Mormugao Port,20.64,Mangaluru International Airport (IXE),297.76,Rupaidiha ICP,1580.75
+Reis-Magos,NORTH GOA,585,626699,village,KARMALI,11.7,ICD Mangalore (Panambur),305.59,Mormugao Port,10.45,Mangaluru International Airport (IXE),302.96,Rupaidiha ICP,1587.87
+Valpoi (M Cl),NORTH GOA,585,252079,village,KARMALI,23.22,ICD Mangalore (Panambur),296.96,Mormugao Port,38.92,Mangaluru International Airport (IXE),293.7,Rupaidiha ICP,1570.66
+Sonus Vonvoliem,NORTH GOA,585,626810,village,KARMALI,13.97,ICD Mangalore (Panambur),298.44,Mormugao Port,29.9,Mangaluru International Airport (IXE),295.36,Rupaidiha ICP,1575.65
+Navelim,NORTH GOA,585,626759,village,KARMALI,9.2,ICD Mangalore (Panambur),299.51,Mormugao Port,25.33,Mangaluru International Airport (IXE),296.51,Rupaidiha ICP,1578.11
+Naguem,NORTH GOA,585,626813,village,KARMALI,20.74,ICD Mangalore (Panambur),298.03,Mormugao Port,36.59,Mangaluru International Airport (IXE),294.82,Rupaidiha ICP,1571.43
+Penha-De-Franca,NORTH GOA,585,626701,village,KARMALI,9.6,ICD Mangalore (Panambur),305.43,Mormugao Port,11.88,Mangaluru International Airport (IXE),302.75,Rupaidiha ICP,1586.2
+Pissurlem,NORTH GOA,585,626809,village,KARMALI,15.55,ICD Mangalore (Panambur),298.82,Mormugao Port,31.53,Mangaluru International Airport (IXE),295.7,Rupaidiha ICP,1574.29
+Candolim,NORTH GOA,585,626697,village,VASCO DA GAMA,12.76,ICD Mangalore (Panambur),307.25,Mormugao Port,10.31,Mangaluru International Airport (IXE),304.7,Rupaidiha ICP,1590.03
+Cudcem,NORTH GOA,585,626815,village,KULEM,23.37,ICD Mangalore (Panambur),296.71,Mormugao Port,41.16,Mangaluru International Airport (IXE),293.41,Rupaidiha ICP,1569.38
+Pilerne,NORTH GOA,585,626700,village,KARMALI,12.49,ICD Mangalore (Panambur),307.72,Mormugao Port,12.53,Mangaluru International Airport (IXE),305.08,Rupaidiha ICP,1586.04
+Buimpal,NORTH GOA,585,626807,village,KARMALI,18.29,ICD Mangalore (Panambur),300.28,Mormugao Port,34.41,Mangaluru International Airport (IXE),297.11,Rupaidiha ICP,1571.38
+Amone,NORTH GOA,585,626758,village,KARMALI,7.77,ICD Mangalore (Panambur),302.38,Mormugao Port,24.01,Mangaluru International Airport (IXE),299.42,Rupaidiha ICP,1577.38
+Jua (CT),NORTH GOA,585,626727,village,KARMALI,4.97,ICD Mangalore (Panambur),303.43,Mormugao Port,20.52,Mangaluru International Airport (IXE),300.54,Rupaidiha ICP,1579.44
+Capao,NORTH GOA,585,626708,village,KARMALI,5.8,ICD Mangalore (Panambur),305.57,Mormugao Port,17.96,Mangaluru International Airport (IXE),302.76,Rupaidiha ICP,1580.65
+Cudnem,NORTH GOA,585,626757,village,KARMALI,10.99,ICD Mangalore (Panambur),301.56,Mormugao Port,27.27,Mangaluru International Airport (IXE),298.54,Rupaidiha ICP,1575.51
+Mauzi,NORTH GOA,585,626806,village,KARMALI,21.08,ICD Mangalore (Panambur),299.52,Mormugao Port,37.1,Mangaluru International Airport (IXE),296.3,Rupaidiha ICP,1570.08
+Caranzol,NORTH GOA,585,626820,village,CASTLE ROCK,18.58,ICD Mangalore (Panambur),294.0,Mormugao Port,45.92,Mangaluru International Airport (IXE),290.62,Rupaidiha ICP,1568.37
+Pendral,NORTH GOA,585,626819,village,CASTLE ROCK,17.44,ICD Mangalore (Panambur),294.73,Mormugao Port,50.18,Mangaluru International Airport (IXE),291.27,Rupaidiha ICP,1565.14
+Codvol,NORTH GOA,585,626818,village,CASTLE ROCK,17.84,ICD Mangalore (Panambur),295.63,Mormugao Port,51.9,Mangaluru International Airport (IXE),292.14,Rupaidiha ICP,1563.41
+Davem,NORTH GOA,585,626801,village,CASTLE ROCK,23.37,ICD Mangalore (Panambur),298.0,Mormugao Port,43.5,Mangaluru International Airport (IXE),294.67,Rupaidiha ICP,1566.94
+Salvador-Do-Mundo,NORTH GOA,585,626702,village,KARMALI,9.33,ICD Mangalore (Panambur),307.41,Mormugao Port,14.99,Mangaluru International Airport (IXE),304.68,Rupaidiha ICP,1583.07
+Nagargao,NORTH GOA,585,626804,village,CASTLE ROCK,25.78,ICD Mangalore (Panambur),299.77,Mormugao Port,42.0,Mangaluru International Airport (IXE),296.47,Rupaidiha ICP,1566.68
+Ustem,NORTH GOA,585,626800,village,CASTLE ROCK,22.68,ICD Mangalore (Panambur),298.54,Mormugao Port,45.97,Mangaluru International Airport (IXE),295.16,Rupaidiha ICP,1564.98
+Aturli,NORTH GOA,585,626754,village,KARMALI,7.61,ICD Mangalore (Panambur),307.07,Mormugao Port,20.99,Mangaluru International Airport (IXE),304.2,Rupaidiha ICP,1577.72
+Sankhali (M Cl),NORTH GOA,585,252077,village,KARMALI,11.39,ICD Mangalore (Panambur),303.68,Mormugao Port,27.62,Mangaluru International Airport (IXE),300.66,Rupaidiha ICP,1574.1
+Satorem,NORTH GOA,585,626805,village,KARMALI,24.92,ICD Mangalore (Panambur),299.69,Mormugao Port,40.93,Mangaluru International Airport (IXE),296.4,Rupaidiha ICP,1567.44
+Naroa,NORTH GOA,585,626755,village,KARMALI,6.6,ICD Mangalore (Panambur),305.87,Mormugao Port,20.72,Mangaluru International Airport (IXE),303.0,Rupaidiha ICP,1578.31
+Saligao,NORTH GOA,585,626696,village,THIVIM,13.13,ICD Mangalore (Panambur),310.08,Mormugao Port,13.96,Mangaluru International Airport (IXE),307.47,Rupaidiha ICP,1585.63
+Onda (CT),NORTH GOA,585,626842,village,KARMALI,15.32,ICD Mangalore (Panambur),301.57,Mormugao Port,31.57,Mangaluru International Airport (IXE),298.46,Rupaidiha ICP,1572.52
+Sangolda,NORTH GOA,585,626688,village,THIVIM,11.66,ICD Mangalore (Panambur),310.08,Mormugao Port,14.64,Mangaluru International Airport (IXE),307.44,Rupaidiha ICP,1584.39
+Piligao,NORTH GOA,585,626756,village,KARMALI,7.72,ICD Mangalore (Panambur),305.09,Mormugao Port,23.2,Mangaluru International Airport (IXE),302.16,Rupaidiha ICP,1576.68
+Nagoa,NORTH GOA,585,626674,village,THIVIM,13.01,ICD Mangalore (Panambur),312.14,Mormugao Port,15.7,Mangaluru International Airport (IXE),309.54,Rupaidiha ICP,1584.75
+Zarani,NORTH GOA,585,626799,village,CASTLE ROCK,21.65,ICD Mangalore (Panambur),298.76,Mormugao Port,49.26,Mangaluru International Airport (IXE),295.32,Rupaidiha ICP,1562.75
+Vainguinim,NORTH GOA,585,626753,village,THIVIM,7.84,ICD Mangalore (Panambur),308.15,Mormugao Port,20.78,Mangaluru International Airport (IXE),305.3,Rupaidiha ICP,1577.62
+Carambolim Brama,NORTH GOA,585,626793,village,CASTLE ROCK,26.16,ICD Mangalore (Panambur),300.87,Mormugao Port,43.25,Mangaluru International Airport (IXE),297.54,Rupaidiha ICP,1565.14
+Compordem,NORTH GOA,585,626790,village,KARMALI,23.1,ICD Mangalore (Panambur),301.08,Mormugao Port,39.25,Mangaluru International Airport (IXE),297.83,Rupaidiha ICP,1567.63
+Saleli,NORTH GOA,585,626787,village,KARMALI,18.29,ICD Mangalore (Panambur),301.99,Mormugao Port,34.53,Mangaluru International Airport (IXE),298.82,Rupaidiha ICP,1570.23
+Bastora,NORTH GOA,585,626678,village,THIVIM,7.57,ICD Mangalore (Panambur),313.05,Mormugao Port,18.74,Mangaluru International Airport (IXE),310.34,Rupaidiha ICP,1580.11
+Socorro,NORTH GOA,585,626703,village,THIVIM,9.64,ICD Mangalore (Panambur),309.52,Mormugao Port,15.67,Mangaluru International Airport (IXE),306.82,Rupaidiha ICP,1582.66
+Olaulim,NORTH GOA,585,626686,village,THIVIM,6.62,ICD Mangalore (Panambur),309.95,Mormugao Port,18.84,Mangaluru International Airport (IXE),307.17,Rupaidiha ICP,1579.22
+Cumarconda,NORTH GOA,585,626808,village,KARMALI,18.56,ICD Mangalore (Panambur),298.19,Mormugao Port,34.44,Mangaluru International Airport (IXE),295.02,Rupaidiha ICP,1572.75
+Navelim,NORTH GOA,585,626709,village,KARMALI,4.53,ICD Mangalore (Panambur),303.66,Mormugao Port,15.29,Mangaluru International Airport (IXE),300.88,Rupaidiha ICP,1583.42
+Candola,SOUTH GOA,586,626865,village,KARMALI,5.58,ICD Mangalore (Panambur),301.79,Mormugao Port,21.82,Mangaluru International Airport (IXE),298.87,Rupaidiha ICP,1579.29
+Marra,NORTH GOA,585,626689,village,VASCO DA GAMA,13.79,ICD Mangalore (Panambur),307.87,Mormugao Port,11.75,Mangaluru International Airport (IXE),305.27,Rupaidiha ICP,1587.43
+Goltim,NORTH GOA,585,626710,village,KARMALI,3.88,ICD Mangalore (Panambur),303.57,Mormugao Port,16.6,Mangaluru International Airport (IXE),300.76,Rupaidiha ICP,1582.4
+Sonal,NORTH GOA,585,626817,village,CASTLE ROCK,22.21,ICD Mangalore (Panambur),297.18,Mormugao Port,44.32,Mangaluru International Airport (IXE),293.83,Rupaidiha ICP,1567.0
+Nanorem,NORTH GOA,585,626797,village,CASTLE ROCK,24.06,ICD Mangalore (Panambur),300.63,Mormugao Port,47.61,Mangaluru International Airport (IXE),297.23,Rupaidiha ICP,1562.49
+Calangute,NORTH GOA,585,626695,village,THIVIM,14.87,ICD Mangalore (Panambur),311.04,Mormugao Port,14.24,Mangaluru International Airport (IXE),308.47,Rupaidiha ICP,1586.69
+Pomburpa,NORTH GOA,585,626687,village,THIVIM,7.49,ICD Mangalore (Panambur),309.52,Mormugao Port,17.81,Mangaluru International Airport (IXE),306.76,Rupaidiha ICP,1580.26
+Carapur (CT),NORTH GOA,585,626763,village,KARMALI,10.71,ICD Mangalore (Panambur),305.63,Mormugao Port,26.56,Mangaluru International Airport (IXE),302.64,Rupaidiha ICP,1573.92
+Maloli,NORTH GOA,585,626796,village,CASTLE ROCK,24.99,ICD Mangalore (Panambur),300.85,Mormugao Port,45.77,Mangaluru International Airport (IXE),297.48,Rupaidiha ICP,1563.52
+Naneli,NORTH GOA,585,626792,village,KARMALI,25.72,ICD Mangalore (Panambur),302.28,Mormugao Port,41.92,Mangaluru International Airport (IXE),298.99,Rupaidiha ICP,1565.09
+Paliem,NORTH GOA,585,626679,village,THIVIM,8.31,ICD Mangalore (Panambur),311.85,Mormugao Port,17.59,Mangaluru International Airport (IXE),309.15,Rupaidiha ICP,1581.1
+Zormen,NORTH GOA,585,626788,village,KARMALI,20.53,ICD Mangalore (Panambur),302.97,Mormugao Port,36.8,Mangaluru International Airport (IXE),299.77,Rupaidiha ICP,1568.09
+Vainguinim,NORTH GOA,585,626798,village,CASTLE ROCK,22.75,ICD Mangalore (Panambur),300.2,Mormugao Port,50.38,Mangaluru International Airport (IXE),296.74,Rupaidiha ICP,1561.04
+Xelopo Buzruco,NORTH GOA,585,626794,village,CASTLE ROCK,27.53,ICD Mangalore (Panambur),302.66,Mormugao Port,44.03,Mangaluru International Airport (IXE),299.33,Rupaidiha ICP,1563.46
+Podocem,NORTH GOA,585,626765,village,KARMALI,13.14,ICD Mangalore (Panambur),306.3,Mormugao Port,29.09,Mangaluru International Airport (IXE),303.27,Rupaidiha ICP,1571.74
+Arpora,NORTH GOA,585,626673,village,THIVIM,13.57,ICD Mangalore (Panambur),313.69,Mormugao Port,16.99,Mangaluru International Airport (IXE),311.11,Rupaidiha ICP,1584.4
+Parra,NORTH GOA,585,626675,village,THIVIM,11.41,ICD Mangalore (Panambur),313.42,Mormugao Port,17.33,Mangaluru International Airport (IXE),310.79,Rupaidiha ICP,1582.91
+Sarvona,NORTH GOA,585,626751,village,KARMALI,11.31,ICD Mangalore (Panambur),307.55,Mormugao Port,26.6,Mangaluru International Airport (IXE),304.57,Rupaidiha ICP,1573.09
+Sigonem,NORTH GOA,585,626795,village,CASTLE ROCK,28.0,ICD Mangalore (Panambur),303.48,Mormugao Port,44.8,Mangaluru International Airport (IXE),300.13,Rupaidiha ICP,1562.44
+Morlem,NORTH GOA,585,626786,village,KARMALI,17.37,ICD Mangalore (Panambur),305.43,Mormugao Port,33.6,Mangaluru International Airport (IXE),302.31,Rupaidiha ICP,1568.91
+Nachinola,NORTH GOA,585,626682,village,THIVIM,5.57,ICD Mangalore (Panambur),311.87,Mormugao Port,19.61,Mangaluru International Airport (IXE),309.11,Rupaidiha ICP,1578.58
+Pale,NORTH GOA,585,626783,village,KARMALI,24.12,ICD Mangalore (Panambur),304.3,Mormugao Port,40.41,Mangaluru International Airport (IXE),301.04,Rupaidiha ICP,1564.86
+Verla,NORTH GOA,585,626676,village,THIVIM,10.66,ICD Mangalore (Panambur),314.52,Mormugao Port,18.56,Mangaluru International Airport (IXE),311.88,Rupaidiha ICP,1581.74
+Poriem,NORTH GOA,585,626766,village,KARMALI,14.98,ICD Mangalore (Panambur),306.55,Mormugao Port,31.01,Mangaluru International Airport (IXE),303.48,Rupaidiha ICP,1570.21
+Maem,NORTH GOA,585,626752,village,THIVIM,6.87,ICD Mangalore (Panambur),309.42,Mormugao Port,22.4,Mangaluru International Airport (IXE),306.55,Rupaidiha ICP,1575.96
+Curchirem,NORTH GOA,585,626750,village,THIVIM,13.78,ICD Mangalore (Panambur),308.34,Mormugao Port,29.88,Mangaluru International Airport (IXE),305.3,Rupaidiha ICP,1570.26
+Moira,NORTH GOA,585,626692,village,THIVIM,4.81,ICD Mangalore (Panambur),313.62,Mormugao Port,20.75,Mangaluru International Airport (IXE),310.87,Rupaidiha ICP,1577.67
+Bicholim (M Cl),NORTH GOA,585,252075,village,THIVIM,8.94,ICD Mangalore (Panambur),309.5,Mormugao Port,25.77,Mangaluru International Airport (IXE),306.55,Rupaidiha ICP,1573.09
+Derodem,NORTH GOA,585,626779,village,TINAI GHAT,24.76,ICD Mangalore (Panambur),302.92,Mormugao Port,51.9,Mangaluru International Airport (IXE),299.44,Rupaidiha ICP,1558.24
+Dongurli,NORTH GOA,585,626782,village,KARMALI,27.26,ICD Mangalore (Panambur),304.87,Mormugao Port,43.54,Mangaluru International Airport (IXE),301.55,Rupaidiha ICP,1562.42
+Gonteli,NORTH GOA,585,626768,village,KARMALI,19.08,ICD Mangalore (Panambur),307.76,Mormugao Port,35.17,Mangaluru International Airport (IXE),304.61,Rupaidiha ICP,1566.62
+Codal,NORTH GOA,585,626780,village,CASTLE ROCK,26.93,ICD Mangalore (Panambur),303.62,Mormugao Port,47.97,Mangaluru International Airport (IXE),300.22,Rupaidiha ICP,1560.29
+Querim,NORTH GOA,585,626785,village,KARMALI,20.27,ICD Mangalore (Panambur),306.19,Mormugao Port,36.52,Mangaluru International Airport (IXE),303.01,Rupaidiha ICP,1566.46
+Corjuem,NORTH GOA,585,626683,village,THIVIM,4.18,ICD Mangalore (Panambur),311.75,Mormugao Port,21.93,Mangaluru International Airport (IXE),308.93,Rupaidiha ICP,1576.13
+Aldona,NORTH GOA,585,626704,village,THIVIM,4.38,ICD Mangalore (Panambur),312.06,Mormugao Port,20.9,Mangaluru International Airport (IXE),309.27,Rupaidiha ICP,1577.2
+Anjuna,NORTH GOA,585,626694,village,THIVIM,13.8,ICD Mangalore (Panambur),315.81,Mormugao Port,18.99,Mangaluru International Airport (IXE),313.23,Rupaidiha ICP,1583.29
+Gululem,NORTH GOA,585,626784,village,KARMALI,22.97,ICD Mangalore (Panambur),306.31,Mormugao Port,39.25,Mangaluru International Airport (IXE),303.08,Rupaidiha ICP,1564.5
+Ravona,NORTH GOA,585,626767,village,THIVIM,17.32,ICD Mangalore (Panambur),308.64,Mormugao Port,33.81,Mangaluru International Airport (IXE),305.53,Rupaidiha ICP,1567.2
+Ona,NORTH GOA,585,626748,village,THIVIM,8.51,ICD Mangalore (Panambur),311.53,Mormugao Port,27.73,Mangaluru International Airport (IXE),308.57,Rupaidiha ICP,1570.91
+Siroli,NORTH GOA,585,626769,village,THIVIM,20.19,ICD Mangalore (Panambur),309.21,Mormugao Port,37.04,Mangaluru International Airport (IXE),306.04,Rupaidiha ICP,1564.58
+Maulinguem North,NORTH GOA,585,626749,village,THIVIM,10.72,ICD Mangalore (Panambur),310.9,Mormugao Port,29.23,Mangaluru International Airport (IXE),307.9,Rupaidiha ICP,1569.85
+Assagao,NORTH GOA,585,626672,village,THIVIM,10.67,ICD Mangalore (Panambur),316.3,Mormugao Port,20.23,Mangaluru International Airport (IXE),313.66,Rupaidiha ICP,1580.6
+Marna,NORTH GOA,585,626671,village,THIVIM,9.61,ICD Mangalore (Panambur),317.55,Mormugao Port,21.8,Mangaluru International Airport (IXE),314.89,Rupaidiha ICP,1578.87
+Rivem,NORTH GOA,585,626781,village,CASTLE ROCK,29.68,ICD Mangalore (Panambur),305.82,Mormugao Port,46.54,Mangaluru International Airport (IXE),302.45,Rupaidiha ICP,1559.86
+Mapusa(M Cl),NORTH GOA,585,252061,village,THIVIM,7.0,ICD Mangalore (Panambur),315.09,Mormugao Port,20.56,Mangaluru International Airport (IXE),312.38,Rupaidiha ICP,1578.67
+Mulgao,NORTH GOA,585,626747,village,THIVIM,5.41,ICD Mangalore (Panambur),312.02,Mormugao Port,25.17,Mangaluru International Airport (IXE),309.12,Rupaidiha ICP,1573.05
+Anjunem,NORTH GOA,585,626770,village,THIVIM,22.35,ICD Mangalore (Panambur),308.97,Mormugao Port,38.98,Mangaluru International Airport (IXE),305.76,Rupaidiha ICP,1563.31
+Sircaim,NORTH GOA,585,626669,village,THIVIM,1.03,ICD Mangalore (Panambur),314.9,Mormugao Port,24.28,Mangaluru International Airport (IXE),312.08,Rupaidiha ICP,1573.86
+Quelaudem,NORTH GOA,585,626771,village,THIVIM,23.69,ICD Mangalore (Panambur),309.05,Mormugao Port,40.33,Mangaluru International Airport (IXE),305.82,Rupaidiha ICP,1562.31
+Ivrem Buzruco,NORTH GOA,585,626774,village,KARMALI,27.87,ICD Mangalore (Panambur),308.21,Mormugao Port,44.13,Mangaluru International Airport (IXE),304.9,Rupaidiha ICP,1560.11
+Ivrem Curdo,NORTH GOA,585,626775,village,KARMALI,29.19,ICD Mangalore (Panambur),307.98,Mormugao Port,45.47,Mangaluru International Airport (IXE),304.65,Rupaidiha ICP,1559.32
+Siolim,NORTH GOA,585,626690,village,PERNEM,10.43,ICD Pune,317.04,Mormugao Port,22.64,Mangaluru International Airport (IXE),316.01,Rupaidiha ICP,1578.63
+Choraundem,NORTH GOA,585,626773,village,KARMALI,26.63,ICD Mangalore (Panambur),308.43,Mormugao Port,42.88,Mangaluru International Airport (IXE),305.15,Rupaidiha ICP,1560.85
+Golauli,NORTH GOA,585,626776,village,KARMALI,31.07,ICD Mangalore (Panambur),307.68,Mormugao Port,47.36,Mangaluru International Airport (IXE),304.31,Rupaidiha ICP,1558.23
+Oxel,NORTH GOA,585,626662,village,PERNEM,9.19,ICD Pune,315.62,Mormugao Port,24.06,Mangaluru International Airport (IXE),317.36,Rupaidiha ICP,1577.41
+Tivim,NORTH GOA,585,626670,village,THIVIM,2.77,ICD Mangalore (Panambur),316.33,Mormugao Port,23.83,Mangaluru International Airport (IXE),313.54,Rupaidiha ICP,1574.73
+Satrem,NORTH GOA,585,626778,village,TINAI GHAT,28.06,ICD Mangalore (Panambur),306.48,Mormugao Port,52.25,Mangaluru International Airport (IXE),303.01,Rupaidiha ICP,1555.74
+Agarvado,NORTH GOA,585,626657,village,PERNEM,9.04,ICD Pune,314.78,Mormugao Port,25.04,Mangaluru International Airport (IXE),318.6,Rupaidiha ICP,1577.14
+Camurlim,NORTH GOA,585,626663,village,PERNEM,7.79,ICD Pune,314.88,Mormugao Port,24.7,Mangaluru International Airport (IXE),317.26,Rupaidiha ICP,1575.89
+Adwalpale,NORTH GOA,585,626745,village,THIVIM,2.7,ICD Pune,314.28,Mormugao Port,27.53,Mangaluru International Airport (IXE),313.94,Rupaidiha ICP,1570.57
+Surla,NORTH GOA,585,626777,village,CASTLE ROCK,31.88,ICD Mangalore (Panambur),308.9,Mormugao Port,49.69,Mangaluru International Airport (IXE),305.5,Rupaidiha ICP,1555.97
+Latambarcem,NORTH GOA,585,626744,village,THIVIM,6.71,ICD Pune,313.9,Mormugao Port,29.87,Mangaluru International Airport (IXE),312.93,Rupaidiha ICP,1568.26
+Nadora,NORTH GOA,585,626665,village,THIVIM,4.36,ICD Pune,311.75,Mormugao Port,28.78,Mangaluru International Airport (IXE),317.43,Rupaidiha ICP,1569.84
+Pirna,NORTH GOA,585,626666,village,THIVIM,4.0,ICD Pune,312.2,Mormugao Port,29.17,Mangaluru International Airport (IXE),316.13,Rupaidiha ICP,1569.05
+Dumacem,NORTH GOA,585,626742,village,THIVIM,6.33,ICD Pune,310.55,Mormugao Port,31.42,Mangaluru International Airport (IXE),317.07,Rupaidiha ICP,1566.72
+Parcem,NORTH GOA,585,626660,village,PERNEM,6.59,ICD Pune,312.19,Mormugao Port,27.53,Pune Airport (PNQ),319.21,Rupaidiha ICP,1574.51
+Tuem,NORTH GOA,585,626655,village,PERNEM,4.28,ICD Pune,311.51,Mormugao Port,28.08,Pune Airport (PNQ),318.46,Rupaidiha ICP,1572.42
+Mandrem,NORTH GOA,585,626659,village,PERNEM,9.69,ICD Pune,312.2,Mormugao Port,28.23,Pune Airport (PNQ),319.29,Rupaidiha ICP,1576.18
+Salem,NORTH GOA,585,626743,village,THIVIM,9.05,ICD Pune,310.04,Mormugao Port,33.45,Mangaluru International Airport (IXE),316.45,Rupaidiha ICP,1564.62
+Mencurem,NORTH GOA,585,626741,village,THIVIM,7.15,ICD Pune,309.17,Mormugao Port,32.31,Pune Airport (PNQ),315.93,Rupaidiha ICP,1565.96
+Virnora,NORTH GOA,585,626654,village,PERNEM,2.43,ICD Pune,309.81,Mormugao Port,29.84,Pune Airport (PNQ),316.74,Rupaidiha ICP,1570.31
+Arambol,NORTH GOA,585,626658,village,PERNEM,10.27,ICD Pune,310.19,Mormugao Port,30.57,Pune Airport (PNQ),317.31,Rupaidiha ICP,1574.99
+Dargalim,NORTH GOA,585,626653,village,PERNEM,4.21,ICD Pune,310.75,Mormugao Port,29.2,Pune Airport (PNQ),317.63,Rupaidiha ICP,1570.11
+Ozorim,NORTH GOA,585,626652,village,PERNEM,6.39,ICD Pune,308.91,Mormugao Port,31.82,Pune Airport (PNQ),315.72,Rupaidiha ICP,1566.8
+Ibrampur,NORTH GOA,585,626650,village,THIVIM,10.66,ICD Pune,307.48,Mormugao Port,35.54,Pune Airport (PNQ),314.16,Rupaidiha ICP,1562.53
+Querim,NORTH GOA,585,626636,village,PERNEM,12.34,ICD Pune,307.31,Mormugao Port,34.1,Pune Airport (PNQ),314.47,Rupaidiha ICP,1573.41
+Paliem,NORTH GOA,585,626637,village,PERNEM,9.94,ICD Pune,307.51,Mormugao Port,33.17,Pune Airport (PNQ),314.63,Rupaidiha ICP,1572.6
+Cansarvornem,NORTH GOA,585,626651,village,PERNEM,6.29,ICD Pune,306.63,Mormugao Port,34.03,Pune Airport (PNQ),313.44,Rupaidiha ICP,1564.74
+Tiracol,NORTH GOA,585,626635,village,PERNEM,13.98,ICD Pune,305.97,Mormugao Port,35.92,Pune Airport (PNQ),313.17,Rupaidiha ICP,1572.84
+Pernem,NORTH GOA,585,626639,village,PERNEM,0.63,ICD Pune,307.54,Mormugao Port,32.14,Pune Airport (PNQ),314.47,Rupaidiha ICP,1568.1
+Corgao,NORTH GOA,585,626638,village,PERNEM,6.12,ICD Pune,307.67,Mormugao Port,32.22,Pune Airport (PNQ),314.72,Rupaidiha ICP,1571.13
+Varconda,NORTH GOA,585,626642,village,PERNEM,3.37,ICD Pune,305.6,Mormugao Port,34.33,Pune Airport (PNQ),312.48,Rupaidiha ICP,1565.35
+Alorna,NORTH GOA,585,626649,village,THIVIM,10.97,ICD Pune,306.16,Mormugao Port,36.11,Pune Airport (PNQ),312.87,Rupaidiha ICP,1562.06
+Chandel,NORTH GOA,585,626648,village,PERNEM,8.18,ICD Pune,304.0,Mormugao Port,36.89,Pune Airport (PNQ),310.79,Rupaidiha ICP,1561.85
+Uguem,NORTH GOA,585,626644,village,PERNEM,5.14,ICD Pune,302.86,Mormugao Port,36.99,Pune Airport (PNQ),309.75,Rupaidiha ICP,1563.09
+Tamboxem,NORTH GOA,585,626645,village,PERNEM,5.99,ICD Pune,301.81,Mormugao Port,38.0,Pune Airport (PNQ),308.7,Rupaidiha ICP,1562.26
+Mopa,NORTH GOA,585,626647,village,PERNEM,6.93,ICD Pune,302.53,Mormugao Port,37.73,Pune Airport (PNQ),309.36,Rupaidiha ICP,1561.66
+Torxem,NORTH GOA,585,626646,village,MADURE,6.63,ICD Pune,299.34,Mormugao Port,40.83,Pune Airport (PNQ),306.18,Rupaidiha ICP,1558.89
+Assodem,NORTH GOA,585,626836,village,KULEM,16.26,ICD Mangalore (Panambur),289.79,Mormugao Port,43.45,Mangaluru International Airport (IXE),286.46,Rupaidiha ICP,1573.3
+Nerul,NORTH GOA,585,626698,village,VASCO DA GAMA,12.39,ICD Mangalore (Panambur),306.64,Mormugao Port,10.26,Mangaluru International Airport (IXE),304.05,Rupaidiha ICP,1588.92
+Batim,NORTH GOA,585,626722,village,KARMALI,5.98,ICD Mangalore (Panambur),297.32,Mormugao Port,10.59,Mangaluru International Airport (IXE),294.6,Rupaidiha ICP,1590.04
+Sirigao,NORTH GOA,585,626746,village,THIVIM,3.6,ICD Mangalore (Panambur),312.7,Mormugao Port,23.99,Mangaluru International Airport (IXE),309.84,Rupaidiha ICP,1574.09
+Ponsuli,NORTH GOA,585,626772,village,KARMALI,24.99,ICD Mangalore (Panambur),308.3,Mormugao Port,41.21,Mangaluru International Airport (IXE),305.04,Rupaidiha ICP,1562.07
+Dabem,NORTH GOA,585,626789,village,KARMALI,21.04,ICD Mangalore (Panambur),301.12,Mormugao Port,37.21,Mangaluru International Airport (IXE),297.9,Rupaidiha ICP,1568.96
+Bombedem,NORTH GOA,585,626802,village,CASTLE ROCK,24.48,ICD Mangalore (Panambur),298.48,Mormugao Port,42.22,Mangaluru International Airport (IXE),295.17,Rupaidiha ICP,1567.43
+Ambedem,NORTH GOA,585,626803,village,CASTLE ROCK,24.99,ICD Mangalore (Panambur),299.07,Mormugao Port,42.27,Mangaluru International Airport (IXE),295.76,Rupaidiha ICP,1566.99
+Edorem,NORTH GOA,585,626791,village,KARMALI,24.85,ICD Mangalore (Panambur),300.91,Mormugao Port,40.97,Mangaluru International Airport (IXE),297.63,Rupaidiha ICP,1566.6
+Ansolem,NORTH GOA,585,626814,village,KARMALI,20.64,ICD Mangalore (Panambur),296.06,Mormugao Port,36.18,Mangaluru International Airport (IXE),292.86,Rupaidiha ICP,1573.1
+Siranguli,NORTH GOA,585,626834,village,KULEM,18.29,ICD Mangalore (Panambur),291.76,Mormugao Port,42.52,Mangaluru International Airport (IXE),288.44,Rupaidiha ICP,1572.29
+Tivrem,SOUTH GOA,586,626843,village,KARMALI,4.57,ICD Mangalore (Panambur),299.38,Mormugao Port,20.71,Mangaluru International Airport (IXE),296.47,Rupaidiha ICP,1581.45
+Boma,SOUTH GOA,586,626848,village,KARMALI,4.71,ICD Mangalore (Panambur),296.74,Mormugao Port,19.57,Mangaluru International Airport (IXE),293.85,Rupaidiha ICP,1583.98
+Curti,SOUTH GOA,586,626870,village,KARMALI,13.85,ICD Mangalore (Panambur),288.27,Mormugao Port,25.01,Mangaluru International Airport (IXE),285.3,Rupaidiha ICP,1587.15
+Arvalem,NORTH GOA,585,917385,village,KARMALI,14.08,ICD Mangalore (Panambur),303.23,Mormugao Port,30.37,Mangaluru International Airport (IXE),300.15,Rupaidiha ICP,1572.39
+Poroscodem,NORTH GOA,585,626640,village,PERNEM,3.02,ICD Pune,304.39,Mormugao Port,35.22,Pune Airport (PNQ),311.33,Rupaidiha ICP,1565.69
+Velsao,SOUTH GOA,586,626882,village,CANSAULIM,1.13,ICD Mangalore (Panambur),286.89,Mormugao Port,12.43,Mangaluru International Airport (IXE),284.23,Rupaidiha ICP,1599.58
+Chandor,SOUTH GOA,586,626911,village,CHANDAR,1.26,ICD Mangalore (Panambur),271.64,Mormugao Port,32.87,Mangaluru International Airport (IXE),268.72,Rupaidiha ICP,1600.46
+Loliem,SOUTH GOA,586,627027,village,LOLIEM,0.86,ICD Mangalore (Panambur),236.91,Mormugao Port,60.88,Mangaluru International Airport (IXE),234.22,Rupaidiha ICP,1632.12
+Poinguinim,SOUTH GOA,586,627026,village,LOLIEM,4.66,ICD Mangalore (Panambur),240.84,Mormugao Port,57.78,Mangaluru International Airport (IXE),238.06,Rupaidiha ICP,1626.85
+Canacona (M CI),SOUTH GOA,586,252100,village,CANCONA,0.59,ICD Mangalore (Panambur),245.67,Mormugao Port,52.12,Mangaluru International Airport (IXE),242.99,Rupaidiha ICP,1626.55
+Cotigao,SOUTH GOA,586,627028,village,ASNOTI,13.41,ICD Mangalore (Panambur),236.69,Mormugao Port,65.84,Mangaluru International Airport (IXE),233.62,Rupaidiha ICP,1621.78
+Canacona,SOUTH GOA,586,627024,village,CANCONA,4.0,ICD Mangalore (Panambur),246.23,Mormugao Port,52.31,Mangaluru International Airport (IXE),243.47,Rupaidiha ICP,1623.74
+Gaodongrem,SOUTH GOA,586,627025,village,LOLIEM,10.29,ICD Mangalore (Panambur),243.54,Mormugao Port,56.86,Mangaluru International Airport (IXE),240.63,Rupaidiha ICP,1621.21
+Nundem,SOUTH GOA,586,627019,village,LOLIEM,17.68,ICD Mangalore (Panambur),245.24,Mormugao Port,58.81,Mangaluru International Airport (IXE),242.16,Rupaidiha ICP,1614.72
+Agonda,SOUTH GOA,586,627023,village,CANCONA,5.4,ICD Mangalore (Panambur),250.7,Mormugao Port,46.72,Mangaluru International Airport (IXE),248.08,Rupaidiha ICP,1625.13
+Quisconda,SOUTH GOA,586,626963,village,CANCONA,9.03,ICD Mangalore (Panambur),249.72,Mormugao Port,50.26,Mangaluru International Airport (IXE),246.87,Rupaidiha ICP,1618.35
+Mangal,SOUTH GOA,586,626968,village,CANCONA,16.16,ICD Mangalore (Panambur),246.43,Mormugao Port,56.74,Mangaluru International Airport (IXE),243.39,Rupaidiha ICP,1615.2
+Barcem,SOUTH GOA,586,626961,village,CANCONA,6.22,ICD Mangalore (Panambur),251.6,Mormugao Port,46.67,Mangaluru International Airport (IXE),248.88,Rupaidiha ICP,1621.23
+Corla,SOUTH GOA,586,626966,village,CANCONA,11.7,ICD Mangalore (Panambur),249.75,Mormugao Port,51.38,Mangaluru International Airport (IXE),246.83,Rupaidiha ICP,1616.32
+Cazur,SOUTH GOA,586,626967,village,CANCONA,14.57,ICD Mangalore (Panambur),248.98,Mormugao Port,53.53,Mangaluru International Airport (IXE),245.98,Rupaidiha ICP,1614.67
+Verlem,SOUTH GOA,586,627020,village,LOLIEM,21.92,ICD Mangalore (Panambur),242.73,Mormugao Port,64.04,Mangaluru International Airport (IXE),239.52,Rupaidiha ICP,1612.92
+Gocoldem,SOUTH GOA,586,626962,village,CANCONA,8.58,ICD Mangalore (Panambur),251.49,Mormugao Port,47.99,Mangaluru International Airport (IXE),248.68,Rupaidiha ICP,1618.31
+Cola,SOUTH GOA,586,627022,village,BALLI,9.49,ICD Mangalore (Panambur),256.35,Mormugao Port,40.9,Mangaluru International Airport (IXE),253.78,Rupaidiha ICP,1622.64
+Quedem,SOUTH GOA,586,626960,village,BALLI,6.93,ICD Mangalore (Panambur),255.04,Mormugao Port,43.02,Mangaluru International Airport (IXE),252.34,Rupaidiha ICP,1619.77
+Vichundrem,SOUTH GOA,586,627016,village,CANCONA,19.13,ICD Mangalore (Panambur),250.1,Mormugao Port,54.87,Mangaluru International Airport (IXE),247.01,Rupaidiha ICP,1610.88
+Padi,SOUTH GOA,586,626959,village,BALLI,6.79,ICD Mangalore (Panambur),254.61,Mormugao Port,44.31,Mangaluru International Airport (IXE),251.84,Rupaidiha ICP,1617.7
+Neturlim,SOUTH GOA,586,627018,village,CANCONA,21.96,ICD Mangalore (Panambur),247.53,Mormugao Port,58.93,Mangaluru International Airport (IXE),244.36,Rupaidiha ICP,1610.61
+Sulcorna,SOUTH GOA,586,626965,village,BALLI,15.78,ICD Mangalore (Panambur),251.5,Mormugao Port,52.0,Mangaluru International Airport (IXE),248.48,Rupaidiha ICP,1611.92
+Pirla,SOUTH GOA,586,626964,village,BALLI,12.02,ICD Mangalore (Panambur),252.86,Mormugao Port,48.95,Mangaluru International Airport (IXE),249.92,Rupaidiha ICP,1613.5
+Naquerim,SOUTH GOA,586,626952,village,BALLI,7.98,ICD Mangalore (Panambur),258.99,Mormugao Port,38.32,Mangaluru International Airport (IXE),256.41,Rupaidiha ICP,1620.51
+Sigonem,SOUTH GOA,586,627017,village,KALEEM,20.31,ICD Mangalore (Panambur),250.53,Mormugao Port,59.01,Mangaluru International Airport (IXE),247.27,Rupaidiha ICP,1605.85
+Maina,SOUTH GOA,586,626957,village,BALLI,8.36,ICD Mangalore (Panambur),254.8,Mormugao Port,45.76,Mangaluru International Airport (IXE),251.93,Rupaidiha ICP,1614.38
+Bendordem,SOUTH GOA,586,626955,village,BALLI,3.42,ICD Mangalore (Panambur),258.39,Mormugao Port,41.1,Mangaluru International Airport (IXE),255.6,Rupaidiha ICP,1614.26
+Curpem,SOUTH GOA,586,627015,village,BALLI,16.5,ICD Mangalore (Panambur),253.63,Mormugao Port,51.41,Mangaluru International Airport (IXE),250.56,Rupaidiha ICP,1608.9
+Porteem,SOUTH GOA,586,627011,village,KALEEM,18.01,ICD Mangalore (Panambur),252.91,Mormugao Port,54.33,Mangaluru International Airport (IXE),249.76,Rupaidiha ICP,1606.86
+Morpila,SOUTH GOA,586,626953,village,BALLI,4.47,ICD Mangalore (Panambur),258.35,Mormugao Port,39.69,Mangaluru International Airport (IXE),255.66,Rupaidiha ICP,1617.81
+Dongor,SOUTH GOA,586,627009,village,KALEEM,17.24,ICD Mangalore (Panambur),253.59,Mormugao Port,56.57,Mangaluru International Airport (IXE),250.34,Rupaidiha ICP,1603.66
+Naiquinim,SOUTH GOA,586,627010,village,KALEEM,15.93,ICD Mangalore (Panambur),254.84,Mormugao Port,53.9,Mangaluru International Airport (IXE),251.64,Rupaidiha ICP,1604.37
+Fatorpa,SOUTH GOA,586,626950,village,BALLI,3.22,ICD Mangalore (Panambur),261.1,Mormugao Port,37.04,Mangaluru International Airport (IXE),258.42,Rupaidiha ICP,1615.84
+Colomba,SOUTH GOA,586,627013,village,BALLI,12.91,ICD Mangalore (Panambur),256.29,Mormugao Port,47.67,Mangaluru International Airport (IXE),253.27,Rupaidiha ICP,1608.76
+Viliena,SOUTH GOA,586,627008,village,KALEEM,15.08,ICD Mangalore (Panambur),255.76,Mormugao Port,55.01,Mangaluru International Airport (IXE),252.51,Rupaidiha ICP,1602.0
+Velim,SOUTH GOA,586,626921,village,BALLI,5.5,ICD Mangalore (Panambur),263.26,Mormugao Port,34.5,Mangaluru International Airport (IXE),260.62,Rupaidiha ICP,1615.77
+Bali,SOUTH GOA,586,626949,village,BALLI,0.53,ICD Mangalore (Panambur),261.58,Mormugao Port,37.71,Mangaluru International Airport (IXE),258.81,Rupaidiha ICP,1612.85
+Adnem,SOUTH GOA,586,626948,village,BALLI,3.39,ICD Mangalore (Panambur),261.43,Mormugao Port,38.98,Mangaluru International Airport (IXE),258.6,Rupaidiha ICP,1610.91
+Molcopona,SOUTH GOA,586,626945,village,SANVERDAM CHUCH,10.53,ICD Mangalore (Panambur),259.61,Mormugao Port,46.12,Mangaluru International Airport (IXE),256.56,Rupaidiha ICP,1605.0
+Cumbari,SOUTH GOA,586,627007,village,SONALIUM,15.86,ICD Mangalore (Panambur),254.8,Mormugao Port,58.51,Mangaluru International Airport (IXE),251.47,Rupaidiha ICP,1600.28
+Rivona,SOUTH GOA,586,627014,village,BALLI,8.67,ICD Mangalore (Panambur),258.14,Mormugao Port,44.07,Mangaluru International Airport (IXE),255.21,Rupaidiha ICP,1610.01
+Undorna,SOUTH GOA,586,626944,village,SANVERDAM CHUCH,10.52,ICD Mangalore (Panambur),259.93,Mormugao Port,46.8,Mangaluru International Airport (IXE),256.85,Rupaidiha ICP,1603.79
+Curdem,SOUTH GOA,586,627012,village,SANVERDAM CHUCH,13.54,ICD Mangalore (Panambur),257.39,Mormugao Port,49.97,Mangaluru International Airport (IXE),254.26,Rupaidiha ICP,1604.43
+Molcarnem,SOUTH GOA,586,626946,village,SANVERDAM CHUCH,9.04,ICD Mangalore (Panambur),261.05,Mormugao Port,43.72,Mangaluru International Airport (IXE),258.04,Rupaidiha ICP,1605.33
+Cavelossim,SOUTH GOA,586,626920,village,BALLI,8.1,ICD Mangalore (Panambur),266.11,Mormugao Port,31.44,Mangaluru International Airport (IXE),263.49,Rupaidiha ICP,1614.84
+Zanodem,SOUTH GOA,586,626943,village,SANVERDAM CHUCH,8.01,ICD Mangalore (Panambur),262.19,Mormugao Port,44.2,Mangaluru International Airport (IXE),259.13,Rupaidiha ICP,1603.01
+Bati,SOUTH GOA,586,627006,village,KALEEM,13.49,ICD Mangalore (Panambur),257.85,Mormugao Port,55.2,Mangaluru International Airport (IXE),254.56,Rupaidiha ICP,1598.98
+Salauli,SOUTH GOA,586,627002,village,KALEEM,10.69,ICD Mangalore (Panambur),260.41,Mormugao Port,48.65,Mangaluru International Airport (IXE),257.25,Rupaidiha ICP,1601.27
+Xelpem,SOUTH GOA,586,627001,village,SANVERDAM CHUCH,9.43,ICD Mangalore (Panambur),261.73,Mormugao Port,46.49,Mangaluru International Airport (IXE),258.61,Rupaidiha ICP,1601.43
+Carmona,SOUTH GOA,586,626917,village,MADGAON,7.79,ICD Mangalore (Panambur),268.53,Mormugao Port,29.51,Mangaluru International Airport (IXE),265.88,Rupaidiha ICP,1611.69
+Nagvem,SOUTH GOA,586,626942,village,SANVERDAM CHUCH,6.3,ICD Mangalore (Panambur),263.76,Mormugao Port,42.06,Mangaluru International Airport (IXE),260.73,Rupaidiha ICP,1602.84
+Ambaulim,SOUTH GOA,586,626947,village,BALLI,5.81,ICD Mangalore (Panambur),265.06,Mormugao Port,36.25,Mangaluru International Airport (IXE),262.21,Rupaidiha ICP,1607.56
+Talvorda,SOUTH GOA,586,924823,village,BALLI,5.85,ICD Mangalore (Panambur),266.49,Mormugao Port,34.19,Mangaluru International Airport (IXE),263.67,Rupaidiha ICP,1607.73
+Chinchinim (CT),SOUTH GOA,586,626933,village,BALLI,6.91,ICD Mangalore (Panambur),268.06,Mormugao Port,30.85,Mangaluru International Airport (IXE),265.34,Rupaidiha ICP,1609.93
+Sirvoi,SOUTH GOA,586,626941,village,SANVERDAM CHUCH,6.38,ICD Mangalore (Panambur),264.65,Mormugao Port,39.28,Mangaluru International Airport (IXE),261.69,Rupaidiha ICP,1604.46
+Quepem (MCl),SOUTH GOA,586,252097,village,CHANDAR,6.8,ICD Mangalore (Panambur),265.35,Mormugao Port,36.98,Mangaluru International Airport (IXE),262.45,Rupaidiha ICP,1606.06
+Cotarli,SOUTH GOA,586,627000,village,SANVERDAM CHUCH,7.58,ICD Mangalore (Panambur),263.18,Mormugao Port,44.59,Mangaluru International Airport (IXE),260.08,Rupaidiha ICP,1601.16
+Paroda,SOUTH GOA,586,626912,village,CHANDAR,4.85,ICD Mangalore (Panambur),267.51,Mormugao Port,34.6,Mangaluru International Airport (IXE),264.64,Rupaidiha ICP,1605.23
+Potrem,SOUTH GOA,586,627005,village,SONALIUM,10.33,ICD Mangalore (Panambur),260.47,Mormugao Port,55.47,Mangaluru International Airport (IXE),257.12,Rupaidiha ICP,1595.4
+Orlim,SOUTH GOA,586,626916,village,MADGAON,5.67,ICD Mangalore (Panambur),270.86,Mormugao Port,27.4,Mangaluru International Airport (IXE),268.19,Rupaidiha ICP,1609.8
+Sanguem (M Cl),SOUTH GOA,586,252099,village,SANVERDAM CHUCH,7.15,ICD Mangalore (Panambur),264.11,Mormugao Port,44.46,Mangaluru International Airport (IXE),261.0,Rupaidiha ICP,1599.95
+Deussua,SOUTH GOA,586,626918,village,MADGAON,6.16,ICD Mangalore (Panambur),269.52,Mormugao Port,29.05,Mangaluru International Airport (IXE),266.83,Rupaidiha ICP,1609.82
+Tudou,SOUTH GOA,586,627004,village,KALEEM,9.0,ICD Mangalore (Panambur),262.14,Mormugao Port,51.41,Mangaluru International Airport (IXE),258.88,Rupaidiha ICP,1596.52
+Sarzora,SOUTH GOA,586,626914,village,MADGAON,6.49,ICD Mangalore (Panambur),268.82,Mormugao Port,31.09,Mangaluru International Airport (IXE),266.05,Rupaidiha ICP,1607.69
+Chaifi,SOUTH GOA,586,626940,village,CHANDAR,3.82,ICD Mangalore (Panambur),268.36,Mormugao Port,35.06,Mangaluru International Airport (IXE),265.44,Rupaidiha ICP,1603.22
+Avedem,SOUTH GOA,586,626939,village,CHANDAR,3.44,ICD Mangalore (Panambur),268.72,Mormugao Port,34.17,Mangaluru International Airport (IXE),265.83,Rupaidiha ICP,1603.66
+Mulem,SOUTH GOA,586,626913,village,CHANDAR,4.75,ICD Mangalore (Panambur),269.1,Mormugao Port,32.09,Mangaluru International Airport (IXE),266.28,Rupaidiha ICP,1605.63
+Varca (CT),SOUTH GOA,586,626932,village,MADGAON,6.45,ICD Mangalore (Panambur),271.27,Mormugao Port,26.61,Mangaluru International Airport (IXE),268.63,Rupaidiha ICP,1610.58
+Dramapur,SOUTH GOA,586,626908,village,MADGAON,3.81,ICD Mangalore (Panambur),271.39,Mormugao Port,28.31,Mangaluru International Airport (IXE),268.64,Rupaidiha ICP,1606.69
+Uguem,SOUTH GOA,586,627003,village,KALEEM,6.52,ICD Mangalore (Panambur),264.44,Mormugao Port,46.66,Mangaluru International Airport (IXE),261.26,Rupaidiha ICP,1597.53
+Cotombi,SOUTH GOA,586,626938,village,CHANDAR,2.59,ICD Mangalore (Panambur),269.55,Mormugao Port,33.89,Mangaluru International Airport (IXE),266.65,Rupaidiha ICP,1602.62
+Talaulim,SOUTH GOA,586,626907,village,MADGAON,3.43,ICD Mangalore (Panambur),272.5,Mormugao Port,26.38,Mangaluru International Airport (IXE),269.8,Rupaidiha ICP,1607.55
+Xeldem (CT),SOUTH GOA,586,626969,village,SANVERDAM CHUCH,3.89,ICD Mangalore (Panambur),268.0,Mormugao Port,36.71,Mangaluru International Airport (IXE),265.04,Rupaidiha ICP,1601.96
+Patiem,SOUTH GOA,586,626993,village,KALEEM,6.51,ICD Mangalore (Panambur),264.94,Mormugao Port,49.94,Mangaluru International Airport (IXE),261.66,Rupaidiha ICP,1594.18
+Muguli,SOUTH GOA,586,626999,village,SANVERDAM CHUCH,5.73,ICD Mangalore (Panambur),266.42,Mormugao Port,43.19,Mangaluru International Airport (IXE),263.3,Rupaidiha ICP,1597.94
+Curchorem (M Cl),SOUTH GOA,586,252096,village,SANVERDAM CHUCH,3.11,ICD Mangalore (Panambur),266.99,Mormugao Port,40.0,Mangaluru International Airport (IXE),263.95,Rupaidiha ICP,1600.1
+Comproi,SOUTH GOA,586,626998,village,SANVERDAM CHUCH,2.44,ICD Mangalore (Panambur),268.6,Mormugao Port,39.9,Mangaluru International Airport (IXE),265.53,Rupaidiha ICP,1597.96
+Cavorim,SOUTH GOA,586,626910,village,CHANDAR,2.08,ICD Mangalore (Panambur),270.8,Mormugao Port,31.82,Mangaluru International Airport (IXE),267.93,Rupaidiha ICP,1602.98
+Dicarpale,SOUTH GOA,586,626909,village,MADGAON,3.21,ICD Mangalore (Panambur),272.75,Mormugao Port,28.02,Mangaluru International Airport (IXE),269.96,Rupaidiha ICP,1604.37
+Aquem Baixo,SOUTH GOA,586,626929,village,MADGAON,1.92,ICD Mangalore (Panambur),273.43,Mormugao Port,26.77,Mangaluru International Airport (IXE),270.67,Rupaidiha ICP,1604.84
+Maulinguem,SOUTH GOA,586,626994,village,KALEEM,3.99,ICD Mangalore (Panambur),266.9,Mormugao Port,47.27,Mangaluru International Airport (IXE),263.66,Rupaidiha ICP,1593.88
+Sao Jose De Areal (CT),SOUTH GOA,586,626927,village,CHANDAR,3.74,ICD Mangalore (Panambur),272.17,Mormugao Port,29.46,Mangaluru International Airport (IXE),269.34,Rupaidiha ICP,1603.51
+Costi,SOUTH GOA,586,626996,village,KALEEM,4.18,ICD Mangalore (Panambur),267.68,Mormugao Port,43.71,Mangaluru International Airport (IXE),264.52,Rupaidiha ICP,1595.83
+Navelim (CT),SOUTH GOA,586,626930,village,MADGAON,1.79,ICD Mangalore (Panambur),273.4,Mormugao Port,26.39,Mangaluru International Airport (IXE),270.66,Rupaidiha ICP,1605.48
+Coranginim,SOUTH GOA,586,626997,village,SANVERDAM CHUCH,3.48,ICD Mangalore (Panambur),268.95,Mormugao Port,40.66,Mangaluru International Airport (IXE),265.85,Rupaidiha ICP,1596.81
+Adsulim,SOUTH GOA,586,626906,village,SURAVALI,3.23,ICD Mangalore (Panambur),276.19,Mormugao Port,22.25,Mangaluru International Airport (IXE),273.53,Rupaidiha ICP,1606.4
+Assolda,SOUTH GOA,586,626934,village,CHANDAR,2.23,ICD Mangalore (Panambur),270.91,Mormugao Port,33.89,Mangaluru International Airport (IXE),267.97,Rupaidiha ICP,1600.5
+Xelvona,SOUTH GOA,586,626936,village,SANVERDAM CHUCH,2.78,ICD Mangalore (Panambur),271.24,Mormugao Port,34.84,Mangaluru International Airport (IXE),268.27,Rupaidiha ICP,1599.05
+Cana,SOUTH GOA,586,626904,village,SURAVALI,2.52,ICD Mangalore (Panambur),276.68,Mormugao Port,21.99,Mangaluru International Airport (IXE),274.01,Rupaidiha ICP,1605.67
+Dudal,SOUTH GOA,586,626995,village,KALEEM,2.38,ICD Mangalore (Panambur),268.44,Mormugao Port,45.0,Mangaluru International Airport (IXE),265.24,Rupaidiha ICP,1593.8
+Sanvordem (CT),SOUTH GOA,586,627021,village,SANVERDAM CHUCH,1.41,ICD Mangalore (Panambur),270.9,Mormugao Port,37.74,Mangaluru International Airport (IXE),267.85,Rupaidiha ICP,1596.81
+Davorlim (CT),SOUTH GOA,586,626928,village,MADGAON,1.93,ICD Mangalore (Panambur),274.6,Mormugao Port,26.31,Mangaluru International Airport (IXE),271.82,Rupaidiha ICP,1603.25
+Guirdolim,SOUTH GOA,586,626903,village,CHANDAR,0.4,ICD Mangalore (Panambur),272.54,Mormugao Port,31.44,Mangaluru International Airport (IXE),269.64,Rupaidiha ICP,1600.61
+Sernabatim,SOUTH GOA,586,626905,village,SURAVALI,3.2,ICD Mangalore (Panambur),277.25,Mormugao Port,20.93,Mangaluru International Airport (IXE),274.61,Rupaidiha ICP,1606.36
+Antoriem,SOUTH GOA,586,626986,village,SANVERDAM CHUCH,3.28,ICD Mangalore (Panambur),270.43,Mormugao Port,39.68,Mangaluru International Airport (IXE),267.33,Rupaidiha ICP,1595.73
+Dongurli,SOUTH GOA,586,626992,village,KALEEM,4.31,ICD Mangalore (Panambur),267.67,Mormugao Port,48.43,Mangaluru International Airport (IXE),264.39,Rupaidiha ICP,1592.05
+Benaulim (CT),SOUTH GOA,586,626931,village,SURAVALI,3.85,ICD Mangalore (Panambur),275.55,Mormugao Port,22.79,Mangaluru International Airport (IXE),272.89,Rupaidiha ICP,1606.96
+Odxel,SOUTH GOA,586,626991,village,SONALIUM,5.16,ICD Mangalore (Panambur),268.1,Mormugao Port,50.9,Mangaluru International Airport (IXE),264.76,Rupaidiha ICP,1589.7
+Rumbrem,SOUTH GOA,586,626985,village,SANVERDAM CHUCH,2.84,ICD Mangalore (Panambur),272.04,Mormugao Port,37.7,Mangaluru International Airport (IXE),268.97,Rupaidiha ICP,1595.36
+Vanelim,SOUTH GOA,586,626898,village,SURAVALI,1.89,ICD Mangalore (Panambur),277.79,Mormugao Port,20.86,Mangaluru International Airport (IXE),275.12,Rupaidiha ICP,1605.11
+Gaundaulim,SOUTH GOA,586,626896,village,SURAVALI,2.15,ICD Mangalore (Panambur),279.19,Mormugao Port,19.36,Mangaluru International Airport (IXE),276.53,Rupaidiha ICP,1604.55
+Colva,SOUTH GOA,586,626897,village,SURAVALI,2.45,ICD Mangalore (Panambur),278.48,Mormugao Port,19.9,Mangaluru International Airport (IXE),275.83,Rupaidiha ICP,1605.26
+Macasana,SOUTH GOA,586,626902,village,CHANDAR,2.94,ICD Mangalore (Panambur),274.34,Mormugao Port,31.46,Mangaluru International Airport (IXE),271.39,Rupaidiha ICP,1597.98
+Seraulim,SOUTH GOA,586,626899,village,SURAVALI,0.69,ICD Mangalore (Panambur),278.18,Mormugao Port,21.08,Mangaluru International Airport (IXE),275.48,Rupaidiha ICP,1603.85
+Boma,SOUTH GOA,586,626990,village,SONALIUM,2.13,ICD Mangalore (Panambur),268.91,Mormugao Port,53.09,Mangaluru International Airport (IXE),265.51,Rupaidiha ICP,1587.23
+Moissal,SOUTH GOA,586,626983,village,SANVERDAM CHUCH,3.99,ICD Mangalore (Panambur),274.04,Mormugao Port,35.04,Mangaluru International Airport (IXE),271.0,Rupaidiha ICP,1595.11
+Margao (M CI),SOUTH GOA,586,252087,village,MADGAON,1.3,ICD Mangalore (Panambur),276.46,Mormugao Port,23.91,Mangaluru International Airport (IXE),273.71,Rupaidiha ICP,1603.08
+Duncolim,SOUTH GOA,586,626900,village,SURAVALI,0.45,ICD Mangalore (Panambur),279.27,Mormugao Port,20.28,Mangaluru International Airport (IXE),276.56,Rupaidiha ICP,1602.86
+Betalbatim,SOUTH GOA,586,626895,village,MAJORDA,1.95,ICD Mangalore (Panambur),280.02,Mormugao Port,18.76,Mangaluru International Airport (IXE),277.36,Rupaidiha ICP,1603.7
+Bandoli,SOUTH GOA,586,626984,village,SANVERDAM CHUCH,4.7,ICD Mangalore (Panambur),273.54,Mormugao Port,37.68,Mangaluru International Airport (IXE),270.45,Rupaidiha ICP,1593.5
+Gonsua,SOUTH GOA,586,626894,village,MAJORDA,1.78,ICD Mangalore (Panambur),281.54,Mormugao Port,17.03,Mangaluru International Airport (IXE),278.89,Rupaidiha ICP,1603.28
+Calata,SOUTH GOA,586,626891,village,MAJORDA,0.54,ICD Mangalore (Panambur),281.22,Mormugao Port,18.2,Mangaluru International Airport (IXE),278.53,Rupaidiha ICP,1602.09
+Sonauli,SOUTH GOA,586,626989,village,DUDH SAGAR,0.82,ICD Mangalore (Panambur),269.8,Mormugao Port,55.4,Mangaluru International Airport (IXE),266.34,Rupaidiha ICP,1584.69
+Curtorim (CT),SOUTH GOA,586,626926,village,CHANDAR,3.42,ICD Mangalore (Panambur),275.07,Mormugao Port,28.37,Mangaluru International Airport (IXE),272.2,Rupaidiha ICP,1600.04
+Raia (CT),SOUTH GOA,586,626925,village,MADGAON,4.32,ICD Mangalore (Panambur),278.74,Mormugao Port,23.32,Mangaluru International Airport (IXE),275.94,Rupaidiha ICP,1599.92
+Camarconda,SOUTH GOA,586,626982,village,SANVERDAM CHUCH,6.21,ICD Mangalore (Panambur),276.22,Mormugao Port,34.18,Mangaluru International Airport (IXE),273.17,Rupaidiha ICP,1593.13
+Majorda,SOUTH GOA,586,626892,village,MAJORDA,0.52,ICD Mangalore (Panambur),282.0,Mormugao Port,17.22,Mangaluru International Airport (IXE),279.32,Rupaidiha ICP,1602.0
+Nuvem (CT),SOUTH GOA,586,626924,village,SURAVALI,2.28,ICD Mangalore (Panambur),280.54,Mormugao Port,19.95,Mangaluru International Airport (IXE),277.81,Rupaidiha ICP,1600.97
+Calem,SOUTH GOA,586,626988,village,KULEM,3.03,ICD Mangalore (Panambur),271.2,Mormugao Port,48.22,Mangaluru International Airport (IXE),267.88,Rupaidiha ICP,1588.14
+Camurlim,SOUTH GOA,586,626890,village,SURAVALI,6.46,ICD Mangalore (Panambur),280.79,Mormugao Port,22.78,Mangaluru International Airport (IXE),277.97,Rupaidiha ICP,1597.45
+Utorda,SOUTH GOA,586,626893,village,MAJORDA,1.58,ICD Mangalore (Panambur),283.28,Mormugao Port,16.17,Mangaluru International Airport (IXE),280.6,Rupaidiha ICP,1601.06
+Sigao,SOUTH GOA,586,626978,village,KULEM,4.14,ICD Mangalore (Panambur),274.25,Mormugao Port,44.88,Mangaluru International Airport (IXE),270.98,Rupaidiha ICP,1587.18
+Arossim,SOUTH GOA,586,626884,village,CANSAULIM,1.29,ICD Mangalore (Panambur),284.53,Mormugao Port,14.63,Mangaluru International Airport (IXE),281.87,Rupaidiha ICP,1600.88
+Cansaulim,SOUTH GOA,586,626883,village,CANSAULIM,0.14,ICD Mangalore (Panambur),285.72,Mormugao Port,13.66,Mangaluru International Airport (IXE),283.06,Rupaidiha ICP,1600.02
+Codli,SOUTH GOA,586,626981,village,SANVERDAM CHUCH,8.07,ICD Mangalore (Panambur),277.12,Mormugao Port,36.34,Mangaluru International Airport (IXE),274.01,Rupaidiha ICP,1590.35
+Colem,SOUTH GOA,586,626977,village,KULEM,0.72,ICD Mangalore (Panambur),274.1,Mormugao Port,49.09,Mangaluru International Airport (IXE),270.74,Rupaidiha ICP,1584.38
+Caranzol,SOUTH GOA,586,626976,village,CARANZOL,1.63,ICD Mangalore (Panambur),275.06,Mormugao Port,53.38,Mangaluru International Airport (IXE),271.6,Rupaidiha ICP,1580.55
+Verna (CT),SOUTH GOA,586,626923,village,VERNA,3.31,ICD Mangalore (Panambur),284.25,Mormugao Port,17.64,Mangaluru International Airport (IXE),281.5,Rupaidiha ICP,1597.77
+Cuelim,SOUTH GOA,586,626877,village,VERNA,0.96,ICD Mangalore (Panambur),286.94,Mormugao Port,13.45,Mangaluru International Airport (IXE),284.26,Rupaidiha ICP,1598.3
+Loutulim,SOUTH GOA,586,626889,village,VERNA,7.35,ICD Mangalore (Panambur),283.28,Mormugao Port,21.3,Mangaluru International Airport (IXE),280.45,Rupaidiha ICP,1595.55
+Sangod,SOUTH GOA,586,626979,village,KALEEM,7.35,ICD Mangalore (Panambur),278.06,Mormugao Port,41.22,Mangaluru International Airport (IXE),274.84,Rupaidiha ICP,1585.72
+Nagoa,SOUTH GOA,586,626888,village,VERNA,1.19,ICD Mangalore (Panambur),286.19,Mormugao Port,15.19,Mangaluru International Airport (IXE),283.47,Rupaidiha ICP,1597.53
+Pale,SOUTH GOA,586,626878,village,SANKVAL,2.06,ICD Mangalore (Panambur),288.26,Mormugao Port,11.35,Mangaluru International Airport (IXE),285.61,Rupaidiha ICP,1598.64
+Chicolna,SOUTH GOA,586,626880,village,SANKVAL,2.34,ICD Mangalore (Panambur),290.21,Mormugao Port,7.64,Mangaluru International Airport (IXE),287.63,Rupaidiha ICP,1600.14
+Issorcim,SOUTH GOA,586,626879,village,SANKVAL,1.15,ICD Mangalore (Panambur),290.2,Mormugao Port,8.28,Mangaluru International Airport (IXE),287.59,Rupaidiha ICP,1599.21
+Molem,SOUTH GOA,586,626975,village,KULEM,5.8,ICD Mangalore (Panambur),279.13,Mormugao Port,48.45,Mangaluru International Airport (IXE),275.74,Rupaidiha ICP,1579.72
+Dabolim,SOUTH GOA,586,626874,village,DABOLIM,0.2,ICD Mangalore (Panambur),292.04,Mormugao Port,6.83,Mangaluru International Airport (IXE),289.44,Rupaidiha ICP,1597.97
+Cortalim,SOUTH GOA,586,626887,village,VERNA,3.45,ICD Mangalore (Panambur),289.14,Mormugao Port,13.74,Mangaluru International Airport (IXE),286.41,Rupaidiha ICP,1595.1
+Quelossim,SOUTH GOA,586,626876,village,VERNA,5.13,ICD Mangalore (Panambur),289.1,Mormugao Port,15.86,Mangaluru International Airport (IXE),286.31,Rupaidiha ICP,1593.35
+Sancoale,SOUTH GOA,586,626886,village,SANKVAL,2.38,ICD Mangalore (Panambur),290.84,Mormugao Port,9.91,Mangaluru International Airport (IXE),288.17,Rupaidiha ICP,1596.51
+Sancordem,SOUTH GOA,586,626972,village,KULEM,9.15,ICD Mangalore (Panambur),281.61,Mormugao Port,41.87,Mangaluru International Airport (IXE),278.34,Rupaidiha ICP,1581.69
+Chicalim,SOUTH GOA,586,626885,village,DABOLIM,1.34,ICD Mangalore (Panambur),292.3,Mormugao Port,5.8,Mangaluru International Airport (IXE),289.72,Rupaidiha ICP,1598.8
+Mormugao (M Cl),SOUTH GOA,586,252084,village,VASCO DA GAMA,0.34,ICD Mangalore (Panambur),294.3,Mormugao Port,2.99,Mangaluru International Airport (IXE),291.77,Rupaidiha ICP,1599.13
+Darbandora,SOUTH GOA,586,626971,village,KALEEM,12.6,ICD Mangalore (Panambur),283.0,Mormugao Port,36.11,Mangaluru International Airport (IXE),279.84,Rupaidiha ICP,1584.3
+Aglote,SOUTH GOA,586,626973,village,KULEM,12.85,ICD Mangalore (Panambur),285.23,Mormugao Port,39.92,Mangaluru International Airport (IXE),281.98,Rupaidiha ICP,1579.58
+Creek,SOUTH GOA,586,626875,village,VASCO DA GAMA,3.15,ICD Mangalore (Panambur),295.45,Mormugao Port,4.63,Mangaluru International Airport (IXE),292.85,Rupaidiha ICP,1595.91
+Surla,SOUTH GOA,586,626974,village,CASTLE ROCK,11.73,ICD Mangalore (Panambur),285.31,Mormugao Port,47.03,Mangaluru International Airport (IXE),281.92,Rupaidiha ICP,1574.88
+Sirlim,SOUTH GOA,586,626915,village,MADGAON,4.67,ICD Mangalore (Panambur),270.68,Mormugao Port,28.4,Mangaluru International Airport (IXE),267.96,Rupaidiha ICP,1608.15
+Rachol,SOUTH GOA,586,626901,village,MADGAON,6.49,ICD Mangalore (Panambur),278.89,Mormugao Port,25.16,Mangaluru International Airport (IXE),276.04,Rupaidiha ICP,1597.76
+Cavorem,SOUTH GOA,586,626956,village,BALLI,5.13,ICD Mangalore (Panambur),258.63,Mormugao Port,41.93,Mangaluru International Airport (IXE),255.78,Rupaidiha ICP,1612.23
+Cordem,SOUTH GOA,586,626958,village,BALLI,4.94,ICD Mangalore (Panambur),256.51,Mormugao Port,42.6,Mangaluru International Airport (IXE),253.73,Rupaidiha ICP,1616.14
+Tiloi,SOUTH GOA,586,626954,village,BALLI,1.97,ICD Mangalore (Panambur),259.7,Mormugao Port,38.98,Mangaluru International Airport (IXE),256.97,Rupaidiha ICP,1615.26
+Quitol,SOUTH GOA,586,626951,village,BALLI,6.56,ICD Mangalore (Panambur),261.69,Mormugao Port,35.79,Mangaluru International Airport (IXE),259.08,Rupaidiha ICP,1617.87
+Piliem,SOUTH GOA,586,626970,village,SANVERDAM CHUCH,15.52,ICD Mangalore (Panambur),285.35,Mormugao Port,31.71,Mangaluru International Airport (IXE),282.26,Rupaidiha ICP,1585.12
+Hodar,SOUTH GOA,586,626937,village,SANVERDAM CHUCH,1.55,ICD Mangalore (Panambur),270.32,Mormugao Port,36.19,Mangaluru International Airport (IXE),267.32,Rupaidiha ICP,1599.05
+Xic-Xelvona,SOUTH GOA,586,626935,village,SANVERDAM CHUCH,3.11,ICD Mangalore (Panambur),270.64,Mormugao Port,34.9,Mangaluru International Airport (IXE),267.67,Rupaidiha ICP,1599.86
+Angediva,SOUTH GOA,586,627029,village,KARWAR,10.46,ICD Mangalore (Panambur),217.76,Mormugao Port,79.45,Mangaluru International Airport (IXE),215.18,Rupaidiha ICP,1648.44
+Ella,NORTH GOA,585,626714,village,KARMALI,1.24,ICD Mangalore (Panambur),301.03,Mormugao Port,16.46,Mangaluru International Airport (IXE),298.2,Rupaidiha ICP,1583.62
+Malar,NORTH GOA,585,626711,village,KARMALI,4.3,ICD Mangalore (Panambur),304.06,Mormugao Port,18.05,Mangaluru International Airport (IXE),301.23,Rupaidiha ICP,1581.08
+Chorao,NORTH GOA,585,626706,village,KARMALI,6.36,ICD Mangalore (Panambur),305.79,Mormugao Port,16.57,Mangaluru International Airport (IXE),303.0,Rupaidiha ICP,1581.77
+Calvim,NORTH GOA,585,626685,village,THIVIM,7.37,ICD Mangalore (Panambur),308.58,Mormugao Port,19.55,Mangaluru International Airport (IXE),305.76,Rupaidiha ICP,1578.63
+Ucassaim,NORTH GOA,585,626681,village,THIVIM,6.27,ICD Mangalore (Panambur),312.35,Mormugao Port,19.17,Mangaluru International Airport (IXE),309.62,Rupaidiha ICP,1579.23
+Guirim,NORTH GOA,585,626693,village,THIVIM,9.93,ICD Mangalore (Panambur),312.09,Mormugao Port,16.86,Mangaluru International Airport (IXE),309.43,Rupaidiha ICP,1582.35
+Assonora,NORTH GOA,585,626668,village,THIVIM,2.43,ICD Mangalore (Panambur),314.25,Mormugao Port,25.15,Mangaluru International Airport (IXE),311.39,Rupaidiha ICP,1572.91
+Morgim,NORTH GOA,585,626661,village,PERNEM,11.93,ICD Pune,316.0,Mormugao Port,24.51,Mangaluru International Airport (IXE),318.79,Rupaidiha ICP,1579.55
+Colvale,NORTH GOA,585,626691,village,THIVIM,4.95,ICD Pune,315.58,Mormugao Port,24.25,Mangaluru International Airport (IXE),315.2,Rupaidiha ICP,1574.92
+Santona,SOUTH GOA,586,626987,village,KALEEM,4.32,ICD Mangalore (Panambur),271.78,Mormugao Port,40.17,Mangaluru International Airport (IXE),268.65,Rupaidiha ICP,1593.62
+Murda (CT),NORTH GOA,585,626731,village,KARMALI,7.74,ICD Mangalore (Panambur),301.26,Mormugao Port,9.5,Mangaluru International Airport (IXE),298.59,Rupaidiha ICP,1588.92
+Morombi-O-Pequeno(Merces),NORTH GOA,585,626739,village,KARMALI,8.64,ICD Mangalore (Panambur),302.88,Mormugao Port,9.96,Mangaluru International Airport (IXE),300.21,Rupaidiha ICP,1588.16
+Gangem,SOUTH GOA,586,626852,village,KARMALI,18.25,ICD Mangalore (Panambur),290.38,Mormugao Port,32.08,Mangaluru International Airport (IXE),287.26,Rupaidiha ICP,1580.31
+Conquirem,NORTH GOA,585,626841,village,KULEM,19.47,ICD Mangalore (Panambur),290.08,Mormugao Port,34.09,Mangaluru International Airport (IXE),286.93,Rupaidiha ICP,1579.2
+Ambarim,NORTH GOA,585,626705,village,THIVIM,7.37,ICD Mangalore (Panambur),308.84,Mormugao Port,18.67,Mangaluru International Airport (IXE),306.05,Rupaidiha ICP,1579.42
+Caraim,NORTH GOA,585,626707,village,KARMALI,6.98,ICD Mangalore (Panambur),306.74,Mormugao Port,18.39,Mangaluru International Airport (IXE),303.93,Rupaidiha ICP,1579.99
+Ambelim,SOUTH GOA,586,626922,village,BALLI,4.0,ICD Mangalore (Panambur),263.75,Mormugao Port,34.48,Mangaluru International Airport (IXE),261.06,Rupaidiha ICP,1614.0
+Canca,NORTH GOA,585,626677,village,THIVIM,9.46,ICD Mangalore (Panambur),313.93,Mormugao Port,18.5,Mangaluru International Airport (IXE),311.27,Rupaidiha ICP,1581.16
+Casnem,NORTH GOA,585,626641,village,PERNEM,2.16,ICD Pune,305.29,Mormugao Port,34.37,Pune Airport (PNQ),312.22,Rupaidiha ICP,1566.12
+Amberem,NORTH GOA,585,626643,village,PERNEM,3.34,ICD Pune,304.37,Mormugao Port,35.38,Pune Airport (PNQ),311.27,Rupaidiha ICP,1564.88
+Chopdem,NORTH GOA,585,626656,village,PERNEM,9.89,ICD Pune,315.0,Mormugao Port,25.01,Mangaluru International Airport (IXE),318.86,Rupaidiha ICP,1577.82
+Cormonem,SOUTH GOA,586,626980,village,KALEEM,4.74,ICD Mangalore (Panambur),274.87,Mormugao Port,40.07,Mangaluru International Airport (IXE),271.7,Rupaidiha ICP,1590.04
+Gandaulim,NORTH GOA,585,626713,village,KARMALI,2.67,ICD Mangalore (Panambur),301.24,Mormugao Port,18.8,Mangaluru International Airport (IXE),298.37,Rupaidiha ICP,1581.78
+Moitem,NORTH GOA,585,626667,village,THIVIM,3.04,ICD Mangalore (Panambur),314.94,Mormugao Port,26.42,Mangaluru International Airport (IXE),312.06,Rupaidiha ICP,1571.64
+Morombi-O-Grande(Merces),NORTH GOA,585,626737,village,KARMALI,6.29,ICD Mangalore (Panambur),301.36,Mormugao Port,10.91,Mangaluru International Airport (IXE),298.65,Rupaidiha ICP,1587.74
+Narao,NORTH GOA,585,626712,village,KARMALI,4.32,ICD Mangalore (Panambur),303.74,Mormugao Port,19.11,Mangaluru International Airport (IXE),300.88,Rupaidiha ICP,1580.38
+Ponolem,NORTH GOA,585,626684,village,THIVIM,6.94,ICD Mangalore (Panambur),308.98,Mormugao Port,20.38,Mangaluru International Airport (IXE),306.15,Rupaidiha ICP,1577.82
+Punola,NORTH GOA,585,626680,village,THIVIM,7.13,ICD Mangalore (Panambur),312.37,Mormugao Port,18.6,Mangaluru International Airport (IXE),309.65,Rupaidiha ICP,1579.96
+Revora,NORTH GOA,585,626664,village,THIVIM,3.2,ICD Pune,313.42,Mormugao Port,26.97,Mangaluru International Airport (IXE),316.14,Rupaidiha ICP,1571.67
+Pernem (M Cl),NORTH GOA,585,252057,village,PERNEM,3.06,ICD Pune,306.86,Mormugao Port,32.74,Pune Airport (PNQ),313.85,Rupaidiha ICP,1569.07
+Cuncolim (M Cl),SOUTH GOA,586,252095,village,BALLI,3.25,ICD Mangalore (Panambur),264.61,Mormugao Port,34.81,Mangaluru International Airport (IXE),261.84,Rupaidiha ICP,1610.87
+Assolna,SOUTH GOA,586,626919,village,BALLI,5.72,ICD Mangalore (Panambur),266.03,Mormugao Port,32.27,Mangaluru International Airport (IXE),263.34,Rupaidiha ICP,1612.5
+Virdi,NORTH GOA,585,924826,village,KARMALI,9.08,ICD Mangalore (Panambur),303.75,Mormugao Port,25.2,Mangaluru International Airport (IXE),300.78,Rupaidiha ICP,1575.82
+,SOUTH GOA,586,INGA025,village,VASCO DA GAMA,8.13,ICD Mangalore (Panambur),291.38,Mormugao Port,8.48,Mangaluru International Airport (IXE),288.99,Rupaidiha ICP,1606.54
+,SOUTH GOA,586,INGA024,village,VASCO DA GAMA,7.31,ICD Mangalore (Panambur),291.57,Mormugao Port,7.77,Mangaluru International Airport (IXE),289.17,Rupaidiha ICP,1605.79
+,SOUTH GOA,586,INGA023,village,VASCO DA GAMA,6.77,ICD Mangalore (Panambur),291.31,Mormugao Port,7.48,Mangaluru International Airport (IXE),288.89,Rupaidiha ICP,1605.41
+,SOUTH GOA,586,INGA019,village,VASCO DA GAMA,7.46,ICD Mangalore (Panambur),291.69,Mormugao Port,7.83,Mangaluru International Airport (IXE),289.29,Rupaidiha ICP,1605.88
+,SOUTH GOA,586,INGA017,village,VASCO DA GAMA,6.6,ICD Mangalore (Panambur),291.26,Mormugao Port,7.37,Mangaluru International Airport (IXE),288.84,Rupaidiha ICP,1605.27
+,SOUTH GOA,586,INGA021,village,VASCO DA GAMA,6.74,ICD Mangalore (Panambur),291.37,Mormugao Port,7.42,Mangaluru International Airport (IXE),288.95,Rupaidiha ICP,1605.36
+,SOUTH GOA,586,INGA022,village,VASCO DA GAMA,6.91,ICD Mangalore (Panambur),291.48,Mormugao Port,7.5,Mangaluru International Airport (IXE),289.07,Rupaidiha ICP,1605.48
+,SOUTH GOA,586,INGA020,village,VASCO DA GAMA,6.88,ICD Mangalore (Panambur),291.43,Mormugao Port,7.5,Mangaluru International Airport (IXE),289.01,Rupaidiha ICP,1605.47
+,SOUTH GOA,586,INGA016,village,VASCO DA GAMA,6.53,ICD Mangalore (Panambur),291.24,Mormugao Port,7.33,Mangaluru International Airport (IXE),288.82,Rupaidiha ICP,1605.21
+,SOUTH GOA,586,INGA018,village,VASCO DA GAMA,6.67,ICD Mangalore (Panambur),291.34,Mormugao Port,7.39,Mangaluru International Airport (IXE),288.92,Rupaidiha ICP,1605.31
+,SOUTH GOA,586,INGA015,village,VASCO DA GAMA,6.11,ICD Mangalore (Panambur),290.99,Mormugao Port,7.17,Mangaluru International Airport (IXE),288.55,Rupaidiha ICP,1604.87
+,SOUTH GOA,586,INGA014,village,VASCO DA GAMA,5.85,ICD Mangalore (Panambur),291.08,Mormugao Port,6.97,Mangaluru International Airport (IXE),288.64,Rupaidiha ICP,1604.62
+,SOUTH GOA,586,INGA013,village,VASCO DA GAMA,6.93,ICD Mangalore (Panambur),291.8,Mormugao Port,7.38,Mangaluru International Airport (IXE),289.39,Rupaidiha ICP,1605.4
+,SOUTH GOA,586,INGA008,village,VASCO DA GAMA,6.75,ICD Mangalore (Panambur),291.93,Mormugao Port,7.19,Mangaluru International Airport (IXE),289.52,Rupaidiha ICP,1605.21
+,SOUTH GOA,586,INGA007,village,VASCO DA GAMA,6.12,ICD Mangalore (Panambur),291.74,Mormugao Port,6.82,Mangaluru International Airport (IXE),289.31,Rupaidiha ICP,1604.74
+,SOUTH GOA,586,INGA006,village,VASCO DA GAMA,6.22,ICD Mangalore (Panambur),291.84,Mormugao Port,6.84,Mangaluru International Airport (IXE),289.42,Rupaidiha ICP,1604.8
+,SOUTH GOA,586,INGA012,village,VASCO DA GAMA,6.34,ICD Mangalore (Panambur),291.42,Mormugao Port,7.12,Mangaluru International Airport (IXE),288.99,Rupaidiha ICP,1605.0
+,SOUTH GOA,586,INGA002,village,DABOLIM,2.37,ICD Mangalore (Panambur),293.45,Mormugao Port,7.58,Mangaluru International Airport (IXE),290.81,Rupaidiha ICP,1595.52

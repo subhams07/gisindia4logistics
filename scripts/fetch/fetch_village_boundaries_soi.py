@@ -134,6 +134,11 @@ def load_standardized(zip_path: pathlib.Path) -> gpd.GeoDataFrame:
     gdf = gdf.rename(columns={"VILLL_NAME": "VILL_NAME", "SUBDIST": "SUB_DIST"})
     cols = {k: v for k, v in RENAME.items() if k in gdf.columns}
     gdf = gdf.rename(columns=cols)
+    # some states carry compound codes in DIST_LGD ("344N004" = district code
+    # + subdistrict suffix) or literal "<Null>" — keep the leading district code
+    if "district_code" in gdf:
+        gdf["district_code"] = gdf["district_code"].astype(str).str.extract(
+            r"^(\d{1,3})", expand=False).replace({"nan": None, "None": None})
     keep = [c for c in RENAME.values() if c in gdf.columns] + ["geometry"]
     gdf = gdf[keep].to_crs(4326)
     return gdf

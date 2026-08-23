@@ -352,3 +352,16 @@ datasets:
   quality_status: verified
   quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state
     totals match)
+- name: District population estimates (781 current LGD districts)
+  category: demographic
+  description: 2011 Census population mapped to all 781 current LGD districts via geometric overlay and village-count blending
+  provider: derived in-repo (Census 2011 PCA x Survey of India LGD boundaries)
+  source_url: derived in-repo
+  license: GODL-India (underlying census data)
+  vintage: 2011 population mapped to 2024-25 LGD boundaries
+  resolution: district
+  access: committed
+  path: data/demographic/district_population_estimates.csv
+  fetch_script: scripts/analyze/allocate_population.py
+  quality_status: verified
+  quality_notes: Covers all 781 current districts (568 exact census, 134 blended, 79 area-share); national sum reconciles to 1,210,854,977 (<0.001% delta)

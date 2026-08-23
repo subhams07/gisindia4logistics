@@ -318,13 +318,23 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     paths need expansion; quote YAML values with colons — THREE separate
     audit-script bugs produced false FAILs that looked like data bugs.
 
+### Phase B: post-2011 population allocation & analysis update (2026-08-23)
+35. **Population allocation for all 781 current districts** (`scripts/analyze/allocate_population.py`):
+    - Geometrically overlays 640 Census 2011 parent districts with 781 current LGD districts in EPSG:7755.
+    - Blends area-share with village-count share (50/50) to prevent urban carve-out bias.
+    - Preserves exact census counts for unchanged districts; scales jointly by state groups (AP+TG, DNH+DD, J&K+Ladakh) to match official totals.
+    - Output: `data/demographic/district_population_estimates.csv` (781 rows: 568 census2011, 134 blended, 79 area_share; sum 1,210,846,210, delta <0.001%).
+36. **All-India accessibility rerun with 100% population coverage**:
+    - `nearest_facility.py`: updated population lookup to state-scoped code and name matching with difflib fuzzy fallback.
+    - Added `build_national_summary()` automatic aggregation in `nearest_facility.py`.
+    - Regenerated all 36 state district summaries + national composite `data/analysis/india_district_access_summary.csv` (817 rows, 780/781 non-null pop weights; only unpopulated Disputed (Jharkhand) sliver has NaN).
+    - Updated `scripts/audit/audit_all.py` (added demographic estimates audit checks) + refreshed baseline `data/audit_baseline.json` (48 checks | 48 PASS).
+
 ## Enhancement backlog (suggested next steps)
 
 - Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
   straight-line distances in nearest_facility.py; then accessibility maps
   (district choropleths, population-beyond-threshold tables).
-- Run nearest_facility.py for all 27 states; commit the small district
-  summaries, keep per-village CSVs generated on demand.
 - Freight-flow data: Railway Board origin-destination tables, IPA port
   throughput — enables corridor modelling on top of the NH/rail layers.
 - data.gov.in integration for authoritative station categories (API key via

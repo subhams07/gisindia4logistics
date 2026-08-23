@@ -289,6 +289,17 @@ def audit_demographics():
     check("census", "district keys join to 2011 boundaries", "WARN",
           len(unmatched) <= 20, f"{len(unmatched)} unmatched, e.g. {sorted(unmatched)[:5]}")
 
+    est_p = DATA_DIR / "demographic" / "district_population_estimates.csv"
+    if est_p.exists():
+        est = pd.read_csv(est_p)
+        check("population_estimates", "781 current districts", "FAIL", len(est) == 781, f"{len(est)}")
+        diff = abs(est.pop_2011.sum() - 1_210_854_977)
+        check("population_estimates", "total population conserved (<0.01% delta)", "FAIL",
+              diff / 1_210_854_977 < 0.0001, f"{est.pop_2011.sum():,} (delta {diff})")
+        valid_methods = set(est.method.unique()) <= {"census2011", "blended", "area_share"}
+        check("population_estimates", "valid allocation methods", "FAIL", valid_methods,
+              str(est.method.value_counts().to_dict()))
+
 
 def audit_catalog():
     print("\n== catalog vs disk ==")
@@ -317,8 +328,11 @@ def collect_counts() -> dict:
     for key, f in [("rail:stations", "rail/railway_stations.csv"),
                    ("rail:categories", "rail/station_categories.csv"),
                    ("rail:freight", "rail/freight_terminals.csv"),
-                   ("census:districts", "demographic/census2011_district_key_indicators.csv")]:
-        counts[key] = len(pd.read_csv(DATA_DIR / f))
+                   ("census:districts", "demographic/census2011_district_key_indicators.csv"),
+                   ("demographic:estimates", "demographic/district_population_estimates.csv")]:
+        p = DATA_DIR / f
+        if p.exists():
+            counts[key] = len(pd.read_csv(p))
     for f in g.glob(str(DATA_DIR / "analysis" / "*_village_access.csv")):
         counts[f"analysis:{pathlib.Path(f).stem}"] = len(pd.read_csv(f, usecols=["unit"]))
     return counts

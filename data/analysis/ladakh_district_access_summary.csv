@@ -1,4 +1,4 @@
 district,villages,rail_station_median_km,rail_station_mean_km,rail_station_within_10km_pct,rail_station_within_25km_pct,rail_station_within_50km_pct,icd_median_km,icd_mean_km,icd_within_10km_pct,icd_within_25km_pct,icd_within_50km_pct,port_median_km,port_mean_km,port_within_10km_pct,port_within_25km_pct,port_within_50km_pct,air_cargo_median_km,air_cargo_mean_km,air_cargo_within_10km_pct,air_cargo_within_25km_pct,air_cargo_within_50km_pct,icp_median_km,icp_mean_km,icp_within_10km_pct,icp_within_25km_pct,icp_within_50km_pct,census2011_population
-KARGIL,1,122.96,122.96,0.0,0.0,0.0,314.81,314.81,0.0,0.0,0.0,1319.34,1319.34,0.0,0.0,0.0,154.53,154.53,0.0,0.0,0.0,241.19,241.19,0.0,0.0,0.0,
-LEH,1,307.9,307.9,0.0,0.0,0.0,434.8,434.8,0.0,0.0,0.0,1489.95,1489.95,0.0,0.0,0.0,328.64,328.64,0.0,0.0,0.0,104.39,104.39,0.0,0.0,0.0,
-__STATE__,2,,,0.0,0.0,0.0,,,0.0,0.0,0.0,,,0.0,0.0,0.0,,,0.0,0.0,0.0,,,0.0,0.0,0.0,
+KARGIL,1,122.96,122.96,0.0,0.0,0.0,314.81,314.81,0.0,0.0,0.0,1319.34,1319.34,0.0,0.0,0.0,154.53,154.53,0.0,0.0,0.0,241.19,241.19,0.0,0.0,0.0,183859.0
+LEH,1,307.9,307.9,0.0,0.0,0.0,434.8,434.8,0.0,0.0,0.0,1489.95,1489.95,0.0,0.0,0.0,328.64,328.64,0.0,0.0,0.0,104.39,104.39,0.0,0.0,0.0,186324.0
+__STATE__,2,,216.0457455906943,0.0,0.0,0.0,,375.2044988289576,0.0,0.0,0.0,,1405.2130347963034,0.0,0.0,0.0,,242.16468781656638,0.0,0.0,0.0,,172.33453337943666,0.0,0.0,0.0,370183.0
