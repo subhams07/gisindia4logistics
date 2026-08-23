@@ -42,6 +42,7 @@ FACILITY_SOURCES = {
     "mmlp": DATA_DIR / "logistics_hubs" / "mmlps.csv",
     "iw_terminal": DATA_DIR / "logistics_hubs" / "inland_waterway_terminals.csv",
     "fci_depot": DATA_DIR / "logistics_hubs" / "fci_depots.csv",
+    "toll_plaza": DATA_DIR / "roads" / "toll_plazas.csv",
 }
 
 STATE_FILE_MAP = {
@@ -50,18 +51,25 @@ STATE_FILE_MAP = {
     "madhya pradesh": "madhya_pradesh", "uttar pradesh": "uttar_pradesh",
     "tamil nadu": "tamil_nadu", "west bengal": "west_bengal",
     "andhra pradesh": "andhra_pradesh",
+    "arunachal pradesh": "arunachal_pradesh",
+    "himachal pradesh": "himachal_pradesh",
+    "jammu and kashmir": "jammu_and_kashmir",
 }
 
 _ROADS_CACHE: gpd.GeoDataFrame | None = None
 
 
 def villages_geojson_path(state: str):
-    """Path to the SoI village file, or None if the state isn't published
-    (caller falls back to district centroids)."""
+    """Path to the SoI village file or border habitations file, or None."""
     s = state.lower().replace(" ", "_")
     s = STATE_FILE_MAP.get(state.lower(), s)
     p = DATA_DIR / "administrative" / "villages" / f"{s}_soi_villages.geojson"
-    return p if p.exists() else None
+    if p.exists():
+        return p
+    p_hab = DATA_DIR / "administrative" / "villages" / f"{s}_habitations.geojson"
+    if p_hab.exists():
+        return p_hab
+    return None
 
 
 def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:

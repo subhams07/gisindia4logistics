@@ -292,6 +292,17 @@ def audit_roads():
     check("nh_network", "500-800 distinct routes", "WARN", 500 <= n_routes <= 800, f"{n_routes}")
     pune = DATA_DIR / "roads" / "pune_sample_roads.geojson"
     check("pune_sample", "exists", "FAIL", pune.exists())
+    
+    # Toll Plazas
+    t_path = DATA_DIR / "roads" / "toll_plazas.csv"
+    check("toll_plazas", "exists", "FAIL", t_path.exists())
+    if t_path.exists():
+        tp = pd.read_csv(t_path)
+        t_cols = ["name", "toll_type", "nh_number", "state", "district", "district_code", "latitude", "longitude", "booth_count", "source_url"]
+        check("toll_plazas", "schema", "FAIL", list(tp.columns) == t_cols)
+        check("toll_plazas", ">= 1000 rows", "FAIL", len(tp) >= 1000, f"{len(tp)}")
+        check("toll_plazas", "coords in India bbox", "FAIL",
+              bool(tp.longitude.between(68, 97.5).all() and tp.latitude.between(6, 37.5).all()))
 
 
 def audit_demographics():
