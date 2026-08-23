@@ -1,9 +1,29 @@
 # GIS4Logistics — India
 
+[![CI](https://github.com/subhams07/GIS4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+
 Open, curated GIS data collection for logistics and transport analysis in India. Covers
 administrative boundaries (India / state / district / taluka / village), roads by type,
 railways (stations, freight), logistics hubs (ports, ICDs, ICPs, air cargo) and
-demographic data.
+demographic data — plus a village-to-facility **accessibility analysis** covering
+all 36 states/UTs.
+
+![Accessibility](docs/img/accessibility_map.png)
+
+## Quickstart (no network needed)
+
+```python
+import geopandas as gpd
+districts = gpd.read_file("data/administrative/india_districts_lgd.geojson")   # 781 current districts
+villages  = gpd.read_file("data/administrative/villages/sikkim_soi_villages.geojson")
+access    = gpd.read_file  # see data/analysis/india_district_access_summary.csv
+```
+
+With network: `python scripts/analyze/nearest_facility.py --state Haryana`
+computes per-village distances to the nearest rail station / ICD / port /
+airport / ICP. Headline: across the 27 village-level states, the
+population-weighted mean distance to a railway station is **13.6 km**, to an
+ICD **121 km**.
 
 ## Repository philosophy
 
@@ -50,6 +70,8 @@ python scripts/make_demo.py --district Pune --state Maharashtra
 ```
 
 Demo notebook: [`examples/district_logistics_demo.ipynb`](examples/district_logistics_demo.ipynb).
+
+![Pune demo](docs/img/pune_demo_map.png)
 
 ## Repository layout
 

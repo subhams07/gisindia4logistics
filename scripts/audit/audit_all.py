@@ -70,6 +70,7 @@ CENSUS_VILLAGES_2011 = {
 }
 
 RESULTS: list[dict] = []
+BASELINE_PATH = REPO_ROOT / "data" / "audit_baseline.json"
 
 
 def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str = "") -> None:
@@ -306,13 +307,67 @@ def audit_catalog():
     check("catalog", "all committed paths exist", "FAIL", n_missing == 0)
 
 
+def collect_counts() -> dict:
+    """Cheap counts for baseline drift (CSV row counts; geojson counts read
+    only in deep mode and cached here)."""
+    import glob as g
+    counts = {}
+    for f in g.glob(str(DATA_DIR / "logistics_hubs" / "*.csv")):
+        counts[f"hubs:{pathlib.Path(f).stem}"] = len(pd.read_csv(f))
+    for key, f in [("rail:stations", "rail/railway_stations.csv"),
+                   ("rail:categories", "rail/station_categories.csv"),
+                   ("rail:freight", "rail/freight_terminals.csv"),
+                   ("census:districts", "demographic/census2011_district_key_indicators.csv")]:
+        counts[key] = len(pd.read_csv(DATA_DIR / f))
+    for f in g.glob(str(DATA_DIR / "analysis" / "*_village_access.csv")):
+        counts[f"analysis:{pathlib.Path(f).stem}"] = len(pd.read_csv(f, usecols=["unit"]))
+    return counts
+
+
+def check_baseline():
+    print("== baseline drift ==")
+    import json
+    if not BASELINE_PATH.exists():
+        check("baseline", "baseline file exists", "FAIL", False,
+              "run audit_all.py --update-baseline")
+        return
+    base = json.loads(BASELINE_PATH.read_text())
+    current = collect_counts()
+    drift = {k: (base.get(k), v) for k, v in current.items() if base.get(k) != v}
+    check("baseline", "counts match baseline", "FAIL", not drift,
+          f"{len(drift)} drifted, e.g. {dict(list(drift.items())[:3])}" if drift
+          else f"{len(current)} series stable")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--fail-on-warn", action="store_true")
+    ap.add_argument("--fast", action="store_true",
+                    help="skip heavy geometry checks (village re-reads, reproducibility)")
+    ap.add_argument("--update-baseline", action="store_true",
+                    help="(re)write data/audit_baseline.json from current data")
     args = ap.parse_args()
 
-    for fn in (audit_boundaries, audit_villages, audit_analysis, audit_rail,
-               audit_hubs, audit_roads, audit_demographics, audit_catalog):
+    if args.update_baseline:
+        import json
+        deep_counts = {}
+        states = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+        deep_counts["admin:states"] = len(states)
+        dist = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
+        deep_counts["admin:districts"] = len(dist)
+        sub = gpd.read_file(DATA_DIR / "administrative" / "india_subdistricts_lgd.gpkg")
+        deep_counts["admin:subdistricts"] = len(sub)
+        import glob as g
+        for f in g.glob(str(DATA_DIR / "administrative" / "villages" / "*_soi_villages.geojson")):
+            deep_counts[f"villages:{pathlib.Path(f).stem}"] = len(gpd.read_file(f))
+        deep_counts.update(collect_counts())
+        BASELINE_PATH.write_text(json.dumps(deep_counts, indent=1, sort_keys=True))
+        print(f"baseline written: {len(deep_counts)} series -> {BASELINE_PATH}")
+        return
+
+    heavy = () if args.fast else (audit_villages, audit_analysis)
+    for fn in (audit_boundaries, audit_rail, audit_hubs, audit_demographics,
+               audit_catalog, check_baseline, *heavy):
         try:
             fn()
         except Exception:

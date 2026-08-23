@@ -1,0 +1,22 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  fast-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt tabulate
+      - name: YAML lint (catalog)
+        run: python -c "import yaml; d=yaml.safe_load(open('catalog.yaml',encoding='utf-8')); assert len(d['datasets']) >= 25"
+      - name: Compile all scripts
+        run: python -m compileall -q scripts
+      - name: Fast data audit (schema/counts/drift)
+        run: python scripts/audit/audit_all.py --fast

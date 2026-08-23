@@ -1,6 +1,6 @@
 name,terminal_type,zone,division,state,city,latitude,longitude,operator,capacity_notes,source_url,matched_station_code
 Vadalapudi,gct,ECoR,WAT,Andhra Pradesh,Vadalapudi,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
-Jaggayyapet,gct,SCR,SC,Andhra Pradesh,Jaggayyapet,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Jaggayyapet,gct,SCR,SC,Andhra Pradesh,Jaggayyapet,16.89166,80.0993,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Krishnapatnam,gct,SCR,BZA,Andhra Pradesh,Krishnapatnam,14.253,80.133,,coordinate from hub dataset (ports.csv); identified/proposed GCT (PIB 2023),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Kamalajari,gct,NFR,LMG,Assam,Kamalajari,20.36971,85.83802,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,KJR
 Ramnagar FCI GCT Terminal,gct,NFR,LMG,Assam,Ramnagar FCI GCT Terminal,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
@@ -17,7 +17,7 @@ Khudiram Bose Pusa,gct,ECR,SEE,Bihar,Khudiram Bose Pusa,25.90643,85.67268,,ident
 Amagura,gct,ECoR,WAT,Chhattisgarh,Amagura,19.0681,82.14734,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,AGZ
 Lajkura,gct,SECR,BSP,Chhattisgarh,Lajkura,21.80902,83.88827,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,LJKR
 Narela,gct,NR,DLI,Delhi,Narela,28.84689,77.08573,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,NUR
-Kayavarohan,gct,WR,BRC,Gujarat,Kayavarohan,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Kayavarohan,gct,WR,BRC,Gujarat,Kayavarohan,22.0779,73.24968,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Virochan Nagar,gct,WR,ADI,Gujarat,Virochan Nagar,23.07848,72.19618,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,VCN
 Makansar,gct,WR,RJT,Gujarat,Makansar,22.76035,70.90609,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,MU
 Farukh Nagar,gct,NR,DLI,Haryana,Farukh Nagar,28.46707,76.82849,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,FN
@@ -25,8 +25,8 @@ Lahli,gct,NWR,BKN,Haryana,Lahli,28.85432,76.44534,,identified/proposed GCT (PIB 
 Bhattu,gct,NWR,BKN,Haryana,Bhattu,29.38732,75.34013,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,BHT
 Naultha,gct,NR,DLI,Haryana,Naultha,29.31879,76.88971,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,NLH
 Palwal,gct,NR,DLI,Haryana,Palwal,28.15184,77.34223,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,PWL
-Chintpurni Marg,gct,NR,UMB,Himachal Pradesh,Chintpurni Marg,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
-Shivpoor,gct,ECR,DHN,Jharkhand,Shivpoor,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Chintpurni Marg,gct,NR,UMB,Himachal Pradesh,Chintpurni Marg,31.7228,76.04832,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Shivpoor,gct,ECR,DHN,Jharkhand,Shivpoor,23.91825,84.97102,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Phulbasiya,gct,ECR,DHN,Jharkhand,Phulbasiya,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Shivpur - Godawari Commodity Pvt. Ltd.,gct,ECR,DHN,Jharkhand,Shivpur - Godawari Commodity Pvt. Ltd.,25.43844,77.63825,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,SVPI
 Jarangdih,gct,ECR,DHN,Jharkhand,Jarangdih,23.76955,85.92881,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,JAN
@@ -43,16 +43,16 @@ Sindi,gct,CR,NGP,Maharashtra,Sindi,20.81645,78.88334,,identified/proposed GCT (P
 Kalmeshwar,gct,CR,NGP,Maharashtra,Kalmeshwar,21.22907,78.91586,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,KSWR
 Patas,gct,CR,Pune,Maharashtra,Patas,18.47327,74.46965,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,PAA
 Varangaon,gct,CR,BSL,Maharashtra,Varangaon,21.00971,75.90066,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,VNA
-Lonavala-Malavli,gct,CR,Pune,Maharashtra,Lonavala-Malavli,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Lonavala-Malavli,gct,CR,Pune,Maharashtra,Lonavala-Malavli,18.74586,73.47724,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Palasdari,gct,CR,Mumbai,Maharashtra,Palasdari,18.88409,73.32055,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,PDI
 Kalamboli,gct,CR,Mumbai,Maharashtra,Kalamboli,19.03562,73.11481,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,KLMC
 Dinegaon,gct,SCR,NED,Maharashtra,Dinegaon,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
-Khongsang,gct,NFR,LMG,Manipur,Khongsang,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Khongsang,gct,NFR,LMG,Manipur,Khongsang,24.83584,93.48825,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Machhapur,gct,ECoR,KUR,Odisha,Machhapur,20.569,85.76891,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,MZY
 Talcher,gct,ECoR,KUR,Odisha,Talcher,20.88665,85.20793,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,TLHD
 Sukinda Road,gct,ECoR,KUR,Odisha,Sukinda Road,20.97127,86.05375,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,SKND
 Jaipur Keonjhar Road,gct,ECoR,KUR,Odisha,Jaipur Keonjhar Road,20.94354,86.13252,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,JJKR
-Paradeep,gct,ECoR,KUR,Odisha,Paradeep,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Paradeep,gct,ECoR,KUR,Odisha,Paradeep,20.27974,86.61227,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Chhina,gct,NR,FZR,Punjab,Chhina,31.90226,75.27199,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,CHN
 Kathunangal,gct,NR,FZR,Punjab,Kathunangal,31.7287,75.01519,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,KNG
 Ladhuka,gct,NR,FZR,Punjab,Ladhuka,30.49849,74.11961,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,LDK
@@ -63,7 +63,7 @@ Bhadwasi,gct,NWR,JU,Rajasthan,Bhadwasi,27.31136,73.66302,,identified/proposed GC
 Ras Babra,gct,NWR,AII,Rajasthan,Ras Babra,22.55,88.33,,coordinate from hub dataset (ports.csv); identified/proposed GCT (PIB 2023),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Tondiarpet Marshalling Yard,gct,SR,MAS,Tamil Nadu,Tondiarpet Marshalling Yard,13.13,80.29,,coordinate from hub dataset (icds.csv); identified/proposed GCT (PIB 2023),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Uttangal Mangalam,gct,SR,TPJ,Tamil Nadu,Uttangal Mangalam,11.53504,79.41916,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,UMG
-Mappedu,gct,SR,MAS,Tamil Nadu,Mappedu,,,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match,https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
+Mappedu,gct,SR,MAS,Tamil Nadu,Mappedu,12.88855,80.13753,,identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match | geocoded via Nominatim (site-level precision),https://nominatim.openstreetmap.org (c) OpenStreetMap contributors | https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,
 Ramagundam,gct,SCR,SC,Telangana,Ramagundam,18.76333,79.4351,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,RDM
 Uppalvai,gct,SCR,HYB,Telangana,Uppalvai,18.42489,78.31611,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,UPW
 Jankampet,gct,SCR,HYB,Telangana,Jankampet,18.70264,78.05386,,identified/proposed GCT (PIB 2023 annexure; tentative),https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049,JKM
