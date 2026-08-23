@@ -342,11 +342,26 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
 39. **National Highway drive-time & shortest-path engine** (`scripts/analyze/nh_travel_matrix.py`):
     - Converts 141,990 NH LineStrings into a topological sparse CSR graph in `EPSG:7755` with speed-weighted edges (Motorway 90 km/h, Trunk 70 km/h, Primary 55 km/h) and 350m junction gap bridging.
     - Mainland connected component contains 289,458 nodes (91.3% of vertices), providing continuous routing across all 777 mainland districts.
-    - Computes exact Dijkstra shortest-path drive times (hours/min) and road distances (km) to all logistics hubs (Ports, ICDs, MMLPs, Air Cargo, ICPs).
+    - Computes exact Dijkstra shortest-path drive times (hours/min) and road distances (km) to all logistics hubs and infrastructure targets (Ports, ICDs, MMLPs, Air Cargo, ICPs, Railway Stations, GCT Freight Terminals, and Expressways).
     - Outputs:
-      - `data/analysis/nh_district_travel_time_summary.csv` (781 rows: nearest hub names, drive times, and road distances).
+      - `data/analysis/nh_district_travel_time_summary.csv` (781 rows: nearest hub names, straight-line km, road distance km, and drive times).
       - `data/analysis/nh_district_port_matrix.csv` (781 rows x 12 major commercial ports drive-time matrix).
-    - Benchmarks: Median drive time to nearest Major Port = 12.18 hours (839.3 km); nearest ICD = 3.74 hours (248.5 km); nearest MMLP = 5.09 hours (346.2 km); nearest Air Cargo = 4.49 hours (299.9 km).
+    - Validated National Benchmarks (777 mainland districts):
+      - Nearest NH (First-Mile Access): straight-line 5.4 km (9 min access time)
+      - Nearest Railway Station: straight-line 16.2 km | road 23.3 km | drive time 0.47 hrs (28 min)
+      - Nearest Freight Terminal (GCT): straight-line 113.7 km | road 204.6 km | drive time 3.09 hrs (186 min)
+      - Nearest ICD / CFS: straight-line 153.8 km | road 248.5 km | drive time 3.74 hrs (225 min)
+      - Nearest Air Cargo Airport: straight-line 184.2 km | road 299.9 km | drive time 4.49 hrs (269 min)
+      - Nearest MMLP: straight-line 196.9 km | road 346.2 km | drive time 5.09 hrs (305 min)
+      - Nearest Expressway (Motorway): straight-line 244.1 km | road 390.7 km | drive time 5.77 hrs (346 min)
+      - Nearest Major / Commercial Sea Port: straight-line 511.8 km | road 839.3 km | drive time 12.18 hrs (731 min)
+
+### Phase E: multi-modal connectivity & dual-distance accessibility (2026-08-23)
+40. **All-India village & district accessibility with road + rail infrastructure**:
+    - `scripts/analyze/nearest_facility.py`: added `nh` and `expressway` spatial road layers alongside `rail_station` (8,697 IR stations), `freight_terminal` (84 GCT freight handling terminals), and all multi-modal hubs (`port`, `icd`, `mmlp`, `air_cargo`, `icp`, `iw_terminal`, `fci_depot`).
+    - Regenerated all 27 village accessibility datasets (543,391 village polygons), all 36 state district summaries, and national composite `data/analysis/india_district_access_summary.csv` (817 rows, 781 districts + 36 state pop-weighted rows).
+    - Enables multi-threshold feeder and catchment metrics (`nh_within_5km_pct`, `nh_within_10km_pct`, `expressway_within_25km_pct`, `rail_station_within_10km_pct`, `freight_terminal_within_25km_pct`).
+    - Full deep audit suite passed: **227 checks | 216 PASS | 11 WARN | 0 FAIL**.
 
 ## Enhancement backlog (suggested next steps)
 
