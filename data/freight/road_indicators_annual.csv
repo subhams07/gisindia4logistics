@@ -1,0 +1,12 @@
+metric,fy,entity_type,entity_code,commodity_group,value,unit,source_url,license
+road_length,2023-24,national,ALL_INDIA,national_highways,146145.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2022-23,national,ALL_INDIA,national_highways,144955.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2021-22,national,ALL_INDIA,national_highways,140995.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2020-21,national,ALL_INDIA,national_highways,136440.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2019-20,national,ALL_INDIA,national_highways,132500.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2021-22,national,ALL_INDIA,state_highways,179535.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2019-20,national,ALL_INDIA,state_highways,176818.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2021-22,national,ALL_INDIA,major_district_roads,612778.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2021-22,national,ALL_INDIA,rural_roads,4535511.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2021-22,national,ALL_INDIA,total_road_network,6331791.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India
+road_length,2019-20,national,ALL_INDIA,total_road_network,6215797.0,km,https://morth.nic.in/basic-road-statistics-india,GODL-India

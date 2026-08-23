@@ -365,3 +365,42 @@ datasets:
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
   quality_notes: Covers all 781 current districts (568 exact census, 134 blended, 79 area-share); national sum reconciles to 1,210,854,977 (<0.001% delta)
+- name: Indian Railways annual freight loading
+  category: freight
+  description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)
+  provider: Ministry of Railways (Railway Board / PIB)
+  source_url: https://pib.gov.in/PressReleasePage.aspx?PRID=2016942
+  license: GODL-India
+  vintage: FY 2019-20 to 2023-24
+  resolution: national / zonal by commodity
+  access: committed
+  path: data/freight/rail_freight_annual.csv
+  fetch_script: scripts/fetch/build_freight_tables.py
+  quality_status: verified
+  quality_notes: 61 series; FY23-24 national total (1,591.0 MT) and commodity breakdown validated against PIB PRID 2016942
+- name: Major Ports cargo throughput
+  category: freight
+  description: Annual cargo traffic handled across all 12 major ports (FY 2019-20 through 2023-24)
+  provider: Indian Ports Association (IPA) / Ministry of Ports, Shipping and Waterways
+  source_url: https://pib.gov.in/PressReleasePage.aspx?PRID=2017001
+  license: GODL-India
+  vintage: FY 2019-20 to 2023-24
+  resolution: port-wise (12 ports)
+  access: committed
+  path: data/freight/port_throughput_annual.csv
+  fetch_script: scripts/fetch/build_freight_tables.py
+  quality_status: verified
+  quality_notes: 65 series; FY23-24 total (819.0 MT) and individual port totals (Paradip 145.4 MT, Deendayal 132.5 MT) validated
+- name: MoRTH classified road network indicators
+  category: freight
+  description: National and state road lengths across functional classes (NH, SH, MDR, Rural roads)
+  provider: Ministry of Road Transport and Highways (MoRTH Basic Road Statistics)
+  source_url: https://morth.nic.in/basic-road-statistics-india
+  license: GODL-India
+  vintage: FY 2019-20 to 2023-24
+  resolution: national
+  access: committed
+  path: data/freight/road_indicators_annual.csv
+  fetch_script: scripts/fetch/build_freight_tables.py
+  quality_status: verified
+  quality_notes: 11 series; validates NH official lengths (~146k km in FY24)

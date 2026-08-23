@@ -328,23 +328,28 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - `nearest_facility.py`: updated population lookup to state-scoped code and name matching with difflib fuzzy fallback.
     - Added `build_national_summary()` automatic aggregation in `nearest_facility.py`.
     - Regenerated all 36 state district summaries + national composite `data/analysis/india_district_access_summary.csv` (817 rows, 780/781 non-null pop weights; only unpopulated Disputed (Jharkhand) sliver has NaN).
-    - Updated `scripts/audit/audit_all.py` (added demographic estimates audit checks) + refreshed baseline `data/audit_baseline.json` (48 checks | 48 PASS).
+### Phase C: station enrichment & freight flow series (2026-08-23)
+37. **Railway station & category enrichment (Initiative 6a)** (`scripts/fetch/enrich_rail_stations.py`):
+    - Upgraded `data/rail/station_categories.csv` (5,938 stations with category, zone, division, state, annual passenger footfall, and earnings).
+    - Enriched `data/rail/railway_stations.csv`: filled missing zones, increasing coverage from 48% (4,171) to 79.3% (6,896) and added railway divisions.
+38. **Freight-flow & transport demand tables (Initiative 4)** (`scripts/fetch/build_freight_tables.py`):
+    - `data/freight/rail_freight_annual.csv`: 61 series across 5 FYs (2019-20 to 2023-24) by commodity group and originating zones; validated against PIB anchor of 1,591 MT in FY24.
+    - `data/freight/port_throughput_annual.csv`: 65 series across 5 FYs for all 12 major ports; validated against IPA anchor of 819 MT in FY24 (Paradip #1 at 145.4 MT).
+    - `data/freight/road_indicators_annual.csv`: 11 series of MoRTH classified road network lengths (NH, SH, MDR, Rural).
+    - Added `audit_freight()` to `scripts/audit/audit_all.py` (57 checks | 57 PASS | 0 FAIL).
 
 ## Enhancement backlog (suggested next steps)
 
 - Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
   straight-line distances in nearest_facility.py; then accessibility maps
   (district choropleths, population-beyond-threshold tables).
-- Freight-flow data: Railway Board origin-destination tables, IPA port
-  throughput — enables corridor modelling on top of the NH/rail layers.
-- data.gov.in integration for authoritative station categories (API key via
-  env var) to replace the community NSG compilation.
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one
-  file per state) for QGIS users.
-- CI workflow: catalog lint + dataset validation on push (gap 7).
+  file per state) for QGIS users (Initiative 5).
 - Official population projections (NCP/MoHFW) to complement Census 2011
   weights in accessibility summaries.
 - When making public: `gh repo edit subhams07/GIS4logistics --visibility
+  public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
+  copyright — see legal_compliance.md); consider Zenodo DOI release.
   public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
   copyright — see legal_compliance.md); consider Zenodo DOI release.
 

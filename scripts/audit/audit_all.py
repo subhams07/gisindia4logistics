@@ -301,6 +301,44 @@ def audit_demographics():
               str(est.method.value_counts().to_dict()))
 
 
+def audit_freight():
+    print("\n== freight & transport demand ==")
+    # Rail freight
+    rf_p = DATA_DIR / "freight" / "rail_freight_annual.csv"
+    if rf_p.exists():
+        rf = pd.read_csv(rf_p)
+        check("rail_freight", "schema", "FAIL", list(rf.columns) == [
+            "metric", "fy", "entity_type", "entity_code", "commodity_group", "value", "unit", "source_url", "license"])
+        check("rail_freight", ">= 50 series", "FAIL", len(rf) >= 50, f"{len(rf)}")
+        fy24_all = rf[(rf.fy == "2023-24") & (rf.entity_code == "ALL_INDIA") & (rf.commodity_group == "all")]
+        check("rail_freight", "FY23-24 anchor matches PIB (1,591 MT)", "FAIL",
+              len(fy24_all) == 1 and abs(fy24_all.value.iloc[0] - 1591.0) < 1.0,
+              f"{fy24_all.value.iloc[0] if len(fy24_all) else 'missing'} MT")
+
+    # Port throughput
+    pt_p = DATA_DIR / "freight" / "port_throughput_annual.csv"
+    if pt_p.exists():
+        pt = pd.read_csv(pt_p)
+        check("port_throughput", "schema", "FAIL", list(pt.columns) == [
+            "metric", "fy", "entity_type", "entity_code", "commodity_group", "value", "unit", "source_url", "license"])
+        check("port_throughput", ">= 60 series", "FAIL", len(pt) >= 60, f"{len(pt)}")
+        fy24_ports = pt[(pt.fy == "2023-24") & (pt.entity_code == "ALL_MAJOR_PORTS")]
+        check("port_throughput", "FY23-24 anchor matches IPA (819 MT)", "FAIL",
+              len(fy24_ports) == 1 and abs(fy24_ports.value.iloc[0] - 819.0) < 1.0,
+              f"{fy24_ports.value.iloc[0] if len(fy24_ports) else 'missing'} MT")
+        paradip_24 = pt[(pt.fy == "2023-24") & (pt.entity_code == "INPRT")].value.iloc[0]
+        check("port_throughput", "Paradip is #1 major port (>= 140 MT)", "FAIL",
+              paradip_24 >= 140.0, f"{paradip_24} MT")
+
+    # Road indicators
+    rd_p = DATA_DIR / "freight" / "road_indicators_annual.csv"
+    if rd_p.exists():
+        rd = pd.read_csv(rd_p)
+        check("road_indicators", "schema", "FAIL", list(rd.columns) == [
+            "metric", "fy", "entity_type", "entity_code", "commodity_group", "value", "unit", "source_url", "license"])
+        check("road_indicators", ">= 10 series", "FAIL", len(rd) >= 10, f"{len(rd)}")
+
+
 def audit_catalog():
     print("\n== catalog vs disk ==")
     import yaml
@@ -325,6 +363,8 @@ def collect_counts() -> dict:
     counts = {}
     for f in g.glob(str(DATA_DIR / "logistics_hubs" / "*.csv")):
         counts[f"hubs:{pathlib.Path(f).stem}"] = len(pd.read_csv(f))
+    for f in g.glob(str(DATA_DIR / "freight" / "*.csv")):
+        counts[f"freight:{pathlib.Path(f).stem}"] = len(pd.read_csv(f))
     for key, f in [("rail:stations", "rail/railway_stations.csv"),
                    ("rail:categories", "rail/station_categories.csv"),
                    ("rail:freight", "rail/freight_terminals.csv"),
@@ -380,7 +420,7 @@ def main() -> None:
         return
 
     heavy = () if args.fast else (audit_villages, audit_analysis)
-    for fn in (audit_boundaries, audit_rail, audit_hubs, audit_demographics,
+    for fn in (audit_boundaries, audit_rail, audit_hubs, audit_freight, audit_demographics,
                audit_catalog, check_baseline, *heavy):
         try:
             fn()
