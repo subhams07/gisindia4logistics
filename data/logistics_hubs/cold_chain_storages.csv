@@ -1,0 +1,16 @@
+name,facility_type,state,district,city,latitude,longitude,capacity_mt,commodities,operator,source_url
+Agra Cold Storage Cluster (Khandari),Cold Storage / CA Store,Uttar Pradesh,Agra,Agra,27.215,77.985,45000,"Potato, Fruits, Vegetables",UP Cold Storage Association,https://nccd.gov.in
+Nashik Agro Cold Hub (Pimpalgaon),Integrated Packhouse & Cold Storage,Maharashtra,Nashik,Pimpalgaon Baswant,20.175,73.985,35000,"Grapes, Onion, Pomegranate",Mahagrapes / APEDA Cluster,https://apeda.gov.in
+Shimla Controlled Atmosphere Storage (Parwanoo),CA Store & Packhouse,Himachal Pradesh,Solan,Parwanoo,30.835,76.958,25000,"Apples, Stone Fruits",HPMC (Himachal Pradesh Agro),https://hpmc.in
+Guntur Cold Chain Terminal,Specialized Spice Cold Storage,Andhra Pradesh,Guntur,Guntur,16.305,80.442,50000,"Red Chilli, Turmeric, Spices",AP State Warehousing Corporation,https://nccd.gov.in
+Jalgaon Banana Packhouse & Ripening Hub,Packhouse & Cold Store,Maharashtra,Jalgaon,Raver / Jalgaon,21.012,75.568,30000,"Banana, Citrus",Jain Farm Fresh / APEDA,https://apeda.gov.in
+Vashi Cold Storage Complex,Multi-Commodity Terminal Cold Store,Maharashtra,Thane,Navi Mumbai,19.075,73.005,60000,"Fruits, Vegetables, Dairy, Meat",APMC Vashi Cold Logistics,https://apeda.gov.in
+Sonipat Cold Chain & Food Logistics Park,Integrated Cold Chain Park,Haryana,Sonipat,Rai / Kundli,28.925,77.085,40000,Multi-Commodity (NCR Supply),Dev Bhumi Cold Chain / MoFPI,https://mofpi.gov.in
+Indore Agri Cold Hub,Multi-Chamber Cold Storage,Madhya Pradesh,Indore,Sanwer / Indore,22.785,75.842,35000,"Potato, Garlic, Fruits",MP Agro Industries,https://nccd.gov.in
+Ludhiana Multi-Commodity Cold Store,Grain & Perishable Cold Storage,Punjab,Ludhiana,Ludhiana,30.905,75.855,30000,"Seed Potato, Dairy, Poultry",Punjab Agro,https://nccd.gov.in
+Bengaluru Rural Cold Hub (Hosakote),Integrated Packhouse & Cold Storage,Karnataka,Bengaluru Rural,Hosakote,13.072,77.798,25000,"Horticulture, Exotic Fruits, Floriculture",Karnataka State Spices Development,https://nccd.gov.in
+Ratnagiri Mango Irradiation & Cold Hub,Vapour Heat & Cold Treatment Facility,Maharashtra,Ratnagiri,Ratnagiri,16.992,73.312,15000,"Alphonso Mango, Cashew",MSAMB / APEDA,https://msamb.com
+Hooghly Cold Storage Belt (Tarakeswar),Large-Scale Potato Cold Store,West Bengal,Hugli,Tarakeswar,22.885,88.021,65000,Potato,West Bengal Cold Storage Association,https://nccd.gov.in
+Ahmedabad Cold Hub (Bavla),Perishable Export Cold Chain,Gujarat,Ahmadabad,Bavla,22.835,72.365,28000,"Vegetables, Dairy, Cumin",Gujarat Agro Industries Corp,https://nccd.gov.in
+Kochi Seafood & Spice Cold Terminal,Reefer & Deep Freeze Cold Store,Kerala,Ernakulam,Kochi / Willingdon Island,9.945,76.275,20000,"Seafood (Marine Exports), Spices",MPEDA Cold Chain Logistics,https://mpeda.gov.in
+Guwahati Perishable Cargo Cold Hub,Air Cargo Cold Storage,Assam,Kamrup Metropolitan,Guwahati (LGBI Airport),26.105,91.585,10000,"Ginger, Turmeric, King Chilli, Tea, Fresh Vegetables",AAI Cargo Logistics (AAICLAS),https://aaiclas.aero

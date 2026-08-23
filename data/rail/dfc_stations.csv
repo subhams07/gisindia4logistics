@@ -1,0 +1,55 @@
+station_name,station_code,corridor,state,district,latitude,longitude,station_type,feeder_connection,chainage_km
+New Dadri,NDAD,WDFC,Uttar Pradesh,Gautam Buddha Nagar,28.551,77.568,Junction / Terminus,EDFC Interchange / ICD Dadri,0.0
+New Prithla,NPRT,WDFC,Haryana,Palwal,28.256,77.294,Junction,Palwal Junction / IR Delhi-Agra,46.0
+New Taoru,NTAU,WDFC,Haryana,Nuh,28.285,76.953,Crossing,Gurugram Logistics Zone,82.0
+New Rewari,NREW,WDFC,Haryana,Rewari,28.212,76.621,Junction,IR Rewari Junction / Concor Bawal,127.0
+New Ateli,NATL,WDFC,Haryana,Mahendragarh,28.028,76.265,Crossing,Mahendragarh Feeder,165.0
+New Dabla,NDBL,WDFC,Rajasthan,Sikar,27.893,75.981,Crossing,Sikar Feeder,204.0
+New Neem Ka Thana,NNKT,WDFC,Rajasthan,Sikar,27.734,75.782,Crossing,Neem Ka Thana,236.0
+New Ringas,NRGS,WDFC,Rajasthan,Sikar,27.352,75.568,Junction,IR Ringas / Jaipur link,288.0
+New Phulera,NPHL,WDFC,Rajasthan,Jaipur,26.874,75.241,Junction,IR Phulera Junction / Jaipur ICD,348.0
+New Kishangarh,NKSG,WDFC,Rajasthan,Ajmer,26.582,74.873,Crossing,Kishangarh Marble Cluster,395.0
+New Madar,NMDR,WDFC,Rajasthan,Ajmer,26.501,74.685,Junction,IR Ajmer / Madar,420.0
+New Marwar,NMWR,WDFC,Rajasthan,Pali,25.731,73.612,Junction,IR Marwar Junction / Jodhpur link,542.0
+New Falna,NFLN,WDFC,Rajasthan,Pali,25.221,73.238,Crossing,Falna Industrial Area,612.0
+New Abu Road,NABR,WDFC,Rajasthan,Sirohi,24.475,72.776,Junction,IR Abu Road,685.0
+New Palanpur,NPNU,WDFC,Gujarat,Banas Kantha,24.172,72.431,Junction,IR Palanpur / Mundra & Kandla Ports feeder,742.0
+New Mehsana,NMSN,WDFC,Gujarat,Mahesana,23.593,72.395,Junction,IR Mehsana / Maruti Suzuki plant link,807.0
+New Sanand,NSND,WDFC,Gujarat,Ahmadabad,22.984,72.368,Junction,Sanand Auto Hub / Viramgam / Pipavav link,880.0
+New Makarpura,NMKP,WDFC,Gujarat,Vadodara,22.241,73.195,Junction,IR Vadodara / GIDC Makarpura,995.0
+New Bharuch,NBHR,WDFC,Gujarat,Bharuch,21.712,72.998,Crossing,Dahej PCPIR / Port link,1072.0
+New Gothangam (Surat),NGOT,WDFC,Gujarat,Surat,21.264,72.875,Junction,IR Surat / Hazira Port feeder,1142.0
+New Udhna / Sachin,NSCH,WDFC,Gujarat,Surat,21.082,72.883,Crossing,Surat Textile & Diamond SEZ,1165.0
+New Valsad,NBLS,WDFC,Gujarat,Valsad,20.612,72.935,Crossing,Vapi / Valsad Industrial Area,1228.0
+New Vapi,NVAP,WDFC,Gujarat,Valsad,20.375,72.912,Crossing,Vapi Chemical Hub,1260.0
+New Dahanu Road,NDHN,WDFC,Maharashtra,Palghar,19.972,72.741,Crossing,Vadhavan Port Zone,1318.0
+New Vaitarna,NVTN,WDFC,Maharashtra,Palghar,19.521,72.845,Crossing,Palghar / Boisar MIDC,1380.0
+New Vasai Road,NVSR,WDFC,Maharashtra,Palghar,19.382,72.835,Junction,IR Vasai Road / Konkan Railway link,1405.0
+New Kopar / Diva,NKPR,WDFC,Maharashtra,Thane,19.195,73.042,Junction,Central Railway / Panvel link,1445.0
+New Panvel,NPNL,WDFC,Maharashtra,Raigarh,18.995,73.121,Junction,IR Panvel / Navi Mumbai Airport Hub,1475.0
+New JNPT (Nhava Sheva),NJNP,WDFC,Maharashtra,Raigarh,18.951,72.955,Terminus / Port Railhead,Jawaharlal Nehru Port Container Terminals,1506.0
+New Sahnewal (Ludhiana),NSNW,EDFC,Punjab,Ludhiana,30.845,75.985,Terminus / Junction,IR Ludhiana / Concor Dhandari Kalan,0.0
+New Sirhind,NSIR,EDFC,Punjab,Fatehgarh Sahib,30.638,76.385,Crossing,IR Sirhind,42.0
+New Shambhu (Ambala),NSHB,EDFC,Punjab,Patiala,30.432,76.715,Junction,IR Ambala Cantt link,88.0
+New Kalanaur (Yamunanagar),NKAL,EDFC,Haryana,Yamunanagar,30.082,77.342,Crossing,Yamunanagar Industrial Hub,155.0
+New Pilkhani (Saharanpur),NPKI,EDFC,Uttar Pradesh,Saharanpur,29.982,77.465,Junction,IR Saharanpur Junction,178.0
+New Muzaffarnagar,NMOZ,EDFC,Uttar Pradesh,Muzaffarnagar,29.475,77.712,Crossing,Muzaffarnagar Steel Hub,242.0
+New Meerut,NMTC,EDFC,Uttar Pradesh,Meerut,28.985,77.705,Crossing,Meerut Industrial Area,305.0
+New Hapur,NHPU,EDFC,Uttar Pradesh,Hapur,28.731,77.778,Junction,IR Hapur Junction / Moradabad link,340.0
+New Khurja,NKRJ,EDFC,Uttar Pradesh,Bulandshahr,28.255,77.852,Junction / WDFC Link,Dadri-Khurja Link / IR Khurja,397.0
+New Daud Khan (Aligarh),NDDK,EDFC,Uttar Pradesh,Aligarh,27.852,78.115,Junction,IR Aligarh Junction,445.0
+New Hathras,NHTR,EDFC,Uttar Pradesh,Hathras,27.595,78.052,Crossing,Hathras Industrial Area,482.0
+New Tundla,NTDL,EDFC,Uttar Pradesh,Firozabad,27.215,78.242,Junction,IR Tundla / Agra Link,535.0
+New Shikohabad,NSKB,EDFC,Uttar Pradesh,Firozabad,27.108,78.582,Crossing,Firozabad Glass Cluster,572.0
+New Etawah,NETW,EDFC,Uttar Pradesh,Etawah,26.785,79.028,Junction,IR Etawah Junction,630.0
+New Bhaupur (Kanpur),NBHP,EDFC,Uttar Pradesh,Kanpur Dehat,26.472,80.125,Junction,IR Kanpur Central / Panki Logistics Park,748.0
+New Prempur,NPRM,EDFC,Uttar Pradesh,Fatehpur,26.221,80.582,Crossing,Fatehpur,805.0
+New Fatehpur,NFTP,EDFC,Uttar Pradesh,Fatehpur,25.928,80.812,Crossing,Fatehpur Logistics Feeder,848.0
+New Manauri (Prayagraj West),NMNR,EDFC,Uttar Pradesh,Kaushambi,25.485,81.678,Junction,Prayagraj West,945.0
+New Karchana (Prayagraj East),NKCN,EDFC,Uttar Pradesh,Prayagraj,25.321,81.925,Junction,IR Chheoki / Naini Industrial Area,985.0
+New Chunar,NCAR,EDFC,Uttar Pradesh,Mirzapur,25.125,82.885,Junction,IR Chunar / Mirzapur Carpet & Stone Cluster,1088.0
+New DDU (Pt Deen Dayal Upadhyay),NDDU,EDFC,Uttar Pradesh,Chandauli,25.285,83.125,Major Junction / Yard,IR DDU (Mughalsarai) Freight Marshalling Yard,1135.0
+New Bhabua Road,NBUR,EDFC,Bihar,Kaimur (Bhabua),25.045,83.612,Crossing,Kaimur Feeder,1190.0
+New Sasaram,NSSM,EDFC,Bihar,Rohtas,24.952,84.025,Junction,IR Sasaram Junction,1240.0
+New Dehri-on-Sone,NDOS,EDFC,Bihar,Rohtas,24.912,84.185,Crossing,Dehri Industrial Zone,1262.0
+New Sonnagar,NSER,EDFC,Bihar,Aurangabad,24.882,84.285,Terminus / Junction,IR Sonnagar / Coalfields feeder to Dankuni,1337.0

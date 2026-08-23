@@ -262,6 +262,22 @@ def audit_rail():
           bool(have.longitude.astype(float).between(68, 97.5).all()
                and have.latitude.astype(float).between(6, 37.5).all()))
 
+    # DFC Network & Stations
+    dfc_p = DATA_DIR / "rail" / "dfc_network.geojson"
+    check("dfc_network", "exists", "FAIL", dfc_p.exists())
+    if dfc_p.exists():
+        gdf_dfc = gpd.read_file(dfc_p)
+        check("dfc_network", "valid geometries", "FAIL", bool(gdf_dfc.geometry.is_valid.all()))
+        check("dfc_network", ">= 2 corridors", "FAIL", len(gdf_dfc) >= 2, f"{len(gdf_dfc)}")
+
+    dfc_st_p = DATA_DIR / "rail" / "dfc_stations.csv"
+    check("dfc_stations", "exists", "FAIL", dfc_st_p.exists())
+    if dfc_st_p.exists():
+        df_dfc_st = pd.read_csv(dfc_st_p)
+        check("dfc_stations", ">= 40 stations", "FAIL", len(df_dfc_st) >= 40, f"{len(df_dfc_st)}")
+        check("dfc_stations", "coords in bbox", "FAIL",
+              bool(df_dfc_st.longitude.between(68, 97.5).all() and df_dfc_st.latitude.between(6, 37.5).all()))
+
 
 def audit_hubs():
     print("\n== logistics hubs ==")
@@ -279,6 +295,40 @@ def audit_hubs():
         check("hubs", f"{f}: coords in bbox + per-row source", "FAIL",
               bool(df.longitude.between(68, 97.5).all() and df.latitude.between(6, 37.5).all()
                    and df.source_url.notna().all()))
+
+    # NICDC Industrial Nodes & PM MITRA
+    ind_p = DATA_DIR / "logistics_hubs" / "industrial_nodes.csv"
+    check("industrial_nodes", "exists", "FAIL", ind_p.exists())
+    if ind_p.exists():
+        df_ind = pd.read_csv(ind_p)
+        check("industrial_nodes", ">= 20 nodes", "FAIL", len(df_ind) >= 20, f"{len(df_ind)}")
+        check("industrial_nodes", "coords in bbox", "FAIL",
+              bool(df_ind.longitude.between(68, 97.5).all() and df_ind.latitude.between(6, 37.5).all()))
+
+    mitra_p = DATA_DIR / "logistics_hubs" / "pm_mitra_parks.csv"
+    check("pm_mitra_parks", "exists", "FAIL", mitra_p.exists())
+    if mitra_p.exists():
+        df_mitra = pd.read_csv(mitra_p)
+        check("pm_mitra_parks", "7 parks", "FAIL", len(df_mitra) == 7, f"{len(df_mitra)}")
+        check("pm_mitra_parks", "coords in bbox", "FAIL",
+              bool(df_mitra.longitude.between(68, 97.5).all() and df_mitra.latitude.between(6, 37.5).all()))
+
+    # Cold Chain & e-NAM Mandis
+    cold_p = DATA_DIR / "logistics_hubs" / "cold_chain_storages.csv"
+    check("cold_chain_storages", "exists", "FAIL", cold_p.exists())
+    if cold_p.exists():
+        df_cold = pd.read_csv(cold_p)
+        check("cold_chain_storages", ">= 10 storages", "FAIL", len(df_cold) >= 10, f"{len(df_cold)}")
+        check("cold_chain_storages", "coords in bbox", "FAIL",
+              bool(df_cold.longitude.between(68, 97.5).all() and df_cold.latitude.between(6, 37.5).all()))
+
+    enam_p = DATA_DIR / "logistics_hubs" / "enam_mandis.csv"
+    check("enam_mandis", "exists", "FAIL", enam_p.exists())
+    if enam_p.exists():
+        df_enam = pd.read_csv(enam_p)
+        check("enam_mandis", ">= 15 mandis", "FAIL", len(df_enam) >= 15, f"{len(df_enam)}")
+        check("enam_mandis", "coords in bbox", "FAIL",
+              bool(df_enam.longitude.between(68, 97.5).all() and df_enam.latitude.between(6, 37.5).all()))
 
 
 def audit_roads():

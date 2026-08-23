@@ -65,21 +65,25 @@ Quality status definitions:
 
 | Dataset & File Path | Scope / Count | Provider & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
+| **Dedicated Freight Corridors (DFC)**<br>`data/rail/dfc_network.geojson` | **3 Corridors** (WDFC 1,506 km, EDFC 1,337 km, Dadri-Khurja Link) | DFCCIL operational alignments | GODL-India / Public | **verified** |
+| **DFC Stations & Yards**<br>`data/rail/dfc_stations.csv` | **54 Junction Stations & Crossing Yards** | DFCCIL station master roster with chainages and IR feeder interchange links | GODL-India / Public | **verified** |
 | **Railway Stations**<br>`data/rail/railway_stations.csv` | **8,697 stations** | DataMeet Railways + Indian Railways operational enrichment; 79.3% zone coverage (6,896 stations) + divisions (5,493 stations) | Reference / Open Community | **verified** |
 | **Station Categories (NSG1-6)**<br>`data/rail/station_categories.csv` | **5,938 categorized stations** | Ministry of Railways classification roster (NSG1–NSG6, passenger footfall & earnings) | Public Roster / Reference | **verified** |
 | **Freight Terminals (GCT)**<br>`data/rail/freight_terminals.csv` | **84 Gati Shakti Cargo Terminals** | PIB PRID 1910049 annexure (Ministry of Railways); geocoded via stations crosswalk and port fallbacks | GODL-India | **verified** |
 
 ### Additional Rail Sources & Pointers
 - **Indian Railways / Railway Board** ([indianrailways.gov.in](https://indianrailways.gov.in)): Annual statistical statements, zonal divisions, and freight operating statistics.
-- **Open Government Data (OGD) Platform** ([data.gov.in](https://data.gov.in)): Indian Railways station masters and train timing datasets.
 - **Dedicated Freight Corridor Corporation (DFCCIL)** ([dfccil.com](https://dfccil.com)): WDFC and EDFC project alignments and freight feeder yards.
+- **Open Government Data (OGD) Platform** ([data.gov.in](https://data.gov.in)): Indian Railways station masters and train timing datasets.
 
 ---
 
-## 5. Multi-Modal Logistics Hubs
+## 5. Multi-Modal Logistics Hubs & Industrial Clusters
 
 | Dataset & File Path | Scope / Count | Provider & Primary Source URL | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
+| **Industrial Nodes (NICDC)**<br>`data/logistics_hubs/industrial_nodes.csv` | **21 Smart Industrial Cities & Clusters** | National Industrial Corridor Development Corporation ([nicdc.in](https://nicdc.in)) — DMIC, CBIC, AKIC, VCIC, BMIC | GODL-India | **verified** |
+| **PM MITRA Mega Textile Parks**<br>`data/logistics_hubs/pm_mitra_parks.csv` | **7 Mega Textile Parks** | Ministry of Textiles ([texmin.nic.in](https://texmin.nic.in)) | GODL-India | **verified** |
 | **Major & Commercial Sea Ports**<br>`data/logistics_hubs/ports.csv` | **22 ports** (12 Major Ports) | Indian Ports Association ([ipa.nic.in](https://ipa.nic.in)) | GODL-India | **verified** |
 | **Inland Container Depots (ICD / CFS)**<br>`data/logistics_hubs/icds.csv` | **44 ICDs / CFSs** | Central Board of Indirect Taxes and Customs ([cbic.gov.in](https://cbic.gov.in)) + CONCOR ([concorindia.co.in](https://concorindia.co.in)) | GODL-India | **verified** |
 | **Land Border ICPs**<br>`data/logistics_hubs/icps.csv` | **19 Integrated Check Posts** | Land Ports Authority of India ([lpai.gov.in](https://lpai.gov.in)) | GODL-India | **verified** |
@@ -87,6 +91,8 @@ Quality status definitions:
 | **Multimodal Logistics Parks**<br>`data/logistics_hubs/mmlps.csv` | **20 MMLPs** | National Highways Logistics Management Limited ([nhlml.co.in](https://nhlml.co.in)) | GODL-India | **verified** |
 | **Inland Waterway Terminals**<br>`data/logistics_hubs/inland_waterway_terminals.csv` | **40 Terminals** (NW-1/2/3/4/5/16) | Inland Waterways Authority of India ([iwai.nic.in](https://iwai.nic.in)) | GODL-India | **verified** |
 | **Food Grain Depots**<br>`data/logistics_hubs/fci_depots.csv` | **77 Storage Depots** | Food Corporation of India ([fci.gov.in](https://fci.gov.in)) | GODL-India | **verified** |
+| **Cold Chain & CA Storages**<br>`data/logistics_hubs/cold_chain_storages.csv` | **15 Major Cold Logistics Hubs** | National Centre for Cold-chain Development ([nccd.gov.in](https://nccd.gov.in)) / APEDA | GODL-India | **verified** |
+| **APMC e-NAM Mandis**<br>`data/logistics_hubs/enam_mandis.csv` | **16 Major Wholesale Terminal Markets** | Directorate of Marketing & Inspection ([enam.gov.in](https://enam.gov.in)) | GODL-India | **verified** |
 
 ---
 

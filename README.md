@@ -31,9 +31,12 @@ travel    = pd.read_csv("data/analysis/nh_district_travel_time_summary.csv")   #
 | Roads | **National Highway network (all numbered NH routes)** | National | GeoJSON | Committed in `data/roads/india_nh_network.geojson` (141,990 segments, ~634 routes) |
 | Roads | **National Toll Plazas (FASTag & Highway Plazas)** | National points | CSV | Committed in `data/roads/toll_plazas.csv` (**1,536 clustered Toll Plazas** under NHAI TIS model) |
 | Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` (Pune sample committed) |
+| Rail | **Dedicated Freight Corridors (WDFC, EDFC & 54 DFC Junctions)** | National | GeoJSON/CSV | Committed in `data/rail/` (WDFC 1,506 km + EDFC 1,337 km + `dfc_stations.csv`) |
 | Rail | **Railway stations (~8,700 stations & 5,938 categorized NSG1-6)** | National | CSV | Committed in `data/rail/` (79.3% zone coverage, operating divisions) |
 | Rail | **Freight Terminals (Gati Shakti Cargo Terminals - GCT)** | National | CSV | Committed in `data/rail/freight_terminals.csv` (84 GCT freight handling terminals) |
+| Logistics hubs | **Industrial Corridors (NICDC) & PM MITRA Mega Textile Parks** | National points | CSV | Committed in `data/logistics_hubs/` (21 NICDC Nodes + 7 PM MITRA Parks) |
 | Logistics hubs | **Ports, ICDs, ICPs, Air Cargo, MMLPs, IWAI, FCI Depots** | National points | CSV | Committed in `data/logistics_hubs/` (247 multi-modal points) |
+| Logistics hubs | **Cold Chain Storages (NCCD) & APMC e-NAM Mandis** | National points | CSV | Committed in `data/logistics_hubs/` (15 Cold Chain Hubs + 16 e-NAM Markets) |
 | Freight Flows | **Annual Multi-Year Freight Series (Rail, Port, Road)** | 5 FYs (2019–24) | CSV | Committed in `data/freight/` (137 series validated vs PIB/IPA anchors) |
 | Demographics | **Census 2011 & 781-District Population Allocation** | District | CSV | Committed in `data/demographic/` (1,210,846,210 population conserved) |
 | Analysis | **Village Dual-Distance Accessibility Engine (all 36 States)** | Village/district | CSV | Committed in `data/analysis/` (578k village CSVs + `india_district_access_summary.csv`) |

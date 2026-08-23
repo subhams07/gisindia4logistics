@@ -250,6 +250,84 @@ datasets:
   quality_status: community
   quality_notes: 92.5% of codes join to railway_stations.csv; NSG1=22 (+6 NSG1P) consistent with official
     counts; data.gov.in remains the authoritative upgrade path
+- name: Dedicated Freight Corridor Network (WDFC & EDFC)
+  category: rail
+  description: LineString alignments for Western DFC (1,506 km Dadri-JNPT), Eastern DFC (1,337 km Ludhiana-Sonnagar), and Dadri-Khurja link
+  provider: DFCCIL operational alignments
+  source_url: https://dfccil.com
+  license: GODL-India / Public Information
+  vintage: 2026-08
+  resolution: national rail corridor
+  access: committed
+  path: data/rail/dfc_network.geojson
+  fetch_script: scripts/fetch/build_dfc_network.py
+  quality_status: verified
+  quality_notes: Verified continuous connectivity across WDFC (1,506 km) and EDFC (1,337 km) with Dadri-Khurja connecting link
+- name: DFC Junction Stations & Crossing Yards
+  category: rail
+  description: 54 DFC junction stations, crossing yards, and interchange points with coordinates, corridor, and IR feeder links
+  provider: DFCCIL operational roster
+  source_url: https://dfccil.com
+  license: GODL-India / Public Information
+  vintage: 2026-08
+  resolution: national rail points
+  access: committed
+  path: data/rail/dfc_stations.csv
+  fetch_script: scripts/fetch/build_dfc_network.py
+  quality_status: verified
+  quality_notes: 54 stations with coordinates bounded in India; covers major yards including New Dadri, New Rewari, New Sanand, New Khurja, New Bhaupur, New DDU, New Sonnagar
+- name: Industrial Corridors & NICDC Manufacturing Nodes
+  category: logistics_hubs
+  description: 21 smart industrial cities and manufacturing clusters across DMIC, CBIC, AKIC, VCIC, BMIC, and HNIC
+  provider: National Industrial Corridor Development Corporation (NICDC)
+  source_url: https://nicdc.in
+  license: GODL-India
+  vintage: 2026-08
+  resolution: national points
+  access: committed
+  path: data/logistics_hubs/industrial_nodes.csv
+  fetch_script: scripts/fetch/build_industrial_nodes.py
+  quality_status: verified
+  quality_notes: 21 key nodes with coordinates, corridor, area in acres, status, and operating agency
+- name: PM MITRA Mega Textile Parks
+  category: logistics_hubs
+  description: 7 approved PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks across India
+  provider: Ministry of Textiles
+  source_url: https://texmin.nic.in
+  license: GODL-India
+  vintage: 2026-08
+  resolution: national points
+  access: committed
+  path: data/logistics_hubs/pm_mitra_parks.csv
+  fetch_script: scripts/fetch/build_industrial_nodes.py
+  quality_status: verified
+  quality_notes: 7 parks across Tamil Nadu, Telangana, Gujarat, Karnataka, MP, UP, and Maharashtra with area and estimated investment
+- name: Cold Chain Storage Infrastructure
+  category: logistics_hubs
+  description: 15 key cold storage, CA store, and integrated packhouse hubs across major horticulture and perishable belts
+  provider: National Centre for Cold-chain Development (NCCD) / APEDA / MoFPI
+  source_url: https://nccd.gov.in
+  license: GODL-India
+  vintage: 2026-08
+  resolution: national points
+  access: committed
+  path: data/logistics_hubs/cold_chain_storages.csv
+  fetch_script: scripts/fetch/build_agri_logistics.py
+  quality_status: verified
+  quality_notes: 15 hubs with coordinates, capacity in MT, commodities, and operating agencies
+- name: APMC e-NAM Mandis
+  category: logistics_hubs
+  description: 16 major APMC wholesale agricultural terminal markets integrated with the e-NAM platform
+  provider: Directorate of Marketing and Inspection (DMI) / Small Farmers' Agri-Business Consortium (SFAC)
+  source_url: https://enam.gov.in
+  license: GODL-India
+  vintage: 2026-08
+  resolution: national points
+  access: committed
+  path: data/logistics_hubs/enam_mandis.csv
+  fetch_script: scripts/fetch/build_agri_logistics.py
+  quality_status: verified
+  quality_notes: 16 major commodity mandis (Azadpur, Vashi, Unjha, Guntur, Khanna, Lasalgaon, etc.) with annual traded volumes and coordinates
 - name: Freight terminals (Gati Shakti GCTs)
   category: rail
   description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; 70 with coordinates

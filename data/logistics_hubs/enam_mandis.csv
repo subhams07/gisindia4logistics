@@ -1,0 +1,17 @@
+name,state,district,city,latitude,longitude,market_type,primary_commodities,annual_volume_mt,enam_integrated,source_url
+Azadpur APMC Mandi (Asia's Largest),Delhi,North,"Azadpur, New Delhi",28.712,77.175,Mega Terminal Market,"Fruits, Vegetables, Onion, Potato, Apple",4500000,True,https://enam.gov.in
+Vashi APMC Market (Navi Mumbai),Maharashtra,Thane,Navi Mumbai,19.075,73.008,Terminal Market,"Foodgrains, Spices, Fruits, Onion, Potato",3800000,True,https://enam.gov.in
+Unjha APMC Mandi (Spices Capital),Gujarat,Mahesana,Unjha,23.805,72.395,Specialized Commodity Market,"Cumin (Jeera), Fennel (Saunf), Isabgol, Mustard",850000,True,https://enam.gov.in
+Guntur Mirchi Yard (Asia's Largest Chilli Market),Andhra Pradesh,Guntur,Guntur,16.295,80.435,Specialized Commodity Market,"Red Chilli, Cotton, Turmeric",1200000,True,https://enam.gov.in
+Khanna Grain Market (Asia's Largest Grain Market),Punjab,Ludhiana,Khanna,30.705,76.215,Grain Terminal Market,"Wheat, Paddy (Basmati/Non-Basmati), Maize",2500000,True,https://enam.gov.in
+Lasalgaon APMC Mandi (Asia's Largest Onion Market),Maharashtra,Nashik,Lasalgaon,20.145,74.225,Specialized Commodity Market,"Onion, Grapes, Pomegranate, Soyabean",950000,True,https://enam.gov.in
+Indore Devi Ahilya Bai Holkar APMC Mandi,Madhya Pradesh,Indore,Indore,22.715,75.825,General Agri Terminal,"Soyabean, Wheat, Gram, Garlic, Onion",1800000,True,https://enam.gov.in
+Karnal Grain & Basmati APMC Mandi,Haryana,Karnal,Karnal,29.685,76.985,Grain & Basmati Export Hub,"Basmati Rice, Wheat, Mustard",1400000,True,https://enam.gov.in
+Nizamabad APMC Turmeric Market,Telangana,Nizamabad,Nizamabad,18.675,78.095,Specialized Commodity Market,"Turmeric, Maize, Soyabean, Paddy",750000,True,https://enam.gov.in
+Gondal APMC Mandi,Gujarat,Rajkot,Gondal,21.962,70.795,General Agri Market,"Groundnut, Cotton, Sesame, Chilli, Onion",1100000,True,https://enam.gov.in
+Mandsaur APMC Mandi (Garlic Capital),Madhya Pradesh,Mandsaur,Mandsaur,24.072,75.068,Specialized Commodity Market,"Garlic, Opium/Poppy Seed, Mustard, Soyabean",680000,True,https://enam.gov.in
+Kalaburagi APMC Red Gram Mandi,Karnataka,Kalaburagi,Kalaburagi (Gulbarga),17.332,76.835,Pulse / Dal Hub,"Tur (Red Gram / Pigeon Pea), Green Gram, Sunflower",820000,True,https://enam.gov.in
+Bikaner APMC Mandi,Rajasthan,Bikaner,Bikaner,28.018,73.315,Arid Agri Hub,"Guar Seed, Groundnut, Mustard, Moth",720000,True,https://enam.gov.in
+Kalyani APMC Terminal Market,West Bengal,Nadia,Kalyani,22.975,88.435,Terminal Market,"Jute, Rice, Vegetables, Fish",1150000,True,https://enam.gov.in
+Davanagere APMC Maize Market,Karnataka,Davanagere,Davanagere,14.465,75.925,Grain & Cotton Hub,"Maize, Cotton, Arecanut, Ragi",690000,True,https://enam.gov.in
+Erode APMC Turmeric Market (Yellow City),Tamil Nadu,Erode,Erode,11.342,77.728,Specialized Commodity Market,"Turmeric, Coconut, Banana, Tapioca",580000,True,https://enam.gov.in
