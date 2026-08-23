@@ -6,26 +6,36 @@ Implements the Huff / Reilly Gravity Model to compute:
 1. Port catchment probabilities P(ij) for all 781 districts across all 12 Major Commercial Sea Ports.
 2. Identifies Captive vs Contested Port Hinterlands based on port throughput and road drive time.
 
-Calibrated against:
-- Indian Ports Association (IPA) official annual port throughput figures
-- National Highway Dijkstra travel matrix
+All model parameters (alpha attraction power, beta friction exponent, port throughputs)
+are fully customizable via CLI flags, JSON configs, or Python function arguments.
 """
 
 import sys
+import argparse
+import json
+from pathlib import Path
 import pandas as pd
 import numpy as np
 
 sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR
 
-def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
+def run_port_gravity_model(
+    alpha: float = 0.85,
+    beta: float = 1.65,
+    custom_capacities: dict = None,
+    output_csv: Path = None
+) -> pd.DataFrame:
+    if output_csv is None:
+        output_csv = DATA_DIR / "analysis" / "district_port_hinterland_catchment.csv"
+
     print("=== GIS4Logistics Port Hinterland Gravity Model ===")
-    
+    print(f"User Parameters: Alpha (Throughput Power) = {alpha:.2f} | Beta (Distance Decay Friction) = {beta:.2f}")
+
     # 1. Load Port Matrix
     p_matrix = DATA_DIR / "analysis" / "nh_district_port_matrix.csv"
     if not p_matrix.exists():
-        print(f"Error: {p_matrix} not found.")
-        return
+        raise FileNotFoundError(f"Error: {p_matrix} not found. Run nh_travel_matrix.py first.")
     df_matrix = pd.read_csv(p_matrix)
 
     # Merge population estimates
@@ -37,7 +47,7 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
             df_matrix["pop_2011"] = df_matrix["district_code"].map(pop_map).fillna(0).astype(int)
 
     # Port capacity map (FY24 MT) mapped to clean labels
-    port_data = {
+    default_port_data = {
         "drive_hours_to_paradip": ("Paradip Port", 145.38),
         "drive_hours_to_deendayal_(kandla)": ("Deendayal Port (Kandla)", 132.50),
         "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT)", 86.00),
@@ -51,6 +61,12 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
         "drive_hours_to_cochin": ("Cochin Port", 36.50),
         "drive_hours_to_mormugao": ("Mormugao Port", 20.50),
     }
+
+    port_data = default_port_data.copy()
+    if custom_capacities:
+        for k, (p_name, _) in default_port_data.items():
+            if p_name in custom_capacities:
+                port_data[k] = (p_name, float(custom_capacities[p_name]))
 
     port_cols = [c for c in port_data.keys() if c in df_matrix.columns]
     print(f"Analyzing {len(port_cols)} Major Ports across {len(df_matrix)} Districts...")
@@ -68,14 +84,14 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
             results.append({
                 "state": state, "district": district, "district_code": d_code,
                 "pop_2011": pop, "is_island": True, "primary_port": "N/A (Island)",
-                "primary_port_probability": np.nan, "primary_port_distance_km": np.nan,
+                "primary_port_probability": np.nan, "primary_port_drive_hours": np.nan,
                 "secondary_port": "N/A", "secondary_port_probability": np.nan,
-                "secondary_port_distance_km": np.nan, "hinterland_category": "Island / Isolated",
+                "secondary_port_drive_hours": np.nan, "hinterland_category": "Island / Isolated",
                 "contestability_index": np.nan
             })
             continue
 
-        # Compute gravity utility for each port: U_j = (Capacity_j^alpha) / (Drive_Hours_ij^beta)
+        # Compute gravity utility: U_j = (Capacity_j^alpha) / (Drive_Hours_ij^beta)
         utilities = {}
         hrs_map = {}
         for p_col in port_cols:
@@ -83,7 +99,6 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
             h_val = row.get(p_col)
             if pd.notna(h_val) and float(h_val) > 0:
                 drive_hrs = float(h_val)
-                # Attractiveness = (Cap^alpha) / (Hours^beta)
                 u = (cap ** alpha) / ((drive_hrs / 5.0) ** beta)
                 utilities[clean_name] = u
                 hrs_map[clean_name] = drive_hrs
@@ -130,9 +145,8 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
         })
 
     out_df = pd.DataFrame(results)
-    out_csv = DATA_DIR / "analysis" / "district_port_hinterland_catchment.csv"
-    out_df.to_csv(out_csv, index=False)
-    print(f"Wrote {len(out_df)} district port hinterland allocations -> {out_csv}")
+    out_df.to_csv(output_csv, index=False)
+    print(f"Wrote {len(out_df)} district port hinterland allocations -> {output_csv}")
 
     # Summary Statistics
     valid = out_df[~out_df.is_island & out_df.primary_port_probability.notna()]
@@ -145,7 +159,32 @@ def run_port_gravity_model(alpha: float = 0.85, beta: float = 1.65):
     print("\nHinterland Contestability Breakdown:")
     for cat, count in valid.hinterland_category.value_counts().items():
         print(f"  - {cat:36s}: {count:3d} districts ({(count/len(valid))*100:5.1f}%)")
+    return out_df
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Port Hinterland Gravity Model with User-Configurable Parameters")
+    parser.add_argument("--alpha", type=float, default=0.85, help="Port throughput attractiveness sensitivity exponent (default: 0.85)")
+    parser.add_argument("--beta", type=float, default=1.65, help="Drive-time distance decay friction exponent (default: 1.65)")
+    parser.add_argument("--config", type=str, help="Path to JSON config file containing custom port capacities or exponents")
+    parser.add_argument("--output-csv", type=str, help="Destination output CSV path")
+
+    args = parser.parse_args()
+
+    custom_caps = None
+    alpha = args.alpha
+    beta = args.beta
+
+    if args.config:
+        with open(args.config, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        alpha = cfg.get("alpha", alpha)
+        beta = cfg.get("beta", beta)
+        custom_caps = cfg.get("port_capacities", None)
+
+    out_p = Path(args.output_csv) if args.output_csv else None
+    run_port_gravity_model(alpha=alpha, beta=beta, custom_capacities=custom_caps, output_csv=out_p)
 
 
 if __name__ == "__main__":
-    run_port_gravity_model()
+    main()
