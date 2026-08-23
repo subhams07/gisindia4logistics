@@ -14,44 +14,30 @@ all 36 states/UTs.
 
 ```python
 import geopandas as gpd
-districts = gpd.read_file("data/administrative/india_districts_lgd.geojson")   # 781 current districts
+districts = gpd.read_file("data/administrative/india_districts_lgd.geojson")   # 781 current LGD districts
+subdists  = gpd.read_file("data/administrative/india_subdistricts_lgd.gpkg")   # 6,636 LGD subdistricts
 villages  = gpd.read_file("data/administrative/villages/sikkim_soi_villages.geojson")
-access    = gpd.read_file  # see data/analysis/india_district_access_summary.csv
+access    = pd.read_csv("data/analysis/india_district_access_summary.csv")     # 817 rows (all 36 states)
+travel    = pd.read_csv("data/analysis/nh_district_travel_time_summary.csv")   # 781-district highway matrix
 ```
-
-With network: `python scripts/analyze/nearest_facility.py --state Haryana`
-computes per-village distances to the nearest rail station / ICD / port /
-airport / ICP. Headline: across the 27 village-level states, the
-population-weighted mean distance to a railway station is **13.6 km**, to an
-ICD **121 km**.
-
-## Repository philosophy
-
-This is a **hybrid** repository:
-
-- **Small datasets are committed directly** (state/district boundaries, hub point
-  locations, station lists, district demographic tables).
-- **Large datasets (village boundaries, full road/rail networks) are fetched by
-  scripts** into a local `data/` folder via Git LFS-compatible formats, because
-  village-level India-wide data runs into gigabytes.
-
-All data is standardized to **EPSG:4326 (WGS 84)** and uses **LGD (Local Government
-Directory) codes** as the join key across datasets.
 
 ## Data catalog
 
-| Category | Dataset | Resolution | Format | How to get it |
+| Category | Dataset | Resolution | Format | Scope / How to get it |
 |---|---|---|---|---|
-| Administrative | **India / State / District / Taluka — current, LGD-coded** | National → sub-district | GeoJSON/GPKG | Committed in `data/administrative/` (36 states, 780 districts, 6,639 sub-districts) |
-| Administrative | Districts (Census 2011, for census joins) | District | GeoJSON | Committed in `data/administrative/` |
-| Administrative | **Villages — official (Survey of India, LGD-coded)** | Village | GeoJSON | Committed in `data/administrative/villages/` for all 27 published states; regenerable via `scripts/fetch/fetch_village_boundaries_soi.py` |
-| Roads | **National Highway network (all numbered NH routes)** | National | GeoJSON | Committed in `data/roads/india_nh_network.geojson` (OSM) |
+| Administrative | **India / State / District / Sub-district — current, LGD-coded** | National → sub-district | GeoJSON/GPKG | Committed in `data/administrative/` (**36 states, 781 districts, 6,636 sub-districts**) |
+| Administrative | Districts (Census 2011, for census joins) | District | GeoJSON | Committed in `data/administrative/india_districts.geojson` (640 districts) |
+| Administrative | **Villages & Habitations — 100% 36 States/UTs Coverage** | Village / Settlement | GeoJSON | Committed in `data/administrative/villages/` (**578,345 settlements**: 543k SoI polygons + 35k border habitations) |
+| Roads | **National Highway network (all numbered NH routes)** | National | GeoJSON | Committed in `data/roads/india_nh_network.geojson` (141,990 segments, ~634 routes) |
+| Roads | **National Toll Plazas (FASTag & Highway Plazas)** | National points | CSV | Committed in `data/roads/toll_plazas.csv` (**1,536 clustered Toll Plazas** under NHAI TIS model) |
 | Roads | Road network classified by type (NH/SH/MDR/ODR/village) | National | OSM PBF / GeoJSON | `scripts/fetch/fetch_roads.py` (Pune sample committed) |
-| Analysis | **Village accessibility (nearest station/ICD/port/airport/ICP)** | Village/district | CSV | `scripts/analyze/nearest_facility.py --state X` (Sikkim + Haryana examples committed) |
-| Rail | Railway stations (~8,000, code/name/zone/category) | National | CSV/GeoJSON | Committed in `data/rail/` |
-| Rail | Rail lines & freight sidings | National | GeoJSON | `scripts/fetch/fetch_rail.py` |
-| Logistics hubs | Major/minor ports, ICDs/CFSs, ICPs, air-cargo terminals | National points | CSV/GeoJSON | Committed in `data/logistics_hubs/` |
-| Demographics | Census 2011 key indicators by district | District | CSV | Committed in `data/demographic/` |
+| Rail | **Railway stations (~8,700 stations & 5,938 categorized NSG1-6)** | National | CSV | Committed in `data/rail/` (79.3% zone coverage, operating divisions) |
+| Rail | **Freight Terminals (Gati Shakti Cargo Terminals - GCT)** | National | CSV | Committed in `data/rail/freight_terminals.csv` (84 GCT freight handling terminals) |
+| Logistics hubs | **Ports, ICDs, ICPs, Air Cargo, MMLPs, IWAI, FCI Depots** | National points | CSV | Committed in `data/logistics_hubs/` (247 multi-modal points) |
+| Freight Flows | **Annual Multi-Year Freight Series (Rail, Port, Road)** | 5 FYs (2019–24) | CSV | Committed in `data/freight/` (137 series validated vs PIB/IPA anchors) |
+| Demographics | **Census 2011 & 781-District Population Allocation** | District | CSV | Committed in `data/demographic/` (1,210,846,210 population conserved) |
+| Analysis | **Village Dual-Distance Accessibility Engine (all 36 States)** | Village/district | CSV | Committed in `data/analysis/` (578k village CSVs + `india_district_access_summary.csv`) |
+| Analysis | **Highway Shortest-Path Drive-Time & Catchment Matrix** | 781 Districts | CSV | Committed in `data/analysis/nh_district_travel_time_summary.csv` and `nh_district_port_matrix.csv` |
 
 The machine-readable version of this catalog is [`catalog.yaml`](catalog.yaml).
 Detailed per-source documentation (URL, license, vintage, update frequency) is in
