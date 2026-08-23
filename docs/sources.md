@@ -1,4 +1,4 @@
-# Data Sources & Lineage
+# Data Sources, Lineage & Methodology
 
 Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GIS4Logistics India** platform.
 
@@ -9,24 +9,43 @@ Quality status definitions:
 
 ---
 
-## 1. Administrative Boundaries (5 Hierarchy Tiers)
+## 1. Quality Policy & Standards
+
+1. **Official Sources First**: Prefer official Survey of India, Census of India, and Ministry portals (MoRTH, Indian Railways, IPA, CBIC, AAI, NHLML, IWAI, FCI); fall back to curated community data (DataMeet, OSM) only when official sources lack bulk open GIS formats or are restricted.
+2. **Deterministic Join Keys**: All layers standardize to **Local Government Directory (LGD)** state, district, sub-district, and village codes.
+3. **Validation & Integrity Gates**: Every committed dataset must pass `scripts/audit/audit_all.py` (geometry validity, coordinate bounding, exact official counts).
+4. **Transparent Lineage**: Data with specific licensing (GODL-India, ODbL, CC BY 4.0, SoI copyright) is explicitly attributed and documented below and in `catalog.yaml`.
+
+---
+
+## 2. Administrative Boundaries (5 Hierarchy Tiers)
 
 | Hierarchy Level | Dataset & File Path | Count / Scope | Provider & Lineage | License & Governance | Quality Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Level 0 (National)** | `data/administrative/india_states_lgd.geojson` | 1 national boundary | Derived via spatial dissolve of SoI ABDB states | Copyright Survey of India; DST Guidelines 2021 | **verified** |
-| **Level 1 (States/UTs)** | `data/administrative/india_states_lgd.geojson` | **36 States & UTs** | Survey of India ABDB product (NGDR & UGID; 1:50k DTDB, ORGI 2024–25 harmonized) | Copyright SoI; good-faith redistribution posture (see `docs/legal_compliance.md`) | **verified** |
-| **Level 1 (2011 Vintage)**| `data/administrative/india_states.geojson` | 36 States & UTs | DataMeet maps archive (harmonized to 2011 Census tables) | CC BY 4.0 | **verified** |
+| **Level 1 (States/UTs - Current)** | `data/administrative/india_states_lgd.geojson` | **36 States & UTs** | Survey of India ABDB product (NGDR & UGID; 1:50k DTDB, ORGI 2024–25 harmonized) | Copyright SoI; good-faith redistribution posture (see `docs/legal_compliance.md`) | **verified** |
+| **Level 1 (States - 2011 Vintage)**| `data/administrative/india_states.geojson` | 36 States & UTs | DataMeet maps archive (harmonized to 2011 Census tables) | CC BY 4.0 | **verified** |
 | **Level 2 (Districts - Current)** | `data/administrative/india_districts_lgd.geojson` | **781 LGD Districts** | SoI ABDB (780 official + Malegaon LGD 598 derived from 4 subdistricts; disputed slivers dropped) | Copyright SoI; DST Guidelines 2021 | **verified** |
 | **Level 2 (Districts - 2011)** | `data/administrative/india_districts.geojson` | **640 Districts** | DataMeet maps (Census 2011 district layout, J&K placeholder dropped) | CC BY 4.0 | **verified** |
 | **Level 3 (Sub-districts / Talukas)** | `data/administrative/india_subdistricts_lgd.gpkg` | **6,636 Sub-districts** | SoI ABDB product (mojibake font fixed deterministically, 3 duplicate rows dropped) | Copyright SoI; DST Guidelines 2021 | **verified** |
-| **Level 3 (Taluka Sample)** | `data/administrative/pune_taluka.geojson` | 14 talukas | OpenStreetMap admin relations (majority-containment stitched polygons) | ODbL | **verified** |
+| **Level 3 (Taluka Sample Extract)** | `data/administrative/pune_taluka.geojson` | 14 talukas | OpenStreetMap admin relations (majority-containment stitched polygons) | ODbL | **verified** |
 | **Level 4 (Villages - Polygons)** | `data/administrative/villages/*_soi_villages.geojson` | **543,391 Villages** (27 states/UTs) | Survey of India Village Boundary Database (national LCC reprojected to EPSG:4326) | Copyright SoI; good-faith redistribution | **verified** |
 | **Level 4 (Habitations - Points)** | `data/administrative/villages/*_habitations.geojson` | **34,954 Settlements** (9 border states) | OpenStreetMap settlement place nodes (`place=village\|hamlet\|town`) joined with 781 LGD districts | ODbL | **verified** |
-| **Level 4 (National Combined)** | Total National Settlements | **578,345 Villages & Habitations** | 100% settlement coverage across all 36 Indian States & UTs | Mixed (SoI + ODbL) | **verified** |
+| **Level 4 (Combined National Coverage)** | Total National Settlements | **578,345 Villages & Habitations** | 100% settlement coverage across all 36 Indian States & UTs | Mixed (SoI + ODbL) | **verified** |
+
+### Additional Reference & Alternative Administrative Sources
+- **ISRO Bhuvan** ([bhuvan.nrsc.gov.in](https://bhuvan.nrsc.gov.in)): National remote sensing portal for satellite imagery and alternative administrative thematic layers.
+- **Local Government Directory (LGD)** ([lgdirectory.gov.in](https://lgdirectory.gov.in)): Ministry of Panchayati Raj official master register for state, district, block, sub-district, and gram panchayat codes.
+- **DataMeet Maps** ([github.com/datameet/maps](https://github.com/datameet/maps)): Community open GIS boundary repository (CC BY 4.0) used for Census 2011 joins.
+
+### Technical & Processing Notes
+- **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). PoK districts (Mirpur, Muzaffarabad) retained with null LGD codes as per source. Malegaon district (LGD 598) derived by dissolving its 4 constituent subdistricts.
+- **SoI Village Processing (`fetch_village_boundaries_soi.py`)**: Reprojected from national LCC to WGS 84 (`EPSG:4326`). Processed via `shapely.set_precision(1e-5)` grid-snap and `make_valid()` to eliminate GEOS topological slivers.
+- **Border Habitations Ingestion (`fetch_border_habitations.py`)**: Covers the 9 states not published in SoI village boundary zips (Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram, Nagaland) using geocoded place nodes joined to LGD districts.
 
 ---
 
-## 2. Road Network & Toll Infrastructure
+## 3. Road Network & Toll Infrastructure
 
 | Dataset & File Path | Scope / Count | Provider & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -34,9 +53,15 @@ Quality status definitions:
 | **National Toll Plazas**<br>`data/roads/toll_plazas.csv` | **1,536 clustered Toll Plazas** (1,100 NH, 101 Expressway, 335 SH/Bridge) | OSM `barrier=toll_booth` clustered via 150m DBSCAN; snapped to NH network for route fee modeling under the **NHAI Toll Information System (TIS)** conceptual model | ODbL / Public TIS structure | **verified** |
 | **District Road Network (Sample)**<br>`data/roads/pune_sample_roads.geojson` | 19,019 segments (Pune district) | OSM highway classes (NH, SH, MDR, ODR, Residential) classified via `scripts/fetch/fetch_roads.py` | ODbL | **verified** |
 
+### Additional Road Pointers & Infrastructure Sources
+- **NHAI / MoRTH** ([nhai.gov.in](https://nhai.gov.in), [morth.nic.in](https://morth.nic.in)): Ministry of Road Transport and Highways official registers and Basic Road Statistics.
+- **NHAI Toll Information System (TIS)** ([tis.nhai.gov.in](http://tis.nhai.gov.in)): Official portal for highway fee determination, chainages, and concessionaires.
+- **Geofabrik India Extract** ([download.geofabrik.de/asia/india.html](https://download.geofabrik.de/asia/india.html)): Complete daily PBF extracts of OpenStreetMap India.
+- **PMGSY (OMMAS / Samarth / GeoSadak)** ([geosadak-pmgsy.nic.in](https://geosadak-pmgsy.nic.in)): Ministry of Rural Development rural road GIS network.
+
 ---
 
-## 3. Railway Infrastructure & Freight Terminals
+## 4. Railway Infrastructure & Freight Terminals
 
 | Dataset & File Path | Scope / Count | Provider & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -44,14 +69,19 @@ Quality status definitions:
 | **Station Categories (NSG1-6)**<br>`data/rail/station_categories.csv` | **5,938 categorized stations** | Ministry of Railways classification roster (NSG1–NSG6, passenger footfall & earnings) | Public Roster / Reference | **verified** |
 | **Freight Terminals (GCT)**<br>`data/rail/freight_terminals.csv` | **84 Gati Shakti Cargo Terminals** | PIB PRID 1910049 annexure (Ministry of Railways); geocoded via stations crosswalk and port fallbacks | GODL-India | **verified** |
 
+### Additional Rail Sources & Pointers
+- **Indian Railways / Railway Board** ([indianrailways.gov.in](https://indianrailways.gov.in)): Annual statistical statements, zonal divisions, and freight operating statistics.
+- **Open Government Data (OGD) Platform** ([data.gov.in](https://data.gov.in)): Indian Railways station masters and train timing datasets.
+- **Dedicated Freight Corridor Corporation (DFCCIL)** ([dfccil.com](https://dfccil.com)): WDFC and EDFC project alignments and freight feeder yards.
+
 ---
 
-## 4. Multi-Modal Logistics Hubs
+## 5. Multi-Modal Logistics Hubs
 
 | Dataset & File Path | Scope / Count | Provider & Primary Source URL | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Major & Commercial Sea Ports**<br>`data/logistics_hubs/ports.csv` | **22 ports** (12 Major Ports) | Indian Ports Association ([ipa.nic.in](https://ipa.nic.in)) | GODL-India | **verified** |
-| **Inland Container Depots (ICD / CFS)**<br>`data/logistics_hubs/icds.csv` | **44 ICDs / CFSs** | Central Board of Indirect Taxes and Customs ([cbic.gov.in](https://cbic.gov.in)) + CONCOR | GODL-India | **verified** |
+| **Inland Container Depots (ICD / CFS)**<br>`data/logistics_hubs/icds.csv` | **44 ICDs / CFSs** | Central Board of Indirect Taxes and Customs ([cbic.gov.in](https://cbic.gov.in)) + CONCOR ([concorindia.co.in](https://concorindia.co.in)) | GODL-India | **verified** |
 | **Land Border ICPs**<br>`data/logistics_hubs/icps.csv` | **19 Integrated Check Posts** | Land Ports Authority of India ([lpai.gov.in](https://lpai.gov.in)) | GODL-India | **verified** |
 | **Air Cargo Airports**<br>`data/logistics_hubs/air_cargo.csv` | **25 Cargo Terminals** | Airports Authority of India ([aai.aero](https://aai.aero)) | GODL-India | **verified** |
 | **Multimodal Logistics Parks**<br>`data/logistics_hubs/mmlps.csv` | **20 MMLPs** | National Highways Logistics Management Limited ([nhlml.co.in](https://nhlml.co.in)) | GODL-India | **verified** |
@@ -60,7 +90,7 @@ Quality status definitions:
 
 ---
 
-## 5. Freight Flows & Transport Demand Tables
+## 6. Freight Flows & Transport Demand Tables
 
 | Dataset & File Path | Series / Dimensions | Primary Anchor & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -70,7 +100,7 @@ Quality status definitions:
 
 ---
 
-## 6. Demographics & Post-2011 Allocations
+## 7. Demographics & Post-2011 Allocations
 
 | Dataset & File Path | Scope / Count | Methodology & Validation | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -79,7 +109,7 @@ Quality status definitions:
 
 ---
 
-## 7. Analysis Outputs & Shortest-Path Matrices
+## 8. Analysis Outputs & Shortest-Path Matrices
 
 | Dataset & File Path | Scope / Resolution | Methodology & Metrics | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -91,9 +121,10 @@ Quality status definitions:
 
 ---
 
-## 8. Attribution & Citations
+## 9. Attribution & Citations
 
 - **Administrative Boundaries**: "Administrative boundaries by Survey of India (ABDB Lineage, 2024–25 ORGI Harmonization) and DataMeet Community (CC BY 4.0)"
 - **Road & Rail Network**: "© OpenStreetMap contributors (ODbL)"
 - **Logistics Hubs & Demographics**: "Government of India (GODL-India) — IPA, CBIC, AAI, NHLML, LPAI, IWAI, FCI, MoRTH, Indian Railways, Census of India 2011"
+
 
