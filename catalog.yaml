@@ -404,3 +404,29 @@ datasets:
   fetch_script: scripts/fetch/build_freight_tables.py
   quality_status: verified
   quality_notes: 11 series; validates NH official lengths (~146k km in FY24)
+- name: National Highway district travel-time summary
+  category: analysis
+  description: Road-network shortest path drive times (hours/min) and distances (km) from 781 district centers to nearest ports, ICDs, MMLPs, air cargo, and ICPs
+  provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
+  source_url: derived in-repo
+  license: ODbL (derived from OpenStreetMap NH network)
+  vintage: 2026
+  resolution: district
+  access: committed
+  path: data/analysis/nh_district_travel_time_summary.csv
+  fetch_script: scripts/analyze/nh_travel_matrix.py
+  quality_status: verified
+  quality_notes: 781 rows; 777 mainland districts with continuous Dijkstra drive times; 4 island districts flagged cleanly
+- name: District to Major Ports highway drive-time matrix
+  category: analysis
+  description: 781 districts x 12 major commercial ports drive-time matrix in hours
+  provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
+  source_url: derived in-repo
+  license: ODbL (derived from OpenStreetMap NH network)
+  vintage: 2026
+  resolution: district x port
+  access: committed
+  path: data/analysis/nh_district_port_matrix.csv
+  fetch_script: scripts/analyze/nh_travel_matrix.py
+  quality_status: verified
+  quality_notes: 781 rows x 12 major ports; benchmarked against known interstate freight corridors

@@ -223,6 +223,22 @@ def audit_analysis():
             bad.append(st_name)
     check("analysis", "state rows == sum of district rows", "FAIL", not bad, str(bad))
 
+    # NH travel-time analysis checks
+    nh_sum_p = DATA_DIR / "analysis" / "nh_district_travel_time_summary.csv"
+    if nh_sum_p.exists():
+        nh_sum = pd.read_csv(nh_sum_p)
+        check("nh_analysis", "summary has 781 districts", "FAIL", len(nh_sum) == 781, f"{len(nh_sum)}")
+        mainland = nh_sum[~nh_sum.is_island & nh_sum.port_drive_time_hours.notna()]
+        check("nh_analysis", ">= 775 mainland districts connected", "FAIL", len(mainland) >= 775, f"{len(mainland)}")
+        islands = nh_sum[nh_sum.is_island]
+        check("nh_analysis", "island districts flagged (A&N / Lakshadweep)", "FAIL", len(islands) == 4, f"{len(islands)}")
+
+    nh_mat_p = DATA_DIR / "analysis" / "nh_district_port_matrix.csv"
+    if nh_mat_p.exists():
+        nh_mat = pd.read_csv(nh_mat_p)
+        check("nh_analysis", "port matrix has 781 districts", "FAIL", len(nh_mat) == 781, f"{len(nh_mat)}")
+        check("nh_analysis", "port matrix covers 12 major ports", "FAIL", len(nh_mat.columns) >= 15, f"{len(nh_mat.columns)}")
+
 
 def audit_rail():
     print("\n== rail ==")
@@ -369,7 +385,9 @@ def collect_counts() -> dict:
                    ("rail:categories", "rail/station_categories.csv"),
                    ("rail:freight", "rail/freight_terminals.csv"),
                    ("census:districts", "demographic/census2011_district_key_indicators.csv"),
-                   ("demographic:estimates", "demographic/district_population_estimates.csv")]:
+                   ("demographic:estimates", "demographic/district_population_estimates.csv"),
+                   ("analysis:nh_summary", "analysis/nh_district_travel_time_summary.csv"),
+                   ("analysis:nh_port_matrix", "analysis/nh_district_port_matrix.csv")]:
         p = DATA_DIR / f
         if p.exists():
             counts[key] = len(pd.read_csv(p))

@@ -338,18 +338,24 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - `data/freight/road_indicators_annual.csv`: 11 series of MoRTH classified road network lengths (NH, SH, MDR, Rural).
     - Added `audit_freight()` to `scripts/audit/audit_all.py` (57 checks | 57 PASS | 0 FAIL).
 
+### Phase D: national highway travel-time engine (Initiative 3a) (2026-08-23)
+39. **National Highway drive-time & shortest-path engine** (`scripts/analyze/nh_travel_matrix.py`):
+    - Converts 141,990 NH LineStrings into a topological sparse CSR graph in `EPSG:7755` with speed-weighted edges (Motorway 90 km/h, Trunk 70 km/h, Primary 55 km/h) and 350m junction gap bridging.
+    - Mainland connected component contains 289,458 nodes (91.3% of vertices), providing continuous routing across all 777 mainland districts.
+    - Computes exact Dijkstra shortest-path drive times (hours/min) and road distances (km) to all logistics hubs (Ports, ICDs, MMLPs, Air Cargo, ICPs).
+    - Outputs:
+      - `data/analysis/nh_district_travel_time_summary.csv` (781 rows: nearest hub names, drive times, and road distances).
+      - `data/analysis/nh_district_port_matrix.csv` (781 rows x 12 major commercial ports drive-time matrix).
+    - Benchmarks: Median drive time to nearest Major Port = 12.18 hours (839.3 km); nearest ICD = 3.74 hours (248.5 km); nearest MMLP = 5.09 hours (346.2 km); nearest Air Cargo = 4.49 hours (299.9 km).
+
 ## Enhancement backlog (suggested next steps)
 
-- Road-network travel time (OSRM/Valhalla on the OSM extracts) as upgrade to
-  straight-line distances in nearest_facility.py; then accessibility maps
-  (district choropleths, population-beyond-threshold tables).
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one
   file per state) for QGIS users (Initiative 5).
+- Choropleth visualization and catchment map generation.
 - Official population projections (NCP/MoHFW) to complement Census 2011
   weights in accessibility summaries.
 - When making public: `gh repo edit subhams07/GIS4logistics --visibility
-  public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
-  copyright — see legal_compliance.md); consider Zenodo DOI release.
   public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
   copyright — see legal_compliance.md); consider Zenodo DOI release.
 
