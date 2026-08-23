@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  gis4logistics-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gis4logistics-api-server
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data:ro

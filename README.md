@@ -46,10 +46,49 @@ The machine-readable version of this catalog is [`catalog.yaml`](catalog.yaml).
 Detailed per-source documentation (URL, license, vintage, update frequency) is in
 [`docs/sources.md`](docs/sources.md).
 
+## API Server & Antigravity/Codex Plugin
+
+GIS4Logistics includes a high-performance **FastAPI REST Server** and a native **Model Context Protocol (MCP)** server for AI agent environments:
+
+### 1. Launch FastAPI Server
+```bash
+uvicorn server.app:app --host 0.0.0.0 --port 8000
+```
+Interactive OpenAPI/Swagger documentation is available at `http://localhost:8000/docs`.
+
+### 2. Run with Docker Compose
+```bash
+docker-compose up --build -d
+```
+
+### 3. Antigravity & Codex MCP Plugin
+Configure `mcp_config.json` in your agent workspace:
+```json
+{
+  "mcpServers": {
+    "gis4logistics": {
+      "command": "python",
+      "args": ["-m", "mcp_server.server"]
+    }
+  }
+}
+```
+Available Agent Tools:
+- `gis_get_district_scorecard`: Returns complete demographic, nearest highway, toll, rail, ICD, and port profiles for any of the 781 districts.
+- `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight costs with custom rates and delay parameters.
+- `gis_find_nearest_facilities`: Finds nearest Ports, ICDs, MMLPs, Toll Plazas, and Rail Stations to any `(lat, lon)` coordinate.
+- `gis_highway_route_and_tolls`: Calculates driving distance, hours, toll counts, and FASTag toll expense.
+- `gis_simulate_port_catchment`: Models national port market contestability under the Huff gravity model.
+
+---
+
 ## Quickstart
 
 ```bash
 pip install -r requirements.txt
+
+# Run server and MCP verification test suite
+python tests/test_server.py
 
 # Fetch a district road network from OSM (roads classified NH/SH/MDR/ODR)
 python scripts/fetch/fetch_roads.py --district Pune --state Maharashtra --name pune_sample --simplify 0.0005
