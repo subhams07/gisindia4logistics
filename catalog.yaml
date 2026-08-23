@@ -223,6 +223,45 @@ datasets:
     (unit column flags this); EPSG:7755 nearest joins with equidistant-tie dedupe; __STATE__ rows are
     population-weighted; headline metric — pop-weighted mean distance to a rail station 13.6 km, to an
     ICD 121 km across the 27 village-level states
+- name: Multi-Modal Generalized Freight Cost Engine
+  category: analysis
+  description: End-to-end financial freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail for all 781 districts
+  provider: derived in this repo (IR Tariff + NLP benchmarks + NHAI TIS)
+  source_url: null
+  license: MIT (code) / GODL-India derived
+  vintage: 2026-08
+  resolution: district
+  access: committed
+  path: data/analysis/district_freight_modal_split.csv
+  fetch_script: scripts/analyze/intermodal_cost_engine.py
+  quality_status: verified
+  quality_notes: Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings)
+- name: Port Hinterland Gravity & Catchment Model
+  category: analysis
+  description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 781 districts for 12 Major Ports
+  provider: derived in this repo (IPA throughput x Dijkstra highway travel matrix)
+  source_url: null
+  license: MIT (code) / GODL-India derived
+  vintage: 2026-08
+  resolution: district
+  access: committed
+  path: data/analysis/district_port_hinterland_catchment.csv
+  fetch_script: scripts/analyze/port_hinterland_model.py
+  quality_status: verified
+  quality_notes: 781 districts categorized into Captive (28), Dominant (58), and Contested (695) hinterlands; identifies primary and secondary port market capture
+- name: Major Ports & MMLP Drive-Time Isochrones
+  category: analysis
+  description: 1h, 2h, 4h, 8h vector drive-time catchment polygons around 12 Major Commercial Ports and 20 Multimodal Logistics Parks
+  provider: derived in this repo (Dijkstra network traversal on NH graph)
+  source_url: null
+  license: MIT (code) / ODbL derived
+  vintage: 2026-08
+  resolution: national vector polygons
+  access: committed
+  path: data/analysis/*_isochrones.geojson
+  fetch_script: scripts/analyze/generate_isochrones.py
+  quality_status: verified
+  quality_notes: 48 port isochrone polygons + 60 MMLP isochrone polygons simplified to 0.005 degrees with valid polygon geometries
 - name: Railway stations
   category: rail
   description: ~8,700 stations with code, zone (partial), state, coordinates

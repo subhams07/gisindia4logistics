@@ -124,6 +124,9 @@ Quality status definitions:
 | **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **817 rows** (781 districts + 36 state pop-weighted rows) | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
 | **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **781 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km) on the 289k-node highway graph | Derived in repo | **verified** |
 | **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **781 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
+| **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **781 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 26.9% modal-shift savings) | Derived in repo | **verified** |
+| **Port Hinterland Gravity Model**<br>`data/analysis/district_port_hinterland_catchment.csv` | **781 districts** | Huff / Reilly Gravity Model market share capture P(ij) and hinterland contestability across 12 Major Ports | Derived in repo | **verified** |
+| **Major Ports & MMLP Isochrones**<br>`data/analysis/*_isochrones.geojson` | **108 polygons** (48 port + 60 MMLP) | 1h, 2h, 4h, 8h vector drive-time catchment polygons generated via Dijkstra network traversal | Derived in repo | **verified** |
 
 ---
 

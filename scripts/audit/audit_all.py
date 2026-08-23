@@ -241,6 +241,31 @@ def audit_analysis():
         check("nh_analysis", "port matrix has 781 districts", "FAIL", len(nh_mat) == 781, f"{len(nh_mat)}")
         check("nh_analysis", "port matrix covers 12 major ports", "FAIL", len(nh_mat.columns) >= 15, f"{len(nh_mat.columns)}")
 
+    # Intermodal Freight Cost Model
+    modal_p = DATA_DIR / "analysis" / "district_freight_modal_split.csv"
+    check("intermodal_cost", "exists", "FAIL", modal_p.exists())
+    if modal_p.exists():
+        df_modal = pd.read_csv(modal_p)
+        check("intermodal_cost", "has 781 districts", "FAIL", len(df_modal) == 781, f"{len(df_modal)}")
+        check("intermodal_cost", "covers optimal mode calculation", "FAIL", "optimal_mode" in df_modal.columns)
+
+    # Port Hinterland Gravity Model
+    hint_p = DATA_DIR / "analysis" / "district_port_hinterland_catchment.csv"
+    check("port_hinterland", "exists", "FAIL", hint_p.exists())
+    if hint_p.exists():
+        df_hint = pd.read_csv(hint_p)
+        check("port_hinterland", "has 781 districts", "FAIL", len(df_hint) == 781, f"{len(df_hint)}")
+        check("port_hinterland", "valid hinterland categories", "FAIL",
+              set(df_hint.hinterland_category.dropna().unique()) <= {"Captive Hinterland", "Dominant / Mildly Contested", "Highly Contested / Split Hinterland", "Island / Isolated", "Isolated"})
+
+    # Isochrones
+    iso_p = DATA_DIR / "analysis" / "major_ports_isochrones.geojson"
+    check("isochrones", "major ports isochrones exist", "FAIL", iso_p.exists())
+    if iso_p.exists():
+        gdf_iso = gpd.read_file(iso_p)
+        check("isochrones", "major ports isochrones valid geometries", "FAIL", bool(gdf_iso.geometry.is_valid.all()))
+        check("isochrones", ">= 40 port isochrone polygons", "FAIL", len(gdf_iso) >= 40, f"{len(gdf_iso)}")
+
 
 def audit_rail():
     print("\n== rail ==")
