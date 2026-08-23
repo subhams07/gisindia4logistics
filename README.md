@@ -1,12 +1,15 @@
 # GIS4Logistics — India
 
 [![CI](https://github.com/subhams07/GIS4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![User Manual](https://img.shields.io/badge/Documentation-User%20Manual-blue.svg)](docs/USER_MANUAL.md)
 
-Open, curated GIS data collection for logistics and transport analysis in India. Covers
+Open, curated GIS data collection and analytical platform for logistics and transport analysis in India. Covers
 administrative boundaries (India / state / district / taluka / village), roads by type,
-railways (stations, freight), logistics hubs (ports, ICDs, ICPs, air cargo) and
+railways (stations, freight, DFC), logistics hubs (ports, ICDs, ICPs, air cargo, MMLPs, cold chains, mandis) and
 demographic data — plus a village-to-facility **accessibility analysis** covering
-all 36 states/UTs.
+all 36 states/UTs and a **FastAPI / MCP Service Engine**.
+
+📖 **Read the Complete [User Manual & Developer Guide](docs/USER_MANUAL.md)** for detailed tutorials, Python code snippets, API reference, and desktop GIS guides.
 
 ![Accessibility](docs/img/accessibility_map.png)
 
