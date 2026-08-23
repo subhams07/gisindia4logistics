@@ -31,6 +31,8 @@ ANALYSIS_DIR = DATA_DIR / "analysis"
 PROJ = 7755  # India NSF LCC (metres)
 
 FACILITY_SOURCES = {
+    "nh": DATA_DIR / "roads" / "india_nh_network.geojson",
+    "expressway": DATA_DIR / "roads" / "india_nh_network.geojson",
     "rail_station": DATA_DIR / "rail" / "railway_stations.csv",
     "freight_terminal": DATA_DIR / "rail" / "freight_terminals.csv",
     "port": DATA_DIR / "logistics_hubs" / "ports.csv",
@@ -50,6 +52,8 @@ STATE_FILE_MAP = {
     "andhra pradesh": "andhra_pradesh",
 }
 
+_ROADS_CACHE: gpd.GeoDataFrame | None = None
+
 
 def villages_geojson_path(state: str):
     """Path to the SoI village file, or None if the state isn't published
@@ -61,20 +65,33 @@ def villages_geojson_path(state: str):
 
 
 def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:
+    global _ROADS_CACHE
     out = {}
     for kind in kinds:
         path = FACILITY_SOURCES[kind]
         if not path.exists():
             print(f"  skipping {kind} (no file: {path.name})")
             continue
-        df = pd.read_csv(path)
-        df = df[df["latitude"].notna() & df["longitude"].notna()]
-        # hub CSVs use `name`; the stations table uses `station_name`
-        label = "station_name" if "station_name" in df else "name"
-        df = df.rename(columns={label: "fac_name"})
-        gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df["longitude"], df["latitude"]), crs=4326)
-        if len(gdf):
-            out[kind] = gdf
+        if path.suffix == ".geojson":
+            if _ROADS_CACHE is None:
+                _ROADS_CACHE = gpd.read_file(path)
+            if kind == "nh":
+                gdf = _ROADS_CACHE.copy()
+                gdf["fac_name"] = gdf["nh"].fillna(gdf["name"]).fillna("NH")
+                out["nh"] = gdf
+            elif kind == "expressway":
+                exp = _ROADS_CACHE[_ROADS_CACHE["highway"] == "motorway"].copy()
+                exp["fac_name"] = exp["name"].fillna(exp["nh"]).fillna("Expressway")
+                out["expressway"] = exp
+        else:
+            df = pd.read_csv(path)
+            df = df[df["latitude"].notna() & df["longitude"].notna()]
+            # hub CSVs use `name`; the stations table uses `station_name`
+            label = "station_name" if "station_name" in df else "name"
+            df = df.rename(columns={label: "fac_name"})
+            gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df["longitude"], df["latitude"]), crs=4326)
+            if len(gdf):
+                out[kind] = gdf
     return out
 
 

@@ -179,6 +179,21 @@ def main() -> None:
         gdf["snap_dist_km"] = dists_m / 1000.0
         hubs_data[k] = gdf
 
+    # Add access-controlled expressways target layer
+    exp_gdf_raw = nh[nh.highway == "motorway"].copy()
+    exp_pts = []
+    for _, r in exp_gdf_raw.iterrows():
+        exp_name = str(r["name"]) if pd.notna(r["name"]) else ("NE " + str(r["nh"]) if pd.notna(r["nh"]) else "Expressway")
+        pt = r.geometry.interpolate(0.5, normalized=True)
+        exp_pts.append({"name": exp_name, "geometry": pt})
+    if exp_pts:
+        exp_gdf = gpd.GeoDataFrame(exp_pts, crs=PROJ)
+        pts = np.array([[pt.x, pt.y] for pt in exp_gdf.geometry])
+        dists_m, local_ids = main_kdtree.query(pts)
+        exp_gdf["node_id"] = main_node_indices[local_ids]
+        exp_gdf["snap_dist_km"] = dists_m / 1000.0
+        hubs_data["expressway"] = exp_gdf
+
     # 4. Compute Shortest Path Matrix from all 781 Districts
     print(f"\nComputing network shortest paths for {len(districts)} districts across all hubs...")
     t_calc = time.time()
@@ -288,12 +303,14 @@ def main() -> None:
     print("\n=== National Distance & Drive-Time Benchmarks (777 Mainland Districts) ===")
     valid = summary_df[~summary_df.is_island & summary_df.port_drive_time_hours.notna()]
     print(f"Mainland Districts analyzed: {len(valid)}/{len(summary_df)}")
-    print(f"1. Nearest Railway Station:        Straight: {valid.rail_station_straight_km.median():5.1f} km | Road: {valid.rail_station_road_distance_km.median():5.1f} km | Drive Time: {valid.rail_station_drive_time_hours.median():.2f} hrs ({valid.rail_station_drive_time_min.median():.0f} min)")
-    print(f"2. Nearest Freight Terminal (GCT): Straight: {valid.freight_terminal_straight_km.median():5.1f} km | Road: {valid.freight_terminal_road_distance_km.median():5.1f} km | Drive Time: {valid.freight_terminal_drive_time_hours.median():.2f} hrs ({valid.freight_terminal_drive_time_min.median():.0f} min)")
-    print(f"3. Nearest ICD / CFS:              Straight: {valid.icd_straight_km.median():5.1f} km | Road: {valid.icd_road_distance_km.median():5.1f} km | Drive Time: {valid.icd_drive_time_hours.median():.2f} hrs ({valid.icd_drive_time_min.median():.0f} min)")
-    print(f"4. Nearest MMLP:                   Straight: {valid.mmlp_straight_km.median():5.1f} km | Road: {valid.mmlp_road_distance_km.median():5.1f} km | Drive Time: {valid.mmlp_drive_time_hours.median():.2f} hrs ({valid.mmlp_drive_time_min.median():.0f} min)")
-    print(f"5. Nearest Air Cargo Airport:      Straight: {valid.air_cargo_straight_km.median():5.1f} km | Road: {valid.air_cargo_road_distance_km.median():5.1f} km | Drive Time: {valid.air_cargo_drive_time_hours.median():.2f} hrs ({valid.air_cargo_drive_time_min.median():.0f} min)")
-    print(f"6. Nearest Major / Sea Port:       Straight: {valid.port_straight_km.median():5.1f} km | Road: {valid.port_road_distance_km.median():5.1f} km | Drive Time: {valid.port_drive_time_hours.median():.2f} hrs ({valid.port_drive_time_min.median():.0f} min)")
+    print(f"1. Nearest National Highway (Access): Straight: {valid.highway_access_dist_km.median():5.1f} km | Drive Time: {valid.highway_access_time_min.median():.0f} min")
+    print(f"2. Nearest Expressway (Motorway):     Straight: {valid.expressway_straight_km.median():5.1f} km | Road: {valid.expressway_road_distance_km.median():5.1f} km | Drive Time: {valid.expressway_drive_time_hours.median():.2f} hrs ({valid.expressway_drive_time_min.median():.0f} min)")
+    print(f"3. Nearest Railway Station:           Straight: {valid.rail_station_straight_km.median():5.1f} km | Road: {valid.rail_station_road_distance_km.median():5.1f} km | Drive Time: {valid.rail_station_drive_time_hours.median():.2f} hrs ({valid.rail_station_drive_time_min.median():.0f} min)")
+    print(f"4. Nearest Freight Terminal (GCT):    Straight: {valid.freight_terminal_straight_km.median():5.1f} km | Road: {valid.freight_terminal_road_distance_km.median():5.1f} km | Drive Time: {valid.freight_terminal_drive_time_hours.median():.2f} hrs ({valid.freight_terminal_drive_time_min.median():.0f} min)")
+    print(f"5. Nearest ICD / CFS:                 Straight: {valid.icd_straight_km.median():5.1f} km | Road: {valid.icd_road_distance_km.median():5.1f} km | Drive Time: {valid.icd_drive_time_hours.median():.2f} hrs ({valid.icd_drive_time_min.median():.0f} min)")
+    print(f"6. Nearest MMLP:                      Straight: {valid.mmlp_straight_km.median():5.1f} km | Road: {valid.mmlp_road_distance_km.median():5.1f} km | Drive Time: {valid.mmlp_drive_time_hours.median():.2f} hrs ({valid.mmlp_drive_time_min.median():.0f} min)")
+    print(f"7. Nearest Air Cargo Airport:         Straight: {valid.air_cargo_straight_km.median():5.1f} km | Road: {valid.air_cargo_road_distance_km.median():5.1f} km | Drive Time: {valid.air_cargo_drive_time_hours.median():.2f} hrs ({valid.air_cargo_drive_time_min.median():.0f} min)")
+    print(f"8. Nearest Major / Sea Port:          Straight: {valid.port_straight_km.median():5.1f} km | Road: {valid.port_road_distance_km.median():5.1f} km | Drive Time: {valid.port_drive_time_hours.median():.2f} hrs ({valid.port_drive_time_min.median():.0f} min)")
     
     print(f"\nTotal pipeline execution time: {time.time()-t0:.1f}s")
 
