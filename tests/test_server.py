@@ -3,6 +3,7 @@ tests/test_server.py
 Comprehensive test suite for GIS4Logistics FastAPI Server and MCP Tools.
 """
 
+import json
 from fastapi.testclient import TestClient
 from server.app import app
 from mcp_server.server import handle_rpc_request
@@ -126,13 +127,28 @@ def test_port_gravity_simulation():
     assert 99.0 <= total_pct <= 101.0
 
 
+def test_villages_map_endpoints():
+    # 1. GeoJSON endpoint
+    res_geojson = client.get("/api/v1/admin/villages/geojson?state=Haryana&district=Ambala")
+    assert res_geojson.status_code == 200
+    gj = res_geojson.json()
+    assert gj["type"] == "FeatureCollection"
+    assert len(gj["features"]) > 100
+
+    # 2. Interactive HTML map endpoint
+    res_html = client.get("/api/v1/admin/villages/map.html?state=Haryana&district=Ambala&metric=dist_rail_station_km")
+    assert res_html.status_code == 200
+    assert "leaflet" in res_html.text.lower()
+    assert "AMBALA" in res_html.text
+
+
 def test_mcp_tools_rpc():
     # 1. tools/list
     req_list = {"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}
     res_list = handle_rpc_request(req_list)
     assert "result" in res_list
     tools = res_list["result"]["tools"]
-    assert len(tools) == 5
+    assert len(tools) == 6
 
     # 2. tools/call gis_get_district_scorecard
     req_call = {
@@ -148,3 +164,24 @@ def test_mcp_tools_rpc():
     assert "result" in res_call
     content = res_call["result"]["content"][0]["text"]
     assert "maharashtra" in content.lower()
+
+    # 3. tools/call gis_plot_villages_map
+    req_map = {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "tools/call",
+        "params": {
+            "name": "gis_plot_villages_map",
+            "arguments": {
+                "state": "Haryana",
+                "district": "Ambala",
+                "metric": "dist_rail_station_km",
+                "output_format": "html"
+            }
+        }
+    }
+    res_map = handle_rpc_request(req_map)
+    assert "result" in res_map
+    res_map_data = json.loads(res_map["result"]["content"][0]["text"])
+    assert res_map_data["status"] == "success"
+    assert res_map_data["villages_count"] > 100

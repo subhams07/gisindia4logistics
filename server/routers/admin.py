@@ -148,4 +148,38 @@ def query_villages(
         df = df[df.district.str.lower() == district.lower()]
 
     page = df.iloc[offset:offset+limit]
-    return page.to_dict(orient="records")
+    clean_page = page.where(pd.notna(page), None)
+    return clean_page.to_dict(orient="records")
+
+
+@router.get("/villages/geojson")
+def get_villages_geojson(
+    state: str = Query(..., description="State name, e.g. 'Haryana', 'Maharashtra'"),
+    district: str = Query(..., description="District name, e.g. 'Ambala', 'Pune'"),
+    store: DataStore = Depends(get_data_store)
+):
+    """Get GeoJSON FeatureCollection of all village polygons/points in a district with pre-joined accessibility metrics."""
+    from scripts.analyze.plot_villages import load_district_villages_gdf
+    try:
+        gdf = load_district_villages_gdf(state=state, district=district)
+        return gdf.__geo_interface__
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.get("/villages/map.html")
+def get_villages_interactive_map(
+    state: str = Query(..., description="State name, e.g. 'Haryana', 'Maharashtra'"),
+    district: str = Query(..., description="District name, e.g. 'Ambala', 'Pune'"),
+    metric: str = Query("dist_rail_station_km", description="Metric to visualize: dist_rail_station_km, dist_nh_km, dist_icd_km, dist_freight_terminal_km, dist_port_km, dist_toll_plaza_km"),
+    store: DataStore = Depends(get_data_store)
+):
+    """Renders a standalone, responsive Leaflet.js interactive choropleth map directly in the browser."""
+    from fastapi.responses import HTMLResponse
+    from scripts.analyze.plot_villages import load_district_villages_gdf, generate_leaflet_html
+    try:
+        gdf = load_district_villages_gdf(state=state, district=district)
+        html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
+        return HTMLResponse(content=html_code, status_code=200)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))

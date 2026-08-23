@@ -71,3 +71,14 @@ Use to simulate national port market shares under custom capacity or sensitivity
   "beta": 1.70
 }
 ```
+
+### 6. `gis_plot_villages_map`
+Use to generate an interactive Leaflet HTML or PNG choropleth map of all villages in a district:
+```json
+{
+  "state": "Haryana",
+  "district": "Ambala",
+  "metric": "dist_rail_station_km",
+  "output_format": "html"
+}
+```

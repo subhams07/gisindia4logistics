@@ -95,3 +95,43 @@ def tool_simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> Lis
     req = PortGravitySimulationRequest(alpha=alpha, beta=beta)
     res = simulate_port_gravity(req=req, store=store)
     return [item.model_dump() for item in res]
+
+
+def tool_plot_villages_map(
+    state: str,
+    district: str,
+    metric: str = "dist_rail_station_km",
+    output_format: str = "html"
+) -> Dict[str, Any]:
+    """
+    Generates an interactive Leaflet HTML map or high-resolution PNG map
+    displaying all villages in a district colored by accessibility metric.
+    """
+    from scripts.analyze.plot_villages import (
+        load_district_villages_gdf, generate_leaflet_html, plot_villages_static
+    )
+    from scripts.clean.standardize import DATA_DIR
+    
+    gdf = load_district_villages_gdf(state=state, district=district)
+    out_files = {}
+
+    if output_format in ["html", "both"]:
+        html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
+        html_p = DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.html"
+        with open(html_p, "w", encoding="utf-8") as f:
+            f.write(html_code)
+        out_files["html_map_path"] = str(html_p)
+
+    if output_format in ["png", "both"]:
+        png_p = DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.png"
+        plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=png_p)
+        out_files["png_map_path"] = str(png_p)
+
+    return {
+        "status": "success",
+        "state": state,
+        "district": district,
+        "villages_count": len(gdf),
+        "metric_plotted": metric,
+        "outputs": out_files
+    }

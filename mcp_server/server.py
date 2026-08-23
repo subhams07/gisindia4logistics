@@ -115,6 +115,26 @@ TOOLS_METADATA = [
                 "beta": {"type": "number", "description": "Highway drive-time distance decay friction exponent (default: 1.65)"}
             }
         }
+    },
+    {
+        "name": "gis_plot_villages_map",
+        "description": "Generates an interactive Leaflet HTML map or high-resolution PNG cartographic map of all villages in an Indian district, color-coded by accessibility metrics (railway, highway, ICD, port, or toll plaza proximity).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "state": {"type": "string", "description": "State name, e.g. 'Haryana', 'Maharashtra'"},
+                "district": {"type": "string", "description": "District name, e.g. 'Ambala', 'Pune'"},
+                "metric": {
+                    "type": "string",
+                    "description": "Accessibility metric: 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km', 'dist_freight_terminal_km', 'dist_port_km', 'dist_toll_plaza_km' (default: 'dist_rail_station_km')"
+                },
+                "output_format": {
+                    "type": "string",
+                    "description": "Output format: 'html', 'png', 'both' (default: 'html')"
+                }
+            },
+            "required": ["state", "district"]
+        }
     }
 ]
 
@@ -158,6 +178,14 @@ def handle_rpc_request(req: Dict[str, Any]) -> Dict[str, Any]:
                 res = tool_simulate_port_catchment(
                     alpha=float(args.get("alpha", 0.85)),
                     beta=float(args.get("beta", 1.65))
+                )
+            elif tool_name == "gis_plot_villages_map":
+                from mcp_server.tools import tool_plot_villages_map
+                res = tool_plot_villages_map(
+                    state=str(args["state"]),
+                    district=str(args["district"]),
+                    metric=str(args.get("metric", "dist_rail_station_km")),
+                    output_format=str(args.get("output_format", "html"))
                 )
             else:
                 return {
