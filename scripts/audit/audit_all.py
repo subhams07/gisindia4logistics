@@ -228,6 +228,8 @@ def audit_analysis():
     if nh_sum_p.exists():
         nh_sum = pd.read_csv(nh_sum_p)
         check("nh_analysis", "summary has 781 districts", "FAIL", len(nh_sum) == 781, f"{len(nh_sum)}")
+        check("nh_analysis", "summary covers rail stations & GCT terminals", "FAIL",
+              "rail_station_drive_time_hours" in nh_sum.columns and "freight_terminal_drive_time_hours" in nh_sum.columns)
         mainland = nh_sum[~nh_sum.is_island & nh_sum.port_drive_time_hours.notna()]
         check("nh_analysis", ">= 775 mainland districts connected", "FAIL", len(mainland) >= 775, f"{len(mainland)}")
         islands = nh_sum[nh_sum.is_island]

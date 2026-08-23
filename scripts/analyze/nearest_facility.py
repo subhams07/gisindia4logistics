@@ -32,6 +32,7 @@ PROJ = 7755  # India NSF LCC (metres)
 
 FACILITY_SOURCES = {
     "rail_station": DATA_DIR / "rail" / "railway_stations.csv",
+    "freight_terminal": DATA_DIR / "rail" / "freight_terminals.csv",
     "port": DATA_DIR / "logistics_hubs" / "ports.csv",
     "icd": DATA_DIR / "logistics_hubs" / "icds.csv",
     "icp": DATA_DIR / "logistics_hubs" / "icps.csv",
@@ -84,7 +85,7 @@ def main() -> None:
                     help="run for every state/UT (villages where available, "
                          "district centroids for the 9 states without village data)")
     ap.add_argument("--district", help="restrict analysis to one district")
-    ap.add_argument("--facilities", default="rail_station,icd,port,air_cargo,icp",
+    ap.add_argument("--facilities", default=",".join(FACILITY_SOURCES),
                     help=f"comma list from: {','.join(FACILITY_SOURCES)}")
     ap.add_argument("--thresholds", default="10,25,50",
                     help="catchment distances in km for share-below stats")

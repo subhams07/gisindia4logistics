@@ -155,19 +155,23 @@ def main() -> None:
         for _, r in p_df.iterrows():
             pop_map[(r["state"].strip().lower(), str(r["district"]).strip().lower())] = r["pop_2011"]
 
-    # 3. Load Hubs
+    # 3. Load Hubs & Railway Stations
     hub_files = {
-        "port": DATA_DIR / "logistics_hubs" / "ports.csv",
-        "icd": DATA_DIR / "logistics_hubs" / "icds.csv",
-        "mmlp": DATA_DIR / "logistics_hubs" / "mmlps.csv",
-        "air_cargo": DATA_DIR / "logistics_hubs" / "air_cargo.csv",
-        "icp": DATA_DIR / "logistics_hubs" / "icps.csv",
+        "rail_station": (DATA_DIR / "rail" / "railway_stations.csv", "station_name"),
+        "freight_terminal": (DATA_DIR / "rail" / "freight_terminals.csv", "terminal_name"),
+        "port": (DATA_DIR / "logistics_hubs" / "ports.csv", "name"),
+        "icd": (DATA_DIR / "logistics_hubs" / "icds.csv", "name"),
+        "mmlp": (DATA_DIR / "logistics_hubs" / "mmlps.csv", "name"),
+        "air_cargo": (DATA_DIR / "logistics_hubs" / "air_cargo.csv", "name"),
+        "icp": (DATA_DIR / "logistics_hubs" / "icps.csv", "name"),
     }
 
     hubs_data = {}
-    for k, p in hub_files.items():
+    for k, (p, name_col) in hub_files.items():
         df = pd.read_csv(p)
         df = df[df.latitude.notna() & df.longitude.notna()].copy()
+        if name_col != "name" and name_col in df.columns:
+            df["name"] = df[name_col]
         gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude), crs=4326).to_crs(PROJ)
         pts = np.array([[pt.x, pt.y] for pt in gdf.geometry])
         dists_m, local_ids = main_kdtree.query(pts)
@@ -208,12 +212,15 @@ def main() -> None:
             "highway_access_time_min": round(d_access_time_min, 1),
         }
 
+        d_pt = d_pts[i]
+
         for kind, h_gdf in hubs_data.items():
             if is_island:
                 row[f"nearest_{kind}_name"] = None
+                row[f"{kind}_straight_km"] = None
+                row[f"{kind}_road_distance_km"] = None
                 row[f"{kind}_drive_time_hours"] = None
                 row[f"{kind}_drive_time_min"] = None
-                row[f"{kind}_road_distance_km"] = None
                 continue
 
             h_nodes = h_gdf["node_id"].values
@@ -230,17 +237,21 @@ def main() -> None:
             best_idx = np.argmin(tot_times_min)
             best_time_min = tot_times_min[best_idx]
             best_dist_km = tot_dists_km[best_idx]
+            best_geom = h_gdf.geometry.iloc[best_idx]
+            straight_km = np.hypot(best_geom.x - d_pt[0], best_geom.y - d_pt[1]) / 1000.0
             
             if np.isinf(best_time_min):
                 row[f"nearest_{kind}_name"] = None
+                row[f"{kind}_straight_km"] = None
+                row[f"{kind}_road_distance_km"] = None
                 row[f"{kind}_drive_time_hours"] = None
                 row[f"{kind}_drive_time_min"] = None
-                row[f"{kind}_road_distance_km"] = None
             else:
                 row[f"nearest_{kind}_name"] = h_names[best_idx]
+                row[f"{kind}_straight_km"] = round(straight_km, 1)
+                row[f"{kind}_road_distance_km"] = round(best_dist_km, 1)
                 row[f"{kind}_drive_time_hours"] = round(best_time_min / 60.0, 2)
                 row[f"{kind}_drive_time_min"] = round(best_time_min, 0)
-                row[f"{kind}_road_distance_km"] = round(best_dist_km, 1)
 
         summary_rows.append(row)
 
@@ -274,13 +285,15 @@ def main() -> None:
     print(f"Wrote {len(matrix_df)} district-to-major-ports matrix -> {out_matrix}")
 
     # Validation and Benchmark Metrics
-    print("\n=== National Drive-Time Benchmarks ===")
+    print("\n=== National Distance & Drive-Time Benchmarks (777 Mainland Districts) ===")
     valid = summary_df[~summary_df.is_island & summary_df.port_drive_time_hours.notna()]
     print(f"Mainland Districts analyzed: {len(valid)}/{len(summary_df)}")
-    print(f"Median Drive-Time to Nearest Major/Key Port: {valid.port_drive_time_hours.median():.2f} hours ({valid.port_road_distance_km.median():.1f} km)")
-    print(f"Median Drive-Time to Nearest ICD: {valid.icd_drive_time_hours.median():.2f} hours ({valid.icd_road_distance_km.median():.1f} km)")
-    print(f"Median Drive-Time to Nearest MMLP: {valid.mmlp_drive_time_hours.median():.2f} hours ({valid.mmlp_road_distance_km.median():.1f} km)")
-    print(f"Median Drive-Time to Nearest Air Cargo: {valid.air_cargo_drive_time_hours.median():.2f} hours ({valid.air_cargo_road_distance_km.median():.1f} km)")
+    print(f"1. Nearest Railway Station:        Straight: {valid.rail_station_straight_km.median():5.1f} km | Road: {valid.rail_station_road_distance_km.median():5.1f} km | Drive Time: {valid.rail_station_drive_time_hours.median():.2f} hrs ({valid.rail_station_drive_time_min.median():.0f} min)")
+    print(f"2. Nearest Freight Terminal (GCT): Straight: {valid.freight_terminal_straight_km.median():5.1f} km | Road: {valid.freight_terminal_road_distance_km.median():5.1f} km | Drive Time: {valid.freight_terminal_drive_time_hours.median():.2f} hrs ({valid.freight_terminal_drive_time_min.median():.0f} min)")
+    print(f"3. Nearest ICD / CFS:              Straight: {valid.icd_straight_km.median():5.1f} km | Road: {valid.icd_road_distance_km.median():5.1f} km | Drive Time: {valid.icd_drive_time_hours.median():.2f} hrs ({valid.icd_drive_time_min.median():.0f} min)")
+    print(f"4. Nearest MMLP:                   Straight: {valid.mmlp_straight_km.median():5.1f} km | Road: {valid.mmlp_road_distance_km.median():5.1f} km | Drive Time: {valid.mmlp_drive_time_hours.median():.2f} hrs ({valid.mmlp_drive_time_min.median():.0f} min)")
+    print(f"5. Nearest Air Cargo Airport:      Straight: {valid.air_cargo_straight_km.median():5.1f} km | Road: {valid.air_cargo_road_distance_km.median():5.1f} km | Drive Time: {valid.air_cargo_drive_time_hours.median():.2f} hrs ({valid.air_cargo_drive_time_min.median():.0f} min)")
+    print(f"6. Nearest Major / Sea Port:       Straight: {valid.port_straight_km.median():5.1f} km | Road: {valid.port_road_distance_km.median():5.1f} km | Drive Time: {valid.port_drive_time_hours.median():.2f} hrs ({valid.port_drive_time_min.median():.0f} min)")
     
     print(f"\nTotal pipeline execution time: {time.time()-t0:.1f}s")
 
