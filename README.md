@@ -1,6 +1,6 @@
 # GISIndia4Logistics
 
-[![CI](https://github.com/subhams07/GIS4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![CI](https://github.com/subhams07/gisindia4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![User Manual](https://img.shields.io/badge/Documentation-User%20Manual-blue.svg)](docs/USER_MANUAL.md)
 [![Python Package](https://img.shields.io/badge/Package-gisindia4logistics-green.svg)](pyproject.toml)
 

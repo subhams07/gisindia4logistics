@@ -51,8 +51,8 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
 ### Step-by-Step Setup
 ```bash
 # 1. Clone the repository
-git clone https://github.com/subhams07/GIS4logistics.git
-cd GIS4logistics
+git clone https://github.com/subhams07/gisindia4logistics.git
+cd gisindia4logistics
 
 # 2. Create and activate a virtual environment
 python -m venv venv

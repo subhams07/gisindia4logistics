@@ -53,10 +53,10 @@ gisindia4logistics = "gisindia4logistics.cli:main"
 gis4logistics = "gisindia4logistics.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/subhams07/GIS4logistics"
-Documentation = "https://github.com/subhams07/GIS4logistics/blob/main/docs/USER_MANUAL.md"
-Repository = "https://github.com/subhams07/GIS4logistics.git"
-"Bug Tracker" = "https://github.com/subhams07/GIS4logistics/issues"
+Homepage = "https://github.com/subhams07/gisindia4logistics"
+Documentation = "https://github.com/subhams07/gisindia4logistics/blob/main/docs/USER_MANUAL.md"
+Repository = "https://github.com/subhams07/gisindia4logistics.git"
+"Bug Tracker" = "https://github.com/subhams07/gisindia4logistics/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
