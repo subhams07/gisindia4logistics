@@ -61,13 +61,15 @@ python -m venv venv
 # On Linux/macOS:
 source venv/bin/activate
 
-# 3. Install dependencies
+# 3. Install dependencies & package in editable mode
 pip install -r requirements.txt
+pip install -e .
 
 # 4. Verify system integrity (80 automated checks)
 python scripts/audit/audit_all.py --fast
 
-# 5. Run the server and MCP verification test suite (12 tests)
+# 5. Run Python SDK and server verification test suites
+python tests/test_package.py
 python tests/test_server.py
 ```
 

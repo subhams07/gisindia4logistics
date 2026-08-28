@@ -1,3 +1,46 @@
+Metadata-Version: 2.4
+Name: gis4logistics
+Version: 1.0.0
+Summary: Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India
+Author-email: GIS4Logistics Contributors <info@gis4logistics.org>
+License: MIT
+Project-URL: Homepage, https://github.com/subhams07/GIS4logistics
+Project-URL: Documentation, https://github.com/subhams07/GIS4logistics/blob/main/docs/USER_MANUAL.md
+Project-URL: Repository, https://github.com/subhams07/GIS4logistics.git
+Project-URL: Bug Tracker, https://github.com/subhams07/GIS4logistics/issues
+Keywords: gis,logistics,india,freight,routing,geopandas,mcp,fastapi,geoparquet
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: GIS
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: geopandas>=0.14.0
+Requires-Dist: shapely>=2.0.0
+Requires-Dist: pyproj>=3.6.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pyarrow>=14.0.0
+Requires-Dist: scipy>=1.11.0
+Requires-Dist: fastapi>=0.110.0
+Requires-Dist: uvicorn>=0.28.0
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: mapclassify>=2.6.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: httpx>=0.24.0; extra == "dev"
+Dynamic: license-file
+
 # GIS4Logistics — India
 
 [![CI](https://github.com/subhams07/GIS4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
@@ -22,46 +65,6 @@ subdists  = gpd.read_file("data/administrative/india_subdistricts_lgd.gpkg")   #
 villages  = gpd.read_file("data/administrative/villages/sikkim_soi_villages.geojson")
 access    = pd.read_csv("data/analysis/india_district_access_summary.csv")     # 817 rows (all 36 states)
 travel    = pd.read_csv("data/analysis/nh_district_travel_time_summary.csv")   # 781-district highway matrix
-```
-
-## Python SDK & CLI Package
-
-Install locally in editable mode:
-```bash
-pip install -e .
-```
-
-### Python SDK (`import gis4logistics as gis`)
-```python
-import gis4logistics as gis
-
-# 1. District logistics scorecard & demographics
-pune = gis.get_district("Pune")
-print(pune["nearest_highway_km"], pune["nearest_port"]["name"])
-
-# 2. Highway shortest-path routing & FASTag tolls
-route = gis.route_highway(origin=(18.5204, 73.8567), destination=(18.9500, 72.9500))
-print(f"{route['distance_km']} km | {route['drive_time_formatted']} | Toll: ₹{route['estimated_toll_cost_inr']}")
-
-# 3. Multimodal freight cost optimization (Road vs Rail vs DFC)
-cost = gis.calculate_freight_cost("Indore", payload_tons=24.0, road_linehaul_rate=3.80)
-print(f"Optimal Mode: {cost['optimal_mode']} | Savings: {cost['modal_shift_savings_pct']:.1f}%")
-
-# 4. Nearest logistics infrastructure (KDTree)
-nearest = gis.find_nearest(latitude=28.6139, longitude=77.2090, top_k=3)
-```
-
-### Command-Line Interface (`gis4logistics`)
-```bash
-# Route & Toll calculation
-gis4logistics route --origin 18.5204,73.8567 --dest 18.9500,72.9500 --vehicle MAV_20T
-
-# Multimodal freight cost optimization
-gis4logistics cost --origin Indore --payload 24.0 --road-rate 3.80
-
-# Start REST API or MCP Server
-gis4logistics serve --port 8000
-gis4logistics mcp
 ```
 
 ## Data catalog
