@@ -1,0 +1,3 @@
+[console_scripts]
+gis4logistics = gisindia4logistics.cli:main
+gisindia4logistics = gisindia4logistics.cli:main

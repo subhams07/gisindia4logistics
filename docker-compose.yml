@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  gis4logistics-api:
+  gisindia4logistics-api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: gis4logistics-api-server
+    container_name: gisindia4logistics-api-server
     ports:
       - "8000:8000"
     environment:

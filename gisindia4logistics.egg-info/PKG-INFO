@@ -1,3 +1,46 @@
+Metadata-Version: 2.4
+Name: gisindia4logistics
+Version: 1.0.0
+Summary: GISIndia4Logistics — Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India
+Author-email: GISIndia4Logistics Contributors <info@gisindia4logistics.org>
+License: MIT
+Project-URL: Homepage, https://github.com/subhams07/GIS4logistics
+Project-URL: Documentation, https://github.com/subhams07/GIS4logistics/blob/main/docs/USER_MANUAL.md
+Project-URL: Repository, https://github.com/subhams07/GIS4logistics.git
+Project-URL: Bug Tracker, https://github.com/subhams07/GIS4logistics/issues
+Keywords: gis,logistics,india,freight,routing,geopandas,mcp,fastapi,geoparquet,gisindia4logistics
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: GIS
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: geopandas>=0.14.0
+Requires-Dist: shapely>=2.0.0
+Requires-Dist: pyproj>=3.6.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pyarrow>=14.0.0
+Requires-Dist: scipy>=1.11.0
+Requires-Dist: fastapi>=0.110.0
+Requires-Dist: uvicorn>=0.28.0
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: mapclassify>=2.6.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: httpx>=0.24.0; extra == "dev"
+Dynamic: license-file
+
 # GISIndia4Logistics
 
 [![CI](https://github.com/subhams07/GIS4logistics/actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)

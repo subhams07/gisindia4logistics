@@ -3,15 +3,15 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gis4logistics"
+name = "gisindia4logistics"
 version = "1.0.0"
-description = "Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India"
+description = "GISIndia4Logistics — Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India"
 readme = "README.md"
 authors = [
-    { name = "GIS4Logistics Contributors", email = "info@gis4logistics.org" }
+    { name = "GISIndia4Logistics Contributors", email = "info@gisindia4logistics.org" }
 ]
 license = { text = "MIT" }
-keywords = ["gis", "logistics", "india", "freight", "routing", "geopandas", "mcp", "fastapi", "geoparquet"]
+keywords = ["gis", "logistics", "india", "freight", "routing", "geopandas", "mcp", "fastapi", "geoparquet", "gisindia4logistics"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -49,7 +49,8 @@ dev = [
 ]
 
 [project.scripts]
-gis4logistics = "gis4logistics.cli:main"
+gisindia4logistics = "gisindia4logistics.cli:main"
+gis4logistics = "gisindia4logistics.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/subhams07/GIS4logistics"
@@ -59,7 +60,7 @@ Repository = "https://github.com/subhams07/GIS4logistics.git"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["gis4logistics*", "server*", "mcp_server*", "scripts*"]
+include = ["gisindia4logistics*", "gis4logistics*", "server*", "mcp_server*", "scripts*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.json", "*.geojson", "*.parquet", "*.csv", "*.gpkg", "*.yaml", "*.yml"]

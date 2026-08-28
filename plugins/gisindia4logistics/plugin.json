@@ -1,0 +1,16 @@
+{
+  "name": "gisindia4logistics",
+  "version": "1.0.0",
+  "description": "GISIndia4Logistics — Open Geospatial & Multimodal Freight Intelligence Plugin for Antigravity, Codex, and Claude",
+  "author": "GISIndia4Logistics",
+  "homepage": "https://github.com/subhams07/GIS4logistics",
+  "skills": [
+    "skills/gisindia4logistics"
+  ],
+  "mcpServers": {
+    "gisindia4logistics": {
+      "command": "python",
+      "args": ["-m", "mcp_server.server"]
+    }
+  }
+}

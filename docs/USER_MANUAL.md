@@ -1,6 +1,6 @@
-# GIS4Logistics India — Complete User Manual
+# GISIndia4Logistics — Complete User Manual
 
-Welcome to **GIS4Logistics India**, an open, standardized geospatial data collection and analytical platform engineered for freight, supply chain, and spatial infrastructure analysis in India.
+Welcome to **GISIndia4Logistics**, an open, standardized geospatial data collection and analytical platform engineered for freight, supply chain, and spatial infrastructure analysis in India.
 
 This manual provides end-to-end guidance for data scientists, logistics professionals, software engineers, and AI developers.
 
