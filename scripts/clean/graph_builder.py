@@ -23,7 +23,7 @@ DEFAULT_SPEED = 50.0
 BRIDGE_SPEED = 35.0
 BRIDGE_MAX_METERS = 350.0
 SNAP_GRID_METERS = 15.0
-CACHE_VERSION = 4
+CACHE_VERSION = 5
 
 
 def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, float]:
@@ -68,7 +68,7 @@ def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
 
 def build_canonical_highway_graph(
     nh_gdf: gpd.GeoDataFrame,
-) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
+) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree, sp.csr_matrix]:
     """
     Constructs the canonical National Highway routing graph in EPSG:7755.
 
@@ -78,6 +78,7 @@ def build_canonical_highway_graph(
         coords_arr: (N, 2) numpy array of vertex coordinates in EPSG:7755
         labels: (N,) numpy array of connected component IDs
         tree: KDTree built on coords_arr
+        bridge_mask: (N, N) csr_matrix with 1 for synthetic junction bridge edges, 0 for physical edges
     """
     node_map: Dict[Tuple[float, float], int] = {}
     node_coords: List[Tuple[float, float]] = []
@@ -127,6 +128,7 @@ def build_canonical_highway_graph(
     endpoint_indices = list(linestring_endpoints)
     endpoint_coords = coords_arr[endpoint_indices]
 
+    bridge_edges_set: set = set()
     if len(endpoint_coords) > 0:
         ep_tree = KDTree(endpoint_coords)
         ep_pairs = ep_tree.query_pairs(r=BRIDGE_MAX_METERS)
@@ -139,26 +141,29 @@ def build_canonical_highway_graph(
                 for edge in [(u, v), (v, u)]:
                     if edge not in edges_dict:
                         edges_dict[edge] = (t_hrs, d_m)
+                        bridge_edges_set.add(edge)
 
     N = len(node_coords)
     rows = [e[0] for e in edges_dict]
     cols = [e[1] for e in edges_dict]
     time_data = [v[0] for v in edges_dict.values()]
     dist_data = [v[1] / 1000.0 for v in edges_dict.values()]
+    bridge_data = [1 if e in bridge_edges_set else 0 for e in edges_dict]
 
     graph_time = sp.csr_matrix((time_data, (rows, cols)), shape=(N, N), dtype=np.float64)
     graph_dist = sp.csr_matrix((dist_data, (rows, cols)), shape=(N, N), dtype=np.float64)
+    bridge_mask = sp.csr_matrix((bridge_data, (rows, cols)), shape=(N, N), dtype=np.int8)
 
     _, labels = connected_components(graph_time, directed=False)
     tree = KDTree(coords_arr)
 
-    return graph_time, graph_dist, coords_arr, labels, tree
+    return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask
 
 
 def load_or_build_cached_graph(
     nh_gdf: gpd.GeoDataFrame,
     cache_dir: Optional[Path] = None,
-) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
+) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree, sp.csr_matrix]:
     """Loads precomputed graph from disk cache with fingerprint validation or builds and caches it."""
     expected_meta = compute_graph_fingerprint(nh_gdf)
 
@@ -167,10 +172,9 @@ def load_or_build_cached_graph(
         if cache_file.exists():
             try:
                 with np.load(cache_file, allow_pickle=False) as data:
-                    # Verify fingerprint metadata stored as UTF-8 string array
                     meta_json = str(data["metadata"][0]) if "metadata" in data else "{}"
                     stored_meta = json.loads(meta_json)
-                    if stored_meta == expected_meta:
+                    if stored_meta == expected_meta and "bridge_data" in data:
                         N = int(data["N"])
                         graph_time = sp.csr_matrix(
                             (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
@@ -178,17 +182,20 @@ def load_or_build_cached_graph(
                         graph_dist = sp.csr_matrix(
                             (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
                         )
+                        bridge_mask = sp.csr_matrix(
+                            (data["bridge_data"], data["bridge_indices"], data["bridge_indptr"]), shape=(N, N)
+                        )
                         coords_arr = np.copy(data["coords_arr"])
                         labels = np.copy(data["labels"])
                         tree = KDTree(coords_arr)
-                        return graph_time, graph_dist, coords_arr, labels, tree
+                        return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask
                     else:
                         LOGGER.info("Graph cache fingerprint mismatch; rebuilding canonical highway graph.")
             except Exception as e:
                 LOGGER.warning("Could not load graph cache (%s); rebuilding.", e)
 
     # Build graph
-    graph_time, graph_dist, coords_arr, labels, tree = build_canonical_highway_graph(nh_gdf)
+    graph_time, graph_dist, coords_arr, labels, tree, bridge_mask = build_canonical_highway_graph(nh_gdf)
 
     # Save cache safely using allow_pickle=False compatible string array
     if cache_dir is not None:
@@ -204,6 +211,9 @@ def load_or_build_cached_graph(
                 dist_data=graph_dist.data,
                 dist_indices=graph_dist.indices,
                 dist_indptr=graph_dist.indptr,
+                bridge_data=bridge_mask.data,
+                bridge_indices=bridge_mask.indices,
+                bridge_indptr=bridge_mask.indptr,
                 coords_arr=coords_arr,
                 labels=labels,
                 metadata=np.array([json.dumps(expected_meta)], dtype=np.str_),
@@ -211,4 +221,4 @@ def load_or_build_cached_graph(
         except (OSError, PermissionError) as e:
             LOGGER.warning("Could not write graph cache to %s (%s); running in-memory.", cache_dir, e)
 
-    return graph_time, graph_dist, coords_arr, labels, tree
+    return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask

@@ -43,16 +43,18 @@ def test_unchanged_graph_loads_cached_result(tmp_path: Path, sample_nh_gdf: gpd.
     assert not cache_file.exists()
 
     # 1. Cold build
-    gt1, gd1, coords1, labels1, tree1 = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
+    gt1, gd1, coords1, labels1, tree1, bm1 = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
     assert cache_file.exists()
     assert gt1.shape[0] > 0
+    assert bm1.shape == gt1.shape
 
     # 2. Warm load
-    gt2, gd2, coords2, labels2, tree2 = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
+    gt2, gd2, coords2, labels2, tree2, bm2 = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
     assert gt2.shape == gt1.shape
     assert gt2.nnz == gt1.nnz
     assert np.array_equal(coords1, coords2)
     assert np.array_equal(labels1, labels2)
+    assert bm2.nnz == bm1.nnz
 
 
 def test_cache_metadata_is_pickle_free(tmp_path: Path, sample_nh_gdf: gpd.GeoDataFrame):
@@ -122,6 +124,9 @@ def test_cache_version_change_invalidates_cache(tmp_path: Path, sample_nh_gdf: g
             dist_data=data["dist_data"],
             dist_indices=data["dist_indices"],
             dist_indptr=data["dist_indptr"],
+            bridge_data=data["bridge_data"],
+            bridge_indices=data["bridge_indices"],
+            bridge_indptr=data["bridge_indptr"],
             coords_arr=data["coords_arr"],
             labels=data["labels"],
             metadata=np.array([json.dumps(meta)], dtype=np.str_),
@@ -140,6 +145,7 @@ def test_corrupted_cache_rebuilds_safely(tmp_path: Path, sample_nh_gdf: gpd.GeoD
     cache_file.write_bytes(b"corrupted binary noise")
 
     # Should log warning and rebuild cleanly
-    gt, gd, coords, labels, tree = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
+    gt, gd, coords, labels, tree, bm = load_or_build_cached_graph(sample_nh_gdf, cache_dir=tmp_path)
     assert gt.shape[0] > 0
+    assert bm.shape == gt.shape
     assert cache_file.stat().st_size > 100
