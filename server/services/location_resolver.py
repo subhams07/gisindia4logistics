@@ -6,7 +6,8 @@ Resolves CoordinateLocation, DistrictLocation, and HubLocation into canonical Re
 
 import logging
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+import re
+from typing import Optional, Dict, Any, Tuple
 import pandas as pd
 import yaml
 
@@ -36,7 +37,10 @@ class LocationResolver:
 
     def __init__(self, aliases_path: Path = ALIASES_PATH):
         self.aliases_path = aliases_path
-        self._aliases: Dict[str, Dict[str, Any]] = self._load_aliases()
+        self._aliases, self._aliases_by_code = self._load_aliases()
+        self._district_centroids: Dict[Tuple[str, str], Tuple[float, float]] = {}
+        self._unique_code_centroids: Dict[int, Tuple[float, float]] = {}
+        self._centroids_initialized = False
 
     @classmethod
     def get_instance(cls, aliases_path: Path = ALIASES_PATH) -> "LocationResolver":
@@ -44,17 +48,56 @@ class LocationResolver:
             cls._instance = cls(aliases_path=aliases_path)
         return cls._instance
 
-    def _load_aliases(self) -> Dict[str, Dict[str, Any]]:
+    def _load_aliases(self) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+        by_name: Dict[str, Dict[str, Any]] = {}
+        by_code: Dict[str, Dict[str, Any]] = {}
         if self.aliases_path.exists():
             try:
                 with open(self.aliases_path, "r", encoding="utf-8") as f:
                     data = yaml.safe_load(f)
                     if isinstance(data, dict):
-                        # Normalize keys to lower-case for case-insensitive lookup
-                        return {str(k).strip().lower(): v for k, v in data.items() if isinstance(v, dict)}
+                        for k, v in data.items():
+                            if isinstance(v, dict):
+                                norm_k = str(k).strip().lower()
+                                by_name[norm_k] = v
+                                if "code" in v and v["code"]:
+                                    code_k = str(v["code"]).strip().lower()
+                                    by_code[code_k] = v
             except Exception as e:
                 LOGGER.warning("Failed to load location aliases from %s: %s", self.aliases_path, e)
-        return {}
+        return by_name, by_code
+
+    def _ensure_centroids_initialized(self):
+        if self._centroids_initialized:
+            return
+        dist_path = REPO_ROOT / "data" / "administrative" / "india_districts_lgd.geojson"
+        if dist_path.exists():
+            try:
+                import geopandas as gpd
+                gdf = gpd.read_file(dist_path)
+                # Compute projected centroids in EPSG:7755 then reproject to EPSG:4326
+                gdf_proj = gdf.to_crs(7755)
+                reps_4326 = gdf_proj.geometry.representative_point().to_crs(4326)
+
+                code_counts = gdf["district_code"].value_counts().to_dict()
+
+                for idx, row in gdf.iterrows():
+                    rep_pt = reps_4326.iloc[idx]
+                    lat, lon = round(float(rep_pt.y), 5), round(float(rep_pt.x), 5)
+                    st = str(row.get("state", "")).strip().lower()
+                    dt = str(row.get("district", "")).strip().lower()
+                    self._district_centroids[(st, dt)] = (lat, lon)
+
+                    if pd.notna(row.get("district_code")):
+                        try:
+                            d_code = int(row["district_code"])
+                            if code_counts.get(row["district_code"], 0) == 1:
+                                self._unique_code_centroids[d_code] = (lat, lon)
+                        except Exception:
+                            pass
+            except Exception as e:
+                LOGGER.warning("Could not pre-calculate projected district centroids: %s", e)
+        self._centroids_initialized = True
 
     def resolve(self, loc: LocationReference, store: DataStore) -> ResolvedLocation:
         """
@@ -71,7 +114,6 @@ class LocationResolver:
             raise InvalidLocationError(f"Unsupported location reference type: {type(loc)}")
 
     def _resolve_coordinate(self, loc: CoordinateLocation, store: DataStore) -> ResolvedLocation:
-        # Validate coordinates bounds
         if not (-90.0 <= loc.latitude <= 90.0 and -180.0 <= loc.longitude <= 180.0):
             raise InvalidLocationError(f"Coordinates ({loc.latitude}, {loc.longitude}) are out of valid geographic range")
 
@@ -97,20 +139,45 @@ class LocationResolver:
         # 1. Match by official integer district_code (LGD)
         if loc.district_code is not None:
             match_code = df[df.district_code == loc.district_code]
-            if not match_code.empty:
-                # If state was also specified, verify match
-                if loc.state:
-                    st_match = match_code[match_code.state.str.lower() == loc.state.strip().lower()]
-                    if not st_match.empty:
-                        row = st_match.iloc[0]
-                        return self._build_district_resolved(row, match_method="exact_code")
-                else:
-                    row = match_code.iloc[0]
-                    return self._build_district_resolved(row, match_method="exact_code")
+            if match_code.empty:
+                raise LocationNotFoundError(
+                    f"District code {loc.district_code} not found in official LGD register",
+                    location_query={"district_code": loc.district_code, "state": loc.state}
+                )
 
-            raise LocationNotFoundError(
-                f"District code {loc.district_code} not found in official LGD register",
-                location_query={"district_code": loc.district_code, "state": loc.state}
+            if len(match_code) == 1:
+                row = match_code.iloc[0]
+                if loc.state:
+                    if str(row["state"]).strip().lower() != loc.state.strip().lower():
+                        raise LocationNotFoundError(
+                            f"District code {loc.district_code} belongs to '{row['state']}', not specified state '{loc.state}'",
+                            location_query={"district_code": loc.district_code, "state": loc.state}
+                        )
+                return self._build_district_resolved(row, match_method="exact_code")
+
+            # Duplicate code exists across multiple states (e.g. 598 in Kerala & Maharashtra)
+            if loc.state:
+                st_match = match_code[match_code.state.str.lower() == loc.state.strip().lower()]
+                if not st_match.empty:
+                    return self._build_district_resolved(st_match.iloc[0], match_method="exact_code")
+                raise LocationNotFoundError(
+                    f"District code {loc.district_code} does not belong to state '{loc.state}'",
+                    location_query={"district_code": loc.district_code, "state": loc.state}
+                )
+
+            # Ambiguous duplicate code without state specified
+            candidates = [
+                {
+                    "district": r["district"],
+                    "state": r["state"],
+                    "district_code": int(r["district_code"])
+                }
+                for _, r in match_code.iterrows()
+            ]
+            states_list = ", ".join(f"'{c['state']}'" for c in candidates)
+            raise AmbiguousLocationError(
+                f"District code {loc.district_code} is shared across {len(candidates)} states ({states_list}). Please specify the state name.",
+                candidates=candidates
             )
 
         # 2. Match by exact district name + state
@@ -125,9 +192,12 @@ class LocationResolver:
             if not exact_match.empty:
                 return self._build_district_resolved(exact_match.iloc[0], match_method="exact_name")
 
-            # Try clean strip without special chars
-            clean_match = df[(df.district.str.lower().str.replace(r"[^\w\s]", "", regex=True) == d_name.lower().replace(r"[^\w\s]", "")) & 
-                             (df.state.str.lower() == st_name.lower())]
+            # Try regex clean strip of punctuation
+            clean_d = re.sub(r"[^\w\s]", "", d_name.lower())
+            clean_match = df[
+                (df.district.str.lower().apply(lambda x: re.sub(r"[^\w\s]", "", str(x))) == clean_d)
+                & (df.state.str.lower() == st_name.lower())
+            ]
             if not clean_match.empty:
                 return self._build_district_resolved(clean_match.iloc[0], match_method="exact_name")
 
@@ -162,41 +232,27 @@ class LocationResolver:
             location_query={"district": d_name}
         )
 
-    def _get_district_centroid(self, d_code: Any, state: str, district: str) -> tuple[float, float]:
-        """Looks up or computes the centroid coordinates for a district."""
-        if not hasattr(self, "_district_centroids"):
-            self._district_centroids: Dict[Any, tuple[float, float]] = {}
-            dist_path = REPO_ROOT / "data" / "administrative" / "india_districts_lgd.geojson"
-            if dist_path.exists():
-                try:
-                    import geopandas as gpd
-                    gdf = gpd.read_file(dist_path)
-                    for _, row in gdf.iterrows():
-                        centroid = row.geometry.centroid
-                        lat, lon = round(float(centroid.y), 5), round(float(centroid.x), 5)
-                        if pd.notna(row.get("district_code")):
-                            self._district_centroids[int(row["district_code"])] = (lat, lon)
-                        st = str(row.get("state", "")).strip().lower()
-                        dt = str(row.get("district", "")).strip().lower()
-                        self._district_centroids[(st, dt)] = (lat, lon)
-                except Exception as e:
-                    LOGGER.warning("Could not pre-calculate district centroids: %s", e)
+    def _get_district_centroid(self, d_code: Any, state: str, district: str) -> Tuple[float, float]:
+        """Looks up representative point coordinates for a district."""
+        self._ensure_centroids_initialized()
 
-        # 1. By code
-        if pd.notna(d_code):
-            try:
-                code_int = int(d_code)
-                if code_int in self._district_centroids:
-                    return self._district_centroids[code_int]
-            except Exception:
-                pass
-
-        # 2. By state + district
+        # 1. Primary lookup by (state, district)
         key = (str(state).strip().lower(), str(district).strip().lower())
         if key in self._district_centroids:
             return self._district_centroids[key]
 
-        return 20.5937, 78.9629
+        # 2. Secondary lookup by unique district code
+        if pd.notna(d_code):
+            try:
+                code_int = int(d_code)
+                if code_int in self._unique_code_centroids:
+                    return self._unique_code_centroids[code_int]
+            except Exception:
+                pass
+
+        raise LocationNotFoundError(
+            f"Representative coordinates for district '{district}', state '{state}' could not be resolved from boundary layer"
+        )
 
     def _build_district_resolved(self, row: pd.Series, match_method: str) -> ResolvedLocation:
         d_name = str(row["district"]).strip()
@@ -229,27 +285,38 @@ class LocationResolver:
 
         # 1. If explicit code is provided, try exact code lookup first
         if query_code:
-            hub_res = self._find_hub_in_store(name="", code=query_code, hub_type=loc.hub_type, store=store)
+            hub_res = self._find_hub_by_code(code=query_code, hub_type=loc.hub_type, store=store)
             if hub_res is not None:
                 return hub_res
 
         # 2. Check explicit alias registry
         alias_key = (query_name or query_code).lower()
+        alias_entry = None
         if alias_key in self._aliases:
             alias_entry = self._aliases[alias_key]
+        elif query_code and query_code.lower() in self._aliases_by_code:
+            alias_entry = self._aliases_by_code[query_code.lower()]
+
+        if alias_entry:
             alias_type = alias_entry.get("type")
+            # Strict alias type enforcement
+            if alias_type and alias_type != loc.hub_type:
+                raise InvalidLocationError(
+                    f"Alias '{query_name or query_code}' refers to category '{alias_type}', not requested category '{loc.hub_type}'"
+                )
+
             canonical_name = alias_entry.get("canonical_name", query_name)
             hub_res = self._find_hub_in_store(
                 name=canonical_name,
                 code=alias_entry.get("code") or query_code,
-                hub_type=alias_type or loc.hub_type,
+                hub_type=loc.hub_type,
                 store=store
             )
             if hub_res is not None:
                 hub_res.match_method = "alias_lookup"
                 return hub_res
 
-        # 3. Search directly in DataStore by name
+        # 3. Search directly in DataStore by exact name
         if query_name:
             hub_res = self._find_hub_in_store(name=query_name, code="", hub_type=loc.hub_type, store=store)
             if hub_res is not None:
@@ -261,6 +328,39 @@ class LocationResolver:
             location_query={"hub_type": loc.hub_type, "name": query_name, "code": query_code}
         )
 
+    def _find_hub_by_code(self, code: str, hub_type: str, store: DataStore) -> Optional[ResolvedLocation]:
+        norm_code = code.strip().upper()
+
+        # Rail station code lookup
+        if hub_type == "rail_station" and store.rail_stations_df is not None:
+            df = store.rail_stations_df
+            match = df[df.station_code.astype(str).str.upper() == norm_code]
+            if not match.empty:
+                r = match.iloc[0]
+                st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
+                return ResolvedLocation(
+                    type="hub",
+                    canonical_name=f"{r.get('station_name', code)} ({r.get('station_code', code)})",
+                    state=st_val,
+                    district=None,
+                    district_code=int(r["district_code"]) if "district_code" in r and pd.notna(r["district_code"]) else None,
+                    latitude=float(r["latitude"]),
+                    longitude=float(r["longitude"]),
+                    source_dataset="railway_stations.csv",
+                    match_method="exact_code",
+                )
+
+        # Reverse alias code lookup for ports/icds
+        if code.lower() in self._aliases_by_code:
+            entry = self._aliases_by_code[code.lower()]
+            if entry.get("type") == hub_type:
+                res = self._find_hub_in_store(name=entry.get("canonical_name", ""), code=norm_code, hub_type=hub_type, store=store)
+                if res:
+                    res.match_method = "exact_code"
+                    return res
+
+        return None
+
     def _find_hub_in_store(
         self,
         name: str,
@@ -268,37 +368,38 @@ class LocationResolver:
         hub_type: str,
         store: DataStore
     ) -> Optional[ResolvedLocation]:
-        # Handle rail_station separately
+        norm_name = name.strip().lower() if name else ""
+        norm_code = code.strip().upper() if code else ""
+
+        # 1. Rail Stations
         if hub_type == "rail_station" and store.rail_stations_df is not None:
             df = store.rail_stations_df
-            if code:
-                match = df[df.station_code.astype(str).str.upper() == code.upper()]
+            if norm_code:
+                match = df[df.station_code.astype(str).str.upper() == norm_code]
                 if not match.empty:
                     r = match.iloc[0]
                     st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
-                    dt_val = str(r["district"]).strip() if pd.notna(r.get("district")) and str(r.get("district")).strip().lower() != "nan" else None
                     return ResolvedLocation(
                         type="hub",
                         canonical_name=f"{r.get('station_name', code)} ({r.get('station_code', code)})",
                         state=st_val,
-                        district=dt_val,
+                        district=None,
                         district_code=int(r["district_code"]) if "district_code" in r and pd.notna(r["district_code"]) else None,
                         latitude=float(r["latitude"]),
                         longitude=float(r["longitude"]),
                         source_dataset="railway_stations.csv",
                         match_method="exact_code",
                     )
-            if name:
-                match = df[df.station_name.astype(str).str.lower() == name.lower()]
+            if norm_name:
+                match = df[df.station_name.astype(str).str.lower() == norm_name]
                 if not match.empty:
                     r = match.iloc[0]
                     st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
-                    dt_val = str(r["district"]).strip() if pd.notna(r.get("district")) and str(r.get("district")).strip().lower() != "nan" else None
                     return ResolvedLocation(
                         type="hub",
                         canonical_name=f"{r.get('station_name', name)} ({r.get('station_code', '')})",
                         state=st_val,
-                        district=dt_val,
+                        district=None,
                         district_code=int(r["district_code"]) if "district_code" in r and pd.notna(r["district_code"]) else None,
                         latitude=float(r["latitude"]),
                         longitude=float(r["longitude"]),
@@ -306,7 +407,30 @@ class LocationResolver:
                         match_method="exact_name",
                     )
 
-        # Handle other hubs in hubs_dict
+        # 2. Freight Terminals (GCT)
+        if hub_type == "freight_terminal" and store.freight_terminals_df is not None:
+            df = store.freight_terminals_df
+            if norm_name:
+                match = df[df.terminal_name.astype(str).str.lower() == norm_name]
+                if match.empty and "name" in df.columns:
+                    match = df[df.name.astype(str).str.lower() == norm_name]
+                if not match.empty:
+                    r = match.iloc[0]
+                    st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
+                    t_name = r.get("terminal_name") or r.get("name") or name
+                    return ResolvedLocation(
+                        type="hub",
+                        canonical_name=str(t_name),
+                        state=st_val,
+                        district=None,
+                        district_code=None,
+                        latitude=float(r["latitude"]),
+                        longitude=float(r["longitude"]),
+                        source_dataset="freight_terminals.csv",
+                        match_method="exact_name",
+                    )
+
+        # 3. Logistics Hubs in hubs_dict
         hub_file_keys = {
             "port": ["ports"],
             "icd": ["icds"],
@@ -323,19 +447,17 @@ class LocationResolver:
         for k in keys:
             if k in store.hubs_dict and store.hubs_dict[k] is not None:
                 df = store.hubs_dict[k]
-                if name:
-                    match = df[df.name.astype(str).str.lower() == name.lower()]
-                    if match.empty:
-                        match = df[df.name.astype(str).str.lower().str.startswith(name.lower())]
+                if norm_name:
+                    # Strict exact match
+                    match = df[df.name.astype(str).str.lower() == norm_name]
                     if not match.empty:
                         r = match.iloc[0]
                         st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
-                        dt_val = str(r["city"]).strip() if pd.notna(r.get("city")) and str(r.get("city")).strip().lower() != "nan" else None
                         return ResolvedLocation(
                             type="hub",
                             canonical_name=str(r["name"]),
                             state=st_val,
-                            district=dt_val,
+                            district=None,
                             district_code=None,
                             latitude=float(r["latitude"]),
                             longitude=float(r["longitude"]),

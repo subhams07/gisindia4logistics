@@ -30,6 +30,7 @@ class DataStore:
         self.hubs_dict: Dict[str, pd.DataFrame] = {}
         self.rail_stations_df: Optional[pd.DataFrame] = None
         self.dfc_stations_df: Optional[pd.DataFrame] = None
+        self.freight_terminals_df: Optional[pd.DataFrame] = None
         self.toll_plazas_df: Optional[pd.DataFrame] = None
         self.toll_tree: Optional[KDTree] = None
         
@@ -100,6 +101,10 @@ class DataStore:
         p_dfc = self.data_dir / "rail" / "dfc_stations.csv"
         if p_dfc.exists():
             self.dfc_stations_df = pd.read_csv(p_dfc)
+
+        p_gct = self.data_dir / "rail" / "freight_terminals.csv"
+        if p_gct.exists():
+            self.freight_terminals_df = pd.read_csv(p_gct)
 
         p_tolls = self.data_dir / "roads" / "toll_plazas.csv"
         if p_tolls.exists():

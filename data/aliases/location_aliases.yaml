@@ -209,20 +209,25 @@ MIHAN:
 # --- Major Railway Terminals ---
 CSMT:
   type: rail_station
-  canonical_name: "Chhatrapati Shivaji Maharaj Terminus (CSMT)"
-  code: "CSMT"
+  canonical_name: "MUMBAI CST"
+  code: "CSTM"
+
+CSTM:
+  type: rail_station
+  canonical_name: "MUMBAI CST"
+  code: "CSTM"
 
 NDLS:
   type: rail_station
-  canonical_name: "New Delhi Railway Station"
+  canonical_name: "NEW DELHI"
   code: "NDLS"
 
 PUNE:
   type: rail_station
-  canonical_name: "Pune Junction"
+  canonical_name: "PUNE JN"
   code: "PUNE"
 
 HWH:
   type: rail_station
-  canonical_name: "Howrah Junction"
+  canonical_name: "HOWRAH JN"
   code: "HWH"
