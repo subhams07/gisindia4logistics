@@ -46,12 +46,12 @@ def compute_gdf_content_hash(nh_gdf: gpd.GeoDataFrame) -> str:
         except Exception:
             h.update(np.asarray(nh_gdf.total_bounds).tobytes())
             h.update(np.asarray(nh_gdf.geometry.length.values).tobytes())
-    return h.hexdigest()[:24]
+    return h.hexdigest()
 
 
 def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
     """Computes a structural, parameter, and content fingerprint for cache validation."""
-    speed_hash = hashlib.sha256(json.dumps(SPEEDS, sort_keys=True).encode()).hexdigest()[:16]
+    speed_hash = hashlib.sha256(json.dumps(SPEEDS, sort_keys=True).encode()).hexdigest()
     content_hash = compute_gdf_content_hash(nh_gdf)
     return {
         "cache_version": CACHE_VERSION,
@@ -166,24 +166,24 @@ def load_or_build_cached_graph(
         cache_file = cache_dir / "canonical_nh_graph.npz"
         if cache_file.exists():
             try:
-                data = np.load(cache_file, allow_pickle=False)
-                # Verify fingerprint metadata stored as UTF-8 string array
-                meta_json = str(data["metadata"][0]) if "metadata" in data else "{}"
-                stored_meta = json.loads(meta_json)
-                if stored_meta == expected_meta:
-                    N = int(data["N"])
-                    graph_time = sp.csr_matrix(
-                        (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
-                    )
-                    graph_dist = sp.csr_matrix(
-                        (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
-                    )
-                    coords_arr = data["coords_arr"]
-                    labels = data["labels"]
-                    tree = KDTree(coords_arr)
-                    return graph_time, graph_dist, coords_arr, labels, tree
-                else:
-                    LOGGER.info("Graph cache fingerprint mismatch; rebuilding canonical highway graph.")
+                with np.load(cache_file, allow_pickle=False) as data:
+                    # Verify fingerprint metadata stored as UTF-8 string array
+                    meta_json = str(data["metadata"][0]) if "metadata" in data else "{}"
+                    stored_meta = json.loads(meta_json)
+                    if stored_meta == expected_meta:
+                        N = int(data["N"])
+                        graph_time = sp.csr_matrix(
+                            (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
+                        )
+                        graph_dist = sp.csr_matrix(
+                            (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
+                        )
+                        coords_arr = np.copy(data["coords_arr"])
+                        labels = np.copy(data["labels"])
+                        tree = KDTree(coords_arr)
+                        return graph_time, graph_dist, coords_arr, labels, tree
+                    else:
+                        LOGGER.info("Graph cache fingerprint mismatch; rebuilding canonical highway graph.")
             except Exception as e:
                 LOGGER.warning("Could not load graph cache (%s); rebuilding.", e)
 

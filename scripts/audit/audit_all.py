@@ -600,7 +600,8 @@ def main() -> None:
     n_warn = (df.status == "WARN").sum()
     print(f"\n==== AUDIT: {len(df)} checks | {len(df)-n_fail-n_warn} PASS | {n_warn} WARN | {n_fail} FAIL ====")
 
-    report = REPO_ROOT / "docs" / "audit_report.md"
+    report_name = "audit_report_fast.md" if args.fast else "audit_report.md"
+    report = REPO_ROOT / "docs" / report_name
     with open(report, "w", encoding="utf-8") as fh:
         fh.write("# Data Audit Report\n\n")
         fh.write(f"Checks: {len(df)} — PASS {len(df)-n_fail-n_warn} / WARN {n_warn} / FAIL {n_fail}\n\n")
