@@ -6,8 +6,8 @@ Exposes GIS4Logistics datasets, routing, and simulation tools via JSON-RPC.
 
 import sys
 import json
-import traceback
-from typing import Dict, Any
+import logging
+from typing import Dict, Any, Optional
 
 from mcp_server.tools import (
     tool_get_district_scorecard,
@@ -16,6 +16,9 @@ from mcp_server.tools import (
     tool_highway_route_and_tolls,
     tool_simulate_port_catchment
 )
+
+LOGGER = logging.getLogger(__name__)
+MCP_PROTOCOL_VERSION = "2024-11-05"
 
 TOOLS_METADATA = [
     {
@@ -44,7 +47,7 @@ TOOLS_METADATA = [
                 },
                 "target_port": {
                     "type": "string",
-                    "description": "Optional destination port name (e.g. 'Jawaharlal Nehru Port (JNPT)', 'Mundra Port', 'Paradip Port')"
+                    "description": "Optional Major Port destination represented in the district-port matrix (e.g. 'Jawaharlal Nehru Port (JNPT)' or 'Paradip Port')"
                 },
                 "payload_tons": {
                     "type": "number",
@@ -80,16 +83,16 @@ TOOLS_METADATA = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "latitude": {"type": "number", "description": "Latitude coordinate (e.g. 18.5204)"},
-                "longitude": {"type": "number", "description": "Longitude coordinate (e.g. 73.8567)"},
-                "top_k": {"type": "integer", "description": "Number of nearest facilities per category (default: 3)"}
+                "latitude": {"type": "number", "minimum": -90, "maximum": 90, "description": "Latitude coordinate (e.g. 18.5204)"},
+                "longitude": {"type": "number", "minimum": -180, "maximum": 180, "description": "Longitude coordinate (e.g. 73.8567)"},
+                "top_k": {"type": "integer", "minimum": 1, "maximum": 10, "description": "Number of nearest facilities per category (default: 3)"}
             },
             "required": ["latitude", "longitude"]
         }
     },
     {
         "name": "gis_highway_route_and_tolls",
-        "description": "Calculates commercial highway shortest-path routing, driving hours, distance in km, number of toll plazas, and FASTag toll expense between any two points in India.",
+        "description": "Estimates strategic National Highway graph distance, driving hours, and distance-based FASTag toll expense between two points; not turn-by-turn navigation.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -126,10 +129,12 @@ TOOLS_METADATA = [
                 "district": {"type": "string", "description": "District name, e.g. 'Ambala', 'Pune'"},
                 "metric": {
                     "type": "string",
+                    "enum": ["dist_rail_station_km", "dist_nh_km", "dist_icd_km", "dist_freight_terminal_km", "dist_port_km", "dist_air_cargo_km", "dist_mmlp_km", "dist_toll_plaza_km"],
                     "description": "Accessibility metric: 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km', 'dist_freight_terminal_km', 'dist_port_km', 'dist_toll_plaza_km' (default: 'dist_rail_station_km')"
                 },
                 "output_format": {
                     "type": "string",
+                    "enum": ["html", "png", "both"],
                     "description": "Output format: 'html', 'png', 'both' (default: 'html')"
                 }
             },
@@ -139,9 +144,52 @@ TOOLS_METADATA = [
 ]
 
 
-def handle_rpc_request(req: Dict[str, Any]) -> Dict[str, Any]:
+SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05"}
+
+
+def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    if not isinstance(req, dict) or req.get("jsonrpc") != "2.0":
+        return {
+            "jsonrpc": "2.0",
+            "id": req.get("id") if isinstance(req, dict) else None,
+            "error": {"code": -32600, "message": "Invalid Request"},
+        }
+
     method = req.get("method")
     req_id = req.get("id")
+
+    raw_params = req.get("params")
+    if raw_params is not None and not isinstance(raw_params, dict):
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "error": {"code": -32602, "message": "Invalid params: params must be a JSON object"},
+        }
+    params = raw_params or {}
+
+    # JSON-RPC Notification: notifications have no id and must not receive a response
+    if req_id is None:
+        if method == "notifications/initialized":
+            LOGGER.info("MCP client initialized session")
+        return None
+
+    if method == "initialize":
+        requested_version = params.get("protocolVersion")
+        negotiated_version = (
+            requested_version if requested_version in SUPPORTED_PROTOCOL_VERSIONS else MCP_PROTOCOL_VERSION
+        )
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {
+                "protocolVersion": negotiated_version,
+                "capabilities": {"tools": {"listChanged": False}},
+                "serverInfo": {"name": "gisindia4logistics", "version": "1.0.0"},
+            },
+        }
+
+    if method == "ping":
+        return {"jsonrpc": "2.0", "id": req_id, "result": {}}
 
     if method == "tools/list":
         return {
@@ -151,9 +199,8 @@ def handle_rpc_request(req: Dict[str, Any]) -> Dict[str, Any]:
         }
 
     elif method == "tools/call":
-        params = req.get("params", {})
         tool_name = params.get("name")
-        args = params.get("arguments", {})
+        args = params.get("arguments") or {}
 
         try:
             if tool_name == "gis_get_district_scorecard":
@@ -200,10 +247,14 @@ def handle_rpc_request(req: Dict[str, Any]) -> Dict[str, Any]:
                 "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}
             }
         except Exception as e:
+            LOGGER.exception("MCP tool call failed: %s", tool_name)
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
-                "error": {"code": -32000, "message": str(e), "data": traceback.format_exc()}
+                "result": {
+                    "content": [{"type": "text", "text": f"Error: {str(e)}"}],
+                    "isError": True,
+                }
             }
 
     else:
@@ -223,13 +274,15 @@ def run_stdio_server():
         try:
             req = json.loads(line)
             res = handle_rpc_request(req)
-            sys.stdout.write(json.dumps(res) + "\n")
-            sys.stdout.flush()
-        except Exception as e:
+            if res is not None:
+                sys.stdout.write(json.dumps(res) + "\n")
+                sys.stdout.flush()
+        except Exception:
+            LOGGER.exception("Failed to parse MCP request")
             err_res = {
                 "jsonrpc": "2.0",
                 "id": None,
-                "error": {"code": -32700, "message": "Parse error", "data": str(e)}
+                "error": {"code": -32700, "message": "Parse error"}
             }
             sys.stdout.write(json.dumps(err_res) + "\n")
             sys.stdout.flush()

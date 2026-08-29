@@ -3,22 +3,29 @@ gisindia4logistics.sdk
 High-level typed Python SDK for GISIndia4Logistics.
 """
 
-import json
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple, Union
-import pandas as pd
-import geopandas as gpd
 
 from server.dependencies import DataStore
 from server.routers.admin import get_district_scorecard
-from server.routers.routing import calculate_highway_route, RouteRequest
+from server.routers.routing import calculate_highway_route
 from server.routers.hubs import get_nearest_hubs
-from server.models.schemas import FreightCostSimulationRequest, CostParametersOverride
-from server.routers.simulation import simulate_freight_cost, simulate_port_gravity, PortGravitySimulationRequest
-from scripts.analyze.plot_villages import (
-    load_district_villages_gdf, generate_leaflet_html, plot_villages_static
+from server.models.schemas import (
+    FreightCostSimulationRequest,
+    CostParametersOverride,
+    NearestFacilitiesRequest,
+    RouteRequest,
+    PortGravitySimulationRequest,
 )
-from scripts.clean.standardize import DATA_DIR
+from server.routers.simulation import simulate_freight_cost, simulate_port_gravity
+from scripts.analyze.plot_villages import (
+    load_district_villages_gdf,
+    generate_leaflet_html,
+    plot_villages_static,
+    safe_filename_component,
+    validate_metric,
+)
+from server.config import settings
 
 
 def get_data_store() -> DataStore:
@@ -38,17 +45,14 @@ def _to_dict(obj: Any) -> Any:
 
 def get_district(district_name_or_code: Union[str, int]) -> Dict[str, Any]:
     """
-    Retrieve comprehensive logistics scorecard, nearest infrastructure, and demographic indicators
-    for any Indian district by name or LGD code.
+    Get full logistics and demographic indicators for any Indian district (1-781).
     
     Example:
-        >>> import gisindia4logistics as gis
-        >>> pune = gis.get_district("Pune")
-        >>> print(pune["nearest_highway_km"], pune["nearest_port"]["name"])
+        >>> dist = gis.get_district("Pune")
+        >>> print(dist["nearest_highway_km"], dist["nearest_port"]["name"])
     """
     store = get_data_store()
-    res = get_district_scorecard(code_or_name=str(district_name_or_code), store=store)
-    return _to_dict(res)
+    return get_district_scorecard(code_or_name=str(district_name_or_code), store=store)
 
 
 def route_highway(
@@ -57,22 +61,17 @@ def route_highway(
     vehicle_type: str = "MAV_20T"
 ) -> Dict[str, Any]:
     """
-    Calculate shortest-path commercial highway route, driving hours, road distance in km,
-    number of toll plazas encountered, and FASTag toll expense between two coordinates.
+    Calculate strategic National Highway shortest-path route, transit hours,
+    and estimated FASTag toll costs between two coordinates [lat, lon].
     
-    Args:
-        origin: (latitude, longitude) tuple of origin point
-        destination: (latitude, longitude) tuple of destination point
-        vehicle_type: 'MAV_20T', 'LMV', '2_AXLE_TRUCK' (default: 'MAV_20T')
-        
     Example:
         >>> route = gis.route_highway(origin=(18.5204, 73.8567), destination=(18.9500, 72.9500))
-        >>> print(f"{route['distance_km']:.1f} km, {route['drive_time_formatted']}, ₹{route['estimated_toll_cost_inr']}")
+        >>> print(route["distance_km"], route["drive_time_formatted"], route["estimated_toll_cost_inr"])
     """
     store = get_data_store()
     req = RouteRequest(
-        origin=[float(origin[0]), float(origin[1])],
-        destination=[float(destination[0]), float(destination[1])],
+        origin=[origin[0], origin[1]],
+        destination=[destination[0], destination[1]],
         vehicle_type=vehicle_type
     )
     res = calculate_highway_route(req=req, store=store)
@@ -99,19 +98,22 @@ def calculate_freight_cost(
     """
     store = get_data_store()
     params = None
-    if any(v is not None for v in [road_linehaul_rate, toll_cost_per_plaza, rail_base_class_rate, dfc_linehaul_rate, inventory_holding_rate]):
-        params = CostParametersOverride()
-        if road_linehaul_rate is not None:
-            params.road_linehaul_rate = road_linehaul_rate
-        if toll_cost_per_plaza is not None:
-            params.toll_cost_per_plaza = toll_cost_per_plaza
-        if rail_base_class_rate is not None:
-            params.rail_base_class_rate = rail_base_class_rate
-        if dfc_linehaul_rate is not None:
-            params.dfc_linehaul_rate = dfc_linehaul_rate
-        if inventory_holding_rate is not None:
-            params.inventory_holding_rate = inventory_holding_rate
-        params.truck_payload_tons = payload_tons
+    override_kwargs = {}
+    if road_linehaul_rate is not None:
+        override_kwargs["road_linehaul_rate"] = road_linehaul_rate
+    if toll_cost_per_plaza is not None:
+        override_kwargs["toll_cost_per_plaza"] = toll_cost_per_plaza
+    if rail_base_class_rate is not None:
+        override_kwargs["rail_base_class_rate"] = rail_base_class_rate
+    if dfc_linehaul_rate is not None:
+        override_kwargs["dfc_linehaul_rate"] = dfc_linehaul_rate
+    if inventory_holding_rate is not None:
+        override_kwargs["inventory_holding_rate"] = inventory_holding_rate
+    if payload_tons is not None:
+        override_kwargs["truck_payload_tons"] = payload_tons
+
+    if override_kwargs:
+        params = CostParametersOverride(**override_kwargs)
 
     req = FreightCostSimulationRequest(
         origin_district=origin_district,
@@ -129,7 +131,7 @@ def find_nearest(
     top_k: int = 3
 ) -> Dict[str, Any]:
     """
-    Spatial KDTree search finding the closest infrastructure across all multi-modal
+    Geodesic WGS84 distance search finding the closest infrastructure across all multi-modal
     categories (Ports, ICDs, MMLPs, Air Cargo, Waterways, Cold Storages, Mandis, Tolls).
     
     Example:
@@ -137,7 +139,8 @@ def find_nearest(
         >>> print(nearest["ports"], nearest["toll_plazas"])
     """
     store = get_data_store()
-    return get_nearest_hubs(latitude=latitude, longitude=longitude, top_k=top_k, store=store)
+    query = NearestFacilitiesRequest(latitude=latitude, longitude=longitude, top_k=top_k)
+    return get_nearest_hubs(latitude=query.latitude, longitude=query.longitude, top_k=query.top_k, store=store)
 
 
 def simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> List[Dict[str, Any]]:
@@ -169,18 +172,27 @@ def plot_villages(
         output_format: 'html', 'png', or 'both'
         output_path: Optional custom destination file path
     """
+    if output_format not in {"html", "png", "both"}:
+        raise ValueError("output_format must be one of: html, png, both")
+    validate_metric(metric)
+
     gdf = load_district_villages_gdf(state=state, district=district)
     out_files = {}
 
+    out_dir = settings.OUTPUT_PATH / "maps"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    d_slug = safe_filename_component(district)
+    s_slug = safe_filename_component(state)
+
     if output_format in ["html", "both"]:
         html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
-        dst_html = Path(output_path) if output_path and str(output_path).endswith(".html") else (DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.html")
+        dst_html = Path(output_path) if output_path and str(output_path).endswith(".html") else (out_dir / f"{s_slug}_{d_slug}_{metric}_map.html")
         with open(dst_html, "w", encoding="utf-8") as f:
             f.write(html_code)
         out_files["html"] = str(dst_html)
 
     if output_format in ["png", "both"]:
-        dst_png = Path(output_path) if output_path and str(output_path).endswith(".png") else (DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.png")
+        dst_png = Path(output_path) if output_path and str(output_path).endswith(".png") else (out_dir / f"{s_slug}_{d_slug}_{metric}_map.png")
         plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=dst_png)
         out_files["png"] = str(dst_png)
 
@@ -188,7 +200,7 @@ def plot_villages(
         "status": "success",
         "state": state,
         "district": district,
-        "villages_count": len(gdf),
         "metric": metric,
+        "villages_count": len(gdf),
         "files": out_files
     }

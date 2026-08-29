@@ -20,6 +20,7 @@ import sys
 import traceback
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
@@ -198,17 +199,14 @@ def audit_analysis():
               n_src == n_out, f"{n_out} vs {n_src}")
 
     # reproducibility: recompute 40 sample villages in Haryana
-    import shapely
     av = pd.read_csv(DATA_DIR / "analysis" / "haryana_village_access.csv")
     vill = gpd.read_file(DATA_DIR / "administrative" / "villages" / "haryana_soi_villages.geojson")
     st = pd.read_csv(DATA_DIR / "rail" / "railway_stations.csv")
-    import geopandas as gpd2  # noqa: F401
     sample = vill.sample(40, random_state=42)
     pts = gpd.GeoSeries(sample.geometry.representative_point(), crs=4326).to_crs(7755)
     fac = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.longitude, st.latitude), crs=4326).to_crs(7755)
     d = fac.geometry.unary_union
     recomputed = pts.map(lambda p: p.distance(d) / 1000).round(2).values
-    stored = av.set_index(["district", "village"])
     joined = sample.assign(rek=recomputed).merge(
         av, left_on=["district", "village"], right_on=["district", "village"])
     ok = (joined.rek - joined.dist_rail_station_km).abs().max() < 0.15
@@ -239,7 +237,44 @@ def audit_analysis():
     if nh_mat_p.exists():
         nh_mat = pd.read_csv(nh_mat_p)
         check("nh_analysis", "port matrix has 781 districts", "FAIL", len(nh_mat) == 781, f"{len(nh_mat)}")
-        check("nh_analysis", "port matrix covers 12 major ports", "FAIL", len(nh_mat.columns) >= 15, f"{len(nh_mat.columns)}")
+        time_cols = [c for c in nh_mat.columns if c.startswith("drive_hours_to_")]
+        dist_cols = [c for c in nh_mat.columns if c.startswith("road_km_to_")]
+        check("nh_analysis", "port matrix covers 12 major ports time columns", "FAIL", len(time_cols) == 12, f"{len(time_cols)}")
+        check("nh_analysis", "port matrix covers 12 major ports distance columns", "FAIL", len(dist_cols) == 12, f"{len(dist_cols)}")
+
+        # Check island null invariants
+        island_districts = ["nicobars", "north and middle andaman", "south andamans", "lakshadweep"]
+        islands_mat = nh_mat[nh_mat.district.astype(str).str.lower().isin(island_districts)]
+        islands_non_null = islands_mat[time_cols + dist_cols].notna().sum().sum()
+        check("nh_analysis", "island port matrix cells are strictly null", "FAIL", islands_non_null == 0, f"{islands_non_null} non-null")
+
+        # Check mainland finite invariants and physical speed plausibility
+        mainland_mat = nh_mat[~nh_mat.district.astype(str).str.lower().isin(island_districts)]
+        mainland_all_null = (mainland_mat[time_cols].isna().all(axis=1)).sum()
+        check("nh_analysis", "mainland districts have valid port routes", "FAIL", mainland_all_null == 0, f"{mainland_all_null} unrouted")
+
+        all_speeds = []
+        for t_col in time_cols:
+            d_col = t_col.replace("drive_hours_to_", "road_km_to_", 1)
+            check("nh_analysis", f"port column paired: {t_col}", "FAIL", d_col in nh_mat.columns)
+            if d_col in nh_mat.columns:
+                valid_mask = mainland_mat[t_col].notna() & mainland_mat[d_col].notna() & (mainland_mat[t_col] > 0)
+                spds = (mainland_mat.loc[valid_mask, d_col] / mainland_mat.loc[valid_mask, t_col]).values
+                all_speeds.extend(spds)
+
+        all_speeds = np.array(all_speeds)
+        check("nh_analysis", "implied road speeds strictly positive", "FAIL", (all_speeds <= 0).sum() == 0)
+        check("nh_analysis", "implied road speeds physically bounded (<= 110 km/h)", "FAIL", (all_speeds > 110.0).sum() == 0, f"max {all_speeds.max():.1f} km/h")
+        check("nh_analysis", "implied road speeds realistic lower bound (>= 25 km/h)", "FAIL", (all_speeds < 25.0).sum() == 0, f"min {all_speeds.min():.1f} km/h")
+        check("nh_analysis", "implied road speeds median in range 45-75 km/h", "FAIL", 45.0 <= float(np.median(all_speeds)) <= 75.0, f"median {np.median(all_speeds):.1f} km/h")
+
+        # Benchmark corridor checks
+        pune_row = mainland_mat[(mainland_mat.district.str.lower() == "pune") & (mainland_mat.state.str.lower() == "maharashtra")]
+        if not pune_row.empty:
+            p_jnpt_km = pune_row.iloc[0].get("road_km_to_jawaharlal_nehru_(jnpt/navi_mumbai)")
+            p_jnpt_hrs = pune_row.iloc[0].get("drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)")
+            check("nh_analysis", "corridor benchmark Pune -> JNPT (110-160 km, 1.4-2.6 hrs)", "FAIL",
+                  110.0 <= p_jnpt_km <= 160.0 and 1.4 <= p_jnpt_hrs <= 2.6, f"{p_jnpt_km} km / {p_jnpt_hrs} hrs")
 
     # Intermodal Freight Cost Model
     modal_p = DATA_DIR / "analysis" / "district_freight_modal_split.csv"
@@ -360,7 +395,6 @@ def audit_roads():
     print("\n== roads ==")
     nh = gpd.read_file(DATA_DIR / "roads" / "india_nh_network.geojson")
     check("nh_network", "valid geometries", "FAIL", bool(nh.geometry.is_valid.all()))
-    import re as _re
     bad_nh = (~nh.nh.str.fullmatch(r"(\d{1,4}[A-Z]?)(;\d{1,4}[A-Z]?)*", na=False)).sum()
     check("nh_network", "NH numbers clean", "FAIL", bad_nh == 0, f"{int(bad_nh)} odd values")
     n_routes = nh.nh.str.split(";").explode().replace("", None).dropna().nunique()
@@ -566,7 +600,8 @@ def main() -> None:
     n_warn = (df.status == "WARN").sum()
     print(f"\n==== AUDIT: {len(df)} checks | {len(df)-n_fail-n_warn} PASS | {n_warn} WARN | {n_fail} FAIL ====")
 
-    report = REPO_ROOT / "docs" / "audit_report.md"
+    report_name = "audit_report_fast.md" if args.fast else "audit_report.md"
+    report = REPO_ROOT / "docs" / report_name
     with open(report, "w", encoding="utf-8") as fh:
         fh.write("# Data Audit Report\n\n")
         fh.write(f"Checks: {len(df)} — PASS {len(df)-n_fail-n_warn} / WARN {n_warn} / FAIL {n_fail}\n\n")

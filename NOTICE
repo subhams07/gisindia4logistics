@@ -1,0 +1,16 @@
+GISIndia4Logistics third-party notices
+======================================
+
+Repository code is licensed under the MIT License. Datasets and third-party content are not covered by that blanket code license.
+
+Key attributions
+----------------
+
+- OpenStreetMap-derived roads, rail, settlements, and related databases: © OpenStreetMap contributors, Open Database License (ODbL).
+- Government of India sources, where identified as GODL-India: respective ministries, departments, authorities, and public-sector publishers listed in catalog.yaml and docs/sources.md.
+- DataMeet India community boundaries: DataMeet India contributors, CC BY 4.0.
+- Survey of India administrative and village boundaries: Survey of India, Government of India; copyright and redistribution posture described in DATA_LICENSE.md and docs/legal_compliance.md.
+- Wikipedia/Wikidata-derived records: applicable CC BY-SA/CC0 terms identified by source.
+- CARTO and Leaflet assets used by generated interactive maps retain their respective terms; map tiles also carry OpenStreetMap attribution.
+
+For file-level source URLs, vintages, and licenses, consult catalog.yaml and docs/sources.md. Where those records conflict with this summary, the upstream publisher's authoritative terms control.

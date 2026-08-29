@@ -9,13 +9,14 @@ Generates:
 
 import sys
 import json
+import html
+import re
 import argparse
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Any
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 
 sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR
@@ -32,15 +33,41 @@ METRIC_LABELS = {
 }
 
 
+def safe_filename_component(value: str) -> str:
+    """Convert a geography name to a safe output filename component."""
+    component = re.sub(r"[^a-z0-9_-]+", "_", value.strip().lower()).strip("_-")
+    if not component:
+        raise ValueError("A non-empty state or district name is required")
+    return component
+
+
+def validate_metric(metric: str) -> str:
+    if metric not in METRIC_LABELS:
+        supported = ", ".join(sorted(METRIC_LABELS))
+        raise ValueError(f"Unsupported accessibility metric '{metric}'. Supported values: {supported}")
+    return metric
+
+
+def _json_for_script(value: Any) -> str:
+    """Serialize JSON without allowing embedded data to terminate a script tag."""
+    return json.dumps(value, ensure_ascii=False).replace("</", "<\\/")
+
+
 def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     """Loads village geometries for a district and merges pre-computed accessibility metrics."""
-    slug = state.lower().replace(" ", "_")
+    slug = safe_filename_component(state)
+    admin_dir = (DATA_DIR / "administrative").resolve()
     
     # 1. Geometry File (GeoParquet preferred, GeoJSON fallback)
-    p_poly_pq = DATA_DIR / "administrative" / "villages_parquet" / f"{slug}_soi_villages.parquet"
-    p_pts_pq = DATA_DIR / "administrative" / "villages_parquet" / f"{slug}_habitations.parquet"
-    p_poly = DATA_DIR / "administrative" / "villages" / f"{slug}_soi_villages.geojson"
-    p_pts = DATA_DIR / "administrative" / "villages" / f"{slug}_habitations.geojson"
+    p_poly_pq = (admin_dir / "villages_parquet" / f"{slug}_soi_villages.parquet").resolve()
+    p_pts_pq = (admin_dir / "villages_parquet" / f"{slug}_habitations.parquet").resolve()
+    p_poly = (admin_dir / "villages" / f"{slug}_soi_villages.geojson").resolve()
+    p_pts = (admin_dir / "villages" / f"{slug}_habitations.geojson").resolve()
+
+    # Path traversal check
+    for p in [p_poly_pq, p_pts_pq, p_poly, p_pts]:
+        if not str(p).startswith(str(admin_dir)):
+            raise ValueError(f"Invalid state path traversal attempt: '{state}'")
     
     if p_poly_pq.exists():
         gdf = gpd.read_parquet(p_poly_pq)
@@ -101,9 +128,14 @@ def get_color_for_value(val: float, metric: str) -> str:
 
 def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metric: str = "dist_rail_station_km") -> str:
     """Generates a standalone, responsive Leaflet.js interactive HTML map."""
-    centroid = gdf.geometry.unary_union.centroid
+    validate_metric(metric)
+    centroid = gdf.geometry.union_all().centroid
     center_lat, center_lon = centroid.y, centroid.x
-    metric_title = METRIC_LABELS.get(metric, metric)
+    metric_title = METRIC_LABELS[metric]
+    state_html = html.escape(state)
+    district_html = html.escape(district)
+    district_upper_html = html.escape(district.upper())
+    metric_title_html = html.escape(metric_title)
 
     # Convert to GeoJSON dict
     geojson_data = json.loads(gdf.to_json())
@@ -132,7 +164,7 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIS4Logistics — {district} Village Map ({metric_title})</title>
+    <title>GIS4Logistics — {district_html} Village Map ({metric_title_html})</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -156,15 +188,15 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
 <body>
     <div id="map"></div>
     <div class="info-panel">
-        <div class="header-title">{district.upper()} ({state})</div>
+        <div class="header-title">{district_upper_html} ({state_html})</div>
         <div class="header-subtitle">{len(gdf):,} Villages & Habitations</div>
-        <div style="font-size: 13px; font-weight: 600; color: #0284c7;">{metric_title}</div>
+        <div style="font-size: 13px; font-weight: 600; color: #0284c7;">{metric_title_html}</div>
         <div id="village-detail" style="margin-top: 8px; font-size: 12px; color: #334155;">
             Hover or click on any village to inspect accessibility metrics.
         </div>
     </div>
     <div class="legend">
-        <b>{metric_title}</b><br>
+        <b>{metric_title_html}</b><br>
         <i style="background: #1a9850"></i> &lt; 5 km (Excellent)<br>
         <i style="background: #91cf60"></i> 5 &ndash; 10 km (Good)<br>
         <i style="background: #fee08b"></i> 10 &ndash; 25 km (Moderate)<br>
@@ -181,8 +213,17 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
             maxZoom: 19
         }}).addTo(map);
 
-        const villageData = {json.dumps(geojson_data)};
-        const metricKey = "{metric}";
+        const villageData = {_json_for_script(geojson_data)};
+        const metricKey = {_json_for_script(metric)};
+
+        function escapeHtml(value) {{
+            return String(value ?? 'N/A')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }}
 
         function getColor(d) {{
             if (d === undefined || d === null || isNaN(d)) return '#cccccc';
@@ -211,12 +252,12 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
             const p = layer.feature.properties;
             const val = p[metricKey] !== undefined ? p[metricKey] + ' km' : 'N/A';
             document.getElementById('village-detail').innerHTML = `
-                <b>${{p.village || p.name || 'Village'}}</b><br>
-                Sub-district: ${{p.sub_district || 'N/A'}}<br>
-                LGD Code: ${{p.village_code || 'N/A'}}<br>
-                <b>${{metricKey.replace(/_/g, ' ')}}:</b> <span style="color:#0284c7; font-weight:700;">${{val}}</span><br>
-                Nearest Rail: ${{p.nearest_rail_station || 'N/A'}}<br>
-                Nearest ICD: ${{p.nearest_icd || 'N/A'}}
+                <b>${{escapeHtml(p.village || p.name || 'Village')}}</b><br>
+                Sub-district: ${{escapeHtml(p.sub_district)}}<br>
+                LGD Code: ${{escapeHtml(p.village_code)}}<br>
+                <b>${{escapeHtml(metricKey.replace(/_/g, ' '))}}:</b> <span style="color:#0284c7; font-weight:700;">${{escapeHtml(val)}}</span><br>
+                Nearest Rail: ${{escapeHtml(p.nearest_rail_station)}}<br>
+                Nearest ICD: ${{escapeHtml(p.nearest_icd)}}
             `;
         }}
 
@@ -239,7 +280,7 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
         map.fitBounds(geojsonLayer.getBounds());
 
         // Overlay facilities
-        const facilities = {json.dumps(facilities)};
+        const facilities = {_json_for_script(facilities)};
         const railIcon = L.divIcon({{
             className: 'custom-icon',
             html: '<div style="background:#2563eb; color:white; font-size:10px; font-weight:700; padding:2px 5px; border-radius:4px; border:1px solid white; white-space:nowrap;">🚂</div>',
@@ -248,7 +289,7 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
 
         facilities.forEach(f => {{
             L.marker([f.lat, f.lon], {{ icon: railIcon }})
-             .bindPopup(`<b>${{f.name}}</b> (${{f.code}})<br>${{f.type}}`)
+             .bindPopup(`<b>${{escapeHtml(f.name)}}</b> (${{escapeHtml(f.code)}})<br>${{escapeHtml(f.type)}}`)
              .addTo(map);
         }});
     </script>
@@ -260,8 +301,9 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
 
 def plot_villages_static(gdf: gpd.GeoDataFrame, state: str, district: str, metric: str = "dist_rail_station_km", output_png: Path = None):
     """Renders a publication-quality static PNG map of district villages using Matplotlib."""
+    validate_metric(metric)
     if output_png is None:
-        output_png = DATA_DIR / "analysis" / f"{district.lower()}_{metric}.png"
+        output_png = DATA_DIR / "analysis" / f"{safe_filename_component(district)}_{metric}.png"
 
     fig, ax = plt.subplots(figsize=(10, 10), dpi=300)
     metric_title = METRIC_LABELS.get(metric, metric)
@@ -301,13 +343,13 @@ def main():
 
     if args.format in ["html", "both"]:
         html_code = generate_leaflet_html(gdf=gdf, state=args.state, district=args.district, metric=args.metric)
-        out_html = Path(args.output) if args.output and args.output.endswith(".html") else (DATA_DIR / "analysis" / f"{args.district.lower()}_village_{args.metric}_map.html")
+        out_html = Path(args.output) if args.output and args.output.endswith(".html") else (DATA_DIR / "analysis" / f"{safe_filename_component(args.district)}_village_{args.metric}_map.html")
         with open(out_html, "w", encoding="utf-8") as f:
             f.write(html_code)
         print(f"Wrote interactive Leaflet map -> {out_html}")
 
     if args.format in ["png", "both"]:
-        out_png = Path(args.output) if args.output and args.output.endswith(".png") else (DATA_DIR / "analysis" / f"{args.district.lower()}_village_{args.metric}_map.png")
+        out_png = Path(args.output) if args.output and args.output.endswith(".png") else (DATA_DIR / "analysis" / f"{safe_filename_component(args.district)}_village_{args.metric}_map.png")
         plot_villages_static(gdf=gdf, state=args.state, district=args.district, metric=args.metric, output_png=out_png)
 
 

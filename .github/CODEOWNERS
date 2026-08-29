@@ -1,0 +1,11 @@
+# Default ownership
+* @subhams07
+
+# Quality-critical areas
+/data/ @subhams07
+/catalog.yaml @subhams07
+/docs/legal_compliance.md @subhams07
+/DATA_LICENSE.md @subhams07
+/server/ @subhams07
+/mcp_server/ @subhams07
+/scripts/audit/ @subhams07

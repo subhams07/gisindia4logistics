@@ -30,6 +30,9 @@ Thanks for helping build an open GIS data collection for Indian logistics!
 - [ ] Data standardized per `docs/data_standards.md`
 - [ ] Fetch script added under `scripts/fetch/` (if not committed directly)
 - [ ] README catalog table updated
+- [ ] Data audit run locally and exact command/result recorded in the pull request
+- [ ] API/SDK/CLI/MCP behavior changes include regression tests
+- [ ] Generated files are reproducible from committed scripts and parameters
 
 ## Legal & policy checks (India geospatial — see docs/legal_compliance.md)
 
@@ -44,3 +47,7 @@ Thanks for helping build an open GIS data collection for Indian logistics!
 
 Open an issue with: dataset name, affected feature(s), expected vs actual value,
 and a source supporting the correction.
+
+Use the repository's data-quality issue template. Report vulnerabilities
+privately as described in `SECURITY.md`, and follow `CODE_OF_CONDUCT.md` in all
+project interactions.

@@ -3,7 +3,7 @@
 Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GIS4Logistics India** platform.
 
 Quality status definitions:
-- **verified** — passes automated CI validation gates (exact counts vs official registers, zero invalid geometries, coordinates bounded strictly within India CRS `EPSG:7755` / `EPSG:4326`, unique join keys).
+- **verified** — passed the repository's recorded validation gates (exact counts vs official registers, geometry checks, coordinate bounds, and join-key checks). This label describes data validation, not legal clearance or source freshness; the audit date and execution context should be recorded with releases.
 - **community** — curated open data without direct ministerial API guarantees (OpenStreetMap, DataMeet); best available open spatial geometries, redistributed with attribution under ODbL / CC BY 4.0.
 - **sample** — illustrative snapshot committed for testing and demonstration.
 

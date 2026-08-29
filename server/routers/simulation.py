@@ -3,7 +3,8 @@ server/routers/simulation.py
 Multi-Modal Generalized Freight Cost and Port Gravity Simulation endpoints.
 """
 
-from typing import List, Optional
+import re
+from typing import List, Optional, Tuple
 from fastapi import APIRouter, HTTPException, Depends
 import pandas as pd
 import numpy as np
@@ -17,6 +18,99 @@ from scripts.analyze.intermodal_cost_engine import ir_telescopic_freight_rate
 
 router = APIRouter(prefix="/simulate", tags=["Freight Simulation & Optimization"])
 
+PORT_MATRIX_DATA = {
+    "drive_hours_to_paradip": ("Paradip Port", 145.38),
+    "drive_hours_to_deendayal_(kandla)": ("Deendayal Port (Kandla)", 132.50),
+    "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT)", 86.00),
+    "drive_hours_to_visakhapatnam": ("Visakhapatnam Port", 81.00),
+    "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Syama Prasad Mookerjee Port (Kolkata/Haldia)", 66.00),
+    "drive_hours_to_mumbai": ("Mumbai Port", 65.00),
+    "drive_hours_to_chennai": ("Chennai Port", 54.50),
+    "drive_hours_to_kamarajar_(ennore)": ("Kamarajar Port (Ennore)", 48.00),
+    "drive_hours_to_new_mangalore": ("New Mangalore Port", 46.00),
+    "drive_hours_to_v.o._chidambaranar_(tuticorin)": ("V.O. Chidambaranar Port (Tuticorin)", 41.50),
+    "drive_hours_to_cochin": ("Cochin Port", 36.50),
+    "drive_hours_to_mormugao": ("Mormugao Port", 20.50),
+}
+
+
+def _normalize_port_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", value.lower())
+
+
+def _requested_port_route(
+    target_port: str,
+    district_row: pd.Series,
+    port_matrix_df: Optional[pd.DataFrame],
+) -> Tuple[str, float, float]:
+    """Resolve a requested major port to its matrix-backed distance and drive time."""
+    if port_matrix_df is None:
+        raise HTTPException(status_code=503, detail="District-to-port matrix data not loaded")
+
+    # Check island status
+    is_island = bool(district_row.get("is_island", False)) or str(district_row.get("state", "")).lower() in {
+        "andaman and nicobar islands", "lakshadweep"
+    } or str(district_row.get("district", "")).lower() in {
+        "nicobars", "north and middle andaman", "south andamans", "lakshadweep"
+    }
+    if is_island:
+        raise HTTPException(
+            status_code=422,
+            detail=f"District '{district_row.get('district')}' is an island with no contiguous highway network connection to mainland major ports"
+        )
+
+    requested = _normalize_port_name(target_port)
+    matches = []
+    for time_column, (display_name, _) in PORT_MATRIX_DATA.items():
+        normalized = _normalize_port_name(display_name)
+        if requested == normalized or requested in normalized or normalized in requested:
+            matches.append((time_column, display_name))
+
+    if len(matches) != 1:
+        supported = ", ".join(display_name for display_name, _ in PORT_MATRIX_DATA.values())
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown or ambiguous target_port '{target_port}'. Supported values: {supported}",
+        )
+
+    time_column, display_name = matches[0]
+    distance_column = time_column.replace("drive_hours_to_", "road_km_to_", 1)
+    matrix = port_matrix_df
+
+    # Composite match on state + district (and code if available)
+    state_str = str(district_row["state"]).lower()
+    dist_str = str(district_row["district"]).lower()
+    code_val = district_row.get("district_code")
+
+    m_filter = (matrix["state"].astype(str).str.lower() == state_str) & (matrix["district"].astype(str).str.lower() == dist_str)
+    if pd.notna(code_val) and "district_code" in matrix.columns:
+        numeric_codes = pd.to_numeric(matrix["district_code"], errors="coerce")
+        m_code_filter = m_filter & (numeric_codes == float(code_val))
+        if matrix[m_code_filter].shape[0] == 1:
+            matrix_row = matrix[m_code_filter]
+        else:
+            matrix_row = matrix[m_filter]
+    else:
+        matrix_row = matrix[m_filter]
+
+    if matrix_row.empty:
+        raise HTTPException(status_code=404, detail=f"District '{district_row['district']} ({district_row['state']})' not found in the district-to-port matrix")
+    if matrix_row.shape[0] > 1:
+        # Narrow down by code if multiple
+        if pd.notna(code_val):
+            matrix_row = matrix_row[pd.to_numeric(matrix_row["district_code"], errors="coerce") == float(code_val)]
+        if matrix_row.shape[0] != 1:
+            raise HTTPException(status_code=400, detail=f"Ambiguous district identity '{district_row['district']} ({district_row['state']})'")
+
+    if time_column not in matrix_row.columns or distance_column not in matrix_row.columns:
+        raise HTTPException(status_code=503, detail="Port matrix must be regenerated with distance columns")
+
+    drive_hours = matrix_row.iloc[0][time_column]
+    road_distance_km = matrix_row.iloc[0][distance_column]
+    if pd.isna(drive_hours) or pd.isna(road_distance_km):
+        raise HTTPException(status_code=422, detail=f"No connected highway route is available from {district_row['district']} to {display_name}")
+    return display_name, float(road_distance_km), float(drive_hours)
+
 
 @router.post("/freight-cost", response_model=FreightCostSimulationResponse)
 def simulate_freight_cost(req: FreightCostSimulationRequest, store: DataStore = Depends(get_data_store)):
@@ -26,26 +120,46 @@ def simulate_freight_cost(req: FreightCostSimulationRequest, store: DataStore = 
 
     df = store.travel_time_df
 
-    # Match district
+    # Composite matching
     match = None
     if req.origin_district_code:
         m = df[df.district_code == req.origin_district_code]
-        if not m.empty:
+        if req.origin_district:
+            m = m[m.district.str.lower() == req.origin_district.lower()]
+        if len(m) == 1:
             match = m.iloc[0]
 
     if match is None and req.origin_district:
         m = df[df.district.str.lower() == req.origin_district.lower()]
-        if not m.empty:
+        if len(m) == 1:
             match = m.iloc[0]
+        elif len(m) > 1 and req.origin_district_code:
+            m_code = m[m.district_code == req.origin_district_code]
+            if len(m_code) == 1:
+                match = m_code.iloc[0]
 
     if match is None:
-        raise HTTPException(status_code=404, detail=f"District '{req.origin_district or req.origin_district_code}' not found")
+        raise HTTPException(status_code=404, detail=f"District '{req.origin_district or req.origin_district_code}' not found or ambiguous")
+
+    # Reject islands for land freight
+    if bool(match.get("is_island", False)) or pd.isna(match.get("port_road_distance_km")):
+        raise HTTPException(
+            status_code=422,
+            detail=f"District '{match['district']} ({match['state']})' is an island with no contiguous highway network connection to mainland major ports"
+        )
 
     st_name = match["state"]
     d_name = match["district"]
-    target_port = req.target_port or match.get("nearest_port_name", "Major Port")
-    road_dist_km = match.get("port_road_distance_km", 450.0)
-    drive_time_hrs = match.get("port_drive_time_hours", 7.0)
+    if req.target_port:
+        target_port, road_dist_km, drive_time_hrs = _requested_port_route(
+            req.target_port,
+            match,
+            store.port_matrix_df,
+        )
+    else:
+        target_port = match.get("nearest_port_name", "Major Port")
+        road_dist_km = match.get("port_road_distance_km", 450.0)
+        drive_time_hrs = match.get("port_drive_time_hours", 7.0)
     freight_term_km = match.get("freight_terminal_road_distance_km", 50.0)
 
     # Cost parameters (use overrides if provided)
@@ -69,7 +183,7 @@ def simulate_freight_cost(req: FreightCostSimulationRequest, store: DataStore = 
     dfc_delay = p.dfc_yard_transfer_hours if p and p.dfc_yard_transfer_hours is not None else 3.0
     
     inv_rate = p.inventory_holding_rate if p and p.inventory_holding_rate is not None else 7.50
-    payload = req.payload_tons or 20.0
+    payload = req.payload_tons if req.payload_tons is not None else 20.0
 
     # 1. Road Trucking Cost
     road_tolls = (road_dist_km / toll_spacing) * (toll_cost_plaza / truck_payload)
@@ -153,28 +267,15 @@ def simulate_port_gravity(req: PortGravitySimulationRequest, store: DataStore = 
         raise HTTPException(status_code=500, detail="Port matrix data not loaded")
 
     df_matrix = store.port_matrix_df.copy()
-    alpha = req.alpha or 0.85
-    beta = req.beta or 1.65
+    alpha = req.alpha if req.alpha is not None else 0.85
+    beta = req.beta if req.beta is not None else 1.65
 
     # Population lookup
     pop_map = {}
     if store.districts_df is not None and "district_code" in store.districts_df.columns:
         pop_map = store.districts_df.dropna(subset=["district_code"]).set_index("district_code")["pop_2011"].to_dict()
 
-    port_data = {
-        "drive_hours_to_paradip": ("Paradip Port", 145.38),
-        "drive_hours_to_deendayal_(kandla)": ("Deendayal Port (Kandla)", 132.50),
-        "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT)", 86.00),
-        "drive_hours_to_visakhapatnam": ("Visakhapatnam Port", 81.00),
-        "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Syama Prasad Mookerjee Port (Kolkata/Haldia)", 66.00),
-        "drive_hours_to_mumbai": ("Mumbai Port", 65.00),
-        "drive_hours_to_chennai": ("Chennai Port", 54.50),
-        "drive_hours_to_kamarajar_(ennore)": ("Kamarajar Port (Ennore)", 48.00),
-        "drive_hours_to_new_mangalore": ("New Mangalore Port", 46.00),
-        "drive_hours_to_v.o._chidambaranar_(tuticorin)": ("V.O. Chidambaranar Port (Tuticorin)", 41.50),
-        "drive_hours_to_cochin": ("Cochin Port", 36.50),
-        "drive_hours_to_mormugao": ("Mormugao Port", 20.50),
-    }
+    port_data = PORT_MATRIX_DATA.copy()
 
     if req.custom_port_capacities:
         for k, (p_name, _) in port_data.items():
@@ -210,13 +311,12 @@ def simulate_port_gravity(req: PortGravitySimulationRequest, store: DataStore = 
 
     out = []
     for p_name, count in captured_districts.items():
-        if count > 0:
-            out.append({
-                "port_name": p_name,
-                "captured_districts_count": count,
-                "market_share_districts_pct": round((count / total_valid) * 100.0, 1),
-                "captured_population_cr": round(captured_pop[p_name] / 1e7, 2)
-            })
+        out.append({
+            "port_name": p_name,
+            "captured_districts_count": count,
+            "market_share_districts_pct": round((count / total_valid) * 100.0, 1) if total_valid > 0 else 0.0,
+            "captured_population_cr": round(captured_pop[p_name] / 1e7, 2)
+        })
 
     out.sort(key=lambda x: x["captured_districts_count"], reverse=True)
     return out

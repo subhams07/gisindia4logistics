@@ -4,6 +4,11 @@ examples/output/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+outputs/
 
 # session artifacts
 .zcode/
@@ -11,3 +16,4 @@ __pycache__/
 # SoI raw zips stay local; standardized village GeoJSONs are committed
 data/raw/soi_villages/
 data/administrative/villages/worker*.log
+data/cache/

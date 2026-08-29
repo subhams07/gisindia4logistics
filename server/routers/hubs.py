@@ -3,15 +3,33 @@ server/routers/hubs.py
 Infrastructure and Logistics Hubs endpoints.
 """
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Sequence
 from fastapi import APIRouter, HTTPException, Query, Depends
 import pandas as pd
 import numpy as np
+from pyproj import Geod
 
 from server.dependencies import DataStore, get_data_store
 from server.models.schemas import HubItem, RailStationItem, TollPlazaItem
 
 router = APIRouter(prefix="/hubs", tags=["Infrastructure & Logistics Hubs"])
+WGS84_GEOD = Geod(ellps="WGS84")
+
+
+def geodesic_distances_km(longitude: float, latitude: float, coordinates: Sequence[Sequence[float]]) -> np.ndarray:
+    """Return WGS84 geodesic distances from one point to ``[lon, lat]`` coordinates."""
+    points = np.asarray(coordinates, dtype=float)
+    if points.ndim != 2 or points.shape[1] != 2:
+        raise ValueError("coordinates must contain [longitude, latitude] pairs")
+    if len(points) == 0:
+        return np.array([], dtype=float)
+    _, _, distance_m = WGS84_GEOD.inv(
+        np.full(len(points), longitude),
+        np.full(len(points), latitude),
+        points[:, 0],
+        points[:, 1],
+    )
+    return np.asarray(distance_m) / 1000.0
 
 
 @router.get("", response_model=List[HubItem])
@@ -24,7 +42,10 @@ def list_hubs(
     """List multi-modal logistics hubs across India with filtering."""
     results = []
     
-    types_to_scan = [hub_type] if hub_type and hub_type in store.hubs_dict else store.hubs_dict.keys()
+    if hub_type and hub_type not in store.hubs_dict:
+        supported = ", ".join(sorted(store.hubs_dict))
+        raise HTTPException(status_code=400, detail=f"Unknown hub_type '{hub_type}'. Supported values: {supported}")
+    types_to_scan = [hub_type] if hub_type else store.hubs_dict.keys()
     
     for k in types_to_scan:
         df = store.hubs_dict[k].copy()
@@ -39,23 +60,19 @@ def list_hubs(
 
 @router.get("/nearest")
 def get_nearest_hubs(
-    latitude: float = Query(..., description="Latitude of query location"),
-    longitude: float = Query(..., description="Longitude of query location"),
+    latitude: float = Query(..., ge=-90, le=90, description="Latitude of query location"),
+    longitude: float = Query(..., ge=-180, le=180, description="Longitude of query location"),
     top_k: int = Query(3, ge=1, le=10, description="Number of nearest facilities per category"),
     store: DataStore = Depends(get_data_store)
 ):
     """Find the nearest logistics facilities (Ports, ICDs, MMLPs, Toll Plazas, Rail Stations) to any coordinate."""
     out = {}
 
-    query_pt = np.array([longitude, latitude])
-
     # 1. Hubs search
     for hub_name, df in store.hubs_dict.items():
         if "latitude" in df.columns and "longitude" in df.columns:
             coords = df[["longitude", "latitude"]].values
-            # Euclidean distance approximation
-            dists_deg = np.linalg.norm(coords - query_pt, axis=1)
-            dists_km = dists_deg * 111.0
+            dists_km = geodesic_distances_km(longitude, latitude, coords)
             idx_sorted = np.argsort(dists_km)[:top_k]
             
             items = []
@@ -76,7 +93,7 @@ def get_nearest_hubs(
     if store.toll_plazas_df is not None:
         t_df = store.toll_plazas_df
         t_coords = t_df[["longitude", "latitude"]].values
-        dists_km = np.linalg.norm(t_coords - query_pt, axis=1) * 111.0
+        dists_km = geodesic_distances_km(longitude, latitude, t_coords)
         t_sorted = np.argsort(dists_km)[:top_k]
         toll_items = []
         for idx in t_sorted:
@@ -116,8 +133,8 @@ def query_rail_stations(
     df = store.rail_stations_df.copy()
     if search:
         df = df[
-            df.station_name.str.lower().str.contains(search.lower(), na=False) |
-            df.station_code.str.lower().str.contains(search.lower(), na=False)
+            df.station_name.str.lower().str.contains(search.lower(), na=False, regex=False) |
+            df.station_code.str.lower().str.contains(search.lower(), na=False, regex=False)
         ]
     if zone:
         df = df[df.zone.str.upper() == zone.upper()]
