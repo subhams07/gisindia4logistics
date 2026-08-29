@@ -157,7 +157,15 @@ def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     method = req.get("method")
     req_id = req.get("id")
-    params = req.get("params") or {}
+
+    raw_params = req.get("params")
+    if raw_params is not None and not isinstance(raw_params, dict):
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "error": {"code": -32602, "message": "Invalid params: params must be a JSON object"},
+        }
+    params = raw_params or {}
 
     # JSON-RPC Notification: notifications have no id and must not receive a response
     if req_id is None:
@@ -167,8 +175,9 @@ def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     if method == "initialize":
         requested_version = params.get("protocolVersion")
-        # Enforce supported protocol version
-        negotiated_version = MCP_PROTOCOL_VERSION
+        negotiated_version = (
+            requested_version if requested_version in SUPPORTED_PROTOCOL_VERSIONS else MCP_PROTOCOL_VERSION
+        )
         return {
             "jsonrpc": "2.0",
             "id": req_id,

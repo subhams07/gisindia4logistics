@@ -174,6 +174,11 @@ def test_mcp_initialize_and_ping_are_supported():
     assert ping["result"] == {}
     assert notification is None
 
+    # Test non-object params returns JSON-RPC -32602
+    invalid_params = handle_rpc_request({"jsonrpc": "2.0", "id": 4, "method": "initialize", "params": ["bad"]})
+    assert invalid_params["error"]["code"] == -32602
+    assert "Invalid params" in invalid_params["error"]["message"]
+
 
 def test_mcp_tool_failure_returns_is_error():
     response = handle_rpc_request(

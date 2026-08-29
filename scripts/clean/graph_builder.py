@@ -5,13 +5,17 @@ Used identically by live server (server.dependencies.DataStore) and analytical e
 """
 
 from pathlib import Path
-from typing import Tuple, Dict, Optional, List
-import time
+from typing import Tuple, Dict, Optional, List, Any
+import hashlib
+import json
+import logging
 import numpy as np
 import scipy.sparse as sp
 from scipy.spatial import KDTree
 from scipy.sparse.csgraph import connected_components
 import geopandas as gpd
+
+LOGGER = logging.getLogger(__name__)
 
 PROJ_EPSG = 7755
 SPEEDS = {"motorway": 90.0, "trunk": 70.0, "primary": 55.0}
@@ -19,6 +23,7 @@ DEFAULT_SPEED = 50.0
 BRIDGE_SPEED = 35.0
 BRIDGE_MAX_METERS = 350.0
 SNAP_GRID_METERS = 15.0
+CACHE_VERSION = 3
 
 
 def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, float]:
@@ -26,12 +31,27 @@ def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, 
     return (round(x / grid) * grid, round(y / grid) * grid)
 
 
+def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
+    """Computes a structural and parameter fingerprint for cache validation."""
+    speed_hash = hashlib.sha256(json.dumps(SPEEDS, sort_keys=True).encode()).hexdigest()[:16]
+    return {
+        "cache_version": CACHE_VERSION,
+        "row_count": int(len(nh_gdf)),
+        "crs": str(nh_gdf.crs),
+        "snap_grid_meters": float(SNAP_GRID_METERS),
+        "bridge_max_meters": float(BRIDGE_MAX_METERS),
+        "bridge_speed": float(BRIDGE_SPEED),
+        "default_speed": float(DEFAULT_SPEED),
+        "speed_hash": speed_hash,
+    }
+
+
 def build_canonical_highway_graph(
     nh_gdf: gpd.GeoDataFrame,
 ) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
     """
     Constructs the canonical National Highway routing graph in EPSG:7755.
-    
+
     Returns:
         graph_time: csr_matrix weighted by transit duration (hours)
         graph_dist: csr_matrix weighted by road distance (km)
@@ -59,7 +79,6 @@ def build_canonical_highway_graph(
         if geom is None or geom.is_empty:
             continue
 
-        # Look up speed from 'highway' column
         spd = SPEEDS.get(str(row.get("highway")).lower(), DEFAULT_SPEED)
         lines = [geom] if geom.geom_type == "LineString" else (geom.geoms if geom.geom_type == "MultiLineString" else [])
 
@@ -79,7 +98,7 @@ def build_canonical_highway_graph(
                 if u != v:
                     d_m = float(np.hypot(node_coords[u][0] - node_coords[v][0], node_coords[u][1] - node_coords[v][1]))
                     t_hrs = (d_m / 1000.0) / spd
-                    
+
                     for edge in [(u, v), (v, u)]:
                         if edge not in edges_dict or t_hrs < edges_dict[edge][0]:
                             edges_dict[edge] = (t_hrs, d_m)
@@ -88,7 +107,6 @@ def build_canonical_highway_graph(
     endpoint_indices = list(linestring_endpoints)
     endpoint_coords = coords_arr[endpoint_indices]
 
-    # Add synthetic bridges only between LineString endpoints (fast, scalable)
     if len(endpoint_coords) > 0:
         ep_tree = KDTree(endpoint_coords)
         ep_pairs = ep_tree.query_pairs(r=BRIDGE_MAX_METERS)
@@ -121,34 +139,41 @@ def load_or_build_cached_graph(
     nh_gdf: gpd.GeoDataFrame,
     cache_dir: Optional[Path] = None,
 ) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
-    """Loads precomputed graph from disk cache or builds and caches it."""
+    """Loads precomputed graph from disk cache with fingerprint validation or builds and caches it."""
+    expected_meta = compute_graph_fingerprint(nh_gdf)
+
     if cache_dir is not None:
-        cache_dir.mkdir(parents=True, exist_ok=True)
         cache_file = cache_dir / "canonical_nh_graph.npz"
         if cache_file.exists():
             try:
-                data = np.load(cache_file, allow_pickle=False)
-                N = int(data["N"])
-                graph_time = sp.csr_matrix(
-                    (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
-                )
-                graph_dist = sp.csr_matrix(
-                    (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
-                )
-                coords_arr = data["coords_arr"]
-                labels = data["labels"]
-                tree = KDTree(coords_arr)
-                return graph_time, graph_dist, coords_arr, labels, tree
-            except Exception:
-                pass  # Recompute if cache is corrupted
+                data = np.load(cache_file, allow_pickle=True)
+                # Verify fingerprint metadata
+                meta_json = str(data.get("metadata", "{}"))
+                stored_meta = json.loads(meta_json)
+                if stored_meta == expected_meta:
+                    N = int(data["N"])
+                    graph_time = sp.csr_matrix(
+                        (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
+                    )
+                    graph_dist = sp.csr_matrix(
+                        (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
+                    )
+                    coords_arr = data["coords_arr"]
+                    labels = data["labels"]
+                    tree = KDTree(coords_arr)
+                    return graph_time, graph_dist, coords_arr, labels, tree
+                else:
+                    LOGGER.info("Graph cache fingerprint mismatch; rebuilding canonical highway graph.")
+            except Exception as e:
+                LOGGER.warning("Could not load graph cache (%s); rebuilding.", e)
 
     # Build graph
-    t0 = time.time()
     graph_time, graph_dist, coords_arr, labels, tree = build_canonical_highway_graph(nh_gdf)
-    
-    # Save cache
+
+    # Save cache safely
     if cache_dir is not None:
         try:
+            cache_dir.mkdir(parents=True, exist_ok=True)
             cache_file = cache_dir / "canonical_nh_graph.npz"
             np.savez_compressed(
                 cache_file,
@@ -161,8 +186,9 @@ def load_or_build_cached_graph(
                 dist_indptr=graph_dist.indptr,
                 coords_arr=coords_arr,
                 labels=labels,
+                metadata=json.dumps(expected_meta),
             )
-        except Exception:
-            pass
+        except (OSError, PermissionError) as e:
+            LOGGER.warning("Could not write graph cache to %s (%s); running in-memory.", cache_dir, e)
 
     return graph_time, graph_dist, coords_arr, labels, tree

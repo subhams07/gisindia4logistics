@@ -146,7 +146,7 @@ class DataStore:
         else:
             return
 
-        cache_dir = self.data_dir / "cache"
+        cache_dir = settings.CACHE_PATH
         self.nh_graph, self.nh_distance_graph, self.nh_node_xy, self.nh_comp_labels, self.nh_tree = load_or_build_cached_graph(
             gdf_nh, cache_dir=cache_dir
         )

@@ -15,7 +15,7 @@ The route engine is a strategic accessibility model built from the committed Nat
 Current assumptions:
 
 - network geometry is projected to EPSG:7755;
-- modeled speeds are 90 km/h for motorway, 70 km/h for trunk, 55 km/h for primary, and 65 km/h for unclassified fallback edges;
+- modeled speeds are 90 km/h for motorway, 70 km/h for trunk, 55 km/h for primary, and 50 km/h for unclassified fallback edges;
 - nearby disconnected nodes may be bridged at up to 350 m and modeled at 35 km/h;
 - real network edges take precedence over synthetic bridges;
 - origins and destinations are snapped to the principal connected component;

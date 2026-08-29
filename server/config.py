@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     # Path mappings
     DATA_PATH: Path = DATA_DIR
     OUTPUT_PATH: Path = BASE_DIR / "outputs"
+    CACHE_PATH: Path = BASE_DIR / "outputs" / "cache"
 
     model_config = SettingsConfigDict(
         case_sensitive=True,

@@ -5,9 +5,8 @@ Read this before making changes. Last updated: 2026-08-23.
 
 ## What this repository is
 
-An open, curated GIS data collection for logistics/transport analysis in
-India, published at https://github.com/subhams07/GIS4logistics (PRIVATE as of
-2026-08-23; intended to go public eventually). It is a **hybrid** repo: small
+An open, curated GIS data collection and freight analytics platform for logistics/transport analysis in
+India, published at https://github.com/subhams07/gisindia4logistics (PUBLIC canonical repository). It is a **hybrid** repo: small
 and medium datasets committed directly (~460 MB total), larger/regenerable
 datasets produced by fetch scripts.
 
@@ -173,8 +172,8 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
 23. **File-size policy relaxed by maintainer**: no 10 MB cap; commit
     everything; >20 MB preferably LFS-routed formats (but see LFS lesson).
 24. Installed GitHub CLI via `winget install GitHub.cli`; user ran
-    `gh auth login` (browser). Repo created PRIVATE:
-    https://github.com/subhams07/GIS4logistics
+    `gh auth login` (browser). Canonical public repo:
+    https://github.com/subhams07/gisindia4logistics
 25. **LFS lesson**: account's LFS budget was exhausted → push blocked on the
     single LFS-routed gpkg. Fixed by `git lfs untrack` + commit as regular
     blob + **`git lfs migrate export --everything --include=<path>`** to
@@ -370,9 +369,7 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
 - Choropleth visualization and catchment map generation.
 - Official population projections (NCP/MoHFW) to complement Census 2011
   weights in accessibility summaries.
-- When making public: `gh repo edit subhams07/GIS4logistics --visibility
-  public`; FIRST re-evaluate SoI/ABDB redistribution posture (metadata says
-  copyright — see legal_compliance.md); consider Zenodo DOI release.
+- Maintainer roadmap: keep canonical public repo https://github.com/subhams07/gisindia4logistics synchronized; consider Zenodo DOI release for datasets.
 
 ## Environment
 

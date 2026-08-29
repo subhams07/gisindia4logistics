@@ -20,6 +20,7 @@ import sys
 import traceback
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
@@ -250,10 +251,33 @@ def audit_analysis():
         islands_non_null = islands_mat[time_cols + dist_cols].notna().sum().sum()
         check("nh_analysis", "island port matrix cells are strictly null", "FAIL", islands_non_null == 0, f"{islands_non_null} non-null")
 
-        # Check mainland finite invariants
+        # Check mainland finite invariants and physical speed plausibility
         mainland_mat = nh_mat[~nh_mat.district.astype(str).str.lower().isin(island_districts)]
         mainland_all_null = (mainland_mat[time_cols].isna().all(axis=1)).sum()
         check("nh_analysis", "mainland districts have valid port routes", "FAIL", mainland_all_null == 0, f"{mainland_all_null} unrouted")
+
+        all_speeds = []
+        for t_col in time_cols:
+            d_col = t_col.replace("drive_hours_to_", "road_km_to_", 1)
+            check("nh_analysis", f"port column paired: {t_col}", "FAIL", d_col in nh_mat.columns)
+            if d_col in nh_mat.columns:
+                valid_mask = mainland_mat[t_col].notna() & mainland_mat[d_col].notna() & (mainland_mat[t_col] > 0)
+                spds = (mainland_mat.loc[valid_mask, d_col] / mainland_mat.loc[valid_mask, t_col]).values
+                all_speeds.extend(spds)
+
+        all_speeds = np.array(all_speeds)
+        check("nh_analysis", "implied road speeds strictly positive", "FAIL", (all_speeds <= 0).sum() == 0)
+        check("nh_analysis", "implied road speeds physically bounded (<= 110 km/h)", "FAIL", (all_speeds > 110.0).sum() == 0, f"max {all_speeds.max():.1f} km/h")
+        check("nh_analysis", "implied road speeds realistic lower bound (>= 25 km/h)", "FAIL", (all_speeds < 25.0).sum() == 0, f"min {all_speeds.min():.1f} km/h")
+        check("nh_analysis", "implied road speeds median in range 45-75 km/h", "FAIL", 45.0 <= float(np.median(all_speeds)) <= 75.0, f"median {np.median(all_speeds):.1f} km/h")
+
+        # Benchmark corridor checks
+        pune_row = mainland_mat[(mainland_mat.district.str.lower() == "pune") & (mainland_mat.state.str.lower() == "maharashtra")]
+        if not pune_row.empty:
+            p_jnpt_km = pune_row.iloc[0].get("road_km_to_jawaharlal_nehru_(jnpt/navi_mumbai)")
+            p_jnpt_hrs = pune_row.iloc[0].get("drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)")
+            check("nh_analysis", "corridor benchmark Pune -> JNPT (110-160 km, 1.4-2.6 hrs)", "FAIL",
+                  110.0 <= p_jnpt_km <= 160.0 and 1.4 <= p_jnpt_hrs <= 2.6, f"{p_jnpt_km} km / {p_jnpt_hrs} hrs")
 
     # Intermodal Freight Cost Model
     modal_p = DATA_DIR / "analysis" / "district_freight_modal_split.csv"

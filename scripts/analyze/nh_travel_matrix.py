@@ -125,18 +125,19 @@ def main() -> None:
         dtype=int,
     )
     target_node_to_col = {node_id: col for col, node_id in enumerate(target_nodes)}
+    chunk_size = 32
     dist_time_targets = np.empty((len(d_node_ids), len(target_nodes)), dtype=np.float64)
     dist_dist_targets = np.empty((len(d_node_ids), len(target_nodes)), dtype=np.float64)
-    chunk_size = 32
+
     for start in range(0, len(d_node_ids), chunk_size):
         end = min(start + chunk_size, len(d_node_ids))
         district_chunk = d_node_ids[start:end]
-        dist_time_targets[start:end] = dijkstra(
+        dist_time_targets[start:end, :] = dijkstra(
             csgraph=graph_time,
             directed=False,
             indices=district_chunk,
         )[:, target_nodes]
-        dist_dist_targets[start:end] = dijkstra(
+        dist_dist_targets[start:end, :] = dijkstra(
             csgraph=graph_dist,
             directed=False,
             indices=district_chunk,
@@ -151,7 +152,8 @@ def main() -> None:
         dt = d_row["district"]
         code = d_row.get("district_code")
         d_access_km = d_dists_m[i] / 1000.0
-        d_access_time_min = (d_access_km / ACCESS_SPEED) * 60.0
+        d_access_hours = d_access_km / ACCESS_SPEED
+        d_access_time_min = d_access_hours * 60.0
         
         # Island detection (Andaman & Nicobar, Lakshadweep: > 150 km from mainland network)
         is_island = d_access_km > 150.0
@@ -182,22 +184,23 @@ def main() -> None:
             h_nodes = h_gdf["node_id"].values
             h_target_cols = np.array([target_node_to_col[int(node)] for node in h_nodes])
             h_snap_km = h_gdf["snap_dist_km"].values
+            h_snap_hours = h_snap_km / ACCESS_SPEED
             h_names = h_gdf["name"].values
             
-            # Net travel times + access times
-            raw_times = dist_time_targets[i, h_target_cols]
-            raw_dists = dist_dist_targets[i, h_target_cols]
+            # Net travel times (hours) + access times (hours)
+            raw_times_hours = dist_time_targets[i, h_target_cols]
+            raw_dists_km = dist_dist_targets[i, h_target_cols]
             
-            tot_times_min = raw_times + d_access_time_min + (h_snap_km / ACCESS_SPEED) * 60.0
-            tot_dists_km = raw_dists + d_access_km + h_snap_km
+            tot_times_hours = raw_times_hours + d_access_hours + h_snap_hours
+            tot_dists_km = raw_dists_km + d_access_km + h_snap_km
             
-            best_idx = np.argmin(tot_times_min)
-            best_time_min = tot_times_min[best_idx]
+            best_idx = np.argmin(tot_times_hours)
+            best_time_hours = tot_times_hours[best_idx]
             best_dist_km = tot_dists_km[best_idx]
             best_geom = h_gdf.geometry.iloc[best_idx]
             straight_km = np.hypot(best_geom.x - d_pt[0], best_geom.y - d_pt[1]) / 1000.0
             
-            if np.isinf(best_time_min):
+            if np.isinf(best_time_hours):
                 row[f"nearest_{kind}_name"] = None
                 row[f"{kind}_straight_km"] = None
                 row[f"{kind}_road_distance_km"] = None
@@ -207,8 +210,8 @@ def main() -> None:
                 row[f"nearest_{kind}_name"] = h_names[best_idx]
                 row[f"{kind}_straight_km"] = round(straight_km, 1)
                 row[f"{kind}_road_distance_km"] = round(best_dist_km, 1)
-                row[f"{kind}_drive_time_hours"] = round(best_time_min / 60.0, 2)
-                row[f"{kind}_drive_time_min"] = round(best_time_min, 0)
+                row[f"{kind}_drive_time_hours"] = round(best_time_hours, 2)
+                row[f"{kind}_drive_time_min"] = round(best_time_hours * 60.0, 0)
 
         summary_rows.append(row)
 
@@ -235,20 +238,21 @@ def main() -> None:
             matrix_rows.append(p_row)
             continue
 
-        d_access_time = (d_dists_m[i] / 1000.0 / ACCESS_SPEED) * 60.0
+        d_access_km = d_dists_m[i] / 1000.0
+        d_access_hours = d_access_km / ACCESS_SPEED
         
         for _, port in major_ports.iterrows():
             p_node = port["node_id"]
             p_target_col = target_node_to_col[int(p_node)]
-            p_access_time = (port["snap_dist_km"] / ACCESS_SPEED) * 60.0
             p_access_km = port["snap_dist_km"]
-            t_net = dist_time_targets[i, p_target_col]
-            d_net = dist_dist_targets[i, p_target_col]
-            t_tot = t_net + d_access_time + p_access_time
-            d_tot = d_net + (d_dists_m[i] / 1000.0) + p_access_km
+            p_access_hours = p_access_km / ACCESS_SPEED
+            t_net_hours = dist_time_targets[i, p_target_col]
+            d_net_km = dist_dist_targets[i, p_target_col]
+            t_tot_hours = t_net_hours + d_access_hours + p_access_hours
+            d_tot_km = d_net_km + d_access_km + p_access_km
             port_key = port["name"].replace("Port of ", "").replace(" Port", "").replace(" ", "_").lower()
-            p_row[f"drive_hours_to_{port_key}"] = round(t_tot / 60.0, 2) if not np.isinf(t_tot) else None
-            p_row[f"road_km_to_{port_key}"] = round(d_tot, 1) if not np.isinf(d_tot) else None
+            p_row[f"drive_hours_to_{port_key}"] = round(t_tot_hours, 2) if not np.isinf(t_tot_hours) else None
+            p_row[f"road_km_to_{port_key}"] = round(d_tot_km, 1) if not np.isinf(d_tot_km) else None
         
         matrix_rows.append(p_row)
 

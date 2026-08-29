@@ -3,15 +3,12 @@ gisindia4logistics.sdk
 High-level typed Python SDK for GISIndia4Logistics.
 """
 
-import json
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple, Union
-import pandas as pd
-import geopandas as gpd
 
 from server.dependencies import DataStore
 from server.routers.admin import get_district_scorecard
-from server.routers.routing import calculate_highway_route, RouteRequest
+from server.routers.routing import calculate_highway_route
 from server.routers.hubs import get_nearest_hubs
 from server.models.schemas import (
     FreightCostSimulationRequest,
