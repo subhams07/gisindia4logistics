@@ -1,0 +1,228 @@
+# data/aliases/location_aliases.yaml
+# Explicit alias registry for GISIndia4Logistics Decision Workbench location resolution.
+# Maps common acronyms, commercial names, and historical terms to canonical hub entities.
+
+# --- Major & Commercial Ports ---
+JNPT:
+  type: port
+  canonical_name: "Jawaharlal Nehru Port (JNPT/Navi Mumbai)"
+  code: "INNSA"
+
+Nhava Sheva:
+  type: port
+  canonical_name: "Jawaharlal Nehru Port (JNPT/Navi Mumbai)"
+  code: "INNSA"
+
+JNP:
+  type: port
+  canonical_name: "Jawaharlal Nehru Port (JNPT/Navi Mumbai)"
+  code: "INNSA"
+
+Kandla:
+  type: port
+  canonical_name: "Deendayal Port (Kandla)"
+  code: "INIXY"
+
+Deendayal:
+  type: port
+  canonical_name: "Deendayal Port (Kandla)"
+  code: "INIXY"
+
+Mundra:
+  type: port
+  canonical_name: "Mundra Port"
+  code: "INMUN"
+
+Pipavav:
+  type: port
+  canonical_name: "Pipavav Port"
+  code: "INPAV"
+
+Hazira:
+  type: port
+  canonical_name: "Hazira Port"
+  code: "INHZR"
+
+Dahej:
+  type: port
+  canonical_name: "Dahej Port"
+  code: "INDAH"
+
+Mormugao:
+  type: port
+  canonical_name: "Mormugao Port"
+  code: "INMRM"
+
+Goa Port:
+  type: port
+  canonical_name: "Mormugao Port"
+  code: "INMRM"
+
+New Mangalore:
+  type: port
+  canonical_name: "New Mangalore Port"
+  code: "INNML"
+
+Mangalore Port:
+  type: port
+  canonical_name: "New Mangalore Port"
+  code: "INNML"
+
+Cochin:
+  type: port
+  canonical_name: "Cochin Port"
+  code: "INCOK"
+
+Kochi Port:
+  type: port
+  canonical_name: "Cochin Port"
+  code: "INCOK"
+
+Vallarpadam:
+  type: port
+  canonical_name: "Cochin Port"
+  code: "INCOK"
+
+Tuticorin:
+  type: port
+  canonical_name: "V.O. Chidambaranar Port (Tuticorin)"
+  code: "INTUT"
+
+VOC Port:
+  type: port
+  canonical_name: "V.O. Chidambaranar Port (Tuticorin)"
+  code: "INTUT"
+
+Chennai Port:
+  type: port
+  canonical_name: "Chennai Port"
+  code: "INMAA"
+
+Madras Port:
+  type: port
+  canonical_name: "Chennai Port"
+  code: "INMAA"
+
+Ennore:
+  type: port
+  canonical_name: "Kamarajar Port (Ennore)"
+  code: "INENR"
+
+Kamarajar:
+  type: port
+  canonical_name: "Kamarajar Port (Ennore)"
+  code: "INENR"
+
+Kattupalli:
+  type: port
+  canonical_name: "Kattupalli Port"
+  code: "INKAT"
+
+Krishnapatnam:
+  type: port
+  canonical_name: "Krishnapatnam Port"
+  code: "INKRI"
+
+Vizag:
+  type: port
+  canonical_name: "Visakhapatnam Port"
+  code: "INVTZ"
+
+Visakhapatnam:
+  type: port
+  canonical_name: "Visakhapatnam Port"
+  code: "INVTZ"
+
+Gangavaram:
+  type: port
+  canonical_name: "Gangavaram Port"
+  code: "INGGV"
+
+Paradip:
+  type: port
+  canonical_name: "Paradip Port"
+  code: "INPRT"
+
+Dhamra:
+  type: port
+  canonical_name: "Dhamra Port"
+  code: "INDHM"
+
+Kolkata Port:
+  type: port
+  canonical_name: "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex"
+  code: "INCCU"
+
+Haldia:
+  type: port
+  canonical_name: "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex"
+  code: "INHAL"
+
+Syama Prasad Mookerjee:
+  type: port
+  canonical_name: "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex"
+  code: "INCCU"
+
+Vizhinjam:
+  type: port
+  canonical_name: "Vizhinjam International Seaport"
+  code: "INVZJ"
+
+Karaikal:
+  type: port
+  canonical_name: "Karaikal Port"
+  code: "INKRK"
+
+# --- Inland Container Depots (ICDs) ---
+TKD:
+  type: icd
+  canonical_name: "ICD Tughlakabad"
+
+Tughlakabad:
+  type: icd
+  canonical_name: "ICD Tughlakabad"
+
+Dadri ICD:
+  type: icd
+  canonical_name: "ICD Dadri"
+
+Dadri:
+  type: icd
+  canonical_name: "ICD Dadri"
+
+Garhi Harsaru:
+  type: icd
+  canonical_name: "ICD Garhi Harsaru"
+
+Whitefield:
+  type: icd
+  canonical_name: "ICD Whitefield"
+
+Pithampur:
+  type: icd
+  canonical_name: "ICD Pithampur"
+
+MIHAN:
+  type: icd
+  canonical_name: "ICD Nagpur (MIHAN)"
+
+# --- Major Railway Terminals ---
+CSMT:
+  type: rail_station
+  canonical_name: "Chhatrapati Shivaji Maharaj Terminus (CSMT)"
+  code: "CSMT"
+
+NDLS:
+  type: rail_station
+  canonical_name: "New Delhi Railway Station"
+  code: "NDLS"
+
+PUNE:
+  type: rail_station
+  canonical_name: "Pune Junction"
+  code: "PUNE"
+
+HWH:
+  type: rail_station
+  canonical_name: "Howrah Junction"
+  code: "HWH"
