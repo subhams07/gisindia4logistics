@@ -1,0 +1,32 @@
+name: Source or license concern
+description: Report attribution, provenance, terms, or redistribution concerns
+title: "[Source/License]: "
+labels: ["provenance", "legal-review"]
+body:
+  - type: markdown
+    attributes:
+      value: "This template records concerns for maintainer review and is not a request for legal advice."
+  - type: input
+    id: dataset
+    attributes:
+      label: Dataset or file
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Upstream source or terms URL
+      placeholder: https://...
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: Explain the attribution, license, provenance, or redistribution issue.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed resolution

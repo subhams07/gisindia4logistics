@@ -3,8 +3,9 @@ server/models/schemas.py
 Pydantic data validation schemas for GIS4Logistics API.
 """
 
-from typing import List, Optional, Dict, Any, Union
-from pydantic import BaseModel, Field
+import math
+from typing import List, Optional, Dict, Any, Union, Literal
+from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
 
 
 # --- Administrative Schemas ---
@@ -43,7 +44,8 @@ class DistrictScorecard(BaseModel):
     nearest_mmlp: Optional[Dict[str, Any]] = None
     
     # Catchment shares
-    share_villages_within_5km_rail: Optional[float] = None
+    share_villages_within_10km_rail: Optional[float] = None
+    share_villages_within_5km_rail: Optional[float] = Field(None, deprecated=True, description="Deprecated alias for 10km catchment")
     share_villages_within_25km_rail: Optional[float] = None
     share_villages_within_50km_icd: Optional[float] = None
 
@@ -96,11 +98,34 @@ class TollPlazaItem(BaseModel):
     booth_count: Optional[int] = None
 
 
+class NearestFacilitiesRequest(BaseModel):
+    model_config = ConfigDict(validate_assignment=True)
+    latitude: float = Field(..., ge=-90, le=90, description="Latitude of query location")
+    longitude: float = Field(..., ge=-180, le=180, description="Longitude of query location")
+    top_k: int = Field(3, ge=1, le=10, description="Number of nearest facilities per category")
+
+
 # --- Routing Schemas ---
 class RouteRequest(BaseModel):
+    model_config = ConfigDict(validate_assignment=True)
     origin: List[float] = Field(..., description="[latitude, longitude] of origin point", min_length=2, max_length=2)
     destination: List[float] = Field(..., description="[latitude, longitude] of destination point", min_length=2, max_length=2)
-    vehicle_type: Optional[str] = Field("MAV_20T", description="Vehicle type: LMV, LCV, 2_AXLE_TRUCK, MAV_20T, 7_AXLE_OVERSIZED")
+    vehicle_type: Literal["LMV", "LCV", "2_AXLE_TRUCK", "MAV_20T", "7_AXLE_OVERSIZED"] = Field(
+        "MAV_20T",
+        description="Vehicle type: LMV, LCV, 2_AXLE_TRUCK, MAV_20T, 7_AXLE_OVERSIZED",
+    )
+
+    @field_validator("origin", "destination")
+    @classmethod
+    def validate_coordinate_pair(cls, value: List[float]) -> List[float]:
+        latitude, longitude = value
+        if not all(math.isfinite(float(item)) for item in value):
+            raise ValueError("coordinates must be finite numbers")
+        if not -90.0 <= latitude <= 90.0:
+            raise ValueError("latitude must be between -90 and 90")
+        if not -180.0 <= longitude <= 180.0:
+            raise ValueError("longitude must be between -180 and 180")
+        return value
 
 
 class RouteResponse(BaseModel):
@@ -109,40 +134,50 @@ class RouteResponse(BaseModel):
     drive_time_formatted: str
     tolls_encountered_count: int
     estimated_toll_cost_inr: float
+    toll_estimation_method: str
+    routing_scope: str
     origin_snapped: List[float]
     destination_snapped: List[float]
 
 
 # --- Simulation Schemas ---
 class CostParametersOverride(BaseModel):
-    road_linehaul_rate: Optional[float] = Field(3.30, description="Road linehaul rate INR/tonne-km")
-    road_handling_cost: Optional[float] = Field(140.0, description="Road handling INR/tonne")
-    toll_cost_per_plaza: Optional[float] = Field(340.0, description="Toll fee per plaza INR")
-    truck_payload_tons: Optional[float] = Field(20.0, description="Commercial payload in MT")
-    toll_spacing_km: Optional[float] = Field(65.0, description="Average km between tolls")
+    model_config = ConfigDict(validate_assignment=True)
+    road_linehaul_rate: Optional[float] = Field(3.30, ge=0, description="Road linehaul rate INR/tonne-km")
+    road_handling_cost: Optional[float] = Field(140.0, ge=0, description="Road handling INR/tonne")
+    toll_cost_per_plaza: Optional[float] = Field(340.0, ge=0, description="Toll fee per plaza INR")
+    truck_payload_tons: Optional[float] = Field(20.0, gt=0, description="Commercial payload in MT")
+    toll_spacing_km: Optional[float] = Field(65.0, gt=0, description="Average km between tolls")
     
-    rail_base_class_rate: Optional[float] = Field(1.55, description="IR Base class rate factor")
-    rail_first_mile_rate: Optional[float] = Field(4.20, description="Feeder trucking rate INR/tonne-km")
-    rail_first_mile_handling: Optional[float] = Field(120.0, description="First-mile goods shed handling INR/tonne")
-    rail_handling_and_siding: Optional[float] = Field(220.0, description="Rail terminal handling INR/tonne")
-    rail_commercial_speed_kmh: Optional[float] = Field(25.0, description="Average rail speed km/h")
-    rail_yard_detention_hours: Optional[float] = Field(12.0, description="Rail marshalling delay hours")
+    rail_base_class_rate: Optional[float] = Field(1.55, ge=0, description="IR Base class rate factor")
+    rail_first_mile_rate: Optional[float] = Field(4.20, ge=0, description="Feeder trucking rate INR/tonne-km")
+    rail_first_mile_handling: Optional[float] = Field(120.0, ge=0, description="First-mile goods shed handling INR/tonne")
+    rail_handling_and_siding: Optional[float] = Field(220.0, ge=0, description="Rail terminal handling INR/tonne")
+    rail_commercial_speed_kmh: Optional[float] = Field(25.0, gt=0, description="Average rail speed km/h")
+    rail_yard_detention_hours: Optional[float] = Field(12.0, ge=0, description="Rail marshalling delay hours")
     
-    dfc_linehaul_rate: Optional[float] = Field(1.12, description="DFC linehaul rate INR/tonne-km")
-    dfc_handling_cost: Optional[float] = Field(180.0, description="DFC terminal handling INR/tonne")
-    dfc_commercial_speed_kmh: Optional[float] = Field(60.0, description="DFC timetable speed km/h")
-    dfc_yard_transfer_hours: Optional[float] = Field(3.0, description="DFC transfer delay hours")
+    dfc_linehaul_rate: Optional[float] = Field(1.12, ge=0, description="DFC linehaul rate INR/tonne-km")
+    dfc_handling_cost: Optional[float] = Field(180.0, ge=0, description="DFC terminal handling INR/tonne")
+    dfc_commercial_speed_kmh: Optional[float] = Field(60.0, gt=0, description="DFC timetable speed km/h")
+    dfc_yard_transfer_hours: Optional[float] = Field(3.0, ge=0, description="DFC transfer delay hours")
     
-    inventory_holding_rate: Optional[float] = Field(7.50, description="Working capital delay cost INR/tonne-hour")
+    inventory_holding_rate: Optional[float] = Field(7.50, ge=0, description="Working capital delay cost INR/tonne-hour")
 
 
 class FreightCostSimulationRequest(BaseModel):
+    model_config = ConfigDict(validate_assignment=True)
     origin_district: Optional[str] = Field(None, description="Origin district name, e.g. 'Pune' or 'Indore'")
     origin_district_code: Optional[int] = Field(None, description="LGD District Code, e.g. 521")
     target_port: Optional[str] = Field(None, description="Optional target port name; defaults to nearest major port")
-    payload_tons: Optional[float] = Field(20.0, description="Shipment weight in metric tonnes")
+    payload_tons: Optional[float] = Field(20.0, gt=0, description="Shipment weight in metric tonnes")
     commodity_name: Optional[str] = Field("General Merchandise", description="Commodity description")
     custom_parameters: Optional[CostParametersOverride] = None
+
+    @model_validator(mode="after")
+    def require_origin(self):
+        if not self.origin_district and self.origin_district_code is None:
+            raise ValueError("origin_district or origin_district_code is required")
+        return self
 
 
 class ModalCostBreakdown(BaseModel):
@@ -167,9 +202,16 @@ class FreightCostSimulationResponse(BaseModel):
 
 
 class PortGravitySimulationRequest(BaseModel):
-    alpha: Optional[float] = Field(0.85, description="Port capacity sensitivity exponent")
-    beta: Optional[float] = Field(1.65, description="Distance decay friction exponent")
+    alpha: Optional[float] = Field(0.85, ge=0, le=10, description="Port capacity sensitivity exponent")
+    beta: Optional[float] = Field(1.65, ge=0, le=10, description="Distance decay friction exponent")
     custom_port_capacities: Optional[Dict[str, float]] = Field(None, description="Custom capacity in MT for specific ports")
+
+    @field_validator("custom_port_capacities")
+    @classmethod
+    def validate_capacities(cls, value: Optional[Dict[str, float]]) -> Optional[Dict[str, float]]:
+        if value is not None and any(not math.isfinite(capacity) or capacity <= 0 for capacity in value.values()):
+            raise ValueError("custom port capacities must be finite and greater than zero")
+        return value
 
 
 class PortMarketShareItem(BaseModel):

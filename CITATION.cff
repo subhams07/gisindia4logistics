@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use GISIndia4Logistics, please cite the repository and the individual datasets listed in catalog.yaml."
+title: "GISIndia4Logistics"
+type: software
+authors:
+  - family-names: "Sahu"
+    given-names: "Subham"
+version: "1.0.0"
+repository-code: "https://github.com/subhams07/gisindia4logistics"
+url: "https://github.com/subhams07/gisindia4logistics"
+license: MIT
+keywords:
+  - GIS
+  - logistics
+  - India
+  - freight
+  - routing
+  - geospatial data

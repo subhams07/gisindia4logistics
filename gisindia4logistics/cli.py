@@ -130,7 +130,7 @@ def main():
     # cost
     p_cost = subparsers.add_parser("cost", help="Calculate intermodal freight cost (Road vs Rail vs DFC)")
     p_cost.add_argument("--origin", type=str, required=True, help="Origin district name (e.g. 'Indore', 'Pune')")
-    p_cost.add_argument("--port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT)')")
+    p_cost.add_argument("--port", "--target-port", dest="port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT)', 'Paradip Port')")
     p_cost.add_argument("--payload", type=float, default=20.0, help="Payload in tonnes (default: 20.0)")
     p_cost.add_argument("--road-rate", type=float, help="Road linehaul rate INR/t-km")
     p_cost.add_argument("--dfc-rate", type=float, help="DFC linehaul rate INR/t-km")

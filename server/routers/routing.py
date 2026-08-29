@@ -3,14 +3,13 @@ server/routers/routing.py
 Highway routing, Dijkstra shortest-path calculations, and Isochrones.
 """
 
-from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 import geopandas as gpd
 import numpy as np
 from pyproj import Transformer
 from scipy.sparse.csgraph import dijkstra
 
-from server.dependencies import DataStore, get_data_store, PROJ
+from server.dependencies import DataStore, get_data_store
 from server.models.schemas import RouteRequest, RouteResponse
 
 router = APIRouter(prefix="/route", tags=["Highway Routing & Isochrones"])
@@ -22,8 +21,8 @@ transformer_to_wgs = Transformer.from_crs("EPSG:7755", "EPSG:4326", always_xy=Tr
 
 @router.post("/highway", response_model=RouteResponse)
 def calculate_highway_route(req: RouteRequest, store: DataStore = Depends(get_data_store)):
-    """Calculate commercial highway shortest-path, drive time, and FASTag toll expense between any two points in India."""
-    if store.nh_graph is None or store.nh_tree is None:
+    """Estimate strategic NH-network distance, drive time, and toll expense."""
+    if store.nh_graph is None or store.nh_distance_graph is None or store.nh_tree is None:
         raise HTTPException(status_code=503, detail="Highway routing network is initializing or not available")
 
     # Convert coordinates to LCC
@@ -55,16 +54,32 @@ def calculate_highway_route(req: RouteRequest, store: DataStore = Depends(get_da
                 break
 
     # Run Dijkstra
-    dist_matrix = dijkstra(store.nh_graph, directed=False, indices=[orig_idx], unweighted=False)
+    dist_matrix, predecessors = dijkstra(
+        store.nh_graph,
+        directed=False,
+        indices=[orig_idx],
+        unweighted=False,
+        return_predecessors=True,
+    )
     drive_hours = dist_matrix[0, dest_idx]
 
     if np.isinf(drive_hours):
         raise HTTPException(status_code=400, detail="No highway network path found between the specified points (e.g. island or disconnected component)")
 
+    # Reconstruct the time-optimal path and sum its actual edge lengths.
+    network_dist_km = 0.0
+    current = int(dest_idx)
+    while current != int(orig_idx):
+        predecessor = int(predecessors[0, current])
+        if predecessor < 0:
+            raise HTTPException(status_code=400, detail="Could not reconstruct the highway network path")
+        network_dist_km += float(store.nh_distance_graph[predecessor, current])
+        current = predecessor
+
     # Feeder access time (at 35 km/h)
     feeder_hours = ((orig_dist + dest_dist) / 1000.0) / 35.0
     total_hours = drive_hours + feeder_hours
-    total_dist_km = (drive_hours * 68.0) + ((orig_dist + dest_dist) / 1000.0) # ~68 km/h weighted network speed
+    total_dist_km = network_dist_km + ((orig_dist + dest_dist) / 1000.0)
 
     # Toll estimation
     toll_count = int(max(round(total_dist_km / 65.0), 1)) if total_dist_km >= 40.0 else 0
@@ -87,6 +102,8 @@ def calculate_highway_route(req: RouteRequest, store: DataStore = Depends(get_da
         "drive_time_formatted": formatted,
         "tolls_encountered_count": toll_count,
         "estimated_toll_cost_inr": round(toll_cost_inr, 2),
+        "toll_estimation_method": "distance-based estimate using average 65 km toll spacing; not route-plaza intersection",
+        "routing_scope": "strategic National Highway graph with modeled feeder access; not turn-by-turn navigation",
         "origin_snapped": [round(orig_snap_lat, 5), round(orig_snap_lon, 5)],
         "destination_snapped": [round(dest_snap_lat, 5), round(dest_snap_lon, 5)]
     }

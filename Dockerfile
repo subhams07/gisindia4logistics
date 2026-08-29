@@ -12,20 +12,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
+# Run the service as an unprivileged user.
+RUN addgroup --system app && adduser --system --ingroup app app
+
 # Install Python requirements
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir fastapi uvicorn pydantic-settings
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files and datasets
-COPY . .
+COPY --chown=app:app . .
+RUN mkdir -p /app/outputs && chown -R app:app /app/outputs
 
 # Expose port
 EXPOSE 8000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8000/ || exit 1
+  CMD curl -f http://localhost:8000/health/ready || exit 1
 
 # Start FastAPI server
+USER app
 CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]

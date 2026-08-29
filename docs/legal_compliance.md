@@ -43,15 +43,17 @@ useConstraints = copyright; otherConstraints = "Geospatial Guidelines 2021
 to be followed. Any violation of the Guidelines will be dealt under the
 applicable laws." No explicit open-data license is granted.
 
-**Repo decision (maintainer, 2026-08):** the data is redistributed in this
-repository in good faith, based on its free, login-free public availability
-on a government portal, with attribution ("Boundary data: Survey of India,
-Government of India — ABDB") embedded in files and docs. Because the metadata
-does state "copyright", this is a good-faith interpretation rather than a
-documented grant — **before flipping this repository public, the maintainer
-should either obtain written confirmation from SoI or re-evaluate**; if SoI
-objects at any point, the files will be removed promptly (open an issue or
-contact the maintainers).
+**Current repository posture (maintainer, 2026-08):** the public repository
+redistributes standardized derivatives in good faith, based on free,
+login-free availability on a government portal, with attribution ("Boundary
+data: Survey of India, Government of India — ABDB") embedded in files and
+documentation. The metadata nevertheless states "copyright" and no written
+blanket redistribution grant is recorded here. This is therefore an
+**unresolved release-governance item**, not a claim of explicit permission.
+Before a formal public data release, DOI deposit, or broad redistribution
+campaign, the maintainer must obtain written confirmation, record a documented
+legal review, replace the affected data, or move it to a user-side fetch flow.
+If SoI objects, affected files will be removed promptly.
 
 Grounds and mitigations:
 - The 2021 Geospatial Data Guidelines (the stated governing constraint)

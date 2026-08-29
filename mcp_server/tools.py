@@ -5,6 +5,7 @@ High-level GIS4Logistics tool implementations callable by MCP servers and AI age
 
 from typing import Dict, Any, Optional, List
 from server.dependencies import DataStore
+from server.config import settings
 from server.routers.admin import get_district_scorecard
 from server.routers.hubs import get_nearest_hubs
 from server.routers.routing import calculate_highway_route
@@ -66,6 +67,12 @@ def tool_find_nearest_facilities(latitude: float, longitude: float, top_k: int =
     Finds the nearest logistics infrastructure (Sea Ports, ICDs, MMLPs, Air Cargo,
     Inland Waterway Terminals, Cold Storage, APMC Mandis, and Toll Plazas) to any coordinate.
     """
+    if not -90.0 <= latitude <= 90.0:
+        raise ValueError("latitude must be between -90 and 90")
+    if not -180.0 <= longitude <= 180.0:
+        raise ValueError("longitude must be between -180 and 180")
+    if not 1 <= top_k <= 10:
+        raise ValueError("top_k must be between 1 and 10")
     return get_nearest_hubs(latitude=latitude, longitude=longitude, top_k=top_k, store=store)
 
 
@@ -108,22 +115,32 @@ def tool_plot_villages_map(
     displaying all villages in a district colored by accessibility metric.
     """
     from scripts.analyze.plot_villages import (
-        load_district_villages_gdf, generate_leaflet_html, plot_villages_static
+        load_district_villages_gdf,
+        generate_leaflet_html,
+        plot_villages_static,
+        safe_filename_component,
+        validate_metric,
     )
-    from scripts.clean.standardize import DATA_DIR
+
+    if output_format not in {"html", "png", "both"}:
+        raise ValueError("output_format must be one of: html, png, both")
+    validate_metric(metric)
     
     gdf = load_district_villages_gdf(state=state, district=district)
     out_files = {}
+    output_dir = settings.OUTPUT_PATH / "maps"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    district_slug = safe_filename_component(district)
 
     if output_format in ["html", "both"]:
         html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
-        html_p = DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.html"
+        html_p = output_dir / f"{district_slug}_village_{metric}_map.html"
         with open(html_p, "w", encoding="utf-8") as f:
             f.write(html_code)
         out_files["html_map_path"] = str(html_p)
 
     if output_format in ["png", "both"]:
-        png_p = DATA_DIR / "analysis" / f"{district.lower()}_village_{metric}_map.png"
+        png_p = output_dir / f"{district_slug}_village_{metric}_map.png"
         plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=png_p)
         out_files["png_map_path"] = str(png_p)
 

@@ -5,6 +5,7 @@ Main FastAPI application entrypoint for GIS4Logistics API Server.
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.config import settings
@@ -18,7 +19,7 @@ from server.routers.simulation import router as simulation_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize in-memory spatial index and routing graphs on startup
-    store = DataStore.get_instance()
+    DataStore.get_instance()
     yield
     # Clean up on shutdown if needed
 
@@ -35,8 +36,8 @@ app = FastAPI(
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=settings.cors_origins,
+    allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -48,13 +49,46 @@ app.include_router(routing_router, prefix=settings.API_V1_PREFIX)
 app.include_router(simulation_router, prefix=settings.API_V1_PREFIX)
 
 
+def _missing_core_components(store: DataStore) -> list[str]:
+    components = {
+        "districts": store.districts_df,
+        "district_access": store.district_access_df,
+        "travel_time": store.travel_time_df,
+        "port_matrix": store.port_matrix_df,
+        "highway_graph": store.nh_graph,
+    }
+    return [name for name, value in components.items() if value is None]
+
+
+@app.get("/health/live", tags=["Health & Status"])
+def liveness():
+    """Confirm that the API process is running."""
+    return {"status": "alive", "service": settings.PROJECT_NAME, "version": settings.VERSION}
+
+
+@app.get("/health/ready", tags=["Health & Status"])
+def readiness():
+    """Confirm that core data and routing components are loaded."""
+    store = DataStore.get_instance()
+    missing = _missing_core_components(store)
+    payload = {
+        "status": "ready" if not missing else "degraded",
+        "service": settings.PROJECT_NAME,
+        "version": settings.VERSION,
+        "missing_components": missing,
+    }
+    return payload if not missing else JSONResponse(status_code=503, content=payload)
+
+
 @app.get("/", tags=["Health & Status"])
 def root_info():
     store = DataStore.get_instance()
+    missing = _missing_core_components(store)
     return {
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
-        "status": "operational",
+        "status": "operational" if not missing else "degraded",
+        "missing_components": missing,
         "documentation_url": "/docs",
         "redoc_url": "/redoc",
         "datasets_online": {

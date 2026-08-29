@@ -9,8 +9,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - HOST=0.0.0.0
-      - PORT=8000
+      - GIS4LOGISTICS_HOST=0.0.0.0
+      - GIS4LOGISTICS_PORT=8000
+      - GIS4LOGISTICS_CORS_ORIGINS=http://localhost:8000
+      - GIS4LOGISTICS_CORS_ALLOW_CREDENTIALS=false
     restart: unless-stopped
     volumes:
       - ./data:/app/data:ro
+      - ./outputs:/app/outputs

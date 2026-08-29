@@ -346,6 +346,6 @@ When using GIS4Logistics in research, reports, or commercial products, please ci
   title = {GIS4Logistics India: Curated Geospatial Data & Analytical Platform for Indian Logistics},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/subhams07/GIS4logistics}
+  url = {https://github.com/subhams07/gisindia4logistics}
 }
 ```

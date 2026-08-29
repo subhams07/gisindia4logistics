@@ -1,7 +1,22 @@
 # GIS4Logistics — Improvement Roadmap (Initiatives 1–6)
 
-Status: PLANNED (not started). Written 2026-08-23 after three planning
-rounds. Effort units: S = focused session (< half day), D = day-equivalent.
+Status: **HISTORICAL PLAN — implementation has progressed beyond this baseline.**
+Written 2026-08-23 after three planning rounds. Effort units: S = focused
+session (< half day), D = day-equivalent.
+
+Implementation snapshot as of 2026-08-29:
+
+| Initiative | Current state |
+|---|---|
+| 1 — CI and drift detection | Workflows and audit baseline exist; execution status is tracked separately. |
+| 2 — Post-2011 district population | Implemented for 781 current districts with documented derived-allocation methods. |
+| 3 — Road-network travel time | NH-graph analysis is implemented; full-road-network routing remains future work. |
+| 4 — Freight-flow tables | Rail, port, and road-indicator annual tables are present. |
+| 5 — Adoption layer | README/API/MCP examples and public repository exist; bundles, formal releases, and DOI remain incomplete. |
+| 6 — Data debts | Subdistrict analysis exists; station-zone coverage, terminal coordinates, and source refreshes remain mixed. |
+
+The detailed sections below preserve design rationale and acceptance criteria;
+they must not be read as a current task-status report.
 
 ## Round history (how this plan was refined)
 

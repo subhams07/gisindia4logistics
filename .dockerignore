@@ -1,0 +1,17 @@
+.git
+.github
+.gitignore
+.gitattributes
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.venv
+venv
+dist
+build
+outputs
+examples/output
+data/raw
+*.log
+.ipynb_checkpoints

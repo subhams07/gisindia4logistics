@@ -42,7 +42,7 @@ import gisindia4logistics as gis
 pune = gis.get_district("Pune")
 print(pune["nearest_highway_km"], pune["nearest_port"]["name"])
 
-# 2. Highway shortest-path routing & FASTag tolls
+# 2. Strategic NH-network routing & distance-based toll estimate
 route = gis.route_highway(origin=(18.5204, 73.8567), destination=(18.9500, 72.9500))
 print(f"{route['distance_km']} km | {route['drive_time_formatted']} | Toll: INR {route['estimated_toll_cost_inr']}")
 
@@ -123,7 +123,7 @@ Available Agent Tools:
 - `gis_get_district_scorecard`: Returns complete demographic, nearest highway, toll, rail, ICD, and port profiles for any of the 781 districts.
 - `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight costs with custom rates, tolls, and delay parameters.
 - `gis_find_nearest_facilities`: Finds nearest Ports, ICDs, MMLPs, Toll Plazas, and Rail Stations to any `(lat, lon)` coordinate.
-- `gis_highway_route_and_tolls`: Calculates driving distance, hours, toll counts, and FASTag toll expense.
+- `gis_highway_route_and_tolls`: Estimates strategic NH-network distance, hours, and distance-based FASTag toll expense; it is not turn-by-turn navigation.
 - `gis_simulate_port_catchment`: Models national port market contestability under the Huff gravity model.
 - `gis_plot_villages_map`: Generates interactive Leaflet HTML or static PNG maps of all villages in a district color-coded by accessibility.
 
@@ -146,10 +146,10 @@ View directly in your browser: `http://localhost:8000/api/v1/admin/villages/map.
 ```bash
 pip install -r requirements.txt
 
-# Run server and MCP verification test suite (12 tests)
-python tests/test_server.py
+# Run the local test suite
+python -m pytest
 
-# Run comprehensive data audit suite (75 validation checks)
+# Run the comprehensive local data audit suite
 python scripts/audit/audit_all.py --fast
 
 # Build the end-to-end demo: one district, all layers merged into a GeoPackage + map
@@ -176,9 +176,20 @@ docs/            # Source documentation, data standards, and legal compliance
 catalog.yaml     # Machine-readable data catalog (42 datasets)
 ```
 
+## Important limitations
+
+Detailed formulas, parameters, appropriate uses, and exclusions are documented in [Analytical model assumptions](docs/model_assumptions.md).
+
+- Highway routes use a modeled National Highway graph plus feeder access; they are not turn-by-turn navigation and do not include live traffic or truck restrictions.
+- Toll counts and charges are distance-based estimates, not verified route-plaza intersections or official quotations.
+- Facility proximity returned by `/hubs/nearest` is WGS84 geodesic straight-line distance; district travel-time tables use the documented NH graph model.
+- Freight costs and port hinterlands are scenario-model outputs based on documented assumptions, not commercial quotations or forecasts.
+- Post-2011 district populations include derived allocations; consult the methodology and per-row method fields.
+- Administrative boundaries are indicative and are not authoritative government boundary certifications.
+
 ## Licensing & Legal Compliance
 
-- **Code** in this repository: MIT (see [LICENSE](LICENSE)).
+- **Code** in this repository: MIT (see [LICENSE](LICENSE)). Data is not covered by the blanket code license; see [DATA_LICENSE.md](DATA_LICENSE.md) and [NOTICE](NOTICE).
 - **Data**: each dataset remains under its source's license — see `license` in `catalog.yaml` and [`docs/sources.md`](docs/sources.md):
   - **OpenStreetMap data**: ODbL (Open Database License) — "© OpenStreetMap contributors".
   - **Census & Ministry Portals (MoRTH, IPA, CBIC, AAI, NHLML, DFCCIL, FCI)**: Government Open Data License — India (GODL-India).
@@ -188,4 +199,4 @@ catalog.yaml     # Machine-readable data catalog (42 datasets)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). New datasets must document source, license, vintage and pass `scripts/audit/audit_all.py`.
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and the [Code of Conduct](CODE_OF_CONDUCT.md). New datasets must document source, license, vintage and pass `scripts/audit/audit_all.py`.

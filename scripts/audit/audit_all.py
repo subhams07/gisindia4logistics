@@ -239,7 +239,21 @@ def audit_analysis():
     if nh_mat_p.exists():
         nh_mat = pd.read_csv(nh_mat_p)
         check("nh_analysis", "port matrix has 781 districts", "FAIL", len(nh_mat) == 781, f"{len(nh_mat)}")
-        check("nh_analysis", "port matrix covers 12 major ports", "FAIL", len(nh_mat.columns) >= 15, f"{len(nh_mat.columns)}")
+        time_cols = [c for c in nh_mat.columns if c.startswith("drive_hours_to_")]
+        dist_cols = [c for c in nh_mat.columns if c.startswith("road_km_to_")]
+        check("nh_analysis", "port matrix covers 12 major ports time columns", "FAIL", len(time_cols) == 12, f"{len(time_cols)}")
+        check("nh_analysis", "port matrix covers 12 major ports distance columns", "FAIL", len(dist_cols) == 12, f"{len(dist_cols)}")
+
+        # Check island null invariants
+        island_districts = ["nicobars", "north and middle andaman", "south andamans", "lakshadweep"]
+        islands_mat = nh_mat[nh_mat.district.astype(str).str.lower().isin(island_districts)]
+        islands_non_null = islands_mat[time_cols + dist_cols].notna().sum().sum()
+        check("nh_analysis", "island port matrix cells are strictly null", "FAIL", islands_non_null == 0, f"{islands_non_null} non-null")
+
+        # Check mainland finite invariants
+        mainland_mat = nh_mat[~nh_mat.district.astype(str).str.lower().isin(island_districts)]
+        mainland_all_null = (mainland_mat[time_cols].isna().all(axis=1)).sum()
+        check("nh_analysis", "mainland districts have valid port routes", "FAIL", mainland_all_null == 0, f"{mainland_all_null} unrouted")
 
     # Intermodal Freight Cost Model
     modal_p = DATA_DIR / "analysis" / "district_freight_modal_split.csv"
