@@ -25,9 +25,8 @@ import time
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-import scipy.sparse as sp
 from scipy.spatial import cKDTree
-from scipy.sparse.csgraph import dijkstra, connected_components
+from scipy.sparse.csgraph import dijkstra
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR

@@ -199,17 +199,14 @@ def audit_analysis():
               n_src == n_out, f"{n_out} vs {n_src}")
 
     # reproducibility: recompute 40 sample villages in Haryana
-    import shapely
     av = pd.read_csv(DATA_DIR / "analysis" / "haryana_village_access.csv")
     vill = gpd.read_file(DATA_DIR / "administrative" / "villages" / "haryana_soi_villages.geojson")
     st = pd.read_csv(DATA_DIR / "rail" / "railway_stations.csv")
-    import geopandas as gpd2  # noqa: F401
     sample = vill.sample(40, random_state=42)
     pts = gpd.GeoSeries(sample.geometry.representative_point(), crs=4326).to_crs(7755)
     fac = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.longitude, st.latitude), crs=4326).to_crs(7755)
     d = fac.geometry.unary_union
     recomputed = pts.map(lambda p: p.distance(d) / 1000).round(2).values
-    stored = av.set_index(["district", "village"])
     joined = sample.assign(rek=recomputed).merge(
         av, left_on=["district", "village"], right_on=["district", "village"])
     ok = (joined.rek - joined.dist_rail_station_km).abs().max() < 0.15
@@ -398,7 +395,6 @@ def audit_roads():
     print("\n== roads ==")
     nh = gpd.read_file(DATA_DIR / "roads" / "india_nh_network.geojson")
     check("nh_network", "valid geometries", "FAIL", bool(nh.geometry.is_valid.all()))
-    import re as _re
     bad_nh = (~nh.nh.str.fullmatch(r"(\d{1,4}[A-Z]?)(;\d{1,4}[A-Z]?)*", na=False)).sum()
     check("nh_network", "NH numbers clean", "FAIL", bad_nh == 0, f"{int(bad_nh)} odd values")
     n_routes = nh.nh.str.split(";").explode().replace("", None).dropna().nunique()

@@ -4,9 +4,7 @@ Command-line interface for GISIndia4Logistics.
 """
 
 import sys
-import json
 import argparse
-from typing import Optional
 
 
 def cmd_serve(args):

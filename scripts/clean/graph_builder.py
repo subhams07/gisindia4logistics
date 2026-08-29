@@ -23,7 +23,7 @@ DEFAULT_SPEED = 50.0
 BRIDGE_SPEED = 35.0
 BRIDGE_MAX_METERS = 350.0
 SNAP_GRID_METERS = 15.0
-CACHE_VERSION = 3
+CACHE_VERSION = 4
 
 
 def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, float]:
@@ -31,9 +31,28 @@ def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, 
     return (round(x / grid) * grid, round(y / grid) * grid)
 
 
+def compute_gdf_content_hash(nh_gdf: gpd.GeoDataFrame) -> str:
+    """Computes a deterministic SHA-256 hash of highway geometry and road attributes."""
+    h = hashlib.sha256()
+    cols_to_hash = [c for c in ["highway", "ref", "osm_id"] if c in nh_gdf.columns]
+    for c in cols_to_hash:
+        vals = [str(x) for x in nh_gdf[c]]
+        h.update("\x1f".join(vals).encode("utf-8"))
+    if "geometry" in nh_gdf:
+        try:
+            for wkb in nh_gdf.geometry.to_wkb():
+                if wkb is not None:
+                    h.update(wkb)
+        except Exception:
+            h.update(np.asarray(nh_gdf.total_bounds).tobytes())
+            h.update(np.asarray(nh_gdf.geometry.length.values).tobytes())
+    return h.hexdigest()[:24]
+
+
 def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
-    """Computes a structural and parameter fingerprint for cache validation."""
+    """Computes a structural, parameter, and content fingerprint for cache validation."""
     speed_hash = hashlib.sha256(json.dumps(SPEEDS, sort_keys=True).encode()).hexdigest()[:16]
+    content_hash = compute_gdf_content_hash(nh_gdf)
     return {
         "cache_version": CACHE_VERSION,
         "row_count": int(len(nh_gdf)),
@@ -43,6 +62,7 @@ def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
         "bridge_speed": float(BRIDGE_SPEED),
         "default_speed": float(DEFAULT_SPEED),
         "speed_hash": speed_hash,
+        "source_content_sha256": content_hash,
     }
 
 
@@ -146,9 +166,9 @@ def load_or_build_cached_graph(
         cache_file = cache_dir / "canonical_nh_graph.npz"
         if cache_file.exists():
             try:
-                data = np.load(cache_file, allow_pickle=True)
-                # Verify fingerprint metadata
-                meta_json = str(data.get("metadata", "{}"))
+                data = np.load(cache_file, allow_pickle=False)
+                # Verify fingerprint metadata stored as UTF-8 string array
+                meta_json = str(data["metadata"][0]) if "metadata" in data else "{}"
                 stored_meta = json.loads(meta_json)
                 if stored_meta == expected_meta:
                     N = int(data["N"])
@@ -170,7 +190,7 @@ def load_or_build_cached_graph(
     # Build graph
     graph_time, graph_dist, coords_arr, labels, tree = build_canonical_highway_graph(nh_gdf)
 
-    # Save cache safely
+    # Save cache safely using allow_pickle=False compatible string array
     if cache_dir is not None:
         try:
             cache_dir.mkdir(parents=True, exist_ok=True)
@@ -186,7 +206,7 @@ def load_or_build_cached_graph(
                 dist_indptr=graph_dist.indptr,
                 coords_arr=coords_arr,
                 labels=labels,
-                metadata=json.dumps(expected_meta),
+                metadata=np.array([json.dumps(expected_meta)], dtype=np.str_),
             )
         except (OSError, PermissionError) as e:
             LOGGER.warning("Could not write graph cache to %s (%s); running in-memory.", cache_dir, e)
