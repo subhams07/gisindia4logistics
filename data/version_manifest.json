@@ -43,7 +43,7 @@
     "dfc_corridors": {
       "vintage": "2024",
       "source": "Dedicated Freight Corridor Corporation of India (DFCCIL)",
-      "path": "data/rail/dfc_corridors.geojson",
+      "path": "data/rail/dfc_network.geojson",
       "feature_count": 3
     },
     "gati_shakti_terminals": {

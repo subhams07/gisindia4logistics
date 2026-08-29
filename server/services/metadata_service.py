@@ -56,7 +56,15 @@ class MetadataService:
 
     @property
     def package_version(self) -> str:
-        return "1.0.0"
+        try:
+            import importlib.metadata
+            return importlib.metadata.version("gisindia4logistics")
+        except Exception:
+            try:
+                import gisindia4logistics
+                return getattr(gisindia4logistics, "__version__", "1.0.0")
+            except Exception:
+                return "1.0.0"
 
     @property
     def model_version(self) -> str:

@@ -14,6 +14,7 @@ from server.routers.admin import router as admin_router
 from server.routers.hubs import router as hubs_router
 from server.routers.routing import router as routing_router
 from server.routers.simulation import router as simulation_router
+from server.services.metadata_service import get_metadata_service
 
 
 @asynccontextmanager
@@ -41,8 +42,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-from server.services.metadata_service import get_metadata_service
 
 
 @app.middleware("http")

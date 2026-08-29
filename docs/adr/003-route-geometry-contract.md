@@ -25,6 +25,8 @@ Previous iterations provided scalar road distances and travel times without vect
 5. **Geometry Simplification**:
    - Supports `geometry_detail: "full" | "simplified" | "none"`.
    - Default is `"simplified"` using Douglas-Peucker simplification while conserving path endpoints and lengths.
+6. **Synthetic Bridge Graph Metadata**:
+   - To truthfully compute synthetic bridge metrics without recomputing spatial proximities at query time, the graph builder / cache will expose synthetic junction edge identity (e.g. via a sparse boolean `bridge_mask` or edge attribute registry) in Milestone 3.
 
 ## Consequences
 - Clean, map-renderable GeoJSON LineStrings with validated coordinate ordering.

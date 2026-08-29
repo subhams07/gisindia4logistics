@@ -14,27 +14,43 @@ from server.models.phase1 import (
     CoordinateLocation,
     DistrictLocation,
     HubLocation,
-    LocationReference,
-    ResolvedLocation,
-    RouteQuality,
-    RoutePoint,
-    HighwayRouteResult,
+    VehicleType,
     RouteTollPlaza,
-    TollSummary,
-    ModalScenario,
     CorridorPlanRequest,
     CorridorPlanResponse,
     DistrictReference,
     DistrictComparisonRequest,
-    DistrictMetricResult,
-    DistrictComparisonItem,
     DistrictComparisonResponse,
-    GeneratedReport,
 )
+from server.models.schemas import CostParametersOverride
 from server.services.metadata_service import MetadataService
 from server.app import app
 
-CONTRACTS_DIR = Path(__file__).resolve().parents[1] / "docs" / "contracts"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CONTRACTS_DIR = REPO_ROOT / "docs" / "contracts"
+
+
+def test_all_version_manifest_paths_exist():
+    """Validates that every dataset path declared in version_manifest.json exists on disk and is non-empty."""
+    manifest_file = REPO_ROOT / "data" / "version_manifest.json"
+    assert manifest_file.exists(), "data/version_manifest.json does not exist"
+
+    with open(manifest_file, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    datasets = manifest.get("datasets", {})
+    assert len(datasets) >= 15, "Manifest must contain all core datasets"
+
+    required_keys = {"vintage", "source", "path", "feature_count"}
+    for name, item in datasets.items():
+        assert isinstance(item, dict), f"Dataset entry '{name}' must be an object"
+        missing = required_keys - set(item.keys())
+        assert not missing, f"Dataset entry '{name}' is missing required fields: {missing}"
+
+        rel_path = item["path"]
+        abs_path = REPO_ROOT / rel_path
+        assert abs_path.exists(), f"Declared dataset path '{rel_path}' for '{name}' does not exist on disk"
+        assert abs_path.stat().st_size > 0, f"Declared dataset file '{rel_path}' is empty"
 
 
 def test_metadata_service_loads_manifest():
@@ -43,6 +59,7 @@ def test_metadata_service_loads_manifest():
     assert svc.api_version == "1.0.0"
     assert svc.data_version == "2026.08"
     assert svc.model_version == "phase1-decision-workbench"
+    assert svc.package_version is not None
 
     meta = svc.get_metadata()
     assert isinstance(meta, ResponseMetadata)
@@ -62,6 +79,132 @@ def test_metadata_service_fallback_on_missing_manifest(tmp_path: Path):
     assert meta.data_version == "2026.08"
 
 
+def test_canonical_vehicle_types():
+    """Verifies canonical vehicle enum supports existing and Phase 1 vehicle classes."""
+    assert VehicleType.LMV == "LMV"
+    assert VehicleType.LCV == "LCV"
+    assert VehicleType.TRUCK_2AXLE == "2_AXLE_TRUCK"
+    assert VehicleType.MAV_20T == "MAV_20T"
+    assert VehicleType.OVERSIZED_7AXLE == "7_AXLE_OVERSIZED"
+
+
+def test_input_models_reject_empty_references():
+    """Verifies that input models reject structurally empty references at model validation time."""
+    # Empty DistrictLocation
+    with pytest.raises(ValidationError):
+        DistrictLocation()
+
+    with pytest.raises(ValidationError):
+        DistrictLocation(district="")
+
+    # Valid DistrictLocation
+    d1 = DistrictLocation(district="Pune")
+    assert d1.district == "Pune"
+    d2 = DistrictLocation(district_code=521)
+    assert d2.district_code == 521
+
+    # Empty HubLocation
+    with pytest.raises(ValidationError):
+        HubLocation(hub_type="port")
+
+    with pytest.raises(ValidationError):
+        HubLocation(hub_type="port", name="")
+
+    # Valid HubLocation
+    h1 = HubLocation(hub_type="port", name="JNPT")
+    assert h1.name == "JNPT"
+    h2 = HubLocation(hub_type="port", code="INNSA")
+    assert h2.code == "INNSA"
+
+    # Empty DistrictReference
+    with pytest.raises(ValidationError):
+        DistrictReference()
+
+    with pytest.raises(ValidationError):
+        DistrictReference(district="")
+
+    # Valid DistrictReference
+    ref = DistrictReference(district="Pune")
+    assert ref.district == "Pune"
+
+
+def test_toll_tariff_consistency():
+    """Verifies tariff rate consistency with tariff_status."""
+    # Modelled status with non-null tariff_inr passes
+    p1 = RouteTollPlaza(
+        toll_plaza_id="toll_1",
+        name="Plaza 1",
+        latitude=18.5,
+        longitude=73.5,
+        distance_from_route_m=50.0,
+        distance_along_route_km=25.0,
+        match_confidence="high",
+        match_score=90.0,
+        tariff_inr=340.0,
+        tariff_status="modelled"
+    )
+    assert p1.tariff_inr == 340.0
+
+    # Modelled status with None tariff_inr fails validation
+    with pytest.raises(ValidationError):
+        RouteTollPlaza(
+            toll_plaza_id="toll_2",
+            name="Plaza 2",
+            latitude=18.5,
+            longitude=73.5,
+            distance_from_route_m=50.0,
+            distance_along_route_km=25.0,
+            match_confidence="high",
+            match_score=90.0,
+            tariff_inr=None,
+            tariff_status="modelled"
+        )
+
+    # Unknown status with None tariff_inr passes cleanly
+    p3 = RouteTollPlaza(
+        toll_plaza_id="toll_3",
+        name="Plaza 3",
+        latitude=18.5,
+        longitude=73.5,
+        distance_from_route_m=50.0,
+        distance_along_route_km=25.0,
+        match_confidence="medium",
+        match_score=70.0,
+        tariff_inr=None,
+        tariff_status="unknown"
+    )
+    assert p3.tariff_inr is None
+
+
+def test_numeric_bounds_validation():
+    """Verifies non-negative constraints and score bounds on domain models."""
+    # Negative match_score fails
+    with pytest.raises(ValidationError):
+        RouteTollPlaza(
+            toll_plaza_id="toll_1",
+            name="Plaza",
+            latitude=18.5,
+            longitude=73.5,
+            distance_from_route_m=-10.0,
+            distance_along_route_km=10.0,
+            match_confidence="high",
+            match_score=105.0,  # >100 fails
+            tariff_inr=100.0,
+            tariff_status="modelled"
+        )
+
+
+def test_corridor_plan_request_supports_cost_overrides():
+    """Verifies CorridorPlanRequest accepts optional cost_parameters overrides."""
+    req = CorridorPlanRequest(
+        origin=DistrictLocation(district="Pune", state="Maharashtra"),
+        destination=HubLocation(hub_type="port", name="JNPT"),
+        cost_parameters=CostParametersOverride(road_linehaul_rate=3.50)
+    )
+    assert req.cost_parameters is not None
+    assert req.cost_parameters.road_linehaul_rate == 3.50
+
+
 def test_location_reference_discriminated_union():
     """Verifies discriminated union parsing for coordinate, district, and hub references."""
     # 1. Coordinate
@@ -73,7 +216,7 @@ def test_location_reference_discriminated_union():
         CoordinateLocation(latitude=95.0, longitude=73.0)
 
     # 2. District
-    dist = DistrictLocation(state="Maharashtra", district="Pune", district_code=505)
+    dist = DistrictLocation(state="Maharashtra", district="Pune", district_code=521)
     assert dist.type == "district"
 
     # 3. Hub
