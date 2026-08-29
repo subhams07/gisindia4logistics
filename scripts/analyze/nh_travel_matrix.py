@@ -49,7 +49,7 @@ def main() -> None:
     nh = gpd.read_file(nh_path).to_crs(PROJ)
 
     cache_dir = DATA_DIR / "cache"
-    graph_time, graph_dist, node_coords, labels, tree = load_or_build_cached_graph(nh, cache_dir=cache_dir)
+    graph_time, graph_dist, node_coords, labels, tree, _ = load_or_build_cached_graph(nh, cache_dir=cache_dir)
     comp_sizes = np.bincount(labels)
     largest_label = comp_sizes.argmax()
 

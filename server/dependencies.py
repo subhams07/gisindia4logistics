@@ -37,6 +37,7 @@ class DataStore:
         # Highway graph for routing
         self.nh_graph: Optional[csr_matrix] = None
         self.nh_distance_graph: Optional[csr_matrix] = None
+        self.nh_bridge_mask: Optional[csr_matrix] = None
         self.nh_tree: Optional[KDTree] = None
         self.nh_node_xy: Optional[np.ndarray] = None
         self.nh_node_list: Optional[list] = None
@@ -152,7 +153,7 @@ class DataStore:
             return
 
         cache_dir = settings.CACHE_PATH
-        self.nh_graph, self.nh_distance_graph, self.nh_node_xy, self.nh_comp_labels, self.nh_tree = load_or_build_cached_graph(
+        self.nh_graph, self.nh_distance_graph, self.nh_node_xy, self.nh_comp_labels, self.nh_tree, self.nh_bridge_mask = load_or_build_cached_graph(
             gdf_nh, cache_dir=cache_dir
         )
         self.nh_node_list = [tuple(pt) for pt in self.nh_node_xy]
