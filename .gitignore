@@ -17,3 +17,4 @@ outputs/
 data/raw/soi_villages/
 data/administrative/villages/worker*.log
 data/cache/
+docs/audit_report_fast.md

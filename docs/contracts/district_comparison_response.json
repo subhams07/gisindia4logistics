@@ -1,0 +1,211 @@
+{
+  "districts": [
+    {
+      "state": "Maharashtra",
+      "district": "Pune",
+      "district_code": 505,
+      "overall_score": 88.4,
+      "rank": 1,
+      "metrics": [
+        {
+          "metric": "port_drive_time_hours",
+          "label": "Drive time to nearest major port",
+          "raw_value": 2.01,
+          "unit": "hours",
+          "national_percentile": 96.2,
+          "state_percentile": 94.4,
+          "score": 96.2
+        },
+        {
+          "metric": "freight_terminal_drive_time_hours",
+          "label": "Drive time to nearest GCT freight terminal",
+          "raw_value": 0.45,
+          "unit": "hours",
+          "national_percentile": 91.0,
+          "state_percentile": 88.5,
+          "score": 91.0
+        },
+        {
+          "metric": "highway_access_distance_km",
+          "label": "Distance to National Highway network",
+          "raw_value": 5.2,
+          "unit": "km",
+          "national_percentile": 82.0,
+          "state_percentile": 78.0,
+          "score": 82.0
+        },
+        {
+          "metric": "rail_village_share_10km",
+          "label": "Share of villages within 10 km of rail station",
+          "raw_value": 23.7,
+          "unit": "%",
+          "national_percentile": 74.5,
+          "state_percentile": 71.0,
+          "score": 74.5
+        },
+        {
+          "metric": "population",
+          "label": "Conserved population base",
+          "raw_value": 9429408.0,
+          "unit": "persons",
+          "national_percentile": 98.5,
+          "state_percentile": 97.0,
+          "score": 98.5
+        }
+      ],
+      "strengths": [
+        "Major Port Proximity (2.01 hrs to JNPT)",
+        "Large Consumer Population Base (9.43M persons)"
+      ],
+      "gaps": [
+        "Rural Rail Siding Share (23.7% within 10 km)"
+      ]
+    },
+    {
+      "state": "Maharashtra",
+      "district": "Nagpur",
+      "district_code": 475,
+      "overall_score": 72.1,
+      "rank": 2,
+      "metrics": [
+        {
+          "metric": "port_drive_time_hours",
+          "label": "Drive time to nearest major port",
+          "raw_value": 11.85,
+          "unit": "hours",
+          "national_percentile": 58.0,
+          "state_percentile": 42.0,
+          "score": 58.0
+        },
+        {
+          "metric": "freight_terminal_drive_time_hours",
+          "label": "Drive time to nearest GCT freight terminal",
+          "raw_value": 0.35,
+          "unit": "hours",
+          "national_percentile": 94.0,
+          "state_percentile": 92.0,
+          "score": 94.0
+        },
+        {
+          "metric": "highway_access_distance_km",
+          "label": "Distance to National Highway network",
+          "raw_value": 3.8,
+          "unit": "km",
+          "national_percentile": 88.0,
+          "state_percentile": 86.0,
+          "score": 88.0
+        },
+        {
+          "metric": "rail_village_share_10km",
+          "label": "Share of villages within 10 km of rail station",
+          "raw_value": 31.2,
+          "unit": "%",
+          "national_percentile": 81.0,
+          "state_percentile": 80.0,
+          "score": 81.0
+        },
+        {
+          "metric": "population",
+          "label": "Conserved population base",
+          "raw_value": 4653570.0,
+          "unit": "persons",
+          "national_percentile": 86.0,
+          "state_percentile": 83.0,
+          "score": 86.0
+        }
+      ],
+      "strengths": [
+        "GCT Freight Terminal Proximity (0.35 hrs)",
+        "Highway Network Access (3.8 km)"
+      ],
+      "gaps": [
+        "Major Port Drive Distance (11.85 hrs to JNPT/Visakhapatnam)"
+      ]
+    },
+    {
+      "state": "Madhya Pradesh",
+      "district": "Indore",
+      "district_code": 406,
+      "overall_score": 69.8,
+      "rank": 3,
+      "metrics": [
+        {
+          "metric": "port_drive_time_hours",
+          "label": "Drive time to nearest major port",
+          "raw_value": 12.18,
+          "unit": "hours",
+          "national_percentile": 54.0,
+          "state_percentile": 85.0,
+          "score": 54.0
+        },
+        {
+          "metric": "freight_terminal_drive_time_hours",
+          "label": "Drive time to nearest GCT freight terminal",
+          "raw_value": 0.85,
+          "unit": "hours",
+          "national_percentile": 82.0,
+          "state_percentile": 89.0,
+          "score": 82.0
+        },
+        {
+          "metric": "highway_access_distance_km",
+          "label": "Distance to National Highway network",
+          "raw_value": 4.5,
+          "unit": "km",
+          "national_percentile": 85.0,
+          "state_percentile": 88.0,
+          "score": 85.0
+        },
+        {
+          "metric": "rail_village_share_10km",
+          "label": "Share of villages within 10 km of rail station",
+          "raw_value": 28.4,
+          "unit": "%",
+          "national_percentile": 78.0,
+          "state_percentile": 82.0,
+          "score": 78.0
+        },
+        {
+          "metric": "population",
+          "label": "Conserved population base",
+          "raw_value": 3276697.0,
+          "unit": "persons",
+          "national_percentile": 79.0,
+          "state_percentile": 92.0,
+          "score": 79.0
+        }
+      ],
+      "strengths": [
+        "High Regional Population Rank within MP",
+        "National Highway Proximity (4.5 km)"
+      ],
+      "gaps": [
+        "Port Maritime Transit Distance (12.18 hrs to JNPT)"
+      ]
+    }
+  ],
+  "weights_used": {
+    "port_drive_time_hours": 0.35,
+    "freight_terminal_drive_time_hours": 0.25,
+    "highway_access_distance_km": 0.15,
+    "rail_village_share_10km": 0.15,
+    "population": 0.10
+  },
+  "missing_value_policy": "exclude_metric",
+  "cohort_size": 3,
+  "metadata": {
+    "api_version": "1.0.0",
+    "package_version": "1.0.0",
+    "model_version": "phase1-decision-workbench",
+    "data_version": "2026.08",
+    "generated_at_utc": "2026-08-29T12:00:00Z",
+    "road_network_vintage": "2026-08",
+    "port_capacity_vintage": "FY 2019-20 to FY 2023-24",
+    "population_vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+    "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
+    "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md",
+    "limitations": [
+      "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications."
+    ]
+  }
+}

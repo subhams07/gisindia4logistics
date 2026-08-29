@@ -1,0 +1,20 @@
+{
+  "origin": {
+    "type": "district",
+    "state": "Maharashtra",
+    "district": "Pune"
+  },
+  "destination": {
+    "type": "hub",
+    "hub_type": "port",
+    "name": "JNPT"
+  },
+  "vehicle_type": "MAV_20T",
+  "payload_tons": 25.0,
+  "commodity": "General Merchandise",
+  "include_road": true,
+  "include_rail": true,
+  "include_dfc": true,
+  "include_route_geometry": true,
+  "geometry_detail": "simplified"
+}

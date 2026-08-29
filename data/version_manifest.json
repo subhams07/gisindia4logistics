@@ -1,0 +1,116 @@
+{
+  "data_version": "2026.08",
+  "api_version": "1.0.0",
+  "model_version": "phase1-decision-workbench",
+  "generated_at_utc": "2026-08-29T10:00:00Z",
+  "datasets": {
+    "states_lgd": {
+      "vintage": "2024-25 LGD",
+      "source": "Survey of India (ABDB)",
+      "path": "data/administrative/india_states_lgd.geojson",
+      "feature_count": 36
+    },
+    "districts_lgd": {
+      "vintage": "2024-25 LGD",
+      "source": "Survey of India (ABDB)",
+      "path": "data/administrative/india_districts_lgd.geojson",
+      "feature_count": 781
+    },
+    "subdistricts_lgd": {
+      "vintage": "2024-25 LGD",
+      "source": "Survey of India (ABDB)",
+      "path": "data/administrative/india_subdistricts_lgd.gpkg",
+      "feature_count": 6636
+    },
+    "national_highway_network": {
+      "vintage": "2026-08",
+      "source": "OpenStreetMap / MoRTH",
+      "path": "data/roads/india_nh_network.parquet",
+      "feature_count": 141990
+    },
+    "toll_plazas": {
+      "vintage": "2026-08",
+      "source": "NHAI TIS Reference Model",
+      "path": "data/roads/toll_plazas.csv",
+      "feature_count": 1536
+    },
+    "railway_stations": {
+      "vintage": "2024-25",
+      "source": "Indian Railways / DataMeet / Station Classification",
+      "path": "data/rail/railway_stations.csv",
+      "feature_count": 8697
+    },
+    "dfc_corridors": {
+      "vintage": "2024",
+      "source": "Dedicated Freight Corridor Corporation of India (DFCCIL)",
+      "path": "data/rail/dfc_corridors.geojson",
+      "feature_count": 3
+    },
+    "gati_shakti_terminals": {
+      "vintage": "2023-24 PIB / Indian Railways",
+      "source": "PIB PRID 1910049 / Ministry of Railways",
+      "path": "data/rail/freight_terminals.csv",
+      "feature_count": 84
+    },
+    "major_ports": {
+      "vintage": "2023-24",
+      "source": "Indian Ports Association (IPA)",
+      "path": "data/logistics_hubs/ports.csv",
+      "feature_count": 22
+    },
+    "icds_and_cfs": {
+      "vintage": "2024",
+      "source": "Central Board of Indirect Taxes & Customs (CBIC)",
+      "path": "data/logistics_hubs/icds.csv",
+      "feature_count": 44
+    },
+    "multimodal_logistics_parks": {
+      "vintage": "2024",
+      "source": "National Highways Logistics Management Limited (NHLML)",
+      "path": "data/logistics_hubs/mmlps.csv",
+      "feature_count": 20
+    },
+    "air_cargo_terminals": {
+      "vintage": "2024",
+      "source": "Airports Authority of India (AAI)",
+      "path": "data/logistics_hubs/air_cargo.csv",
+      "feature_count": 25
+    },
+    "integrated_check_posts": {
+      "vintage": "2024",
+      "source": "Land Ports Authority of India (LPAI)",
+      "path": "data/logistics_hubs/icps.csv",
+      "feature_count": 19
+    },
+    "fci_food_depots": {
+      "vintage": "2024",
+      "source": "Food Corporation of India (FCI)",
+      "path": "data/logistics_hubs/fci_depots.csv",
+      "feature_count": 77
+    },
+    "district_population_estimates": {
+      "vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+      "source": "Office of the Registrar General & Census Commissioner, India",
+      "path": "data/demographic/district_population_estimates.csv",
+      "feature_count": 781
+    },
+    "port_throughput_annual": {
+      "vintage": "FY 2019-20 to FY 2023-24",
+      "source": "Indian Ports Association (IPA)",
+      "path": "data/freight/port_throughput_annual.csv",
+      "feature_count": 65
+    },
+    "rail_freight_annual": {
+      "vintage": "FY 2019-20 to FY 2023-24",
+      "source": "Ministry of Railways / PIB",
+      "path": "data/freight/rail_freight_annual.csv",
+      "feature_count": 61
+    }
+  },
+  "legal_compliance": {
+    "regime": "Department of Science and Technology (DST) Geospatial Guidelines 2021",
+    "disclaimer": "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications.",
+    "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
+    "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md"
+  }
+}

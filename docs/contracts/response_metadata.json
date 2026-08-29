@@ -1,0 +1,16 @@
+{
+  "api_version": "1.0.0",
+  "package_version": "1.0.0",
+  "model_version": "phase1-decision-workbench",
+  "data_version": "2026.08",
+  "generated_at_utc": "2026-08-29T12:00:00Z",
+  "road_network_vintage": "2026-08",
+  "port_capacity_vintage": "FY 2019-20 to FY 2023-24",
+  "population_vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+  "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
+  "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md",
+  "limitations": [
+    "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications.",
+    "Highway routes use a modeled National Highway graph plus feeder access; not turn-by-turn navigation."
+  ]
+}

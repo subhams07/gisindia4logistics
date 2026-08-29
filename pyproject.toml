@@ -42,11 +42,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+reports = [
+    "reportlab>=4.0.0",
+    "openpyxl>=3.1.0",
+]
 dev = [
     "pytest>=7.0.0",
     "black>=23.0.0",
     "ruff>=0.1.0",
     "httpx>=0.24.0",
+    "reportlab>=4.0.0",
+    "openpyxl>=3.1.0",
 ]
 
 [project.scripts]

@@ -1,0 +1,209 @@
+{
+  "origin": {
+    "type": "district",
+    "canonical_name": "Pune",
+    "state": "Maharashtra",
+    "district": "Pune",
+    "district_code": 505,
+    "latitude": 18.52043,
+    "longitude": 73.85674,
+    "source_dataset": "india_districts_lgd.geojson",
+    "match_method": "exact_name"
+  },
+  "destination": {
+    "type": "hub",
+    "canonical_name": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+    "state": "Maharashtra",
+    "district": "Raigad",
+    "district_code": 482,
+    "latitude": 18.95000,
+    "longitude": 72.95000,
+    "source_dataset": "ports.csv",
+    "match_method": "alias_lookup"
+  },
+  "road_route": {
+    "origin": {
+      "type": "district",
+      "canonical_name": "Pune",
+      "state": "Maharashtra",
+      "district": "Pune",
+      "district_code": 505,
+      "latitude": 18.52043,
+      "longitude": 73.85674,
+      "source_dataset": "india_districts_lgd.geojson",
+      "match_method": "exact_name"
+    },
+    "destination": {
+      "type": "hub",
+      "canonical_name": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+      "state": "Maharashtra",
+      "district": "Raigad",
+      "district_code": 482,
+      "latitude": 18.95000,
+      "longitude": 72.95000,
+      "source_dataset": "ports.csv",
+      "match_method": "alias_lookup"
+    },
+    "distance_km": 131.0,
+    "drive_time_hours": 2.01,
+    "drive_time_formatted": "2 hrs 1 min",
+    "origin_access_distance_km": 2.4,
+    "destination_access_distance_km": 3.1,
+    "network_distance_km": 125.5,
+    "origin_snapped": {
+      "latitude": 18.53201,
+      "longitude": 73.84210
+    },
+    "destination_snapped": {
+      "latitude": 18.96102,
+      "longitude": 72.96400
+    },
+    "route_geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [73.85674, 18.52043],
+        [73.84210, 18.53201],
+        [72.96400, 18.96102],
+        [72.95000, 18.95000]
+      ]
+    },
+    "route_quality": {
+      "network_scope": "national_highway",
+      "origin_snap_distance_km": 2.4,
+      "destination_snap_distance_km": 3.1,
+      "connected_component": 0,
+      "synthetic_bridge_count": 0,
+      "synthetic_bridge_distance_km": 0.0,
+      "maximum_synthetic_bridge_m": 0.0,
+      "geometry_simplified": true,
+      "geometry_tolerance_m": 50.0,
+      "quality": "network_exact",
+      "warnings": []
+    },
+    "routing_scope": "strategic National Highway graph with modeled feeder access; not turn-by-turn navigation",
+    "metadata": {
+      "api_version": "1.0.0",
+      "package_version": "1.0.0",
+      "model_version": "phase1-decision-workbench",
+      "data_version": "2026.08",
+      "generated_at_utc": "2026-08-29T12:00:00Z",
+      "road_network_vintage": "2026-08",
+      "port_capacity_vintage": "FY 2019-20 to FY 2023-24",
+      "population_vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+      "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
+      "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md",
+      "limitations": [
+        "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications."
+      ]
+    }
+  },
+  "tolls": {
+    "matched_plaza_count": 2,
+    "matched_plazas": [
+      {
+        "toll_plaza_id": "toll_1029",
+        "name": "Khed Shivapur / Somatne",
+        "state": "Maharashtra",
+        "district": "Pune",
+        "nh_number": "NH48",
+        "latitude": 18.7123,
+        "longitude": 73.6841,
+        "distance_from_route_m": 42.0,
+        "distance_along_route_km": 34.2,
+        "match_confidence": "high",
+        "match_score": 90.0,
+        "tariff_inr": 340.0,
+        "tariff_status": "modelled",
+        "tariff_source_url": null
+      },
+      {
+        "toll_plaza_id": "toll_1034",
+        "name": "Khalapur Toll Plaza",
+        "state": "Maharashtra",
+        "district": "Raigad",
+        "nh_number": "NH48",
+        "latitude": 18.8412,
+        "longitude": 73.2845,
+        "distance_from_route_m": 35.0,
+        "distance_along_route_km": 88.5,
+        "match_confidence": "high",
+        "match_score": 90.0,
+        "tariff_inr": 340.0,
+        "tariff_status": "modelled",
+        "tariff_source_url": null
+      }
+    ],
+    "estimated_total_inr": 680.0,
+    "official_total_inr": null,
+    "tariff_method": "route-matched toll plazas multiplied by standard vehicle-class tariff model; not official quotation",
+    "unmatched_tariff_count": 2,
+    "warnings": []
+  },
+  "modal_scenarios": [
+    {
+      "mode": "road",
+      "feasible": true,
+      "infeasibility_reason": null,
+      "distance_km": 131.0,
+      "transit_time_hours": 2.01,
+      "cost_per_ton_inr": 625.5,
+      "total_shipment_cost_inr": 15637.5,
+      "first_mile_km": 0.0,
+      "last_mile_km": 0.0,
+      "transfer_count": 0,
+      "assumptions": [
+        "Direct road trucking linehaul rate: INR 3.30/ton-km",
+        "Includes FASTag toll expenditure: INR 680.00"
+      ],
+      "warnings": []
+    },
+    {
+      "mode": "conventional_rail",
+      "feasible": true,
+      "infeasibility_reason": null,
+      "distance_km": 165.0,
+      "transit_time_hours": 18.6,
+      "cost_per_ton_inr": 780.0,
+      "total_shipment_cost_inr": 19500.0,
+      "first_mile_km": 12.0,
+      "last_mile_km": 8.0,
+      "transfer_count": 2,
+      "assumptions": [
+        "Rail base class tariff: Class 140",
+        "Includes first/last mile road cartage and siding handling"
+      ],
+      "warnings": []
+    },
+    {
+      "mode": "dfc",
+      "feasible": false,
+      "infeasibility_reason": "Corridor distance (131 km) is below DFC feeder breakeven threshold of 210 km",
+      "distance_km": null,
+      "transit_time_hours": null,
+      "cost_per_ton_inr": null,
+      "total_shipment_cost_inr": null,
+      "first_mile_km": null,
+      "last_mile_km": null,
+      "transfer_count": 0,
+      "assumptions": [],
+      "warnings": []
+    }
+  ],
+  "recommended_mode": "road",
+  "recommendation_reason": "Direct Road Trucking is optimal for this short-haul corridor (131 km), saving 19.8% in total logistics cost and 16.6 hours transit time compared to rail transshipment.",
+  "metadata": {
+    "api_version": "1.0.0",
+    "package_version": "1.0.0",
+    "model_version": "phase1-decision-workbench",
+    "data_version": "2026.08",
+    "generated_at_utc": "2026-08-29T12:00:00Z",
+    "road_network_vintage": "2026-08",
+    "port_capacity_vintage": "FY 2019-20 to FY 2023-24",
+    "population_vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+    "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
+    "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md",
+    "limitations": [
+      "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications."
+    ]
+  }
+}

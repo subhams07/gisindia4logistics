@@ -1,0 +1,31 @@
+{
+  "districts": [
+    {
+      "state": "Maharashtra",
+      "district": "Pune"
+    },
+    {
+      "state": "Madhya Pradesh",
+      "district": "Indore"
+    },
+    {
+      "state": "Maharashtra",
+      "district": "Nagpur"
+    }
+  ],
+  "metrics": [
+    "port_drive_time_hours",
+    "freight_terminal_drive_time_hours",
+    "highway_access_distance_km",
+    "rail_village_share_10km",
+    "population"
+  ],
+  "weights": {
+    "port_drive_time_hours": 0.35,
+    "freight_terminal_drive_time_hours": 0.25,
+    "highway_access_distance_km": 0.15,
+    "rail_village_share_10km": 0.15,
+    "population": 0.10
+  },
+  "missing_value_policy": "exclude_metric"
+}

@@ -42,6 +42,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from server.services.metadata_service import get_metadata_service
+
+
+@app.middleware("http")
+async def add_version_headers_middleware(request, call_next):
+    response = await call_next(request)
+    meta_svc = get_metadata_service()
+    response.headers["X-GIS4L-API-Version"] = meta_svc.api_version
+    response.headers["X-GIS4L-Data-Version"] = meta_svc.data_version
+    response.headers["X-GIS4L-Model-Version"] = meta_svc.model_version
+    return response
+
 # Mount API Routers
 app.include_router(admin_router, prefix=settings.API_V1_PREFIX)
 app.include_router(hubs_router, prefix=settings.API_V1_PREFIX)
