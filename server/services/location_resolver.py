@@ -350,6 +350,33 @@ class LocationResolver:
                     match_method="exact_code",
                 )
 
+        # Freight terminal code lookup via matched_station_code
+        if hub_type == "freight_terminal" and store.freight_terminals_df is not None:
+            df = store.freight_terminals_df
+            if "matched_station_code" in df.columns:
+                match = df[df["matched_station_code"].astype(str).str.upper() == norm_code]
+                if not match.empty:
+                    r = match.iloc[0]
+                    if pd.isna(r.get("latitude")) or pd.isna(r.get("longitude")):
+                        raise LocationNotFoundError(
+                            f"Freight terminal code '{code}' is catalogued but lacks geographic coordinates for routing",
+                            location_query={"hub_type": hub_type, "code": code}
+                        )
+                    st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
+                    name_col = "terminal_name" if "terminal_name" in df.columns else "name"
+                    t_name = str(r[name_col])
+                    return ResolvedLocation(
+                        type="hub",
+                        canonical_name=f"{t_name} ({norm_code})",
+                        state=st_val,
+                        district=None,
+                        district_code=None,
+                        latitude=float(r["latitude"]),
+                        longitude=float(r["longitude"]),
+                        source_dataset="freight_terminals.csv",
+                        match_method="exact_code",
+                    )
+
         # Reverse alias code lookup for ports/icds
         if code.lower() in self._aliases_by_code:
             entry = self._aliases_by_code[code.lower()]
@@ -410,17 +437,21 @@ class LocationResolver:
         # 2. Freight Terminals (GCT)
         if hub_type == "freight_terminal" and store.freight_terminals_df is not None:
             df = store.freight_terminals_df
+            name_col = "terminal_name" if "terminal_name" in df.columns else "name"
             if norm_name:
-                match = df[df.terminal_name.astype(str).str.lower() == norm_name]
-                if match.empty and "name" in df.columns:
-                    match = df[df.name.astype(str).str.lower() == norm_name]
+                match = df[df[name_col].astype(str).str.lower() == norm_name]
                 if not match.empty:
                     r = match.iloc[0]
+                    if pd.isna(r.get("latitude")) or pd.isna(r.get("longitude")):
+                        raise LocationNotFoundError(
+                            f"Freight terminal '{name}' is catalogued but lacks geographic coordinates for routing",
+                            location_query={"hub_type": hub_type, "name": name}
+                        )
                     st_val = str(r["state"]).strip() if pd.notna(r.get("state")) and str(r.get("state")).strip().lower() != "nan" else None
-                    t_name = r.get("terminal_name") or r.get("name") or name
+                    t_name = str(r[name_col])
                     return ResolvedLocation(
                         type="hub",
-                        canonical_name=str(t_name),
+                        canonical_name=t_name,
                         state=st_val,
                         district=None,
                         district_code=None,

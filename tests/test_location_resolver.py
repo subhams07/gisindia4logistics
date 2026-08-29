@@ -173,6 +173,57 @@ def test_resolve_hub_by_code(resolver, store):
     assert res_stn.match_method == "exact_code"
 
 
+def test_resolve_freight_terminal_by_exact_name(resolver, store):
+    """Verifies resolving a Gati Shakti freight terminal by exact name."""
+    hub = HubLocation(hub_type="freight_terminal", name="Kamalajari")
+    res = resolver.resolve(hub, store)
+    assert res.canonical_name == "Kamalajari"
+    assert res.match_method == "exact_name"
+    assert res.latitude is not None and 20.0 <= res.latitude <= 21.0
+    assert res.longitude is not None and 85.0 <= res.longitude <= 86.0
+
+
+def test_resolve_freight_terminal_by_station_code(resolver, store):
+    """Verifies resolving a Gati Shakti freight terminal by matched station code."""
+    hub = HubLocation(hub_type="freight_terminal", code="KJR")
+    res = resolver.resolve(hub, store)
+    assert "Kamalajari" in res.canonical_name
+    assert res.match_method == "exact_code"
+    assert 20.0 <= res.latitude <= 21.0
+
+
+def test_freight_terminal_without_coordinates_is_not_routable(resolver, store):
+    """Verifies that a catalogued terminal without coordinates raises LocationNotFoundError."""
+    hub = HubLocation(hub_type="freight_terminal", name="Vadalapudi")
+    with pytest.raises(LocationNotFoundError) as exc_info:
+        resolver.resolve(hub, store)
+    assert "lacks geographic coordinates" in str(exc_info.value)
+
+
+def test_every_declared_hub_type_has_valid_resolver_path(resolver, store):
+    """Verifies that every declared category in HubLocation has at least one working resolver lookup."""
+    samples = {
+        "port": "Deendayal Port (Kandla)",
+        "icd": "ICD Tughlakabad",
+        "mmlp": "MMLP Jalna",
+        "freight_terminal": "Kamalajari",
+        "rail_station": "PUNE JN",
+        "air_cargo": "Indira Gandhi International Airport (DEL)",
+        "iw_terminal": "Varanasi Multi-Modal Terminal",
+        "icp": "Attari ICP",
+        "fci_depot": "FCI FSD Moga",
+        "cold_chain": "Agra Cold Storage Cluster (Khandari)",
+        "mandi": "Azadpur APMC Mandi (Asia's Largest)",
+    }
+
+    for hub_type, name in samples.items():
+        hub = HubLocation(hub_type=hub_type, name=name)
+        res = resolver.resolve(hub, store)
+        assert res is not None, f"Failed to resolve hub_type: {hub_type}"
+        assert res.latitude is not None and -90 <= res.latitude <= 90
+        assert res.longitude is not None and -180 <= res.longitude <= 180
+
+
 def test_alias_type_mismatch_raises_invalid_location_error(resolver, store):
     """Verifies that requesting an alias under the wrong category raises InvalidLocationError."""
     # JNPT is a port, not an ICD

@@ -18,6 +18,7 @@ __all__ = [
     "GISIndia4LogisticsError",
     "LocationNotFoundError",
     "AmbiguousLocationError",
+    "InvalidLocationError",
     "RouteNotAvailableError",
     "UnsupportedScenarioError",
     "ReportGenerationError",
