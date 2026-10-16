@@ -31,6 +31,8 @@ Check each approved acceptance row against persisted tests before expensive veri
 
 Historical private review transcripts, scratch probes, caches and generated artifacts are excluded from this checkpoint. Later N1d fixes will be separate commits; pushing this snapshot does not accept them in advance.
 
+Automatic GitHub CI and weekly audit workflows are disabled at the maintainer's request, and their definitions are removed on this review branch. Verification is local, scoped to actual changes and explicitly recorded. The release/tag/manual PyPI publishing workflow is retained; it does not run on ordinary branch pushes or pull requests. Historical failed checks remain historical records, not a reason to rerun builds or change billing.
+
 ## Roles
 
 - Claude Opus 5.5 (`claude-opus-5-5`, medium effort): evaluation, bounded planning and final alignment.
