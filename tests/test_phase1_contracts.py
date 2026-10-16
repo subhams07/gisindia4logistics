@@ -71,12 +71,14 @@ def test_metadata_service_loads_manifest():
 
 
 def test_metadata_service_fallback_on_missing_manifest(tmp_path: Path):
-    """Verifies that MetadataService handles missing manifest gracefully with defaults."""
+    """Missing manifests retain API compatibility without inventing data provenance."""
     non_existent = tmp_path / "missing_manifest.json"
     svc = MetadataService(manifest_path=non_existent)
     meta = svc.get_metadata()
     assert meta.api_version == "1.0.0"
-    assert meta.data_version == "2026.08"
+    assert meta.data_version == "unknown"
+    assert meta.road_network_vintage is None
+    assert any("provenance is unavailable" in item for item in meta.limitations)
 
 
 def test_canonical_vehicle_types():

@@ -1,280 +1,349 @@
-"""National Highway network travel-time and catchment matrix.
+"""Canonical LMV analytical matrix; closest-compatible snaps, fastest-time paths.
 
-Builds a topological spatial graph from the committed National Highway network
-(data/roads/india_nh_network.geojson) in EPSG:7755 (India NSF LCC). Computes
-network shortest-path drive times (hours/minutes) and road distances (km)
-from all 781 current LGD district centers to key logistics hubs:
-1. Major / Commercial Ports (22 ports)
-2. Inland Container Depots (44 ICDs/CFSs)
-3. Multimodal Logistics Parks (20 MMLPs)
-4. Air Cargo Terminals (25 airports)
-5. Integrated Check Posts (19 border ICPs)
-
-Outputs:
-- data/analysis/nh_district_travel_time_summary.csv (781 districts x nearest hubs)
-- data/analysis/nh_district_port_matrix.csv (781 districts x major ports drive-time matrix)
-
-Usage:
-    python scripts/analyze/nh_travel_matrix.py
+This is not navigation or global door-to-door optimization. Build is separate
+from single-file atomic publication; a multi-artifact promotion belongs upstream.
 """
 from __future__ import annotations
 
-import pathlib
+import argparse
+from pathlib import Path
 import sys
 import time
+from types import SimpleNamespace
+
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-from scipy.spatial import cKDTree
 from scipy.sparse.csgraph import dijkstra
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
-from standardize import DATA_DIR
-from graph_builder import load_or_build_cached_graph
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from scripts.analyze import highway_pair_kernel as kernel
+from scripts.analyze.producer_io import (
+    atomic_write_csv, atomic_write_parquet, district_population, is_island_state,
+    sha256_file,
+)
+from scripts.clean.graph_builder import (
+    DEFAULT_SPEED as DEFAULT_SPEED, SPEEDS as SPEEDS, compute_graph_fingerprint, load_highway_source,
+    load_or_build_cached_graph, validate_graph_metadata,
+)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT_ROOT / "data"
 PROJ = 7755
-SPEEDS = {"motorway": 90.0, "trunk": 70.0, "primary": 55.0}
-DEFAULT_SPEED = 50.0
-ACCESS_SPEED = 35.0  # km/h on connecting/local roads to highway
+ACCESS_SPEED = 35.0
 ISLAND_DISTRICT_NAMES = {"nicobars", "north and middle andaman", "south andamans", "lakshadweep"}
+HUB_FILES = {
+    "rail_station": ("rail/railway_stations.csv", "station_name"),
+    "freight_terminal": ("rail/freight_terminals.csv", "name"),
+    "port": ("logistics_hubs/ports.csv", "name"),
+    "icd": ("logistics_hubs/icds.csv", "name"),
+    "mmlp": ("logistics_hubs/mmlps.csv", "name"),
+    "air_cargo": ("logistics_hubs/air_cargo.csv", "name"),
+    "icp": ("logistics_hubs/icps.csv", "name"),
+    "toll_plaza": ("roads/toll_plazas.csv", "name"),
+}
+KINDS = (*HUB_FILES, "expressway")
+IDENTITY_COLUMNS = ["state", "district", "district_code"]
+SUMMARY_COLUMNS = IDENTITY_COLUMNS + [
+    "pop_2011", "is_island", "highway_access_dist_km", "highway_access_time_min",
+] + [column for kind in KINDS for column in (
+    f"nearest_{kind}_name", f"{kind}_straight_km", f"{kind}_road_distance_km",
+    f"{kind}_drive_time_hours", f"{kind}_drive_time_min",
+)]
 
 
-def main() -> None:
-    t0 = time.time()
-    print("=== GISIndia4Logistics National Highway Travel-Time Engine ===")
-    
-    # 1. Load NH Network
-    nh_path = DATA_DIR / "roads" / "india_nh_network.geojson"
-    print(f"Loading National Highway network from {nh_path} ...")
-    nh = gpd.read_file(nh_path).to_crs(PROJ)
+def _point_candidates(point, graph):
+    """Nearest node per component, inclusive 150 km, deterministic node ties."""
+    if not np.isfinite(point).all():
+        return {}
+    ids, distances = kernel.radius_candidates(point, graph)
+    valid = np.isfinite(distances) & (distances >= 0) & (distances <= kernel.MAX_FEEDER_DISTANCE_M)
+    ids, distances = ids[valid], distances[valid]
+    labels = graph.nh_comp_labels[ids]
+    order = np.lexsort((ids, distances, labels))
+    labels, ids, distances = labels[order], ids[order], distances[order]
+    first = np.r_[True, labels[1:] != labels[:-1]] if len(labels) else np.array([], dtype=bool)
+    return {int(c): (float(d), int(n)) for c, d, n in zip(labels[first], distances[first], ids[first])}
 
-    cache_dir = DATA_DIR / "cache"
-    graph_time, graph_dist, node_coords, labels, tree, _ = load_or_build_cached_graph(nh, cache_dir=cache_dir)
-    comp_sizes = np.bincount(labels)
-    largest_label = comp_sizes.argmax()
 
-    # Snap to the continuous mainland network
-    main_node_indices = np.where(labels == largest_label)[0]
-    main_coords = node_coords[main_node_indices]
-    main_kdtree = cKDTree(main_coords)
+def _hub_components(candidates):
+    """Sparse inverted component index; never allocate by maximum label."""
+    rows = {}
+    for hub, components in enumerate(candidates):
+        for comp, (distance, node) in components.items():
+            rows.setdefault(comp, []).append((hub, distance, node))
+    return {c: (np.array([r[0] for r in entries], dtype=int),
+                np.array([r[1] for r in entries], dtype=float),
+                np.array([r[2] for r in entries], dtype=int)) for c, entries in rows.items()}
 
-    # 2. Load Districts
-    dist_path = DATA_DIR / "administrative" / "india_districts_lgd.geojson"
-    districts = gpd.read_file(dist_path).to_crs(PROJ)
-    d_pts = np.array([[p.x, p.y] for p in districts.geometry.representative_point()])
-    d_dists_m, d_local_ids = main_kdtree.query(d_pts)
-    d_node_ids = main_node_indices[d_local_ids]
 
-    # Population lookup
-    pop_map = {}
-    pop_path = DATA_DIR / "demographic" / "district_population_estimates.csv"
-    if pop_path.exists():
-        p_df = pd.read_csv(pop_path)
-        for _, r in p_df.iterrows():
-            pop_map[(r["state"].strip().lower(), str(r["district"]).strip().lower())] = r["pop_2011"]
-
-    # 3. Load Hubs & Railway Stations
-    hub_files = {
-        "rail_station": (DATA_DIR / "rail" / "railway_stations.csv", "station_name"),
-        "freight_terminal": (DATA_DIR / "rail" / "freight_terminals.csv", "terminal_name"),
-        "port": (DATA_DIR / "logistics_hubs" / "ports.csv", "name"),
-        "icd": (DATA_DIR / "logistics_hubs" / "icds.csv", "name"),
-        "mmlp": (DATA_DIR / "logistics_hubs" / "mmlps.csv", "name"),
-        "air_cargo": (DATA_DIR / "logistics_hubs" / "air_cargo.csv", "name"),
-        "icp": (DATA_DIR / "logistics_hubs" / "icps.csv", "name"),
-        "toll_plaza": (DATA_DIR / "roads" / "toll_plazas.csv", "name"),
-    }
-
-    hubs_data = {}
-    for k, (p, name_col) in hub_files.items():
-        df = pd.read_csv(p)
-        df = df[df.latitude.notna() & df.longitude.notna()].copy()
-        if name_col != "name" and name_col in df.columns:
-            df["name"] = df[name_col]
-        gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude), crs=4326).to_crs(PROJ)
-        pts = np.array([[pt.x, pt.y] for pt in gdf.geometry])
-        dists_m, local_ids = main_kdtree.query(pts)
-        gdf["node_id"] = main_node_indices[local_ids]
-        gdf["snap_dist_km"] = dists_m / 1000.0
-        hubs_data[k] = gdf
-
-    # Add access-controlled expressways target layer
-    exp_gdf_raw = nh[nh.highway == "motorway"].copy()
-    exp_pts = []
-    for _, r in exp_gdf_raw.iterrows():
-        exp_name = str(r["name"]) if pd.notna(r["name"]) else ("NE " + str(r["nh"]) if pd.notna(r["nh"]) else "Expressway")
-        pt = r.geometry.interpolate(0.5, normalized=True)
-        exp_pts.append({"name": exp_name, "geometry": pt})
-    if exp_pts:
-        exp_gdf = gpd.GeoDataFrame(exp_pts, crs=PROJ)
-        pts = np.array([[pt.x, pt.y] for pt in exp_gdf.geometry])
-        dists_m, local_ids = main_kdtree.query(pts)
-        exp_gdf["node_id"] = main_node_indices[local_ids]
-        exp_gdf["snap_dist_km"] = dists_m / 1000.0
-        hubs_data["expressway"] = exp_gdf
-
-    # 4. Compute Shortest Path Matrix from all 781 Districts
-    print(f"\nComputing network shortest paths for {len(districts)} districts across all hubs...")
-    t_calc = time.time()
-    
-    # Compute paths in bounded chunks and retain only hub-node results. Keeping
-    # two full 781 x network-node matrices can require several GiB of RAM.
-    target_nodes = np.array(
-        sorted({int(node_id) for h_gdf in hubs_data.values() for node_id in h_gdf["node_id"].values}),
-        dtype=int,
-    )
-    target_node_to_col = {node_id: col for col, node_id in enumerate(target_nodes)}
-    chunk_size = 32
-    dist_time_targets = np.empty((len(d_node_ids), len(target_nodes)), dtype=np.float64)
-    dist_dist_targets = np.empty((len(d_node_ids), len(target_nodes)), dtype=np.float64)
-
-    for start in range(0, len(d_node_ids), chunk_size):
-        end = min(start + chunk_size, len(d_node_ids))
-        district_chunk = d_node_ids[start:end]
-        dist_time_targets[start:end, :] = dijkstra(
-            csgraph=graph_time,
-            directed=False,
-            indices=district_chunk,
-        )[:, target_nodes]
-        dist_dist_targets[start:end, :] = dijkstra(
-            csgraph=graph_dist,
-            directed=False,
-            indices=district_chunk,
-        )[:, target_nodes]
-        print(f"  Dijkstra districts {start + 1}-{end}/{len(d_node_ids)}")
-    print(f"Chunked network Dijkstra calculation completed in {time.time()-t_calc:.2f}s")
-
-    # 5. Build District Catchment Summary
-    summary_rows = []
-    for i, d_row in districts.iterrows():
-        st = d_row["state"]
-        dt = d_row["district"]
-        code = d_row.get("district_code")
-        d_access_km = d_dists_m[i] / 1000.0
-        d_access_hours = d_access_km / ACCESS_SPEED
-        d_access_time_min = d_access_hours * 60.0
-        
-        # Island detection (Andaman & Nicobar, Lakshadweep: > 150 km from mainland network)
-        is_island = d_access_km > 150.0
-        
-        pop = pop_map.get((st.strip().lower(), dt.strip().lower()))
-        
-        row = {
-            "state": st,
-            "district": dt,
-            "district_code": code,
-            "pop_2011": pop,
-            "is_island": is_island,
-            "highway_access_dist_km": round(d_access_km, 1),
-            "highway_access_time_min": round(d_access_time_min, 1),
-        }
-
-        d_pt = d_pts[i]
-
-        for kind, h_gdf in hubs_data.items():
-            if is_island:
-                row[f"nearest_{kind}_name"] = None
-                row[f"{kind}_straight_km"] = None
-                row[f"{kind}_road_distance_km"] = None
-                row[f"{kind}_drive_time_hours"] = None
-                row[f"{kind}_drive_time_min"] = None
-                continue
-
-            h_nodes = h_gdf["node_id"].values
-            h_target_cols = np.array([target_node_to_col[int(node)] for node in h_nodes])
-            h_snap_km = h_gdf["snap_dist_km"].values
-            h_snap_hours = h_snap_km / ACCESS_SPEED
-            h_names = h_gdf["name"].values
-            
-            # Net travel times (hours) + access times (hours)
-            raw_times_hours = dist_time_targets[i, h_target_cols]
-            raw_dists_km = dist_dist_targets[i, h_target_cols]
-            
-            tot_times_hours = raw_times_hours + d_access_hours + h_snap_hours
-            tot_dists_km = raw_dists_km + d_access_km + h_snap_km
-            
-            best_idx = np.argmin(tot_times_hours)
-            best_time_hours = tot_times_hours[best_idx]
-            best_dist_km = tot_dists_km[best_idx]
-            best_geom = h_gdf.geometry.iloc[best_idx]
-            straight_km = np.hypot(best_geom.x - d_pt[0], best_geom.y - d_pt[1]) / 1000.0
-            
-            if np.isinf(best_time_hours):
-                row[f"nearest_{kind}_name"] = None
-                row[f"{kind}_straight_km"] = None
-                row[f"{kind}_road_distance_km"] = None
-                row[f"{kind}_drive_time_hours"] = None
-                row[f"{kind}_drive_time_min"] = None
-            else:
-                row[f"nearest_{kind}_name"] = h_names[best_idx]
-                row[f"{kind}_straight_km"] = round(straight_km, 1)
-                row[f"{kind}_road_distance_km"] = round(best_dist_km, 1)
-                row[f"{kind}_drive_time_hours"] = round(best_time_hours, 2)
-                row[f"{kind}_drive_time_min"] = round(best_time_hours * 60.0, 0)
-
-        summary_rows.append(row)
-
-    summary_df = pd.DataFrame(summary_rows)
-    out_summary = DATA_DIR / "analysis" / "nh_district_travel_time_summary.csv"
-    summary_df.to_csv(out_summary, index=False)
-    print(f"Wrote {len(summary_df)} district travel time summaries -> {out_summary}")
-
-    # 6. Build Major Ports Matrix
-    ports_gdf = hubs_data["port"]
-    major_ports = ports_gdf[ports_gdf.hub_type == "major_port"].reset_index(drop=True)
-    matrix_rows = []
-    
-    for i, d_row in districts.iterrows():
-        p_row = {"state": d_row["state"], "district": d_row["district"], "district_code": d_row.get("district_code")}
-        d_name_lower = str(d_row["district"]).lower()
-        is_island_district = bool(d_row.get("is_island", False)) or (d_name_lower in ISLAND_DISTRICT_NAMES)
-
-        if is_island_district:
-            for _, port in major_ports.iterrows():
-                port_key = port["name"].replace("Port of ", "").replace(" Port", "").replace(" ", "_").lower()
-                p_row[f"drive_hours_to_{port_key}"] = None
-                p_row[f"road_km_to_{port_key}"] = None
-            matrix_rows.append(p_row)
+def _compatible_hubs(origin, components, count):
+    """Vectorized scalar-kernel objective (o metres + h metres, o ID, h ID, label)."""
+    u = np.full(count, -1, dtype=int)
+    v = np.full(count, -1, dtype=int)
+    od = np.full(count, np.inf)
+    hd = np.full(count, np.inf)
+    labels = np.full(count, -1, dtype=np.int64)
+    total = np.full(count, np.inf)
+    for comp, (o_distance, o_node) in origin.items():
+        if comp not in components:
             continue
+        hubs, distances, nodes = components[comp]
+        sums = o_distance + distances
+        equal = sums == total[hubs]
+        better = (sums < total[hubs]) | (equal & (
+            (o_node < u[hubs]) | ((o_node == u[hubs]) & (
+                (nodes < v[hubs]) | ((nodes == v[hubs]) & (comp < labels[hubs]))))))
+        slots = hubs[better]
+        u[slots], v[slots] = o_node, nodes[better]
+        od[slots], hd[slots], labels[slots] = o_distance, distances[better], comp
+        total[slots] = sums[better]
+    return u, v, od, hd, labels
 
-        d_access_km = d_dists_m[i] / 1000.0
-        d_access_hours = d_access_km / ACCESS_SPEED
-        
-        for _, port in major_ports.iterrows():
-            p_node = port["node_id"]
-            p_target_col = target_node_to_col[int(p_node)]
-            p_access_km = port["snap_dist_km"]
-            p_access_hours = p_access_km / ACCESS_SPEED
-            t_net_hours = dist_time_targets[i, p_target_col]
-            d_net_km = dist_dist_targets[i, p_target_col]
-            t_tot_hours = t_net_hours + d_access_hours + p_access_hours
-            d_tot_km = d_net_km + d_access_km + p_access_km
-            port_key = port["name"].replace("Port of ", "").replace(" Port", "").replace(" ", "_").lower()
-            p_row[f"drive_hours_to_{port_key}"] = round(t_tot_hours, 2) if not np.isinf(t_tot_hours) else None
-            p_row[f"road_km_to_{port_key}"] = round(d_tot_km, 1) if not np.isinf(d_tot_km) else None
-        
-        matrix_rows.append(p_row)
 
-    matrix_df = pd.DataFrame(matrix_rows)
-    out_matrix = DATA_DIR / "analysis" / "nh_district_port_matrix.csv"
-    matrix_df.to_csv(out_matrix, index=False)
-    print(f"Wrote {len(matrix_df)} district-to-major-ports matrix -> {out_matrix}")
+def _selected_pair(selected, slot):
+    u, v, od, hd, labels = selected
+    if u[slot] < 0:
+        return None
+    return int(u[slot]), int(v[slot]), float(od[slot]), float(hd[slot]), int(labels[slot])
 
-    # Validation and Benchmark Metrics
-    print("\n=== National Distance & Drive-Time Benchmarks (777 Mainland Districts) ===")
-    valid = summary_df[~summary_df.is_island & summary_df.port_drive_time_hours.notna()]
-    print(f"Mainland Districts analyzed: {len(valid)}/{len(summary_df)}")
-    print(f"1. Nearest National Highway (Access): Straight: {valid.highway_access_dist_km.median():5.1f} km | Drive Time: {valid.highway_access_time_min.median():.0f} min")
-    print(f"2. Nearest Toll Plaza (FASTag):       Straight: {valid.toll_plaza_straight_km.median():5.1f} km | Road: {valid.toll_plaza_road_distance_km.median():5.1f} km | Drive Time: {valid.toll_plaza_drive_time_hours.median():.2f} hrs ({valid.toll_plaza_drive_time_min.median():.0f} min)")
-    print(f"3. Nearest Expressway (Motorway):     Straight: {valid.expressway_straight_km.median():5.1f} km | Road: {valid.expressway_road_distance_km.median():5.1f} km | Drive Time: {valid.expressway_drive_time_hours.median():.2f} hrs ({valid.expressway_drive_time_min.median():.0f} min)")
-    print(f"4. Nearest Railway Station:           Straight: {valid.rail_station_straight_km.median():5.1f} km | Road: {valid.rail_station_road_distance_km.median():5.1f} km | Drive Time: {valid.rail_station_drive_time_hours.median():.2f} hrs ({valid.rail_station_drive_time_min.median():.0f} min)")
-    print(f"5. Nearest Freight Terminal (GCT):    Straight: {valid.freight_terminal_straight_km.median():5.1f} km | Road: {valid.freight_terminal_road_distance_km.median():5.1f} km | Drive Time: {valid.freight_terminal_drive_time_hours.median():.2f} hrs ({valid.freight_terminal_drive_time_min.median():.0f} min)")
-    print(f"6. Nearest ICD / CFS:                 Straight: {valid.icd_straight_km.median():5.1f} km | Road: {valid.icd_road_distance_km.median():5.1f} km | Drive Time: {valid.icd_drive_time_hours.median():.2f} hrs ({valid.icd_drive_time_min.median():.0f} min)")
-    print(f"7. Nearest MMLP:                      Straight: {valid.mmlp_straight_km.median():5.1f} km | Road: {valid.mmlp_road_distance_km.median():5.1f} km | Drive Time: {valid.mmlp_drive_time_hours.median():.2f} hrs ({valid.mmlp_drive_time_min.median():.0f} min)")
-    print(f"8. Nearest Air Cargo Airport:         Straight: {valid.air_cargo_straight_km.median():5.1f} km | Road: {valid.air_cargo_road_distance_km.median():5.1f} km | Drive Time: {valid.air_cargo_drive_time_hours.median():.2f} hrs ({valid.air_cargo_drive_time_min.median():.0f} min)")
-    print(f"9. Nearest Major / Sea Port:          Straight: {valid.port_straight_km.median():5.1f} km | Road: {valid.port_road_distance_km.median():5.1f} km | Drive Time: {valid.port_drive_time_hours.median():.2f} hrs ({valid.port_drive_time_min.median():.0f} min)")
-    
-    print(f"\nTotal pipeline execution time: {time.time()-t0:.1f}s")
+
+def _port_key(name):
+    return name.replace("Port of ", "").replace(" Port", "").replace(" ", "_").lower()
+
+
+def _district_points(districts):
+    """Project once, representative points once; invalid geometry retains its row."""
+    projected = districts.to_crs(PROJ)
+    points = np.full((len(projected), 2), np.nan)
+    valid = projected.geometry.notna() & ~projected.geometry.is_empty & projected.geometry.is_valid
+    representatives = projected.loc[valid].geometry.representative_point()
+    points[np.flatnonzero(valid)] = np.column_stack((representatives.x, representatives.y))
+    return points
+
+
+def _load_hubs(root, nh, sources):
+    hubs, major_ports, invalid = [], [], {}
+    for kind, (relative, name_col) in HUB_FILES.items():
+        path = root / relative
+        invalid[kind] = 0
+        if not path.exists():
+            continue
+        sources[relative] = sha256_file(path)
+        frame = pd.read_csv(path)
+        required = {name_col, "latitude", "longitude"}
+        if kind == "port":
+            required.add("hub_type")
+        if not required.issubset(frame.columns):
+            raise ValueError(f"Missing hub source columns: {path}")
+        lat = pd.to_numeric(frame.latitude, errors="coerce")
+        lon = pd.to_numeric(frame.longitude, errors="coerce")
+        valid = np.isfinite(lat) & np.isfinite(lon) & lat.between(-90, 90) & lon.between(-180, 180)
+        points = gpd.GeoSeries(gpd.points_from_xy(lon[valid], lat[valid]), crs=4326).to_crs(PROJ)
+        xy = {int(i): (float(p.x), float(p.y)) for i, p in zip(frame.index[valid], points)}
+        for source_order, row in frame.iterrows():
+            point = xy.get(source_order, (np.nan, np.nan))
+            usable = bool(np.isfinite(point).all())
+            if not usable:
+                invalid[kind] += 1
+            slot = len(hubs)
+            hubs.append({"kind": kind, "name": row[name_col], "source_order": int(source_order),
+                         "point": np.asarray(point), "valid": usable})
+            # Invalid major ports still have authoritative output columns.
+            if kind == "port" and row.hub_type == "major_port":
+                if not isinstance(row[name_col], str):
+                    raise ValueError("Invalid major port identity")
+                major_ports.append((slot, _port_key(row[name_col])))
+    invalid["expressway"] = 0
+    if "highway" in nh:
+        for source_order, (_, row) in enumerate(nh.loc[nh.highway == "motorway"].iterrows()):
+            geom = row.geometry
+            if geom is None or geom.is_empty or not geom.is_valid:
+                invalid["expressway"] += 1
+                continue
+            point = geom.interpolate(0.5, normalized=True)
+            name = row.get("name")
+            if pd.isna(name):
+                ref = row.get("nh")
+                name = "NE " + str(ref) if pd.notna(ref) else "Expressway"
+            usable = bool(np.isfinite([point.x, point.y]).all())
+            if not usable:
+                invalid["expressway"] += 1
+                continue
+            hubs.append({"kind": "expressway", "name": name, "source_order": source_order,
+                         "point": np.array([point.x, point.y]), "valid": True})
+    keys = [key for _, key in major_ports]
+    if len(keys) != len(set(keys)):
+        raise ValueError("Duplicate legacy major-port key")
+    return hubs, major_ports, invalid
+
+
+def build_travel_outputs(*, data_dir, cache_dir, chunk_size=32):
+    """Return coherent unpromoted summary/matrix frames and run provenance.
+
+    Pass 1 time-only Dijkstra retains just selected hub target scalars per district
+    chunk, not a national node matrix. Pass 2 walks time predecessors only for
+    category winners and fixed major-port pairs, using the accepted pure kernel.
+    """
+    if isinstance(chunk_size, (bool, np.bool_)) or not isinstance(chunk_size, (int, np.integer)) or not 1 <= chunk_size <= 32:
+        raise ValueError("chunk_size must be an integer from 1 to 32")
+    started = time.perf_counter()
+    root = Path(data_dir)
+    district_path = root / "administrative/india_districts_lgd.geojson"
+    if not district_path.is_file():
+        raise FileNotFoundError(district_path)
+    loaded = load_highway_source(root)
+    if loaded is None:
+        raise FileNotFoundError(f"No highway source in {root / 'roads'}")
+    nh, source_path = loaded
+    districts = gpd.read_file(district_path)
+    if not set(IDENTITY_COLUMNS).issubset(districts.columns):
+        raise ValueError("Missing district identity columns")
+    points = _district_points(districts)
+    sources = {str(source_path.relative_to(root)).replace("\\", "/"): sha256_file(source_path),
+               "administrative/india_districts_lgd.geojson": sha256_file(district_path)}
+    population_path = root / "demographic/district_population_estimates.csv"
+    if population_path.exists():
+        population = pd.read_csv(population_path)
+        sources["demographic/district_population_estimates.csv"] = sha256_file(population_path)
+    else:
+        population = pd.DataFrame(columns=IDENTITY_COLUMNS + ["pop_2011"])
+    populations = district_population(districts, population)
+    hubs, major_ports, invalid_hubs = _load_hubs(root, nh, sources)
+    fields = load_or_build_cached_graph(nh, cache_dir=Path(cache_dir))
+    validate_graph_metadata(*fields)
+    graph = SimpleNamespace(**dict(zip(("nh_graph", "nh_distance_graph", "nh_node_xy",
+                                       "nh_comp_labels", "nh_tree", "nh_bridge_mask"), fields)))
+    origin_candidates = [_point_candidates(p, graph) for p in points]
+    hub_candidates = [_point_candidates(h["point"], graph) for h in hubs]
+    components = _hub_components(hub_candidates)
+    hub_points = np.asarray([h["point"] for h in hubs], dtype=float).reshape(-1, 2)
+    kind_slots = {kind: np.array([i for i, h in enumerate(hubs) if h["kind"] == kind], dtype=int)
+                  for kind in KINDS}
+    matrix_columns = IDENTITY_COLUMNS + [c for _, key in major_ports for c in (
+        f"drive_hours_to_{key}", f"road_km_to_{key}")]
+    rows, matrix_rows = [], []
+    for pos, identity in enumerate(districts[IDENTITY_COLUMNS].to_dict("records")):
+        row = dict.fromkeys(SUMMARY_COLUMNS)
+        row.update(identity)
+        row["pop_2011"] = populations.iloc[pos]
+        row["is_island"] = is_island_state(identity["state"])
+        if np.isfinite(points[pos]).all():
+            access = float(graph.nh_tree.query(points[pos])[0]) / 1000.0
+            row["highway_access_dist_km"] = round(access, 1)
+            row["highway_access_time_min"] = round(access / ACCESS_SPEED * 60, 1)
+        rows.append(row)
+        matrix_row = dict.fromkeys(matrix_columns)
+        matrix_row.update(identity)
+        matrix_rows.append(matrix_row)
+    diagnostics = []
+    for start in range(0, len(rows), chunk_size):
+        stop = min(start + chunk_size, len(rows))
+        selected, network, grouped = {}, {}, {}
+        for pos in range(start, stop):
+            selection = _compatible_hubs(origin_candidates[pos], components, len(hubs))
+            selected[pos] = selection
+            network[pos] = np.full(len(hubs), np.inf)
+            u, v = selection[:2]
+            for source in np.unique(u[u >= 0]):
+                slots = np.flatnonzero(u == source)
+                grouped.setdefault(int(source), []).append((pos, slots, v[slots]))
+        source_nodes = list(grouped)
+        for offset in range(0, len(source_nodes), chunk_size):
+            batch = source_nodes[offset:offset + chunk_size]
+            hours = dijkstra(graph.nh_graph, directed=False, indices=batch)
+            for j, source in enumerate(batch):
+                for pos, slots, targets in grouped[source]:
+                    network[pos][slots] = hours[j, targets]
+            del hours
+        requests, locations = [], []
+        for pos in range(start, stop):
+            u, v, od, hd, _ = selected[pos]
+            compatible = u >= 0
+            if not np.isfinite(network[pos][compatible]).all():
+                raise kernel._integrity("Same-component destination is unreachable on the highway graph")
+            totals = network[pos] + od / 1000.0 / ACCESS_SPEED + hd / 1000.0 / ACCESS_SPEED
+            same_point = np.all(hub_points == points[pos], axis=1)
+            totals[same_point & compatible] = 0.0
+            winners = []
+            for kind, slots in kind_slots.items():
+                if len(slots):
+                    slot = int(slots[np.argmin(totals[slots])])
+                    if np.isfinite(totals[slot]):
+                        winners.append((slot, kind, None))
+            winners.extend((slot, None, key) for slot, key in major_ports if compatible[slot])
+            for slot, kind, key in winners:
+                requests.append((int(u[slot]), int(v[slot])))
+                locations.append((pos, slot, kind, key, float(totals[slot]), bool(same_point[slot])))
+        metrics = kernel.pair_network_metrics(graph, requests, chunk_size=chunk_size)
+        for (pos, slot, kind, key, total, zero), metric in zip(locations, metrics):
+            if metric is None:
+                raise kernel._integrity("Selected compatible pair has no network metrics")
+            if metric.network_time_hours != network[pos][slot]:
+                raise kernel._integrity("Pass 1/2 highway network time mismatch")
+            od, hd = selected[pos][2:4]
+            distance = 0.0 if zero else metric.network_distance_km + od[slot] / 1000.0 + hd[slot] / 1000.0
+            if kind is not None:
+                row = rows[pos]
+                row[f"nearest_{kind}_name"] = hubs[slot]["name"]
+                row[f"{kind}_straight_km"] = round(float(np.linalg.norm(points[pos] - hubs[slot]["point"])) / 1000, 1)
+                row[f"{kind}_road_distance_km"] = round(float(distance), 1)
+                row[f"{kind}_drive_time_hours"] = round(total, 2)
+                row[f"{kind}_drive_time_min"] = round(total * 60.0, 1)
+            else:
+                matrix_rows[pos][f"drive_hours_to_{key}"] = round(total, 2)
+                matrix_rows[pos][f"road_km_to_{key}"] = round(float(distance), 1)
+            diagnostics.append({"district_row": pos, "kind": kind, "port_key": key,
+                                "hub_source_order": hubs[slot]["source_order"],
+                                "synthetic_bridge_count": metric.synthetic_bridge_count,
+                                "synthetic_bridge_distance_km": metric.synthetic_bridge_distance_km,
+                                "maximum_synthetic_bridge_m": metric.maximum_synthetic_bridge_m})
+    summary = pd.DataFrame(rows, columns=SUMMARY_COLUMNS)
+    port_matrix = pd.DataFrame(matrix_rows, columns=matrix_columns)
+    # CSV/parquet identity and missingness must survive uncoded primary rows.
+    for frame in (summary, port_matrix):
+        frame["district_code"] = frame["district_code"].astype("float64")
+        for column in frame.columns:
+            if column not in IDENTITY_COLUMNS and not column.startswith("nearest_") and column != "is_island":
+                frame[column] = pd.to_numeric(frame[column], errors="raise").astype("float64")
+    provenance = {
+        "data_dir": str(root.resolve()), "cache_dir": str(Path(cache_dir).resolve()),
+        "sources_sha256": sources, "graph_fingerprint": compute_graph_fingerprint(nh),
+        "objective": "closest-compatible (feeder_sum_m, origin_node, hub_node, component); then minimum LMV total hours per category, source row order ties",
+        "path_metric": "distance and bridge diagnostics on fastest-time predecessor path",
+        "lmv_factor": 1.0, "feeder_speed_kmh": ACCESS_SPEED, "candidate_radius_m": 150000.0,
+        "units": {"distance": "km", "time": "hours", "minutes": "minutes"},
+        "null_policy": "no compatible candidate or invalid geometry/coordinates => null; corrupt graph => error",
+        "island_policy": "geographic state identity; no distance-based suppression",
+        "district_rows": len(summary), "invalid_district_geometries": int((~np.isfinite(points).all(axis=1)).sum()),
+        "invalid_hub_coordinates": invalid_hubs, "winner_and_port_diagnostics": diagnostics,
+        "chunk_size": int(chunk_size), "elapsed_seconds": time.perf_counter() - started,
+    }
+    return summary, port_matrix, provenance
+
+
+def write_travel_outputs(summary_df, port_matrix_df, *, summary_csv, summary_parquet, port_matrix_csv):
+    """Individual atomic writers, not a three-file transaction or promotion."""
+    atomic_write_csv(summary_df, summary_csv)
+    atomic_write_parquet(summary_df, summary_parquet)
+    atomic_write_csv(port_matrix_df, port_matrix_csv)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
+    parser.add_argument("--cache-dir", type=Path, default=PROJECT_ROOT / "outputs/cache")
+    parser.add_argument("--output-dir", type=Path, default=None)
+    args = parser.parse_args()
+    output_dir = args.output_dir if args.output_dir is not None else args.data_dir / "analysis"
+    summary, port_matrix, provenance = build_travel_outputs(data_dir=args.data_dir, cache_dir=args.cache_dir)
+    write_travel_outputs(summary, port_matrix,
+                         summary_csv=output_dir / "nh_district_travel_time_summary.csv",
+                         summary_parquet=output_dir / "nh_district_travel_time_summary.parquet",
+                         port_matrix_csv=output_dir / "nh_district_port_matrix.csv")
+    print(f"Wrote {len(summary)} district rows; elapsed {provenance['elapsed_seconds']:.2f}s")
 
 
 if __name__ == "__main__":

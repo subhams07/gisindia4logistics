@@ -41,17 +41,19 @@ class ResponseMetadata(BaseModel):
 
 class CoordinateLocation(BaseModel):
     """Explicit coordinate location reference [latitude, longitude]."""
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     type: Literal["coordinate"] = "coordinate"
-    latitude: float = Field(..., ge=-90.0, le=90.0, description="Latitude in decimal degrees WGS 84")
-    longitude: float = Field(..., ge=-180.0, le=180.0, description="Longitude in decimal degrees WGS 84")
+    latitude: float = Field(..., strict=True, ge=-90.0, le=90.0, description="Latitude in decimal degrees WGS 84")
+    longitude: float = Field(..., strict=True, ge=-180.0, le=180.0, description="Longitude in decimal degrees WGS 84")
     label: Optional[str] = Field(None, description="Optional human-readable label")
 
 
 class DistrictLocation(BaseModel):
     """District administrative location reference."""
+    model_config = ConfigDict(extra="forbid")
     type: Literal["district"] = "district"
     district: Optional[str] = Field(None, description="District name, e.g. 'Pune' or 'Indore'")
-    district_code: Optional[int] = Field(None, ge=1, description="Official LGD district code, e.g. 521")
+    district_code: Optional[int] = Field(None, strict=True, ge=1, description="Official LGD district code, e.g. 521")
     state: Optional[str] = Field(None, description="State or UT name, e.g. 'Maharashtra'")
 
     @model_validator(mode="after")
@@ -63,6 +65,7 @@ class DistrictLocation(BaseModel):
 
 class HubLocation(BaseModel):
     """Logistics facility hub location reference."""
+    model_config = ConfigDict(extra="forbid")
     type: Literal["hub"] = "hub"
     hub_type: Literal[
         "port",
@@ -120,6 +123,17 @@ class VehicleType(str, Enum):
     OVERSIZED_7AXLE = "7_AXLE_OVERSIZED"
 
 
+class HighwayRoutePlanRequest(BaseModel):
+    """Transport-neutral highway plan; display geometry is opt-in by detail."""
+    model_config = ConfigDict(extra="forbid")
+    origin: LocationReference
+    destination: LocationReference
+    # Field-local strictness leaves ordinary valid transport enum strings usable.
+    vehicle_type: VehicleType = VehicleType.MAV_20T
+    include_route_geometry: bool = Field(True, strict=True)
+    geometry_detail: Literal["none", "full", "simplified"] = "none"
+
+
 class RoutePoint(BaseModel):
     """Single geographic point with named coordinates."""
     latitude: float = Field(..., ge=-90.0, le=90.0)
@@ -148,13 +162,13 @@ class HighwayRouteResult(BaseModel):
     origin: ResolvedLocation
     destination: ResolvedLocation
 
-    distance_km: float = Field(..., ge=0.0, description="Total road distance including modeled feeder connections (km)")
+    distance_km: float = Field(..., ge=0.0, description="Total modeled graph distance plus straight-line feeder connections (km)")
     drive_time_hours: float = Field(..., ge=0.0, description="Total driving duration (hours)")
     drive_time_formatted: str = Field(..., description="Formatted duration string, e.g. '1 hrs 57 min'")
 
     origin_access_distance_km: float = Field(..., ge=0.0, description="Feeder distance from origin to NH entry node (km)")
     destination_access_distance_km: float = Field(..., ge=0.0, description="Feeder distance from NH exit node to destination (km)")
-    network_distance_km: float = Field(..., ge=0.0, description="Distance traversed strictly on the National Highway network (km)")
+    network_distance_km: float = Field(..., ge=0.0, description="Distance over grid-snapped highway graph edges, including marked synthetic bridges (km)")
 
     origin_snapped: RoutePoint = Field(..., description="Coordinates of the network entry node")
     destination_snapped: RoutePoint = Field(..., description="Coordinates of the network exit node")

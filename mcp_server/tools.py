@@ -3,66 +3,120 @@ mcp_server/tools.py
 High-level GIS4Logistics tool implementations callable by MCP servers and AI agents.
 """
 
-from typing import Dict, Any, Optional, List
-from server.dependencies import DataStore
+from contextlib import redirect_stdout
+import sys
+from typing import Any
+from server.models.phase1 import HighwayRoutePlanRequest
+
 from server.config import settings
-from server.routers.admin import get_district_scorecard
-from server.routers.hubs import get_nearest_hubs
-from server.routers.routing import calculate_highway_route
-from server.routers.simulation import simulate_freight_cost, simulate_port_gravity
+from server.dependencies import DataStore
 from server.models.schemas import (
-    RouteRequest, FreightCostSimulationRequest, CostParametersOverride,
-    PortGravitySimulationRequest
+    CostParametersOverride,
+    FreightCostSimulationRequest,
+    FreightCostSimulationResponse,
+    PortGravitySimulationRequest,
+    RouteRequest,
 )
+from server.routers.admin import canonical_state, get_district_scorecard, validate_village_map_paths
+from server.routers.hubs import get_nearest_hubs
+from server.services.routing_facade import legacy_highway_route, plan_highway_route
+from server.routers.simulation import simulate_freight_cost, simulate_port_gravity
+from server.services.serialization import serialize_result, serialize_nearest_facilities
 
-store = DataStore.get_instance()
 
-def tool_get_district_scorecard(district_name_or_code: str) -> Dict[str, Any]:
+class _LazyDataStore:
+    """Compatibility view of tools.store without retaining a singleton snapshot."""
+
+    def __getattr__(self, name):
+        return getattr(DataStore.get_instance(), name)
+
+    def __setattr__(self, name, value):
+        setattr(DataStore.get_instance(), name, value)
+
+
+# Existing attribute access and explicit tools.store injection remain supported.
+# No data (including the highway graph) is loaded while importing MCP tools.
+store = _LazyDataStore()
+
+
+def _get_store() -> DataStore:
+    return DataStore.get_instance() if isinstance(store, _LazyDataStore) else store
+
+
+def serialize_tool_result(value: Any) -> Any:
+    """Recursively encode router dicts/lists and nested Pydantic JSON values."""
+    return serialize_result(value)
+
+def tool_get_district_scorecard(district_name_or_code: str, state: str | None = None) -> dict[str, Any]:
     """
     Get a comprehensive logistics scorecard for an Indian district.
     Returns demographic population, nearest highway distance, nearest toll plaza,
     nearest railway station, nearest ICD/port/MMLP, and village accessibility shares.
     """
-    return get_district_scorecard(code_or_name=district_name_or_code, store=store)
+    kwargs = {"code_or_name": district_name_or_code, "store": _get_store()}
+    if state is not None:
+        kwargs["state"] = state
+    return serialize_result(
+        get_district_scorecard(**kwargs),
+        missing_nan=True,
+    )
 
 
 def tool_calculate_intermodal_freight_cost(
-    origin_district: str,
-    target_port: Optional[str] = None,
+    origin_district: str | None = None,
+    target_port: str | None = None,
     payload_tons: float = 20.0,
-    road_linehaul_rate: Optional[float] = 3.30,
-    toll_cost_per_plaza: Optional[float] = 340.0,
-    rail_base_class_rate: Optional[float] = 1.55,
-    dfc_linehaul_rate: Optional[float] = 1.12,
-    inventory_holding_rate: Optional[float] = 7.50
-) -> Dict[str, Any]:
+    road_linehaul_rate: float | None = None,
+    toll_cost_per_plaza: float | None = None,
+    rail_base_class_rate: float | None = None,
+    dfc_linehaul_rate: float | None = None,
+    inventory_holding_rate: float | None = None,
+    *,
+    origin_district_code: int | None = None,
+    origin_state: str | None = None,
+    truck_payload_tons: float | None = None,
+    road_handling_cost: float | None = None,
+    toll_spacing_km: float | None = None,
+    rail_first_mile_rate: float | None = None,
+    rail_first_mile_handling: float | None = None,
+    rail_handling_and_siding: float | None = None,
+    rail_commercial_speed_kmh: float | None = None,
+    rail_yard_detention_hours: float | None = None,
+    dfc_handling_cost: float | None = None,
+    dfc_commercial_speed_kmh: float | None = None,
+    dfc_yard_transfer_hours: float | None = None,
+    commodity_name: str | None = "General Merchandise",
+) -> dict[str, Any]:
     """
     Simulates and compares end-to-end generalized freight costs across:
     1. Road Trucking (Multi-Axle Vehicle on National Highways)
     2. Conventional Indian Railways Freight (Telescopic Tariff)
     3. Dedicated Freight Corridor (DFC Heavy-Haul Rail)
     
+    Shipment quantity scales totals, not vehicle capacity. Only
+    truck_payload_tons changes capacity used for per-tonne toll allocation.
     Returns cost per tonne, total shipment outlay, transit hours, optimal mode,
     financial savings, and break-even distance.
     """
-    custom_params = CostParametersOverride(
-        road_linehaul_rate=road_linehaul_rate,
-        toll_cost_per_plaza=toll_cost_per_plaza,
-        rail_base_class_rate=rail_base_class_rate,
-        dfc_linehaul_rate=dfc_linehaul_rate,
-        inventory_holding_rate=inventory_holding_rate
-    )
-    req = FreightCostSimulationRequest(
-        origin_district=origin_district,
-        target_port=target_port,
-        payload_tons=payload_tons,
-        custom_parameters=custom_params
-    )
-    res = simulate_freight_cost(req=req, store=store)
-    return res.model_dump()
+    arguments = locals()
+    overrides = {name: arguments[name] for name in CostParametersOverride.model_fields
+                 if arguments[name] is not None}
+    custom_params = CostParametersOverride.model_validate(overrides, strict=True) if overrides else None
+    req = FreightCostSimulationRequest.model_validate({
+        "origin_district": origin_district,
+        "origin_district_code": origin_district_code,
+        "origin_state": origin_state,
+        "target_port": target_port,
+        "payload_tons": payload_tons,
+        "commodity_name": commodity_name,
+        "custom_parameters": custom_params,
+    }, strict=True)
+    res = simulate_freight_cost(req=req, store=_get_store())
+    encoded = serialize_tool_result(res)
+    return FreightCostSimulationResponse.model_validate(encoded).model_dump(mode="json")
 
 
-def tool_find_nearest_facilities(latitude: float, longitude: float, top_k: int = 3) -> Dict[str, Any]:
+def tool_find_nearest_facilities(latitude: float, longitude: float, top_k: int = 3) -> dict[str, Any]:
     """
     Finds the nearest logistics infrastructure (Sea Ports, ICDs, MMLPs, Air Cargo,
     Inland Waterway Terminals, Cold Storage, APMC Mandis, and Toll Plazas) to any coordinate.
@@ -73,35 +127,50 @@ def tool_find_nearest_facilities(latitude: float, longitude: float, top_k: int =
         raise ValueError("longitude must be between -180 and 180")
     if not 1 <= top_k <= 10:
         raise ValueError("top_k must be between 1 and 10")
-    return get_nearest_hubs(latitude=latitude, longitude=longitude, top_k=top_k, store=store)
+    return serialize_nearest_facilities(
+        get_nearest_hubs(latitude=latitude, longitude=longitude, top_k=top_k, store=_get_store()),
+    )
 
 
 def tool_highway_route_and_tolls(
     origin_lat: float, origin_lon: float,
     dest_lat: float, dest_lon: float,
     vehicle_type: str = "MAV_20T"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Calculates commercial highway driving route metrics: total road distance in km,
-    driving hours, number of FASTag toll plazas encountered, and estimated toll outlay.
+    driving hours and modelled distance-based toll counts/outlay. Counts are not
+    encountered plazas; vehicle rates are not official FASTag tariffs.
     """
-    req = RouteRequest(
-        origin=[origin_lat, origin_lon],
-        destination=[dest_lat, dest_lon],
-        vehicle_type=vehicle_type
-    )
-    res = calculate_highway_route(req=req, store=store)
-    return res.model_dump()
+    req = RouteRequest.model_validate({
+        "origin": [origin_lat, origin_lon],
+        "destination": [dest_lat, dest_lon],
+        "vehicle_type": vehicle_type,
+    }, strict=True)
+    res = legacy_highway_route(req=req, store=_get_store())
+    return serialize_tool_result(res)
 
 
-def tool_simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> List[Dict[str, Any]]:
+def tool_plan_highway_route(
+    origin: dict[str, Any], destination: dict[str, Any], vehicle_type: str = "MAV_20T",
+    include_route_geometry: bool = True, geometry_detail: str = "none",
+) -> dict[str, Any]:
+    """Canonical strategic route with quality/provenance, without toll claims."""
+    request = HighwayRoutePlanRequest.model_validate({
+        "origin": origin, "destination": destination, "vehicle_type": vehicle_type,
+        "include_route_geometry": include_route_geometry, "geometry_detail": geometry_detail,
+    })
+    return serialize_result(plan_highway_route(request=request, store=_get_store()))
+
+
+def tool_simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> list[dict[str, Any]]:
     """
     Simulates national port hinterland market share and captured population across
     all 12 Major Commercial Ports using the Huff/Reilly gravity model.
     """
     req = PortGravitySimulationRequest(alpha=alpha, beta=beta)
-    res = simulate_port_gravity(req=req, store=store)
-    return [item.model_dump() for item in res]
+    res = simulate_port_gravity(req=req, store=_get_store())
+    return serialize_tool_result(res)
 
 
 def tool_plot_villages_map(
@@ -109,14 +178,15 @@ def tool_plot_villages_map(
     district: str,
     metric: str = "dist_rail_station_km",
     output_format: str = "html"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Generates an interactive Leaflet HTML map or high-resolution PNG map
     displaying all villages in a district colored by accessibility metric.
     """
     from scripts.analyze.plot_villages import (
-        load_district_villages_gdf,
+        DATA_DIR,
         generate_leaflet_html,
+        load_district_villages_gdf,
         plot_villages_static,
         safe_filename_component,
         validate_metric,
@@ -125,23 +195,27 @@ def tool_plot_villages_map(
     if output_format not in {"html", "png", "both"}:
         raise ValueError("output_format must be one of: html, png, both")
     validate_metric(metric)
+    state = canonical_state(state)
+    validate_village_map_paths(DATA_DIR, state)
     
     gdf = load_district_villages_gdf(state=state, district=district)
     out_files = {}
     output_dir = settings.OUTPUT_PATH / "maps"
     output_dir.mkdir(parents=True, exist_ok=True)
     district_slug = safe_filename_component(district)
+    state_slug = safe_filename_component(state)
 
     if output_format in ["html", "both"]:
         html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
-        html_p = output_dir / f"{district_slug}_village_{metric}_map.html"
+        html_p = output_dir / f"{state_slug}_{district_slug}_village_{metric}_map.html"
         with open(html_p, "w", encoding="utf-8") as f:
             f.write(html_code)
         out_files["html_map_path"] = str(html_p)
 
     if output_format in ["png", "both"]:
-        png_p = output_dir / f"{district_slug}_village_{metric}_map.png"
-        plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=png_p)
+        png_p = output_dir / f"{state_slug}_{district_slug}_village_{metric}_map.png"
+        with redirect_stdout(sys.stderr):
+            plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=png_p)
         out_files["png_map_path"] = str(png_p)
 
     return {

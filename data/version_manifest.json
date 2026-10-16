@@ -24,19 +24,21 @@
     },
     "national_highway_network": {
       "vintage": "2026-08",
-      "source": "OpenStreetMap / MoRTH",
+      "source": "OpenStreetMap Overpass geometry; MoRTH is a separate statistical reference, not the geometry provider",
       "path": "data/roads/india_nh_network.parquet",
       "feature_count": 141990
     },
     "toll_plazas": {
       "vintage": "2026-08",
-      "source": "NHAI TIS Reference Model",
+      "source": "OpenStreetMap Overpass toll_booth extraction; 150m DBSCAN clustering",
+      "license": "ODbL",
       "path": "data/roads/toll_plazas.csv",
       "feature_count": 1536
     },
     "railway_stations": {
-      "vintage": "2024-25",
-      "source": "Indian Railways / DataMeet / Station Classification",
+      "vintage": "2016 station base; later classification enrichment (not a station refresh)",
+      "source": "DataMeet railways (Indian Railways/erail lineage); railway-stations-classification.pages.dev enrichment",
+      "license": "Unclear DataMeet station license (no license file); reference data, redistribution unresolved",
       "path": "data/rail/railway_stations.csv",
       "feature_count": 8697
     },
@@ -47,7 +49,7 @@
       "feature_count": 3
     },
     "gati_shakti_terminals": {
-      "vintage": "2023-24 PIB / Indian Railways",
+      "vintage": "2023 identification list (tentative), PIB / Indian Railways",
       "source": "PIB PRID 1910049 / Ministry of Railways",
       "path": "data/rail/freight_terminals.csv",
       "feature_count": 84
@@ -108,7 +110,8 @@
     }
   },
   "legal_compliance": {
-    "regime": "Department of Science and Technology (DST) Geospatial Guidelines 2021",
+    "regime": "Department of Science and Technology (DST) Geospatial Guidelines 2021 (policy reference, not legal clearance)",
+    "data_license_url": "https://github.com/subhams07/gisindia4logistics/blob/main/DATA_LICENSE.md",
     "disclaimer": "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications.",
     "assumptions_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/model_assumptions.md",
     "sources_url": "https://github.com/subhams07/gisindia4logistics/blob/main/docs/sources.md"

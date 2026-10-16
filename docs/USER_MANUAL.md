@@ -1,6 +1,6 @@
 # GISIndia4Logistics — Complete User Manual
 
-Welcome to **GISIndia4Logistics**, an open, standardized geospatial data collection and analytical platform engineered for freight, supply chain, and spatial infrastructure analysis in India.
+Welcome to **GISIndia4Logistics**, a strategic analytics platform under development for freight, supply chain, and spatial infrastructure analysis in India. Models are not operational route or tariff guarantees. Data has mixed source terms and unresolved redistribution conditions; see [DATA_LICENSE.md](../DATA_LICENSE.md).
 
 This manual provides end-to-end guidance for data scientists, logistics professionals, software engineers, and AI developers.
 
@@ -34,7 +34,7 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Projected Metric Analysis**: `EPSG:7755` (India National System Framework LCC) for accurate distance and area calculations.
 * **Join Keys & Standardization**:
   * **Administrative Layers**: Standardized to **Local Government Directory (LGD)** state, district, sub-district, and village codes.
-  * **Demographics**: Census 2011 indicators joined via official LGD crosswalks with 100% population conservation across all 781 current districts.
+  * **Demographics**: Census 2011 indicators joined via LGD crosswalks and spatial allocation across 781 current districts; the recorded national population delta is below 0.001%, not exact conservation.
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
@@ -65,12 +65,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
 
-# 4. Verify system integrity (80 automated checks)
+# 4. Optional fast audit (subset only; writes the audit report)
+# Do not replace full-audit evidence with a fast report for release verification.
 python scripts/audit/audit_all.py --fast
 
-# 5. Run Python SDK and server verification test suites
-python tests/test_package.py
-python tests/test_server.py
+# 5. Run Python SDK and server verification test suites with pytest
+python -m pytest tests/test_package.py tests/test_server.py
 ```
 
 ---
@@ -109,7 +109,7 @@ tolls_df = pd.read_parquet("data/roads/toll_plazas.parquet")
 ```python
 import duckdb
 
-# Query ports with container throughput > 50 MT
+# Query major ports (no throughput threshold is applied here)
 con = duckdb.connect()
 res = con.execute("""
     SELECT name, state, city, latitude, longitude, capacity_notes
@@ -137,49 +137,49 @@ python scripts/analyze/intermodal_cost_engine.py \
   --rail-base-rate 1.40 \
   --dfc-linehaul-rate 1.05 \
   --inventory-holding-rate 8.50 \
-  --output data/analysis/custom_freight_modal_split.csv
+  --output-csv data/analysis/custom_freight_modal_split.csv
 ```
 
 #### Python API Usage:
 ```python
-from scripts.analyze.intermodal_cost_engine import calculate_freight_modal_cost, FreightCostConfig
+import gisindia4logistics as gis
 
-config = FreightCostConfig(
-    road_linehaul_rate_inr_per_tkm=3.80,
-    toll_cost_per_plaza_inr=400.0,
-    dfc_linehaul_rate_inr_per_tkm=1.05
+# Public SDK; payload_tons is shipment weight, not truck capacity.
+result = gis.calculate_freight_cost(
+    origin_district="Indore", payload_tons=24.0,
+    road_linehaul_rate=3.80, toll_cost_per_plaza=400.0,
+    dfc_linehaul_rate=1.05,
 )
-
-result = calculate_freight_modal_cost("Indore", config=config, payload_tons=24.0)
 print(f"Optimal Mode: {result['optimal_mode']}")
-print(f"Cost Road: ₹{result['road']['cost_per_ton_inr']:.2f}/t | DFC: ₹{result['dfc_rail']['cost_per_ton_inr']:.2f}/t")
-print(f"Savings by DFC: {result['modal_shift_savings_pct']:.1f}%")
+print(f"Cost Road: ₹{result['road']['cost_per_ton_inr']:.2f}/t")
+if result.get("dfc_rail") is not None:
+    print(f"Cost DFC: ₹{result['dfc_rail']['cost_per_ton_inr']:.2f}/t")
+print(f"Savings vs Road: {result['modal_shift_savings_pct']:.1f}%")
 ```
 
 ---
 
 ### 4.2 Commercial Highway Dijkstra Routing & Toll Friction
-Computes exact shortest-path commercial road driving distance, driving hours, and FASTag toll expense between any two points in India using the 289,000-node highway graph.
+Computes strategic highway-network distance and modelled driving hours and toll expense. Snapping, synthetic connectivity and source coverage limit operational accuracy; tolls are not verified official FASTag tariffs.
 
 ```python
-from server.dependencies import DataStore
-from server.routers.routing import calculate_highway_route, RouteRequest
-
-store = DataStore.get_instance()
+import gisindia4logistics as gis
 
 # Route from Pune (18.5204, 73.8567) to JNPT Port (18.9500, 72.9500)
-req = RouteRequest(
-    origin=[18.5204, 73.8567],
-    destination=[18.9500, 72.9500],
+route = gis.route_highway(
+    origin=(18.5204, 73.8567),
+    destination=(18.9500, 72.9500),
     vehicle_type="MAV_20T"
 )
-
-route = calculate_highway_route(req, store=store)
-print(f"Distance: {route.distance_km:.1f} km")
-print(f"Drive Time: {route.formatted_drive_time} ({route.drive_time_hours:.2f} hrs)")
-print(f"Toll Plazas Encountered: {route.toll_plazas_count}")
-print(f"Estimated Toll Outlay: ₹{route.estimated_toll_cost_inr:.2f}")
+print(f"Distance: {route['distance_km']:.1f} km")
+print(f"Drive Time: {route['drive_time_formatted']} ({route['drive_time_hours']:.2f} hrs)")
+print(f"Modelled Toll Count: {route['tolls_encountered_count']}")
+print(f"Estimated Toll Outlay: ₹{route['estimated_toll_cost_inr']:.2f}")
 ```
+
+For the rich result, use `gis.plan_highway_route(origin={"type": "district", "district_code": 521}, destination={"type": "hub", "hub_type": "port", "name": "JNPT"}, vehicle_type="LCV", geometry_detail="simplified")`. The equivalent REST endpoint is `/api/v1/route/highway/plan`, CLI command is `route-plan`, and MCP tool is `gis_plan_highway_route`. Each delegates to the same service. Coordinate references use `{"type": "coordinate", "latitude": ..., "longitude": ...}`; display GeoJSON uses `[longitude, latitude]`. The district reference resolves a district representative, not necessarily its city centre.
+
+Rich geometry defaults to `none`; `include_route_geometry=False` suppresses it even when a detail is requested. Inspect `route_quality` warnings/limitations and `metadata`; synthetic connectivity, minimum-feeder snapping and ignored direction restrictions prevent navigation guarantees. Rich results do not contain tolls. The legacy `tolls_encountered_count` key remains for compatibility but represents a distance-based heuristic, not observed passage.
 
 ---
 
@@ -195,7 +195,7 @@ python scripts/analyze/port_hinterland_model.py --alpha 0.90 --beta 1.70
 ---
 
 ### 4.4 Village Accessibility Analysis
-Calculates straight-line and road-network distance for all 578,345 settlements to the nearest railway station, ICD, port, air cargo terminal, MMLP, and toll plaza.
+Village access tables calculate projected straight-line proximity to infrastructure. District highway travel-time tables are separate network outputs; village proximity must not be presented as a verified road journey.
 
 ```bash
 # Run accessibility for a specific state
@@ -239,7 +239,7 @@ python scripts/analyze/plot_villages.py --state Gujarat --district Surat --metri
 * `dist_icd_km`: Distance to closest Inland Container Depot.
 * `dist_freight_terminal_km`: Distance to closest Gati Shakti Cargo Terminal (GCT).
 * `dist_port_km`: Distance to closest commercial port.
-* `dist_toll_plaza_km`: Distance to closest FASTag toll plaza.
+* `dist_toll_plaza_km`: Projected straight-line distance to the closest clustered OSM toll location; FASTag status and official tariffs are not verified.
 
 ---
 
@@ -252,7 +252,7 @@ uvicorn server.app:app --host 0.0.0.0 --port 8000 --reload
 * **Interactive OpenAPI/Swagger Docs**: [`http://localhost:8000/docs`](http://localhost:8000/docs)
 * **ReDoc Documentation**: [`http://localhost:8000/redoc`](http://localhost:8000/redoc)
 
-### 6.2 Docker Compose Production Deployment
+### 6.2 Docker Compose Evaluation Deployment
 ```bash
 # Build and run containerized server in the background
 docker-compose up --build -d
@@ -278,9 +278,14 @@ docker-compose down
 | `/api/v1/hubs/rail/stations` | `GET` | `search`, `zone`, `category` | Query 8,697 railway stations |
 | `/api/v1/hubs/rail/dfc` | `GET` | — | 3 DFC corridors & 54 junction yards |
 | `/api/v1/hubs/roads/toll-plazas` | `GET` | `state`, `nh_number` | Query 1,536 toll plazas |
-| `/api/v1/route/highway` | `POST` | `origin`, `destination`, `vehicle_type` | Commercial highway shortest-path routing & tolls |
+| `/api/v1/route/highway` | `POST` | `origin`, `destination`, `vehicle_type` | Legacy strategic highway routing & modelled toll heuristic |
+| `/api/v1/route/highway/plan` | `POST` | Strict location references, vehicle, geometry controls | Canonical route geometry, quality and provenance; no toll fields |
 | `/api/v1/simulate/freight-cost` | `POST` | `origin_district`, `custom_parameters` | Intermodal freight cost optimization |
 | `/api/v1/simulate/port-gravity` | `POST` | `alpha`, `beta` | National port hinterland gravity capture |
+
+This table describes existing public entrypoints, not a completed decision workbench. SDK `get_district(name_or_code)` returns a dictionary, not an object with attribute access. SDK `find_nearest(latitude, longitude, top_k=3)` returns category-keyed results and has no `facility_types` argument. Highway SDK results use the legacy dictionary envelope shown in section 4.2.
+
+Public highway routing is implemented for review; the [stabilization plan](stabilization_plan.md) records its current acceptance gate. Other Phase 1 schemas and `docs/contracts/` examples do not prove implemented corridor decisions, district comparison, matched official toll tariffs or PDF/XLSX export. Producer unification, toll matching, corridor workflow and secure exports require separate verification gates.
 
 ---
 
@@ -305,7 +310,7 @@ Add the server definition to your workspace configuration:
 1. `gis_get_district_scorecard`: Retrieves full demographic, nearest NH, rail, ICD, and port connectivity.
 2. `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight rates and modal shift savings.
 3. `gis_find_nearest_facilities`: Finds closest infrastructure to any latitude/longitude coordinate.
-4. `gis_highway_route_and_tolls`: Calculates driving distance, hours, and FASTag toll expense.
+4. `gis_highway_route_and_tolls`: Calculates strategic driving distance, modelled hours and distance-based toll estimates, not verified FASTag/NHAI tariffs.
 5. `gis_simulate_port_catchment`: Models port market contestability under the Huff gravity model.
 6. `gis_plot_villages_map`: Generates interactive Leaflet HTML or PNG maps for a district.
 
@@ -333,9 +338,10 @@ Add the server definition to your workspace configuration:
 ## 9. Legal Compliance & Attribution
 
 ### Governing Framework
-This repository complies with the **Department of Science and Technology (DST) Guidelines for Acquiring and Producing Geospatial Data and Geospatial Data Services including Maps (15 February 2021)**:
-* **Civilian Scope**: Unrestricted civilian spatial data; no defence or strategic installations included.
-* **Accuracy Thresholds**: Data simplified to $\sim 50\text{--}100\text{ m}$; well above the regulated $1\text{ m}$ threshold.
+The **Department of Science and Technology (DST) Guidelines for Acquiring and Producing Geospatial Data and Geospatial Data Services including Maps (15 February 2021)** are a policy reference, not a certification of compliance or redistribution permission:
+* **Intended Scope**: Civilian strategic logistics analytics under development; assess the specific dataset and intended use independently.
+* **Source Terms**: MIT applies to code only. OSM-derived roads and toll booths are ODbL; other sources retain their own terms. Public access or simplified precision is not permission. See [DATA_LICENSE.md](../DATA_LICENSE.md) and [sources](sources.md).
+* **Unresolved Rights**: Survey of India redistribution and DataMeet railway station licensing remain unresolved. Station locations have a 2016 DataMeet base with later classification enrichment, not a verified 2024–25 refresh. No written permission is asserted.
 * **Boundary Disclaimer**: Administrative boundaries are indicative analytical derivatives (DataMeet / Survey of India ABDB lineage) published for logistics and economic modeling, not official Survey of India boundary certifications.
 
 ### Required Citations

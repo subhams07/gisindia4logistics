@@ -18,8 +18,8 @@ datasets:
   description: 36 states/UTs from the PAN INDIA LGD-coded dataset
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current
   resolution: state
   access: committed
@@ -32,8 +32,8 @@ datasets:
   description: 781 districts with LGD codes — post-2011 districts incl. 2024-25 formations
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current (~780 districts)
   resolution: district
   access: committed
@@ -49,8 +49,8 @@ datasets:
   description: 6,636 talukas/tehsils/blocks with LGD codes and type
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current
   resolution: sub-district
   access: committed
@@ -92,8 +92,8 @@ datasets:
     village category Rural/Urban
   provider: Survey of India
   source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
-  license: no explicit license stated; free public download — redistributed in good faith with attribution
-    (see docs/legal_compliance.md)
+  license: no explicit redistribution license stated; public download and attribution are not
+    written permission; redistribution unresolved (see DATA_LICENSE.md)
   vintage: current (published by SoI; page updated 2026)
   resolution: village
   access: committed (states ≤10 MB; larger states script-generated)
@@ -179,7 +179,7 @@ datasets:
   quality_notes: 141,990 segments, 634 distinct routes, refs normalized (Old NH prefixes, junk dropped);
     NH44/NH27/NH48 correctly the longest; summed length overcounts official ~146k km because dual carriageways
     are separate ways — use for geometry/routing, not length statistics
-- name: National Toll Plazas (FASTag & Highway Plazas)
+- name: Clustered OSM Toll Locations (not an official plaza register)
   category: roads
   description: 1,536 clustered toll plazas across India with NH number, LGD district join, coordinates, and booth counts
   provider: OpenStreetMap contributors + NH network snap
@@ -191,7 +191,12 @@ datasets:
   path: data/roads/toll_plazas.csv
   fetch_script: scripts/fetch/fetch_toll_plazas.py
   quality_status: verified
-  quality_notes: Clustered from 2,800 toll booths within 150m DBSCAN; snapped to NH network for highway number attribution; 1,100 National Highway tolls, 101 Expressway tolls, 335 state highway tolls
+  quality_notes: 150m DBSCAN clusters of OSM toll booths; raw input count is not recorded.
+    Model labels are 1,100 national_highway, 101 expressway_toll and 335 unclassified highway_toll
+    records, not verified SH/bridge identities. Missing NH numbers are filled from the nearest
+    NH without a distance limit; 334 unclassified records have NH labels. Treat NH labels as
+    inferred attribution, not trusted plaza identity or passage evidence. Not an official NHAI
+    register and not tariff-verified.
 - name: Border & North-Eastern State Habitations
   category: administrative
   description: 34,954 geocoded settlement and village place nodes for the 9 states not published in SoI polygons
@@ -272,13 +277,15 @@ datasets:
   resolution: national
   access: committed
   path: data/rail/railway_stations.csv
-  fetch_script: null
+  fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: coordinates present for 97% of rows; zone filled ~45%; official alternative is data.gov.in
-    station resources (API key required)
+  quality_notes: 2016 DataMeet station-location base; later community zone/division enrichment.
+    Enrichment vintage is approximate (catalog ~2023 vs script comment 2024); current operational
+    status is unverified. Source licensing remains unresolved. Official alternative is data.gov.in
+    station resources (API key required).
 - name: Station categories (NSG1-6)
   category: rail
-  description: 5,941 stations mapped to NSG category (2017+ classification; NSG*P suburban variants)
+  description: 5,938 committed station-category records (2017+ classification; NSG*P suburban variants)
   provider: community compilation (railway-stations-classification.pages.dev)
   source_url: https://railway-stations-classification.pages.dev/
   license: unclear — reference use; cross-check before publication-grade use
@@ -286,9 +293,12 @@ datasets:
   resolution: national
   access: committed
   path: data/rail/station_categories.csv
+  fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: 92.5% of codes join to railway_stations.csv; NSG1=22 (+6 NSG1P) consistent with official
-    counts; data.gov.in remains the authoritative upgrade path
+  quality_notes: 5,493 category codes join to the 2016 station base, out of 5,938 category records.
+    Vintage is approximate (catalog ~2023 vs script comment 2024). The enrichment script can fall
+    back to an agent scrape cache; no verified dated upstream snapshot is recorded. Source terms
+    remain unresolved; data.gov.in remains the authoritative upgrade path.
 - name: Dedicated Freight Corridor Network (WDFC & EDFC)
   category: rail
   description: LineString alignments for Western DFC (1,506 km Dadri-JNPT), Eastern DFC (1,337 km Ludhiana-Sonnagar), and Dadri-Khurja link
