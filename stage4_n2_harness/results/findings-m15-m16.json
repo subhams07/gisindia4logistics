@@ -1,0 +1,80 @@
+{
+ "D4_probe": {
+  "capbnd": "0000000000000000",
+  "capeff": "0000000000000000",
+  "mkdir": "30",
+  "nnp": "1",
+  "open_wr": "30",
+  "remount_rw": "1"
+ },
+ "non_oom_variant": {
+  "final_memory": {
+   "cache_bytes": 40898560,
+   "cg_anon_bytes": 0,
+   "cg_charged_peak_bytes": 50298880,
+   "cg_usage_bytes": 42749952,
+   "cg_working_set_bytes": 1851392,
+   "dirty_bytes": 1052672,
+   "failcnt": 1,
+   "inactive_file_bytes": 40898560,
+   "kmem_max_usage_bytes": 1347584,
+   "kmem_usage_bytes": 1277952,
+   "limit_bytes": 50331648,
+   "mapped_file_bytes": 0,
+   "oom_kill": 0,
+   "under_oom": 0,
+   "writeback_bytes": 0
+  },
+  "limit_mib": 48,
+  "stops": [
+   {
+    "code": "breach_failcnt_nonzero",
+    "detail": "1",
+    "injected": null
+   }
+  ],
+  "written_mib": 160
+ },
+ "oom_variant": {
+  "direct_unshare_status": null,
+  "final_memory": {
+   "cache_bytes": 4096,
+   "cg_anon_bytes": 0,
+   "cg_charged_peak_bytes": 50331648,
+   "cg_usage_bytes": 319488,
+   "cg_working_set_bytes": 319488,
+   "dirty_bytes": 4096,
+   "failcnt": 88,
+   "inactive_file_bytes": 0,
+   "kmem_max_usage_bytes": 417792,
+   "kmem_usage_bytes": 253952,
+   "limit_bytes": 50331648,
+   "mapped_file_bytes": 0,
+   "oom_kill": 1,
+   "under_oom": 0,
+   "writeback_bytes": 0
+  },
+  "last_progress_marker": [
+   "N2M bf42fbe173e9a529 597760281273 alloc_progress mib=40"
+  ],
+  "limit_mib": 48,
+  "stops": [
+   {
+    "code": "breach_failcnt_nonzero",
+    "detail": "86",
+    "injected": null
+   }
+  ],
+  "termination": [
+   {
+    "step": "sigterm_ns_init",
+    "t_ms": 0.1
+   },
+   {
+    "emptied": true,
+    "step": "graceful_wait",
+    "t_ms": 94.7
+   }
+  ]
+ }
+}
