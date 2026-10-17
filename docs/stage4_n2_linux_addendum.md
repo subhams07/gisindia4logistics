@@ -20,7 +20,7 @@ Terms used throughout:
   - gate-EOF fd order;
   - eleven non-blocking items: MiB figure, CAP_SYS_RESOURCE, `-I -S` controller, memsw tolerance, gate metrics, shared Bash cgroup, NSpid/pidfd primitive, reaping/exec/environment, new faults and M15, disclosures, probe record.
   - It also adopted R-1 plus the ambiguity rule, Q-R4 (NO-GO without CLONE_NEWPID) and Q-R6.
-- **r3** (this revision) addresses the re-review of r2 (GO_WITH_REQUIRED_CHANGES; all r1 blockers closed):
+- **r3** (`24cd998f…0fe25`) addressed the re-review of r2 (GO_WITH_REQUIRED_CHANGES; all r1 blockers closed):
   - **B-1 (blocking):** L-4 now keeps and asserts `{0, 1, 2, gate_r, exec_fd}`, both `O_CLOEXEC`. The parent verifies the SHA-256 of `exec_fd` before fork. The child re-checks `st_dev`/`st_ino` with `fstat`. The fd set is asserted by listing an explicitly opened `/proc/self/fd` dir fd (which is then excluded) and by probing the `gate_w` number for `EBADF`. The TOCTOU at the hop where `unshare` execs Python by path is closed by the stub re-verifying `/proc/self/exe` (identity and hash). M03-L4 is updated.
   - **N-1:** the ambiguity-rule freeze is dropped. The pre-release child has no descendants, so verification via `/proc/<pid>/cgroup` plus a pidfd kill is enough.
   - **N-2:** R-2 wording. R-2 now exists only under D-3 option (c): thaw is always attempted, SIGKILL is still sent through the verified fds, and any residual frozen state is reported.
@@ -33,6 +33,22 @@ Terms used throughout:
   - **Q-R3:** fadvise + mincore residency method adopted.
   - **Q-R5:** the freeze-free termination design is adopted as the recommendation, with the options in D-3. As a result, §3.4's frozen residual exists only under option (c).
   - The host note that the controller is at the unified root has been added.
+- **r4** (this revision) addresses the re-review of r3 (GO_WITH_REQUIRED_CHANGES; B-1 and N-1..N-7 closed):
+  - **R3-B1 (blocking):** CPython `os.listdir(fd)` duplicates the fd, so the fd assertion could never pass as written. L-4 step 4 now probes each listed number with `F_GETFD` after the listing and discards those that are now `EBADF`. M03-L4 is updated.
+  - **R3-N1:**
+    - The peak is no longer claimed as an upper bound. It is the peak of pages charged *to the attempt*.
+    - Pages already charged elsewhere (venv, stdlib, shared libraries, stub/harness) are reported, via `mincore`, as additive uncertainty (`resident_bytes_elsewhere`). The conservative figure is the peak plus that.
+    - The residency check is repeated just before release.
+    - The `CAP_FOWNER` dependency of `mincore` is disclosed, and an M14 positive control is added.
+    - D-11 now states that fadvise is host-global in effect.
+  - **R3-N2:** option (a) ordering. After SIGKILL to ns-init, wait (bounded) for `unshare` to exit, and SIGKILL `unshare` only if it is still alive. A subreaper or wait choice is added under D-3. Who reaps an orphaned ns-init is now a smoke-verify item.
+  - **R3-N3:** a member still listed after ns-init has exited and the direct child has been reaped is not owned. Such members are reported and the run STOPs; they are never killed. While ns-init is alive, a kill also requires the member's pid-ns inode to equal ns-init's.
+  - **R3-N4:** escape detection checks the cgroup of every thread (v1 lets single threads move via `tasks`).
+  - **R3-N5:**
+    - The stub source is passed via `-c`, with its SHA bound in the attempt record.
+    - `exec_fd` and the interpreter are also rechecked against `st_size`/`st_mtime_ns`/`st_ctime_ns`.
+    - `ctypes` and libc `prctl` are resolved before fork and are in the allowlist.
+  - **Q-R3:** resolved in method, conditional on the R3-N1 wording.
 
 ## 0. Host facts the design depends on
 
@@ -91,29 +107,31 @@ Survey and probes, 2026-10-17. r2 and r3 used read-only probes only; see §9.
 | Immutable attempt record: exclusive create before the child exists, keyed by approval SHA + slot, consumed on failure, fail closed | `os.open(O_CREAT\|O_EXCL\|O_WRONLY\|O_NOFOLLOW)` plus `fsync` of the file and its directory, done **before** any cgroup is created. The record binds `boot_id`, the kernel release, the controller's cgroup paths (read at `prepare`), the planned cgroup names, and the SHA-256 and `st_dev`/`st_ino` of `unshare` and of the resolved interpreter | **Met on this host.** It does not survive loss of the container. Ledger loss is handled per D-6 |
 | Launch record after creation, before release | Records the direct child's PID, `starttime` (field 22 of `/proc/<pid>/stat`), the pidfd opened right after `fork` (while the child is unreaped), the cgroup paths and the inode/`st_dev` of each cgroup directory, and gate state `closed` | **Met.** The ns-init host PID is recorded in the first observation after release |
 | Job created before the child exists; not inheritable | Exclusive `mkdir` (EEXIST → STOP) **before fork** of v1 `memory` (nested under the controller's memory cgroup) and v1 `pids`, plus the kill/freeze cgroup required by the D-3 option (none for option (a); a v2 `unified` child for (a+)/(b); a v1 `freezer` child for (c)). Limits must be page-aligned. `memory.limit_in_bytes` is written before `memory.memsw.limit_in_bytes`, and both are read back. Each cgroup is asserted empty with zero counters | **Met** for memory and pids. The v2 and freezer parts must be smoke-verified. On failure the attempt is consumed and only the attempt's own empty cgroups are removed |
-| `CREATE_SUSPENDED` | The controller is started as `python3.11 -I -S -B -u` and is stdlib-only. Before fork it asserts: `sys.modules` ⊆ a pinned stdlib allowlist; one thread (`threading.active_count()==1` and `/proc/self/task` has 1 entry); SIGCHLD is not `SIG_IGN`; no other children or waiters. It flushes `sys.stdout`/`sys.stderr`, calls `gc.disable()`, then `os.fork()` from the main thread. The parent calls `gc.enable()` afterwards. The child blocks before `execve` (L-4) | **Met with a different primitive** (Q-R2 resolved). `Popen(preexec_fn)` is not used: it deadlocks against the gate |
+| `CREATE_SUSPENDED` | The controller is started as `python3.11 -I -S -B -u` and is stdlib-only. Before fork it asserts: `sys.modules` ⊆ a pinned stdlib allowlist; one thread (`threading.active_count()==1` and `/proc/self/task` has 1 entry); SIGCHLD is not `SIG_IGN`; no other children or waiters. It flushes `sys.stdout`/`sys.stderr`, calls `gc.disable()`, then `os.fork()` from the main thread. The parent calls `gc.enable()` afterwards. `ctypes` is in the pinned allowlist and is imported before fork. libc `prctl` is resolved before fork into a callable with `argtypes` set, so the child performs no import. The child blocks before `execve` (L-4) | **Met with a different primitive** (Q-R2 resolved). `Popen(preexec_fn)` is not used: it deadlocks against the gate |
 | Only stdout/stderr and `NUL` stdin are inheritable | L-4 handles the fds. The two internal fds (`gate_r`, `exec_fd`) are `O_CLOEXEC` and close at exec. Phase markers go to stderr as lines carrying a per-attempt nonce and a `CLOCK_MONOTONIC` timestamp in ns | **Met** |
 | Assign the suspended child to the job | The controller writes the PID into the first cgroup of the set: the v2 child if D-3 uses one, otherwise `memory`. It verifies that, then joins the remaining cgroups. Each join is verified two ways: `/proc/<pid>/cgroup`, and the cgroup listing being exactly `{pid}`. The §2 ambiguity rule applies | **Met** |
 | Persist launch record and telemetry, then resume | Write the launch record, start the sampler, and require `k` consecutive complete samples (`release_sample_count_k`, see §5). Then write `b"G"` to `gate_w` and close it | **Met** |
-| Child's first statements are stdlib-only and self-check before any first-party import | Exec goes through `exec_fd`. Its SHA-256 is verified by the parent before fork, and the child re-checks `st_dev`/`st_ino` with `fstat`. The `unshare` binary is ELF, so fexecve with an `O_CLOEXEC` fd is valid. Exec uses an **explicit environment allowlist**: `PATH`, `LANG`, `TZ`, `HOME`, scratch `TMPDIR`, `PYTHONDONTWRITEBYTECODE=1`, plus the thread variables per D-1. No proxy, credential or other `PYTHON*` variables. The full exec line is `unshare --pid --fork --kill-child=SIGKILL -- <abs venv python3.11> -I -S -B -u <stub> <expected-json>`. **TOCTOU:** `unshare` execs Python by path. The stub's first check closes this: `/proc/self/exe` must match the expected `st_dev`/`st_ino`, and the SHA-256 of `open('/proc/self/exe','rb')` must match the expected value (stdlib `hashlib`). Further stub checks: cgroup paths; `NSpid` has **(controller's NSpid field count + 1)** fields, with the last equal to `1` (the controller currently has 1 field, so the child must have 2); `prctl(PR_GET_PDEATHSIG)==SIGKILL`; `sys.flags.isolated`; the environment equals the allowlist. Only after these checks does it install a SIGTERM handler, run `import site; site.main()`, and authenticate and import the harness body | **Met.** The kernel enforces containment before exec; the self-check only verifies it. The venv is created without `--system-site-packages` |
+| Child's first statements are stdlib-only and self-check before any first-party import | Exec goes through `exec_fd`. Its SHA-256 is verified by the parent before fork, together with `st_dev`/`st_ino`/`st_size`/`st_mtime_ns`/`st_ctime_ns`. The child re-checks all five with `fstat`. A rewrite in place changes `ctime` (and normally `mtime`/`size`), so it is detected. The `unshare` binary is ELF, so fexecve with an `O_CLOEXEC` fd is valid. Exec uses an **explicit environment allowlist**: `PATH`, `LANG`, `TZ`, `HOME`, scratch `TMPDIR`, `PYTHONDONTWRITEBYTECODE=1`, plus the thread variables per D-1. No proxy, credential or other `PYTHON*` variables. The full exec line is `unshare --pid --fork --kill-child=SIGKILL -- <abs venv python3.11> -I -S -B -u -c <stub-source> <expected-json>`. The stub is passed as `-c` source text, not a path. Its SHA-256 is bound in the attempt record, and the controller builds argv from those exact bytes, so there is no stub file to swap at the `unshare` hop. The stub re-hashes its own source argument from `/proc/self/cmdline` against the recorded hash (`sys.argv` holds only `-c`). **TOCTOU:** `unshare` execs Python by path. The stub's first check closes this: `/proc/self/exe` must match the expected `st_dev`/`st_ino`/`st_size`/`st_mtime_ns`/`st_ctime_ns`, and the SHA-256 of `open('/proc/self/exe','rb')` must match the expected value (stdlib `hashlib`). Further stub checks: cgroup paths; `NSpid` has **(controller's NSpid field count + 1)** fields, with the last equal to `1` (the controller currently has 1 field, so the child must have 2); `prctl(PR_GET_PDEATHSIG)==SIGKILL`; `sys.flags.isolated`; the environment equals the allowlist. Only after these checks does it install a SIGTERM handler, run `import site; site.main()`, and authenticate and import the harness body | **Met.** The kernel enforces containment before exec; the self-check only verifies it. The venv is created without `--system-site-packages` |
 | Parent death kills the owned tree | Four layers: (1) the gate sees EOF before release; (2) `PR_SET_PDEATHSIG(SIGKILL)` on the direct child, which survives exec of the non-setuid `unshare` but follows the **forking thread**, so the main thread must outlive the attempt; (3) `--kill-child` makes ns-init receive SIGKILL when `unshare` dies; (4) the kernel kills the whole namespace when ns-init dies | **Met, provided CLONE_NEWPID works** (NO-GO without it). With D-3 option (a) no freeze is ever applied, so nothing blocks the kills. Under option (c) the §3.4 residual applies. Leftover cgroups cause a STOP at the next start (M12) |
 | Normal termination through the job, never by PID | §3. Signals go **only** through verified fds, or v2 `cgroup.kill` where D-3 includes it. Never raw `kill(pid)`, `killpg`, `ps`/`pgrep`, or `/proc` scans as signal targets | **Met, pending smoke** |
 | Exact-handle cleanup before assignment | `pidfd_send_signal(SIGKILL)` on the gated, never-exec'd child, then `waitid(P_PIDFD)` | **Met** |
 | No later slot until logs are drained, the tree has ended and the receipt is durable | The direct child's pidfd is readable and the child is reaped (§3.5). Every member fd is readable. `cgroup.procs` is empty in every cgroup, `pids.current==0`, and v2 `cgroup.events` shows `populated 0` if a v2 cgroup is used. Then record the counters and `rmdir` (failure → STOP). Never `force_empty` | **Met** |
-| Containment cannot be escaped | The child is root with `CAP_SYS_ADMIN`, so it could migrate itself out. Detection: (i) per-member pidfds, where "absent but fd not readable" → containment STOP; (ii) every sample checks the direct child and ns-init are still members; (iii) every sample walks all descendants of ns-init via `/proc/<pid>/task/<tid>/children` (detection only, never a signal target) and requires the result ⊆ the listing, otherwise STOP. Prevention, optional (D-4): `unshare --mount` with a read-only `/sys/fs/cgroup` for the child, plus a `setpriv` drop of bounding and inheritable caps | Detection is **met**. The descendant walk can still miss a process that forks and escapes between two samples; D-4 would close that gap. Prevention is an operator decision |
+| Containment cannot be escaped | The child is root with `CAP_SYS_ADMIN`, so it could migrate itself out. Detection: (i) per-member pidfds, where "absent but fd not readable" → containment STOP; (ii) every sample checks the direct child and ns-init are still members; (iii) every sample walks all descendants of ns-init via `/proc/<pid>/task/<tid>/children` (detection only, never a signal target) and requires the result ⊆ the listing, otherwise STOP; (iv) v1 lets single threads move through `tasks`, and `/proc/<pid>/cgroup` reflects only the thread-group leader, so every sample also checks `/proc/<pid>/task/<tid>/cgroup` for **every thread** of every member. Any thread outside the attempt paths → containment STOP. Termination is unaffected, because namespace teardown kills all threads. Prevention, optional (D-4): `unshare --mount` with a read-only `/sys/fs/cgroup` for the child, plus a `setpriv` drop of bounding and inheritable caps | Detection is **met**. The descendant walk can still miss a process that forks and escapes between two samples; D-4 would close that gap. Prevention is an operator decision |
 
 **L-4: child-side code between fork and exec.** It is stdlib-only, with **no imports and no threads**, and runs entirely inside `try: … except BaseException: os._exit(E_INTERNAL)`. It never returns into controller code.
 
-1. Call `prctl(PR_SET_PDEATHSIG, SIGKILL)`. Then reset every Python-level signal handler to `SIG_DFL`, except SIGCHLD, which also goes to the default.
+1. Call `prctl(PR_SET_PDEATHSIG, SIGKILL)` through the libc callable resolved before fork. Then reset every Python-level signal handler to `SIG_DFL`, except SIGCHLD, which also goes to the default.
 2. Check `os.getppid() == controller_pid`; otherwise `_exit(E_PARENT)`.
 3. `dup2` the slot stdout, stderr and `/dev/null` onto fds 0–2. Close every fd ≥ 3 except `gate_r` and `exec_fd` (`closerange` over the gaps). This **also closes the child's copy of `gate_w`**.
 4. Assert the fd set:
    - Open `d = os.open('/proc/self/fd', O_RDONLY|O_DIRECTORY|O_CLOEXEC)`.
-   - The entries of `os.listdir(d)`, minus `d`, must equal `{0, 1, 2, gate_r, exec_fd}`.
+   - Take `L = os.listdir(d)`. CPython duplicates `d` internally for `fdopendir`, so the listing contains a transient extra number.
+   - After `listdir` returns, probe each listed number with `fcntl(n, F_GETFD)` and discard those that now raise `EBADF`; those were the transient duplicate.
+   - The remaining open set, minus `d`, must equal `{0, 1, 2, gate_r, exec_fd}`.
    - Close `d`.
    - Also, `fcntl(gate_w_number, F_GETFD)` must raise `EBADF`.
    - Otherwise `_exit(E_FD)`.
-5. Check `os.fstat(exec_fd)` `st_dev`/`st_ino` equal the values the parent verified; otherwise `_exit(E_EXEC)`.
+5. Check `os.fstat(exec_fd)` `st_dev`/`st_ino`/`st_size`/`st_mtime_ns`/`st_ctime_ns` equal the values the parent verified; otherwise `_exit(E_EXEC)`.
 6. Do a blocking `os.read(gate_r, 1)`. On EOF or any byte other than `b"G"`, `_exit(E_GATE)`. It never execs.
 7. Re-read `/proc/self/cgroup`, compare it with the expected paths, and write `1000` to `/proc/self/oom_score_adj`.
 8. `os.execve(exec_fd, argv, env_allowlist)`.
@@ -147,10 +165,12 @@ From then on, the member is signalled **only through that fd**. Failing verifica
 
 **3.3 Hard. Designer recommendation, D-3 option (a): freeze-free.**
 
-1. `pidfd_send_signal(ns_init_fd, SIGKILL)`. The kernel tears down the whole namespace, including any process forked after the last listing.
-2. `pidfd_send_signal(direct_child_fd, SIGKILL)` to `unshare`.
-3. SIGKILL any remaining verified member fd.
-4. Wait up to `cgroup_kill_wait_s` for the cgroup to empty.
+1. `pidfd_send_signal(ns_init_fd, SIGKILL)`. A SIGKILL sent from an ancestor namespace is forced. The kernel's `zap_pid_ns_processes` then kills every process in the namespace: all threads, nested namespaces, `setsid` sessions, forks made after the last listing, and in-namespace processes that left the cgroup. ns-init's exit is reported only after the namespace has drained.
+2. **Do not kill `unshare` immediately.** If `unshare` dies first, it races its own reaping of ns-init: the zombie ns-init reparents to host PID 1 (`process_api`), keeps `pids.current > 0` (the charge is released only when it is reaped), blocks "no later slot", and its exit status is lost. Instead, wait up to `unshare_reap_wait_s` for the direct child's pidfd to become readable, since `unshare` exits after reaping ns-init. Send `pidfd_send_signal(direct_child_fd, SIGKILL)` only if it is still alive after that wait. The D-3 sub-choice is either this bounded wait, or `PR_SET_CHILD_SUBREAPER` on the controller (orphans reparent to the controller and are reaped through a held pidfd); both are allowed.
+3. After ns-init has exited and the direct child has been reaped, **no owned process can remain**: in-namespace processes cannot move to an ancestor namespace, so a cgroup path plus starttime does not prove ownership. Any member still listed is reported as unowned and the run STOPs; it is **never** killed. Before that point (ns-init still alive), killing a verified member also requires its `/proc/<pid>/ns/pid` inode to equal ns-init's, recorded at first sight.
+4. Wait up to `cgroup_kill_wait_s` for the cgroup to empty and `pids.current == 0`. Record any zombie state from `/proc/<pid>/stat` state `Z` together with `pids.current`.
+
+Smoke-verify: who reaps an ns-init orphaned by an `unshare` that died first. Host PID 1 is `process_api`, with `SigCgt 0x440` (SIGBUS, SIGSEGV) and SIGCHLD neither caught nor ignored; whether it reaps orphans is unverified. The same race exists on the parent-death path, where `unshare` and ns-init die by PDEATHSIG in sequence, so M13 checks it too.
 
 No freeze is used, so the §3.4 residual does not arise. **Option (a+)** additionally writes `cgroup.kill` in a v2 child and waits for `populated 0`, if smoke proves this works. **Option (b)** uses v2 only, and is NO-GO if v2 fails smoke. **Option (c)** uses the v1 freezer for a stable listing:
 
@@ -159,7 +179,7 @@ No freeze is used, so the §3.4 residual does not arise. **Option (a+)** additio
 3. THAW.
 4. Signal through the fds.
 
-The frozen window is bounded by `max_frozen_window_ms`, and its start and end timestamps are persisted. **R-2 (option (c) only):** if FROZEN is not reached within `freeze_wait_s`, write THAWED. **Whether or not the thaw succeeds**, still SIGKILL via ns-init, the direct child and the member fds. Record the freezer state in the receipt, then STOP. Thaw is always attempted, and any residual frozen state is reported and handled per §3.4.
+The frozen window is bounded by `max_frozen_window_ms`, and its start and end timestamps are persisted. **R-2 (option (c) only):** if FROZEN is not reached within `freeze_wait_s`, write THAWED. **Whether or not the thaw succeeds**, still SIGKILL ns-init through its fd, then follow steps 2–4 of option (a): wait for `unshare`, and report rather than kill unowned members. Record the freezer state in the receipt, then STOP. Thaw is always attempted, and any residual frozen state is reported and handled per §3.4.
 
 Survivors after `cgroup_kill_wait_s` → STOP. The cgroups are preserved and the survivors reported. No unrelated kills.
 
@@ -188,7 +208,7 @@ Survivors after `cgroup_kill_wait_s` → STOP. The cgroups are preserved and the
 
 | Field | Source | Role |
 |---|---|---|
-| `cg_charged_peak_bytes` | Attempt cgroup `memory.max_usage_in_bytes` | **Peak gate metric.** The kernel maintains it, so sampling cannot miss a peak. It is a true upper bound only under the **cold-input condition**. Inputs may already be cached, and charged elsewhere, from the checkout, earlier attempts or other agents, so `O_DIRECT` hashing alone is not enough. Before launch, the parent therefore: (1) `posix_fadvise(POSIX_FADV_DONTNEED)` on every admitted input; (2) measures residency with `mincore` (ctypes, via a read-only mmap); (3) records the resident fraction per file and in total. The bound is claimed **only** if residency ≤ `cold_input_residency_max_fraction` (D-11); otherwise STOP. Hashing may use `O_DIRECT` with page-aligned (mmap-allocated) buffers, or ordinary reads before the fadvise. Note that DONTNEED does not evict dirty pages or pages mapped by others |
+| `cg_charged_peak_bytes` | Attempt cgroup `memory.max_usage_in_bytes` | **Peak gate metric**, defined as the peak of pages charged *to the attempt*. The kernel maintains it, so sampling cannot miss it. It is **not** an upper bound on what the run touches. It excludes pages charged elsewhere first: venv/site-packages, stdlib `.py`/`.pyc`, shared libraries (GDAL, numpy, …), the interpreter and the harness, and slab charged elsewhere. **Admitted inputs:** before launch the parent (1) applies `posix_fadvise(POSIX_FADV_DONTNEED)`, (2) measures residency with `mincore` (ctypes over a read-only mmap), and (3) requires residency ≤ `cold_input_residency_max_fraction` (D-11), else STOP. Hashing uses `O_DIRECT` with page-aligned buffers, or ordinary reads before the fadvise. DONTNEED does not evict dirty, writeback, locked or mmapped pages, or pages mapped by other processes. **Code and library pages:** `mincore` over the pinned venv + stdlib + library file set gives `resident_bytes_elsewhere`, reported as explicit **additive uncertainty**. The **conservative figure** is `cg_charged_peak_bytes + resident_bytes_elsewhere`. **Both checks are repeated immediately before release** (after the `k` samples), and both results are recorded. `mincore` reliability depends on `can_do_mincore`, which needs file ownership, write permission or `CAP_FOWNER`; `CAP_FOWNER` (bit 3) is present here. M14 has a positive control |
 | `cg_working_set_bytes` | `usage_in_bytes − total_inactive_file`, sampled | **Running-floor metric** |
 | `cg_anon_bytes` | `total_rss + total_shmem` | Reported only. Excludes kmem and page tables |
 | `proc_*` per verified member | `/proc/<pid>/status`: `VmRSS`, `VmHWM`, `RssAnon`, `RssFile`, `RssShmem`, `VmData`, `VmPeak`, `Threads`; plus `ru_maxrss` at reap | Working-set analogue. Virtual sizes are reported but not enforced |
@@ -264,6 +284,7 @@ Each field carries a value, a unit, a strictness (`<` or `<=`) and a basis.
 | `graceful_wait_s`, `cgroup_kill_wait_s` (+ `freeze_wait_s`, `max_frozen_window_ms` for option (c) only) | `job_terminate_wait_s` split | Measured SIGTERM, kill-to-empty and freeze/thaw latencies |
 | `release_handshake_timeout_s` | new | Gate write → stub self-check marker |
 | `cold_input_residency_max_fraction` | new | `mincore` after fadvise in smoke |
+| `unshare_reap_wait_s` | new | Measured time from ns-init SIGKILL to `unshare` exit in smoke |
 | `memsw_tolerance_bytes` (≥ 64 × `nproc` × 4 KiB) | new | Post-exit deltas observed in smoke |
 | `failcnt_action`, `memsw_check_action` (`record`/`stop`) | new | Operator choice (D-11) |
 
@@ -281,7 +302,10 @@ M01, M02, M05, M06, M07, M10 and M11 keep their intent. M02's records gain the L
 - **L4:**
   - The gated child has not exec'd.
   - The fd assertion passes with exactly `{0, 1, 2, gate_r, exec_fd}`, where the `/proc/self/fd` dir fd is opened explicitly and excluded.
+  - The transient `listdir` duplicate is discarded by the `F_GETFD` re-probe: positive control that the raw listing includes it, negative control that the filtered set is exact.
   - Probing the `gate_w` number gives `EBADF`.
+  - An injected in-place rewrite of the `exec_fd` target, with the same inode, is detected through `ctime`/`mtime`/`size`.
+  - An injected change to the stub source → hash mismatch, refused before exec.
   - Injected extra fd → `E_FD`.
   - Injected exchange of `exec_fd` (different `st_ino`) → `E_EXEC`.
   - Closing the controller's `gate_w` alone → `E_GATE` with no exec; a wrong byte gives the same.
@@ -335,11 +359,14 @@ M01, M02, M05, M06, M07, M10 and M11 keep their intent. M02's records gain the L
   - Option (a+)/(b): while v2-frozen (if used), the tree dies.
   - The main thread exits while the sampler thread lives: PDEATHSIG fires.
   - A grandchild that ignores SIGTERM and calls `setsid` is killed by the namespace teardown.
+  - Reaping order on both the parent-death path and the §3.3 path. Record who reaps ns-init (`unshare`, the controller as subreaper, or host PID 1), whether a zombie remains, `pids.current`, and whether the exit status survives. A zombie or a non-zero `pids.current` that persists → STOP.
+  - A member left after ns-init has exited and the child has been reaped (mock) is reported, never killed. A member whose pid-ns inode differs from ns-init's (mock) is never signalled.
 - **M14, accounting semantics.** A real stdlib child, checking each of the following:
   - Charges made before the join are excluded.
   - N MiB allocated after the join show up in the peak field and in the anonymous field.
   - File I/O raises the cache fields, not the anonymous field.
   - fadvise followed by mincore shows that the residency drop is measurable.
+  - **Positive control:** read a scratch file, then `mincore` reports it resident. This proves `mincore` is not silently reporting all pages resident or absent. Also: `resident_bytes_elsewhere` over the venv/stdlib set is non-zero after an import.
   - Whether kmem is included in usage.
   - The residual after exit.
 - **M15, confined memory limit.** Required once the operator approves it (D-8). Two variants:
@@ -347,6 +374,7 @@ M01, M02, M05, M06, M07, M10 and M11 keep their intent. M02's records gain the L
   - Non-OOM: file cache beyond the limit → reclaim, `failcnt > 0`, `oom_kill == 0`.
 - **M16, escape and environment.**
   - Self-migration of a mock member → STOP.
+  - A single mock thread moved via `tasks` (per-thread `/proc/<pid>/task/<tid>/cgroup`) → STOP.
   - If D-4 is adopted: a real child's write to `cgroup.procs` fails on the read-only mount.
   - The environment scrub is applied.
   - Thread variables match D-1.
@@ -359,7 +387,7 @@ Allowed native smoke: stdlib-only children that allocate a few MiB and sleep. No
 |---|---|
 | D-1 | BLAS/GDAL threads: either `OPENBLAS_NUM_THREADS`/`OMP_NUM_THREADS`/`MKL_NUM_THREADS`/`GDAL_NUM_THREADS`=1 (handoff §5), or the defaults with `pids.max` sized for them |
 | D-2 | Accept "charged memory" (§4) as the gating basis in place of private commit. Insisting on commit semantics means NO-GO on this host |
-| D-3 | Termination design: **(a) freeze-free verified-fd escalation plus namespace teardown, v1 memory/pids only — designer recommendation**; (a+) option (a) plus v2 `cgroup.kill` if smoke proves it; (b) v2 only (`cgroup.kill`/`freeze`/`events` in a child of the unified root), NO-GO if v2 fails smoke; (c) v1 freezer listing, with the §3.4 residual explicitly accepted |
+| D-3 | Termination design: **(a) freeze-free verified-fd escalation plus namespace teardown, v1 memory/pids only — designer recommendation**; (a+) option (a) plus v2 `cgroup.kill` if smoke proves it; (b) v2 only (`cgroup.kill`/`freeze`/`events` in a child of the unified root), NO-GO if v2 fails smoke; (c) v1 freezer listing, with the §3.4 residual explicitly accepted. **Reaping sub-choice for every option:** a bounded wait for `unshare` before any SIGKILL to it (`unshare_reap_wait_s`), and/or `PR_SET_CHILD_SUBREAPER` on the controller. Designer recommendation: both |
 | D-4 | Is the cap drop (`setpriv`) plus a read-only `/sys/fs/cgroup` (`unshare --mount`) **required**, or is detection only enough, accepting the between-sample escape gap? |
 | D-5 | The reserve inside the shared platform cgroup; the no-concurrent-Bash rule; the basis for `bash_cgroup_growth_max_bytes` |
 | D-6 | Ledger loss: "consumption unknown → no dispatch without a new ruling". Off-host copies are private and never placed in the public repo |
@@ -367,12 +395,12 @@ Allowed native smoke: stdlib-only children that allocate a few MiB and sleep. No
 | D-8 | Approve M15 (both variants) |
 | D-9 | Approve the Python 3.11 venv without system site packages. It is needed only for the real profiles, so its approval may be **deferred** until after the stdlib-only synthetic smoke. It must be resolved before any profile |
 | D-10 | Is platform intervention (`process_api`, `sbx-telemetry`) observed during smoke an automatic NO-GO? |
-| D-11 | `failcnt_action`; `memsw_check_action` and `memsw_tolerance_bytes`; `release_sample_count_k`; the cold-input method (fadvise + mincore, with `O_DIRECT` or prior-read hashing) and `cold_input_residency_max_fraction`. Note that fadvise evicts clean cache only for the admitted inputs; this is a process-scoped action, not a host setting, but confirm it is acceptable |
+| D-11 | `failcnt_action`; `memsw_check_action` and `memsw_tolerance_bytes`; `release_sample_count_k`; the cold-input method (fadvise + mincore, with `O_DIRECT` or prior-read hashing), `cold_input_residency_max_fraction`, and the **repeat of both residency checks immediately before release**; whether the conservative figure (peak + `resident_bytes_elsewhere`) or the bare peak is the gate. fadvise is **file-scoped but host-global in effect**: it evicts those files' clean pages for every cgroup and agent, which may slow other agents. Confirm that this is acceptable |
 
 Reviewer questions:
 
 - **Q-R2:** resolved (B-1 and N-3 fixed).
-- **Q-R3:** answered by the cold-input method; awaiting confirmation.
+- **Q-R3:** resolved in method, conditional on the r4 wording (attempt-charged peak plus reported additive uncertainty; not an upper bound).
 - **Q-R5:** answered by D-3.
 
 ## 8. NO-GO conditions
@@ -428,3 +456,9 @@ NO-GO is a valid outcome. The alternative is a host that meets the base spec.
 - `/proc/<shell>/task/<shell>/children` exists and lists child PIDs (`CONFIG_PROC_CHILDREN` present).
 - The controller-side `NSpid` has 1 field.
 - `/proc/self/cgroup` shows `0::/`, i.e. the unified root.
+
+**r4 (2026-10-17), read-only.**
+
+- `/proc/1/status` for `process_api`: `SigIgn 0x1000` (SIGPIPE), `SigCgt 0x440` (SIGBUS, SIGSEGV). SIGCHLD is at its default disposition; whether it reaps orphans is unverified.
+- `CapEff` decoded: bit 3 (`CAP_FOWNER`) is set and bit 24 (`CAP_SYS_RESOURCE`) is clear.
+- The `os.listdir(fd)` duplicate behaviour was reported by the reviewer and was not re-probed here.
