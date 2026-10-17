@@ -31,7 +31,7 @@ Two interruptions (API session limits) occurred during fix rounds; state was che
 
 - Step 4b (M05–M07 with real producer helpers) — blocked on operator decision D-9 (Python 3.11 venv install from PyPI).
 - Steps 5–6 and N3–N7: numerical resource policy, read/write admission, real profiles, staged generation, audits, drift explanation, consumer checks, publication. None started.
-- Open operator decisions (a)–(e) and the 4b carry-forward list are in handoff section 0.
+- Open operator decisions (D-9, (a)–(e)) and the 4b carry-forward list are in handoff section 0, subsections "Open operator decisions (current)" and "4b carry-forward".
 
 ## Host-side effects of this session
 
