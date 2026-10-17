@@ -7,7 +7,7 @@ Stdlib-only Linux containment/telemetry controller and synthetic self-tests impl
 (SHA-256 `26d285927cf26d8317fd32206ae57b757045950d81259e885f395f724831969f`) and operator rulings D-1–D-11
 recorded in [`docs/claude_remote_handoff.md`](../docs/claude_remote_handoff.md) section 0.
 
-- Status: step 4a **accepted** by independent Opus 5.5 (medium) implementation re-review after fix round 1.
+- Status: step 4a round-1 version, accepted by independent Opus 5.5 (medium) re-review. **Known fail-open defect found in a later review (failed final counter read in `_finalize` can leave status `success`); do not use this snapshot for any run until it is replaced by the reviewed fixed version.**
   Reviewer run: 161 run / 0 fail / 0 error / 0 skip; `ruff check .` clean; cleanup clean.
 - Harness hash: `5354abcf89b6bb029d4cd808e07924e5330185a0cad6e64c7ef766029553620c`; per-file hashes in `results/FILES.sha256`
   (`results/*.json` files not listed there are run outputs).
