@@ -1,6 +1,8 @@
 # Stage 4 resumed — sequential model gates
 
-The user's latest authorization supersedes the paused state and the previous model-role allocation. All models use medium effort. No Astra or silent model fallback.
+**Current status: PAUSED for a remote-Claude handoff.** The operator's latest instruction is checkpoint/transfer only, not continuation. Start with [the current remote handoff](claude_remote_handoff.md) and its [N2 specification](stage4_n2_resource_spec.md). Obtain a new explicit resume in the remote session before implementation or execution. No N2 harness has been implemented and no national outputs have been regenerated.
+
+The sequence below records the agreed model-role allocation for use after that resume; it does not supersede the current pause. All models use medium effort. No Astra or silent model fallback.
 
 Required sequence:
 1. Opus 5.5 evaluates the actual preserved Stage 4 code and evidence, read-only.
