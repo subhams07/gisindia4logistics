@@ -13,6 +13,7 @@ Any session (local or remote) restarting this work: read this section first, the
 | Model roles | **Opus 5.5, medium effort**: planning, specification, design and every review (plan critique, implementation verification, final alignment). **Sonnet 5.5** (medium effort unless told otherwise): writes code. Sol 6.1 and Astra are no longer used; the Sol-quota fallback rule is obsolete. Independent reviews run in a fresh Opus agent, not the agent that wrote the plan. |
 | Host | Continue on the computer available to the session. The original host was Windows; the current remote host is Linux, so N2 needs a Linux containment/telemetry design (section 5 blocker). |
 | Branches | Work on a review branch cut from the pinned checkpoint. `main` is what users take and deploy: never commit to it directly, never merge without explicit operator approval. Current review branch: `claude/gisindia-remote-handoff-verify-veukfs`. |
+| Implementation review | **Every implementation (every Sonnet code change, each milestone) is reviewed by Opus 5.5 at medium effort** in a fresh agent before it is accepted, committed as a milestone or used for any run. |
 | This document | Living plan. Keep next steps and status here so work can restart at any time. |
 
 ### Remote checkpoint verification (2026-10-17, read-only, no computation executed)
@@ -232,3 +233,4 @@ The earlier completed real bounded run was approximately 402 seconds / 213 passi
 - 2026-10-17: Designer r4 (`26d28592…1969f`) fixes R3-B1 and R3-N1–N5; D-3 gains reap-wait/subreaper sub-choice, D-11 gains gating-figure and repeated residency check. Fresh Opus re-review of r4 started.
 - 2026-10-17: Fresh Opus re-review of r4 (`26d28592…1969f`): **GO_FOR_OPERATOR_APPROVAL**, no blockers; R3-B1 and R3-N1–N5 CLOSED (listdir dup filter and `-c` stub self-hash verified by a stdlib-only scratch experiment); six non-blocking implementation notes recorded in step 3. Design converged after four rounds. Waiting on operator approval and D-1–D-11.
 - 2026-10-17: Operator approved the r4 design and the D-1–D-11 recommendations (rulings table above). Sonnet harness step 4a started.
+- 2026-10-17: Operator ruling: all implementations reviewed by Opus 5.5 medium.
