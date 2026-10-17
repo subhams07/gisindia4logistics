@@ -1,0 +1,141 @@
+{
+ "cgroup_kill_backstop": [
+  {
+   "cgroup_kill_to_empty_ms": 11.1,
+   "direct_status": {
+    "kind": "signal",
+    "raw": 9,
+    "signal": 9
+   },
+   "reaped_ns_init_by_controller": true
+  },
+  {
+   "cgroup_kill_to_empty_ms": 11.0,
+   "direct_status": {
+    "kind": "signal",
+    "raw": 9,
+    "signal": 9
+   },
+   "reaped_ns_init_by_controller": true
+  },
+  {
+   "cgroup_kill_to_empty_ms": 11.4,
+   "direct_status": {
+    "kind": "signal",
+    "raw": 9,
+    "signal": 9
+   },
+   "reaped_ns_init_by_controller": true
+  },
+  {
+   "cgroup_kill_to_empty_ms": 11.0,
+   "direct_status": {
+    "kind": "signal",
+    "raw": 9,
+    "signal": 9
+   },
+   "reaped_ns_init_by_controller": true
+  },
+  {
+   "cgroup_kill_to_empty_ms": 11.3,
+   "direct_status": {
+    "kind": "signal",
+    "raw": 9,
+    "signal": 9
+   },
+   "reaped_ns_init_by_controller": true
+  }
+ ],
+ "hard_path": [
+  {
+   "sigkill_to_empty_ms": 6.2,
+   "sigkill_to_unshare_exit_ms": 5.4
+  },
+  {
+   "sigkill_to_empty_ms": 6.9,
+   "sigkill_to_unshare_exit_ms": 5.5
+  },
+  {
+   "sigkill_to_empty_ms": 6.1,
+   "sigkill_to_unshare_exit_ms": 5.3
+  },
+  {
+   "sigkill_to_empty_ms": 6.5,
+   "sigkill_to_unshare_exit_ms": 5.6
+  },
+  {
+   "sigkill_to_empty_ms": 6.1,
+   "sigkill_to_unshare_exit_ms": 5.3
+  }
+ ],
+ "host": {
+  "nproc": 4,
+  "uname": "6.18.44-fc-v139"
+ },
+ "idle_series": {
+  "attempt_peak_bytes_idle_stub": 8359936,
+  "attempt_working_set_last": 602112,
+  "bash_usage_excluding_attempt_bytes": {
+   "max": 114679808,
+   "min": 111898624,
+   "range": 2781184
+  },
+  "configured_interval_ms": 50,
+  "effective_available_bytes": {
+   "max": 14229532672,
+   "min": 14222888960,
+   "range": 6643712
+  },
+  "host_mem_available_bytes": {
+   "max": 16355196928,
+   "min": 16323858432,
+   "range": 31338496
+  },
+  "interval_ms": {
+   "max": 57.7,
+   "mean": 51.23,
+   "p50": 51.39,
+   "p95": 52.6,
+   "p99": 54.62
+  },
+  "member_rss_bytes_max": 15613952,
+  "memsw_delta_bytes": 0,
+  "pids_current_during": 2,
+  "pids_peak_after_exit": "2",
+  "resident_bytes_elsewhere": 15175314,
+  "samples": 299
+ },
+ "label": "MEASUREMENTS_NOT_APPROVED_VALUES",
+ "release_to_ready_ms": {
+  "max": 115.8,
+  "samples": [
+   115.8,
+   104.8,
+   104.8,
+   103.9,
+   103.8
+  ]
+ },
+ "sigterm_to_empty_ms_graceful": {
+  "max": 11.4,
+  "samples": [
+   11.0,
+   10.9,
+   11.2,
+   11.4,
+   11.1
+  ]
+ },
+ "unshare_status_propagation": {
+  "ns_init_exit_0": {
+   "code": 0,
+   "kind": "exit",
+   "raw": 0
+  },
+  "ns_init_exit_7": {
+   "code": 7,
+   "kind": "exit",
+   "raw": 1792
+  }
+ }
+}

@@ -1,0 +1,335 @@
+{
+ "S0_gate_eof_only": {
+  "gone_ms": 1877.0,
+  "series": {
+   "10113": [
+    [
+     1.5,
+     [
+      "R",
+      1
+     ]
+    ],
+    [
+     3.9,
+     [
+      "Z",
+      1
+     ]
+    ],
+    [
+     1877.0,
+     null
+    ]
+   ]
+  }
+ },
+ "S0_pdeathsig": {
+  "gone_ms": 1757.2,
+  "series": {
+   "10111": [
+    [
+     1.2,
+     [
+      "R",
+      1
+     ]
+    ],
+    [
+     3.5,
+     [
+      "Z",
+      1
+     ]
+    ],
+    [
+     1757.1,
+     null
+    ]
+   ]
+  }
+ },
+ "S1_gate_eof_only": {
+  "gone_ms": 1857.2
+ },
+ "S1_pdeathsig": {
+  "gone_ms": 1830.4,
+  "series": {
+   "10118": [
+    [
+     1.8,
+     [
+      "R",
+      1
+     ]
+    ],
+    [
+     6.4,
+     [
+      "Z",
+      1
+     ]
+    ],
+    [
+     1830.4,
+     null
+    ]
+   ]
+  }
+ },
+ "after_release_controller_killed": {
+  "gone_ms": 1811.4,
+  "members_before": [
+   10104,
+   10105
+  ],
+  "pre": {
+   "10104": [
+    "S",
+    10103
+   ],
+   "10105": [
+    "S",
+    10104
+   ]
+  },
+  "series": {
+   "10104": [
+    [
+     3.1,
+     [
+      "Z",
+      1
+     ]
+    ],
+    [
+     1811.3,
+     null
+    ]
+   ],
+   "10105": [
+    [
+     3.2,
+     [
+      "R",
+      1
+     ]
+    ],
+    [
+     5.8,
+     [
+      "Z",
+      1
+     ]
+    ],
+    [
+     1811.3,
+     null
+    ]
+   ]
+  }
+ },
+ "hard_path_reaping": {
+  "direct_unshare_status": {
+   "code": 1,
+   "kind": "exit",
+   "raw": 256
+  },
+  "launch_subreaper": 1,
+  "ns_init": {
+   "note": "not a child of the controller (normally reaped by its parent, e.g. unshare reaping ns-init); direct status unavailable",
+   "pid": 10178,
+   "reaped_by_controller": false,
+   "status": null
+  },
+  "ns_init_exit_status_survives_in_unshare_status": {
+   "code": 1,
+   "kind": "exit",
+   "raw": 256
+  },
+  "steps": [
+   {
+    "step": "sigterm_ns_init",
+    "t_ms": 0.1
+   },
+   {
+    "emptied": false,
+    "step": "graceful_wait",
+    "t_ms": 1007.3
+   },
+   {
+    "step": "sigkill_ns_init",
+    "t_ms": 1007.4
+   },
+   {
+    "exited": true,
+    "step": "wait_unshare_exit",
+    "t_ms": 1012.8
+   },
+   {
+    "emptied": true,
+    "step": "wait_cgroup_empty",
+    "t_ms": 1013.6
+   }
+  ],
+  "zombie_observations": [
+   {
+    "observations": [
+     [
+      "R",
+      10177
+     ]
+    ],
+    "pid": 10178,
+    "role": "ns_init"
+   }
+  ]
+ },
+ "parent_death_reaping": {
+  "gone_ms": 1495.8,
+  "observations": {
+   "10183": {
+    "gone": true,
+    "ppids_seen": [
+     1
+    ],
+    "states_seen": [
+     "Z"
+    ]
+   },
+   "10184": {
+    "gone": true,
+    "ppids_seen": [
+     1
+    ],
+    "states_seen": [
+     "R",
+     "Z"
+    ]
+   }
+  },
+  "who_reaps": "see ppids_seen of the ns-init: the new parent after the controller died",
+  "zombie_pids_seen": [
+   "10184",
+   "10183"
+  ]
+ },
+ "pdeathsig_follows_forking_thread": {
+  "forker_thread_exits": {
+   "child_killed": true,
+   "ms": 20.4,
+   "probe_process_still_alive": true,
+   "probe_stderr": ""
+  },
+  "main_exits": {
+   "child_killed": true,
+   "ms": 20.5,
+   "probe_process_still_alive": true,
+   "probe_stderr": ""
+  }
+ },
+ "sigterm_to_group": {
+  "external_signals": [
+   15
+  ],
+  "status": "stopped",
+  "stops": [
+   {
+    "code": "external_termination_request",
+    "detail": "signals received by the controller: [15]",
+    "injected": null
+   }
+  ]
+ },
+ "stubborn_descendants_init_ignores_False": {
+  "pids_observed": 6,
+  "reap": {
+   "direct": {
+    "pid": 10148,
+    "reaped_by_controller": true,
+    "ru_maxrss_kb": 16332,
+    "status": {
+     "code": 0,
+     "kind": "exit",
+     "raw": 0
+    }
+   },
+   "ns_init": {
+    "note": "not a child of the controller (normally reaped by its parent, e.g. unshare reaping ns-init); direct status unavailable",
+    "pid": 10149,
+    "reaped_by_controller": false,
+    "status": null
+   }
+  },
+  "steps": [
+   {
+    "step": "sigterm_ns_init",
+    "t_ms": 0.2
+   },
+   {
+    "emptied": true,
+    "step": "graceful_wait",
+    "t_ms": 21.6
+   }
+  ],
+  "zombie_obs": []
+ },
+ "stubborn_descendants_init_ignores_True": {
+  "pids_observed": 6,
+  "reap": {
+   "direct": {
+    "pid": 10155,
+    "reaped_by_controller": true,
+    "ru_maxrss_kb": 16316,
+    "status": {
+     "code": 1,
+     "kind": "exit",
+     "raw": 256
+    }
+   },
+   "ns_init": {
+    "note": "not a child of the controller (normally reaped by its parent, e.g. unshare reaping ns-init); direct status unavailable",
+    "pid": 10156,
+    "reaped_by_controller": false,
+    "status": null
+   }
+  },
+  "steps": [
+   {
+    "step": "sigterm_ns_init",
+    "t_ms": 0.1
+   },
+   {
+    "emptied": false,
+    "step": "graceful_wait",
+    "t_ms": 1001.7
+   },
+   {
+    "step": "sigkill_ns_init",
+    "t_ms": 1001.8
+   },
+   {
+    "exited": true,
+    "step": "wait_unshare_exit",
+    "t_ms": 1007.3
+   },
+   {
+    "emptied": true,
+    "step": "wait_cgroup_empty",
+    "t_ms": 1008.6
+   }
+  ],
+  "zombie_obs": [
+   {
+    "observations": [
+     [
+      "R",
+      10155
+     ]
+    ],
+    "pid": 10156,
+    "role": "ns_init"
+   }
+  ]
+ }
+}

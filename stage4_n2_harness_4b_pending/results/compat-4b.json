@@ -1,0 +1,37 @@
+{
+ "differs_from_windows": {
+  "geopandas": {
+   "here": "1.2.0",
+   "windows": "1.1.4"
+  },
+  "pandas": {
+   "here": "3.0.6",
+   "windows": "3.0.5"
+  },
+  "pyarrow": {
+   "here": "26.0.0",
+   "windows": "25.0.1"
+  },
+  "shapely": {
+   "here": "2.2.0",
+   "windows": "2.1.2"
+  }
+ },
+ "python": "3.11.17",
+ "tested_against": {
+  "geopandas": "1.2.0",
+  "numpy": "2.4.6",
+  "pandas": "3.0.6",
+  "pyarrow": "26.0.0",
+  "pyogrio": "0.13.0",
+  "pyproj": "3.7.2",
+  "scipy": "1.17.1",
+  "shapely": "2.2.0"
+ },
+ "windows_observed": {
+  "geopandas": "1.1.4",
+  "pandas": "3.0.5",
+  "pyarrow": "25.0.1",
+  "shapely": "2.1.2"
+ }
+}

@@ -16,6 +16,7 @@ Written for independent verification (for example by another model). It states w
 | `docs/claude_remote_handoff.md` | Section 0 added: operator rulings, verification results, host facts, plan, session log. Sections 1–8 unchanged. |
 | `docs/stage4_n2_linux_addendum.md` | New. Linux design addendum to `stage4_n2_resource_spec.md` (r4, SHA-256 `26d285927cf26d8317fd32206ae57b757045950d81259e885f395f724831969f`). |
 | `stage4_n2_harness/` | New. Synthetic-only harness snapshot (not production; README inside). Harness hash `eda94197db6cae464244d8bf844dc909ceef6d8d954a0d90240a00518138abec`. |
+| `stage4_n2_harness_4b_pending/` | New (later). Step 4b work, **not accepted** — stopped at the review cap with one open blocker (B1-R1). Preserved for restart only. |
 | `docs/stage4_n2_session_record_2026-10-17.md` | This file. |
 
 ## What was done, in order
@@ -29,7 +30,7 @@ Two interruptions (API session limits) occurred during fix rounds; state was che
 
 ## Not done / still open
 
-- Step 4b (M05–M07 with real producer helpers) — blocked on operator decision D-9 (Python 3.11 venv install from PyPI).
+- Step 4b (M05–M07 with real producer helpers): D-9 approved and implemented later in the session; stopped at the two-review cap with one open blocker (B1-R1), preserved unaccepted in `stage4_n2_harness_4b_pending/`. See handoff section 0.
 - Steps 5–6 and N3–N7: numerical resource policy, read/write admission, real profiles, staged generation, audits, drift explanation, consumer checks, publication. None started.
 - Open operator decisions (D-9, (a)–(e)) and the 4b carry-forward list are in handoff section 0, subsections "Open operator decisions (current)" and "4b carry-forward".
 
@@ -67,3 +68,6 @@ Suggested questions for an independent reviewer:
 1. Does the addendum's Linux design soundly replace the Windows containment requirements in `stage4_n2_resource_spec.md` sections F–G, and are its stated limitations honest?
 2. Does the harness code actually implement the addendum (launch gate, PID-namespace containment, verified-pidfd termination, fail-closed gates and terminal receipts), or do any tests pass vacuously?
 3. Was this amount of harness work proportionate to the goal (national data refresh), or is there a simpler adequate path?
+
+
+_Updated at pause (2026-10-17): later work is recorded in handoff section 0; the verification commands above still apply, plus `(cd stage4_n2_harness_4b_pending && sha256sum -c results/FILES.sha256)`. The no-code/data-change check still holds._
