@@ -34,8 +34,26 @@ Any session (local or remote) restarting this work: read this section first, the
 
 1. **[DONE]** Verify checkpoint and host (above).
 2. **[DONE — r4 GO_FOR_OPERATOR_APPROVAL]** Opus: Linux N2 containment/telemetry/parent-death design addendum to `stage4_n2_resource_spec.md` (Linux analogues for section F job/launch order and section G telemetry, new synthetic controls replacing Windows-specific parts of M03/M08/M09, resolution of the section F cleanup ambiguity, proposed policy fields). Draft written: [`stage4_n2_linux_addendum.md`](stage4_n2_linux_addendum.md) (not yet reviewed or approved). Then a fresh Opus review of that design.
-3. **[NEXT — waiting on operator]** Operator approval of the reviewed Linux design (addendum r4, SHA-256 `26d285927cf26d8317fd32206ae57b757045950d81259e885f395f724831969f`) and rulings D-1–D-11 (addendum §7; D-9 may be deferred until after the stdlib-only smoke). Carry the r4 reviewer's six implementation notes into the Sonnet brief: (1) stub self-hash only proves argv integrity — the TOCTOU closure is controller-built argv via hash-verified unshare; read source from a fixed cmdline index; fix `sys.argv` wording; (2) stub ASCII-only, < 128 KiB (`MAX_ARG_STRLEN`), no secrets in argv (world-readable cmdline), nonce is framing not security; (3) add `fcntl` to the pre-fork allowlist (or probe with `os.fstat`), assert exactly one fd discarded; (4) subreaper set pre-fork, never `wait(-1)`/`P_ALL`, adopted ns-init reaped via `waitid(WNOWAIT)`+`wait4`; (5) pid-ns inode check compares `st_dev`+`st_ino` and re-confirms with `pidfd_send_signal(fd,0)`; (6) M14 mincore controls on a file with the real inputs' ownership/mode.
-4. Sonnet: implement the synthetic-only harness in private scratch; Opus verification; Opus final alignment.
+3. **[DONE 2026-10-17]** Operator approval of the reviewed Linux design (addendum r4, SHA-256 `26d285927cf26d8317fd32206ae57b757045950d81259e885f395f724831969f`) and rulings D-1–D-11 (addendum §7; D-9 may be deferred until after the stdlib-only smoke). Carry the r4 reviewer's six implementation notes into the Sonnet brief: (1) stub self-hash only proves argv integrity — the TOCTOU closure is controller-built argv via hash-verified unshare; read source from a fixed cmdline index; fix `sys.argv` wording; (2) stub ASCII-only, < 128 KiB (`MAX_ARG_STRLEN`), no secrets in argv (world-readable cmdline), nonce is framing not security; (3) add `fcntl` to the pre-fork allowlist (or probe with `os.fstat`), assert exactly one fd discarded; (4) subreaper set pre-fork, never `wait(-1)`/`P_ALL`, adopted ns-init reaped via `waitid(WNOWAIT)`+`wait4`; (5) pid-ns inode check compares `st_dev`+`st_ino` and re-confirms with `pidfd_send_signal(fd,0)`; (6) M14 mincore controls on a file with the real inputs' ownership/mode.
+4. **[IN PROGRESS]** Sonnet: implement the synthetic-only harness; Opus verification; Opus final alignment. Split into **4a** (stdlib-only controller/containment/telemetry: M01–M04, M08–M16 parts that need no scientific packages) and **4b** (M05–M07 real tiny W0/graph/transfer helpers, which need the venv — after D-9). Development location: `/tmp/claude-0/…/scratchpad/n2_harness/` (private scratch, per spec §A); because the container is ephemeral, milestone snapshots are committed to this review branch under `stage4_n2_harness/` (not production code, not part of the 112-file freeze, never merged to `main` without approval).
+
+### Operator rulings on addendum r4 §7 (2026-10-17: operator replied "approved" to the recommendation table)
+
+| ID | Ruling |
+|---|---|
+| D-1 | BLAS/GDAL/OMP/MKL threads pinned to 1 |
+| D-2 | Charged memory accepted as the gating basis |
+| D-3 | Option (a+): freeze-free verified-pidfd escalation + namespace teardown, plus v2 `cgroup.kill` only if smoke proves it; both the bounded `unshare_reap_wait_s` wait and `PR_SET_CHILD_SUBREAPER` |
+| D-4 | Cap drop (`setpriv`) + read-only `/sys/fs/cgroup` (`unshare --mount`) **required** |
+| D-5 | Reserve set from an idle measurement during smoke (value to be reviewed); no concurrent Bash workloads during a slot |
+| D-6 | Ledger loss ⇒ consumption unknown, no dispatch without a new ruling; off-host copies private, never in the public repo |
+| D-7 | Controller bounded by the 7,200 s background Bash limit; no setsid/detachment |
+| D-8 | M15 (both variants) approved |
+| D-9 | Deferred until after the stdlib-only smoke; required before 4b and any profile |
+| D-10 | Platform intervention observed during smoke ⇒ automatic NO-GO |
+| D-11 | Gate on the conservative figure (peak + `resident_bytes_elsewhere`); `failcnt_action` = STOP; numeric values (`memsw_tolerance_bytes`, `release_sample_count_k`, `cold_input_residency_max_fraction`, etc.) set from smoke measurements and reviewed before any profile; host-global fadvise effect accepted |
+
+Numerical resource policy and real read/write admission remain **unapproved** (step 5).
 5. Operator: numerical resource policy and read/write admission; then the six real profiles (H0–H3) on this host.
 6. N3–N7 as in section 3, each separately admitted. Merge to `main` only with explicit operator approval.
 
@@ -213,3 +231,4 @@ The earlier completed real bounded run was approximately 402 seconds / 213 passi
 - 2026-10-17: Fresh Opus re-review of r3 (`24cd998f…0fe25`): **GO_WITH_REQUIRED_CHANGES**. B-1 and N-1–N-7 CLOSED. New blocker R3-B1: CPython `os.listdir(fd)` dups the fd, so the exact fd-set assertion always fails (verified on host) — filter by `fcntl(F_GETFD)`. Non-blocking: cold-input bound must exclude/add pre-charged code+library pages and repeat residency check before release, fadvise is host-global; option (a) termination should wait for unshare to reap ns-init (or use a subreaper) to avoid orphaned zombies; post-teardown leftover members are unowned → STOP not kill; per-thread cgroup checks under v1; stub integrity, inode rewrite metadata, ctypes in allowlist. Q-R3 resolved in method. Designer r4 started.
 - 2026-10-17: Designer r4 (`26d28592…1969f`) fixes R3-B1 and R3-N1–N5; D-3 gains reap-wait/subreaper sub-choice, D-11 gains gating-figure and repeated residency check. Fresh Opus re-review of r4 started.
 - 2026-10-17: Fresh Opus re-review of r4 (`26d28592…1969f`): **GO_FOR_OPERATOR_APPROVAL**, no blockers; R3-B1 and R3-N1–N5 CLOSED (listdir dup filter and `-c` stub self-hash verified by a stdlib-only scratch experiment); six non-blocking implementation notes recorded in step 3. Design converged after four rounds. Waiting on operator approval and D-1–D-11.
+- 2026-10-17: Operator approved the r4 design and the D-1–D-11 recommendations (rulings table above). Sonnet harness step 4a started.
