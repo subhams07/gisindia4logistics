@@ -1,6 +1,47 @@
 # Claude remote handoff — national datasets
 
-**Status: PAUSED. Checkpoint and transfer preparation only.** The latest operator instruction is to pause work and publish enough context for a Claude session on another computer. This document does not start that session or authorize workload execution. Ask the operator to resume in the remote session before implementation. Earlier wording that says “proceed” or “resumed” does not override this pause.
+**Status: RESUMED on a Linux remote host (2026-10-17) for N2 Linux design work.** Section 0 is the live status/plan log and supersedes conflicting statements in sections 1–8, which are kept as the original Windows checkpoint record. Real profiles, national reads, generation, publication and merge still need the explicit admissions listed in section 0.
+
+## 0. Live status and plan — update this section at every step
+
+Any session (local or remote) restarting this work: read this section first, then the rest of the document. Update the log below, commit and push before ending a session.
+
+### Operator rulings (2026-10-17)
+
+| Topic | Ruling |
+|---|---|
+| Model roles | **Opus 5.5, medium effort**: planning, specification, design and every review (plan critique, implementation verification, final alignment). **Sonnet 5.5** (medium effort unless told otherwise): writes code. Sol 6.1 and Astra are no longer used; the Sol-quota fallback rule is obsolete. Independent reviews run in a fresh Opus agent, not the agent that wrote the plan. |
+| Host | Continue on the computer available to the session. The original host was Windows; the current remote host is Linux, so N2 needs a Linux containment/telemetry design (section 5 blocker). |
+| Branches | Work on a review branch cut from the pinned checkpoint. `main` is what users take and deploy: never commit to it directly, never merge without explicit operator approval. Current review branch: `claude/gisindia-remote-handoff-verify-veukfs`. |
+| This document | Living plan. Keep next steps and status here so work can restart at any time. |
+
+### Remote checkpoint verification (2026-10-17, read-only, no computation executed)
+
+- Pinned checkpoint `9778998cc8fd80ac9bd59f110ee2c8c604772de8` (= `quality/decision-workbench-stabilization` and PR #4 head at the time); review branch fast-forwarded to it.
+- Section 4 code check: 112/112 Python files match canonical Git-blob SHA-256 and OID; 0 mismatches.
+- 21 protected sources, 7 B0 outputs and `docs/audit_report.md`: all Git OIDs match. 86 files differ from the Windows working-byte hashes, and all 86 are exactly explained by LF vs CRLF. Parquet is a real file (no LFS pointer; `git lfs ls-files` empty).
+- Absent as expected: `outputs/cache/canonical_nh_graph.npz`, baseline evidence receipt, consumed bounded-run receipt, private review logs, recovered national-authority file. Not recreated.
+- Only `.github/workflows/publish-pypi.yml` present; recurring CI stays off.
+
+### Linux host facts (initial survey)
+
+- Ubuntu 24.04.5, x86_64, kernel 6.18, 4 vCPU, 15 GiB RAM, **no swap**, ~29 GiB writable disk allowance; ephemeral cloud container (unpushed state is lost).
+- `vm.overcommit_memory=0` (heuristic): `CommitLimit`/`Committed_AS` are reported but not enforced, so they are **not** equivalent to Windows system commit.
+- Running as root with broad capabilities. cgroup v1 hierarchy: `memory` (with `memsw.*` accounting) and `pids` controllers are mounted writable; no limits set at the root. `unshare`, `prlimit`, `setpriv`, `systemd-run` available. Child-cgroup creation not yet exercised.
+- Python: system `python3` is 3.13 (outside declared 3.10–3.12); `/usr/bin/python3.11` (3.11.17) and 3.12.3 present without scientific packages. PyPI reachable. No environment installed yet.
+
+### Plan and next steps
+
+1. **[DONE]** Verify checkpoint and host (above).
+2. **[NEXT]** Opus: Linux N2 containment/telemetry/parent-death design addendum to `stage4_n2_resource_spec.md` (Linux analogues for section F job/launch order and section G telemetry, new synthetic controls replacing Windows-specific parts of M03/M08/M09, resolution of the section F cleanup ambiguity, proposed policy fields). Then a fresh Opus review of that design.
+3. Operator approval of the reviewed Linux design.
+4. Sonnet: implement the synthetic-only harness in private scratch; Opus verification; Opus final alignment.
+5. Operator: numerical resource policy and read/write admission; then the six real profiles (H0–H3) on this host.
+6. N3–N7 as in section 3, each separately admitted. Merge to `main` only with explicit operator approval.
+
+### Session log
+
+- 2026-10-17: remote verification done; roles/host/branch rulings recorded; Linux design (step 2) about to start.
 
 ## 1. Repository and starting point
 
