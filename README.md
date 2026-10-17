@@ -1,6 +1,6 @@
 # 🇮🇳 GISIndia4Logistics
 
-> **Review checkpoint, not a release:** canonical interfaces and producer safeguards are under review on `quality/decision-workbench-stabilization`. Stage 4 national outputs have **not** been regenerated; N1d acceptance, route-matched tolls and the corridor/export journey remain pending. See the [current status and next steps](docs/stabilization_plan.md#current-checkpoint).
+> **Review checkpoint, not a release:** canonical interfaces and producer safeguards are under review on `quality/decision-workbench-stabilization`. Stage 4 engineering is accepted through N1d, but national outputs have **not** been regenerated. Resource feasibility, national output acceptance, route-matched tolls and the corridor/export journey remain pending. See the [current status and next steps](docs/stabilization_plan.md#current-checkpoint).
 
 [![GitHub Release](https://img.shields.io/github/v/release/subhams07/gisindia4logistics?color=blue&logo=github)](https://github.com/subhams07/gisindia4logistics/releases)
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg?logo=python)](pyproject.toml)

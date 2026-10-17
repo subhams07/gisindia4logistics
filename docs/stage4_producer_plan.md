@@ -1,6 +1,6 @@
 # Stage 4: analytical producer coherence
 
-Status: source/core foundations, producer integration, S1–S5 and N1a–N1c are accepted within their bounded scopes. N1d is implemented and reviewed, with a single-test-file repair still required before acceptance. No national outputs have been regenerated or published. See the [current checkpoint and next steps](stabilization_plan.md#current-checkpoint); the worker launches and pending statuses below are chronological history, not current activity. P5/P6 remain out of scope.
+Status: source/core foundations, producer integration, S1–S5 and N1a–N1d are accepted within their bounded engineering scopes. N1d's closed test/helper repair passed independent Sol review and final Opus alignment. No national outputs have been regenerated or published; operational feasibility and output acceptance remain gated. See the [current checkpoint and next steps](stabilization_plan.md#current-checkpoint); the worker launches and pending statuses below are chronological history, not current activity. P5/P6 remain out of scope.
 
 Planning buddy: read-only Opus 5.5 session `cfa6f8e3-b5ac-4f8d-9bd4-44a5bbf6c584`, process `proc_20fa48fa8a4e`. Its proposals are not implementation or execution evidence. Stage 3 accepted baseline: 1334 tests, stable 47 changed/new Python sources, scoped Ruff/AST/diff, independent public closure.
 

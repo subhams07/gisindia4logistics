@@ -1,6 +1,6 @@
 # Decision Workbench Stabilization Plan
 
-Status: stages 1–3 and bounded provenance documentation accepted. Stage 4 foundations, S1–S5 integration and N1a–N1c accepted; N1d is implemented and reviewed but remains unaccepted pending a bounded test/helper repair. National output regeneration and stages 5–6 remain gated. This is a review checkpoint, not a release or production-readiness claim.
+Status: stages 1–3 and bounded provenance documentation accepted. Stage 4 foundations, S1–S5 integration and N1a–N1d accepted within their engineering scopes. National output regeneration and stages 5–6 remain gated. This is a review checkpoint, not a release or production-readiness claim.
 Baseline: `00b21b8` (open PR3), canonical repository `subhams07/gisindia4logistics`.
 Review branch: `quality/decision-workbench-stabilization`. The maintainer has authorized a checkpoint commit and push on this branch; no main merge or release is authorized. The chronological evidence below retains older statuses and authorizations; the current checkpoint takes precedence.
 
@@ -9,27 +9,31 @@ Review branch: `quality/decision-workbench-stabilization`. The maintainer has au
 | Milestone | Current boundary |
 |---|---|
 | Stages 1–3 | Accepted within the interface, internal-routing and canonical public-adapter scopes recorded below; not operational navigation certification. |
-| Stage 4 engineering | Shared producers, orchestration and safeguards accepted through N1c. N1d admission/coherence logic is reviewed; its acceptance remains open. |
+| Stage 4 engineering | Shared producers, orchestration, safeguards and N1d national admission/coherence accepted after the closed repair, independent Sol closure and Opus final alignment. |
 | Stage 4 national outputs | Seven baseline outputs unchanged. No national regeneration, output acceptance or publication is claimed. |
 | Stage 5 | Route-matched tolls not started. Existing toll estimates are not verified tariffs. |
 | Stage 6 | Corridor journey and secure HTML export not started. PDF/XLSX and comparison remain separate scope. |
 
-N1d's remaining repair is confined to its semantic test file: persist a real-CRS nonfinite-area regression, normalize specified retained-surface failures in the provenance-rebuilding test helper, confirm the existing schema-v2 diagnostic, and persist the closed set of related prerequisite/feeder/disclosure controls. No production logic change is required by the reviewed findings.
+N1d's closed repair changed only its semantic test file: a permanent real-CRS nonfinite-area regression, narrow retained-surface error normalization in the provenance-rebuilding helper, persisted schema-v2 diagnostic controls, and the agreed prerequisite/first-feeder/disclosure cases. Production logic is unchanged. The accepted test-file SHA-256 is `c71163d8ea8a3346d3b61d8122eea183c602426012eef1cc4ba5c40285834a86`; production `scripts/audit/audit_all.py` remains `35c7b745f52d951b7b9276da22f18a6cb12d3572e9c3c47e622cdf6605c3c162`.
 
-Existing verification of the current implementation: coordinator and independent reviewer each completed the full repository collection with **3,473 passed and 5 skipped**. These are separate, overlapping executions, not a summed test total. The skips are Windows alias/broken-link capability gaps, not covered behavior. Five unchanged exporter lint findings remain explicitly qualified. These results establish code evidence, not national output correctness.
+Repair verification: coordinator **27 affected tests passed**, **6 immutable reproduction controls passed**, and **256 passed / 1 skipped** in the whole semantic file; independent Sol **22 new cases passed** and **256 passed / 1 skipped** in the whole semantic file. Selections overlap and are not summed. Scoped Ruff and diff checks passed, with actual protected-state checks before/after coordinator gates and after review/alignment. The inherited Windows alias skip is noncoverage. Opus gave final GO for N1d, not for national execution.
+
+The missing-ISO/input cases retain genuine pre-helper RED evidence; already-working boundaries are FIRST_GREEN. Two malformed-sidecar controls initially wrote the wrong input shape; that green credit was revoked, the persisted envelope was asserted explicitly, and the corrected controls passed before the helper edit. A denied compound proof command and pre-test authentication-script corrections are retained as procedural qualifications, not test evidence or production failures.
+
+Earlier verification of unchanged dependencies: coordinator and independent reviewer each completed the full repository collection with **3,473 passed and 5 skipped**. These are separate, overlapping executions, not a summed test total or a fresh full run of the repaired helper. The skips are Windows alias/broken-link capability gaps, not covered behavior. Five unchanged exporter lint findings remain explicitly qualified. These results establish code evidence, not national output correctness.
 
 ### Next steps and plan adjustments
 
 Keep the six-stage business scope. Change the execution process:
 
-1. Close the single, finite N1d repair after short plan critique, designated implementation and independent closure. For this single-test-file repair, use affected regressions, immutable reproductions and the whole semantic file, plus scoped lint, preservation and integrity checks. No automatic 11-file or full-suite reruns; broader execution requires a stated production/shared-fixture/dependency risk.
-2. Plan resource profiling and read-only inventory-audit scope discovery early, alongside the repair where dependencies permit. These are risk-discovery plans, not permission to execute national workloads. Working-set observations do not establish private-commit headroom.
+1. N1d is closed on the exact hashes above. Its approved risk-based gates used affected regressions, immutable reproductions and the whole semantic file, plus scoped lint, preservation and integrity checks. No automatic 11-file or full-suite reruns were performed; broader execution requires a stated production/shared-fixture/dependency risk.
+2. Next, plan the N2 scratch resource harness and perform read-only inventory-audit scope discovery. These are risk-discovery steps, not permission to execute national workloads. Working-set observations do not establish private-commit headroom; any profiling run still requires its own reviewed harness and execution authorization.
 3. After the required operational admission ruling, progress through resource measurement, staged generation, unpatched audits, explained drift, fresh consumer checks and guarded publication, with explicit gates. No national execution or publication is authorized by this checkpoint.
 4. Only after Stage 4 output acceptance, plan route-matched tolls and then the corridor/export journey.
 
 Check each approved acceptance row against persisted tests before expensive verification. Reuse authenticated evidence for unchanged dependencies, keep handoffs concise, consolidate findings into one bounded repair, and checkpoint regularly on review branches. Do not reopen accepted foundations for optional polish.
 
-Historical private review transcripts, scratch probes, caches and generated artifacts are excluded from this checkpoint. Later N1d fixes will be separate commits; pushing this snapshot does not accept them in advance.
+Historical private review transcripts, scratch probes, caches and generated artifacts are excluded from this checkpoint. The accepted N1d repair is a separate follow-up commit; pushing it does not accept national outputs or authorize a main merge.
 
 Automatic GitHub CI and weekly audit workflows are disabled at the maintainer's request, and their definitions are removed on this review branch. Verification is local, scoped to actual changes and explicitly recorded. The release/tag/manual PyPI publishing workflow is retained; it does not run on ordinary branch pushes or pull requests. Historical failed checks remain historical records, not a reason to rerun builds or change billing.
 
@@ -84,7 +88,7 @@ Gate: no false connectivity claims or malformed geometry; synthetic and real-dat
 - Carry-forward public-interface debt to correct before stage-3 acceptance: port-gravity overflow/unknown capacity keys, MCP map state aliases and same-name cross-state output collisions, freight missing required source text yielding 500, SDK HTTPException leakage and nearest-facility NaN values. These were not represented as fixed by bounded stage 1.
 Gate: one route implementation, consistent errors, rich outputs available publicly, legacy compatibility verified.
 
-### 4. Analytical producer unification — INITIAL FOUNDATION IMPLEMENTATION; ACCEPTANCE PENDING
+### 4. Analytical producer unification — ENGINEERING ACCEPTED THROUGH N1d; NATIONAL OUTPUT ACCEPTANCE PENDING
 - Isochrone graph and source/cache policy, pure freight core, live/batch parity.
 - Regenerate affected outputs with source/model fingerprints and before/after statistics.
 - Register omitted road/toll audit checks; expand semantic checks beyond geometry validity.

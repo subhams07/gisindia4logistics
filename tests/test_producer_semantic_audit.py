@@ -1292,10 +1292,18 @@ def rebuild_provenance(world):
     artifacts = {name: world.analysis / name for name in manifest.REQUIRED_ARTIFACTS}
     # The ORIGINAL coverage is retained only while its surfaces are unchanged: ISO bytes, every input and the code closure.
     from scripts.analyze.producer_io import sha256_file
-    closure = {logical: sha256_file(audit.REPO_ROOT / logical) for logical in manifest.national_code_closure(audit.REPO_ROOT)}
-    if (any(sha256_file(artifacts[name]) != original["artifacts"][name]["sha256"] for name in manifest.REQUIRED_ARTIFACTS[5:])
-            or any(sha256_file(world.source / logical) != entry["sha256"] for logical, entry in original["inputs"].items())
-            or closure != original["code_hashes"]):
+    try:
+        try:
+            discovered = manifest.national_code_closure(audit.REPO_ROOT)  # Only this INVOCATION may normalize parse/import errors.
+        except (ImportError, SyntaxError, UnicodeDecodeError):
+            raise ValueError("retained coverage surfaces changed") from None
+        closure = {logical: sha256_file(audit.REPO_ROOT / logical) for logical in discovered}
+        changed = (any(sha256_file(artifacts[name]) != original["artifacts"][name]["sha256"] for name in manifest.REQUIRED_ARTIFACTS[5:])
+                   or any(sha256_file(world.source / logical) != entry["sha256"] for logical, entry in original["inputs"].items())
+                   or closure != original["code_hashes"])
+    except (FileNotFoundError, NotADirectoryError, IsADirectoryError, PermissionError):  # A retained surface is absent or unreadable.
+        raise ValueError("retained coverage surfaces changed") from None
+    if changed:
         raise ValueError("retained coverage surfaces changed")
     manifest.atomic_write_manifest(limitations.build_limitations(world.source, artifacts, original["run_id"], method,
                                                                  isochrone_coverage=sidecar["isochrone_coverage"]), world.analysis / limitations.SIDECAR_FILENAME)
@@ -1844,3 +1852,226 @@ def test_n1d_rebuild_provenance_refuses_changed_retained_surfaces(tmp_path, monk
     with pytest.raises(ValueError, match="retained coverage surfaces changed"):
         rebuild_provenance(world)
     assert hashlib.sha256(sidecar_path.read_bytes()).hexdigest() == before  # Nothing was rebuilt from stale facts.
+
+
+# =============================================================================================
+# N1d repair, phase A (closed list F1, F2, A1, T02, T04, T07). Appended region; F2's missing-surface cases were a genuine
+# RED against the unchanged helper, everything else is FIRST_GREEN against unchanged production. Names are n1d_repair_*.
+# =============================================================================================
+@pytest.fixture(scope="module")
+def n1d_repair_template(tmp_path_factory):
+    """One REAL integration world (real generator, producers, validators), built before any fault patch and copied per case."""
+    return integration_world(tmp_path_factory.mktemp("n1d-repair-template"))
+
+
+def n1d_repair_world(template, tmp_path):
+    import shutil
+    shutil.copytree(template.source, tmp_path / "source")
+    shutil.copytree(template.analysis, tmp_path / "stage" / "analysis")
+    return SimpleNamespace(source=tmp_path / "source", analysis=tmp_path / "stage" / "analysis", run_id=template.run_id, tmp=tmp_path)
+
+
+def n1d_repair_documents(world):
+    pm = n1d_pm()
+    paths = (world.analysis / pm.MANIFEST_FILENAME, world.analysis / "producer_limitations.json")
+    return tuple(path.read_bytes() if path.exists() else None for path in paths)  # None records a deliberately absent document.
+
+
+def n1d_repair_raiser(exception):
+    def raiser(*args, **kwargs):
+        raise exception
+    return raiser
+
+
+# --- F1: a valid, bounded, non-empty polygon whose REAL EPSG:7755 projection is not finite is rejected ------------------
+def test_n1d_repair_f1_real_projection_nonfinite_area_is_rejected_and_the_india_control_passes():
+    import warnings
+    from pyproj import Transformer
+    from shapely.geometry import Polygon, mapping
+    from shapely.ops import transform
+    project = Transformer.from_crs(4326, 7755, always_xy=True).transform  # The same construction _coverage_geometry_ok uses.
+    south = Polygon([(72., -90.), (73., -90.), (73., -89.), (72., -89.), (72., -90.)])
+    assert south.is_valid and not south.is_empty and south.geom_type == "Polygon"
+    assert -180 <= south.bounds[0] <= south.bounds[2] <= 180 and -90 <= south.bounds[1] <= south.bounds[3] <= 90
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        area = transform(project, south).area
+        assert not np.isfinite(area)  # The actual intermediate, not an assumption.
+        assert audit._coverage_geometry_ok(mapping(south), project) is False
+        india = Polygon([(72., 18.), (73., 18.), (73., 19.), (72., 19.), (72., 18.)])
+        india_area = transform(project, india).area
+        assert np.isfinite(india_area) and india_area > 0
+        assert audit._coverage_geometry_ok(mapping(india), project) is True
+
+
+# --- F2: retained-surface errors (genuine RED before the helper change for the missing cases) -------------------------------
+N1D_REPAIR_FIXED = "retained coverage surfaces changed"
+
+
+@pytest.mark.parametrize("case", ["iso_missing", "input_missing", "iso_directory", "closure_import_error", "closure_syntax_error", "closure_unicode_error"])
+def test_n1d_repair_f2_listed_retained_surface_errors_normalize_to_the_fixed_mismatch(n1d_repair_template, tmp_path, monkeypatch, case):
+    pm = n1d_pm()
+    world = n1d_repair_world(n1d_repair_template, tmp_path)
+    before = n1d_repair_documents(world)  # Captured after the real build and before any fault.
+    iso = world.analysis / N1D_ISO[0]
+    if case == "iso_missing":
+        iso.unlink()
+    elif case == "input_missing":
+        (world.source / "logistics_hubs/icds.csv").unlink()
+    elif case == "iso_directory":
+        iso.unlink()
+        iso.mkdir()
+    else:
+        injected = {"closure_import_error": ImportError("synthetic"), "closure_syntax_error": SyntaxError("synthetic"),
+                    "closure_unicode_error": UnicodeDecodeError("utf-8", b"\xff", 0, 1, "synthetic")}[case]
+        monkeypatch.setattr(pm, "national_code_closure", n1d_repair_raiser(injected))  # The closure INVOCATION only.
+    with pytest.raises(ValueError) as caught:
+        rebuild_provenance(world)
+    assert type(caught.value) is ValueError and str(caught.value) == N1D_REPAIR_FIXED
+    assert caught.value.__cause__ is None and caught.value.__suppress_context__ is True  # raised "from None"
+    assert n1d_repair_documents(world) == before  # Neither provenance document was written.
+
+
+@pytest.mark.parametrize("case", ["propagate_alloc", "propagate_io", "propagate_hash_import", "propagate_hash_type", "propagate_hash_attribute",
+                                  "propagate_key", "propagate_initial_read", "propagate_postguard_builder"])
+def test_n1d_repair_f2_unlisted_errors_propagate_unchanged(n1d_repair_template, tmp_path, monkeypatch, case):
+    from scripts.analyze import producer_io
+    pm, limitations = n1d_pm(), n1d_limitations()
+    world = n1d_repair_world(n1d_repair_template, tmp_path)
+    injected = {"propagate_alloc": MemoryError("synthetic injected propagation control"), "propagate_io": OSError("synthetic injected propagation control"),
+                "propagate_hash_import": ImportError("synthetic injected propagation control"), "propagate_hash_type": TypeError("synthetic injected propagation control"),
+                "propagate_hash_attribute": AttributeError("synthetic injected propagation control"),
+                "propagate_postguard_builder": FileNotFoundError("synthetic injected propagation control")}.get(case)
+    if case == "propagate_key":
+        manifest_path = world.analysis / pm.MANIFEST_FILENAME
+        document = json.loads(manifest_path.read_text(encoding="utf-8"))
+        del document["artifacts"][N1D_ISO[0]]  # The original manifest lacks a retained surface entry.
+        manifest_path.write_text(json.dumps(document), encoding="utf-8")
+        expected = KeyError
+    elif case == "propagate_initial_read":
+        (world.analysis / "producer_limitations.json").unlink()  # An initial sidecar read, outside the retained-surface guard.
+        try:
+            pm.read_manifest(world.analysis / "producer_limitations.json")
+        except Exception as exc:
+            expected = type(exc)
+    elif case == "propagate_postguard_builder":
+        monkeypatch.setattr(limitations, "build_limitations", n1d_repair_raiser(injected))  # After the guard: must not be normalized.
+        expected = FileNotFoundError
+    else:
+        real, target = producer_io.sha256_file, world.analysis / N1D_ISO[0]
+
+        def faulting(path, *args, **kwargs):
+            if Path(path) == target:  # Only the retained read; setup and later validation are never the asserted failure.
+                raise injected
+            return real(path, *args, **kwargs)
+        monkeypatch.setattr(producer_io, "sha256_file", faulting)  # The binding the helper imports from inside its body.
+        expected = type(injected)
+    before = n1d_repair_documents(world)
+    with pytest.raises(expected) as caught:
+        rebuild_provenance(world)
+    if injected is not None:
+        assert caught.value is injected  # The very same instance, unchanged.
+    assert str(caught.value) != N1D_REPAIR_FIXED and n1d_repair_documents(world) == before
+
+
+# --- A1: exact plain-int discriminator PLUS exact key set; anything else is row C, in generic and national fast ----------
+def n1d_repair_drop(key):
+    def drop(document):
+        del document[key]  # Returns None, so the whole mutated schema-2 document is what gets written.
+    return drop
+
+
+def n1d_repair_extra(document):
+    document["extra"] = 1
+
+
+N1D_REPAIR_A1 = {"missing_coverage": n1d_repair_drop("isochrone_coverage"), "missing_run_id": n1d_repair_drop("run_id"), "extra_key": n1d_repair_extra}
+
+
+@pytest.mark.parametrize("name", sorted(N1D_REPAIR_A1))
+def test_n1d_repair_a1_schema_two_with_wrong_top_level_keys_is_row_c_in_generic_and_national_fast(semantic_bundle, tmp_path, name):
+    world = national_world(tmp_path, semantic_bundle)
+    assert [r["status"] for r in n1d_coherence(fast_records(world.root, national=True))] == ["PASS"]  # The untampered control.
+    n1d_rewrite_sidecar(world, N1D_REPAIR_A1[name])
+    keys = set(n1d_limitations().TOP_LEVEL_KEYS_V2)
+    expected = {"missing_coverage": keys - {"isochrone_coverage"}, "missing_run_id": keys - {"run_id"}, "extra_key": keys | {"extra"}}[name]
+    persisted = json.loads((world.root / "producer_limitations.json").read_text(encoding="utf-8"))  # The input actually audited.
+    assert isinstance(persisted, dict) and type(persisted["schema_version"]) is int and persisted["schema_version"] == 2 and set(persisted) == expected
+    for national in (False, True):
+        results = fast_records(world.root, national=national)
+        assert [(r["status"], r["detail"]) for r in n1d_coherence(results)] == [("FAIL", "coverage: sidecar unreadable or unsupported")]
+        assert n1d_warns(results) == []
+
+
+# --- T02: a REAL malformed source: _full_disclosures returns early, the independent prerequisite still blocks -----------------
+def test_n1d_repair_t02_real_malformed_source_early_disclosure_return_still_reaches_the_independent_prerequisite(semantic_bundle, tmp_path, monkeypatch):
+    import inspect
+    pm, limitations = n1d_pm(), n1d_limitations()
+    world = national_world(tmp_path, semantic_bundle)
+    path = world.source / "administrative" / "india_districts_lgd.geojson"
+    document = json.loads(path.read_text(encoding="utf-8"))
+    for feature in document["features"]:  # EVERY feature, so the column itself disappears.
+        feature["properties"].pop("district", None)
+    path.write_text(json.dumps(document), encoding="utf-8")
+    old = pm.read_manifest(world.root / pm.MANIFEST_FILENAME)
+    rebuilt = pm.build_manifest(old["run_id"], {n: world.root / n for n in pm.REQUIRED_ARTIFACTS}, world.inputs, old["graph"], old["config"], old["code_hashes"], old["resources"])
+    pm.atomic_write_manifest(rebuilt, world.root / pm.MANIFEST_FILENAME)  # Fresh synthetic source hashes; run, graph, config, code and resources retained.
+    assert pm.validate_manifest(world.root / pm.MANIFEST_FILENAME, world.root, source_root=world.source, code_root=world.repo) == []  # Manifest integrity, not source validity.
+    real, callers = limitations.validate_limitations, []
+
+    def witness(*args, **kwargs):
+        issues = real(*args, **kwargs)
+        callers.append((inspect.currentframe().f_back.f_code.co_name, issues))
+        return issues
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("the graph oracle must never be admitted")
+    monkeypatch.setattr(limitations, "validate_limitations", witness)  # Installed only after setup; real validator, never replaced.
+    monkeypatch.setattr(audit, "audit_producer_graph_oracles", forbidden)
+    results = full_records(world, national=True, code_root=world.repo)
+    assert any(r["dataset"] == "source_disclosures" and r["check"] == "source identity validation" and r["status"] == "FAIL" for r in results)
+    assert not any(caller == "_full_disclosures" for caller, _ in callers)  # The disclosure section really returned before its validator call.
+    assert any(caller == "_coverage_prerequisite_issues" and issues for caller, issues in callers)  # The independent prerequisite called the real validator and it failed.
+    blocked = [r for r in results if r["check"] == "blocked: national prerequisites"]
+    assert len(blocked) == 1 and "national: schema-2 sidecar source validation failed" in blocked[0]["detail"]
+    assert not world.cache.exists() and not n1d_warns(results) and not n1d_coherence(results)
+
+
+# --- T04: the FIRST feature's feeder has the same positive uniform tolerance as later features -----------------------------
+def test_n1d_repair_t04_first_feature_feeder_within_the_absolute_1e9_tolerance_passes(semantic_bundle, tmp_path):
+    world = national_world(tmp_path, semantic_bundle)
+    n1d_edit_iso(world, N1D_ISO[0], lambda d: n1d_prop(d, 0, "snap_feeder_km", d["features"][0]["properties"]["snap_feeder_km"] + 5e-10))
+    n1d_refresh(world)
+    assert [r["status"] for r in n1d_coherence(fast_records(world.root, national=True))] == ["PASS"]
+
+
+# --- T07: strict SOURCE-valid declared facts: bounded unsupported entries WARN exactly twice, unsnapped never ---------------
+@pytest.mark.parametrize("mode", ["unsupported_bounded", "unsnapped"])
+def test_n1d_repair_t07_declared_nonok_facts_warn_only_when_bounded(semantic_bundle, tmp_path, mode):
+    pm, limitations = n1d_pm(), n1d_limitations()
+    world = national_world(tmp_path, semantic_bundle)
+    path = world.root / limitations.SIDECAR_FILENAME
+    document = pm.read_manifest(path)
+    bounded = mode == "unsupported_bounded"
+    for entry in document["isochrone_coverage"]["entries"]:  # Declared consistency only: these are not independent graph facts.
+        n = len(entry["thresholds_hours"])
+        entry.update(statuses=["unsupported_threshold" if bounded else "no_highway_within_150km"] * n, reachable_node_counts=[2 if bounded else 0] * n,
+                     snap_component_node_count=2 if bounded else None, snap_feeder_km=entry["snap_feeder_km"] if bounded else None,
+                     ok_threshold_count=0, saturated_across_ok_thresholds=None,
+                     component_bounded_thresholds=list(entry["thresholds_hours"]) if bounded else [])
+    pm.atomic_write_manifest(document, path)
+    for name, entry in zip(N1D_ISO, document["isochrone_coverage"]["entries"]):
+        collection = pm.read_manifest(world.root / name)
+        for index, feature in enumerate(collection["features"]):
+            feature["geometry"] = None
+            feature["properties"].update(status=entry["statuses"][index], reachable_node_count=entry["reachable_node_counts"][index], snap_feeder_km=entry["snap_feeder_km"])
+        pm.atomic_write_manifest(collection, world.root / name)
+    n1d_refresh(world)
+    manifest = pm.read_manifest(world.root / pm.MANIFEST_FILENAME)
+    assert limitations.validate_limitations(path, manifest, source_root=world.source, require_coverage=True) == []  # Real strict validation BEFORE the audit.
+    results = fast_records(world.root, national=True)
+    assert [r["status"] for r in n1d_coherence(results)] == ["PASS"]
+    warns = n1d_warns(results)
+    assert len(warns) == (2 if bounded else 0) and all(r["status"] == "WARN" for r in warns)
+    if bounded:
+        assert "major_port 0 Synthetic" in warns[0]["detail"] and "mmlp 0 Synthetic" in warns[1]["detail"]  # Declaration order.
