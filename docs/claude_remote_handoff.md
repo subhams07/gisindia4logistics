@@ -33,7 +33,7 @@ Any session (local or remote) restarting this work: read this section first, the
 ### Plan and next steps
 
 1. **[DONE]** Verify checkpoint and host (above).
-2. **[NEXT]** Opus: Linux N2 containment/telemetry/parent-death design addendum to `stage4_n2_resource_spec.md` (Linux analogues for section F job/launch order and section G telemetry, new synthetic controls replacing Windows-specific parts of M03/M08/M09, resolution of the section F cleanup ambiguity, proposed policy fields). Then a fresh Opus review of that design.
+2. **[IN REVIEW]** Opus: Linux N2 containment/telemetry/parent-death design addendum to `stage4_n2_resource_spec.md` (Linux analogues for section F job/launch order and section G telemetry, new synthetic controls replacing Windows-specific parts of M03/M08/M09, resolution of the section F cleanup ambiguity, proposed policy fields). Draft written: [`stage4_n2_linux_addendum.md`](stage4_n2_linux_addendum.md) (not yet reviewed or approved). Then a fresh Opus review of that design.
 3. Operator approval of the reviewed Linux design.
 4. Sonnet: implement the synthetic-only harness in private scratch; Opus verification; Opus final alignment.
 5. Operator: numerical resource policy and read/write admission; then the six real profiles (H0–H3) on this host.
@@ -42,6 +42,8 @@ Any session (local or remote) restarting this work: read this section first, the
 ### Session log
 
 - 2026-10-17: remote verification done; roles/host/branch rulings recorded; Linux design (step 2) about to start.
+- 2026-10-17: GitHub App write access fixed by operator; branch pushed.
+- 2026-10-17: Opus design draft of the Linux addendum written (one empty probe cgroup created and removed, 32 MiB stdlib child; no limits written, nothing left behind). Operator questions O1–O6 and reviewer questions R1–R6 are in the addendum. Independent Opus review started.
 
 ## 1. Repository and starting point
 
