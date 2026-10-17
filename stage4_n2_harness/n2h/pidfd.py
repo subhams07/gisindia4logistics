@@ -204,12 +204,14 @@ def thread_ids(fs, pid):
 PF_EXITING = 0x4
 
 
-def pid_is_exiting(fs, pid):
+def pid_is_exiting(fs, pid, tid=None):
     """True if the pid is gone or a zombie/dead task. An exiting task is moved to the root css set by
     the kernel before it is reaped, so its /proc/<pid>/cgroup no longer shows the attempt paths:
     that must not be read as an escape."""
     try:
-        txt = fs.read("/proc/%d/stat" % pid)
+        # a given tid is judged by ITS OWN stat: an exiting leader must not absorb a live non-leader thread
+        path = "/proc/%d/stat" % pid if tid is None else "/proc/%d/task/%d/stat" % (pid, tid)
+        txt = fs.read(path)
         rest = txt[txt.rindex(")") + 2:].split()
         state, flags = rest[0], int(rest[6])  # field 3 = state, field 9 = task flags
     except (OSError, ValueError, IndexError):

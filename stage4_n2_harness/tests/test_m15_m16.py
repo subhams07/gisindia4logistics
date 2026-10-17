@@ -72,7 +72,7 @@ class M15(unittest.TestCase):
         self.assertLessEqual(fm["cg_charged_peak_bytes"], 48 * MIB + MIB, "charged peak is bounded by the finite limit")
         self.assertGreaterEqual(fm["cg_charged_peak_bytes"], 40 * MIB)
         codes = [s["code"] for s in t["stops"]]
-        self.assertTrue(set(codes) & {"oom_kill_detected", "breach_oom_signal", "breach_failcnt_nonzero", "ns_init_killed_or_unknown_exit"}, codes)
+        self.assertTrue({"oom_kill_detected", "breach_oom_signal"} & set(codes), "the OOM itself must be reported, not only failcnt: %r" % codes)
         self.assertIs(t["post"]["cgroups_removed"], True)
         err = open(os.path.join(w["slot_root"], "stderr.log")).read()
         last = [ln for ln in err.splitlines() if "alloc_progress" in ln][-1:]

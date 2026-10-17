@@ -173,5 +173,23 @@ A consistency test (`test_MATRIX_consistency`) asserts every test name below exi
 | M16 | test_M16_D4_erofs_specific_and_fstype_selection | implemented (review round 1) |
 | M16 | test_M16_pf_exiting_absorbed_and_recorded | implemented (review round 1) |
 | M16 | test_M16_nsinit_discovery_requires_exact_nspid_length | implemented (review round 1) |
+| M09-L | test_M09_final_sample_failure_is_recorded_and_stops | implemented (review round 2) |
+| M09-L | test_M09_synthetic_mock_default_is_false | implemented (review round 2) |
+| M12 | test_M12_stat_failure_rolls_back_created_dirs | implemented (review round 2) |
+| M16 | test_M16_exiting_leader_does_not_absorb_live_thread | implemented (review round 2) |
+| M09-L | test_M09_post_exit_disk_floor_persists | implemented (review round 3) |
+| M09-L | test_M09_breach_then_nonzero_exit_is_stopped | implemented (review round 3) |
+| M09-L | test_M09_failed_final_reads_fail_closed | implemented (review round 4) |
+| M09-L | test_M09_malformed_counter_does_not_escape_gates | implemented (review round 4) |
+| M09-L | test_M09_telemetry_close_failure_fails_closed | implemented (review round 5) |
+| M09-L | test_M09_unexpected_exception_types_still_write_terminal | implemented (review round 5) |
+| M02 | test_M02_serialize_failure_leaves_no_file_and_no_fd | implemented (review round 5) |
+| M13 | test_M13_terminate_continues_escalating_on_read_errors | implemented (review round 5) |
+| M12 | test_M12_rollback_failure_is_recorded | implemented (review round 5) |
+| M09-L | test_M09_late_marker_error_events_are_kept | implemented (review round 5) |
+| M09-L | test_M09_post_exit_unexpected_exception_on_stop_path | implemented (review round 6) |
+| M02 | test_M02_close_failure_does_not_escape_as_ebadf | implemented (review round 6) |
+| M09-L | test_M09_fallback_stop_lands_in_self_stops | implemented (review round 6) |
+| M09-L | test_M09_finalize_hooks_compose | implemented (review round 6) |
 | META | test_MATRIX_consistency | implemented |
 | META | test_4B_interfaces_declared_not_implemented | implemented (interface stubs only; M05-M07 stay 4b) |

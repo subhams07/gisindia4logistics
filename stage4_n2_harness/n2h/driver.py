@@ -17,7 +17,7 @@ from .allowlist import (
 )
 from .controller import Attempt
 from .errors import FaultPlan, N2Stop
-from .fsio import RealFs
+from .fsio import FaultFs, RealFs
 
 
 def _say(line):
@@ -84,6 +84,41 @@ def run_spec(spec, extras=None):
             os.mkdir(lay.abs["memory"])
             extras["precreated"] = lay.abs["memory"]
         hooks["after_attempt_record"] = precreate
+    if spec.get("sleep_before_monitor"):
+        hooks["before_monitor"] = lambda a: time.sleep(spec["sleep_before_monitor"])
+    fin_hooks = []  # before_finalize hooks compose instead of overwriting each other
+    if spec.get("post_exit_typeerror"):
+        from . import telemetry as _tel
+
+        def _boom(*a, **k):
+            raise TypeError("INJECTED_E_UNEXPECTED_TYPE")
+        _tel.evaluate_post_exit = _boom
+    if spec.get("telemetry_dev_full"):
+        def to_full(attempt):
+            attempt.tele._fh.close()
+            attempt.tele._fh = open("/dev/full", "ab")  # noqa: SIM115 - buffered writes there fail with ENOSPC
+        hooks["before_final_sample"] = to_full
+    if spec.get("finalize_boom") or spec.get("finalize_unserializable"):
+        class Boom(RealFs):
+            def read(self, path):
+                raise TypeError("INJECTED_E_UNEXPECTED_TYPE")
+
+        def boom(attempt):
+            if spec.get("finalize_boom"):
+                attempt.fs = Boom()
+            if spec.get("finalize_unserializable"):
+                attempt.termination = {"bad": {1, 2}}
+        fin_hooks.append(boom)
+    if spec.get("marker_read_fault"):
+        def break_markers(attempt):
+            attempt.markers.path = attempt.cfg["slot_root"]  # a directory: open() fails with EISDIR
+        fin_hooks.append(break_markers)
+    if fin_hooks:
+        hooks["before_finalize"] = lambda a: [f(a) for f in fin_hooks]
+    if spec.get("fault_final_sample"):
+        def arm(attempt):
+            attempt.ctx.fs = FaultFs(attempt.ctx.fs, {("read", "/proc/meminfo"): spec["fault_final_sample"]})
+        hooks["before_final_sample"] = arm
     if spec.get("close_gate_instead_of_release") or spec.get("wrong_gate_byte"):
         def tamper(attempt):
             g = attempt.gated

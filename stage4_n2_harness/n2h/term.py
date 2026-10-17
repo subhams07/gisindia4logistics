@@ -25,22 +25,33 @@ def _reap_ready(ctx):
             pidfd_mod.reap_if_exited(m)
 
 
-def _wait_all_exit_and_empty(ctx, wait_s, fs, layout):
+def _empty(layout, fs, errs):
+    """is_empty that treats a read/parse error as 'not empty' (keep escalating) and records the error once."""
+    try:
+        return cgmod.is_empty(layout, fs)
+    except (N2Stop, OSError, ValueError) as e:
+        msg = "%s: %s" % (type(e).__name__, str(e)[:100])
+        if msg not in errs:
+            errs.append(msg)
+        return False
+
+
+def _wait_all_exit_and_empty(ctx, wait_s, fs, layout, errs):
     deadline = time.monotonic() + wait_s
     while True:
         _reap_ready(ctx)
-        if all(pidfd_mod.readable(f) for f in _all_fds(ctx)) and cgmod.is_empty(layout, fs):
+        if all(pidfd_mod.readable(f) for f in _all_fds(ctx)) and _empty(layout, fs, errs):
             return True
         if time.monotonic() >= deadline:
             return False
         time.sleep(0.01)
 
 
-def _wait_cg_empty(ctx, layout, fs, wait_s):
+def _wait_cg_empty(ctx, layout, fs, wait_s, errs):
     deadline = time.monotonic() + wait_s
     while True:
         _reap_ready(ctx)
-        if cgmod.is_empty(layout, fs):
+        if _empty(layout, fs, errs):
             return True
         if time.monotonic() >= deadline:
             return False
@@ -67,7 +78,7 @@ def terminate(ctx, layout, fs, policy, plan, reason, discover=None):
     """Run the escalation. Returns a result dict; never raises on a kill-path problem."""
     pv = policy_mod.value
     res = {"reason": reason, "steps": [], "unowned": [], "zombie_observations": [],
-           "used_cgroup_kill": False, "injected": []}
+           "used_cgroup_kill": False, "injected": [], "read_errors": []}
     t0 = time.monotonic()
 
     def step(name, **kw):
@@ -91,7 +102,7 @@ def terminate(ctx, layout, fs, policy, plan, reason, discover=None):
             step("sigterm_ns_init")
         except (OSError, InjectedFault) as e:
             step("sigterm_failed", err=str(e))
-        ok = _wait_all_exit_and_empty(ctx, pv(policy, "graceful_wait_s"), fs, layout)
+        ok = _wait_all_exit_and_empty(ctx, pv(policy, "graceful_wait_s"), fs, layout, res["read_errors"])
         step("graceful_wait", emptied=ok)
         res["graceful"] = ok
         if ok:
@@ -145,7 +156,7 @@ def terminate(ctx, layout, fs, policy, plan, reason, discover=None):
                 step("cgroup_kill_written")
             except OSError as e:
                 step("cgroup_kill_failed", err=str(e))
-    emptied = _wait_cg_empty(ctx, layout, fs, pv(policy, "cgroup_kill_wait_s"))
+    emptied = _wait_cg_empty(ctx, layout, fs, pv(policy, "cgroup_kill_wait_s"), res["read_errors"])
     step("wait_cgroup_empty", emptied=emptied)
     _finish(ctx, layout, fs, res, step)
     return res

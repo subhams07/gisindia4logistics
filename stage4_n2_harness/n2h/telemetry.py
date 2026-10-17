@@ -44,12 +44,12 @@ def parse_status_fields(text):
 
 def confirm_outside(ctx, pid, tid=None):
     """True only if the task is alive and stays outside the attempt cgroups for the whole grace."""
-    if pidfd_mod.pid_is_exiting(ctx.fs, pid):  # primary: PF_EXITING (set before cgroup_exit) or Z/X/gone
+    if pidfd_mod.pid_is_exiting(ctx.fs, pid, tid):  # primary: PF_EXITING (set before cgroup_exit) or Z/X/gone
         ctx.absorbed.append({"pid": pid, "tid": tid, "how": "pf_exiting_or_dead"})
         return False
     deadline = time.monotonic() + EXIT_RACE_GRACE_S  # fallback only
     while True:
-        if pidfd_mod.pid_is_exiting(ctx.fs, pid):
+        if pidfd_mod.pid_is_exiting(ctx.fs, pid, tid):
             ctx.absorbed.append({"pid": pid, "tid": tid, "how": "grace_then_exiting"})
             return False
         try:
@@ -190,7 +190,7 @@ class Telemetry:
                 result["thread_checks"] += 1
                 if not ok:
                     if not confirm_outside(ctx, pid, tid):
-                        break  # exited (or came back) between listing and this read
+                        continue  # this thread exited (or came back); other threads are still checked
                     raise ContainmentStop("thread_outside_attempt_cgroup", "pid %d tid %d" % (pid, tid))
         return result
 
@@ -345,11 +345,18 @@ def pids_events_max(text):
     return 0
 
 
-def evaluate_post_exit(policy, memory, counters, resident_elsewhere_bytes=0):
+def evaluate_post_exit(policy, memory, counters, resident_elsewhere_bytes=0, disk_free_bytes=None, bash_growth_bytes=None):
     """Gates that remain meaningful after the child has exited (final cgroup counters): charged peak +
     resident_elsewhere cap (D-11), failcnt (action stop), oom_kill / under_oom, pids.events max.
-    Live-only floors (available memory, headroom, disk, Bash growth, elapsed) are not evaluated."""
+    Persistent floors (disk free, Bash growth) are evaluated from fresh reads supplied by the caller;
+    live-only figures (available memory, headroom, elapsed) are not evaluated."""
     b = []
+    # floors that persist after exit (disk consumed by outputs, Bash-cgroup growth) are re-read and evaluated;
+    # only genuinely live-only figures (available memory, attempt headroom, elapsed) are skipped
+    if disk_free_bytes is not None and policy_mod.check(policy, "running_floor_disk_free_bytes", disk_free_bytes):
+        b.append(("floor_disk_free", disk_free_bytes))
+    if bash_growth_bytes is not None and policy_mod.check(policy, "bash_cgroup_growth_max_bytes", bash_growth_bytes):
+        b.append(("bash_cgroup_growth", bash_growth_bytes))
     conservative = memory["cg_charged_peak_bytes"] + resident_elsewhere_bytes
     if policy_mod.check(policy, "conservative_peak_max_bytes", conservative):
         b.append(("conservative_peak", conservative))

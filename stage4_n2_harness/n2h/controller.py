@@ -230,7 +230,7 @@ class Attempt:
             "kernel_release": os.uname().release,
             "controller_cgroup_paths": self.ctrl_paths, "planned_cgroup_name": self.name,
             "slot": cfg["slot"], "slot_root": cfg["slot_root"], "scratch_base": cfg["scratch_base"],
-            "nonce": self.nonce, "synthetic_mock": bool(cfg.get("synthetic_mock", True)),
+            "nonce": self.nonce, "synthetic_mock": bool(cfg.get("synthetic_mock", False)),
             "policy_label": self.policy.get("label"),
             "d_options": {"D1_threads": 1, "D3": "a+", "D4_required": True},
         }
@@ -246,6 +246,8 @@ class Attempt:
             self._stop(e)
             status = "stopped"
             self._emergency_cleanup()
+            if self.layout is not None and self.ctx is not None:
+                self._post_exit_gates()  # guarded internally (best effort); final counters are evidence after any STOP (e.g. the OOM behind a live failcnt STOP)
         except InjectedFault as e:
             self.stops.append({"code": "injected_fault", "detail": e.label, "injected": e.label})
             status = "stopped"
@@ -353,6 +355,7 @@ class Attempt:
         self.t_release = time.monotonic()
         self._hook("after_release")
         self._handshake()
+        self._hook("before_monitor")
         self._monitor()
 
     def _assert_child_alive_pre_release(self, extra=""):
@@ -491,6 +494,8 @@ class Attempt:
                                                       "external:%r" % self.term_signals, discover=self.tele_discover)
                 self.exit_info["terminated_by_controller"] = True
                 self._check_external_term()
+            if not self.ctx.alive(self.direct):
+                break  # already exited: the post-exit evaluation (final sample + final counters) decides
             self.tele.sample()
             self._handle_markers()
             br = self._breach_check()
@@ -504,10 +509,13 @@ class Attempt:
                 break
             time.sleep(interval)
         # normal / child-initiated end: final sample, then reap
+        self._hook("before_final_sample")
         try:
             self.tele.sample()
-        except (N2Stop, OSError):
-            pass
+        except (N2Stop, OSError) as e:
+            code = e.code if isinstance(e, N2Stop) else "final_sample_os_error"
+            self.stops.append({"code": "final_sample_" + code, "detail": str(e)[:160], "injected": _inj(e)})
+            self.final_sample_failed = True
         self._handle_markers()
         self._reap_all_after_exit()
 
@@ -528,18 +536,44 @@ class Attempt:
 
     def _post_exit_gates(self):
         """Apply the gates that stay meaningful after exit to the FINAL cgroup counters (a last-interval
-        breach is not 'success')."""
+        breach is not 'success'). Any exception, of any type, is recorded as a fired gate: this runs inside
+        STOP handlers and must not let an exception escape past _finalize."""
+        try:
+            return self._post_exit_gates_inner()
+        except Exception as e:  # noqa: BLE001 - structural guarantee: the terminal receipt must still be written
+            self._record_final_counters_failed(e)
+            return True
+
+    def _post_exit_gates_inner(self):
         try:
             m = sysfs.read_memory_fields(self.fs, self.layout.abs["memory"])
             cn = cgmod.counters(self.layout, self.fs)
         except (N2Stop, OSError) as e:
-            self.stops.append({"code": "final_counters_failed", "detail": str(e)[:100], "injected": _inj(e)})
+            self._record_final_counters_failed(e)
             return True
         elsewhere = (getattr(self, "release_elsewhere", None) or {}).get("resident_bytes_elsewhere", 0)
-        br = tel_mod.evaluate_post_exit(self.policy, m, cn, elsewhere)
+        try:
+            disk = sysfs.disk_free_bytes(self.cfg["scratch_base"])
+            base = (self.ctx.baseline if self.ctx else {}).get("bash_usage_excluding_attempt_bytes")
+            bash = None if base is None else sysfs.bash_usage_excluding_attempt(
+                self.fs, self.mem_root, self.mem_rel, self.layout.name) - base
+        except (N2Stop, OSError) as e:
+            self._record_final_counters_failed(e)
+            return True
+        try:
+            br = tel_mod.evaluate_post_exit(self.policy, m, cn, elsewhere, disk, bash)
+        except (N2Stop, OSError, ValueError, KeyError) as e:  # e.g. a malformed pids.events: fail closed, still finalize
+            self._record_final_counters_failed(e)
+            return True
+        have = {s["code"] for s in self.stops}
         for code, detail in br:
-            self.stops.append({"code": "breach_" + code, "detail": repr(detail), "injected": None})
+            if "breach_" + code not in have:
+                self.stops.append({"code": "breach_" + code, "detail": repr(detail), "injected": None})
         return bool(br)
+
+    def _record_final_counters_failed(self, e):
+        if not any(s["code"] == "final_counters_failed" for s in self.stops):  # once per attempt
+            self.stops.append({"code": "final_counters_failed", "detail": str(e)[:100], "injected": _inj(e)})
 
     def _exiting_marker(self):
         ev = [e for e in self.markers.events if e["event"] == "exiting"] if self.markers else []
@@ -548,17 +582,17 @@ class Attempt:
     def _classify(self):
         d = self.exit_info.get("direct") or {}
         st = d.get("status") or {}
+        gated = self._post_exit_gates()  # final counters are evaluated even after a live STOP (evidence, deduplicated)
         if self.exit_info.get("terminated_by_controller"):
             return "stopped"
-        gated = self._post_exit_gates()
         res = self._classify_exit(st)
-        if gated and res == "success":
-            return "stopped"
+        if gated or getattr(self, "final_sample_failed", False):
+            return "stopped"  # any breach gate that fired is a STOP, whatever the exit status was
         return res
 
     def _classify_exit(self, st):
         if st.get("kind") == "exit" and st.get("code") == 0:
-            if self.cfg.get("require_receipt") or not self.cfg.get("synthetic_mock", True):
+            if self.cfg.get("require_receipt") or not self.cfg.get("synthetic_mock", False):
                 rp = os.path.join(self.cfg["slot_root"], "completion_receipt.json")
                 if not verify_completion_receipt(rp, self.nonce):
                     self.stops.append({"code": "exit_without_receipt", "detail": "missing or invalid: " + rp, "injected": None})
@@ -593,10 +627,15 @@ class Attempt:
                 self.termination = term_mod.terminate(self.ctx, self.layout, self.fs, self.policy, self.plan,
                                                       "stop:" + (self.stops[-1]["code"] if self.stops else "?"),
                                                       discover=self.tele_discover)
-        except (N2Stop, OSError, ValueError, KeyError) as e:
+        except Exception as e:  # noqa: BLE001 - cleanup must never prevent the terminal receipt
             self.stops.append({"code": "cleanup_exception", "detail": type(e).__name__ + str(e)[:100], "injected": None})
 
     def _finalize(self, status):
+        try:
+            self._hook("before_finalize")
+        except Exception as e:  # noqa: BLE001 - nothing may prevent the terminal receipt
+            self.stops.append({"code": "finalize_hook_exception", "detail": type(e).__name__ + ": " + str(e)[:100], "injected": None})
+            status = "stopped"
         cfg, fs = self.cfg, self.fs
         info = {}
         # post-exit counters BEFORE rmdir; memsw cross-check only after exit
@@ -617,10 +656,14 @@ class Attempt:
                         self.stops.append({"code": "memsw_mismatch", "detail": str(delta), "injected": None})
                         status = "stopped"
                 info["final_counters"] = cgmod.counters(self.layout, fs)
-                if self.markers is not None:
-                    self._handle_markers_safely()
-        except (N2Stop, OSError) as e:
-            self.stops.append({"code": "final_counters_failed", "detail": str(e)[:100], "injected": _inj(e)})
+                if self.markers is not None and not self._handle_markers_safely():
+                    status = "stopped"
+        except (N2Stop, OSError, ValueError, KeyError) as e:
+            self._record_final_counters_failed(e)
+            status = "stopped"  # a failed final read fails closed, whatever _classify concluded
+        except Exception as e:  # noqa: BLE001 - any unexpected type: record, fail closed, still write the terminal receipt
+            self.stops.append({"code": "finalize_counters_exception", "detail": type(e).__name__ + ": " + str(e)[:100], "injected": None})
+            status = "stopped"
         # remove the owned cgroups; a failure is a STOP and leaves the evidence in place
         removed = None
         if self.layout is not None:
@@ -631,23 +674,75 @@ class Attempt:
                 removed = False
                 self.stops.append({"code": "rmdir_failed", "detail": str(e)[:160], "injected": _inj(e)})
                 status = "stopped"
+            except Exception as e:  # noqa: BLE001 - see above
+                removed = False
+                self.stops.append({"code": "finalize_remove_exception", "detail": type(e).__name__ + ": " + str(e)[:100], "injected": None})
+                status = "stopped"
             info["cgroups_removed"] = removed
             try:
                 info["memcg_dying_residual"] = (cgmod.memcg_counts() or 0) - cgmod.count_memory_dirs(self.cg_root)
                 info["memcg_dying_residual_before"] = getattr(self, "memcg_residual_before", None)
-            except OSError:
+            except Exception:  # noqa: BLE001 - informational only
                 info["memcg_dying_residual"] = None
         if self.tele is not None:
-            self.tele.close()
+            try:
+                self.tele.close()
+            except OSError as e:  # buffered telemetry that cannot be flushed (e.g. ENOSPC) is a lost record: fail closed
+                self.stops.append({"code": "telemetry_close_failed", "detail": str(e)[:100], "injected": _inj(e)})
+                status = "stopped"
+            except Exception as e:  # noqa: BLE001 - see above
+                self.stops.append({"code": "telemetry_close_failed", "detail": type(e).__name__ + ": " + str(e)[:100], "injected": None})
+                status = "stopped"
         for m in (self.ctx.members.values() if self.ctx else ([self.direct] if getattr(self, "direct", None) else [])):
             m.close()
         logs = {}
         for name in ("stdout.log", "stderr.log", "telemetry.jsonl"):
             p = os.path.join(cfg["slot_root"], name)
             if os.path.exists(p):
-                logs[name] = {"sha256": file_sha256(p), "bytes": os.path.getsize(p)}
+                try:
+                    logs[name] = {"sha256": file_sha256(p), "bytes": os.path.getsize(p)}
+                except Exception as e:  # noqa: BLE001 - any failure to hash a log fails closed
+                    self.stops.append({"code": "log_hash_failed", "detail": "%s: %s" % (name, e), "injected": _inj(e)})
+                    status = "stopped"
+        if self.stops and status == "success":
+            status = "stopped"  # invariant: a recorded stop never ends as success
+        try:
+            body = self._terminal_body(status, info, logs)
+        except Exception as e:  # noqa: BLE001 - never lose the terminal receipt to a body-building bug
+            self.stops.append({"code": "finalize_body_exception", "detail": type(e).__name__ + ": " + str(e)[:100], "injected": None})
+            status = "stopped"
+            body = self._minimal_body(status)
+        try:
+            self.terminal_sha = self.ledger.create_terminal(self.key, body)
+        except N2Stop as e:
+            rec = {"code": e.code, "detail": e.detail, "injected": e.injected}
+            self.terminal_sha = None
+            status = "stopped"
+            if self.stops is not body["stops"]:  # a minimal body holds a copy: keep self.stops authoritative
+                self.stops.append(rec)
+            body["stops"].append(rec)
+            if e.code == "serialize_failed" and not body.get("minimal"):  # retry once with a minimal body
+                body = self._minimal_body("stopped")
+                fb = {"code": "terminal_body_minimal_fallback", "detail": e.detail, "injected": None}
+                self.stops.append(fb)
+                body["stops"].append(fb)
+                try:
+                    self.terminal_sha = self.ledger.create_terminal(self.key, body)
+                except N2Stop as e2:
+                    rec2 = {"code": e2.code, "detail": e2.detail, "injected": e2.injected}
+                    self.stops.append(rec2)
+                    body["stops"].append(rec2)
+        body["status"] = status
+        return body
+
+    def _minimal_body(self, status):
+        return {"status": status, "stops": [dict(s, detail=str(s.get("detail"))[:200]) for s in self.stops],
+                "synthetic_mock": bool(self.cfg.get("synthetic_mock", False)), "minimal": True}
+
+    def _terminal_body(self, status, info, logs):
+        cfg = self.cfg
         body = {
-            "status": status, "stops": self.stops, "synthetic_mock": bool(cfg.get("synthetic_mock", True)),
+            "status": status, "stops": self.stops, "synthetic_mock": bool(cfg.get("synthetic_mock", False)),
             "policy_label": self.policy.get("label"),
             "exit": self.exit_info, "termination": self.termination, "post": info, "logs": logs,
             "logs_drained": True, "markers": {"trusted": len(self.markers.events) if self.markers else 0,
@@ -664,20 +759,22 @@ class Attempt:
             "elsewhere": {"launch": _slim(getattr(self, "elsewhere", None)), "pre_release": _slim(getattr(self, "release_elsewhere", None))},
             "timeline_ns": self.timeline,
         }
-        try:
-            self.terminal_sha = self.ledger.create_terminal(self.key, body)
-        except N2Stop as e:
-            body["stops"].append({"code": e.code, "detail": e.detail, "injected": e.injected})
-            self.terminal_sha = None
-            status = "stopped"
-        body["status"] = status
         return body
 
     def _handle_markers_safely(self):
         try:
-            self.markers.poll()
-        except OSError:
-            pass
+            new = self.markers.poll()
+            ok = True
+            for ev in new:  # error events that arrive after the monitor loop are not discarded
+                if ev["event"] == "error":
+                    kind = ev["kv"].get("kind", "unknown")
+                    self.stops.append({"code": "child_reported_" + tel_mod.classify_error_event(kind), "detail": kind,
+                                       "injected": kind if kind.startswith("INJECTED_") else None})
+                    ok = False
+            return ok
+        except OSError as e:
+            self.stops.append({"code": "final_marker_read_failed", "detail": str(e)[:100], "injected": _inj(e)})
+            return False
 
     def _peak_summary(self, info):
         fm = info.get("final_memory")

@@ -1,9 +1,9 @@
 {
- "ran": 161,
+ "ran": 179,
  "failures": 0,
  "errors": 0,
  "skipped": 0,
- "seconds": 97.5,
+ "seconds": 125.2,
  "rows": [
   {
    "test": "test_m01_modes.M01.test_M01_interpreter_flags_enforced",
@@ -761,6 +761,11 @@
    "extra": ""
   },
   {
+   "test": "test_review1.Exiting.test_M16_exiting_leader_does_not_absorb_live_thread",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
    "test": "test_review1.Exiting.test_M16_nsinit_discovery_requires_exact_nspid_length",
    "status": "PASS",
    "extra": ""
@@ -776,7 +781,62 @@
    "extra": ""
   },
   {
+   "test": "test_review1.Identity.test_M12_stat_failure_rolls_back_created_dirs",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M02_close_failure_does_not_escape_as_ebadf",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M02_serialize_failure_leaves_no_file_and_no_fd",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_breach_then_nonzero_exit_is_stopped",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_failed_final_reads_fail_closed",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_fallback_stop_lands_in_self_stops",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_final_sample_failure_is_recorded_and_stops",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_finalize_hooks_compose",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_late_marker_error_events_are_kept",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_malformed_counter_does_not_escape_gates",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
    "test": "test_review1.PostExit.test_M09_post_exit_conservative_peak_last_interval",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_post_exit_disk_floor_persists",
    "status": "PASS",
    "extra": ""
   },
@@ -791,6 +851,11 @@
    "extra": ""
   },
   {
+   "test": "test_review1.PostExit.test_M09_post_exit_unexpected_exception_on_stop_path",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
    "test": "test_review1.PostExit.test_M09_receipt_mandatory_for_non_mock",
    "status": "PASS",
    "extra": ""
@@ -801,7 +866,32 @@
    "extra": ""
   },
   {
+   "test": "test_review1.PostExit.test_M09_synthetic_mock_default_is_false",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_telemetry_close_failure_fails_closed",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M09_unexpected_exception_types_still_write_terminal",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M12_rollback_failure_is_recorded",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
    "test": "test_review1.PostExit.test_M13_nonzero_exit_requires_nonce_framed_marker",
+   "status": "PASS",
+   "extra": ""
+  },
+  {
+   "test": "test_review1.PostExit.test_M13_terminate_continues_escalating_on_read_errors",
    "status": "PASS",
    "extra": ""
   },

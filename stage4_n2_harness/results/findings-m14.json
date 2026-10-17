@@ -1,14 +1,14 @@
 {
  "alloc_after_join_32MiB": {
-  "cg_anon_bytes": 33558528,
-  "cg_charged_peak_bytes": 33816576,
-  "cg_usage_bytes": 33816576,
-  "cg_working_set_bytes": 33816576,
-  "kmem_usage_bytes": 69632
+  "cg_anon_bytes": 34123776,
+  "cg_charged_peak_bytes": 34336768,
+  "cg_usage_bytes": 34336768,
+  "cg_working_set_bytes": 34336768,
+  "kmem_usage_bytes": 73728
  },
  "charges_before_join": {
   "attempt_peak_bytes": 0,
-  "rss_bytes": 32899072
+  "rss_bytes": 32841728
  },
  "fadvise_mincore_8MiB": {
   "after_dontneed": 0.0,
@@ -24,8 +24,8 @@
   "inactive_file_bytes": 33554432
  },
  "kmem_probe_30000_files": {
-  "delta_anon_plus_cache": 5681152,
-  "delta_kmem_usage": 40017920,
+  "delta_anon_plus_cache": 5828608,
+  "delta_kmem_usage": 40022016,
   "delta_usage": 45875200,
   "kmem_accounting_active": true,
   "kmem_included_in_usage": true
@@ -38,9 +38,9 @@
   "meaning": "capless reading 1.0 IS the can_do_mincore fallback; residency must be measured only by the controller; the fallback overstates, so it fails closed"
  },
  "resident_elsewhere_default_set": {
-  "fraction": 0.8185187251713111,
+  "fraction": 0.8205331994972809,
   "n_files": 191,
-  "resident_bytes": 17471707,
+  "resident_bytes": 17514707,
   "size": 21345519
  },
  "residual_after_exit_8MiB_written": {

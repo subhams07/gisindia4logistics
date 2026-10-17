@@ -219,6 +219,10 @@ class Ledger:
     def _create(self, kind, key, body):
         path = self._p(kind, key)
         try:
+            data = canonical(make_receipt(body))  # serialise BEFORE touching the filesystem
+        except (TypeError, ValueError, UnicodeError) as e:
+            raise LedgerStop("serialize_failed", "%s: %s" % (kind, e)) from e
+        try:
             self.plan.check("INJECTED_E_LEDGER_WRITE")
             fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC, 0o444)
         except FileExistsError:
@@ -227,18 +231,23 @@ class Ledger:
             self._block("create failed: %s" % e)
             raise LedgerStop("persist_failed", "%s create: %s" % (kind, e), injected=getattr(e, "label", None))
         try:
-            os.write(fd, canonical(make_receipt(body)))
+            os.write(fd, data)
             self.plan.check("INJECTED_E_FSYNC")
             os.fsync(fd)
-            os.close(fd)
-            fd = -1
+            closing, fd = fd, -1  # forget the number first: a failing close must not be retried in the finally
+            os.close(closing)
             _fsync_dir(os.path.dirname(path))
         except OSError as e:
-            if fd >= 0:
-                os.close(fd)
             self._block("persist failed: %s" % e)
-            raise LedgerStop("persist_failed", "%s fsync: %s" % (kind, e), injected=getattr(e, "label", None))
-        return sha256_file(path)
+            raise LedgerStop("persist_failed", "%s fsync: %s" % (kind, e), injected=getattr(e, "label", None)) from e
+        finally:
+            if fd >= 0:  # never leak the descriptor, whatever went wrong
+                os.close(fd)
+        try:
+            return sha256_file(path)
+        except OSError as e:
+            self._block("readback failed: %s" % e)
+            raise LedgerStop("persist_failed", "%s readback: %s" % (kind, e), injected=getattr(e, "label", None)) from e
 
     def create_attempt(self, approval_sha, slot, body):
         """Exclusive create BEFORE any cgroup/child exists. No PID allowed in an attempt record."""

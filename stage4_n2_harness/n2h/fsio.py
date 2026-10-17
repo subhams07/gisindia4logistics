@@ -41,6 +41,9 @@ class RealFs:
     def exists(self, path):
         return os.path.exists(path)
 
+    def stat(self, path):
+        return os.stat(path)
+
 
 class FaultFs:
     """Wraps another fs; raises InjectedFault when (op, path-suffix) is armed.
@@ -83,3 +86,7 @@ class FaultFs:
 
     def exists(self, path):
         return self.inner.exists(path)
+
+    def stat(self, path):
+        self._maybe("stat", path)
+        return self.inner.stat(path)

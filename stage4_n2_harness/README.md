@@ -7,11 +7,14 @@ Stdlib-only Linux containment/telemetry controller and synthetic self-tests impl
 (SHA-256 `26d285927cf26d8317fd32206ae57b757045950d81259e885f395f724831969f`) and operator rulings D-1–D-11
 recorded in [`docs/claude_remote_handoff.md`](../docs/claude_remote_handoff.md) section 0.
 
-- Status: step 4a round-1 version, accepted by independent Opus 5.5 (medium) re-review. **Known fail-open defect found in a later review (failed final counter read in `_finalize` can leave status `success`); do not use this snapshot for any run until it is replaced by the reviewed fixed version.**
-  Reviewer run: 161 run / 0 fail / 0 error / 0 skip; `ruff check .` clean; cleanup clean.
-- Harness hash: `5354abcf89b6bb029d4cd808e07924e5330185a0cad6e64c7ef766029553620c`; per-file hashes in `results/FILES.sha256`
+- Status: step 4a **accepted** after six review rounds; final independent Opus 5.5 (medium) re-check: ACCEPT.
+  Reviewer run: 179 run / 0 fail / 0 error / 0 skip; `ruff check .` clean; cleanup clean; key fixes verified by revert.
+  This replaces the earlier round-1 snapshot, which had a fail-open defect.
+- Harness hash: `eda94197db6cae464244d8bf844dc909ceef6d8d954a0d90240a00518138abec`; self-test receipt
+  `a0968f1b0e8b3cba53ca12c8babcbc05c36272b2557c1685032a79c6877bbf22`; per-file hashes in `results/FILES.sha256`
   (`results/*.json` files not listed there are run outputs).
 - Scope: M01–M04, M08–M16. M05–M07 (step 4b) need the deferred venv (D-9). `run` mode cannot dispatch a real producer.
+  The driver-only test hooks/knobs listed in `IMPLEMENTATION_REPORT.md` §12 must never be reachable from real dispatch.
 - Running the self-tests creates and removes real `n2-*` cgroups and tiny owned processes. Run only as root on the reviewed
   Linux host type, with no other N2 user and no concurrent workloads: `/usr/bin/python3.11 -I -B -u run_selftests.py`.
-- Details: `IMPLEMENTATION_REPORT.md` (sections 11–12: review fixes and 4b carry-forward), `MATRIX.md`.
+- Details: `IMPLEMENTATION_REPORT.md` (sections 11–17: review fixes; section 12: 4b carry-forward), `MATRIX.md`.

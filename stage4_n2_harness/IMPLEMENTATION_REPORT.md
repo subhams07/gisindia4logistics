@@ -41,35 +41,35 @@ re-executes the same stub as stage 1 (all checks again, capability sets all zero
 
 ## 2. Files and SHA-256
 
-Harness hash (as bound by the run gate; `n2h/*.py` plus `n2_harness.py`, `driver_entry.py`, `run_selftests.py`): `5354abcf89b6bb029d4cd808e07924e5330185a0cad6e64c7ef766029553620c`.
-Self-test report receipt (synthetic, `results/selftest_report.json`): `8b81e0f28bdeb6b971a007b35d69227edd9b0b559175b2da1c451bf353a7e41b`.
-Full list also in `results/FILES.sha256`. Line counts (before round 1): `n2h/` 4234, `tests/` 3840. Stub source 6961 bytes (limit 131072), workload source 5294 bytes.
+Harness hash (as bound by the run gate; `n2h/*.py` plus `n2_harness.py`, `driver_entry.py`, `run_selftests.py`): `eda94197db6cae464244d8bf844dc909ceef6d8d954a0d90240a00518138abec`.
+Self-test report receipt (synthetic, `results/selftest_report.json`): `a0968f1b0e8b3cba53ca12c8babcbc05c36272b2557c1685032a79c6877bbf22`.
+Full list (including this report, whose own hash cannot be listed here) in `results/FILES.sha256`; verify with `sha256sum -c results/FILES.sha256` from this directory. Line counts (before round 1): `n2h/` 4234, `tests/` 3840. Stub source 6961 bytes (limit 131072), workload source 5294 bytes.
 
 | File (relative to `n2_harness/`) | SHA-256 |
 |---|---|
-| `MATRIX.md` | `303ee71ac86084b3db3250a82f75bfe4cf9faba37b6b89c1241f2925763f6cff` |
+| `MATRIX.md` | `832bab76334c74ea8a641b3ed04a37dff6977ad9fb7b5ee80c50df2fb6ed1204` |
 | `driver_entry.py` | `e313638dbea00875238179a0fc4f2982c3b58e6dc22811258884874304b7c5a6` |
 | `n2_harness.py` | `c79c00861d52b1aea3c8611de2fc76f21a22cd9c0fdeb7ac32c3a26c7db81769` |
 | `n2h/__init__.py` | `d1ae8a435aaedd41aa5d154466d913fe2fcb407292a57148afb3013cc5a46ad8` |
 | `n2h/allowlist.py` | `880a1a72dca2f854c9845b35330b5ed00d4623cff10646f77ffcf2a8d962870c` |
-| `n2h/cg.py` | `56212be7260eb43a5e0c3eae34d0e790816ca5ba9e8df56351ba282e9f614ed3` |
+| `n2h/cg.py` | `ac9c13b972a1ee8f078a3b7df0268319b4bff1ab90cba6ceb31cfd3b80248000` |
 | `n2h/cli.py` | `1e114a42d0a47d224317987ba4fa6d15708fa19f1a6cfb68216a4120042f688a` |
-| `n2h/controller.py` | `e43c48c09c20a950cb428a15eafebda05059b6e458747bdbca6c0ce214e82dd6` |
-| `n2h/driver.py` | `eebd73c193898403c3b84575f31d3b0c67cdbcd113c1cf80f86643d584fbc598` |
+| `n2h/controller.py` | `5cf81e3ab54dc4734132a3d52db31c2e2d8e4819a8fa406d0b9795845165f1ca` |
+| `n2h/driver.py` | `363b8de855f32d2c9bf606e81ba6d70ca5fb1d23eb5776c37161c25b57ff0696` |
 | `n2h/errors.py` | `efb0fb87b278d72087380dc6d6c34b194a6ae2e1a0dbb41c0a66a9615ba1b3b2` |
-| `n2h/fsio.py` | `e72c487c2adcee4356e18f739d3e39cc1c886dc0d8a318fa05203e9f3c3c7136` |
+| `n2h/fsio.py` | `206152edeb938b3995ee084a0364dab4752529badcb308737ec8ad0baea21be8` |
 | `n2h/launch.py` | `7f480ca0ed48ea3fc1ba8d087fa435c91c70d5109bf8405837e70615a3acd21f` |
-| `n2h/ledger.py` | `b15db45bb465aa1d8db8ced0ff2bab2fb71cb780ed567006522cd3ba252048a4` |
+| `n2h/ledger.py` | `a6b0b322097d67c1841ac6a81230190e0b5fbb6c78b66b5d29e1680976fb0532` |
 | `n2h/manifest.py` | `b7755623483ba745d5d9da566beb200c290c4749ba4f81f43ef45c21f9165407` |
 | `n2h/native.py` | `820389997835cfce863bf9a8b6a6090ccda7388d21c4d7e7f5fd53dce6c8dead` |
-| `n2h/pidfd.py` | `1fd9ac120167ee67673181c748f933054ba51c25a7b2a01c1304430276f9b021` |
+| `n2h/pidfd.py` | `c088450266173b4f2dd628b03d741c0e447e222b528141f4bc66613af9bcb42e` |
 | `n2h/policy.py` | `f29c38e644f5734930c41ad649ea1e3df938dfb79d7d5986a1d757c3a39d1a38` |
 | `n2h/roots.py` | `3258864b174b17769242fd0a21542d39c1f369ded7a9ee5567f9428efedf421c` |
 | `n2h/slots.py` | `d2ee1999d7c909fe8a79ed236508835f3f5824ae2cee552d92b33f86df7e95c6` |
 | `n2h/stubsrc.py` | `18081711634d577df2576a4dd696ca56565d346b8ca171f6a7888fdf1a22874e` |
 | `n2h/sysfs.py` | `85bab85aef54f0ab9034a3f3b4eb46783d266cb451ddf7b85d2a2ef486fce2f3` |
-| `n2h/telemetry.py` | `443c6e6e9e4b42c148d6562bead54a7d6201ff19d49c89ac45cc86cd9a2003b8` |
-| `n2h/term.py` | `b1100a25efe9c820b0474d0c2da4cdeaf7c4b40b6cfeaf735c6235dcdb223a84` |
+| `n2h/telemetry.py` | `8eeaa6cf20e9d6080da93ca54d47e45dcfae6df9ccdad046646644fd22ce743f` |
+| `n2h/term.py` | `dccf1a25c93ede33763c9cfa0c6c207fb6666bf1b8181fff162ca46bde8c5452` |
 | `ruff.toml` | `a64697483723175aaa5d8fbcb76e45a77ad68cdf3213ba2d844acec7230ed54d` |
 | `run_selftests.py` | `ff258f0c16a8618cd80fc38775345709361f4b6037b3213d03cb35076092db01` |
 | `scripts/l13_observe.py` | `fb581d3b40e220e47610a37fc7c117e4f381f50142bc81d2e449b1b58940cf21` |
@@ -92,9 +92,8 @@ Full list also in `results/FILES.sha256`. Line counts (before round 1): `n2h/` 4
 | `tests/test_m12_lifecycle.py` | `560387c70c7bc2f7ec03eca174e0ef81abf02427810409846ca3e1e410e93353` |
 | `tests/test_m13_death.py` | `195773c0d8cc2435b4bd60fac1780fd8f91c37047df6a5493bdea6d43d6ef49a` |
 | `tests/test_m14_accounting.py` | `63e1cf2082e928c4a9b8673eadac818f9ff3d287379cea0c1769b3631d2342e5` |
-| `tests/test_m15_m16.py` | `956021978414a321cafda31a16044c0b4eb47a5faa331c592d606b9760d8588f` |
-| `IMPLEMENTATION_REPORT.md` | `0ac8a9c64e28ac5343ac8a0169e6cd99abe8a039a11f7899a4fbc074cebf2557` |
-| `tests/test_review1.py` | `81a9a10e7d022a7615d639f9d8997083b2b98d21a4154e2c5087ba9afd580795` |
+| `tests/test_m15_m16.py` | `c9eca2031333d332632f81b6677fa0a2afe4e83d3f28ad585c0687d10c041862` |
+| `tests/test_review1.py` | `100e61b26620b818b02d1208be705398f30413439a22362b7ec3046e2bf7220c` |
 | `tests/test_meta.py` | `7190515894c326773e8dd697fbc80f10959ec874301f7e7dc9fbbb41b5da43e9` |
 
 ## 3. Commands run and exit codes
@@ -104,7 +103,7 @@ All from `n2_harness/`. Interpreter flags as shown.
 | Command | Exit |
 |---|---|
 | `sha256sum docs/stage4_n2_linux_addendum.md` | 0, hash matches |
-| `python3.11 -I -B -u run_selftests.py --report-out results/selftest_report.json` (final run) | 0: ran 161, fail 0, error 0, skip 0, 99.4 s |
+| `python3.11 -I -B -u run_selftests.py --report-out results/selftest_report.json` (final run) | 0: ran 179, fail 0, error 0, skip 0, 125.2 s |
 | the same suite run three more times earlier in the work (after each large change) | 0 each, 147-151 tests |
 | `/root/.local/bin/ruff check .` | 0 ("All checks passed!") |
 | `python3.11 -I -B -u n2_harness.py selftest m04` | 0 |
@@ -120,7 +119,7 @@ Earlier ad-hoc read-only probes (cgroup mounts, caps, `/proc/cgroups`, `unshare`
 
 ## 4. Test results
 
-Final suite: **161 tests, 161 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (no skips, so no non-coverage hidden behind skip counts). Per-control test counts:
+Final suite: **179 tests, 179 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (no skips, so no non-coverage hidden behind skip counts). Per-control test counts:
 
 | Control group | Tests |
 |---|---|
@@ -287,3 +286,73 @@ Side effects of the fixes: the OOM/SIGKILL discrimination now reports `ns_init_k
 - `cli.run_after_gate` does not pass the prepare-recorded controller cgroup paths (`recorded_controller_paths`) to the attempt.
 - The injection knobs (`inject`, `faults`, `expected_patch`, `stub_actual`, `env_extra_actual`, `no_subreaper`, `fs_faults`) are reachable through `driver.run_spec`; real dispatch must build its config without them and assert they are absent.
 - `native.fadvise_dontneed_own` refuses repository inputs (it only touches our own scratch files, so it fails closed for real inputs); the cold-input method for real inputs needs a 4b design and a ruling on the host-global effect.
+- Also excluded from real dispatch (reachable only through `driver.run_spec`/test hooks): `hooks`, `sleep_before_monitor`, `fault_final_sample`, `close_gate_instead_of_release`, `wrong_gate_byte`, `swap_symlink_after_verify`, `rewrite_exec_*`, `precreate_after_attempt`. Real dispatch must build its attempt config without them, assert they are absent, and must not use `driver.run_spec`.
+- The elapsed cap (`per_slot_elapsed_cap_s`) is checked only during live sampling, so up to one sample interval of run time before exit goes unflagged; 4b should decide whether to evaluate elapsed at exit.
+- **Explicit driver-only exclusion list (round 6).** Real dispatch must build its attempt config without any of these keys or hooks, assert they are absent, and must not use `driver.run_spec`: `hooks` (all of: `at_cgroups_ready`, `at_S0`, `at_S1`, `before_release`, `after_release`, `after_attempt_record`, `after_verify`, `before_monitor`, `before_final_sample`, `before_finalize`); spec/config keys `pause_at`, `pause_s`, `sleep_before_monitor`, `fault_final_sample`, `telemetry_dev_full`, `finalize_boom`, `finalize_unserializable`, `marker_read_fault`, `post_exit_typeerror`, `record_signals`, `install_handlers`, `sigchld_ign`, `import_before_launch`, `buffered_stdout_probe`, `swap_symlink_after_verify`, `rewrite_exec_after_verify`, `rewrite_exec_at`, `precreate_after_attempt`, `close_gate_instead_of_release`, `wrong_gate_byte`, `stub_suffix`, `stub_actual`, `expected_patch`, `env_extra_actual`, `inject`, `faults`, `fs_faults`, `ledger_faults`, `no_subreaper`, `extra_allow_modules`, `plan`.
+
+## 13. Review round 2 follow-ups
+
+Suite after the follow-ups: **165 run, 165 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (101.3 s); `ruff check .` exit 0; cleanup clean. Harness hash `ceae8da64102e1517e728c26c81d90a2bd43285a3616cfd9c6b1e250aa9e546f`; self-test report receipt `8154b93836648e1ad603a60bfc5318c18eae021ac7f7b8ff9d333afd6235a493`. Files changed: `MATRIX.md`, `n2h/cg.py`, `n2h/controller.py`, `n2h/driver.py`, `n2h/fsio.py`, `n2h/pidfd.py`, `n2h/telemetry.py`, `tests/test_m15_m16.py`, `tests/test_review1.py` (`results/FILES.sha256` refreshed).
+
+| # | Finding | Change | Test(s) |
+|---|---|---|---|
+| N1 | post-exit tests were also caught by the live breach check | `_monitor` now checks liveness first, so a child that already exited skips the live breach path and goes to the final sample plus post-exit gates. A `before_monitor` pause (driver option `sleep_before_monitor`) lets the child exit before the first monitor sample. The tests assert `exit.terminated_by_controller` is false, `termination` is null, and the breach code comes from the post-exit evaluation | `test_M09_post_exit_failcnt_last_interval`, `test_M09_post_exit_conservative_peak_last_interval` (rewritten) |
+| N2 | final post-exit sample swallowed every error | errors are appended to `stops` as `final_sample_<code>` (injected label kept) and the run is classified `stopped`. The first attempt of the new test also showed a legitimate `sample_gap_exceeded` on the final sample, which is now reported instead of discarded | `test_M09_final_sample_failure_is_recorded_and_stops` (fault armed via `before_final_sample`) |
+| N3 | per-thread check judged by the leader's process-level stat; `break` skipped remaining threads | `pid_is_exiting(fs, pid, tid)` reads `/proc/<pid>/task/<tid>/stat` for a given tid; absorption now `continue`s | `test_M16_exiting_leader_does_not_absorb_live_thread` (leader PF_EXITING, two live non-leaders outside: STOP; absorbing the first still STOPs on the second); `test_M16_pf_exiting_absorbed_and_recorded` updated |
+| N4 | `synthetic_mock` defaulted to True | default is False at all three places in `controller.py` (the driver passes True explicitly); added to the 4b carry-forward | `test_M09_synthetic_mock_default_is_false` (missing key means a receipt is required; static check) |
+| N5 | `os.stat` after mkdir outside the rollback | `fs.stat` immediately after each mkdir inside the rollback scope; failure becomes `cgroup_stat_failed` and everything made is removed | `test_M12_stat_failure_rolls_back_created_dirs` |
+| N6 | loose OOM assertion | the OOM test now requires `oom_kill_detected` or `breach_oom_signal` in the stops. To make that true after a live failcnt STOP, final counters are evaluated after any STOP too (deduplicated by code) | `test_M15_oom_variant` |
+
+4b carry-forward addition: real dispatch must pass `synthetic_mock` explicitly (the default is now False, so a forgotten key means a real slot with the receipt requirement).
+
+## 14. Review round 3 follow-ups
+
+Suite: **167 run, 167 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (104.4 s); `ruff check .` exit 0; cleanup clean. Harness hash `c4e90ebaf236ca27179310008abcdffec5465a2e58a45e1fb2c1514fc6962dfa`; self-test report receipt `54c75a0bbbe0ee8111ebd70eb6b7cad467e7510673cf9672a64aeb1f13c354a6`. Section numbering note: sections 11 and 13 keep their own round values (161 / 5354abcf... and 165 / ceae8da6...); sections 2 to 4 above carry the current values.
+
+| # | Finding | Change | Test(s) |
+|---|---|---|---|
+| R1 | with liveness checked first, floors that persist after exit were no longer evaluated (reviewer demo: 300 MiB of output under `running_floor_disk_free_bytes` was reported success) | `_post_exit_gates` re-reads free disk and Bash-cgroup growth after exit and `evaluate_post_exit` checks `running_floor_disk_free_bytes` and `bash_cgroup_growth_max_bytes`; only genuinely live-only figures (available memory, headroom, elapsed) are skipped | `test_M09_post_exit_disk_floor_persists` (real cgroup, 160 MiB output, floor = free minus 100 MiB, child exits before the first monitor sample; asserts not terminated by the controller and `breach_floor_disk_free`; the file is removed by scratch cleanup) |
+| - | gated breach followed by nonzero exit gave status `fail` | `_classify` returns `stopped` whenever any breach gate (or a failed final sample) fired | `test_M09_breach_then_nonzero_exit_is_stopped` |
+| - | 4b exclusion list | extended in section 12 | (documentation) |
+| - | report history | sections 11 and 13 restored to their own round values | (documentation) |
+| - | stat-rollback test could leak real cgroups | wrapped in try/finally that removes any directory left | `test_M12_stat_failure_rolls_back_created_dirs` |
+| - | `final_counters_failed` recorded twice | single `_record_final_counters_failed` helper, once per attempt | (covered by the existing final-counter tests) |
+
+## 15. Review round 4 follow-ups
+
+Suite: **169 run, 169 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (106.7 s); `ruff check .` exit 0; cleanup clean. Harness hash `bc1a0f3fe1087d9f5278e8868dfd7972a6e96722dab4d31ed33831676a68d2e0`; self-test report receipt `a0acc26bf34e8d54fd02d8bb92b68d5c694a7ac2227e839e9aa4e07a4786bd25`.
+
+| # | Finding | Change | Test(s) |
+|---|---|---|---|
+| required | `_finalize` left status `success` when a final read failed (memsw, counters, markers); `memsw_check_action=stop` was silently skipped | every failed final read sets status `stopped`: final memory/memsw/counters (`final_counters_failed`), marker read (`final_marker_read_failed`, `_handle_markers_safely` now reports failure), log hashing (`log_hash_failed`). Scan of `_finalize`: the remaining excepts are informational (`memcg_counts`) or already STOP (`rmdir_failed`, terminal-write failure) | `test_M09_failed_final_reads_fail_closed` (injected fault on `memory.memsw.max_usage_in_bytes`; marker read broken by pointing it at a directory; both: status stopped, durable terminal receipt, cgroups removed) |
+| non-blocking | `evaluate_post_exit` outside a try inside the `except N2Stop` handler could escape `run()` before `_finalize` | `_post_exit_gates` never raises: any parse/read error is recorded once as `final_counters_failed` and treated as a fired gate | `test_M09_malformed_counter_does_not_escape_gates` (malformed `pids.events`) |
+| non-blocking | stale `evaluate_post_exit` docstring | updated: persistent floors are evaluated from fresh reads, live-only figures are not | (documentation) |
+| record only | elapsed cap checked only during live sampling | noted in section 12 for 4b | (documentation) |
+
+## 16. Review round 5 follow-ups (final 4a audit)
+
+Suite: **175 run, 175 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (112.8 s); `ruff check .` exit 0; cleanup clean. Harness hash `ca21f4ed328326b3a2a2784ca19661a5efe2076c761ec492dcdf4a766c95b7ee`; self-test report receipt `39baa3dc2c9bc105cda15300adf3b56ac88ce05658fbc44fd379a144aa5a3ff3`.
+
+| # | Finding | Change | Test(s) |
+|---|---|---|---|
+| R4-1 (required) | unguarded `tele.close()` could escape `_finalize` (ENOSPC on buffered telemetry) and leave no terminal receipt | `telemetry_close_failed` is recorded, status `stopped`, `_finalize` continues to the terminal receipt | `test_M09_telemetry_close_failure_fails_closed` (telemetry pointed at `/dev/full` from the `before_final_sample` hook; durable terminal receipt, status stopped, cgroups removed) |
+| N1 | read error in `terminate()` wait loops skipped escalation | `_empty` treats a read/parse error as "not empty", records it once in `read_errors`, and the SIGKILL / `cgroup.kill` escalation continues | `test_M13_terminate_continues_escalating_on_read_errors` (read fault on `pids.current`) |
+| N2 | `_create` opened O_EXCL before serialising (empty 0444 record, leaked fd on TypeError) | serialise first (`serialize_failed`, nothing created); the descriptor is closed in a `finally`; the controller retries once with a minimal body | `test_M02_serialize_failure_leaves_no_file_and_no_fd`; fallback covered by `test_M09_unexpected_exception_types_still_write_terminal` |
+| N3 | failed rollback rmdir swallowed | carried in the CgroupStop detail (`rollback_failed: ...`) and `layout.rollback_errors` | `test_M12_rollback_failure_is_recorded` |
+| N4 | structural guarantee | `_emergency_cleanup` and each `_finalize` step catch broad exceptions, record `finalize_*_exception`/`cleanup_exception`, and set status stopped; body building has a minimal fallback; invariant `stops and status == success -> stopped` before the terminal write; `memcg_counts` guarded for ValueError/IndexError; the misleading "never raises" comment corrected | `test_M09_unexpected_exception_types_still_write_terminal` (TypeError in the final reads, and an unserialisable body: terminal receipt present, status stopped, cgroups removed) |
+| N5 | final marker poll discarded new error events | kept as `child_reported_*` stops (status stopped) | `test_M09_late_marker_error_events_are_kept` |
+
+The `before_finalize` hook now runs before `_finalize` binds its locals so that it can replace `self.fs`. The hooks and driver options added here (`telemetry_dev_full`, `finalize_boom`, `finalize_unserializable`) are driver-only and belong on the 4b exclusion list in section 12.
+
+## 17. Review round 6 follow-ups
+
+Suite: **179 run, 179 PASS, 0 FAIL, 0 ERROR, 0 SKIP** (125.2 s); `ruff check .` exit 0; cleanup clean. Harness hash `eda94197db6cae464244d8bf844dc909ceef6d8d954a0d90240a00518138abec`; self-test report receipt `a0968f1b0e8b3cba53ca12c8babcbc05c36272b2557c1685032a79c6877bbf22`.
+
+| # | Finding | Change | Test(s) |
+|---|---|---|---|
+| RC-1 (required) | `_post_exit_gates` called inside the `except N2Stop` handler could raise TypeError/AttributeError/IndexError past `_finalize` (no terminal receipt, leaked cgroups) | `_post_exit_gates` is a thin wrapper that catches `Exception`, records `final_counters_failed` once and returns "gate fired"; the work moved to `_post_exit_gates_inner` | `test_M09_post_exit_unexpected_exception_on_stop_path` (TypeError injected into `evaluate_post_exit` while an elapsed-cap STOP is handled: terminal receipt, status stopped, cgroups removed) |
+| RC-2 (required, docs) | explicit 4b exclusion list | section 12 now names every driver-only knob and hook | (documentation) |
+| NB-1 | double close after a failing `os.close`; unguarded post-write hash | the descriptor number is cleared before closing; the post-write `sha256_file` becomes `LedgerStop persist_failed` | `test_M02_close_failure_does_not_escape_as_ebadf` |
+| NB-2 | narrow excepts left in `_finalize` | `before_finalize` hook, `tele.close()`, log hashing and `memcg_counts` now catch `Exception`, each recording its stop (informational `memcg_counts` just yields `None`) | covered by the finalize tests of rounds 4-6 |
+| NB-3 | fallback stop recorded only in the copied list | the serialize failure and fallback marker go into `self.stops` (and the body); a failing retry is also kept | `test_M09_fallback_stop_lands_in_self_stops` |
+| NB-4 | `marker_read_fault` and `finalize_*` overwrote each other's `before_finalize` hook | hooks are collected and composed | `test_M09_finalize_hooks_compose` |

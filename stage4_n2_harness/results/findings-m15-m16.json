@@ -18,7 +18,7 @@
    "failcnt": 1,
    "inactive_file_bytes": 40898560,
    "kmem_max_usage_bytes": 1347584,
-   "kmem_usage_bytes": 1277952,
+   "kmem_usage_bytes": 1282048,
    "limit_bytes": 50331648,
    "mapped_file_bytes": 0,
    "oom_kill": 0,
@@ -41,12 +41,12 @@
    "cache_bytes": 4096,
    "cg_anon_bytes": 0,
    "cg_charged_peak_bytes": 50331648,
-   "cg_usage_bytes": 319488,
-   "cg_working_set_bytes": 319488,
+   "cg_usage_bytes": 311296,
+   "cg_working_set_bytes": 307200,
    "dirty_bytes": 4096,
-   "failcnt": 88,
-   "inactive_file_bytes": 0,
-   "kmem_max_usage_bytes": 417792,
+   "failcnt": 107,
+   "inactive_file_bytes": 4096,
+   "kmem_max_usage_bytes": 372736,
    "kmem_usage_bytes": 253952,
    "limit_bytes": 50331648,
    "mapped_file_bytes": 0,
@@ -55,13 +55,18 @@
    "writeback_bytes": 0
   },
   "last_progress_marker": [
-   "N2M bf42fbe173e9a529 597760281273 alloc_progress mib=40"
+   "N2M 33cb30d630239475 479901413744 alloc_progress mib=40"
   ],
   "limit_mib": 48,
   "stops": [
    {
     "code": "breach_failcnt_nonzero",
-    "detail": "86",
+    "detail": "8",
+    "injected": null
+   },
+   {
+    "code": "breach_oom_signal",
+    "detail": "{'oom_kill': 1, 'under_oom': 0}",
     "injected": null
    }
   ],
@@ -73,7 +78,7 @@
    {
     "emptied": true,
     "step": "graceful_wait",
-    "t_ms": 94.7
+    "t_ms": 269.2
    }
   ]
  }

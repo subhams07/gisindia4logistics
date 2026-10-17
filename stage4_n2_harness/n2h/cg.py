@@ -84,6 +84,7 @@ def assert_no_existing(fs, cg_root=CG_ROOT):
 def create_all(layout, fs):
     """Exclusive mkdir. On any failure, remove only what THIS call created (empty), then STOP."""
     made = []
+    st_ids = {}
     layout.created = {}
     try:
         for h in layout.join_order:
@@ -95,17 +96,22 @@ def create_all(layout, fs):
             except OSError as e:
                 raise CgroupStop("cgroup_mkdir_failed", "%s: %s" % (p, e), injected=getattr(e, "label", None))
             made.append(p)
-        st_ids = {}
-        for p in made:
-            st = os.stat(p)
+            try:
+                st = fs.stat(p)  # immediately after mkdir, inside the rollback scope
+            except OSError as e:
+                raise CgroupStop("cgroup_stat_failed", "%s: %s" % (p, e), injected=getattr(e, "label", None)) from e
             st_ids[p] = (st.st_dev, st.st_ino)
         layout.created = st_ids
-    except CgroupStop:
+    except CgroupStop as err:
+        failed = []
         for p in reversed(made):
             try:
                 fs.rmdir(p)
-            except OSError:
-                pass
+            except OSError as e:
+                failed.append("%s: %s" % (p, e))
+        if failed:  # a failed rollback is evidence, not noise: carried in the STOP detail
+            layout.rollback_errors = failed
+            raise CgroupStop(err.code, err.detail + "; rollback_failed: " + "; ".join(failed), injected=err.injected) from err
         raise
     return made
 
