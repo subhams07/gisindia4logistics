@@ -1,0 +1,1632 @@
+{
+  "artifact_sha256": {
+    "district_freight_modal_split.csv": "73cf17aae86dbda6a6a22bb16c39c42be0f160f57bcf96358ec8ff6ce061ff7c",
+    "district_port_hinterland_catchment.csv": "3e22c019d625dacddccffcf4095a6a0852464fd6ce4b16f44eff74e3f7c953b6",
+    "major_ports_isochrones.geojson": "02f0994540498b4c9654f14cc8c1ef2d57c3d6285d517042861515b18793d93e",
+    "mmlp_isochrones.geojson": "a5c150afcfb93b44b88f590049730ede377222130f4563e58a9baee53200544d",
+    "nh_district_port_matrix.csv": "a3ef880bc155ee03d95dfd7756942a3b52e99ffc58e6f3b7e2a85fb3f94ce47a",
+    "nh_district_travel_time_summary.csv": "5baad8c5039792aba3b79519d932d57290e44d883e68dac52f6661c376c19e86",
+    "nh_district_travel_time_summary.parquet": "cd0fb6e2b0bfe058e0eba87a3fd7348bf276b463df4f22a88adfd5837de5b5a6"
+  },
+  "column_classification": {
+    "district_freight_modal_split.csv": [
+      [
+        "state",
+        "identity"
+      ],
+      [
+        "district",
+        "identity"
+      ],
+      [
+        "district_code",
+        "identity"
+      ],
+      [
+        "pop_2011",
+        "population"
+      ],
+      [
+        "is_island",
+        "flag"
+      ],
+      [
+        "target_port",
+        "population_independent"
+      ],
+      [
+        "road_distance_km",
+        "population_independent"
+      ],
+      [
+        "road_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "road_cost_per_ton_inr",
+        "population_independent"
+      ],
+      [
+        "rail_cost_per_ton_inr",
+        "population_independent"
+      ],
+      [
+        "dfc_cost_per_ton_inr",
+        "population_independent"
+      ],
+      [
+        "optimal_mode",
+        "population_independent"
+      ],
+      [
+        "modal_shift_savings_inr",
+        "population_independent"
+      ],
+      [
+        "modal_shift_savings_pct",
+        "population_independent"
+      ],
+      [
+        "break_even_distance_km",
+        "population_independent"
+      ]
+    ],
+    "district_port_hinterland_catchment.csv": [
+      [
+        "state",
+        "identity"
+      ],
+      [
+        "district",
+        "identity"
+      ],
+      [
+        "district_code",
+        "identity"
+      ],
+      [
+        "pop_2011",
+        "population"
+      ],
+      [
+        "is_island",
+        "flag"
+      ],
+      [
+        "primary_port",
+        "population_independent"
+      ],
+      [
+        "primary_port_probability",
+        "population_independent"
+      ],
+      [
+        "primary_port_drive_hours",
+        "population_independent"
+      ],
+      [
+        "secondary_port",
+        "population_independent"
+      ],
+      [
+        "secondary_port_probability",
+        "population_independent"
+      ],
+      [
+        "secondary_port_drive_hours",
+        "population_independent"
+      ],
+      [
+        "hinterland_category",
+        "population_independent"
+      ],
+      [
+        "contestability_index",
+        "population_independent"
+      ]
+    ],
+    "major_ports_isochrones.geojson": "population_independent",
+    "mmlp_isochrones.geojson": "population_independent",
+    "nh_district_port_matrix.csv": [
+      [
+        "state",
+        "identity"
+      ],
+      [
+        "district",
+        "identity"
+      ],
+      [
+        "district_code",
+        "identity"
+      ],
+      [
+        "drive_hours_to_deendayal_(kandla)",
+        "population_independent"
+      ],
+      [
+        "road_km_to_deendayal_(kandla)",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_mumbai",
+        "population_independent"
+      ],
+      [
+        "road_km_to_mumbai",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)",
+        "population_independent"
+      ],
+      [
+        "road_km_to_jawaharlal_nehru_(jnpt/navi_mumbai)",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_mormugao",
+        "population_independent"
+      ],
+      [
+        "road_km_to_mormugao",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_new_mangalore",
+        "population_independent"
+      ],
+      [
+        "road_km_to_new_mangalore",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_cochin",
+        "population_independent"
+      ],
+      [
+        "road_km_to_cochin",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_v.o._chidambaranar_(tuticorin)",
+        "population_independent"
+      ],
+      [
+        "road_km_to_v.o._chidambaranar_(tuticorin)",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_chennai",
+        "population_independent"
+      ],
+      [
+        "road_km_to_chennai",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_kamarajar_(ennore)",
+        "population_independent"
+      ],
+      [
+        "road_km_to_kamarajar_(ennore)",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_visakhapatnam",
+        "population_independent"
+      ],
+      [
+        "road_km_to_visakhapatnam",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_paradip",
+        "population_independent"
+      ],
+      [
+        "road_km_to_paradip",
+        "population_independent"
+      ],
+      [
+        "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex",
+        "population_independent"
+      ],
+      [
+        "road_km_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex",
+        "population_independent"
+      ]
+    ],
+    "nh_district_travel_time_summary.csv": [
+      [
+        "state",
+        "identity"
+      ],
+      [
+        "district",
+        "identity"
+      ],
+      [
+        "district_code",
+        "identity"
+      ],
+      [
+        "pop_2011",
+        "population"
+      ],
+      [
+        "is_island",
+        "flag"
+      ],
+      [
+        "highway_access_dist_km",
+        "population_independent"
+      ],
+      [
+        "highway_access_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_rail_station_name",
+        "population_independent"
+      ],
+      [
+        "rail_station_straight_km",
+        "population_independent"
+      ],
+      [
+        "rail_station_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "rail_station_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "rail_station_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_freight_terminal_name",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_straight_km",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_port_name",
+        "population_independent"
+      ],
+      [
+        "port_straight_km",
+        "population_independent"
+      ],
+      [
+        "port_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "port_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "port_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_icd_name",
+        "population_independent"
+      ],
+      [
+        "icd_straight_km",
+        "population_independent"
+      ],
+      [
+        "icd_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "icd_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "icd_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_mmlp_name",
+        "population_independent"
+      ],
+      [
+        "mmlp_straight_km",
+        "population_independent"
+      ],
+      [
+        "mmlp_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "mmlp_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "mmlp_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_air_cargo_name",
+        "population_independent"
+      ],
+      [
+        "air_cargo_straight_km",
+        "population_independent"
+      ],
+      [
+        "air_cargo_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "air_cargo_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "air_cargo_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_icp_name",
+        "population_independent"
+      ],
+      [
+        "icp_straight_km",
+        "population_independent"
+      ],
+      [
+        "icp_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "icp_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "icp_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_toll_plaza_name",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_straight_km",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_expressway_name",
+        "population_independent"
+      ],
+      [
+        "expressway_straight_km",
+        "population_independent"
+      ],
+      [
+        "expressway_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "expressway_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "expressway_drive_time_min",
+        "population_independent"
+      ]
+    ],
+    "nh_district_travel_time_summary.parquet": [
+      [
+        "state",
+        "identity"
+      ],
+      [
+        "district",
+        "identity"
+      ],
+      [
+        "district_code",
+        "identity"
+      ],
+      [
+        "pop_2011",
+        "population"
+      ],
+      [
+        "is_island",
+        "flag"
+      ],
+      [
+        "highway_access_dist_km",
+        "population_independent"
+      ],
+      [
+        "highway_access_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_rail_station_name",
+        "population_independent"
+      ],
+      [
+        "rail_station_straight_km",
+        "population_independent"
+      ],
+      [
+        "rail_station_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "rail_station_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "rail_station_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_freight_terminal_name",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_straight_km",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "freight_terminal_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_port_name",
+        "population_independent"
+      ],
+      [
+        "port_straight_km",
+        "population_independent"
+      ],
+      [
+        "port_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "port_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "port_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_icd_name",
+        "population_independent"
+      ],
+      [
+        "icd_straight_km",
+        "population_independent"
+      ],
+      [
+        "icd_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "icd_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "icd_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_mmlp_name",
+        "population_independent"
+      ],
+      [
+        "mmlp_straight_km",
+        "population_independent"
+      ],
+      [
+        "mmlp_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "mmlp_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "mmlp_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_air_cargo_name",
+        "population_independent"
+      ],
+      [
+        "air_cargo_straight_km",
+        "population_independent"
+      ],
+      [
+        "air_cargo_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "air_cargo_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "air_cargo_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_icp_name",
+        "population_independent"
+      ],
+      [
+        "icp_straight_km",
+        "population_independent"
+      ],
+      [
+        "icp_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "icp_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "icp_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_toll_plaza_name",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_straight_km",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "toll_plaza_drive_time_min",
+        "population_independent"
+      ],
+      [
+        "nearest_expressway_name",
+        "population_independent"
+      ],
+      [
+        "expressway_straight_km",
+        "population_independent"
+      ],
+      [
+        "expressway_road_distance_km",
+        "population_independent"
+      ],
+      [
+        "expressway_drive_time_hours",
+        "population_independent"
+      ],
+      [
+        "expressway_drive_time_min",
+        "population_independent"
+      ]
+    ]
+  },
+  "isochrone_coverage": {
+    "entries": [
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Deendayal Port (Kandla)",
+        "hub_order": 0,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          2721,
+          12890,
+          20934,
+          131454
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 3.0690220939290334,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ],
+        "hub_name": "Mumbai Port",
+        "hub_order": 1,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 20,
+        "snap_feeder_km": 11.266950402853563,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ],
+        "hub_name": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+        "hub_order": 2,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 3,
+        "snap_feeder_km": 1.0886729263920794,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Mormugao Port",
+        "hub_order": 3,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          2471,
+          13511,
+          39220,
+          118867
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 2.9513979163416626,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "New Mangalore Port",
+        "hub_order": 4,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          5138,
+          17090,
+          45743,
+          111806
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.39391450328420874,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Cochin Port",
+        "hub_order": 5,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          5346,
+          12987,
+          25125,
+          87474
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 1.6236653178744758,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "V.O. Chidambaranar Port (Tuticorin)",
+        "hub_order": 6,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          2248,
+          9632,
+          16201,
+          74289
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 4.879722635699565,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ],
+        "hub_name": "Chennai Port",
+        "hub_order": 7,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 5,
+        "snap_feeder_km": 2.7662592163257864,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Kamarajar Port (Ennore)",
+        "hub_order": 8,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          3239,
+          17314,
+          41444,
+          114907
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 15.924445886894068,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ],
+        "hub_name": "Visakhapatnam Port",
+        "hub_order": 9,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 3,
+        "snap_feeder_km": 6.337490570930402,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Paradip Port",
+        "hub_order": 10,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          1736,
+          12381,
+          24565,
+          132131
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 3.8813626980017464,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex",
+        "hub_order": 11,
+        "hub_type": "major_port",
+        "ok_threshold_count": 4,
+        "reachable_node_counts": [
+          4549,
+          16341,
+          38587,
+          142050
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.16110345387560812,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0,
+          24.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Jalna",
+        "hub_order": 0,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          12321,
+          41823,
+          66609
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.9185966855429091,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Chennai (Mappedu)",
+        "hub_order": 1,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          174,
+          174,
+          174
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 174,
+        "snap_feeder_km": 1.4855813688114081,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Bengaluru (Muddalinganahalli)",
+        "hub_order": 2,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          11468,
+          37083,
+          63539
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.7265378940195157,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Indore",
+        "hub_order": 3,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          1765,
+          6982,
+          26766
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 3.6136623930371155,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Nagpur (Sindi)",
+        "hub_order": 4,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          9472,
+          31627,
+          70527
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 6.825585515448959,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Jogighopa",
+        "hub_order": 5,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          4896,
+          16712,
+          40348
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.03512642971931172,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Varanasi",
+        "hub_order": 6,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          6856,
+          24405,
+          59598
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.5877478358130748,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Nashik",
+        "hub_order": 7,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          52,
+          52,
+          52
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 52,
+        "snap_feeder_km": 0.6903113257751021,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Patna",
+        "hub_order": 8,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          5498,
+          25734,
+          55500
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.6593381641425643,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Anantapur",
+        "hub_order": 9,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          4,
+          4,
+          4
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 4,
+        "snap_feeder_km": 0.454165027130339,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Hyderabad",
+        "hub_order": 10,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          7614,
+          34294,
+          75133
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.48703180049480116,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Pune",
+        "hub_order": 11,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          13714,
+          33425,
+          61648
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.15218649877834245,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Visakhapatnam",
+        "hub_order": 12,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          3,
+          3,
+          3
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 3,
+        "snap_feeder_km": 6.337490570930402,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Silchar",
+        "hub_order": 13,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          5349,
+          16446,
+          25308
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.5703717739772669,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Vijayawada",
+        "hub_order": 14,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          4918,
+          15816,
+          44637
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 1.0920466678028322,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Surat",
+        "hub_order": 15,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          224,
+          224,
+          224
+        ],
+        "saturated_across_ok_thresholds": true,
+        "snap_component_node_count": 224,
+        "snap_feeder_km": 0.7846174099788149,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Kolkata",
+        "hub_order": 16,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          4310,
+          15927,
+          37977
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 3.805298879896958,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Coimbatore",
+        "hub_order": 17,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          8960,
+          19614,
+          37894
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 0.26412354561306284,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "hub_name": "MMLP Jammu",
+        "hub_order": 18,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 0,
+        "reachable_node_counts": [
+          2,
+          2,
+          2
+        ],
+        "saturated_across_ok_thresholds": null,
+        "snap_component_node_count": 2,
+        "snap_feeder_km": 0.555395980184724,
+        "statuses": [
+          "unsupported_threshold",
+          "unsupported_threshold",
+          "unsupported_threshold"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      },
+      {
+        "component_bounded_thresholds": [],
+        "hub_name": "MMLP Sangrur",
+        "hub_order": 19,
+        "hub_type": "mmlp",
+        "ok_threshold_count": 3,
+        "reachable_node_counts": [
+          13946,
+          34582,
+          59312
+        ],
+        "saturated_across_ok_thresholds": false,
+        "snap_component_node_count": 289458,
+        "snap_feeder_km": 1.903958316724439,
+        "statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "thresholds_hours": [
+          4.0,
+          8.0,
+          12.0
+        ]
+      }
+    ],
+    "snap_rule": "nearest physical NH vertex within 150 km, node-ID ties; catchment limited to that vertex's connected component"
+  },
+  "limitations": [
+    "No navigation or door-to-door claim.",
+    "No official tariff.",
+    "No rail routing.",
+    "No claim of national or district population accuracy; conservation of totals is not accuracy.",
+    "No cause is asserted for source conditions and no official identifier is corrected.",
+    "Recomputation does not upgrade source vintage, copyright or licensing claims.",
+    "Isochrones are approximate coverage.",
+    "The graph oracle is a bounded sample.",
+    "Live default gravity parameters 0.85/1.65 differ from batch parameters 1.2/1.5.",
+    "Isochrone catchments are limited to the road-graph component of the snapped vertex; component-bounded hubs are listed in isochrone_coverage."
+  ],
+  "oracle_independence": {
+    "iso_valid_hubs_per_type": 2,
+    "producer_independent": true,
+    "sample_rows_max": 12,
+    "shared_components": [
+      "highway_pair_kernel",
+      "graph_builder",
+      "freight_cost_core",
+      "producer_io.district_population (W0 policy)",
+      "port_hinterland_model.build_port_hinterland (stored-output consistency, not independent model validation)"
+    ]
+  },
+  "resource_measurement_method": "resource.ru_maxrss_kib_times_1024",
+  "run_id": "linux-2026-10-18-run1",
+  "schema_version": 2,
+  "source_identity_disclosures": [
+    {
+      "code": 598,
+      "kind": "cross_state_shared_code",
+      "note": "Upstream source condition: one district code under more than one state; rows and codes are preserved literally; cause not determined.",
+      "rows": [
+        {
+          "district": "Alappuzha",
+          "district_code": 598,
+          "pop_2011": 2103830,
+          "population_method": "census2011",
+          "source_row": 325,
+          "state": "Kerala"
+        },
+        {
+          "district": "DHULE",
+          "district_code": 598,
+          "pop_2011": 2039162,
+          "population_method": "census2011",
+          "source_row": 407,
+          "state": "Maharashtra"
+        }
+      ]
+    },
+    {
+      "district": "DHULE",
+      "kind": "same_state_label_multiple_codes",
+      "note": "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; Kerala/Alappuzha/598 is a separate cross-state code condition; cause not determined.",
+      "overlaps": [
+        {
+          "fraction_of_first": 0.9998481087,
+          "fraction_of_second": 0.9998987538,
+          "source_rows": [
+            406,
+            407
+          ]
+        }
+      ],
+      "rows": [
+        {
+          "district": "DHULE",
+          "district_code": 498,
+          "pop_2011": 2039308,
+          "population_method": "census2011",
+          "source_row": 406,
+          "state": "Maharashtra"
+        },
+        {
+          "district": "DHULE",
+          "district_code": 598,
+          "pop_2011": 2039162,
+          "population_method": "census2011",
+          "source_row": 407,
+          "state": "Maharashtra"
+        }
+      ],
+      "state": "Maharashtra"
+    }
+  ]
+}
