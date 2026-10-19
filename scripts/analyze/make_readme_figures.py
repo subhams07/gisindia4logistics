@@ -14,16 +14,26 @@ Colour: one sequential blue ramp with 5 fixed, human-readable classes
 (not quantiles). Island districts / districts without a value get a neutral
 grey with its own legend entry. Every map carries the boundary disclaimer.
 
-Joins
------
-* Travel-time table: joined on ``district_code`` (normalised float -> Int64)
-  together with ``state``, because the LGD code 598 is carried by two districts
-  (Alappuzha, Dhule) and three polygons (Nazul, Mirpur, Muzaffarabad) have no
-  code at all. Those three fall back to an exact (state, district) name match.
-* Access-summary table: has NO district code column (only state + district
-  names, and some names carry legacy-font mojibake or older spellings), so it
-  is joined by normalised, state-scoped name: exact first, then a one-to-one
-  fuzzy pass. Every fuzzy pairing and every unmatched polygon is printed.
+Joins (all on LGD ``district_code``, scoped by state)
+------------------------------------------------------
+* Rail map: the value is recomputed from the per-state village files
+  ``data/analysis/<state_slug>_village_access.csv`` (median of
+  ``dist_rail_station_km`` over all villages of the district), because the
+  district summary has no code column. The village files use an older SoI code
+  scheme (new districts carry different codes and some codes collide with another
+  district), so a pure district_code join would paint wrong districts; rows are
+  therefore grouped by state + district name and assigned to polygons, with the
+  code only breaking ties. The script prints a diagnostic of what a pure code
+  join would have done.
+* ICD map: ``nh_district_travel_time_summary.csv`` joined on (state,
+  district_code); island districts have no road route.
+* Polygons with a null code (Nazul, Mirpur, Muzaffarabad) fall back to an exact
+  normalised (state, district) name match. LGD code 598 is carried by two
+  districts in different states, hence the state scoping. Nothing is guessed:
+  unmatched polygons are drawn grey and reported.
+* No-data polygons are drawn first, valued polygons on top, so a no-data
+  polygon can never hide a valued one (the layer has two overlapping
+  Maharashtra "DHULE" polygons).
 
 Usage: python scripts/analyze/make_readme_figures.py [--out-dir docs/img]
 """
@@ -50,8 +60,11 @@ DATA_DIR = REPO_ROOT / "data"
 DEFAULT_OUT = REPO_ROOT / "docs" / "img"
 
 PROJ_EPSG = 7755
-FOOTER = ("Source: GISIndia4Logistics v1.1.0 committed data. Boundaries indicative "
-          "(Survey of India ABDB), not authoritative depictions.")
+FOOTER_LINES = (
+    "Source: GISIndia4Logistics v1.1.0 committed data. Boundaries indicative "
+    "(Survey of India ABDB), not authoritative depictions.",
+    "Map data \u00a9 OpenStreetMap contributors (ODbL).",
+)
 
 # Sequential single-hue blue ramp, 5 classes, index 0 = smallest values.
 # Light mode: light -> dark = small -> large (more = darker blue).
@@ -60,11 +73,11 @@ FOOTER = ("Source: GISIndia4Logistics v1.1.0 committed data. Boundaries indicati
 # dark-mode steps run from the deepest blue (small) to the palest (large).
 RAMPS = {
     "light": ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"],
-    "dark": ["#184f95", "#256abf", "#3987e5", "#6da7ec", "#b7d3f6"],
+    "dark": ["#184f95", "#2a78d6", "#5598e7", "#86b6ef", "#cde2fb"],
 }
 THEMES = {
     "light": dict(surface="#fcfcfb", text="#0b0b0b", muted="#52514e", nodata="#d9d8d4"),
-    "dark": dict(surface="#1a1a19", text="#f0efec", muted="#c3c2b7", nodata="#4a4a46"),
+    "dark": dict(surface="#1a1a19", text="#f0efec", muted="#c3c2b7", nodata="#6b6a65"),
 }
 
 # Fixed class breaks (lower-inclusive: 5 falls in "5-10", 40 in ">=40").
@@ -80,8 +93,8 @@ MAPS = {
     ),
     "icd_drive": dict(
         stem="readme_icd_drive",
-        title="Drive time to the nearest inland container depot",
-        subtitle="Estimated drive time along the National Highway network from each district to its nearest ICD",
+        title="Drive time to the nearest ICD / CFS",
+        subtitle="Estimated National Highway drive time from each district to its nearest inland container depot or CFS",
         legend_title="Drive time, hours",
         bins=[2, 4, 6, 8],
         labels=["<2", "2–4", "4–6", "6–8", "≥8"],
@@ -103,29 +116,39 @@ def norm_code(s: pd.Series) -> pd.Series:
     return num.astype("Int64")
 
 
-# Verified same-district spellings that differ too much for fuzzy matching.
-SPELLING_ALIASES = {"TWENTY-FOUR": "24", "TWENTY FOUR": "24", "HOWRAH": "HAORA"}
+def norm_name(name: str) -> str:
+    """Upper-case alphanumerics only, accents stripped (for exact name fallback)."""
+    s = unicodedata.normalize("NFKD", str(name))
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    return re.sub(r"[^A-Z0-9]", "", s.upper())
+
+
+def state_slug(name: str) -> str:
+    """'Dadra and Nagar Haveli and Daman and Diu' -> 'dadra_and_nagar_haveli_and_daman_and_diu'."""
+    return re.sub(r"[^a-z0-9]+", "_", str(name).strip().lower()).strip("_")
 
 
 def name_variants(name: str) -> list[str]:
-    """Normalised spelling variants: full, without parenthetical, parenthetical only."""
+    """Ordered normalised spellings: full, without parenthetical, parenthetical content.
+
+    Legacy-font mojibake in the source names (``>``=A, ``@``=I, ``\\``=I) is repaired first.
+    """
     s = unicodedata.normalize("NFKD", str(name))
     s = "".join(c for c in s if not unicodedata.combining(c))
-    s = s.upper().replace(">", "A").replace("@", "I").replace("\\", "I")  # legacy-font mojibake
-    for old, new in SPELLING_ALIASES.items():
-        s = s.replace(old, new)
-    variants = {s}
-    variants.add(re.sub(r"\([^)]*\)", " ", s))
-    variants.update(re.findall(r"\(([^)]*)\)", s))
-    out = []
-    for v in variants:
+    s = s.upper().replace(">", "A").replace("@", "I").replace("\\", "I")
+    s = s.replace("TWENTY-FOUR", "24").replace("TWENTY FOUR", "24")
+    s = s.replace("HOWRAH", "HAORA")  # same district, two official spellings
+    cands = [s, re.sub(r"\([^)]*\)", " ", s)] + re.findall(r"\(([^)]*)\)", s)
+    out: list[str] = []
+    for v in cands:
         v = re.sub(r"[^A-Z0-9]", "", v)
-        if v:
+        if v and v not in out:
             out.append(v)
     return out
 
 
 def name_score(a: str, b: str) -> float:
+    """1.0 for an identical normalised spelling, else fuzzy ratio (substring of >=6 chars counts 0.9)."""
     best = 0.0
     for x in name_variants(a):
         for y in name_variants(b):
@@ -138,56 +161,14 @@ def name_score(a: str, b: str) -> float:
     return best
 
 
-def join_by_state_name(polys: gpd.GeoDataFrame, table: pd.DataFrame, cutoff: float = 0.8):
-    """One-to-one state-scoped name match polygon -> table row index.
-
-    Returns (mapping poly_index -> table_index, list of report tuples).
-    """
-    mapping: dict[int, int] = {}
-    report: list[tuple[str, str, str, float]] = []
-    used: set[int] = set()
-    for state, pg in polys.groupby("state"):
-        tg = table[table["state"].str.strip().str.upper() == state.strip().upper()]
-        # exact (normalised) matches first
-        for pi, prow in pg.iterrows():
-            for ti, trow in tg.iterrows():
-                if ti not in used and name_variants(prow["district"])[0] == name_variants(trow["district"])[0]:
-                    mapping[pi] = ti
-                    used.add(ti)
-                    break
-        # one-to-one fuzzy pass, best score first, ties left unmatched
-        left_p = [i for i in pg.index if i not in mapping]
-        left_t = [i for i in tg.index if i not in used]
-        cands = sorted(
-            ((name_score(polys.at[p, "district"], table.at[t, "district"]), p, t)
-             for p in left_p for t in left_t),
-            key=lambda x: (-x[0], x[1], x[2]),
-        )
-        for score, p, t in cands:
-            if score < cutoff:
-                break
-            if p in mapping or t in used:
-                continue
-            rivals = [s for s, pp, tt in cands if s >= score - 1e-9 and (pp == p) != (tt == t)
-                      and pp not in mapping and tt not in used and (pp == p or tt == t)]
-            if rivals:  # ambiguous tie: do not guess
-                continue
-            mapping[p] = t
-            used.add(t)
-            report.append((state, polys.at[p, "district"], table.at[t, "district"], score))
-    return mapping, report
-
-
 def load_data():
     districts = gpd.read_parquet(DATA_DIR / "administrative" / "india_districts_lgd.parquet")
     states = gpd.read_parquet(DATA_DIR / "administrative" / "india_states_lgd.parquet")
-    access = pd.read_csv(DATA_DIR / "analysis" / "india_district_access_summary.csv")
     travel = pd.read_csv(DATA_DIR / "analysis" / "nh_district_travel_time_summary.csv")
     districts = districts.reset_index(drop=True)
     districts["district_code"] = norm_code(districts["district_code"])
     travel["district_code"] = norm_code(travel["district_code"])
-    access = access[access["district"] != "__STATE__"].reset_index(drop=True)
-    return districts, states, access, travel
+    return districts, states, travel
 
 
 def join_travel(districts: gpd.GeoDataFrame, travel: pd.DataFrame) -> pd.Series:
@@ -234,31 +215,107 @@ def join_travel(districts: gpd.GeoDataFrame, travel: pd.DataFrame) -> pd.Series:
     return out
 
 
-def join_access(districts: gpd.GeoDataFrame, access: pd.DataFrame) -> pd.Series:
-    """rail_station_median_km per polygon. The summary has no code column, so join by state-scoped name."""
-    print("\n[join] access summary -> district polygons (no district-code column exists; state-scoped name join)")
-    print(f"  access rows (excluding __STATE__): {len(access)}; polygons: {len(districts)}")
-    if access.duplicated(["state", "district"]).any():
-        print("  WARNING: duplicate (state, district) rows in access summary")
-    mapping, report = join_by_state_name(districts, access)
-    n_exact = len(mapping) - len(report)
-    print(f"  exact normalised-name matches: {n_exact}")
-    print(f"  fuzzy / alias matches (one-to-one, cutoff 0.80): {len(report)}")
-    for state, pname, aname, score in report:
-        print(f"    [{score:.2f}] {state}: polygon {pname!r} <- access row {aname!r}")
+def join_access(districts: gpd.GeoDataFrame, cutoff: float = 0.8) -> pd.Series:
+    """Median ``dist_rail_station_km`` per polygon from the per-state village files.
+
+    Intended key is (state, district_code), but the village files carry the older SoI
+    code scheme: for newer districts the codes differ from the polygon layer, and some
+    codes collide with a *different* district. So the key is (state, district name): every
+    village row is grouped by its district name (including rows with a null code and
+    mojibake/misspelt variants such as 'DEVBHUMI DWARKAl'), each group is assigned to the
+    best-scoring polygon of the same state (>= cutoff), with the district code only used
+    to break ties between equally named polygons. Ambiguous groups are left unassigned.
+    """
+    print("\n[join] per-state village files -> district polygons (median dist_rail_station_km)")
+    slugs = {st: state_slug(st) for st in sorted(districts["state"].unique())}
+    missing = [st for st, sl in slugs.items() if not (DATA_DIR / "analysis" / f"{sl}_village_access.csv").exists()]
+    print(f"  states in polygon layer: {len(slugs)}; mapped to a village file: {len(slugs) - len(missing)}"
+          + (f"; MISSING: {missing}" if missing else ""))
+    frames = []
+    for st, sl in slugs.items():
+        f = DATA_DIR / "analysis" / f"{sl}_village_access.csv"
+        if f.exists():
+            v = pd.read_csv(f, usecols=["district", "district_code", "dist_rail_station_km"])
+            v["state"] = st
+            frames.append(v)
+    vill = pd.concat(frames, ignore_index=True)
+    vill["district_code"] = norm_code(vill["district_code"])
+    n_null_code = int(vill["district_code"].isna().sum())
+    vill = vill.dropna(subset=["dist_rail_station_km", "district"]).reset_index(drop=True)
+    print(f"  village rows used: {len(vill)}; of which null district_code: {n_null_code}")
+
+    # --- diagnostic: what a pure (state, district_code) join would do ---
+    grp_code = vill.dropna(subset=["district_code"]).groupby(["state", "district_code"])["district"].agg(
+        lambda x: x.value_counts().index[0])
+    n_code = n_code_bad = 0
+    for _, r in districts.dropna(subset=["district_code"]).iterrows():
+        key = (r["state"], r["district_code"])
+        if key in grp_code.index:
+            n_code += 1
+            if name_score(grp_code[key], r["district"]) < cutoff:
+                n_code_bad += 1
+    n_coded = int(districts["district_code"].notna().sum())
+    print(f"  [diagnostic] a pure (state, district_code) join would hit {n_code}/{n_coded} polygons, "
+          f"{n_code_bad} of them with a DIFFERENT district name (wrong-district join); "
+          f"{n_coded - n_code} polygons have no village group with their code")
+
     vals = pd.Series(np.nan, index=districts.index, dtype=float)
-    for p, t in mapping.items():
-        vals[p] = access.at[t, "rail_station_median_km"]
-    unmatched_p = districts.index.difference(list(mapping))
-    unused_t = access.index.difference(list(mapping.values()))
-    print(f"  polygons with a value: {len(mapping)}/{len(districts)}; without: {len(unmatched_p)}")
-    for p in unmatched_p:
-        print(f"    unmatched polygon: {districts.at[p, 'state']} / {districts.at[p, 'district']} "
-              f"(code {districts.at[p, 'district_code']})")
-    for t in unused_t:
-        print(f"    unused access row: {access.at[t, 'state']} / {access.at[t, 'district']}")
-    n_nan = int(access.loc[list(mapping.values()), "rail_station_median_km"].isna().sum())
-    print(f"  matched rows with NaN measure: {n_nan}")
+    nvill = pd.Series(0, index=districts.index, dtype=int)
+    stats = dict(exact=0, fuzzy=0, tie=0)
+    fuzzy_log, unassigned_groups = [], []
+    assigned_p: set[int] = set()
+    rows_used = 0
+    for st in slugs:
+        pg = districts[districts["state"] == st]
+        vg = vill[vill["state"] == st]
+        names = sorted(vg["district"].unique())
+        bucket: dict[int, list[str]] = {i: [] for i in pg.index}
+        for nm in names:
+            scores = [(name_score(nm, pg.at[i, "district"]), i) for i in pg.index]
+            top = max(sc for sc, _ in scores)
+            if top < cutoff:
+                unassigned_groups.append((st, nm, int((vg["district"] == nm).sum())))
+                continue
+            best = [i for sc, i in scores if sc >= top - 1e-9]
+            if len(best) > 1:  # equally good polygons: tie-break on district code, else do not guess
+                codes = vg.loc[vg["district"] == nm, "district_code"].dropna()
+                modal = codes.mode().iloc[0] if len(codes) else None
+                cb = [i for i in best if modal is not None and pg.at[i, "district_code"] == modal]
+                if len(cb) != 1:
+                    stats["tie"] += 1
+                    unassigned_groups.append((st, nm + " [ambiguous]", int((vg["district"] == nm).sum())))
+                    continue
+                best = cb
+            i = best[0]
+            bucket[i].append(nm)
+            if top < 1.0:
+                stats["fuzzy"] += 1
+                fuzzy_log.append((st, nm, pg.at[i, "district"], top))
+            else:
+                stats["exact"] += 1
+        for i, nms in bucket.items():
+            if nms:
+                x = vg.loc[vg["district"].isin(nms), "dist_rail_station_km"]
+                vals[i], nvill[i] = x.median(), len(x)
+                rows_used += len(x)
+                assigned_p.add(i)
+    print(f"  village name-groups assigned: exact {stats['exact']}, fuzzy/variant {stats['fuzzy']} "
+          f"(cutoff {cutoff}), ambiguous-left-out {stats['tie']}")
+    for st, nm, pn, sc in fuzzy_log:
+        print(f"    [{sc:.2f}] {st}: village-file {nm!r} -> polygon {pn!r}")
+    print(f"  village rows aggregated into a polygon: {rows_used}/{len(vill)}")
+    print(f"  village name-groups with no polygon: {len(unassigned_groups)}")
+    for st, nm, n in unassigned_groups:
+        print(f"    {st}: {nm!r} ({n} rows)")
+    miss = districts.index.difference(sorted(assigned_p))
+    print(f"  polygons with a value: {len(assigned_p)}/{len(districts)}; without (drawn grey): {len(miss)}")
+    for i in miss:
+        print(f"    no-data polygon: {districts.at[i, 'state']} / {districts.at[i, 'district']} "
+              f"(code {districts.at[i, 'district_code']})")
+    for st, dn in (("Gujarat", "DEVBHUMI DWARKA"), ("Maharashtra", "DHULE")):
+        for i in districts.index[(districts["state"] == st) & (districts["district"].str.upper() == dn)]:
+            print(f"  check {st} / {dn} (code {districts.at[i, 'district_code']}): "
+                  + (f"median {vals[i]:.2f} km from {nvill[i]} villages" if nvill[i] else "no value (no-data)"))
     return vals
 
 
@@ -280,8 +337,13 @@ def render(districts_p: gpd.GeoDataFrame, states_p: gpd.GeoDataFrame, classes: n
     fig = plt.figure(figsize=(FIG_W, FIG_H), dpi=DPI, facecolor=th["surface"])
     ax = fig.add_axes([0.03, 0.075, 0.94, 0.79])
     ax.set_facecolor(th["surface"])
-    districts_p.plot(ax=ax, color=colors, edgecolor=th["surface"], linewidth=0.07)
-    states_p.plot(ax=ax, facecolor="none", edgecolor=to_rgba(th["muted"], 0.6), linewidth=0.35)
+    # No-data polygons first, valued polygons on top (never paint grey over a value).
+    nodata = classes < 0
+    for mask, z in ((nodata, 1), (~nodata, 2)):
+        if mask.any():
+            districts_p[mask].plot(ax=ax, color=[c for c, m in zip(colors, mask) if m],
+                                   edgecolor=th["surface"], linewidth=0.07, zorder=z)
+    states_p.plot(ax=ax, facecolor="none", edgecolor=to_rgba(th["muted"], 0.6), linewidth=0.35, zorder=3)
     xmin, ymin, xmax, ymax = districts_p.total_bounds
     padx, pady = (xmax - xmin) * 0.01, (ymax - ymin) * 0.01
     ax.set_xlim(xmin - padx, xmax + padx)
@@ -304,7 +366,8 @@ def render(districts_p: gpd.GeoDataFrame, states_p: gpd.GeoDataFrame, classes: n
     fig.text(0.05, 0.955, spec["title"], ha="left", va="center", fontsize=14,
              fontweight="bold", color=th["text"])
     fig.text(0.05, 0.923, spec["subtitle"], ha="left", va="center", fontsize=8.5, color=th["muted"])
-    fig.text(0.05, 0.03, FOOTER, ha="left", va="center", fontsize=6.6, color=th["muted"])
+    for k, line in enumerate(FOOTER_LINES):
+        fig.text(0.05, 0.036 - 0.018 * k, line, ha="left", va="center", fontsize=6.6, color=th["muted"])
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, dpi=DPI, facecolor=th["surface"],
@@ -320,10 +383,10 @@ def main() -> None:
     args = ap.parse_args()
     out_dir = args.out_dir if args.out_dir.is_absolute() else (Path.cwd() / args.out_dir)
 
-    districts, states, access, travel = load_data()
-    print(f"[load] districts={len(districts)} states={len(states)} access={len(access)} travel={len(travel)}")
+    districts, states, travel = load_data()
+    print(f"[load] districts={len(districts)} states={len(states)} travel={len(travel)}")
     values = {
-        "rail_access": join_access(districts, access),
+        "rail_access": join_access(districts),
         "icd_drive": join_travel(districts, travel),
     }
     districts_p = districts.to_crs(PROJ_EPSG)
