@@ -309,7 +309,7 @@ The earlier completed real bounded run was approximately 402 seconds / 213 passi
 
 ### Remaining / follow-up (not started)
 
-- Merge to `main`: operator decision (new PR from this branch, or fold into PR #4).
+- ~~Merge to `main`~~ — done 2026-10-19 via PR #5 (`3450863`).
 - Gravity α/β calibration: needs district-origin port data (e.g. CBIC/ICEGATE port of loading by district); 0.85/1.65 currently labelled uncalibrated.
 - 372 district–hub pairs with road distance > 3× straight-line (graph fragmentation) — investigate separately.
 - Island highway-access over-sea values above the 150 km snap limit — consider nulling.
