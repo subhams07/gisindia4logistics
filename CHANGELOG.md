@@ -8,7 +8,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ### Data — national analysis refresh
 
-- Regenerated all seven Stage 4 analysis outputs in `data/analysis/` (district travel-time summary CSV/Parquet, district–port matrix, freight modal split, port hinterland catchment, major-port and MMLP isochrones) with the reviewed producers. Added `producer_manifest.json` (input/code hashes, configuration, library versions) and `producer_limitations.json`. No input data changed; all differences come from reviewed code and parameters. Full national audit: 5,367 checks, 0 FAIL. Details: `docs/stage4_drift_linux-2026-10-18-run1.md`.
+- Regenerated all seven Stage 4 analysis outputs in `data/analysis/` (district travel-time summary CSV/Parquet, district–port matrix, freight modal split, port hinterland catchment, major-port and MMLP isochrones) with the reviewed producers. Added `producer_manifest.json` (input/code hashes, configuration, library versions) and `producer_limitations.json`, produced at the 1.1.0 code (run `linux-2026-10-19-run3`). No input data changed; all differences come from reviewed code and parameters. National audit: 5,367 checks, 0 FAIL, 16 WARN (15 source disclosures plus 1 note that the CLI defers code-closure validation); full-mode producer audit including code closure: 3,476 checks, 0 FAIL. Details: `docs/stage4_drift_linux-2026-10-18-run1.md`.
 - Highway access, distances and drive times now use canonical, component-aware routing. Highway access decreases in 62 districts (largest: the Andaman islands); road distances shift by a median of about 0.1%. Drive times are stored to 0.1 minute.
 - Isochrone thresholds are now 4/8/12/24 h (major ports) and 4/8/12 h (MMLPs), previously 1/2/4/8 h and 1/2/4 h. Features carry provenance properties (`status`, `coverage_method`, `snap_feeder_km`, `snap_component_node_count`, …).
 - Port hinterland populations come from `data/demographic/district_population_estimates.csv` for every district. This fixes a code-collision bug (Alappuzha) and zero populations for uncoded rows.
@@ -19,6 +19,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ### Changed
 
+- Package classifier is now `Development Status :: 4 - Beta`; `tabulate` added to the `dev` extra (needed by the audit report writer). `catalog.yaml` analysis entries updated (vintage 2026-10, isochrone bands, hinterland counts, disclosures).
 - The freight modal-split CSV has the same columns in a different order. `pop_2011` is now float64 in the analysis tables.
 - Recurring push/PR CI (`ci.yml`) and the weekly deep-audit workflow are removed. Tests and the national audit were run locally for this release (3,508 tests passed; audit 0 FAIL).
 
@@ -28,7 +29,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - MIRPUR and MUZAFFARABAD (PoK) and NAZUL populations are `area_share` estimates from the source population file.
 - 372 district–hub pairs have road distance more than 3× the straight-line distance, a pre-existing graph-fragmentation issue under investigation.
 - Highway-access values for Lakshadweep and Nicobars are over-sea distances above the 150 km snap limit.
-- Hubs whose nearest highway components are all below 1,000 nodes (e.g. Andaman, parts of Arunachal) would be reported as unsupported; no current hub is affected.
+- Isochrone hub snapping (nearest highway component of at least 1,000 nodes within 150 km) is a modelling policy, not a measured property. Hubs whose nearby components are all smaller (e.g. Andaman, parts of Arunachal) would be reported as unsupported; no current hub is affected. API responses do not yet carry routing warnings at the point of use; see `producer_limitations.json`.
 
 ### Added
 

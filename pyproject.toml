@@ -13,7 +13,7 @@ authors = [
 license = { text = "MIT" }
 keywords = ["gis", "logistics", "india", "freight", "routing", "geopandas", "mcp", "fastapi", "geoparquet", "gisindia4logistics"]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
@@ -53,6 +53,7 @@ dev = [
     "httpx>=0.24.0",
     "reportlab>=4.0.0",
     "openpyxl>=3.1.0",
+    "tabulate>=0.9.0",
 ]
 
 [project.scripts]
