@@ -1,14 +1,17 @@
-# Contributing to GIS4Logistics — India
+# Contributions
 
-Thanks for helping build an open GIS data collection for Indian logistics!
+GISIndia4Logistics is a **personal hobby project**. Pull requests and outside
+contributions are **not being accepted**, and unsolicited pull requests may be
+closed without review. You are welcome to fork the project under its licences
+(MIT for code; see `DATA_LICENSE.md` for data).
 
-## Ways to contribute
+If you hold rights in a dataset included here and want it attributed
+differently or removed, open an issue with the *Source or license concern*
+template. Report security problems privately as described in `SECURITY.md`.
 
-- **New data sources** — point us to open, redistributable datasets (government
-  portals, OSM, research datasets).
-- **Corrections** — bad coordinates, outdated hub lists, boundary errors.
-- **Fetch scripts** — new sources that are too large to commit directly.
-- **Docs** — license clarifications, data quality notes.
+The standards and checklists below are the maintainer's own working rules for
+adding data. They are kept here because `docs/legal_compliance.md` refers to
+them.
 
 ## Data standards (required for new datasets)
 
@@ -30,7 +33,7 @@ Thanks for helping build an open GIS data collection for Indian logistics!
 - [ ] Data standardized per `docs/data_standards.md`
 - [ ] Fetch script added under `scripts/fetch/` (if not committed directly)
 - [ ] README catalog table updated
-- [ ] Data audit run locally and exact command/result recorded in the pull request
+- [ ] Data audit run locally and exact command/result recorded in the change
 - [ ] API/SDK/CLI/MCP behavior changes include regression tests
 - [ ] Generated files are reproducible from committed scripts and parameters
 

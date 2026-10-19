@@ -19,7 +19,7 @@ Include, where possible:
 - suggested mitigation;
 - whether the issue is already public.
 
-The maintainers will acknowledge a complete report, assess severity, coordinate a fix, and disclose it after affected users have a reasonable opportunity to update.
+This is a hobby project maintained in spare time. Reports are read and acted on on a best-effort basis; there is no guaranteed response time.
 
 ## Scope
 

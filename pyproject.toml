@@ -8,7 +8,7 @@ version = "1.1.0"
 description = "GISIndia4Logistics — Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India"
 readme = "README.md"
 authors = [
-    { name = "GISIndia4Logistics Contributors", email = "info@gisindia4logistics.org" }
+    { name = "Subham Sahu", email = "subhams07@gmail.com" }
 ]
 license = { text = "MIT" }
 keywords = ["gis", "logistics", "india", "freight", "routing", "geopandas", "mcp", "fastapi", "geoparquet", "gisindia4logistics"]
