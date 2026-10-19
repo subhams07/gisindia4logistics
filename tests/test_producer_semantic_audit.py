@@ -2075,3 +2075,14 @@ def test_n1d_repair_t07_declared_nonok_facts_warn_only_when_bounded(semantic_bun
     assert len(warns) == (2 if bounded else 0) and all(r["status"] == "WARN" for r in warns)
     if bounded:
         assert "major_port 0 Synthetic" in warns[0]["detail"] and "mmlp 0 Synthetic" in warns[1]["detail"]  # Declaration order.
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield

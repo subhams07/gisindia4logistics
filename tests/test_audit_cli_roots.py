@@ -277,3 +277,14 @@ def test_real_cli_national_full_on_empty_trees_is_blocked_without_creating_a_cac
     assert not (tmp_path / "cache").exists()
     text = (tmp_path / "r" / "audit_report.md").read_text(encoding="utf-8")
     assert "blocked: national prerequisites" in text
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield

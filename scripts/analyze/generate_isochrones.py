@@ -1,6 +1,7 @@
 """Approximate highway catchments, NOT door-to-door point reachability.
 
-LMV factor 1.0; nearest physical NH vertex within 150 km; access at 35 km/h.
+LMV factor 1.0; closest NH vertex within 150 km on a supported component (at
+least kernel.MIN_SUPPORTED_COMPONENT_NODES nodes); access at 35 km/h.
 Only the source component participates. EPSG:7755 convex hull, 8 km buffer,
 500 m topology-preserving simplification, then WGS84. No navigation claims.
 """
@@ -31,7 +32,7 @@ from scripts.clean.standardize import DATA_DIR, REPO_ROOT
 PROJ = 7755
 COVERAGE_METHOD = "approximate_highway_catchment"
 COVERAGE_ASSUMPTIONS = (
-    "LMV factor 1.0; physical nearest NH snap within 150 km; source feeder at 35 km/h; "
+    f"LMV factor 1.0; closest NH snap within 150 km on a supported component (>= {kernel.MIN_SUPPORTED_COMPONENT_NODES} nodes); source feeder at 35 km/h; "
     "single-source component; projected convex hull + 8 km buffer, simplify 500 m; "
     "approximation, not navigation or door-to-door point reachability"
 )
@@ -49,15 +50,19 @@ def _thresholds(values):
     return tuple(result)
 
 
-def _nearest_source(point, graph):
-    """Physical nearest node, inclusive 150 km, stable node-ID ties."""
+def _nearest_source(point, graph, sizes=None):
+    """Closest supported-component node, inclusive 150 km, stable node-ID ties.
+
+    Returns (node, feeder km, component node count) or None.
+    """
     indices, distances = kernel.radius_candidates(point, graph)
-    candidates = [(float(distance), int(idx)) for idx, distance in zip(indices, distances)
-                  if np.isfinite(distance) and 0 <= distance <= kernel.MAX_FEEDER_DISTANCE_M]
-    if not candidates:
+    if sizes is None:
+        sizes = kernel.component_sizes(graph.nh_comp_labels)
+    snap = kernel.nearest_supported(distances, indices, graph.nh_comp_labels, sizes)
+    if snap is None:
         return None
-    distance, node = min(candidates)
-    return node, distance / 1000.0
+    distance, node, size = snap
+    return node, distance / 1000.0, size
 
 
 def _coordinate(row):
@@ -75,11 +80,12 @@ def _coordinate(row):
 
 def _hub_features(frame, thresholds, hub_type, graph, chunk_size):
     features, jobs = [], []
+    sizes = kernel.component_sizes(graph.nh_comp_labels)
     for row in frame.to_dict("records"):
         point = _coordinate(row)
-        snap = _nearest_source(point, graph) if point is not None else None
+        snap = _nearest_source(point, graph, sizes) if point is not None else None
         status = "invalid_coordinates" if point is None else "no_highway_within_150km"
-        node, feeder_km = snap if snap is not None else (None, None)
+        node, feeder_km, component = snap if snap is not None else (None, None, None)
         feeder_hours = feeder_km / 35.0 if snap is not None else None
         slots = []
         for threshold in thresholds:
@@ -88,6 +94,7 @@ def _hub_features(frame, thresholds, hub_type, graph, chunk_size):
                 time_threshold_hours=threshold,
                 label=f"{threshold:g} Hour Approximate Highway Catchment",
                 status=status, reachable_node_count=0, snap_feeder_km=feeder_km,
+                snap_component_node_count=component,
                 feeder_time_hours=feeder_hours, coverage_method=COVERAGE_METHOD,
                 coverage_assumptions=COVERAGE_ASSUMPTIONS, geometry=None)
             if snap is not None:
@@ -121,9 +128,10 @@ def _hub_features(frame, thresholds, hub_type, graph, chunk_size):
                 feature.update(status="ok", geometry=polygon)
         del distances, network_hours
     columns = list(dict.fromkeys([*frame.columns, "hub_name", "hub_type", "time_threshold_hours",
-        "label", "status", "reachable_node_count", "snap_feeder_km", "feeder_time_hours",
+        "label", "status", "reachable_node_count", "snap_feeder_km", "snap_component_node_count", "feeder_time_hours",
         "coverage_method", "coverage_assumptions", "geometry"]))
     result = gpd.GeoDataFrame(features, columns=columns, geometry="geometry", crs=PROJ).to_crs(4326)
+    result["snap_component_node_count"] = result["snap_component_node_count"].astype("Int64")
     okay = result[result.status == "ok"]
     if not okay.geometry.is_valid.all() or not okay.geometry.geom_type.isin(["Polygon", "MultiPolygon"]).all():
         raise ValueError("Invalid WGS84 approximate highway catchment geometry")
@@ -170,6 +178,7 @@ def build_isochrones(*, data_dir, cache_dir, thresholds_ports=(4, 8, 12, 24),
     ports_gdf = _hub_features(ports, thresholds_ports, "major_port", graph, chunk_size)
     mmlps_gdf = _hub_features(mmlps, thresholds_mmlps, "mmlp", graph, chunk_size)
     provenance = dict(coverage_method=COVERAGE_METHOD, max_snap_km=150.0, feeder_speed_kmh=35.0,
+        min_supported_component_nodes=kernel.MIN_SUPPORTED_COMPONENT_NODES,
         buffer_m=8000.0, simplify_m=500.0, projection="EPSG:7755", vehicle="LMV", vehicle_factor=1.0,
         component_policy="single_source_component", routing_objective="undirected_network_time",
         reachability_policy="network_plus_source_feeder_within_threshold; fewer_than_3_nodes_unsupported",

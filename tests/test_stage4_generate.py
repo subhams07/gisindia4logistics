@@ -354,7 +354,7 @@ def good_provenance():
     fingerprint = {"cache_version": 6}
     matrix = {"sources_sha256": dict(expected), "graph_fingerprint": dict(fingerprint), "lmv_factor": 1., "feeder_speed_kmh": 35., "candidate_radius_m": 150000., "chunk_size": 32}
     iso_sources = {"/s/roads/india_nh_network.parquet": "a" * 64, "/s/logistics_hubs/ports.csv": "a" * 64, "/s/logistics_hubs/mmlps.csv": "a" * 64}
-    iso = {"sources": iso_sources, "graph_fingerprint": dict(fingerprint), "buffer_m": 8000., "simplify_m": 500., "max_snap_km": 150., "feeder_speed_kmh": 35.,
+    iso = {"sources": iso_sources, "graph_fingerprint": dict(fingerprint), "buffer_m": 8000., "simplify_m": 500., "max_snap_km": 150., "min_supported_component_nodes": module.kernel.MIN_SUPPORTED_COMPONENT_NODES, "feeder_speed_kmh": 35.,
            "vehicle_factor": 1., "thresholds_ports": [4., 8., 12., 24.], "thresholds_mmlps": [4., 8., 12.]}
     return module, matrix, iso, expected, config, fingerprint
 
@@ -386,6 +386,7 @@ def test_consistent_provenance_passes_and_maps_absolute_iso_keys_in_memory_only(
     lambda m, i, e, c, f: i.update(buffer_m=7000.),
     lambda m, i, e, c, f: i.update(simplify_m=100.),
     lambda m, i, e, c, f: i.update(max_snap_km=100.),
+    lambda m, i, e, c, f: i.update(min_supported_component_nodes=2),
     lambda m, i, e, c, f: i.update(feeder_speed_kmh=30.),
     lambda m, i, e, c, f: i.update(vehicle_factor=.9),
     lambda m, i, e, c, f: i.update(thresholds_ports=[4., 8., 12.]),
@@ -1132,3 +1133,16 @@ def test_n1b_unedited_run_records_the_post_producer_hashes_of_both_iso_files(suc
     for name in N1B_ISO:
         digest = sha256_hex(success["analysis"] / name)
         assert manifest["artifacts"][name]["sha256"] == sidecar["artifact_sha256"][name] == digest
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor, so this module runs with
+    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
+    tests/test_supported_component_floor.py."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield

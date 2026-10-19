@@ -18,6 +18,7 @@ from pathlib import Path
 import geopandas as gpd
 import pandas as pd
 
+from scripts.analyze import highway_pair_kernel as kernel
 from scripts.analyze.isochrone_coverage import coverage_issues
 from scripts.analyze.producer_io import sha256_file
 from scripts.analyze.producer_manifest import (
@@ -49,7 +50,8 @@ LIMITATIONS = [
 # Schema 2 adds the isochrone_coverage section; schema 1 sidecars stay valid and unchanged.
 SCHEMA_VERSION_V2 = 2
 TOP_LEVEL_KEYS_V2 = TOP_LEVEL_KEYS | {"isochrone_coverage"}
-COVERAGE_LIMITATION = ("Isochrone catchments are limited to the road-graph component of the snapped vertex; "
+COVERAGE_LIMITATION = ("Isochrone catchments are limited to the road-graph component of the snapped vertex, the closest "
+                       f"vertex within 150 km on a supported component (at least {kernel.MIN_SUPPORTED_COMPONENT_NODES} nodes); hubs with none are unsnapped; "
                        "component-bounded hubs are listed in isochrone_coverage.")
 LIMITATIONS_V2 = [*LIMITATIONS, COVERAGE_LIMITATION]
 PORTS_SOURCE = "logistics_hubs/ports.csv"

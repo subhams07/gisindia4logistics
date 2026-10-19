@@ -192,6 +192,7 @@ def _check_consistency(matrix, iso, *, expected, config, fingerprint, source_roo
     require(iso.get("buffer_m") == config["buffer_m"] and iso.get("simplify_m") == config["simplify_m"])
     require(iso.get("max_snap_km") == config["snap_limit_km"] and iso.get("feeder_speed_kmh") == config["feeder_speed_kmh"])
     require(iso.get("vehicle_factor") == config["lmv_factor"])
+    require(iso.get("min_supported_component_nodes") == kernel.MIN_SUPPORTED_COMPONENT_NODES)
     require(list(iso.get("thresholds_ports", [])) == list(config["thresholds_hours"]["major_port"]))
     require(list(iso.get("thresholds_mmlps", [])) == list(config["thresholds_hours"]["mmlp"]))
 

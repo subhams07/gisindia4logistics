@@ -63,6 +63,36 @@ def nearest_per_component(distances, indices, comp_labels, *,
     return best
 
 
+MIN_SUPPORTED_COMPONENT_NODES = 1000
+
+
+def component_sizes(comp_labels):
+    """Node count per component label as plain ints; labels may be sparse."""
+    values, counts = np.unique(comp_labels, return_counts=True)
+    return {int(value): int(count) for value, count in zip(values, counts)}
+
+
+def nearest_supported(distances, indices, comp_labels, sizes, *,
+                      min_nodes=None,
+                      max_distance_m=MAX_FEEDER_DISTANCE_M):
+    """Return (metres, node ID, component size) of the closest supported-component node, or None.
+
+    Single-source analogue of closest-compatible snapping: the candidate set is
+    nearest_per_component (same threshold filter and node-ID ties) restricted to
+    components of at least min_nodes nodes, so a hub is never snapped to a tiny
+    disconnected fragment when a supported component lies within the limit.
+    Ties across components prefer the smaller node ID, then the smaller label.
+    """
+    min_nodes = MIN_SUPPORTED_COMPONENT_NODES if min_nodes is None else min_nodes
+    per_component = nearest_per_component(distances, indices, comp_labels, max_distance_m=max_distance_m)
+    supported = [(distance, node, comp) for comp, (distance, node) in per_component.items()
+                 if sizes[comp] >= min_nodes]
+    if not supported:
+        return None
+    distance, node, comp = min(supported, key=lambda item: (item[0], item[1], item[2]))
+    return distance, node, sizes[comp]
+
+
 def select_compatible_pair(dists_orig, idxs_orig, dists_dest, idxs_dest, comp_labels, *,
                            max_distance_m=MAX_FEEDER_DISTANCE_M):
     """Return (u, v, origin metres, destination metres, label), or None.

@@ -158,11 +158,14 @@ def route_expectations(graph, points, hubs, *, chunk_size=32):
 
 
 def iso_expectations(graph, point, thresholds, *, buffer_m=8000., simplify_m=500.):
-    """Independent physical-nearest scalar snap and single-source TIME Dijkstra."""
+    """Independent supported-component nearest scalar snap and single-source TIME Dijkstra."""
     snap = None
     if point is not None:
         ids, distances = kernel.radius_candidates(point, graph)
-        candidates = [(float(d), int(i)) for i, d in zip(ids, distances) if np.isfinite(d) and 0 <= d <= 150000.]
+        values, counts = np.unique(graph.nh_comp_labels, return_counts=True)
+        sizes = dict(zip(values.tolist(), counts.tolist()))
+        candidates = [(float(d), int(i)) for i, d in zip(ids, distances) if np.isfinite(d) and 0 <= d <= 150000.
+                      and sizes[int(graph.nh_comp_labels[int(i)])] >= ORACLE_MIN_SUPPORTED_COMPONENT_NODES]
         if candidates:
             snap = min(candidates)
     feeder = snap[0] / 1000. if snap is not None else None
@@ -504,6 +507,8 @@ def _category_checks(source_root, artifact_root, graph, nh, checks=None):
 # tree and the builder, so it is NOT independent of defects in those. It certifies only that the declared hub
 # identities match the source identities and that each declared snap pair matches an independent computation;
 # snap rule, statuses, thresholds, derived fields, geometry and provenance stay with the generic validator.
+# Independent literal expectation of the supported-component floor; a test asserts it equals the kernel's.
+ORACLE_MIN_SUPPORTED_COMPONENT_NODES = 1000
 COVERAGE_SIDECAR = "producer_limitations.json"
 COVERAGE_AVAILABILITY = "coverage sidecar availability"
 COVERAGE_LEGACY = "not applicable: legacy coverage unavailable"
@@ -526,12 +531,14 @@ def _strict_coordinate(row):
     return np.array([point.x, point.y]) if np.isfinite([point.x, point.y]).all() else None
 
 
-def _coverage_snap(point, graph):
-    """(distance_m, node) of the physical nearest vertex within 150 km (inclusive), node-ID ties, else None."""
+def _coverage_snap(point, graph, sizes=None):
+    """(distance_m, node) of the closest vertex within 150 km (inclusive) on a supported component, node-ID ties, else None."""
     if point is None:
         return None
     ids, distances = kernel.radius_candidates(point, graph)
-    candidates = [(float(d), int(i)) for i, d in zip(ids, distances) if np.isfinite(d) and 0 <= d <= 150000.0]
+    sizes = _coverage_component_sizes(graph.nh_comp_labels) if sizes is None else sizes
+    candidates = [(float(d), int(i)) for i, d in zip(ids, distances) if np.isfinite(d) and 0 <= d <= 150000.0
+                  and sizes[int(graph.nh_comp_labels[int(i)])] >= ORACLE_MIN_SUPPORTED_COMPONENT_NODES]
     return min(candidates) if candidates else None
 
 
@@ -561,7 +568,7 @@ def _coverage_expected(source_root, graph):
             if key in seen:
                 raise ValueError("Duplicate coverage source hub name")
             seen.add(key)
-            snap = _coverage_snap(_strict_coordinate(row), graph)
+            snap = _coverage_snap(_strict_coordinate(row), graph, sizes)
             identity = (hub_type, order, name)
             wanted[identity] = None if snap is None else (snap[0] / 1000.0, sizes[int(graph.nh_comp_labels[snap[1]])])
             sequence.append(identity)

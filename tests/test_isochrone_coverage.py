@@ -66,7 +66,7 @@ def hub_graph(label_map=None):
 # --- API surface and module boundary ---------------------------------------------------------------------------
 
 def test_constants_exact_contract():
-    assert cov.SNAP_RULE == "nearest physical NH vertex within 150 km, node-ID ties; catchment limited to that vertex's connected component"
+    assert cov.SNAP_RULE == "closest NH vertex within 150 km on a supported connected component (at least 1000 nodes), node-ID ties; hubs with no supported-component vertex within 150 km are unsnapped; catchment limited to that vertex's connected component"
     assert tuple(cov.STATUSES) == ("invalid_coordinates", "no_highway_within_150km", "feeder_exceeds_threshold",
                                    "unsupported_threshold", "ok")
     assert tuple(cov.HUB_TYPES) == ("major_port", "mmlp")
@@ -786,3 +786,16 @@ def test_a1_coverage_entries_valid_distinct_names_control():
     ports_doc, port_facts = a1_artifacts(["A", "B", "C"])
     coverage = cov.coverage_entries(ports_doc, {"type": "FeatureCollection", "features": []}, port_facts, [])
     assert [e["hub_name"] for e in coverage["entries"]] == ["A", "B", "C"] and cov.coverage_issues(coverage, None) == []
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor, so this module runs with
+    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
+    tests/test_supported_component_floor.py."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield

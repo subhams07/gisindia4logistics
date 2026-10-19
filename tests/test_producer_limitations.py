@@ -472,7 +472,8 @@ def test_no_ones_nan_or_numpy_values_leak_into_document(world):
 V2_ORDER = ["schema_version", "run_id", "artifact_sha256", "column_classification", "source_identity_disclosures",
             "isochrone_coverage", "oracle_independence", "resource_measurement_method", "limitations"]
 V2_STALE = "limitations: isochrone_coverage required (schema 2)"
-V2_COVERAGE_LIMITATION = ("Isochrone catchments are limited to the road-graph component of the snapped vertex; "
+V2_COVERAGE_LIMITATION = ("Isochrone catchments are limited to the road-graph component of the snapped vertex, the closest "
+                          "vertex within 150 km on a supported component (at least 1000 nodes); hubs with none are unsnapped; "
                           "component-bounded hubs are listed in isochrone_coverage.")
 
 
@@ -483,7 +484,7 @@ def v2_entry(hub_type, name, order, thresholds, statuses, counts, feeder, compon
 
 
 def v2_coverage():
-    return {"snap_rule": "nearest physical NH vertex within 150 km, node-ID ties; catchment limited to that vertex's connected component",
+    return {"snap_rule": "closest NH vertex within 150 km on a supported connected component (at least 1000 nodes), node-ID ties; hubs with no supported-component vertex within 150 km are unsnapped; catchment limited to that vertex's connected component",
             "entries": [
                 v2_entry("major_port", "Alpha", 0, [4., 8., 12., 24.], ["ok"] * 4, [5, 20, 40, 40], 10., 40, 4, False, [12., 24.]),
                 v2_entry("major_port", "Beta", 1, [4., 8., 12., 24.], ["invalid_coordinates"] * 4, [0] * 4, None, None, 0, None, []),
@@ -801,3 +802,16 @@ def test_old_v1_unit_cases_stay_exact_after_the_v2_extension(world):
     document = copy.deepcopy(world.document)
     document["limitations"] = list(lim.LIMITATIONS_V2)
     assert "limitations: limitations list is not the supported constant" in world.issues(document)
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor, so this module runs with
+    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
+    tests/test_supported_component_floor.py."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield

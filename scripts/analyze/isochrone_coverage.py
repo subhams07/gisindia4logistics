@@ -18,7 +18,9 @@ from shapely.geometry import Point
 from scripts.analyze import highway_pair_kernel as kernel
 
 PROJ = 7755
-SNAP_RULE = "nearest physical NH vertex within 150 km, node-ID ties; catchment limited to that vertex's connected component"
+SNAP_RULE = (f"closest NH vertex within 150 km on a supported connected component (at least {kernel.MIN_SUPPORTED_COMPONENT_NODES} nodes), "
+             "node-ID ties; hubs with no supported-component vertex within 150 km are unsnapped; "
+             "catchment limited to that vertex's connected component")
 STATUSES = ("invalid_coordinates", "no_highway_within_150km", "feeder_exceeds_threshold", "unsupported_threshold", "ok")
 HUB_TYPES = ("major_port", "mmlp")
 ENTRY_KEYS = ("hub_type", "hub_name", "hub_order", "thresholds_hours", "statuses", "reachable_node_counts",
@@ -46,15 +48,13 @@ def hub_point(row):
 
 def component_sizes(labels):
     """Node count per component label as plain ints; labels need not be dense."""
-    values, counts = np.unique(labels, return_counts=True)
-    return {int(value): int(count) for value, count in zip(values, counts)}
+    return kernel.component_sizes(labels)
 
 
-def _nearest(point, graph):
+def _nearest(point, graph, sizes):
     indices, distances = kernel.radius_candidates(point, graph)
-    candidates = [(float(distance), int(node)) for node, distance in zip(indices, distances)
-                  if np.isfinite(distance) and 0 <= distance <= MAX_SNAP_M]
-    return min(candidates) if candidates else None
+    snap = kernel.nearest_supported(distances, indices, graph.nh_comp_labels, sizes)
+    return None if snap is None else (snap[0], snap[1])
 
 
 def component_facts(graph, rows, hub_type):
@@ -77,7 +77,7 @@ def component_facts(graph, rows, hub_type):
     facts = []
     for order, (row, name) in enumerate(zip(rows, names)):
         point = hub_point(row)
-        snap = _nearest(point, graph) if point is not None else None
+        snap = _nearest(point, graph, sizes) if point is not None else None
         feeder_km = component = None
         if snap is not None:
             distance, node = snap

@@ -281,3 +281,80 @@ def test_zero_sources_return_empty_not_forced_counts(sources):
     ports, mmlps, provenance = build(sources)
     assert ports.empty and mmlps.empty
     assert provenance["source_ports"] == 0 and provenance["source_mmlps"] == 0
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor, so this module runs with
+    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
+    tests/test_supported_component_floor.py."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield
+
+
+def _fragment_and_main_graph():
+    """Fragment A (3 nodes, x 0..2000) beside the supported main line B (6 nodes) 800 m north."""
+    nh = gpd.GeoDataFrame(geometry=[
+        LineString([(0, 0), (1000, 0), (2000, 0)]),
+        LineString([(0, 800), (10000, 800), (20000, 800), (30000, 800), (40000, 800), (50000, 800)])], crs=7755)
+    values = builder.build_canonical_highway_graph(nh)
+    graph = SimpleNamespace(nh_graph=values[0], nh_distance_graph=values[1], nh_node_xy=values[2],
+        nh_comp_labels=values[3], nh_tree=values[4], nh_bridge_mask=values[5])
+    return graph
+
+
+def test_nearest_source_skips_fragment_for_supported_component(monkeypatch):
+    from scripts.analyze import highway_pair_kernel as kernel
+    graph = _fragment_and_main_graph()
+    monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 5)
+    node, feeder_km, size = iso._nearest_source(np.array([0.0, 0.0]), graph)
+    assert size == 6 and graph.nh_node_xy[node].tolist() == pytest.approx([0.0, 800.0], abs=5.0)
+    assert feeder_km == pytest.approx(0.8, abs=0.01)
+    # With the floor lowered the physically nearest fragment is chosen again.
+    monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+    node, feeder_km, size = iso._nearest_source(np.array([0.0, 0.0]), graph)
+    assert size == 3 and feeder_km == 0.0
+
+
+def test_hub_features_report_supported_component_and_node_count(monkeypatch):
+    from scripts.analyze import highway_pair_kernel as kernel
+    graph = _fragment_and_main_graph()
+    monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 5)
+    monkeypatch.setattr(iso, "_coordinate", lambda row: np.array([0.0, 0.0]))
+    frame = pd.DataFrame([{"name": "Near fragment", "state": "X", "source_id": "x"}])
+    result = iso._hub_features(frame, (1, 4), "mmlp", graph, 32)
+    assert result.snap_component_node_count.tolist() == [6, 6]
+    assert result.snap_feeder_km.tolist() == pytest.approx([0.8, 0.8], abs=0.01)
+    assert result.status.eq("ok").all() and result.reachable_node_count.min() >= 3
+
+
+def test_no_supported_vertex_within_limit_stays_unsupported(monkeypatch):
+    from scripts.analyze import highway_pair_kernel as kernel
+    graph = _fragment_and_main_graph()
+    monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 7)  # no component qualifies
+    assert iso._nearest_source(np.array([0.0, 0.0]), graph) is None
+    monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 5)
+    assert iso._nearest_source(np.array([0.0, 160000.0]), graph) is None  # supported line is beyond 150 km
+    monkeypatch.setattr(iso, "_coordinate", lambda row: np.array([0.0, 160000.0]))
+    frame = pd.DataFrame([{"name": "Remote", "state": "X", "source_id": "x"}])
+    result = iso._hub_features(frame, (4,), "mmlp", graph, 32)
+    assert result.status.tolist() == ["no_highway_within_150km"]
+    assert result.snap_feeder_km.isna().all() and result.snap_component_node_count.isna().all()
+    assert result.geometry.isna().all() and result.reachable_node_count.tolist() == [0]
+
+
+def test_kernel_nearest_supported_ties_and_matrix_snapping_unchanged():
+    from scripts.analyze import highway_pair_kernel as kernel
+    labels = np.array([0, 0, 1, 1, 1])
+    sizes = kernel.component_sizes(labels)
+    idx, dist = np.array([0, 2, 3]), np.array([10.0, 5.0, 5.0])
+    assert kernel.nearest_supported(dist, idx, labels, sizes, min_nodes=3) == (5.0, 2, 3)
+    assert kernel.nearest_supported(dist, idx, labels, sizes, min_nodes=1) == (5.0, 2, 3)
+    assert kernel.nearest_supported(dist, idx, labels, sizes, min_nodes=4) is None
+    assert kernel.nearest_supported(dist, idx, labels, sizes, min_nodes=2, max_distance_m=4.0) is None
+    # The closest-compatible matrix helper still has no size preference.
+    assert kernel.nearest_per_component(dist, idx, labels) == {0: (10.0, 0), 1: (5.0, 2)}

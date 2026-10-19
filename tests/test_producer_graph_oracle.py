@@ -1711,7 +1711,7 @@ def n1c_make_graph(xy, edges, label_map=None):
 def test_n1c_snap_distance_boundary_is_inclusive_and_filters_nonfinite_and_negative(monkeypatch, distance, snapped):
     oracle = n1c_oracle()
     monkeypatch.setattr(oracle.kernel, "radius_candidates", lambda point, graph: (np.array([0]), np.array([distance])))
-    result = oracle._coverage_snap(np.array([0., 0.]), object())
+    result = oracle._coverage_snap(np.array([0., 0.]), SimpleNamespace(nh_comp_labels=np.zeros(5, dtype=int)))
     assert (result is not None) == snapped and (not snapped or result == (distance, 0))
 
 
@@ -1719,19 +1719,23 @@ def test_n1c_snap_ties_resolve_by_node_id_and_a_nearer_node_beats_a_lower_id(mon
     oracle = n1c_oracle()
     for order in ([4, 3, 0], [0, 3, 4], [3, 0, 4]):
         monkeypatch.setattr(oracle.kernel, "radius_candidates", lambda point, graph, order=order: (np.array(order), np.full(len(order), 25000.0)))
-        assert oracle._coverage_snap(np.array([0., 0.]), object()) == (25000.0, 0)
+        assert oracle._coverage_snap(np.array([0., 0.]), SimpleNamespace(nh_comp_labels=np.zeros(5, dtype=int))) == (25000.0, 0)
     monkeypatch.setattr(oracle.kernel, "radius_candidates", lambda point, graph: (np.array([0, 3]), np.array([30000.0, 29999.0])))
-    assert oracle._coverage_snap(np.array([0., 0.]), object()) == (29999.0, 3)
-    assert oracle._coverage_snap(None, object()) is None
+    assert oracle._coverage_snap(np.array([0., 0.]), SimpleNamespace(nh_comp_labels=np.zeros(5, dtype=int))) == (29999.0, 3)
+    assert oracle._coverage_snap(None, SimpleNamespace(nh_comp_labels=np.zeros(5, dtype=int))) is None
 
 
-def test_n1c_the_nearest_tiny_island_wins_over_a_larger_farther_mainland_on_a_real_tree():
+def test_n1c_supported_mainland_beats_a_nearer_tiny_island_two_sided(monkeypatch):
     oracle = n1c_oracle()
     graph = n1c_make_graph([(5000., 0.), (6000., 0.), (40000., 0.), (41000., 0.), (42000., 0.), (43000., 0.)], [(0, 1), (2, 3), (3, 4), (4, 5)])
-    distance, node = oracle._coverage_snap(np.array([0., 0.]), graph)
-    assert (distance, node) == (5000.0, 0)
     sizes = oracle._coverage_component_sizes(graph.nh_comp_labels)
-    assert sizes[int(graph.nh_comp_labels[node])] == 2 and sorted(sizes.values()) == [2, 4]
+    assert sorted(sizes.values()) == [2, 4]
+    monkeypatch.setattr(oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 3)
+    distance, node = oracle._coverage_snap(np.array([0., 0.]), graph)
+    assert (distance, node) == (40000.0, 2) and sizes[int(graph.nh_comp_labels[node])] == 4
+    monkeypatch.setattr(oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+    distance, node = oracle._coverage_snap(np.array([0., 0.]), graph)
+    assert (distance, node) == (5000.0, 0) and sizes[int(graph.nh_comp_labels[node])] == 2
     assert oracle._coverage_snap(np.array([0., 400000.]), graph) is None
 
 
@@ -1888,3 +1892,16 @@ def test_n1c_f1_schema_valid_wrong_cardinality_fails_only_the_independent_entry(
     assert n1c_pairs(n1c_block(results)) == expected
     assert [r["check"] for r in results if r["status"] == "FAIL"] == [n1c_label(entries[position])]  # Exactly one FAIL overall.
     assert {r["dataset"] for r in results} >= {"graph_oracle", "route_oracle", "category_oracle", "iso_oracle", "coverage_oracle"}
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _tiny_synthetic_graphs_are_supported():
+    """Synthetic fixtures are far below the production component-size floor, so this module runs with
+    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
+    tests/test_supported_component_floor.py."""
+    from scripts.analyze import highway_pair_kernel as _kernel
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
+        from scripts.audit import producer_graph_oracle as _oracle
+        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
+        yield
