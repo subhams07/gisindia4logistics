@@ -1,6 +1,6 @@
 # Claude remote handoff — national datasets
 
-**Status: 2026-10-19 — run 2 (`stage4_staging/linux-2026-10-19-run2/`) is the publication candidate: validated, full national audit 0 FAIL, consumer checks pass. Awaiting operator decision to publish into `data/analysis/` on the review branch. Not published; nothing merged to `main`.** Section 0 is the live status/plan log and supersedes conflicting statements in sections 1–8, which are kept as the original Windows checkpoint record. No real profile, national read, generation, publication or merge has happened or is approved.
+**Status: 2026-10-19 — national refresh PUBLISHED to `data/analysis/` on review branch `claude/gisindia-remote-handoff-verify-veukfs` (commit `605d88f`). Full national audit 0 FAIL; full test suite 3,508 passed / 0 failed. NOT merged to `main` — merging needs a separate operator decision.**
 
 ## 0. Live status and plan — update this section at every step
 
@@ -295,3 +295,13 @@ The earlier completed real bounded run was approximately 402 seconds / 213 passi
 - 2026-10-19: Snapping fix round re-checked by Opus: **ACCEPT** (all mutation checks fail a test; full suite 3,494 passed / 14 pre-existing env failures). Committed `6ffc020`. Installed `tabulate` 0.10.0 into `.venv` (needed by the audit report writer). Started regeneration run 2 (`/home/user/n2_stage/run2.sh`): same 12 GiB cgroup cap, fresh cache root, gravity α/β 0.85/1.65 (coordinator recommendation; operator had no basis to choose and did not object), run-id `linux-2026-10-19-run2`.
 - 2026-10-19: **Run 2 completed** (rc 0, 871 s, cgroup peak 670,998,528 B, failcnt 0, oom 0); saved to `stage4_staging/linux-2026-10-19-run2/` (`935fdc5`). `validate_manifest`, `validate_national_profile`, `validate_limitations(require_coverage)` all clean. Drift vs B0: hinterland now matches B0 except 4 island relabels, 2 category changes and the approved population corrections; the 10 corrected hubs have full catchments (JNPT 4 h reaches 8,094 nodes vs 3), Jammu restored at all bands, all other hubs unchanged (median Δ 0.0%). First full audit pointed at the staged dir alone stopped on missing ancillary analysis files (expected: the audit needs the 9 staged members overlaid on the unchanged `data/analysis` files); overlay built at `/home/user/n2_stage/overlay2` (byte-identical copies verified) and the full national audit re-run. Consumer check (TestClient, data root = overlay): isochrone, district scorecard (incl. NAZUL/MIRPUR/Alappuzha/Andamans), freight-cost and port-gravity endpoints all HTTP 200.
 - 2026-10-19: Full national audit on the run-2 overlay: **5,367 checks, 5,351 PASS, 16 WARN, 0 FAIL** (WARNs = pre-existing source disclosures + code-closure-deferred note; the 10 component-bounded catchment WARNs from run 1 are gone). Report saved as `stage4_staging/linux-2026-10-19-run2/audit_report_national_full.md`. Drift doc gains a Run 2 section with the disclosure list. Awaiting publication decision.
+- 2026-10-19: **Published** run 2 into `data/analysis/` (7 artifacts + `producer_manifest.json` + `producer_limitations.json`; byte-identical to `stage4_staging/linux-2026-10-19-run2/analysis`), commit `605d88f`. Post-publication checks on the real `data/analysis/`: manifest/profile/limitations validation clean; full national audit **5,367 checks, 5,351 PASS, 16 WARN, 0 FAIL** (report now `docs/audit_report.md`); API endpoints HTTP 200 with default settings; full test suite **3,508 passed, 1 skipped, 0 failed** (with `.venv/bin` on PATH and `tabulate` installed).
+
+### Remaining / follow-up (not started)
+
+- Merge to `main`: operator decision (new PR from this branch, or fold into PR #4).
+- Gravity α/β calibration: needs district-origin port data (e.g. CBIC/ICEGATE port of loading by district); 0.85/1.65 currently labelled uncalibrated.
+- 372 district–hub pairs with road distance > 3× straight-line (graph fragmentation) — investigate separately.
+- Island highway-access over-sea values above the 150 km snap limit — consider nulling.
+- `catalog.yaml` / README notes for the refreshed analysis datasets (vintage, disclosures) — not yet updated.
+- Unaccepted N2 harness work (`stage4_n2_harness_4b_pending/`) is no longer on the critical path; keep or remove at operator discretion.
