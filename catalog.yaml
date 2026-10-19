@@ -379,7 +379,7 @@ datasets:
   quality_notes: 16 major commodity mandis (Azadpur, Vashi, Unjha, Guntur, Khanna, Lasalgaon, etc.) with annual traded volumes and coordinates
 - name: Freight terminals (Gati Shakti GCTs)
   category: rail
-  description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; 70 with coordinates
+  description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; 78 with coordinates (6 pending)
   provider: Ministry of Railways via PIB (Annexure to Lok Sabha answer, PRID 1910049)
   source_url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049
   license: GODL-India
