@@ -234,13 +234,13 @@ datasets:
   provider: derived in this repo (IR Tariff + NLP benchmarks + NHAI TIS)
   source_url: null
   license: MIT (code) / GODL-India derived
-  vintage: 2026-08
+  vintage: 2026-10
   resolution: district
   access: committed
   path: data/analysis/district_freight_modal_split.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings). Regenerated 2026-10 by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json." 
+  quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings). Regenerated 2026-10 by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json."
 - name: Port Hinterland Gravity & Catchment Model
   category: analysis
   description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 781 districts for 12 Major Ports
@@ -253,7 +253,7 @@ datasets:
   path: data/analysis/district_port_hinterland_catchment.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "781 districts: Captive Hinterland 29, Dominant / Mildly Contested 59, Highly Contested / Split Hinterland 689, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)." 
+  quality_notes: "781 districts: Captive Hinterland 29, Dominant / Mildly Contested 59, Highly Contested / Split Hinterland 689, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)."
 - name: Major Ports & MMLP Drive-Time Isochrones
   category: analysis
   description: Vector drive-time catchment polygons at 4h, 8h, 12h, 24h around 12 Major Commercial Ports and at 4h, 8h, 12h around 20 Multimodal Logistics Parks
@@ -266,7 +266,7 @@ datasets:
   path: data/analysis/*_isochrones.geojson
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "48 port + 60 MMLP isochrone polygons, all status ok, valid geometries. Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km (modelling policy; per-feature snap_feeder_km and snap_component_node_count recorded). Thresholds changed from 1/2/4/8h in the 2026-08 vintage." 
+  quality_notes: "48 port + 60 MMLP isochrone polygons, all status ok, valid geometries. Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km (modelling policy; per-feature snap_feeder_km and snap_component_node_count recorded). Thresholds changed from 1/2/4/8h in the 2026-08 vintage."
 - name: Railway stations
   category: rail
   description: ~8,700 stations with code, zone (partial), state, coordinates
@@ -569,7 +569,7 @@ datasets:
   path: data/analysis/nh_district_travel_time_summary.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "781 rows (Parquet twin committed); 777 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 372 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit." 
+  quality_notes: "781 rows (Parquet twin committed); 777 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 372 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit."
 - name: District to Major Ports highway drive-time matrix
   category: analysis
   description: 781 districts x 12 major commercial ports drive-time matrix in hours
@@ -582,4 +582,4 @@ datasets:
   path: data/analysis/nh_district_port_matrix.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "781 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py." 
+  quality_notes: "781 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py."
