@@ -171,3 +171,21 @@ Catchment area (km², EPSG:7755): total new 1,418,704 vs B0 1,471,109 (-3.6%); p
 - Status values in new: {'ok': 57, 'unsupported_threshold': 3} (B0 has no status column)
 
 Parquet/CSV consistency (new summary): shapes (781, 52) / (781, 52); same columns True.
+
+## Gravity α/β sensitivity (coordinator analysis, 2026-10-19)
+
+Primary-port assignment computed with the current `build_port_hinterland` on the staged port matrix and the source population file. The count is of districts whose primary port differs from the 0.85/1.65 result.
+
+| α \ β | 1.0 | 1.5 | 1.65 | 2.0 | 2.5 |
+|---|---|---|---|---|---|
+| 0.50 | 2 | 79 | 112 | 158 | 168 |
+| 0.85 | 84 | 17 | **0** | 29 | 72 |
+| 1.00 | 105 | 54 | 35 | 2 | 35 |
+| 1.20 | 134 | **73** | 60 | 28 | 12 |
+| 1.50 | 190 | 105 | 92 | 65 | 28 |
+
+Paradip wins 275 districts at 0.85/1.65 and 330 at 1.2/1.5; Kolkata/Haldia wins 67 and 27.
+
+Reading: the primary-port ranking depends almost entirely on the ratio **α/β**. A district's preference between two ports turns on capacity ratio^α versus drive-time ratio^β. Settings with the same α/β ratio give nearly identical assignments (0.85/1.65 ≈ 0.52 and 1.0/2.0 = 0.50 differ in only 2 districts). The probabilities depend on both values.
+
+Basis: there is no calibration data in the repo. Port "capacities" are FY2023-24 cargo throughput, so fitting to throughput would be circular, and that throughput is dominated by bulk coal and ore rather than population-driven demand. Recommendation: use 0.85/1.65 (every earlier version and the live API default), label it uncalibrated, publish this table, and calibrate later against district-origin port data such as CBIC/ICEGATE port of loading by district.
