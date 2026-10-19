@@ -189,3 +189,16 @@ Paradip wins 275 districts at 0.85/1.65 and 330 at 1.2/1.5; Kolkata/Haldia wins 
 Reading: the primary-port ranking depends almost entirely on the ratio **α/β**. A district's preference between two ports turns on capacity ratio^α versus drive-time ratio^β. Settings with the same α/β ratio give nearly identical assignments (0.85/1.65 ≈ 0.52 and 1.0/2.0 = 0.50 differ in only 2 districts). The probabilities depend on both values.
 
 Basis: there is no calibration data in the repo. Port "capacities" are FY2023-24 cargo throughput, so fitting to throughput would be circular, and that throughput is dominated by bulk coal and ore rather than population-driven demand. Recommendation: use 0.85/1.65 (every earlier version and the live API default), label it uncalibrated, publish this table, and calibrate later against district-origin port data such as CBIC/ICEGATE port of loading by district.
+
+## Run 2 (`linux-2026-10-19-run2`) — publication candidate
+
+Run 2 applies the operator rulings: the reviewed catchment snapping fix (`6ffc020`) and gravity α/β 0.85/1.65. Population is unchanged and disclosed. Detailed tables: `stage4_staging/linux-2026-10-19-run2/drift_vs_B0.md` and `drift_vs_run1.md`.
+
+| Area | Run 2 vs B0 |
+|---|---|
+| Hinterland | Matches B0 apart from: 4 island rows labelled `N/A (Island)` (blank in B0), 2 category changes, and the population corrections (NAZUL, MIRPUR, MUZAFFARABAD now carry source values; Alappuzha's collision bug fixed). |
+| Catchments | The 10 previously fragment-bound hubs now have full catchments (e.g. JNPT 4 h reaches 8,094 nodes vs 3). MMLP Jammu is restored at 4/8/12 h. All other hubs are identical to run 1 (median change 0.0%). Thresholds are 4/8/12/24 h for ports and 4/8/12 h for MMLPs, as reviewed. |
+| Routing tables | Same as run 1 (the matrix code is unchanged): highway access decreases in 62 districts, canonical-path distance shifts (median about 0.1%), and the 372 high-circuity pairs remain disclosed. |
+| Validation | Manifest, national profile and limitations: no issues. Full national audit on an overlay: 5,367 checks, 0 FAIL, 16 WARN (all pre-existing source disclosures). API, SDK and MCP endpoints work. |
+
+Disclosures to carry with publication: gravity α/β 0.85/1.65 is uncalibrated (see the sensitivity table); MIRPUR and MUZAFFARABAD populations are `area_share` estimates; `pop_2011` is now float64; the isochrone thresholds changed; the snap rule now requires a highway component of at least 1,000 nodes (Andaman and Arunachal fragments would be unsupported); 372 district–hub pairs have road distance more than 3× straight-line; island highway-access values are over-sea distances.
