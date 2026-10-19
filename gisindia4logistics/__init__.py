@@ -2,7 +2,7 @@
 GISIndia4Logistics — Open Geospatial & Multimodal Freight Intelligence Platform for India
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 __all__ = [
     "get_district",

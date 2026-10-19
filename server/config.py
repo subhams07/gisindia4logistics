@@ -12,7 +12,7 @@ DATA_DIR = BASE_DIR / "data"
 class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "GISIndia4Logistics API"
-    VERSION: str = "1.0.0"
+    VERSION: str = "1.1.0"
     DESCRIPTION: str = (
         "Open, curated GIS and multimodal freight logistics API platform for India. "
         "Provides administrative boundaries, logistics hubs, highway routing, "

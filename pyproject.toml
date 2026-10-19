@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gisindia4logistics"
-version = "1.0.0"
+version = "1.1.0"
 description = "GISIndia4Logistics — Curated Geospatial Data, Multimodal Routing, and Freight Analytics Platform for India"
 readme = "README.md"
 authors = [
