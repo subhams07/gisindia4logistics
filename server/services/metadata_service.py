@@ -9,6 +9,7 @@ import logging
 from pathlib import Path
 from typing import Optional, Dict, Any
 
+from server.config import settings
 from server.models.phase1 import ResponseMetadata
 
 LOGGER = logging.getLogger(__name__)
@@ -21,25 +22,48 @@ class MetadataService:
     """Singleton service for loading version manifest and constructing ResponseMetadata."""
     _instance: Optional["MetadataService"] = None
 
-    def __init__(self, manifest_path: Path = MANIFEST_PATH):
-        self.manifest_path = manifest_path
+    def __init__(self, manifest_path: Optional[Path] = None):
+        self.manifest_path = Path(
+            manifest_path if manifest_path is not None else settings.DATA_PATH / "version_manifest.json"
+        ).resolve()
         self._manifest_data: Dict[str, Any] = self._load_manifest()
 
     @classmethod
-    def get_instance(cls, manifest_path: Path = MANIFEST_PATH) -> "MetadataService":
-        if cls._instance is None:
-            cls._instance = cls(manifest_path=manifest_path)
+    def get_instance(cls, manifest_path: Optional[Path] = None) -> "MetadataService":
+        path = Path(
+            manifest_path if manifest_path is not None else settings.DATA_PATH / "version_manifest.json"
+        ).resolve()
+        if cls._instance is None or cls._instance.manifest_path != path:
+            cls._instance = cls(manifest_path=path)
         return cls._instance
 
     def _load_manifest(self) -> Dict[str, Any]:
         if self.manifest_path.exists():
             try:
                 with open(self.manifest_path, "r", encoding="utf-8") as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    if not isinstance(data, dict):
+                        raise ValueError("Manifest must be an object")
+                    datasets = data.get("datasets", {})
+                    legal = data.get("legal_compliance", {})
+                    if (not isinstance(datasets, dict) or not isinstance(legal, dict)
+                            or any(not isinstance(item, dict) for item in datasets.values())):
+                        raise ValueError("Manifest dataset and legal entries must be objects")
+                    for field in ("data_version", "api_version", "model_version"):
+                        if field in data and (not isinstance(data[field], str) or not data[field].strip()):
+                            raise ValueError("Manifest versions must be non-empty strings")
+                    for item in datasets.values():
+                        vintage = item.get("vintage")
+                        if vintage is not None and (not isinstance(vintage, str) or not vintage.strip()):
+                            raise ValueError("Manifest vintages must be strings or absent")
+                    for field in ("disclaimer", "assumptions_url", "sources_url"):
+                        if field in legal and (not isinstance(legal[field], str) or not legal[field].strip()):
+                            raise ValueError("Manifest legal values must be non-empty strings")
+                    return data
             except Exception as e:
                 LOGGER.warning("Failed to load version manifest from %s: %s", self.manifest_path, e)
         return {
-            "data_version": "2026.08",
+            "data_version": "unknown",
             "api_version": "1.0.0",
             "model_version": "phase1-decision-workbench",
             "datasets": {},
@@ -52,7 +76,7 @@ class MetadataService:
 
     @property
     def api_version(self) -> str:
-        return str(self._manifest_data.get("api_version", "1.0.0"))
+        return self._manifest_data.get("api_version", "1.0.0")
 
     @property
     def package_version(self) -> str:
@@ -68,11 +92,11 @@ class MetadataService:
 
     @property
     def model_version(self) -> str:
-        return str(self._manifest_data.get("model_version", "phase1-decision-workbench"))
+        return self._manifest_data.get("model_version", "phase1-decision-workbench")
 
     @property
     def data_version(self) -> str:
-        return str(self._manifest_data.get("data_version", "2026.08"))
+        return self._manifest_data.get("data_version") or "unknown"
 
     def get_metadata(self, custom_limitations: Optional[list[str]] = None) -> ResponseMetadata:
         """Constructs a fresh ResponseMetadata instance with current UTC timestamp."""
@@ -85,6 +109,9 @@ class MetadataService:
                 "All spatial data and administrative boundaries are indicative representations published for logistics analytics, not authoritative Survey of India boundary certifications."
             )
         ]
+        if self.data_version == "unknown":
+            datasets = {}
+            limitations.append("Configured data provenance is unavailable or invalid; dataset vintages are unknown.")
         if custom_limitations:
             limitations.extend(custom_limitations)
 

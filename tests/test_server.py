@@ -148,7 +148,12 @@ def test_mcp_tools_rpc():
     res_list = handle_rpc_request(req_list)
     assert "result" in res_list
     tools = res_list["result"]["tools"]
-    assert len(tools) == 6
+    assert len(tools) == 7
+    assert {tool["name"] for tool in tools} == {
+        "gis_get_district_scorecard", "gis_highway_route_and_tolls",
+        "gis_calculate_intermodal_freight_cost", "gis_find_nearest_facilities",
+        "gis_simulate_port_catchment", "gis_plot_villages_map", "gis_plan_highway_route",
+    }
 
     # 2. tools/call gis_get_district_scorecard
     req_call = {

@@ -1,0 +1,413 @@
+{
+  "artifacts": {
+    "district_freight_modal_split.csv": {
+      "bytes": 116451,
+      "columns": [
+        "state",
+        "district",
+        "district_code",
+        "pop_2011",
+        "is_island",
+        "target_port",
+        "road_distance_km",
+        "road_drive_time_hours",
+        "road_cost_per_ton_inr",
+        "rail_cost_per_ton_inr",
+        "dfc_cost_per_ton_inr",
+        "optimal_mode",
+        "modal_shift_savings_inr",
+        "modal_shift_savings_pct",
+        "break_even_distance_km"
+      ],
+      "path": "district_freight_modal_split.csv",
+      "rows": 781,
+      "sha256": "73cf17aae86dbda6a6a22bb16c39c42be0f160f57bcf96358ec8ff6ce061ff7c",
+      "type": "csv"
+    },
+    "district_port_hinterland_catchment.csv": {
+      "bytes": 117418,
+      "columns": [
+        "state",
+        "district",
+        "district_code",
+        "pop_2011",
+        "is_island",
+        "primary_port",
+        "primary_port_probability",
+        "primary_port_drive_hours",
+        "secondary_port",
+        "secondary_port_probability",
+        "secondary_port_drive_hours",
+        "hinterland_category",
+        "contestability_index"
+      ],
+      "path": "district_port_hinterland_catchment.csv",
+      "rows": 781,
+      "sha256": "cfcbdeb0b21c1ea3e065731f659894b9f11e43239d11ba5ff785953666a3a7d3",
+      "type": "csv"
+    },
+    "major_ports_isochrones.geojson": {
+      "bytes": 100065,
+      "features": 48,
+      "path": "major_ports_isochrones.geojson",
+      "sha256": "6f7141515637afec9bb5907702c83be14e0754ec48a16436aaabc28ffba32abe",
+      "type": "geojson"
+    },
+    "mmlp_isochrones.geojson": {
+      "bytes": 125820,
+      "features": 60,
+      "path": "mmlp_isochrones.geojson",
+      "sha256": "b0f73c54fa0ccf0763c0a09660344e1a1432016ed028b0f13eaf72151eacbe8f",
+      "type": "geojson"
+    },
+    "nh_district_port_matrix.csv": {
+      "bytes": 140043,
+      "columns": [
+        "state",
+        "district",
+        "district_code",
+        "drive_hours_to_deendayal_(kandla)",
+        "road_km_to_deendayal_(kandla)",
+        "drive_hours_to_mumbai",
+        "road_km_to_mumbai",
+        "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)",
+        "road_km_to_jawaharlal_nehru_(jnpt/navi_mumbai)",
+        "drive_hours_to_mormugao",
+        "road_km_to_mormugao",
+        "drive_hours_to_new_mangalore",
+        "road_km_to_new_mangalore",
+        "drive_hours_to_cochin",
+        "road_km_to_cochin",
+        "drive_hours_to_v.o._chidambaranar_(tuticorin)",
+        "road_km_to_v.o._chidambaranar_(tuticorin)",
+        "drive_hours_to_chennai",
+        "road_km_to_chennai",
+        "drive_hours_to_kamarajar_(ennore)",
+        "road_km_to_kamarajar_(ennore)",
+        "drive_hours_to_visakhapatnam",
+        "road_km_to_visakhapatnam",
+        "drive_hours_to_paradip",
+        "road_km_to_paradip",
+        "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex",
+        "road_km_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex"
+      ],
+      "path": "nh_district_port_matrix.csv",
+      "rows": 781,
+      "sha256": "a3ef880bc155ee03d95dfd7756942a3b52e99ffc58e6f3b7e2a85fb3f94ce47a",
+      "type": "csv"
+    },
+    "nh_district_travel_time_summary.csv": {
+      "bytes": 345592,
+      "columns": [
+        "state",
+        "district",
+        "district_code",
+        "pop_2011",
+        "is_island",
+        "highway_access_dist_km",
+        "highway_access_time_min",
+        "nearest_rail_station_name",
+        "rail_station_straight_km",
+        "rail_station_road_distance_km",
+        "rail_station_drive_time_hours",
+        "rail_station_drive_time_min",
+        "nearest_freight_terminal_name",
+        "freight_terminal_straight_km",
+        "freight_terminal_road_distance_km",
+        "freight_terminal_drive_time_hours",
+        "freight_terminal_drive_time_min",
+        "nearest_port_name",
+        "port_straight_km",
+        "port_road_distance_km",
+        "port_drive_time_hours",
+        "port_drive_time_min",
+        "nearest_icd_name",
+        "icd_straight_km",
+        "icd_road_distance_km",
+        "icd_drive_time_hours",
+        "icd_drive_time_min",
+        "nearest_mmlp_name",
+        "mmlp_straight_km",
+        "mmlp_road_distance_km",
+        "mmlp_drive_time_hours",
+        "mmlp_drive_time_min",
+        "nearest_air_cargo_name",
+        "air_cargo_straight_km",
+        "air_cargo_road_distance_km",
+        "air_cargo_drive_time_hours",
+        "air_cargo_drive_time_min",
+        "nearest_icp_name",
+        "icp_straight_km",
+        "icp_road_distance_km",
+        "icp_drive_time_hours",
+        "icp_drive_time_min",
+        "nearest_toll_plaza_name",
+        "toll_plaza_straight_km",
+        "toll_plaza_road_distance_km",
+        "toll_plaza_drive_time_hours",
+        "toll_plaza_drive_time_min",
+        "nearest_expressway_name",
+        "expressway_straight_km",
+        "expressway_road_distance_km",
+        "expressway_drive_time_hours",
+        "expressway_drive_time_min"
+      ],
+      "path": "nh_district_travel_time_summary.csv",
+      "rows": 781,
+      "sha256": "5baad8c5039792aba3b79519d932d57290e44d883e68dac52f6661c376c19e86",
+      "type": "csv"
+    },
+    "nh_district_travel_time_summary.parquet": {
+      "bytes": 216464,
+      "columns": [
+        "state",
+        "district",
+        "district_code",
+        "pop_2011",
+        "is_island",
+        "highway_access_dist_km",
+        "highway_access_time_min",
+        "nearest_rail_station_name",
+        "rail_station_straight_km",
+        "rail_station_road_distance_km",
+        "rail_station_drive_time_hours",
+        "rail_station_drive_time_min",
+        "nearest_freight_terminal_name",
+        "freight_terminal_straight_km",
+        "freight_terminal_road_distance_km",
+        "freight_terminal_drive_time_hours",
+        "freight_terminal_drive_time_min",
+        "nearest_port_name",
+        "port_straight_km",
+        "port_road_distance_km",
+        "port_drive_time_hours",
+        "port_drive_time_min",
+        "nearest_icd_name",
+        "icd_straight_km",
+        "icd_road_distance_km",
+        "icd_drive_time_hours",
+        "icd_drive_time_min",
+        "nearest_mmlp_name",
+        "mmlp_straight_km",
+        "mmlp_road_distance_km",
+        "mmlp_drive_time_hours",
+        "mmlp_drive_time_min",
+        "nearest_air_cargo_name",
+        "air_cargo_straight_km",
+        "air_cargo_road_distance_km",
+        "air_cargo_drive_time_hours",
+        "air_cargo_drive_time_min",
+        "nearest_icp_name",
+        "icp_straight_km",
+        "icp_road_distance_km",
+        "icp_drive_time_hours",
+        "icp_drive_time_min",
+        "nearest_toll_plaza_name",
+        "toll_plaza_straight_km",
+        "toll_plaza_road_distance_km",
+        "toll_plaza_drive_time_hours",
+        "toll_plaza_drive_time_min",
+        "nearest_expressway_name",
+        "expressway_straight_km",
+        "expressway_road_distance_km",
+        "expressway_drive_time_hours",
+        "expressway_drive_time_min"
+      ],
+      "path": "nh_district_travel_time_summary.parquet",
+      "rows": 781,
+      "sha256": "cd0fb6e2b0bfe058e0eba87a3fd7348bf276b463df4f22a88adfd5837de5b5a6",
+      "type": "parquet"
+    }
+  },
+  "code_hashes": {
+    "gisindia4logistics/__init__.py": "6f8b41db8ffd1356f21cb5e2953d7bf4448a9ad51aeeae962857d4c307df20be",
+    "scripts/analyze/freight_cost_core.py": "402b4325e38c5cceb206e1f93bd7a48ad648a78c92f0647b686716dff230f8c6",
+    "scripts/analyze/generate_isochrones.py": "9ef09164305d2b4f6513592edec3800e1200597f3c038ee3cdc7e20c4e84d42f",
+    "scripts/analyze/highway_pair_kernel.py": "8fa05f247b9f653632d314e73f5231996f68b431d074c12171f855165552cb80",
+    "scripts/analyze/intermodal_cost_engine.py": "58d8ccf3cbe34756d1e8f545e588478ca19831fa06253f76be24c19b9a9bb3c0",
+    "scripts/analyze/isochrone_coverage.py": "3885371d2388ebafe319a85698261ac66ebeb5f4c503768123dd0113c48207a4",
+    "scripts/analyze/nh_travel_matrix.py": "1200f517cf0eacf99a90b1855c25722acfe595f41169b2ca37146f8733e8a5a4",
+    "scripts/analyze/plot_villages.py": "45953c7ee8e100ef2273eebc5c4b3e507cfd3225ee76e0b2c7cab0edcec205c9",
+    "scripts/analyze/port_hinterland_model.py": "fec9ad55468b2df8a6b75581d48ba7caf87924411e6f076993eb66e131f25f84",
+    "scripts/analyze/producer_io.py": "a70ebc2d94f96b8f229370cb3c9fdb8b2ec8365dfef1a6877392ded2cd85b17f",
+    "scripts/analyze/producer_limitations.py": "a70c61bc4aaa480a1adb0b2e8a44ec3dede4042d4e1ff87d5774a990bdfc2fac",
+    "scripts/analyze/producer_manifest.py": "46eb5e15a9f13e194b1acbdb341d5a47c7ea6eb4bdd82cfad8b5445860a7ea28",
+    "scripts/analyze/stage4_generate.py": "3f7d488c94c101ff691024fae6fd1dd6b81a40c0e7adba65c4cb7631c44097fa",
+    "scripts/audit/identity_contract.py": "a7427f430c8d4758359d29ec884e2dbc0f9d94e0f01b26078f8b514488614346",
+    "scripts/clean/graph_builder.py": "5488b7f07b2fd8240a116457323d56a470ba2c137168f3f159bd8d08a2a1caae",
+    "scripts/clean/standardize.py": "2f1caf3a6b120fc347e934af60a06fe506685dbef92c914c2ba2113d2f9d1b47",
+    "server/__init__.py": "decb8bada8965fc7ae452aab12df0bb3147acebfd2a204b87aac400dd8971691",
+    "server/app.py": "effab0842e832c6cca251f8a9b584630806a7107051eaf801fd20def1fa19fa6",
+    "server/config.py": "c397619e88d0071b8af72df08ebb1ba45bcd783e99210984542c39993636d4c6",
+    "server/dependencies.py": "00ad93199e6ed29e293be3c66c2012dc1128dc3bcfd0dc562229136bc938d780",
+    "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
+    "server/models/phase1.py": "04eccc7851cddcbd1bbc901181afc64ee6b0306f33f53899119b1a0658200398",
+    "server/models/schemas.py": "bd09898a8f55e05f9dc4c84794f1f1433b0fe386b8ad5de337bfd3de93a44fa0",
+    "server/routers/__init__.py": "e7fa915392e982063a995334d2bee6b7910ea988a16e8cd5ac8e09867331bebf",
+    "server/routers/admin.py": "13febe0e2039b4861cf3f6bfa3cf4970669607372b561b34594d4f6a23956dc7",
+    "server/routers/hubs.py": "ba0582c882c5c97723f41e7ef562edccce6079cd8471baf555bd709e2b7b92c0",
+    "server/routers/routing.py": "bbf26826e05c34c39bb6eb0016ef1e10c183df2419aed7f0829393e8fb77a38b",
+    "server/routers/simulation.py": "6387bee35a0ff58c3d17b6ed83befcebd8fbf7af2c5443ad2875840bdffb6b3f",
+    "server/services/__init__.py": "98f669904aeefbb80e1b5c0903ed6d31394364de8a3ed61ce548a12fc637a99d",
+    "server/services/error_contract.py": "542127dd3be2f78464df731c890c15c8f6eebf420df6b71b858128a157d95da7",
+    "server/services/exceptions.py": "cb481fdcb78a538f78847ac56a19f99e8b48175165cd69e791be95337d088f3a",
+    "server/services/graph_snapshot.py": "4df091070be3cb9bf931f2e187e4d9057d7cd6e5d5a2902612840abff1aa45c3",
+    "server/services/location_resolver.py": "f0b54cfb746c03236fdc44f0045145f03de1e186268a616bcfc1cc01ef7d59ea",
+    "server/services/metadata_service.py": "9f4434be8e543e6ebaaca420497a5ba8fb1a24b4fae6d00c0df73412bfeb73b5",
+    "server/services/routing_facade.py": "440d40417591e71ff83de9447bc23bc9d230b8e62b4c8333f1be4b79a74d1b18",
+    "server/services/routing_service.py": "6955ef79a855b7b0ed0415fbabce0f5c34072d9131714e8967d6318afa2f3d54",
+    "server/services/serialization.py": "914a1436c0085fe057cb2df9bb723d5cd749b5e0596ac2dd9bc6f1c7efce1c0e"
+  },
+  "config": {
+    "alpha": 0.85,
+    "beta": 1.65,
+    "buffer_m": 8000.0,
+    "capacities": {
+      "Chennai Port": 54.5,
+      "Cochin Port": 36.5,
+      "Deendayal Port (Kandla)": 132.5,
+      "Jawaharlal Nehru Port (JNPT)": 86.0,
+      "Kamarajar Port (Ennore)": 48.0,
+      "Mormugao Port": 20.5,
+      "Mumbai Port": 65.0,
+      "New Mangalore Port": 46.0,
+      "Paradip Port": 145.38,
+      "Syama Prasad Mookerjee Port (Kolkata/Haldia)": 66.0,
+      "V.O. Chidambaranar Port (Tuticorin)": 41.5,
+      "Visakhapatnam Port": 81.0
+    },
+    "chunk_size": 32,
+    "feeder_speed_kmh": 35.0,
+    "freight_parameters": {
+      "dfc_circuity_factor": 1.02,
+      "dfc_commercial_speed_kmh": 60.0,
+      "dfc_handling_cost": 180.0,
+      "dfc_linehaul_rate": 1.12,
+      "dfc_yard_transfer_hours": 3.0,
+      "inventory_holding_rate": 7.5,
+      "rail_base_class_rate": 1.55,
+      "rail_circuity_factor": 1.08,
+      "rail_commercial_speed_kmh": 25.0,
+      "rail_first_mile_handling": 120.0,
+      "rail_first_mile_rate": 4.2,
+      "rail_handling_and_siding": 220.0,
+      "rail_yard_detention_hours": 12.0,
+      "road_handling_cost": 140.0,
+      "road_linehaul_rate": 3.3,
+      "toll_cost_per_plaza": 340.0,
+      "toll_spacing_km": 65.0,
+      "truck_payload_tons": 20.0
+    },
+    "lmv_factor": 1.0,
+    "objectives": {
+      "distance": "time_predecessor_path",
+      "hub_selection": "minimum_lmv_time",
+      "snap": "closest_compatible"
+    },
+    "simplify_m": 500.0,
+    "snap_limit_km": 150.0,
+    "speeds": {
+      "default": 50.0,
+      "motorway": 90.0,
+      "primary": 55.0,
+      "trunk": 70.0
+    },
+    "thresholds_hours": {
+      "major_port": [
+        4.0,
+        8.0,
+        12.0,
+        24.0
+      ],
+      "mmlp": [
+        4.0,
+        8.0,
+        12.0
+      ]
+    },
+    "units": {
+      "cost": "INR/tonne",
+      "distance": "km",
+      "time": "hours"
+    }
+  },
+  "graph": {
+    "edge_count": 932722,
+    "fingerprint": {
+      "bridge_max_meters": 350.0,
+      "bridge_speed": 35.0,
+      "cache_version": 6,
+      "crs": "EPSG:7755",
+      "default_speed": 50.0,
+      "row_count": 141990,
+      "snap_grid_meters": 15.0,
+      "source_content_sha256": "d5269dd7b19417901aaee04f383c5dddd39583874fdf5f227ef8e99d76b2f147",
+      "speed_hash": "f227059496c6941f2a35e47e8da8a8302c0023861b56ed91b55479a98238e041"
+    },
+    "node_count": 316930,
+    "selected_source": "roads/india_nh_network.parquet",
+    "version": 6
+  },
+  "inputs": {
+    "administrative/india_districts_lgd.geojson": {
+      "bytes": 9339037,
+      "sha256": "1d48443f23f5ef76d9701e3dac228246c07572297a254c63c387f286d009e72f"
+    },
+    "demographic/district_population_estimates.csv": {
+      "bytes": 37964,
+      "sha256": "0f7cfc0190e9288d31eff976991af1fd35c40e02c2bb9bf5c0b6d7c3039230a1"
+    },
+    "logistics_hubs/air_cargo.csv": {
+      "bytes": 6020,
+      "sha256": "762845248c3bfb20fdc5c98210b606a1644f79ca56cbc0f729864745f637fbec"
+    },
+    "logistics_hubs/icds.csv": {
+      "bytes": 8148,
+      "sha256": "229a2bd709561e497efa7e8d8ab15e5759f328e2d9ccd2049a4eff8585634de4"
+    },
+    "logistics_hubs/icps.csv": {
+      "bytes": 3962,
+      "sha256": "6467dd453c441b2aa1d88eb429eaf6f090edfe367c0d47c7afdc4d98b6ff44eb"
+    },
+    "logistics_hubs/mmlps.csv": {
+      "bytes": 5260,
+      "sha256": "f9925ff2a30158b8284e33c4b02c331cdd70c5fa9eb4adf4a89bc626ebec2dcb"
+    },
+    "logistics_hubs/ports.csv": {
+      "bytes": 4713,
+      "sha256": "35eaa08a7214c432f4a08d807318f68fb594d98d3eaae1ffcadea6b1800bb3df"
+    },
+    "rail/freight_terminals.csv": {
+      "bytes": 16307,
+      "sha256": "4e6ed0ae220f7b4735b35519cd445769a8ca7663acbe0f8b0386ace0b21e9a77"
+    },
+    "rail/railway_stations.csv": {
+      "bytes": 551507,
+      "sha256": "ff423f4a443179b64cf4041bcd40a1e9ac460c211748899d9cfc8b8fc2ae561b"
+    },
+    "roads/india_nh_network.parquet": {
+      "bytes": 8212397,
+      "sha256": "e3a19d2fa15d5365e27ac119578b5a95199d1daa2b0d27555f7d68c4c00ce99b"
+    },
+    "roads/toll_plazas.csv": {
+      "bytes": 185417,
+      "sha256": "03fe1a8567c031c7d8ffffcea6e62a580f66037461cd485d5ce02efe8c7d1aec"
+    }
+  },
+  "library_versions": {
+    "GEOS": "3.14.1",
+    "geopandas": "1.2.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "pyproj": "3.7.2",
+    "scipy": "1.17.1",
+    "shapely": "2.2.0"
+  },
+  "resources": {
+    "elapsed_seconds": 955.140790976,
+    "peak_memory_bytes": 749289472
+  },
+  "run_id": "linux-2026-10-19-run3",
+  "schema_version": 1,
+  "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
+}

@@ -1,6 +1,7 @@
 # GIS4Logistics — Improvement Roadmap (Initiatives 1–6)
 
 Status: **HISTORICAL PLAN — implementation has progressed beyond this baseline.**
+Current policy: automatic push/PR CI and the scheduled deep audit are disabled at the maintainer's request. Their workflow definitions are removed on the stabilization review branch. The CI design below is historical, not an active schedule or acceptance requirement; use relevant local verification instead. Release/tag/manual PyPI publishing is unchanged.
 Written 2026-08-23 after three planning rounds. Effort units: S = focused
 session (< half day), D = day-equivalent.
 

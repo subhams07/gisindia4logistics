@@ -9,6 +9,8 @@ from typing import Tuple, Dict, Optional, List, Any
 import hashlib
 import json
 import logging
+import os
+import tempfile
 import numpy as np
 import scipy.sparse as sp
 from scipy.spatial import KDTree
@@ -23,7 +25,57 @@ DEFAULT_SPEED = 50.0
 BRIDGE_SPEED = 35.0
 BRIDGE_MAX_METERS = 350.0
 SNAP_GRID_METERS = 15.0
-CACHE_VERSION = 4
+CACHE_VERSION = 6
+
+
+def load_highway_source(data_dir: Path) -> Optional[Tuple[gpd.GeoDataFrame, Path]]:
+    """Read the caller's preferred highway source and project to EPSG:7755.
+
+    GeoJSON is selected only when parquet is absent. Read/projection failures
+    propagate; neither source files nor default roots, stores or caches are changed.
+    """
+    nh_pq = data_dir / "roads" / "india_nh_network.parquet"
+    nh_geojson = data_dir / "roads" / "india_nh_network.geojson"
+    if nh_pq.exists():
+        return gpd.read_parquet(nh_pq).to_crs(PROJ_EPSG), nh_pq
+    if nh_geojson.exists():
+        return gpd.read_file(nh_geojson).to_crs(PROJ_EPSG), nh_geojson
+    return None
+
+
+def validate_graph_metadata(graph_time, graph_dist, coords, labels, tree, bridge_mask):
+    """Reject inconsistent metrics/topology rather than inventing route diagnostics."""
+    n = len(coords)
+    if (np.shape(coords) != (n, 2) or n == 0 or not np.isfinite(coords).all()
+            or np.shape(labels) != (n,) or not np.issubdtype(labels.dtype, np.integer)
+            or np.any(labels < 0) or tree.n != n or not np.array_equal(tree.data, coords)):
+        raise ValueError("Invalid node/component/tree metadata")
+    for matrix in (graph_time, graph_dist, bridge_mask):
+        if not sp.isspmatrix_csr(matrix) or matrix.shape != (n, n):
+            raise ValueError("Invalid sparse graph metadata")
+        matrix.check_format(full_check=True)
+        if not matrix.has_canonical_format or not np.isfinite(matrix.data).all():
+            raise ValueError("Invalid sparse values metadata")
+        if (matrix != matrix.T).nnz:
+            raise ValueError("Asymmetric graph metadata")
+    if (np.any(graph_time.data <= 0) or np.any(graph_dist.data <= 0)
+            or np.any(bridge_mask.data != 1)
+            or not np.array_equal(graph_time.indptr, graph_dist.indptr)
+            or not np.array_equal(graph_time.indices, graph_dist.indices)
+            or np.any(graph_time.diagonal() != 0)
+            or bridge_mask.multiply(graph_time != 0).nnz != bridge_mask.nnz):
+        raise ValueError("Invalid edge distance/bridge metadata")
+    rows = np.repeat(np.arange(n), np.diff(graph_dist.indptr))
+    lengths_km = np.linalg.norm(coords[rows] - coords[graph_dist.indices], axis=1) / 1000
+    if not np.allclose(graph_dist.data, lengths_km, rtol=1e-9, atol=1e-9):
+        raise ValueError("Edge distance metadata disagrees with projected vertices")
+    if np.any(bridge_mask.multiply(graph_dist).data * 1000 > BRIDGE_MAX_METERS + 1e-6):
+        raise ValueError("Synthetic bridge metadata exceeds junction threshold")
+    actual = connected_components(graph_time, directed=False)[1]
+    # Component IDs need not be canonical, but the partition must match exactly.
+    pairs = np.unique(np.column_stack((actual, labels)), axis=0)
+    if len(pairs) != len(np.unique(actual)) or len(pairs) != len(np.unique(labels)):
+        raise ValueError("Incorrect connected component metadata")
 
 
 def snap_pt(x: float, y: float, grid: float = SNAP_GRID_METERS) -> Tuple[float, float]:
@@ -68,7 +120,7 @@ def compute_graph_fingerprint(nh_gdf: gpd.GeoDataFrame) -> Dict[str, Any]:
 
 def build_canonical_highway_graph(
     nh_gdf: gpd.GeoDataFrame,
-) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
+) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree, sp.csr_matrix]:
     """
     Constructs the canonical National Highway routing graph in EPSG:7755.
 
@@ -78,11 +130,16 @@ def build_canonical_highway_graph(
         coords_arr: (N, 2) numpy array of vertex coordinates in EPSG:7755
         labels: (N,) numpy array of connected component IDs
         tree: KDTree built on coords_arr
+        bridge_mask: (N, N) csr_matrix with 1 for synthetic junction bridge edges, 0 for physical edges
     """
+    if nh_gdf.crs is None or nh_gdf.crs.to_epsg() != PROJ_EPSG:
+        raise ValueError("Highway graph requires EPSG:7755 metre coordinates")
     node_map: Dict[Tuple[float, float], int] = {}
     node_coords: List[Tuple[float, float]] = []
 
     def get_node(x: float, y: float) -> int:
+        if not np.isfinite([x, y]).all():
+            raise ValueError("Highway coordinates must be finite")
         k = snap_pt(x, y)
         if k not in node_map:
             nid = len(node_coords)
@@ -123,10 +180,13 @@ def build_canonical_highway_graph(
                         if edge not in edges_dict or t_hrs < edges_dict[edge][0]:
                             edges_dict[edge] = (t_hrs, d_m)
 
+    if not node_coords:
+        raise ValueError("Highway graph has no nodes")
     coords_arr = np.array(node_coords, dtype=np.float64)
     endpoint_indices = list(linestring_endpoints)
     endpoint_coords = coords_arr[endpoint_indices]
 
+    bridge_edges_set: set = set()
     if len(endpoint_coords) > 0:
         ep_tree = KDTree(endpoint_coords)
         ep_pairs = ep_tree.query_pairs(r=BRIDGE_MAX_METERS)
@@ -139,27 +199,35 @@ def build_canonical_highway_graph(
                 for edge in [(u, v), (v, u)]:
                     if edge not in edges_dict:
                         edges_dict[edge] = (t_hrs, d_m)
+                        bridge_edges_set.add(edge)
 
     N = len(node_coords)
     rows = [e[0] for e in edges_dict]
     cols = [e[1] for e in edges_dict]
     time_data = [v[0] for v in edges_dict.values()]
     dist_data = [v[1] / 1000.0 for v in edges_dict.values()]
+    bridge_edges = sorted(bridge_edges_set)
 
     graph_time = sp.csr_matrix((time_data, (rows, cols)), shape=(N, N), dtype=np.float64)
     graph_dist = sp.csr_matrix((dist_data, (rows, cols)), shape=(N, N), dtype=np.float64)
+    bridge_mask = sp.csr_matrix(
+        (np.ones(len(bridge_edges), dtype=np.int8),
+         ([e[0] for e in bridge_edges], [e[1] for e in bridge_edges])), shape=(N, N))
 
     _, labels = connected_components(graph_time, directed=False)
     tree = KDTree(coords_arr)
+    validate_graph_metadata(graph_time, graph_dist, coords_arr, labels, tree, bridge_mask)
 
-    return graph_time, graph_dist, coords_arr, labels, tree
+    return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask
 
 
 def load_or_build_cached_graph(
     nh_gdf: gpd.GeoDataFrame,
     cache_dir: Optional[Path] = None,
-) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree]:
+) -> Tuple[sp.csr_matrix, sp.csr_matrix, np.ndarray, np.ndarray, KDTree, sp.csr_matrix]:
     """Loads precomputed graph from disk cache with fingerprint validation or builds and caches it."""
+    if nh_gdf.crs is None or nh_gdf.crs.to_epsg() != PROJ_EPSG:
+        raise ValueError("Highway graph requires EPSG:7755 metre coordinates")
     expected_meta = compute_graph_fingerprint(nh_gdf)
 
     if cache_dir is not None:
@@ -167,10 +235,9 @@ def load_or_build_cached_graph(
         if cache_file.exists():
             try:
                 with np.load(cache_file, allow_pickle=False) as data:
-                    # Verify fingerprint metadata stored as UTF-8 string array
                     meta_json = str(data["metadata"][0]) if "metadata" in data else "{}"
                     stored_meta = json.loads(meta_json)
-                    if stored_meta == expected_meta:
+                    if stored_meta == expected_meta and "bridge_data" in data:
                         N = int(data["N"])
                         graph_time = sp.csr_matrix(
                             (data["time_data"], data["time_indices"], data["time_indptr"]), shape=(N, N)
@@ -178,25 +245,34 @@ def load_or_build_cached_graph(
                         graph_dist = sp.csr_matrix(
                             (data["dist_data"], data["dist_indices"], data["dist_indptr"]), shape=(N, N)
                         )
+                        bridge_mask = sp.csr_matrix(
+                            (data["bridge_data"], data["bridge_indices"], data["bridge_indptr"]), shape=(N, N)
+                        )
                         coords_arr = np.copy(data["coords_arr"])
                         labels = np.copy(data["labels"])
                         tree = KDTree(coords_arr)
-                        return graph_time, graph_dist, coords_arr, labels, tree
+                        validate_graph_metadata(graph_time, graph_dist, coords_arr, labels, tree, bridge_mask)
+                        return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask
                     else:
                         LOGGER.info("Graph cache fingerprint mismatch; rebuilding canonical highway graph.")
             except Exception as e:
                 LOGGER.warning("Could not load graph cache (%s); rebuilding.", e)
 
     # Build graph
-    graph_time, graph_dist, coords_arr, labels, tree = build_canonical_highway_graph(nh_gdf)
+    graph_time, graph_dist, coords_arr, labels, tree, bridge_mask = build_canonical_highway_graph(nh_gdf)
 
     # Save cache safely using allow_pickle=False compatible string array
     if cache_dir is not None:
+        temporary = None
         try:
             cache_dir.mkdir(parents=True, exist_ok=True)
             cache_file = cache_dir / "canonical_nh_graph.npz"
+            # Same-directory temporary file keeps replacement atomic; closed first
+            # for Windows compatibility. Readers only ever see complete archives.
+            with tempfile.NamedTemporaryFile(dir=cache_dir, suffix=".npz", delete=False) as handle:
+                temporary = Path(handle.name)
             np.savez_compressed(
-                cache_file,
+                temporary,
                 N=graph_time.shape[0],
                 time_data=graph_time.data,
                 time_indices=graph_time.indices,
@@ -204,11 +280,21 @@ def load_or_build_cached_graph(
                 dist_data=graph_dist.data,
                 dist_indices=graph_dist.indices,
                 dist_indptr=graph_dist.indptr,
+                bridge_data=bridge_mask.data,
+                bridge_indices=bridge_mask.indices,
+                bridge_indptr=bridge_mask.indptr,
                 coords_arr=coords_arr,
                 labels=labels,
                 metadata=np.array([json.dumps(expected_meta)], dtype=np.str_),
             )
+            os.replace(temporary, cache_file)
         except (OSError, PermissionError) as e:
             LOGGER.warning("Could not write graph cache to %s (%s); running in-memory.", cache_dir, e)
+        finally:
+            if temporary is not None:
+                try:
+                    temporary.unlink(missing_ok=True)
+                except OSError as e:
+                    LOGGER.warning("Could not remove incomplete cache %s (%s).", temporary, e)
 
-    return graph_time, graph_dist, coords_arr, labels, tree
+    return graph_time, graph_dist, coords_arr, labels, tree, bridge_mask

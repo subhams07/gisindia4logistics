@@ -18,9 +18,10 @@ class StateSummary(BaseModel):
 
 
 class DistrictSummary(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     state: str
     state_code: Optional[int] = None
-    district: str
+    district: Optional[str] = None
     district_code: Optional[int] = None
     pop_2011: Optional[int] = None
     area_sqkm: Optional[float] = None
@@ -28,8 +29,9 @@ class DistrictSummary(BaseModel):
 
 
 class DistrictScorecard(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     state: str
-    district: str
+    district: Optional[str] = None
     district_code: Optional[int] = None
     pop_2011: Optional[int] = None
     is_island: bool = False
@@ -51,9 +53,10 @@ class DistrictScorecard(BaseModel):
 
 
 class VillageItem(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     state: str
-    district: str
-    village: str
+    district: Optional[str] = None
+    village: Optional[str] = None
     village_code: Optional[Union[int, str]] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
@@ -129,6 +132,7 @@ class RouteRequest(BaseModel):
 
 
 class RouteResponse(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     distance_km: float
     drive_time_hours: float
     drive_time_formatted: str
@@ -138,15 +142,18 @@ class RouteResponse(BaseModel):
     routing_scope: str
     origin_snapped: List[float]
     destination_snapped: List[float]
+    # Dict diagnostics avoid the phase1 -> schemas CostParametersOverride cycle.
+    route_quality: Optional[Dict[str, Any]] = None
+    metadata: Optional[Dict[str, Any]] = None
 
 
 # --- Simulation Schemas ---
 class CostParametersOverride(BaseModel):
-    model_config = ConfigDict(validate_assignment=True)
+    model_config = ConfigDict(validate_assignment=True, allow_inf_nan=False)
     road_linehaul_rate: Optional[float] = Field(3.30, ge=0, description="Road linehaul rate INR/tonne-km")
     road_handling_cost: Optional[float] = Field(140.0, ge=0, description="Road handling INR/tonne")
     toll_cost_per_plaza: Optional[float] = Field(340.0, ge=0, description="Toll fee per plaza INR")
-    truck_payload_tons: Optional[float] = Field(20.0, gt=0, description="Commercial payload in MT")
+    truck_payload_tons: Optional[float] = Field(20.0, gt=0, description="Vehicle capacity in MT; independent of shipment weight")
     toll_spacing_km: Optional[float] = Field(65.0, gt=0, description="Average km between tolls")
     
     rail_base_class_rate: Optional[float] = Field(1.55, ge=0, description="IR Base class rate factor")
@@ -165,9 +172,10 @@ class CostParametersOverride(BaseModel):
 
 
 class FreightCostSimulationRequest(BaseModel):
-    model_config = ConfigDict(validate_assignment=True)
+    model_config = ConfigDict(validate_assignment=True, allow_inf_nan=False)
     origin_district: Optional[str] = Field(None, description="Origin district name, e.g. 'Pune' or 'Indore'")
-    origin_district_code: Optional[int] = Field(None, description="LGD District Code, e.g. 521")
+    origin_district_code: Optional[int] = Field(None, gt=0, description="LGD District Code, e.g. 521")
+    origin_state: str | None = Field(None, description="State used to disambiguate the origin district")
     target_port: Optional[str] = Field(None, description="Optional target port name; defaults to nearest major port")
     payload_tons: Optional[float] = Field(20.0, gt=0, description="Shipment weight in metric tonnes")
     commodity_name: Optional[str] = Field("General Merchandise", description="Commodity description")
@@ -175,18 +183,24 @@ class FreightCostSimulationRequest(BaseModel):
 
     @model_validator(mode="after")
     def require_origin(self):
+        for field in ("origin_district", "origin_state", "target_port"):
+            value = getattr(self, field)
+            if value is not None and not value.strip():
+                raise ValueError(f"{field} must not be blank")
         if not self.origin_district and self.origin_district_code is None:
             raise ValueError("origin_district or origin_district_code is required")
         return self
 
 
 class ModalCostBreakdown(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     cost_per_ton_inr: float
     total_shipment_cost_inr: float
     transit_time_hours: float
 
 
 class FreightCostSimulationResponse(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     origin_district: str
     state: str
     target_port: str

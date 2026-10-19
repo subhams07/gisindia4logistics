@@ -131,12 +131,6 @@ def export_all_geoparquet():
             DATA_DIR / "rail" / "railway_stations.parquet",
             "Railway Stations (8,697 stations)"
         ),
-        # 8. Travel Time Summary Matrix
-        (
-            DATA_DIR / "analysis" / "nh_district_travel_time_summary.csv",
-            DATA_DIR / "analysis" / "nh_district_travel_time_summary.parquet",
-            "NH Travel Time Summary (781 districts)"
-        ),
         # 9. National District Access Summary
         (
             DATA_DIR / "analysis" / "india_district_access_summary.csv",

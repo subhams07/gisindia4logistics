@@ -4,17 +4,27 @@ Model Context Protocol (MCP) stdio server for Antigravity, Codex, and AI assista
 Exposes GIS4Logistics datasets, routing, and simulation tools via JSON-RPC.
 """
 
-import sys
 import json
 import logging
-from typing import Dict, Any, Optional
+import math
+import sys
+from contextlib import redirect_stdout
+from typing import Any
+from fastapi import HTTPException
+from pydantic import ValidationError
+from server.models.phase1 import HighwayRoutePlanRequest, VehicleType
+from server.models.schemas import CostParametersOverride, FreightCostSimulationRequest, PortGravitySimulationRequest, RouteRequest
+from server.services.error_contract import domain_error_from_status, route_error_contract
+from server.services.exceptions import AmbiguousLocationError, DataIntegrityError
 
 from mcp_server.tools import (
-    tool_get_district_scorecard,
+    serialize_tool_result,
     tool_calculate_intermodal_freight_cost,
     tool_find_nearest_facilities,
+    tool_get_district_scorecard,
     tool_highway_route_and_tolls,
-    tool_simulate_port_catchment
+    tool_plan_highway_route,
+    tool_simulate_port_catchment,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -38,44 +48,7 @@ TOOLS_METADATA = [
     {
         "name": "gis_calculate_intermodal_freight_cost",
         "description": "Simulates and compares generalized freight costs (INR/tonne and total shipment cost) across Road Trucking, Conventional Rail, and Dedicated Freight Corridor (DFC) with custom economic parameter overrides.",
-        "inputSchema": {
-            "type": "object",
-            "properties": {
-                "origin_district": {
-                    "type": "string",
-                    "description": "Origin district name (e.g. 'Pune', 'Kanpur', 'Ahmedabad')"
-                },
-                "target_port": {
-                    "type": "string",
-                    "description": "Optional Major Port destination represented in the district-port matrix (e.g. 'Jawaharlal Nehru Port (JNPT)' or 'Paradip Port')"
-                },
-                "payload_tons": {
-                    "type": "number",
-                    "description": "Cargo payload in metric tonnes (default: 20.0)"
-                },
-                "road_linehaul_rate": {
-                    "type": "number",
-                    "description": "Road trucking linehaul rate INR/tonne-km (default: 3.30)"
-                },
-                "toll_cost_per_plaza": {
-                    "type": "number",
-                    "description": "Average toll fee per plaza in INR (default: 340.0)"
-                },
-                "rail_base_class_rate": {
-                    "type": "number",
-                    "description": "Indian Railways goods tariff base rate factor (default: 1.55)"
-                },
-                "dfc_linehaul_rate": {
-                    "type": "number",
-                    "description": "Dedicated Freight Corridor heavy-haul rate INR/tonne-km (default: 1.12)"
-                },
-                "inventory_holding_rate": {
-                    "type": "number",
-                    "description": "Cargo time value and working capital cost INR/tonne-hour (default: 7.50)"
-                }
-            },
-            "required": ["origin_district"]
-        }
+        "inputSchema": {}
     },
     {
         "name": "gis_find_nearest_facilities",
@@ -92,7 +65,7 @@ TOOLS_METADATA = [
     },
     {
         "name": "gis_highway_route_and_tolls",
-        "description": "Estimates strategic National Highway graph distance, driving hours, and distance-based FASTag toll expense between two points; not turn-by-turn navigation.",
+        "description": "Strategic National Highway graph distance/time and modelled distance-based toll count/outlay; not encountered plazas, official FASTag tariffs or turn-by-turn navigation.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -102,7 +75,8 @@ TOOLS_METADATA = [
                 "dest_lon": {"type": "number", "description": "Destination longitude"},
                 "vehicle_type": {
                     "type": "string",
-                    "description": "Vehicle class: 'MAV_20T', 'LMV', '2_AXLE_TRUCK' (default: 'MAV_20T')"
+                    "enum": [v.value for v in VehicleType],
+                    "description": "Modelled vehicle class (default: MAV_20T)"
                 }
             },
             "required": ["origin_lat", "origin_lon", "dest_lat", "dest_lon"]
@@ -144,19 +118,139 @@ TOOLS_METADATA = [
 ]
 
 
+TOOLS_METADATA.append({
+    "name": "gis_plan_highway_route",
+    "description": "Canonical strategic highway route with nested location references, geometry, quality and provenance; no route-matched tolls or navigation guarantee.",
+    "inputSchema": HighwayRoutePlanRequest.model_json_schema(),
+})
+
+
+def _freight_input_schema() -> dict[str, Any]:
+    # Reuse REST field descriptions/constraints, never import the SDK (which
+    # eagerly imports plotting). MCP flattens the same economic overrides.
+    from server.models.schemas import (
+        CostParametersOverride,
+        FreightCostSimulationRequest,
+    )
+
+    properties = FreightCostSimulationRequest.model_json_schema()["properties"].copy()
+    properties.pop("custom_parameters")
+    for name, field in CostParametersOverride.model_json_schema()["properties"].items():
+        properties[name] = {**field, "default": None}
+    return {
+        "type": "object", "properties": properties, "additionalProperties": False,
+        "anyOf": [{"required": ["origin_district"]}, {"required": ["origin_district_code"]}],
+    }
+
+
+for _tool in TOOLS_METADATA:
+    _tool["inputSchema"]["additionalProperties"] = False
+    if _tool["name"] == "gis_calculate_intermodal_freight_cost":
+        _tool["inputSchema"] = _freight_input_schema()
+    elif _tool["name"] == "gis_get_district_scorecard":
+        _tool["inputSchema"]["properties"]["state"] = {
+            "type": ["string", "null"], "description": "State to disambiguate district names",
+        }
+
+
+def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> None:
+    """Validate advertised scalar inputs without JSON/Pydantic coercion."""
+    properties = schema["properties"]
+    unknown = args.keys() - properties.keys()
+    if unknown:
+        raise ValueError(f"Unknown arguments: {', '.join(sorted(unknown))}")
+    missing = set(schema.get("required", [])) - args.keys()
+    if missing:
+        raise ValueError(f"Missing arguments: {', '.join(sorted(missing))}")
+    if "anyOf" in schema and not any(
+        all(args.get(name) is not None for name in option["required"])
+        for option in schema["anyOf"]
+    ):
+        raise ValueError("origin_district or origin_district_code is required")
+    for name, value in args.items():
+        field = properties[name]
+        variants = field.get("anyOf", [field])
+        types = []
+        for variant in variants:
+            kind = variant.get("type")
+            types.extend(kind if isinstance(kind, list) else [kind])
+        valid = (
+            (value is None and "null" in types)
+            or (type(value) is str and "string" in types)
+            or (type(value) is int and ("integer" in types or "number" in types))
+            or (type(value) is float and "number" in types and math.isfinite(value))
+        )
+        if not valid:
+            raise ValueError(f"{name} must have type {' or '.join(types)}")
+        if "enum" in field and value not in field["enum"]:
+            raise ValueError(f"{name} must be one of {field['enum']}")
+        if value is None:
+            continue
+        constraints = next((variant for variant in variants if variant.get("type") != "null"), field)
+        for key, compare in (
+            ("minimum", lambda x, y: x >= y), ("maximum", lambda x, y: x <= y),
+            ("exclusiveMinimum", lambda x, y: x > y), ("exclusiveMaximum", lambda x, y: x < y),
+        ):
+            if key in constraints and not compare(value, constraints[key]):
+                raise ValueError(f"{name} violates {key} {constraints[key]}")
+
+
 SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05"}
 
 
-def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-    if not isinstance(req, dict) or req.get("jsonrpc") != "2.0":
+def _tool_failure(req_id: Any, contract: dict[str, Any]) -> dict[str, Any]:
+    return {"jsonrpc": "2.0", "id": req_id, "result": {
+        "isError": True,
+        "content": [{"type": "text", "text": json.dumps(contract, allow_nan=False)}],
+    }}
+
+
+def _validate_input(tool_name: str, schema: dict[str, Any], args: dict[str, Any]) -> None:
+    """Complete input-only validation before any store access or calculation."""
+    if tool_name == "gis_plan_highway_route":
+        HighwayRoutePlanRequest.model_validate_json(json.dumps(args, allow_nan=False))
+        return
+    _validate_tool_arguments(schema, args)
+    if tool_name == "gis_highway_route_and_tolls":
+        RouteRequest.model_validate({
+            "origin": [args["origin_lat"], args["origin_lon"]],
+            "destination": [args["dest_lat"], args["dest_lon"]],
+            "vehicle_type": args.get("vehicle_type", "MAV_20T"),
+        }, strict=True)
+    elif tool_name == "gis_calculate_intermodal_freight_cost":
+        overrides = {k: v for k, v in args.items() if k in CostParametersOverride.model_fields and v is not None}
+        request = {k: v for k, v in args.items() if k in FreightCostSimulationRequest.model_fields}
+        request["custom_parameters"] = CostParametersOverride.model_validate(overrides, strict=True) if overrides else None
+        FreightCostSimulationRequest.model_validate(request, strict=True)
+    elif tool_name == "gis_simulate_port_catchment":
+        PortGravitySimulationRequest.model_validate(args, strict=True)
+
+
+def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
+    if (
+        not isinstance(req, dict)
+        or req.get("jsonrpc") != "2.0"
+        or not isinstance(req.get("method"), str)
+        or ("id" in req and (
+            isinstance(req["id"], bool)
+            or not isinstance(req["id"], (str, int, float, type(None)))
+        ))
+    ):
         return {
             "jsonrpc": "2.0",
-            "id": req.get("id") if isinstance(req, dict) else None,
+            "id": None,
             "error": {"code": -32600, "message": "Invalid Request"},
         }
 
     method = req.get("method")
     req_id = req.get("id")
+
+    # Only absence of id denotes a notification; an explicit null id is
+    # discouraged by JSON-RPC but still requires a response.
+    if "id" not in req:
+        if method == "notifications/initialized":
+            LOGGER.info("MCP client initialized session")
+        return None
 
     raw_params = req.get("params")
     if raw_params is not None and not isinstance(raw_params, dict):
@@ -167,16 +261,13 @@ def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         }
     params = raw_params or {}
 
-    # JSON-RPC Notification: notifications have no id and must not receive a response
-    if req_id is None:
-        if method == "notifications/initialized":
-            LOGGER.info("MCP client initialized session")
-        return None
 
     if method == "initialize":
         requested_version = params.get("protocolVersion")
         negotiated_version = (
-            requested_version if requested_version in SUPPORTED_PROTOCOL_VERSIONS else MCP_PROTOCOL_VERSION
+            requested_version
+            if isinstance(requested_version, str) and requested_version in SUPPORTED_PROTOCOL_VERSIONS
+            else MCP_PROTOCOL_VERSION
         )
         return {
             "jsonrpc": "2.0",
@@ -200,62 +291,59 @@ def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
     elif method == "tools/call":
         tool_name = params.get("name")
-        args = params.get("arguments") or {}
+        args = params.get("arguments", {})
+        if not isinstance(args, dict):
+            return {
+                "jsonrpc": "2.0", "id": req_id,
+                "error": {"code": -32602, "message": "Invalid params: arguments must be a JSON object"},
+            }
 
+        metadata = next((tool for tool in TOOLS_METADATA if tool["name"] == tool_name), None)
+        if metadata is None:
+            return {
+                "jsonrpc": "2.0", "id": req_id,
+                "error": {"code": -32601, "message": f"Tool '{tool_name}' not found"},
+            }
         try:
-            if tool_name == "gis_get_district_scorecard":
-                res = tool_get_district_scorecard(district_name_or_code=str(args["district_name_or_code"]))
-            elif tool_name == "gis_calculate_intermodal_freight_cost":
-                res = tool_calculate_intermodal_freight_cost(**args)
-            elif tool_name == "gis_find_nearest_facilities":
-                res = tool_find_nearest_facilities(
-                    latitude=float(args["latitude"]),
-                    longitude=float(args["longitude"]),
-                    top_k=int(args.get("top_k", 3))
-                )
-            elif tool_name == "gis_highway_route_and_tolls":
-                res = tool_highway_route_and_tolls(
-                    origin_lat=float(args["origin_lat"]),
-                    origin_lon=float(args["origin_lon"]),
-                    dest_lat=float(args["dest_lat"]),
-                    dest_lon=float(args["dest_lon"]),
-                    vehicle_type=str(args.get("vehicle_type", "MAV_20T"))
-                )
-            elif tool_name == "gis_simulate_port_catchment":
-                res = tool_simulate_port_catchment(
-                    alpha=float(args.get("alpha", 0.85)),
-                    beta=float(args.get("beta", 1.65))
-                )
-            elif tool_name == "gis_plot_villages_map":
+            _validate_input(tool_name, metadata["inputSchema"], args)
+        except (ValueError, TypeError, OverflowError):
+            LOGGER.exception("MCP tool call failed input validation: %s", tool_name)
+            return _tool_failure(req_id, {
+                "status": 422, "code": "invalid_request", "message": "Request input is invalid.",
+            })
+        try:
+            if tool_name == "gis_plot_villages_map":
                 from mcp_server.tools import tool_plot_villages_map
-                res = tool_plot_villages_map(
-                    state=str(args["state"]),
-                    district=str(args["district"]),
-                    metric=str(args.get("metric", "dist_rail_station_km")),
-                    output_format=str(args.get("output_format", "html"))
-                )
+                res = tool_plot_villages_map(**args)
             else:
-                return {
-                    "jsonrpc": "2.0",
-                    "id": req_id,
-                    "error": {"code": -32601, "message": f"Tool '{tool_name}' not found"}
+                handlers = {
+                    "gis_get_district_scorecard": tool_get_district_scorecard,
+                    "gis_calculate_intermodal_freight_cost": tool_calculate_intermodal_freight_cost,
+                    "gis_find_nearest_facilities": tool_find_nearest_facilities,
+                    "gis_highway_route_and_tolls": tool_highway_route_and_tolls,
+                    "gis_plan_highway_route": tool_plan_highway_route,
+                    "gis_simulate_port_catchment": tool_simulate_port_catchment,
                 }
+                res = handlers[tool_name](**args)
 
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
-                "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}
+                "result": {"content": [{
+                    "type": "text",
+                    "text": json.dumps(serialize_tool_result(res), indent=2, allow_nan=False),
+                }]}
             }
         except Exception as e:
             LOGGER.exception("MCP tool call failed: %s", tool_name)
-            return {
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "content": [{"type": "text", "text": f"Error: {str(e)}"}],
-                    "isError": True,
-                }
-            }
+            if isinstance(e, HTTPException):
+                bridged = domain_error_from_status(e.status_code)
+                if isinstance(bridged, AmbiguousLocationError) and isinstance(e.detail, dict):
+                    bridged.candidates = e.detail.get("candidates", [])
+                e = bridged
+            elif isinstance(e, ValidationError):
+                e = DataIntegrityError("Calculated response is invalid.")
+            return _tool_failure(req_id, route_error_contract(e))
 
     else:
         return {
@@ -267,16 +355,21 @@ def handle_rpc_request(req: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
 def run_stdio_server():
     """Reads JSON-RPC lines from stdin and writes responses to stdout."""
+    logging.basicConfig(stream=sys.stderr, level=logging.INFO, force=True)
+    protocol_stdout = sys.stdout
     for line in sys.stdin:
         line = line.strip()
         if not line:
             continue
         try:
-            req = json.loads(line)
-            res = handle_rpc_request(req)
+            req = json.loads(line, parse_constant=_reject_json_constant)
+            # Legacy graph/map code and third-party progress output must not
+            # share the protocol stream. Include imports inside tool dispatch.
+            with redirect_stdout(sys.stderr):
+                res = handle_rpc_request(req)
             if res is not None:
-                sys.stdout.write(json.dumps(res) + "\n")
-                sys.stdout.flush()
+                protocol_stdout.write(json.dumps(res, allow_nan=False) + "\n")
+                protocol_stdout.flush()
         except Exception:
             LOGGER.exception("Failed to parse MCP request")
             err_res = {
@@ -284,8 +377,12 @@ def run_stdio_server():
                 "id": None,
                 "error": {"code": -32700, "message": "Parse error"}
             }
-            sys.stdout.write(json.dumps(err_res) + "\n")
-            sys.stdout.flush()
+            protocol_stdout.write(json.dumps(err_res, allow_nan=False) + "\n")
+            protocol_stdout.flush()
+
+
+def _reject_json_constant(value):
+    raise ValueError(f"Invalid JSON constant: {value}")
 
 
 if __name__ == "__main__":

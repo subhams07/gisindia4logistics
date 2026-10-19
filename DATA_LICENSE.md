@@ -11,6 +11,7 @@ Every dataset retains the terms of its publisher or upstream database. The autho
 | Government open-data sources | GODL-India or stated portal terms | Preserve publisher, source URL, vintage, and license attribution. |
 | OpenStreetMap-derived databases | ODbL | Attribute © OpenStreetMap contributors and comply with ODbL obligations for derived databases. |
 | DataMeet community boundaries | CC BY 4.0 | Preserve attribution and license notice. |
+| DataMeet railway station base and community station classification | Unclear per catalog; not covered by the boundary license | Record the specific source and unresolved redistribution terms; do not infer permission from attribution or public access. |
 | Wikidata/Wikipedia-derived records | CC BY-SA or CC0 depending on source | Preserve the per-record source and applicable terms. |
 | Survey of India products | Copyright; no blanket open-data license asserted here | See the unresolved redistribution posture below. |
 | Derived analytical outputs | Depends on all inputs | Cite this project and every material upstream dataset; upstream database obligations may continue to apply. |
@@ -29,6 +30,8 @@ Before a formal public data release, DOI deposit, or broad redistribution campai
 Until then, users must independently assess whether their intended redistribution is permitted.
 
 ## No single blanket data license
+
+The committed railway station base has a 2016 DataMeet vintage, with later community classification enrichment. Neither the boundary dataset's CC BY 4.0 terms nor the ODbL terms for OSM rail-line extracts establish rights to redistribute that separate station database. The catalog records no station license file and unclear classification terms. Current operational status and legal redistribution permission remain unverified.
 
 Do not describe the entire `data/` directory as MIT, GODL-India, ODbL, or public domain. Mixed-source outputs require dataset-level review.
 

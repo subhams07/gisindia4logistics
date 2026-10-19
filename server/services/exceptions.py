@@ -30,6 +30,15 @@ class AmbiguousLocationError(GISIndia4LogisticsError):
         self.candidates = candidates or []
 
 
+class DataIntegrityError(GISIndia4LogisticsError):
+    """Stored graph/source data is invalid; adapters should map this to 503.
+
+    Distinct from supported but impossible routes (422). Messages must not expose
+    local paths or classify failure semantics through their text.
+    """
+    pass
+
+
 class RouteNotAvailableError(GISIndia4LogisticsError):
     """Raised when no connected highway route can be computed between origin and destination."""
     def __init__(self, message: str, origin_info: Optional[str] = None, destination_info: Optional[str] = None):

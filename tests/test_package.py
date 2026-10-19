@@ -11,9 +11,9 @@ import gis4logistics as legacy_gis
 def test_import_and_version():
     """Verify package imports cleanly under both names and exposes version string."""
     assert hasattr(gis, "__version__")
-    assert gis.__version__ == "1.0.0"
+    assert gis.__version__ == "1.1.0"
     assert hasattr(legacy_gis, "__version__")
-    assert legacy_gis.__version__ == "1.0.0"
+    assert legacy_gis.__version__ == "1.1.0"
 
 
 def test_get_district_sdk():

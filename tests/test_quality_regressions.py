@@ -1,5 +1,6 @@
 """Regression tests for correctness and public-interface hardening."""
 
+import json
 from types import SimpleNamespace
 
 import geopandas as gpd
@@ -47,7 +48,7 @@ def test_unknown_hub_type_is_rejected():
     with pytest.raises(HTTPException) as exc:
         list_hubs(hub_type="unknown", state=None, limit=100, store=store)
 
-    assert exc.value.status_code == 400
+    assert exc.value.status_code == 422
 
 
 def test_target_port_changes_distance_and_time_used_by_freight_model():
@@ -192,7 +193,9 @@ def test_mcp_tool_failure_returns_is_error():
 
     assert "result" in response
     assert response["result"]["isError"] is True
-    assert "Error:" in response["result"]["content"][0]["text"]
+    assert json.loads(response["result"]["content"][0]["text"]) == {
+        "status": 422, "code": "invalid_request", "message": "Request input is invalid.",
+    }
 
 
 def test_map_path_traversal_is_rejected():

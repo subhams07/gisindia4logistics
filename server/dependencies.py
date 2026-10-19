@@ -3,54 +3,110 @@ server/dependencies.py
 In-memory data store and spatial indexing for ultra-fast API response times (< 15ms).
 """
 
+import logging
 import time
-from typing import Dict, Optional
-import pandas as pd
+from threading import RLock
+
 import geopandas as gpd
 import numpy as np
-from scipy.spatial import KDTree
+import pandas as pd
 from scipy.sparse import csr_matrix
+from scipy.spatial import KDTree
 
 from server.config import settings
 
 PROJ = 7755  # India NSF LCC (metres)
+LOGGER = logging.getLogger(__name__)
 
 class DataStore:
     _instance = None
 
     def __init__(self):
+        self._graph_lock = RLock()
+        self._highway_snapshot = None
         self.data_dir = settings.DATA_PATH
-        self.districts_df: Optional[pd.DataFrame] = None
-        self.states_df: Optional[pd.DataFrame] = None
-        self.district_access_df: Optional[pd.DataFrame] = None
-        self.travel_time_df: Optional[pd.DataFrame] = None
-        self.port_matrix_df: Optional[pd.DataFrame] = None
+        self.districts_df: pd.DataFrame | None = None
+        self.states_df: pd.DataFrame | None = None
+        self.district_access_df: pd.DataFrame | None = None
+        self.travel_time_df: pd.DataFrame | None = None
+        self.port_matrix_df: pd.DataFrame | None = None
         
         # Hubs cache
-        self.hubs_dict: Dict[str, pd.DataFrame] = {}
-        self.rail_stations_df: Optional[pd.DataFrame] = None
-        self.dfc_stations_df: Optional[pd.DataFrame] = None
-        self.freight_terminals_df: Optional[pd.DataFrame] = None
-        self.toll_plazas_df: Optional[pd.DataFrame] = None
-        self.toll_tree: Optional[KDTree] = None
+        self.hubs_dict: dict[str, pd.DataFrame] = {}
+        self.rail_stations_df: pd.DataFrame | None = None
+        self.dfc_stations_df: pd.DataFrame | None = None
+        self.freight_terminals_df: pd.DataFrame | None = None
+        self.toll_plazas_df: pd.DataFrame | None = None
+        self.toll_tree: KDTree | None = None
         
         # Highway graph for routing
-        self.nh_graph: Optional[csr_matrix] = None
-        self.nh_distance_graph: Optional[csr_matrix] = None
-        self.nh_tree: Optional[KDTree] = None
-        self.nh_node_xy: Optional[np.ndarray] = None
-        self.nh_node_list: Optional[list] = None
+        self.nh_graph: csr_matrix | None = None
+        self.nh_distance_graph: csr_matrix | None = None
+        self.nh_bridge_mask: csr_matrix | None = None
+        self.nh_tree: KDTree | None = None
+        self.nh_node_xy: np.ndarray | None = None
+        self.nh_node_list: list | None = None
+        self.nh_comp_labels: np.ndarray | None = None
+
+    def __setattr__(self, name, value):
+        # Legacy assignments remain possible but invalidate request acquisition.
+        # Publication and request capture share this lock, preventing torn reads.
+        lock = self.__dict__.get('_graph_lock')
+        if lock is not None and name.startswith('nh_'):
+            with lock:
+                object.__setattr__(self, name, value)
+        else:
+            object.__setattr__(self, name, value)
+
+    def publish_highway_graph(self, graph_time, graph_dist, coords, labels, tree, bridge_mask):
+        """Validate/detach a complete reload and atomically publish its generation.
+
+        Caller must not mutate builder inputs concurrently with publication.
+        Failed validation leaves the previous publication intact. Individual nh_*
+        replacement is not a reload: use this method with all six graph fields.
+        """
+        from server.services.graph_snapshot import GRAPH_FIELDS, GraphSnapshot
+
+        with self._graph_lock:
+            generation = 1 if self._highway_snapshot is None else self._highway_snapshot.generation + 1
+            snapshot = GraphSnapshot(graph_time, graph_dist, coords, labels, tree,
+                                     bridge_mask, generation=generation)
+            node_list = tuple(tuple(pt) for pt in snapshot.nh_node_xy)
+            component_labels, counts = np.unique(snapshot.nh_comp_labels, return_counts=True)
+            # Sorted unique labels retain bincount's smallest-label tie break
+            # without allocating storage proportional to the largest label.
+            main_label = int(component_labels[np.argmax(counts)])
+            for name in GRAPH_FIELDS:
+                object.__setattr__(self, name, getattr(snapshot, name))
+            self.nh_node_list = node_list
+            self.main_comp_label = main_label
+            self._highway_snapshot = snapshot
+            return snapshot
+
+    def get_highway_snapshot(self):
+        """O(1) coherence check; never revalidate a published immutable graph."""
+        from server.services.exceptions import DataIntegrityError
+        from server.services.graph_snapshot import GRAPH_FIELDS
+
+        with self._graph_lock:
+            snapshot = self._highway_snapshot
+            if snapshot is None or any(getattr(self, name, None) is not getattr(snapshot, name)
+                                       for name in GRAPH_FIELDS):
+                raise DataIntegrityError('Invalid highway graph metadata: unpublished or replaced generation')
+            snapshot.check_integrity()
+            return snapshot
 
     @classmethod
     def get_instance(cls) -> "DataStore":
         if cls._instance is None:
-            cls._instance = DataStore()
-            cls._instance.initialize_store()
+            instance = cls()
+            instance.initialize_store()
+            cls._instance = instance
         return cls._instance
 
     def initialize_store(self):
         t0 = time.time()
-        print("Initializing GIS4Logistics in-memory store...")
+        LOGGER.info("Initializing GIS4Logistics in-memory store...")
 
         # 1. Load Districts with Population Estimates
         p_pop = self.data_dir / "demographic" / "district_population_estimates.csv"
@@ -136,27 +192,21 @@ class DataStore:
 
         # 6. Build or Lazy Load Highway Graph
         self._build_highway_graph()
-        print(f"DataStore initialized in {time.time()-t0:.2f}s")
+        LOGGER.info("DataStore initialized in %.2fs", time.time() - t0)
 
     def _build_highway_graph(self):
-        from scripts.clean.graph_builder import load_or_build_cached_graph
+        from scripts.clean.graph_builder import load_highway_source, load_or_build_cached_graph
 
-        nh_pq = self.data_dir / "roads" / "india_nh_network.parquet"
-        nh_geojson = self.data_dir / "roads" / "india_nh_network.geojson"
-
-        if nh_pq.exists():
-            gdf_nh = gpd.read_parquet(nh_pq).to_crs(PROJ)
-        elif nh_geojson.exists():
-            gdf_nh = gpd.read_file(nh_geojson).to_crs(PROJ)
-        else:
+        source = load_highway_source(self.data_dir)
+        if source is None:
             return
+        gdf_nh, _selected_path = source
 
         cache_dir = settings.CACHE_PATH
-        self.nh_graph, self.nh_distance_graph, self.nh_node_xy, self.nh_comp_labels, self.nh_tree = load_or_build_cached_graph(
+        graph = load_or_build_cached_graph(
             gdf_nh, cache_dir=cache_dir
         )
-        self.nh_node_list = [tuple(pt) for pt in self.nh_node_xy]
-        self.main_comp_label = int(np.argmax(np.bincount(self.nh_comp_labels)))
+        self.publish_highway_graph(*graph)
 
 
 def get_data_store() -> DataStore:

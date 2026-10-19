@@ -3,14 +3,17 @@ server/routers/hubs.py
 Infrastructure and Logistics Hubs endpoints.
 """
 
-from typing import List, Optional, Dict, Any, Sequence
-from fastapi import APIRouter, HTTPException, Query, Depends
-import pandas as pd
+from typing import Any, Dict, List, Optional, Sequence
+
 import numpy as np
+import pandas as pd
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pyproj import Geod
 
 from server.dependencies import DataStore, get_data_store
 from server.models.schemas import HubItem, RailStationItem, TollPlazaItem
+from scripts.clean.standardize import clean_state_name
+from server.routers.admin import canonical_state, contained_data_path
 
 router = APIRouter(prefix="/hubs", tags=["Infrastructure & Logistics Hubs"])
 WGS84_GEOD = Geod(ellps="WGS84")
@@ -44,7 +47,9 @@ def list_hubs(
     
     if hub_type and hub_type not in store.hubs_dict:
         supported = ", ".join(sorted(store.hubs_dict))
-        raise HTTPException(status_code=400, detail=f"Unknown hub_type '{hub_type}'. Supported values: {supported}")
+        raise HTTPException(status_code=422, detail=f"Unknown hub_type '{hub_type}'. Supported values: {supported}")
+    if state is not None:
+        state = canonical_state(state)
     types_to_scan = [hub_type] if hub_type else store.hubs_dict.keys()
     
     for k in types_to_scan:
@@ -52,7 +57,7 @@ def list_hubs(
         if "hub_type" not in df.columns:
             df["hub_type"] = k
         if state and "state" in df.columns:
-            df = df[df.state.str.lower() == state.lower()]
+            df = df[df.state.map(clean_state_name) == state]
         results.extend(df.to_dict(orient="records"))
 
     return results[:limit]
@@ -138,6 +143,19 @@ def query_rail_stations(
         ]
     if zone:
         df = df[df.zone.str.upper() == zone.upper()]
+    if category:
+        if "category" in df.columns:
+            df = df[df.category.str.upper() == category.upper()]
+        else:
+            # Classifications live in a separate roster. Avoid multiplying rows.
+            path = contained_data_path(store.data_dir, "rail", "station_categories.csv")
+            if not path.exists():
+                raise HTTPException(status_code=404, detail="Rail station categories not available")
+            roster = pd.read_csv(path, dtype={"station_code": "string"})
+            matched = roster.loc[roster.category.str.upper() == category.upper()].dropna(subset=["station_code"])
+            categories = matched.assign(station_code=matched.station_code.str.upper()).drop_duplicates("station_code").set_index("station_code").category
+            df = df[df.station_code.str.upper().isin(categories.index)]
+            df["category"] = df.station_code.str.upper().map(categories)
 
     raw_records = df.iloc[:limit].to_dict(orient="records")
     return sanitize_records(raw_records)
@@ -173,8 +191,8 @@ def query_toll_plazas(
         raise HTTPException(status_code=500, detail="Toll plazas data not loaded")
 
     df = store.toll_plazas_df.copy()
-    if state:
-        df = df[df.state.str.lower() == state.lower()]
+    if state is not None:
+        df = df[df.state.map(clean_state_name) == canonical_state(state)]
     if nh_number:
         df = df[df.nh_number.str.upper() == nh_number.upper()]
 

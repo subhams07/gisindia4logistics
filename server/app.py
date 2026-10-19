@@ -4,7 +4,9 @@ Main FastAPI application entrypoint for GIS4Logistics API Server.
 """
 
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, Request
+from fastapi.exceptions import RequestValidationError
+from pydantic import ValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,15 +14,17 @@ from server.config import settings
 from server.dependencies import DataStore
 from server.routers.admin import router as admin_router
 from server.routers.hubs import router as hubs_router
-from server.routers.routing import router as routing_router
+from server.routers.routing import router as routing_router, capture_request_store
 from server.routers.simulation import router as simulation_router
-from server.services.metadata_service import get_metadata_service
+from server.services.metadata_service import MetadataService
+from server.services import routing_facade
+from server.services.error_contract import route_error_contract
+from server.services.exceptions import GISIndia4LogisticsError
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize in-memory spatial index and routing graphs on startup
-    DataStore.get_instance()
+    # Data requests initialize the store; liveness and docs remain data-lazy.
     yield
     # Clean up on shutdown if needed
 
@@ -46,18 +50,53 @@ app.add_middleware(
 
 @app.middleware("http")
 async def add_version_headers_middleware(request, call_next):
-    response = await call_next(request)
-    meta_svc = get_metadata_service()
-    response.headers["X-GIS4L-API-Version"] = meta_svc.api_version
-    response.headers["X-GIS4L-Data-Version"] = meta_svc.data_version
-    response.headers["X-GIS4L-Model-Version"] = meta_svc.model_version
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        # Generic failures are never client errors, even ordinary ValueError.
+        response = safe_error_response(exc)
+    metadata = getattr(request.state, "gis_metadata", None)
+    if metadata is None:
+        store = getattr(request.state, "gis_store", None)
+        if store is not None:
+            metadata = routing_facade.metadata_for_store(store).model_dump()
+        else:
+            # Read configured provenance only; never acquire a store for headers.
+            metadata = MetadataService.get_instance(
+                settings.DATA_PATH / "version_manifest.json").get_metadata().model_dump()
+    for field, header in (("api_version", "X-GIS4L-API-Version"),
+                          ("data_version", "X-GIS4L-Data-Version"),
+                          ("model_version", "X-GIS4L-Model-Version")):
+        response.headers[header] = metadata[field]
     return response
 
+
+def safe_error_response(error: Exception):
+    contract = route_error_contract(error)
+    return JSONResponse(status_code=contract["status"], content={"detail": contract})
+
+
+@app.exception_handler(GISIndia4LogisticsError)
+async def domain_error_handler(request: Request, error: GISIndia4LogisticsError):
+    return safe_error_response(error)
+
+
+@app.exception_handler(RequestValidationError)
+@app.exception_handler(ValidationError)
+async def request_validation_handler(request: Request, error: Exception):
+    # Never echo validation input, errors or local paths.
+    return safe_error_response(ValidationError.from_exception_data("Request", []))
+
+
+@app.exception_handler(Exception)
+async def unexpected_error_handler(request: Request, error: Exception):
+    return safe_error_response(error)
+
 # Mount API Routers
-app.include_router(admin_router, prefix=settings.API_V1_PREFIX)
-app.include_router(hubs_router, prefix=settings.API_V1_PREFIX)
-app.include_router(routing_router, prefix=settings.API_V1_PREFIX)
-app.include_router(simulation_router, prefix=settings.API_V1_PREFIX)
+app.include_router(admin_router, prefix=settings.API_V1_PREFIX, dependencies=[Depends(capture_request_store)])
+app.include_router(hubs_router, prefix=settings.API_V1_PREFIX, dependencies=[Depends(capture_request_store)])
+app.include_router(routing_router, prefix=settings.API_V1_PREFIX, dependencies=[Depends(capture_request_store)])
+app.include_router(simulation_router, prefix=settings.API_V1_PREFIX, dependencies=[Depends(capture_request_store)])
 
 
 def _missing_core_components(store: DataStore) -> list[str]:
@@ -78,9 +117,10 @@ def liveness():
 
 
 @app.get("/health/ready", tags=["Health & Status"])
-def readiness():
+def readiness(request: Request):
     """Confirm that core data and routing components are loaded."""
     store = DataStore.get_instance()
+    request.state.gis_store = store
     missing = _missing_core_components(store)
     payload = {
         "status": "ready" if not missing else "degraded",
@@ -92,8 +132,9 @@ def readiness():
 
 
 @app.get("/", tags=["Health & Status"])
-def root_info():
+def root_info(request: Request):
     store = DataStore.get_instance()
+    request.state.gis_store = store
     missing = _missing_core_components(store)
     return {
         "service": settings.PROJECT_NAME,

@@ -18,8 +18,8 @@ datasets:
   description: 36 states/UTs from the PAN INDIA LGD-coded dataset
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current
   resolution: state
   access: committed
@@ -32,8 +32,8 @@ datasets:
   description: 781 districts with LGD codes — post-2011 districts incl. 2024-25 formations
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current (~780 districts)
   resolution: district
   access: committed
@@ -49,8 +49,8 @@ datasets:
   description: 6,636 talukas/tehsils/blocks with LGD codes and type
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; governed by Geospatial Guidelines 2021 — good-faith redistribution
-    (see docs/legal_compliance.md)
+  license: copyright per metadata; redistribution unresolved, not written permission;
+    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
   vintage: current
   resolution: sub-district
   access: committed
@@ -92,8 +92,8 @@ datasets:
     village category Rural/Urban
   provider: Survey of India
   source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
-  license: no explicit license stated; free public download — redistributed in good faith with attribution
-    (see docs/legal_compliance.md)
+  license: no explicit redistribution license stated; public download and attribution are not
+    written permission; redistribution unresolved (see DATA_LICENSE.md)
   vintage: current (published by SoI; page updated 2026)
   resolution: village
   access: committed (states ≤10 MB; larger states script-generated)
@@ -179,7 +179,7 @@ datasets:
   quality_notes: 141,990 segments, 634 distinct routes, refs normalized (Old NH prefixes, junk dropped);
     NH44/NH27/NH48 correctly the longest; summed length overcounts official ~146k km because dual carriageways
     are separate ways — use for geometry/routing, not length statistics
-- name: National Toll Plazas (FASTag & Highway Plazas)
+- name: Clustered OSM Toll Locations (not an official plaza register)
   category: roads
   description: 1,536 clustered toll plazas across India with NH number, LGD district join, coordinates, and booth counts
   provider: OpenStreetMap contributors + NH network snap
@@ -191,7 +191,12 @@ datasets:
   path: data/roads/toll_plazas.csv
   fetch_script: scripts/fetch/fetch_toll_plazas.py
   quality_status: verified
-  quality_notes: Clustered from 2,800 toll booths within 150m DBSCAN; snapped to NH network for highway number attribution; 1,100 National Highway tolls, 101 Expressway tolls, 335 state highway tolls
+  quality_notes: 150m DBSCAN clusters of OSM toll booths; raw input count is not recorded.
+    Model labels are 1,100 national_highway, 101 expressway_toll and 335 unclassified highway_toll
+    records, not verified SH/bridge identities. Missing NH numbers are filled from the nearest
+    NH without a distance limit; 334 unclassified records have NH labels. Treat NH labels as
+    inferred attribution, not trusted plaza identity or passage evidence. Not an official NHAI
+    register and not tariff-verified.
 - name: Border & North-Eastern State Habitations
   category: administrative
   description: 34,954 geocoded settlement and village place nodes for the 9 states not published in SoI polygons
@@ -229,39 +234,39 @@ datasets:
   provider: derived in this repo (IR Tariff + NLP benchmarks + NHAI TIS)
   source_url: null
   license: MIT (code) / GODL-India derived
-  vintage: 2026-08
+  vintage: 2026-10
   resolution: district
   access: committed
   path: data/analysis/district_freight_modal_split.csv
-  fetch_script: scripts/analyze/intermodal_cost_engine.py
+  fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings)
+  quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings). Regenerated 2026-10 by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json."
 - name: Port Hinterland Gravity & Catchment Model
   category: analysis
   description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 781 districts for 12 Major Ports
   provider: derived in this repo (IPA throughput x Dijkstra highway travel matrix)
   source_url: null
   license: MIT (code) / GODL-India derived
-  vintage: 2026-08
+  vintage: 2026-10
   resolution: district
   access: committed
   path: data/analysis/district_port_hinterland_catchment.csv
-  fetch_script: scripts/analyze/port_hinterland_model.py
+  fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: 781 districts categorized into Captive (28), Dominant (58), and Contested (695) hinterlands; identifies primary and secondary port market capture
+  quality_notes: "781 districts: Captive Hinterland 29, Dominant / Mildly Contested 59, Highly Contested / Split Hinterland 689, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)."
 - name: Major Ports & MMLP Drive-Time Isochrones
   category: analysis
-  description: 1h, 2h, 4h, 8h vector drive-time catchment polygons around 12 Major Commercial Ports and 20 Multimodal Logistics Parks
+  description: Vector drive-time catchment polygons at 4h, 8h, 12h, 24h around 12 Major Commercial Ports and at 4h, 8h, 12h around 20 Multimodal Logistics Parks
   provider: derived in this repo (Dijkstra network traversal on NH graph)
   source_url: null
   license: MIT (code) / ODbL derived
-  vintage: 2026-08
+  vintage: 2026-10
   resolution: national vector polygons
   access: committed
   path: data/analysis/*_isochrones.geojson
-  fetch_script: scripts/analyze/generate_isochrones.py
+  fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: 48 port isochrone polygons + 60 MMLP isochrone polygons simplified to 0.005 degrees with valid polygon geometries
+  quality_notes: "48 port + 60 MMLP isochrone polygons, all status ok, valid geometries. Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km (modelling policy; per-feature snap_feeder_km and snap_component_node_count recorded). Thresholds changed from 1/2/4/8h in the 2026-08 vintage."
 - name: Railway stations
   category: rail
   description: ~8,700 stations with code, zone (partial), state, coordinates
@@ -272,13 +277,15 @@ datasets:
   resolution: national
   access: committed
   path: data/rail/railway_stations.csv
-  fetch_script: null
+  fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: coordinates present for 97% of rows; zone filled ~45%; official alternative is data.gov.in
-    station resources (API key required)
+  quality_notes: 2016 DataMeet station-location base; later community zone/division enrichment.
+    Enrichment vintage is approximate (catalog ~2023 vs script comment 2024); current operational
+    status is unverified. Source licensing remains unresolved. Official alternative is data.gov.in
+    station resources (API key required).
 - name: Station categories (NSG1-6)
   category: rail
-  description: 5,941 stations mapped to NSG category (2017+ classification; NSG*P suburban variants)
+  description: 5,938 committed station-category records (2017+ classification; NSG*P suburban variants)
   provider: community compilation (railway-stations-classification.pages.dev)
   source_url: https://railway-stations-classification.pages.dev/
   license: unclear — reference use; cross-check before publication-grade use
@@ -286,9 +293,12 @@ datasets:
   resolution: national
   access: committed
   path: data/rail/station_categories.csv
+  fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: 92.5% of codes join to railway_stations.csv; NSG1=22 (+6 NSG1P) consistent with official
-    counts; data.gov.in remains the authoritative upgrade path
+  quality_notes: 5,493 category codes join to the 2016 station base, out of 5,938 category records.
+    Vintage is approximate (catalog ~2023 vs script comment 2024). The enrichment script can fall
+    back to an agent scrape cache; no verified dated upstream snapshot is recorded. Source terms
+    remain unresolved; data.gov.in remains the authoritative upgrade path.
 - name: Dedicated Freight Corridor Network (WDFC & EDFC)
   category: rail
   description: LineString alignments for Western DFC (1,506 km Dadri-JNPT), Eastern DFC (1,337 km Ludhiana-Sonnagar), and Dadri-Khurja link
@@ -553,23 +563,23 @@ datasets:
   provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
-  vintage: 2026
+  vintage: 2026-10
   resolution: district
   access: committed
   path: data/analysis/nh_district_travel_time_summary.csv
-  fetch_script: scripts/analyze/nh_travel_matrix.py
+  fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: 781 rows; 777 mainland districts with continuous Dijkstra drive times; 4 island districts flagged cleanly
+  quality_notes: "781 rows (Parquet twin committed); 777 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 372 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit."
 - name: District to Major Ports highway drive-time matrix
   category: analysis
   description: 781 districts x 12 major commercial ports drive-time matrix in hours
   provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
-  vintage: 2026
+  vintage: 2026-10
   resolution: district x port
   access: committed
   path: data/analysis/nh_district_port_matrix.csv
-  fetch_script: scripts/analyze/nh_travel_matrix.py
+  fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: 781 rows x 12 major ports; benchmarked against known interstate freight corridors
+  quality_notes: "781 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py."
