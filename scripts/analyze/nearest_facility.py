@@ -229,7 +229,7 @@ def run_one(state: str, args) -> None:
     summary = pd.DataFrame(rows)
 
     # population weighting via state-scoped district_code / district name
-    # against the estimates file (covers all 781 current districts: exact census
+    # against the estimates file (covers all 780 current districts: exact census
     # or allocated; see scripts/analyze/allocate_population.py).
     import re as _re
     import difflib as _difflib

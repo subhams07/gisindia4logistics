@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-08-23.
+Read this before making changes. Last updated: 2026-10-19.
 
 ## What this repository is
 
@@ -299,10 +299,10 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     `docs/audit_report.md`.
 34. Three evaluate-fix-evaluate cycles: 28 FAIL -> 4 FAIL -> 0 FAIL
     (201 PASS / 11 documented WARN). Real bugs found & fixed:
-    - **Malegaon (LGD 598) missing from districts** — the source's
-      subdistrict layer is NEWER than its district layer; derived the
-      district by dissolving its 4 subdistricts (now 781 districts;
-      `reconcile_districts()` in process_panindia_boundaries).
+    - ~~**Malegaon (LGD 598) missing from districts**~~ — WRONG diagnosis,
+      reverted in item 41: the "missing" district was Dhule's own 4
+      talukas mis-coded 598 in the source; the dissolve duplicated Dhule
+      (781 districts). Correct count is 780.
     - TN/Puducherry `Subdist` column alias (sub-districts restored).
     - MP `Villl_name` typo (names restored).
     - 3 exact-dup subdistrict rows; NH junk refs ("Old NH7") + 2 degenerate
@@ -361,6 +361,26 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - Regenerated all 27 village accessibility datasets (543,391 village polygons), all 36 state district summaries, and national composite `data/analysis/india_district_access_summary.csv` (817 rows, 781 districts + 36 state pop-weighted rows).
     - Enables multi-threshold feeder and catchment metrics (`nh_within_5km_pct`, `nh_within_10km_pct`, `expressway_within_25km_pct`, `rail_station_within_10km_pct`, `freight_terminal_within_25km_pct`).
     - Full deep audit suite passed: **227 checks | 216 PASS | 11 WARN | 0 FAIL**.
+
+### Phase F: Dhule / 598 source-code correction (2026-10-19)
+41. The derived "Malegaon (LGD 598)" district was a duplicate DHULE polygon
+    (6,929 km², ~100% overlap with DHULE 498). Cause: the source
+    sub-district layer tags Dhule's 4 talukas (Dhule 3959, Sakri 3958,
+    Shirpur 3956, Sindkhede 3957) with district code 598, which is Kerala's
+    Alappuzha (LGD codes run per state: Maharashtra 497-531, Kerala 588-601).
+    The source has no Malegaon district — Malegaon taluka (4146) is in
+    Nashik (516). Fix: `SUBDISTRICT_DISTRICT_CODE_FIXES` in
+    process_panindia_boundaries corrects 598 -> 498, and
+    `reconcile_districts()` now raises instead of deriving when a
+    "missing" code's name already exists in the state or the code belongs
+    to another state. Committed layers patched (raw source is not in the
+    repo); districts 781 -> 780, Maharashtra 37 -> 36.
+    Downstream: the duplicate also double-counted Dhule's ~2.04 M people in
+    `district_population_estimates.csv`, which the Maharashtra state
+    scaling then took out of every other Maharashtra district (~1.8% each).
+    Regenerated population estimates, Maharashtra/national access
+    summaries, and all Stage 4 outputs; the producer_limitations
+    source-identity disclosures are now empty.
 
 ## Enhancement backlog (suggested next steps)
 

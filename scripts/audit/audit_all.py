@@ -35,15 +35,17 @@ from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
 # ---------------------------------------------------------------- reference
 # District counts per state/UT, verified against the source's own LGD codes
 # (incl. 2024-25 formations: Arunachal Bichom/Keyi Panyor, Chhattisgarh 2025
-# batch incl. Khairagarh, Goa Kushavati, Maharashtra 37 = 36 + derived
-# Malegaon-598). Documented source gaps: Ladakh source predates the 2024
+# batch incl. Khairagarh, Goa Kushavati; Maharashtra 36 — the source's
+# Dhule sub-districts carried code 598, which is Kerala's Alappuzha, and
+# were once dissolved into a duplicate "Malegaon" DHULE; that code is now
+# corrected to 498 in process_panindia_boundaries). Documented source gaps: Ladakh source predates the 2024
 # five-district split (2 only); Puducherry lacks Mahe/Yanam (2 of 4); J&K
 # = 20 coded + 2 PoK rows with null codes; Delhi = 11 coded + Nazul (null).
 EXPECTED_DISTRICTS = {
     "Andhra Pradesh": 26, "Arunachal Pradesh": 27, "Assam": 35, "Bihar": 38,
     "Chhattisgarh": 33, "Goa": 3, "Gujarat": 33, "Haryana": 22,
     "Himachal Pradesh": 12, "Jharkhand": 24, "Karnataka": 31,
-    "Kerala": 14, "Madhya Pradesh": 55, "Maharashtra": 37, "Manipur": 16,
+    "Kerala": 14, "Madhya Pradesh": 55, "Maharashtra": 36, "Manipur": 16,
     "Meghalaya": 12, "Mizoram": 11, "Nagaland": 16, "Odisha": 30,
     "Punjab": 23, "Rajasthan": 41, "Sikkim": 6, "Tamil Nadu": 38,
     "Telangana": 33, "Tripura": 8, "Uttar Pradesh": 75, "Uttarakhand": 13,
@@ -369,7 +371,7 @@ def audit_demographics(source_root=DATA_DIR):
     est_p = source_root / "demographic" / "district_population_estimates.csv"
     if est_p.exists():
         est = pd.read_csv(est_p)
-        check("population_estimates", "781 current districts", "FAIL", len(est) == 781, f"{len(est)}")
+        check("population_estimates", "780 current districts", "FAIL", len(est) == 780, f"{len(est)}")
         diff = abs(est.pop_2011.sum() - 1_210_854_977)
         check("population_estimates", "total population conserved (<0.01% delta)", "FAIL",
               diff / 1_210_854_977 < 0.0001, f"{est.pop_2011.sum():,} (delta {diff})")
@@ -431,7 +433,7 @@ def audit_geoparquet(source_root=DATA_DIR):
     d_pq = source_root / "administrative" / "india_districts_lgd.parquet"
     if d_pq.exists():
         gdf_dpq = gpd.read_parquet(d_pq)
-        check("geoparquet", "districts parquet has 781 rows", "FAIL", len(gdf_dpq) == 781, f"{len(gdf_dpq)}")
+        check("geoparquet", "districts parquet has 780 rows", "FAIL", len(gdf_dpq) == 780, f"{len(gdf_dpq)}")
         check("geoparquet", "districts parquet valid geometries", "FAIL", gdf_dpq.geometry.is_valid.all())
 
     # 3. Subdistricts Parquet

@@ -105,7 +105,7 @@ def export_all_geoparquet():
         (
             DATA_DIR / "administrative" / "india_districts_lgd.geojson",
             DATA_DIR / "administrative" / "india_districts_lgd.parquet",
-            "Districts LGD (781 features)"
+            "Districts LGD (780 features)"
         ),
         # 4. States LGD
         (

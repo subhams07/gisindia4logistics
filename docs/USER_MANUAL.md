@@ -34,7 +34,7 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Projected Metric Analysis**: `EPSG:7755` (India National System Framework LCC) for accurate distance and area calculations.
 * **Join Keys & Standardization**:
   * **Administrative Layers**: Standardized to **Local Government Directory (LGD)** state, district, sub-district, and village codes.
-  * **Demographics**: Census 2011 indicators joined via LGD crosswalks and spatial allocation across 781 current districts; the recorded national population delta is below 0.001%, not exact conservation.
+  * **Demographics**: Census 2011 indicators joined via LGD crosswalks and spatial allocation across 780 current districts; the recorded national population delta is below 0.001%, not exact conservation.
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
@@ -82,7 +82,7 @@ python -m pytest tests/test_package.py tests/test_server.py
 import geopandas as gpd
 import pandas as pd
 
-# Load 781 Current LGD Districts (GeoParquet or GeoJSON)
+# Load 780 Current LGD Districts (GeoParquet or GeoJSON)
 districts_gdf = gpd.read_parquet("data/administrative/india_districts_lgd.parquet")
 # or: districts_gdf = gpd.read_file("data/administrative/india_districts_lgd.geojson")
 
@@ -127,7 +127,7 @@ print(res)
 Compare generalized freight cost (₹/tonne) and transit time across **Road Trucking**, **Conventional Rail**, and **Dedicated Freight Corridor (DFC)**.
 
 ```bash
-# Run simulation with default rates for all 781 districts
+# Run simulation with default rates for all 780 districts
 python scripts/analyze/intermodal_cost_engine.py
 
 # Run with custom economic parameter overrides
@@ -269,7 +269,7 @@ docker-compose down
 | Endpoint | Method | Params | Description |
 | :--- | :--- | :--- | :--- |
 | `/api/v1/admin/states` | `GET` | — | List 36 States/UTs with LGD codes and district counts |
-| `/api/v1/admin/districts` | `GET` | `state`, `search` | List 781 current LGD districts with population estimates |
+| `/api/v1/admin/districts` | `GET` | `state`, `search` | List 780 current LGD districts with population estimates |
 | `/api/v1/admin/districts/{name_or_code}` | `GET` | — | Comprehensive District Logistics Scorecard |
 | `/api/v1/admin/villages/map.html` | `GET` | `state`, `district`, `metric` | Interactive Leaflet HTML Map |
 | `/api/v1/admin/villages/geojson` | `GET` | `state`, `district` | Vector GeoJSON of district villages |

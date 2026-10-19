@@ -110,20 +110,20 @@ def test_real_port_alias_code_constraints():
         resolver.resolve(HubLocation(hub_type="port", name="JNPT", code="UNKNOWN"), store)
 
 
-def test_real_dhule_codes_use_distinct_keyed_boundary_points():
+def test_real_dhule_is_a_single_keyed_boundary_point():
     store = district_store(ROOT, pd.read_csv(ROOT / "demographic/district_population_estimates.csv").to_dict("records"))
     resolver = LocationResolver()
-    results = [resolver.resolve(DistrictLocation(district_code=code, district="Dhule", state="Maharashtra"), store)
-               for code in (498, 598)]
+    by_code = resolver.resolve(DistrictLocation(district_code=498, district="Dhule", state="Maharashtra"), store)
+    by_name = resolver.resolve(DistrictLocation(district="Dhule", state="Maharashtra"), store)
     boundary = gpd.read_file(ROOT / "administrative/india_districts_lgd.geojson")
-    for code, result in zip((498, 598), results):
-        row = boundary[(boundary.district_code == code) & (boundary.state.str.lower() == "maharashtra")]
-        assert len(row) == 1
-        point = row.to_crs(7755).geometry.representative_point().to_crs(4326).iloc[0]
+    row = boundary[(boundary.district.str.upper() == "DHULE") & (boundary.state.str.lower() == "maharashtra")]
+    assert row.district_code.tolist() == [498]
+    point = row.to_crs(7755).geometry.representative_point().to_crs(4326).iloc[0]
+    for result in (by_code, by_name):
+        assert result.district_code == 498
         assert (result.latitude, result.longitude) == (round(point.y, 5), round(point.x, 5))
-    assert (results[0].latitude, results[0].longitude) != (results[1].latitude, results[1].longitude)
-    with pytest.raises(AmbiguousLocationError):
-        resolver.resolve(DistrictLocation(district="Dhule", state="Maharashtra"), store)
+    with pytest.raises(InvalidLocationError):
+        resolver.resolve(DistrictLocation(district_code=598, district="Dhule", state="Maharashtra"), store)
 
 
 @pytest.mark.parametrize("code", [None, 1])

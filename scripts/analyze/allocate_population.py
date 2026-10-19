@@ -1,6 +1,6 @@
 """Allocate Census-2011 district population to current (post-2011) districts.
 
-Current districts (781, LGD) created after Census 2011 have no 2011
+Current districts (780, LGD) created after Census 2011 have no 2011
 population, which left NaN weights in accessibility summaries. This script
 allocates each 2011 district's population across current districts by
 geometric intersection:

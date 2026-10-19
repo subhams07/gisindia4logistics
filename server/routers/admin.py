@@ -142,7 +142,7 @@ def list_districts(
     search: Optional[str] = Query(None, description="Search by district name prefix/substring"),
     store: DataStore = Depends(get_data_store)
 ):
-    """List all 781 current LGD districts with population estimates."""
+    """List all 780 current LGD districts with population estimates."""
     if store.districts_df is None:
         raise HTTPException(status_code=500, detail="Districts data not loaded")
     

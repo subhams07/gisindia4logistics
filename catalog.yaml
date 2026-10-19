@@ -29,7 +29,7 @@ datasets:
   quality_notes: 36 features after dropping 4 inter-state disputed slivers; valid geometries
 - name: India district boundaries (current, LGD)
   category: administrative
-  description: 781 districts with LGD codes — post-2011 districts incl. 2024-25 formations
+  description: 780 districts with LGD codes — post-2011 districts incl. 2024-25 formations
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
   license: copyright per metadata; redistribution unresolved, not written permission;
@@ -40,9 +40,10 @@ datasets:
   path: data/administrative/india_districts_lgd.geojson
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
-  quality_notes: '781 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (PoK) and Delhi''s Nazul
-    kept with null codes; Malegaon (LGD 598, 2024 Dhule split) derived by dissolving its 4 subdistricts
-    — absent from source district layer which is older than its own subdistrict layer; mojibake names
+  quality_notes: '780 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (PoK) and Delhi''s Nazul
+    kept with null codes; the source sub-district layer tags Dhule''s 4 talukas with code 598 (Kerala''s
+    Alappuzha) — corrected to 498 in process_panindia_boundaries.py (this previously produced a duplicate
+    DHULE polygon wrongly labelled as a Malegaon split; Malegaon taluka is in Nashik 516); mojibake names
     fixed; verified: per-state counts match LGD'
 - name: India sub-district boundaries (current, LGD)
   category: administrative
@@ -209,7 +210,7 @@ datasets:
   path: data/administrative/villages/*_habitations.geojson
   fetch_script: scripts/fetch/fetch_border_habitations.py
   quality_status: verified
-  quality_notes: Covers Arunachal Pradesh (2.3k), Assam (1.8k), HP (18.5k), J&K (7.3k), Ladakh (1.9k), Manipur (1.6k), Meghalaya (362), Mizoram (610), Nagaland (589); joined to 781 LGD districts
+  quality_notes: Covers Arunachal Pradesh (2.3k), Assam (1.8k), HP (18.5k), J&K (7.3k), Ladakh (1.9k), Manipur (1.6k), Meghalaya (362), Mizoram (610), Nagaland (589); joined to 780 LGD districts
 - name: Village accessibility analysis (nearest facility)
   category: analysis
   description: Straight-line distance from every village to nearest rail station / ICD / port / air-cargo
@@ -230,7 +231,7 @@ datasets:
     ICD 121 km across the 27 village-level states
 - name: Multi-Modal Generalized Freight Cost Engine
   category: analysis
-  description: End-to-end financial freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail for all 781 districts
+  description: End-to-end financial freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail for all 780 districts
   provider: derived in this repo (IR Tariff + NLP benchmarks + NHAI TIS)
   source_url: null
   license: MIT (code) / GODL-India derived
@@ -243,7 +244,7 @@ datasets:
   quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 26.9% savings). Regenerated 2026-10 by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json."
 - name: Port Hinterland Gravity & Catchment Model
   category: analysis
-  description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 781 districts for 12 Major Ports
+  description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 780 districts for 12 Major Ports
   provider: derived in this repo (IPA throughput x Dijkstra highway travel matrix)
   source_url: null
   license: MIT (code) / GODL-India derived
@@ -505,9 +506,9 @@ datasets:
   quality_status: verified
   quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state
     totals match)
-- name: District population estimates (781 current LGD districts)
+- name: District population estimates (780 current LGD districts)
   category: demographic
-  description: 2011 Census population mapped to all 781 current LGD districts via geometric overlay and village-count blending
+  description: 2011 Census population mapped to all 780 current LGD districts via geometric overlay and village-count blending
   provider: derived in-repo (Census 2011 PCA x Survey of India LGD boundaries)
   source_url: derived in-repo
   license: GODL-India (underlying census data)
@@ -517,7 +518,7 @@ datasets:
   path: data/demographic/district_population_estimates.csv
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
-  quality_notes: Covers all 781 current districts (568 exact census, 134 blended, 79 area-share); national sum reconciles to 1,210,854,977 (<0.001% delta)
+  quality_notes: Covers all 780 current districts (567 exact census, 134 blended, 79 area-share); national sum 1,210,846,213 reconciles to 1,210,854,977 (<0.001% delta)
 - name: Indian Railways annual freight loading
   category: freight
   description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)
@@ -559,7 +560,7 @@ datasets:
   quality_notes: 11 series; validates NH official lengths (~146k km in FY24)
 - name: National Highway district travel-time summary
   category: analysis
-  description: Road-network shortest path drive times (hours/min) and distances (km) from 781 district centers to nearest ports, ICDs, MMLPs, air cargo, and ICPs
+  description: Road-network shortest path drive times (hours/min) and distances (km) from 780 district centers to nearest ports, ICDs, MMLPs, air cargo, and ICPs
   provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
@@ -572,7 +573,7 @@ datasets:
   quality_notes: "781 rows (Parquet twin committed); 777 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 372 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit."
 - name: District to Major Ports highway drive-time matrix
   category: analysis
-  description: 781 districts x 12 major commercial ports drive-time matrix in hours
+  description: 780 districts x 12 major commercial ports drive-time matrix in hours
   provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
@@ -582,4 +583,4 @@ datasets:
   path: data/analysis/nh_district_port_matrix.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "781 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py."
+  quality_notes: "780 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py."

@@ -76,7 +76,7 @@ RESOURCE_METHODS = {
 }
 NOTES = {
     "cross_state_shared_code": "Upstream source condition: one district code under more than one state; rows and codes are preserved literally; cause not determined.",
-    "same_state_label_multiple_codes": "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; Kerala/Alappuzha/598 is a separate cross-state code condition; cause not determined.",
+    "same_state_label_multiple_codes": "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; cause not determined.",
 }
 CROSS, SAME = "cross_state_shared_code", "same_state_label_multiple_codes"
 _ROW_KEYS = {"source_row", "state", "district", "district_code", "pop_2011", "population_method"}

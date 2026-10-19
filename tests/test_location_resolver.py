@@ -62,31 +62,20 @@ def test_resolve_district_by_exact_unique_code(resolver, store):
     assert 73.5 <= res.longitude <= 75.0
 
 
-def test_resolve_duplicate_district_code_raises_ambiguity_or_resolves_with_state(resolver, store):
-    """Verifies that duplicate district code 598 raises AmbiguousLocationError when state is omitted, and resolves with state."""
-    # Code 598 is shared by Alappuzha (Kerala) and Dhule (Maharashtra)
-    dist_ambiguous = DistrictLocation(district_code=598)
-    with pytest.raises(AmbiguousLocationError) as exc_info:
-        resolver.resolve(dist_ambiguous, store)
-    err = exc_info.value
-    assert len(err.candidates) >= 2
-    states = [c["state"].lower() for c in err.candidates]
-    assert "kerala" in states
-    assert "maharashtra" in states
-
-    # Disambiguated by Kerala
-    dist_kerala = DistrictLocation(district_code=598, state="Kerala")
-    res_kerala = resolver.resolve(dist_kerala, store)
+def test_resolve_code_598_is_alappuzha_and_dhule_is_498(resolver, store):
+    """Code 598 is Alappuzha only; the source's Dhule-598 duplicate was a coding error, now corrected."""
+    res_kerala = resolver.resolve(DistrictLocation(district_code=598), store)
     assert res_kerala.district.lower() == "alappuzha"
     assert res_kerala.state.lower() == "kerala"
     assert 9.0 <= res_kerala.latitude <= 10.0
     assert 76.0 <= res_kerala.longitude <= 77.0
 
-    # Disambiguated by Maharashtra
-    dist_mh = DistrictLocation(district_code=598, state="Maharashtra")
-    res_mh = resolver.resolve(dist_mh, store)
+    with pytest.raises(InvalidLocationError):
+        resolver.resolve(DistrictLocation(district_code=598, state="Maharashtra"), store)
+
+    res_mh = resolver.resolve(DistrictLocation(district="Dhule", state="Maharashtra"), store)
     assert res_mh.district.lower() == "dhule"
-    assert res_mh.state.lower() == "maharashtra"
+    assert res_mh.district_code == 498
     assert 20.0 <= res_mh.latitude <= 22.0
     assert 74.0 <= res_mh.longitude <= 75.5
 
