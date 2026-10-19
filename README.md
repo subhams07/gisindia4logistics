@@ -8,7 +8,7 @@
 [![User Manual](https://img.shields.io/badge/Docs-User%20Manual-orange.svg)](docs/USER_MANUAL.md)
 
 > **India's logistics map, ready to analyse.**
-> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and 300+ logistics hubs, joined on official LGD codes. It ships with routing, freight-cost and port-catchment models you can call from Python, the command line, a REST API or an AI agent.
+> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on official LGD codes. It ships with routing, freight-cost and port-catchment models you can call from Python, the command line, a REST API or an AI agent.
 
 ---
 
@@ -17,10 +17,10 @@
 Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. GISIndia4Logistics does that work once, in the open, and shows its evidence.
 
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
-- **National coverage, not samples.** 781 current districts and 621,105 villages and settlements in all 36 States/UTs. A precomputed accessibility profile comes with every one of them.
+- **National coverage.** 781 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
-- **Reproducible and audited.** Analysis outputs are produced by committed scripts and come with a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
-- **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known limitations](#-known-limitations).
+- **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
+- **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known limitations](#known-limitations).
 
 ---
 
@@ -46,8 +46,8 @@ Village figures are straight-line distances over all 621,105 settlements. Drive 
 | Domain | Example question | Capability |
 |---|---|---|
 | 🛣️ **Highway transit** | *"What is the highway distance and free-flow drive time from Pune to JNPT for a 20-tonne truck?"* | **Strategic highway router.** Speed-weighted, component-aware shortest paths on 141,990 NH segments, with route-quality warnings. Tolls are modelled estimates, not FASTag/NHAI tariffs. |
-| 🚂 **Modal choice** | *"For 24 tonnes from Indore, is rail or DFC cheaper than road, and by how much?"* | **Intermodal cost engine.** Linehaul, first/last-mile, terminal handling and inventory cost for road, conventional rail and DFC, with your own rate overrides. |
-| 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for all 781 districts across the 12 major ports, with α/β you can tune. |
+| 🚂 **Modal choice** | *"For 24 tonnes from Ludhiana, is rail or DFC cheaper than road, and by how much?"* | **Intermodal cost engine.** Linehaul, first/last-mile, terminal handling and inventory cost for road, conventional rail and (for origins near the corridors) DFC, with your own rate overrides. |
+| 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for the 777 mainland districts (4 island districts flagged) across the 12 major ports, with α/β you can tune. |
 | 🏭 **Site screening** | *"How far does an 8-hour drive reach from JNPT or the Nagpur MMLP?"* | **Isochrones.** Drive-time catchments at 4, 8, 12 and 24 h around 12 major ports and at 4, 8 and 12 h around 20 MMLPs. |
 | 🌾 **Rural reach** | *"What share of villages in a district are within 10 km of a railway station?"* | **Village access engine.** Nearest NH, expressway, station, terminal, port, ICD, ICP, air cargo, MMLP, waterway terminal, FCI depot and toll plaza for every settlement. |
 | 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 781 LGD districts. |
@@ -94,7 +94,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -e .
 ```
 
-The data ships with the repository, so no downloads or API keys are needed. A PyPI package will follow the v1.1.0 GitHub release.
+The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB. Not yet published on PyPI. The project is developed and tested on Python 3.11.
 
 ### 2. Python SDK
 
@@ -117,8 +117,8 @@ plan = gis.plan_highway_route(
 )
 print(plan["route_quality"]["warnings"])
 
-# Road vs rail vs DFC
-freight = gis.calculate_freight_cost(origin_district="Indore", payload_tons=24.0, road_linehaul_rate=3.80)
+# Road vs rail vs DFC (DFC applies to origins near the corridors, e.g. Ludhiana)
+freight = gis.calculate_freight_cost(origin_district="Ludhiana", payload_tons=24.0, road_linehaul_rate=3.80)
 print(freight["optimal_mode"], f"{freight['modal_shift_savings_pct']:.1f}% saving")
 
 # Nearest facilities by category (straight-line, geodesic)
@@ -146,7 +146,7 @@ gisindia4logistics mcp                   # MCP server (stdio)
 ```bash
 gisindia4logistics serve --port 8000
 # or: uvicorn server.app:app --host 0.0.0.0 --port 8000
-# or: docker-compose up --build -d
+# or (evaluation, not verified for deployment): docker-compose up --build -d
 ```
 
 Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpoints cover district scorecards, highway routes (`/api/v1/route/highway` and the richer `/api/v1/route/highway/plan`), precomputed port and MMLP isochrones, freight-cost and port-gravity simulation, and village maps. Validation errors return a structured `detail`; see the [User Manual](docs/USER_MANUAL.md) for the contract. The server is for evaluation; validate it independently before operational deployment.
@@ -156,7 +156,7 @@ Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpo
 ```json
 {
   "mcpServers": {
-    "gisindia4logistics": { "command": "python", "args": ["-m", "mcp_server.server"] }
+    "gisindia4logistics": { "command": "/path/to/gisindia4logistics/.venv/bin/python", "args": ["-m", "mcp_server.server"] }
   }
 }
 ```
@@ -167,7 +167,7 @@ Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpo
 | `gis_plan_highway_route` | Canonical route with quality warnings and provenance |
 | `gis_highway_route_and_tolls` | Route plus modelled toll estimate |
 | `gis_calculate_intermodal_freight_cost` | Road vs rail vs DFC comparison |
-| `gis_find_nearest_facilities` | Nearest hubs, stations and toll plazas to a point |
+| `gis_find_nearest_facilities` | Nearest ports, ICDs, MMLPs, other hubs and toll plazas to a point |
 | `gis_simulate_port_catchment` | Gravity-based port contestability |
 | `gis_plot_villages_map` | Leaflet HTML or 300 DPI PNG accessibility map |
 
@@ -200,23 +200,24 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
 | ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link | **3 alignments, 54 stations** | DFCCIL | GODL-India |
-| 🏗️ **Gati Shakti cargo terminals** | GCT roster (70 geocoded) | **84** | Ministry of Railways / PIB | GODL-India |
+| 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (78 geocoded, 6 pending) | **84** | Ministry of Railways / PIB | GODL-India |
 | 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
 | 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
 | 🏬 **MMLPs** | Awarded and planned multimodal logistics parks | **20** | NHLML / PIB | Mixed; per-row terms |
 | ✈️ **Air cargo** | Cargo-handling airports | **25** | AAI / operators | Mixed; per-row terms |
 | 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
-| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
+| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | GODL-India |
 | 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | GODL-India |
 | 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
 | 👥 **Population** | Census 2011, allocated to 781 current districts | **1.21 billion conserved** | ORGI | GODL-India |
 | 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
 
-**Analysis outputs** (in `data/analysis/`, regenerated for v1.1.0):
-- the district travel-time summary and the district × port drive-time matrix;
-- freight modal split and port hinterland catchment;
-- port and MMLP isochrones;
-- village access for all 621,105 settlements, with district and national summaries.
+**Analysis outputs** (in `data/analysis/`):
+- Regenerated for v1.1.0, with a provenance manifest:
+  - the district travel-time summary and the district × port drive-time matrix;
+  - freight modal split and port hinterland catchment;
+  - port and MMLP isochrones.
+- From 2026-08, with no manifest: village access for all 621,105 settlements (straight-line), with sub-district, district and national summaries.
 
 ---
 
@@ -239,11 +240,11 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 **What the audit checks:**
 - ✅ **Boundaries.** 36 states and 781 districts, valid geometries on re-read, and LGD joins across layers.
 - ✅ **Population.** 1,210,846,210 people conserved across the 781 current districts, within 0.001% of Census 2011.
-- ✅ **Provenance.** Every analysis output is hash-matched to the inputs and code recorded in `producer_manifest.json`.
+- ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 
 **The 16 warnings:**
-- 15 are disclosed source issues: blank village names in SoI files, village counts above the Census-2011 reference for Delhi and Chandigarh, and duplicate LGD codes.
+- 15 are disclosed source issues: blank village names in SoI files (in 9 states), village counts above the Census-2011 reference for Delhi and Chandigarh, and duplicate LGD codes.
 - 1 is an informational audit note.
 
 Passing checks are not proof of operational routing accuracy, data freshness or legal clearance.
@@ -252,7 +253,7 @@ Passing checks are not proof of operational routing accuracy, data freshness or 
 
 ---
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHANGELOG.md) and `data/analysis/producer_limitations.json`.
 
@@ -261,7 +262,8 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 - **Island values.** Highway-access values for Lakshadweep and the Nicobars are over-sea distances.
 - **Isochrone snapping.** Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km. This is a modelling policy.
 - **Tolls.** Toll figures are distance-based estimates, not FASTag/NHAI tariffs.
-- **Reference vintages.** Rail stations are a 2016 base, and some hub coordinates are city-level approximations (flagged per row).
+- **API warnings.** API responses do not yet carry these routing limitations at the point of use; read `producer_limitations.json`.
+- **Reference vintages and coverage.** Rail stations are a 2016 base, and some hub coordinates are city-level approximations (flagged per row). The GCT list is the 2023 identified roster. OSM settlement coverage in the 9 border/NE States/UTs is partial.
 
 ---
 
