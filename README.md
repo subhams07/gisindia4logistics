@@ -1,20 +1,30 @@
 # 🇮🇳 GISIndia4Logistics
 
 [![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](CHANGELOG.md)
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg?logo=python)](pyproject.toml)
+[![Hobby project](https://img.shields.io/badge/project-hobby%20%C2%B7%20as--is-lightgrey.svg)](#about-this-project)
+[![Python](https://img.shields.io/badge/python-3.11%20tested-blue.svg?logo=python)](pyproject.toml)
 [![Code License: MIT](https://img.shields.io/badge/Code%20License-MIT-green.svg)](LICENSE)
 [![Data Audit](https://img.shields.io/badge/Data%20Audit-5%2C367%20checks%20%C2%B7%200%20FAIL-brightgreen.svg)](docs/audit_report.md)
 [![Data Licensing](https://img.shields.io/badge/Data%20Licensing-Mixed%20%2F%20Review%20Required-yellow.svg)](DATA_LICENSE.md)
-[![User Manual](https://img.shields.io/badge/Docs-User%20Manual-orange.svg)](docs/USER_MANUAL.md)
 
 > **India's logistics map, ready to analyse.**
-> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on official LGD codes. It ships with routing, freight-cost and port-catchment models you can call from Python, the command line, a REST API or an AI agent.
+> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on official LGD codes. It comes with routing, freight-cost and port-catchment models you can use from Python, the command line, a REST API or an AI agent.
+
+> [!NOTE]
+> **This is a personal hobby project**, built and maintained in spare time and shared as-is. There is no support commitment, and pull requests and outside contributions are not being accepted. You're welcome to use and fork it under the licences below.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_rail_access_dark.png">
+    <img src="docs/img/readme_rail_access_light.png" alt="Map of India's districts shaded by the median distance from villages to the nearest railway station" width="640">
+  </picture>
+</p>
 
 ---
 
 ## 🌟 Why GISIndia4Logistics?
 
-Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. GISIndia4Logistics does that work once, in the open, and shows its evidence.
+Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. This project does that plumbing once, in the open, and publishes the evidence alongside the data.
 
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
 - **National coverage.** 781 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
@@ -54,16 +64,15 @@ Village figures are straight-line distances over all 621,105 settlements. Drive 
 
 ---
 
-## 👥 Who It's For
+## 👥 Who Might Find It Useful
 
-- 🚚 **Logistics providers, 3PLs and fleet operators.** Explore corridor and modal scenarios before commissioning detailed studies.
-- 💼 **Strategy and infrastructure consultants.** Start studies from a consistent, documented national baseline instead of rebuilding one.
-- 🏢 **Warehouse and industrial real-estate developers.** Benchmark highway, rail and port access for candidate sites.
-- 🏛️ **Policymakers and public agencies.** Find connectivity gaps and compare districts on a common footing.
-- 🔬 **Researchers and data scientists.** Use clean, LGD-joined layers with recorded validation evidence.
-- 🤖 **AI and agent builders.** Give Claude, Cursor or any MCP client India-specific spatial tools.
+- 🚚 **Logistics and supply-chain people** sketching corridor or modal scenarios.
+- 🏢 **Site and warehouse analysts** comparing highway, rail and port access across locations.
+- 🏛️ **Policy and infrastructure watchers** looking for connectivity gaps between districts.
+- 🔬 **Researchers, students and data scientists** who want clean, LGD-joined Indian layers.
+- 🤖 **AI tinkerers** giving Claude, Cursor or another MCP client India-specific spatial tools.
 
-Outputs are strategic estimates. Verify routes, tariffs and transit times independently before operational or commercial decisions.
+Outputs are strategic estimates from a hobby project. Verify routes, tariffs and transit times independently before any operational or commercial decision.
 
 ---
 
@@ -94,7 +103,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -e .
 ```
 
-The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB. Not yet published on PyPI. The project is developed and tested on Python 3.11.
+The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB. The project is installed from source only (it is not published on PyPI) and is tested on Python 3.11.
 
 ### 2. Python SDK
 
@@ -135,7 +144,7 @@ print(ports[0]["port_name"], ports[0]["captured_districts_count"])
 ```bash
 gisindia4logistics route --origin 18.5204,73.8567 --dest 18.9500,72.9500 --vehicle MAV_20T
 gisindia4logistics route-plan --origin '{"type":"district","district_code":521}' --dest '{"type":"hub","hub_type":"port","name":"JNPT"}' --vehicle LCV --geometry simplified
-gisindia4logistics cost --origin Indore --payload 24.0 --road-rate 3.80
+gisindia4logistics cost --origin Ludhiana --payload 24.0 --road-rate 3.80
 gisindia4logistics district Pune
 gisindia4logistics serve --port 8000     # REST API
 gisindia4logistics mcp                   # MCP server (stdio)
@@ -223,13 +232,21 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 
 ## 🗺️ Maps
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_icd_drive_dark.png">
+    <img src="docs/img/readme_icd_drive_light.png" alt="Map of India's districts shaded by highway drive time to the nearest inland container depot" width="640">
+  </picture>
+</p>
+
+The two maps on this page come from `scripts/analyze/make_readme_figures.py`. You can draw village-level maps for any district too:
+
 ```bash
 python scripts/analyze/plot_villages.py --state Haryana --district Ambala --metric dist_rail_station_km --format both
 ```
 
 With the API running, maps are also available at `http://localhost:8000/api/v1/admin/villages/map.html?state=Haryana&district=Ambala`.
 
-![Village accessibility choropleth](docs/img/accessibility_map.png)
 
 ---
 
@@ -277,12 +294,17 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 
 ---
 
-## 🤝 Contributing
+## About This Project
 
-New datasets, better routing and documentation fixes are welcome. Please read the [Contributing Guide](CONTRIBUTING.md), [Security Policy](SECURITY.md) and [Code of Conduct](CODE_OF_CONDUCT.md). If you use the project in research, see [`CITATION.cff`](CITATION.cff).
+GISIndia4Logistics is a **hobby project**: one person's spare-time effort to make Indian logistics data easier to work with. It is shared as-is, without warranty or support commitments, and it is not affiliated with any government body or company.
+
+- **Contributions:** pull requests and outside contributions are not being accepted. Feel free to fork it.
+- **Data or licence concerns:** if you hold rights in a dataset here and want it attributed differently or removed, open an issue using the *Source or license concern* template, and it will be handled.
+- **Security:** see [SECURITY.md](SECURITY.md).
+- **Citing:** if you use it in research, see [`CITATION.cff`](CITATION.cff).
 
 ---
 
 <div align="center">
-  <sub>Built for Indian logistics, infrastructure planners and supply-chain teams. © OpenStreetMap contributors for OSM-derived layers.</sub>
+  <sub>A hobby project for anyone curious about how India moves goods. © OpenStreetMap contributors for OSM-derived layers.</sub>
 </div>

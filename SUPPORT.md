@@ -1,5 +1,7 @@
 # Support
 
+This is a hobby project maintained in spare time. Issues are read when time allows; there is no guaranteed response or support commitment, and pull requests are not accepted.
+
 ## Usage and troubleshooting
 
 Before opening an issue:
