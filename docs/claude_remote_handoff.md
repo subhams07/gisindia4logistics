@@ -1,6 +1,6 @@
 # Claude remote handoff — national datasets
 
-**Status: 2026-10-19 — 1.1.0 MERGED to `main` (PR #5, https://github.com/subhams07/gisindia4logistics/pull/5, merge commit `3450863`). PRs #3 and #4 closed as superseded. Not yet tagged or published to PyPI.**
+**Status: 2026-10-19 — 1.1.0 MERGED to `main` (PR #5, https://github.com/subhams07/gisindia4logistics/pull/5, merge commit `3450863`). PRs #3 and #4 closed as superseded. Not tagged; no PyPI release planned for now (operator ruling).**
 
 ## 0. Live status and plan — update this section at every step
 
@@ -9,7 +9,7 @@ Any session (local or remote) restarting this work: read **"Current state"** bel
 ### Current state (authoritative)
 
 - **Branch / PR:** PR #5 merged into `main` on operator instruction (merge commit `3450863`); PRs #3 and #4 closed as superseded. The review branch `claude/gisindia-remote-handoff-verify-veukfs` was restarted from `main` for follow-up work; any follow-up goes in a new PR.
-- **CI is OFF by operator ruling** (GitHub Actions billing problem). Only `.github/workflows/publish-pypi.yml` exists (on release / `v*.*.*` tag / manual). Publishing `v1.1.0` to PyPI therefore also waits for Actions billing; tag only once that works, or publish manually with `twine`.
+- **CI is OFF by operator ruling** (GitHub Actions billing problem). Only `.github/workflows/publish-pypi.yml` exists (on release / `v*.*.*` tag / manual). Because that workflow fires on a GitHub release or `v*.*.*` tag, do not create either without asking (no PyPI release for now, see Publishing below).
 - **Changed code since the pinned checkpoint `9778998`:** isochrone supported-component snapping (`6ffc020`; Opus-reviewed ACCEPT); version strings 1.1.0 (`pyproject.toml`, `gisindia4logistics/__init__.py`, `server/config.py`); `catalog.yaml` analysis entries; `pyproject` dev extra `tabulate` and classifier `4 - Beta`. No input data changed.
 - **Published data:** `data/analysis/` = national run `linux-2026-10-19-run3` (7 artifacts + `producer_manifest.json` + `producer_limitations.json`), produced at the release code so the manifest's code-closure hashes match the 1.1.0 files. Run 3 artifacts are byte-identical to run 2 (`605d88f`); only the manifest/sidecar run id and two code hashes differ. Drift and disclosures: `docs/stage4_drift_linux-2026-10-18-run1.md`.
 - **Evidence (local to this release):** CLI national audit (`audit_all.py --national`, non-fast) 5,367 checks, 5,351 PASS, 16 WARN, 0 FAIL. The CLI's full section (`audit_producers_full`, 3,476 of those checks: code-closure hashes, graph/route/isochrone/coverage/category oracles, freight/hinterland recomputation) gave 3,474 PASS, 2 WARN, 0 FAIL, and the same result when called directly with `code_root='.'`. WARNs: 9 blank village names and 2 village counts above the census-2011 soft reference (Chandigarh, Delhi), all in the SoI source; 4 disclosed LGD-code duplicates (Alappuzha/Dhule code 598 and Dhule 498/598, each reported twice); and 1 note from the fast section that code closure is deferred to the full section, which then passes it. `validate_manifest`/`validate_national_profile`/`validate_limitations(require_coverage)` clean; run 3 rc 0, 967 s, cgroup peak 680,902,656 B, failcnt 0, oom 0 (12 GiB cap). Full test suite 3,508 passed, 1 skipped, 0 failed; `python -m build` + `twine check` pass for 1.1.0.

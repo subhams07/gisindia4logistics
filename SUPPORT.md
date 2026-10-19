@@ -16,7 +16,6 @@ Use the appropriate GitHub issue template:
 - **Bug report** for reproducible software defects.
 - **Data quality report** for coordinates, geometry, joins, counts, or stale records.
 - **Source or license concern** for attribution and redistribution questions.
-- **Feature request** for proposed capabilities.
 
 ## Security
 

@@ -299,7 +299,7 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 GISIndia4Logistics is a **hobby project**: one person's spare-time effort to make Indian logistics data easier to work with. It is shared as-is, without warranty or support commitments, and it is not affiliated with any government body or company.
 
 - **Contributions:** pull requests and outside contributions are not being accepted. Feel free to fork it.
-- **Data or licence concerns:** if you hold rights in a dataset here and want it attributed differently or removed, open an issue using the *Source or license concern* template, and it will be handled.
+- **Data or licence concerns:** if you hold rights in a dataset here and want it attributed differently or removed, open an issue using the *Source or license concern* template.
 - **Security:** see [SECURITY.md](SECURITY.md).
 - **Citing:** if you use it in research, see [`CITATION.cff`](CITATION.cff).
 
