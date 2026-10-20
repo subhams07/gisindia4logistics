@@ -359,7 +359,7 @@ def test_real_dhule_is_one_district_and_598_is_alappuzha(api):
     alappuzha = client.get("/api/v1/admin/districts/598")
     assert alappuzha.status_code == 200, alappuzha.text
     assert alappuzha.json()["state"] == "Kerala"
-    assert client.get("/api/v1/admin/districts/598", params={"state": "Maharashtra"}).status_code == 404
+    assert client.get("/api/v1/admin/districts/598", params={"state": "Maharashtra"}).status_code == 422
 
 
 @pytest.mark.parametrize("district", ["NAZUL", "MIRPUR", "MUZAFFARABAD"])

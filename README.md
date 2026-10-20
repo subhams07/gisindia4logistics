@@ -17,7 +17,7 @@
 Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. GISIndia4Logistics does that work once, in the open, and shows its evidence.
 
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
-- **National coverage.** 781 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
+- **National coverage.** 780 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
 - **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
 - **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known limitations](#known-limitations).
@@ -35,7 +35,7 @@ Headline figures computed from the committed v1.1.0 outputs:
 | Median district drive time to the nearest Gati Shakti cargo terminal | **3.1 h** |
 | Median district drive time to the nearest ICD / CFS | **3.7 h** |
 | Median district drive time to the nearest major port | **12.2 h** |
-| Districts captive to a single major port (gravity model) | **29 of 781** (689 are contested between ports) |
+| Districts captive to a single major port (gravity model) | **29 of 780** (688 are contested between ports) |
 
 Village figures are straight-line distances over all 621,105 settlements. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
 
@@ -50,7 +50,7 @@ Village figures are straight-line distances over all 621,105 settlements. Drive 
 | 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for the 777 mainland districts (4 island districts flagged) across the 12 major ports, with α/β you can tune. |
 | 🏭 **Site screening** | *"How far does an 8-hour drive reach from JNPT or the Nagpur MMLP?"* | **Isochrones.** Drive-time catchments at 4, 8, 12 and 24 h around 12 major ports and at 4, 8 and 12 h around 20 MMLPs. |
 | 🌾 **Rural reach** | *"What share of villages in a district are within 10 km of a railway station?"* | **Village access engine.** Nearest NH, expressway, station, terminal, port, ICD, ICP, air cargo, MMLP, waterway terminal, FCI depot and toll plaza for every settlement. |
-| 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 781 LGD districts. |
+| 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 780 LGD districts. |
 
 ---
 
@@ -175,7 +175,7 @@ Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpo
 
 ```python
 import geopandas as gpd, pandas as pd
-districts = gpd.read_file("data/administrative/india_districts_lgd.geojson")   # 781 districts
+districts = gpd.read_file("data/administrative/india_districts_lgd.geojson")   # 780 districts
 nh = gpd.read_parquet("data/roads/india_nh_network.parquet")                    # 141,990 segments
 dfc = gpd.read_file("data/rail/dfc_network.geojson")                            # WDFC, EDFC, link
 ports = pd.read_csv("data/logistics_hubs/ports.csv")                            # lat/lon columns
@@ -192,7 +192,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | Layer | Contents | Count | Source | Licence / conditions |
 |---|---|---|---|---|
 | 🏛️ **States** | LGD-coded boundaries | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏛️ **Districts** | 2024–25 administrative polygons | **781** | Survey of India ABDB | SoI copyright; redistribution unresolved |
+| 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏡 **Villages** | LGD-coded village polygons | **586,151** in 27 States/UTs | Survey of India | SoI copyright; redistribution unresolved |
 | 🏡 **Habitations** | Settlement points where SoI publishes no polygons | **34,954** in 9 border/NE States/UTs | OpenStreetMap | ODbL |
@@ -209,7 +209,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | GODL-India |
 | 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | GODL-India |
 | 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
-| 👥 **Population** | Census 2011, allocated to 781 current districts | **1.21 billion conserved** | ORGI | GODL-India |
+| 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
 | 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
 
 **Analysis outputs** (in `data/analysis/`):
@@ -238,8 +238,8 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 **v1.1.0 evidence.** The national audit (`scripts/audit/audit_all.py --national`) ran 5,367 checks: 5,351 PASS, 16 WARN, 0 FAIL. The test suite passed 3,508 tests with 0 failures. Report: [`docs/audit_report.md`](docs/audit_report.md).
 
 **What the audit checks:**
-- ✅ **Boundaries.** 36 states and 781 districts, valid geometries on re-read, and LGD joins across layers.
-- ✅ **Population.** 1,210,846,210 people conserved across the 781 current districts, within 0.001% of Census 2011.
+- ✅ **Boundaries.** 36 states and 780 districts, valid geometries on re-read, and LGD joins across layers.
+- ✅ **Population.** 1,210,846,213 people conserved across the 780 current districts, within 0.001% of Census 2011.
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 

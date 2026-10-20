@@ -4,6 +4,15 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — Dhule duplicate / district code 598
+
+- `india_districts_lgd` had two Maharashtra "DHULE" polygons (codes 498 and 598) covering the same ~6,929 km². The source sub-district layer tags Dhule's four talukas (Dhule, Sakri, Shirpur, Sindkhede) with district code 598, which is Kerala's Alappuzha; `reconcile_districts()` took the unknown (Maharashtra, 598) pair for a new "Malegaon" district and dissolved those talukas into a second Dhule. The source contains no Malegaon district (Malegaon taluka is in Nashik, 516). `process_panindia_boundaries.py` now corrects the code to 498 (`SUBDISTRICT_DISTRICT_CODE_FIXES`), and `reconcile_districts()` raises instead of deriving when a name already exists in the state or a code belongs to another state.
+- Districts: 781 → **780** (Maharashtra 37 → 36). Sub-district layers (GPKG, GeoJSON, Parquet) carry 498 for Dhule. Code 598 now means only Alappuzha.
+- `district_population_estimates.csv` regenerated. The duplicate counted Dhule's ~2.04 M people twice, and Maharashtra's state-total scaling then took that from every other Maharashtra district (about 1.8% each). Only Maharashtra rows change; the national total is 1,210,846,213.
+- Maharashtra and national district access summaries (CSV/Parquet) regenerated: population weights and the Maharashtra `__STATE__` means change; village distances do not.
+- Stage 4 outputs regenerated (run `linux-2026-10-19-run4`): 780 rows; the DHULE/598 row is gone and Maharashtra `pop_2011` changes; isochrones and all routing values are unchanged. Hinterland: Highly Contested 688 (was 689). `producer_limitations.json` now has no source-identity disclosures.
+- API: `/api/v1/admin/districts/Dhule?state=Maharashtra` resolves (previously 409 ambiguous) and code 598 resolves to Alappuzha without a state.
+
 ## [1.1.0] - 2026-10-19
 
 ### Data — national analysis refresh
