@@ -20,7 +20,7 @@ Unacceptable behavior includes harassment, threats, discriminatory language, del
 
 ## Enforcement
 
-Report conduct concerns privately through the repository's maintainer contact path described in [SECURITY.md](SECURITY.md). Reports will be reviewed promptly and handled as confidentially as practical. Maintainers may edit, remove, reject, or temporarily or permanently restrict contributions and participation that violate this code.
+Report conduct concerns privately through the repository's maintainer contact path described in [SECURITY.md](SECURITY.md). Reports are reviewed on a best-effort basis (this is a hobby project) and handled as confidentially as practical. Maintainers may edit, remove, reject, or temporarily or permanently restrict contributions and participation that violate this code.
 
 ## Attribution
 
