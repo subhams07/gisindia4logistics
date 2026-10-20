@@ -1,5 +1,7 @@
 # Support
 
+This is a hobby project maintained in spare time. Issues are read when time allows; there is no guaranteed response or support commitment, and pull requests are not accepted.
+
 ## Usage and troubleshooting
 
 Before opening an issue:
@@ -14,7 +16,6 @@ Use the appropriate GitHub issue template:
 - **Bug report** for reproducible software defects.
 - **Data quality report** for coordinates, geometry, joins, counts, or stale records.
 - **Source or license concern** for attribution and redistribution questions.
-- **Feature request** for proposed capabilities.
 
 ## Security
 
