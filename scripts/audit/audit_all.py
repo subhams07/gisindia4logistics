@@ -217,11 +217,14 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
     fac = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.longitude, st.latitude), crs=4326).to_crs(7755)
     d = fac.geometry.unary_union
     recomputed = pts.map(lambda p: p.distance(d) / 1000).round(2).values
-    joined = sample.assign(rek=recomputed).merge(
-        av, left_on=["district", "village"], right_on=["district", "village"])
-    ok = (joined.rek - joined.dist_rail_station_km).abs().max() < 0.15
+    # access rows are written in village-file order (district names differ:
+    # the access table carries the current LGD district)
+    stored = av["dist_rail_station_km"].to_numpy()[sample.index.to_numpy()]
+    delta = np.abs(recomputed - stored).max() if len(av) == len(vill) else np.inf
     check("analysis", "recomputed distances match stored (Haryana sample)", "FAIL",
-          bool(ok), f"max delta {(joined.rek - joined.dist_rail_station_km).abs().max():.3f} km")
+          bool(delta < 0.15), f"max delta {delta:.3f} km")
+
+    audit_access_districts(source_root, artifact_root, roll)
 
     # national rollup arithmetic: state row villages == sum(district villages)
     bad = []
@@ -234,6 +237,91 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
     # Producer contracts are registered independently in BOTH modes.
     # Keep legacy analysis limited to village access reproducibility.
     return
+
+
+def audit_access_districts(source_root, artifact_root, roll):
+    """Access tables carry current LGD districts: each village row's (district,
+    district_code) is a same-state polygon containing its representative point
+    (or, flagged "nearest", no same-state polygon contains it), and every
+    summary has one row per current district."""
+    districts = gpd.read_parquet(source_root / "administrative" / "india_districts_lgd.parquet")
+    # (state, code, name) triples: codes are state-scoped and null for NAZUL / MIRPUR / MUZAFFARABAD
+    lgd = {(s, None if pd.isna(c) else int(c), d)
+           for s, d, c in zip(districts.state, districts.district, districts.district_code)}
+    states = sorted(districts.state.unique())
+    village_dir = source_root / "administrative" / "villages"
+    bad_states, n_rows, n_near = [], 0, 0
+    for st in states:
+        slug = st.lower().replace(" ", "_")
+        src = next((p for p in (village_dir / f"{slug}_soi_villages.geojson",
+                                village_dir / f"{slug}_habitations.geojson") if p.exists()), None)
+        av_path = artifact_root / f"{slug}_village_access.csv"
+        if src is None or not av_path.exists():
+            continue
+        av = pd.read_csv(av_path, usecols=["district", "district_code", "district_assignment"])
+        vill = gpd.read_file(src, columns=[])
+        if len(av) != len(vill):
+            bad_states.append(f"{slug}: row count")
+            continue
+        own = districts[districts.state == st].reset_index(drop=True)
+        pts = gpd.GeoDataFrame(geometry=vill.geometry.representative_point(), crs=4326)
+        hit = gpd.sjoin(pts, own[["geometry"]], how="inner", predicate="within")
+        cand = {i: set() for i in range(len(av))}
+        for i, j in zip(hit.index, hit.index_right):
+            code = own.district_code.iloc[j]
+            cand[i].add((own.district.iloc[j], None if pd.isna(code) else int(code)))
+        wrong = 0
+        for i, (d, c, how) in enumerate(zip(av.district, av.district_code, av.district_assignment)):
+            key = (d, None if pd.isna(c) else int(c))
+            if how == "within":
+                wrong += key not in cand[i]
+            else:  # "nearest": allowed only when no same-state polygon contains the point
+                wrong += bool(cand[i]) or (st, key[1], d) not in lgd
+                n_near += 1
+        n_rows += len(av)
+        if wrong:
+            bad_states.append(f"{slug}: {wrong}")
+    check("analysis", "village district_code == containing current-district polygon", "FAIL",
+          not bad_states and n_rows > 0,
+          f"{n_rows} rows checked, {n_near} nearest-polygon fallbacks; bad: {bad_states[:5]}")
+
+    def identity_issues(frame, label):
+        rows = frame[frame.district != "__STATE__"]
+        keys = [(s, None if pd.isna(c) else int(c), d) for s, c, d in zip(rows.state, rows.district_code, rows.district)]
+        unknown = [k for k in keys if k not in lgd]
+        ids = [(s, c if c is not None else d) for s, c, d in keys]
+        dups = len(ids) - len(set(ids))
+        return [f"{label}: {len(unknown)} not in LGD layer e.g. {unknown[:2]}"] * bool(unknown) + \
+               [f"{label}: {dups} duplicate districts"] * bool(dups)
+
+    issues = []
+    for st in states:
+        sp = artifact_root / f"{st.lower().replace(' ', '_')}_district_access_summary.csv"
+        if sp.exists():
+            issues += identity_issues(pd.read_csv(sp).assign(state=st), sp.stem)
+    issues += identity_issues(roll, "india_district_access_summary")
+    check("analysis", "district summaries: one row per current LGD district", "FAIL", not issues, "; ".join(issues[:5]))
+
+    pq = artifact_root / "india_district_access_summary.parquet"
+    if pq.exists():
+        rp = pd.read_parquet(pq)
+        same = list(rp.columns) == list(roll.columns) and len(rp) == len(roll)
+        for c in roll.columns if same else []:
+            a, b = rp[c], roll[c]
+            if pd.api.types.is_numeric_dtype(b):  # CSV float parsing may differ in the last ulp
+                same &= bool(np.allclose(a.astype(float), b.astype(float), rtol=1e-12, atol=0, equal_nan=True))
+            else:
+                same &= bool((a.astype(object).where(a.notna(), None) == b.astype(object).where(b.notna(), None)).all())
+        check("analysis", "national summary parquet == csv", "FAIL", same)
+
+    sub_path = artifact_root / "india_subdistrict_access.csv"
+    if sub_path.exists():
+        sub = pd.read_csv(sub_path)
+        keys = [(s, None if pd.isna(c) else int(c), d) for s, c, d in zip(sub.state, sub.district_code, sub.district)] \
+            if "district_code" in sub else []
+        bad = sum(k not in lgd for k in keys) if keys else len(sub)
+        check("analysis", "subdistrict access: districts are current LGD (state, code, name)", "FAIL",
+              bad == 0, f"{bad} of {len(sub)} rows")
 
 
 def audit_rail(source_root=DATA_DIR):

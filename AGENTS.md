@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-08-23.
+Read this before making changes. Last updated: 2026-10-20.
 
 ## What this repository is
 
@@ -361,6 +361,44 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - Regenerated all 27 village accessibility datasets (543,391 village polygons), all 36 state district summaries, and national composite `data/analysis/india_district_access_summary.csv` (817 rows, 781 districts + 36 state pop-weighted rows).
     - Enables multi-threshold feeder and catchment metrics (`nh_within_5km_pct`, `nh_within_10km_pct`, `expressway_within_25km_pct`, `rail_station_within_10km_pct`, `freight_terminal_within_25km_pct`).
     - Full deep audit suite passed: **227 checks | 216 PASS | 11 WARN | 0 FAIL**.
+
+### Phase F: village-access district identity (2026-10-20)
+41. **Village-access outputs now carry current LGD districts.** The SoI village
+    files use an older district-code scheme and legacy-font names (Gujarat
+    Devbhumi Dwarka 674 vs LGD 656; Telangana 697 = Yadadri in the village file
+    but Mancherial in the LGD layer; `DEVBHUMI DW>RKA`, `DEVBHUMI DWARKAl`).
+    `nearest_facility.assign_current_districts()` assigns each village's
+    representative point to the same-state polygon of
+    `india_districts_lgd.parquet` containing it (EPSG:4326 `within`).
+    Multi-polygon hits (sliver overlaps of the simplified layer, and the
+    near-identical DHULE 498/598 pair) resolve by largest village-polygon
+    overlap, then original over subdistrict-derived polygon, then the file's
+    own code, then lowest code. 134 points (coastal generalisation; 13 border
+    villages whose point lies metres into a neighbouring state) fall in no
+    same-state polygon and take the nearest one (`district_assignment=nearest`).
+    `source_district` / `source_district_code` keep the SoI values.
+    - Summaries group by (district, district_code): 781 district rows + 36
+      `__STATE__`; population joins exactly on (state, district_code) (name
+      only for the 3 null-code districts). The old fuzzy name join had
+      mis-weighted 12 states (e.g. West Bengal -7.4 M, Tamil Nadu -6.4 M);
+      every state row's population now equals the estimates file's total.
+    - `india_district_access_summary.parquet` is written with the CSV;
+      `india_subdistrict_access.csv` gains `district_code` (same assignment).
+    - `plot_villages.load_district_villages_gdf` aligns access rows to geometry
+      by row order (village_code is not unique within states) and accepts the
+      current or the source district name; it is in the producer code closure,
+      so the Stage 4 producers were regenerated (run `linux-2026-10-20-run1`).
+    - `make_readme_figures.py` (README maps) now joins the access summary on
+      (state, district_code) like the travel table; its fuzzy village-name
+      grouping workaround is gone.
+    - Audit: `audit_access_districts()` re-checks point-in-polygon for all
+      621,105 rows, one summary row per district, parquet == CSV, subdistrict
+      districts. Haryana reproducibility check now aligns by row order.
+    - Residual: the LGD layer itself still has 4 legacy names (`B\dar`,
+      `DEHRAD@N`, `BIRBH@M`, `SOUTH 24PARGANAS`) and the derived DHULE 598 is
+      a near-duplicate of DHULE 498 (3 edge villages fall only in 598, and the
+      estimates file counts Dhule's population twice). Fixing these means
+      changing pinned producer inputs.
 
 ## Enhancement backlog (suggested next steps)
 
