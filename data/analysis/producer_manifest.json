@@ -227,7 +227,7 @@
     "scripts/analyze/intermodal_cost_engine.py": "58d8ccf3cbe34756d1e8f545e588478ca19831fa06253f76be24c19b9a9bb3c0",
     "scripts/analyze/isochrone_coverage.py": "3885371d2388ebafe319a85698261ac66ebeb5f4c503768123dd0113c48207a4",
     "scripts/analyze/nh_travel_matrix.py": "1200f517cf0eacf99a90b1855c25722acfe595f41169b2ca37146f8733e8a5a4",
-    "scripts/analyze/plot_villages.py": "45953c7ee8e100ef2273eebc5c4b3e507cfd3225ee76e0b2c7cab0edcec205c9",
+    "scripts/analyze/plot_villages.py": "d40fe8251da3076fc186eee7dd1ef7ac64fbef318429b0be735f5a8d1609e1f7",
     "scripts/analyze/port_hinterland_model.py": "fec9ad55468b2df8a6b75581d48ba7caf87924411e6f076993eb66e131f25f84",
     "scripts/analyze/producer_io.py": "a70ebc2d94f96b8f229370cb3c9fdb8b2ec8365dfef1a6877392ded2cd85b17f",
     "scripts/analyze/producer_limitations.py": "a70c61bc4aaa480a1adb0b2e8a44ec3dede4042d4e1ff87d5774a990bdfc2fac",
@@ -404,10 +404,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 955.140790976,
-    "peak_memory_bytes": 749289472
+    "elapsed_seconds": 963.300825599,
+    "peak_memory_bytes": 773648384
   },
-  "run_id": "linux-2026-10-19-run3",
+  "run_id": "linux-2026-10-20-run1",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed
+
+- Village-access tables (`data/analysis/*_village_access.csv`), per-state and national district summaries (`india_district_access_summary.csv` / `.parquet`) and `india_subdistrict_access.csv` now carry current LGD district codes and names, assigned by spatial join of each village's representative point to `data/administrative/india_districts_lgd.parquet`. Previously the village files' older SoI codes and legacy-font names were copied through, so 91 districts did not join on (state, district_code), 14 joined to the wrong district, and some districts were split across several summary rows. Distances are unchanged.
+- District summaries have one row per current district (781 + 36 `__STATE__` rows), a new `district_code` column, and population weights joined exactly on (state, district_code). The previous fuzzy name match mis-weighted 12 state rows.
+- The village map loader (`plot_villages`) aligns access rows by row order and accepts current or source district names. Stage 4 producer outputs were regenerated for the code-closure change (run `linux-2026-10-20-run1`).
+
+### Changed
+
+- Village-access CSVs gain `district_assignment` (`within`/`nearest`/`district_centroid`), `source_district` and `source_district_code`; `district_code` is written as an integer.
+
 ## [1.1.0] - 2026-10-19
 
 ### Data — national analysis refresh

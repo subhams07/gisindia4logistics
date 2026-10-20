@@ -349,11 +349,16 @@ def test_real_dhule_code_before_enrichment_ambiguity(api, code):
     assert client.get("/api/v1/admin/districts/Dhule", params={"state": "Maharashtra"}).status_code == 409
     travel = store.travel_time_df.loc[(store.travel_time_df.district_code == code) & (store.travel_time_df.state == "Maharashtra")].iloc[0]
     assert response.json()["nearest_highway_km"] == travel.highway_access_dist_km
-    # The access rollup has no codes: its single DHULE row cannot be assigned
-    # safely to either of the two same-state district identities.
-    for field in ["share_villages_within_10km_rail", "share_villages_within_5km_rail",
-                  "share_villages_within_25km_rail", "share_villages_within_50km_icd"]:
-        assert response.json()[field] is None
+    # The access rollup is keyed by (state, district_code): each of the two
+    # same-state DHULE identities gets its own row, never the other's.
+    rollup = store.district_access_df
+    access = rollup.loc[(rollup.state == "Maharashtra") & (rollup.district_code == code)]
+    assert len(access) == 1
+    access = access.iloc[0]
+    assert response.json()["share_villages_within_10km_rail"] == access.rail_station_within_10km_pct
+    assert response.json()["share_villages_within_5km_rail"] == access.rail_station_within_10km_pct
+    assert response.json()["share_villages_within_25km_rail"] == access.rail_station_within_25km_pct
+    assert response.json()["share_villages_within_50km_icd"] == access.icd_within_50km_pct
     if code == 598:
         assert client.get("/api/v1/admin/districts/598").status_code == 409
 

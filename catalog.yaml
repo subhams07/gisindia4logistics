@@ -224,10 +224,15 @@ datasets:
   path: data/analysis/
   fetch_script: scripts/analyze/nearest_facility.py --all
   quality_status: verified
-  quality_notes: 27 states at village level (SoI polygons); 9 border/NE states at district-centroid level
-    (unit column flags this); EPSG:7755 nearest joins with equidistant-tie dedupe; __STATE__ rows are
-    population-weighted; headline metric — pop-weighted mean distance to a rail station 13.6 km, to an
-    ICD 121 km across the 27 village-level states
+  quality_notes: 27 states at village level (SoI polygons); 9 border/NE states at settlement level
+    (OSM habitations); EPSG:7755 nearest joins with equidistant-tie dedupe. District identity is the
+    current LGD layer (india_districts_lgd), not the village files' older SoI codes/names - each village's
+    representative point is assigned to the same-state district polygon containing it (sliver ties by
+    largest overlap; 134 coastal/border points outside every same-state polygon take the nearest one,
+    flagged district_assignment=nearest); source_district/source_district_code keep the SoI values.
+    Summaries have one row per current district (781) keyed by (state, district_code), population joined
+    exactly on that key; __STATE__ rows are population-weighted; headline metric - pop-weighted mean
+    distance to a rail station 14.8 km, to an ICD 125.5 km across the 27 village-level states
 - name: Multi-Modal Generalized Freight Cost Engine
   category: analysis
   description: End-to-end financial freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail for all 781 districts

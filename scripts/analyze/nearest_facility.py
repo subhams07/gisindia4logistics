@@ -6,6 +6,11 @@ straight-line distance to the nearest facility of each selected type
 Distances are computed in EPSG:7755 (metres) via spatial-indexed nearest join,
 then summarized per district with Census-2011 population weighting.
 
+District identity comes from the current LGD boundary layer, not from the
+village files: SoI village files carry an older district-code scheme and
+legacy-font names, so each village's representative point is assigned to the
+same-state district polygon it falls in (see ``assign_current_districts``).
+
 This is the repo's first *analysis* output (vs data cataloguing). Catchment
 thresholds default to 25 km; tune per use case. Road-network travel time is a
 future upgrade (see AGENTS.md backlog).
@@ -28,7 +33,11 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR  # noqa: E402
 
 ANALYSIS_DIR = DATA_DIR / "analysis"
+DISTRICTS_PATH = DATA_DIR / "administrative" / "india_districts_lgd.parquet"
 PROJ = 7755  # India NSF LCC (metres)
+# candidates whose village-polygon overlap is within this share of the best
+# overlap are treated as tied (simplified district polygons overlap in slivers)
+OVERLAP_TIE = 0.01
 
 FACILITY_SOURCES = {
     "nh": DATA_DIR / "roads" / "india_nh_network.geojson",
@@ -70,6 +79,63 @@ def villages_geojson_path(state: str):
     if p_hab.exists():
         return p_hab
     return None
+
+
+def assign_current_districts(units: gpd.GeoDataFrame, state: str,
+                             districts: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Current LGD district of each village/settlement, by spatial join.
+
+    The representative point of each unit is joined (EPSG:4326, ``within``) to
+    the district polygons of the same state. Points inside several polygons
+    (sliver overlaps of the simplified layer, or the derived duplicate DHULE
+    598) are resolved by: largest overlap with the village polygon, then
+    original over subdistrict-derived polygons, then the village file's own
+    code, then the lowest code. Points inside no same-state polygon (coastal
+    generalisation, or a border village whose point lies a few metres into a
+    neighbouring state) take the nearest same-state polygon.
+
+    Returns a frame on ``units.index`` with district, district_code and
+    district_assignment ("within" or "nearest").
+    """
+    dist = districts[districts["state"].str.lower() == state.lower()]
+    dist = dist[["district", "district_code", "remarks", "geometry"]].reset_index(drop=True)
+    if not len(dist):
+        raise SystemExit(f"No current districts for {state}")
+    units = units.to_crs(4326)
+    pts = gpd.GeoDataFrame(geometry=units.geometry.representative_point(), crs=4326)
+    cand = gpd.sjoin(pts, dist, how="inner", predicate="within")
+
+    src_code = (pd.to_numeric(units["district_code"], errors="coerce")
+                if "district_code" in units else pd.Series(float("nan"), index=units.index))
+    cand["overlap"] = 0.0
+    multi = cand.index.duplicated(keep=False)
+    if multi.any():
+        m = cand[multi]
+        cand.loc[multi, "overlap"] = units.geometry.loc[m.index].to_crs(PROJ).intersection(
+            dist.geometry.loc[m["index_right"]].to_crs(PROJ), align=False).area.values
+    best = cand.groupby(level=0)["overlap"].transform("max")
+    cand["tied"] = cand["overlap"] >= best * (1 - OVERLAP_TIE)
+    cand["derived"] = cand["remarks"].fillna("").str.startswith("derived")
+    cand["own_code"] = cand["district_code"] == src_code.loc[cand.index]
+    cand["_unit"] = cand.index
+    cand = cand.sort_values(["_unit", "tied", "derived", "own_code", "district_code"],
+                            ascending=[True, False, True, False, True], kind="mergesort")
+    cand = cand[~cand.index.duplicated(keep="first")]
+
+    out = pd.DataFrame(index=units.index, columns=["district", "district_code", "district_assignment"])
+    out["district_code"] = out["district_code"].astype(float)
+    out.loc[cand.index, ["district", "district_code"]] = cand[["district", "district_code"]].values
+    out.loc[cand.index, "district_assignment"] = "within"
+
+    outside = out.index.difference(cand.index)
+    if len(outside):
+        near = gpd.sjoin_nearest(pts.loc[outside].to_crs(PROJ), dist.to_crs(PROJ), how="left")
+        near = near.sort_values("district_code", kind="mergesort")
+        near = near[~near.index.duplicated(keep="first")].reindex(outside)
+        out.loc[outside, ["district", "district_code"]] = near[["district", "district_code"]].values
+        out.loc[outside, "district_assignment"] = "nearest"
+    out["district_code"] = pd.to_numeric(out["district_code"])
+    return out
 
 
 def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:
@@ -140,14 +206,17 @@ def build_national_summary() -> pd.DataFrame:
         label = st.lower().replace(" ", "_")
         spath = ANALYSIS_DIR / f"{label}_district_access_summary.csv"
         if spath.exists():
-            df = pd.read_csv(spath)
+            df = pd.read_csv(spath, dtype={"district_code": "Int64"})
             df.insert(0, "state", st)
             frames.append(df)
     if frames:
         composite = pd.concat(frames, ignore_index=True)
         out_path = ANALYSIS_DIR / "india_district_access_summary.csv"
         composite.to_csv(out_path, index=False)
-        print(f"\nWrote national composite ({len(composite)} rows) -> {out_path}", flush=True)
+        # tabular parquet twin (same conversion as scripts/clean/export_geoparquet.py)
+        composite.to_parquet(out_path.with_suffix(".parquet"), engine="pyarrow",
+                             compression="snappy", index=False)
+        print(f"\nWrote national composite ({len(composite)} rows) -> {out_path} (+ .parquet)", flush=True)
         return composite
     return pd.DataFrame()
 
@@ -162,23 +231,28 @@ def run_one(state: str, args) -> None:
     args.state, args.district = args_state, args_district
 
     print(f"Loading villages for {args.state} ...")
+    districts = gpd.read_parquet(DISTRICTS_PATH)
     vpath = villages_geojson_path(args.state)
     if vpath is not None:
         villages = gpd.read_file(vpath)
         unit = "village"
+        assigned = assign_current_districts(villages, args.state, districts)
     else:
         # no SoI village file (9 border/NE states) — fall back to district
         # centroids so every state has coverage; unit marked in outputs
-        districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
         villages = districts[districts["state"].str.lower() == args.state.lower()].copy()
-        villages = villages.rename(columns={"district_code": "village_code"})
-        villages["village"] = villages["district"]
         if not len(villages):
             raise SystemExit(f"No village file and no districts for {args.state}")
+        assigned = pd.DataFrame({"district": villages["district"],
+                                 "district_code": villages["district_code"],
+                                 "district_assignment": "district_centroid"})
+        villages = villages.rename(columns={"district_code": "village_code"})
+        villages["village"] = villages["district"]
         unit = "district_centroid"
         print(f"  no village data for {args.state} — using district centroids")
-    if args.district and "district" in villages:
-        villages = villages[villages["district"].str.lower() == args.district.lower()]
+    if args.district:
+        keep = (assigned["district"].str.lower() == args.district.lower()).values
+        villages, assigned = villages[keep], assigned[keep]
         label = f"{args.state.lower().replace(' ', '_')}_{args.district.lower().replace(' ', '_')}"
     else:
         label = args.state.lower().replace(" ", "_")
@@ -187,18 +261,24 @@ def run_one(state: str, args) -> None:
     pts = villages.copy()
     pts["geometry"] = villages.geometry.representative_point()
     pts = pts.to_crs(PROJ)
-    print(f"  {len(pts)} villages across {villages.district.nunique() if 'district' in villages else '?'} districts")
+    n_near = int((assigned["district_assignment"] == "nearest").sum())
+    print(f"  {len(pts)} villages across {assigned.district_code.nunique()} current districts"
+          f" ({n_near} assigned to the nearest district polygon)")
 
     facilities = load_facilities(kinds)
     print(f"Facility layers: { {k: len(v) for k, v in facilities.items()} }")
 
     base = pd.DataFrame({
         "village": villages["village"].values,
-        "district": villages["district"].values if "district" in villages else None,
-        "district_code": (pd.to_numeric(villages["district_code"], errors="coerce").values
-                          if "district_code" in villages else None),
+        "district": assigned["district"].values,
+        "district_code": assigned["district_code"].astype("Int64").values,
         "village_code": villages["village_code"].values,
         "unit": unit,
+        "district_assignment": assigned["district_assignment"].values,
+        # the village file's own (older SoI scheme) district identity, kept for provenance
+        "source_district": villages["district"].values if "district" in villages else None,
+        "source_district_code": (pd.to_numeric(villages["district_code"], errors="coerce").astype("Int64").values
+                                 if "district_code" in villages else assigned["district_code"].astype("Int64").values),
     })
     for kind, gdf in facilities.items():
         fac = gdf.to_crs(PROJ)
@@ -214,11 +294,12 @@ def run_one(state: str, args) -> None:
     base.to_csv(vpath, index=False)
     print(f"Wrote per-village table -> {vpath}")
 
-    # --- district summary ---
+    # --- district summary: one row per current district (code; name for the
+    # null-code rows NAZUL / MIRPUR / MUZAFFARABAD) ---
     dist_cols = [c for c in base.columns if c.startswith("dist_") and c.endswith("_km")]
     rows = []
-    for district, grp in base.groupby("district", dropna=False):
-        row = {"district": district, "villages": len(grp)}
+    for (district, code), grp in base.groupby(["district", "district_code"], dropna=False):
+        row = {"district": district, "district_code": code, "villages": len(grp)}
         for c in dist_cols:
             kind = c[5:-3]
             row[f"{kind}_median_km"] = grp[c].median()
@@ -227,45 +308,23 @@ def run_one(state: str, args) -> None:
                 row[f"{kind}_within_{t:g}km_pct"] = (grp[c] <= t).mean() * 100
         rows.append(row)
     summary = pd.DataFrame(rows)
+    summary["district_code"] = summary["district_code"].astype("Int64")
 
-    # population weighting via state-scoped district_code / district name
-    # against the estimates file (covers all 781 current districts: exact census
-    # or allocated; see scripts/analyze/allocate_population.py).
-    import re as _re
-    import difflib as _difflib
-
-    def _norm(s):
-        s = _re.sub(r"\s+", " ", str(s).lower().strip())
-        s = _re.sub(r"\s*\([^)]*\)", "", s)
-        s = s.replace(">", "a").replace("<", "a").replace("|", "i").replace("#", "u")
-        return s.replace(" ", "")
-
+    # population weighting: exact (state, district_code) join against the
+    # estimates file (covers all 781 current districts, row-aligned with the
+    # boundary layer: exact census or allocated; see allocate_population.py);
+    # null-code districts join on their exact name.
     est_path = DATA_DIR / "demographic" / "district_population_estimates.csv"
     if est_path.exists():
         est = pd.read_csv(est_path)
-        s_est = est[est["state"].str.lower() == args.state.lower()].copy()
-        code_map = {float(c): p for c, p in zip(s_est["district_code"], s_est["pop_2011"]) if pd.notna(c)}
-        name_map = {_norm(d): p for d, p in zip(s_est["district"], s_est["pop_2011"])}
-
-        pops = []
-        for d in summary["district"]:
-            grp_v = base[base["district"] == d]
-            dc = grp_v["district_code"].dropna().iloc[0] if ("district_code" in grp_v and len(grp_v.dropna(subset=["district_code"]))) else None
-            p = None
-            if dc is not None:
-                try:
-                    p = code_map.get(float(dc))
-                except (ValueError, TypeError):
-                    p = None
-            if p is None:
-                target = _norm(d)
-                p = name_map.get(target)
-                if p is None and name_map:
-                    matches = _difflib.get_close_matches(target, list(name_map.keys()), n=1, cutoff=0.7)
-                    if matches:
-                        p = name_map[matches[0]]
-            pops.append(p)
-        summary["census2011_population"] = pops
+        s_est = est[est["state"].str.lower() == args.state.lower()]
+        coded = s_est[s_est["district_code"].notna()]
+        code_map = dict(zip(coded["district_code"].astype(int), coded["pop_2011"]))
+        uncoded = s_est[s_est["district_code"].isna()]
+        name_map = dict(zip(uncoded["district"], uncoded["pop_2011"]))
+        summary["census2011_population"] = [
+            code_map.get(int(c)) if pd.notna(c) else name_map.get(d)
+            for d, c in zip(summary["district"], summary["district_code"])]
     else:
         census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
         ck = census["district"].astype(str).str.lower().str.replace(r"\s+", " ", regex=True).str.strip()
