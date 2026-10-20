@@ -388,6 +388,9 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
       by row order (village_code is not unique within states) and accepts the
       current or the source district name; it is in the producer code closure,
       so the Stage 4 producers were regenerated (run `linux-2026-10-20-run1`).
+    - `make_readme_figures.py` (README maps) now joins the access summary on
+      (state, district_code) like the travel table; its fuzzy village-name
+      grouping workaround is gone.
     - Audit: `audit_access_districts()` re-checks point-in-polygon for all
       621,105 rows, one summary row per district, parquet == CSV, subdistrict
       districts. Haryana reproducibility check now aligns by row order.
