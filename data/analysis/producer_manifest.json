@@ -1,7 +1,7 @@
 {
   "artifacts": {
     "district_freight_modal_split.csv": {
-      "bytes": 116451,
+      "bytes": 116317,
       "columns": [
         "state",
         "district",
@@ -20,12 +20,12 @@
         "break_even_distance_km"
       ],
       "path": "district_freight_modal_split.csv",
-      "rows": 781,
-      "sha256": "73cf17aae86dbda6a6a22bb16c39c42be0f160f57bcf96358ec8ff6ce061ff7c",
+      "rows": 780,
+      "sha256": "9dd2e3eb7e421bbbce38a6ec1f802113bd4ad7382bfd6015be184fe8bfbb5ead",
       "type": "csv"
     },
     "district_port_hinterland_catchment.csv": {
-      "bytes": 117418,
+      "bytes": 117275,
       "columns": [
         "state",
         "district",
@@ -42,8 +42,8 @@
         "contestability_index"
       ],
       "path": "district_port_hinterland_catchment.csv",
-      "rows": 781,
-      "sha256": "cfcbdeb0b21c1ea3e065731f659894b9f11e43239d11ba5ff785953666a3a7d3",
+      "rows": 780,
+      "sha256": "d0ec741d19d79a0a6a8dbcab3a6b9ab0b3ac220cebea6fdbd1ca8ce7f2d940c5",
       "type": "csv"
     },
     "major_ports_isochrones.geojson": {
@@ -61,7 +61,7 @@
       "type": "geojson"
     },
     "nh_district_port_matrix.csv": {
-      "bytes": 140043,
+      "bytes": 139869,
       "columns": [
         "state",
         "district",
@@ -92,12 +92,12 @@
         "road_km_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex"
       ],
       "path": "nh_district_port_matrix.csv",
-      "rows": 781,
-      "sha256": "a3ef880bc155ee03d95dfd7756942a3b52e99ffc58e6f3b7e2a85fb3f94ce47a",
+      "rows": 780,
+      "sha256": "6038c817d170bfa64d6174d17d7ebd150d8371b93bce4d17f7b93056d12f8773",
       "type": "csv"
     },
     "nh_district_travel_time_summary.csv": {
-      "bytes": 345592,
+      "bytes": 345197,
       "columns": [
         "state",
         "district",
@@ -153,12 +153,12 @@
         "expressway_drive_time_min"
       ],
       "path": "nh_district_travel_time_summary.csv",
-      "rows": 781,
-      "sha256": "5baad8c5039792aba3b79519d932d57290e44d883e68dac52f6661c376c19e86",
+      "rows": 780,
+      "sha256": "d6d3ebfb9acbfb6a8c6e7d5030fd401b8c66d2ae6a077f3e1a86a6cd0329f829",
       "type": "csv"
     },
     "nh_district_travel_time_summary.parquet": {
-      "bytes": 216464,
+      "bytes": 215971,
       "columns": [
         "state",
         "district",
@@ -214,8 +214,8 @@
         "expressway_drive_time_min"
       ],
       "path": "nh_district_travel_time_summary.parquet",
-      "rows": 781,
-      "sha256": "cd0fb6e2b0bfe058e0eba87a3fd7348bf276b463df4f22a88adfd5837de5b5a6",
+      "rows": 780,
+      "sha256": "ed8b778779dc7940da5dde0069dfa460871ab587a07e55bd3658184530ca0dc3",
       "type": "parquet"
     }
   },
@@ -229,8 +229,8 @@
     "scripts/analyze/nh_travel_matrix.py": "1200f517cf0eacf99a90b1855c25722acfe595f41169b2ca37146f8733e8a5a4",
     "scripts/analyze/plot_villages.py": "45953c7ee8e100ef2273eebc5c4b3e507cfd3225ee76e0b2c7cab0edcec205c9",
     "scripts/analyze/port_hinterland_model.py": "fec9ad55468b2df8a6b75581d48ba7caf87924411e6f076993eb66e131f25f84",
-    "scripts/analyze/producer_io.py": "a70ebc2d94f96b8f229370cb3c9fdb8b2ec8365dfef1a6877392ded2cd85b17f",
-    "scripts/analyze/producer_limitations.py": "a70c61bc4aaa480a1adb0b2e8a44ec3dede4042d4e1ff87d5774a990bdfc2fac",
+    "scripts/analyze/producer_io.py": "0203e0dbb1fe68e8ea89044e2397b4c61f60b1c0a04eef5a87f963002c7e8d1e",
+    "scripts/analyze/producer_limitations.py": "c471dc4bc03045022046921c5fcbaf9d425d8edc051db7d5330cdd5b599a8294",
     "scripts/analyze/producer_manifest.py": "46eb5e15a9f13e194b1acbdb341d5a47c7ea6eb4bdd82cfad8b5445860a7ea28",
     "scripts/analyze/stage4_generate.py": "3f7d488c94c101ff691024fae6fd1dd6b81a40c0e7adba65c4cb7631c44097fa",
     "scripts/audit/identity_contract.py": "a7427f430c8d4758359d29ec884e2dbc0f9d94e0f01b26078f8b514488614346",
@@ -244,7 +244,7 @@
     "server/models/phase1.py": "04eccc7851cddcbd1bbc901181afc64ee6b0306f33f53899119b1a0658200398",
     "server/models/schemas.py": "bd09898a8f55e05f9dc4c84794f1f1433b0fe386b8ad5de337bfd3de93a44fa0",
     "server/routers/__init__.py": "e7fa915392e982063a995334d2bee6b7910ea988a16e8cd5ac8e09867331bebf",
-    "server/routers/admin.py": "13febe0e2039b4861cf3f6bfa3cf4970669607372b561b34594d4f6a23956dc7",
+    "server/routers/admin.py": "74711ed9ce045e3f01a2998b2f8f6f1c15736fe9cdf05be0dfb7ccc361172ea3",
     "server/routers/hubs.py": "ba0582c882c5c97723f41e7ef562edccce6079cd8471baf555bd709e2b7b92c0",
     "server/routers/routing.py": "bbf26826e05c34c39bb6eb0016ef1e10c183df2419aed7f0829393e8fb77a38b",
     "server/routers/simulation.py": "6387bee35a0ff58c3d17b6ed83befcebd8fbf7af2c5443ad2875840bdffb6b3f",
@@ -350,12 +350,12 @@
   },
   "inputs": {
     "administrative/india_districts_lgd.geojson": {
-      "bytes": 9339037,
-      "sha256": "1d48443f23f5ef76d9701e3dac228246c07572297a254c63c387f286d009e72f"
+      "bytes": 9325500,
+      "sha256": "10e96f22608c49dedd1d6efccdcb02c80709c0a74231e3aabcd4747b67249bf1"
     },
     "demographic/district_population_estimates.csv": {
-      "bytes": 37964,
-      "sha256": "0f7cfc0190e9288d31eff976991af1fd35c40e02c2bb9bf5c0b6d7c3039230a1"
+      "bytes": 37918,
+      "sha256": "a5c0f77b1b8cb95e48965e6afc5cbb6c7d9cb371b2465b198fddd895a849c1d2"
     },
     "logistics_hubs/air_cargo.csv": {
       "bytes": 6020,
@@ -404,10 +404,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 955.140790976,
-    "peak_memory_bytes": 749289472
+    "elapsed_seconds": 1494.983151291,
+    "peak_memory_bytes": 765333504
   },
-  "run_id": "linux-2026-10-19-run3",
+  "run_id": "linux-2026-10-19-run4",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

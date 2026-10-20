@@ -396,43 +396,42 @@ Madhya Pradesh,TIKAMGARH,424.0,1071848.0,False,Deendayal Port (Kandla),19.8,17.5
 Madhya Pradesh,UJJAIN,435.0,1992614.0,False,Deendayal Port (Kandla),24.9,16.25,Paradip Port,14.6,23.61,Highly Contested / Split Hinterland,0.896
 Madhya Pradesh,UMARIA,431.0,646430.0,False,Paradip Port,21.7,17.31,Visakhapatnam Port,12.4,17.98,Highly Contested / Split Hinterland,0.907
 Madhya Pradesh,VIDISHA,443.0,1469028.0,False,Deendayal Port (Kandla),20.2,17.08,Paradip Port,15.4,21.08,Highly Contested / Split Hinterland,0.953
-Maharashtra,AHILYANAGAR,522.0,4512419.0,False,Jawaharlal Nehru Port (JNPT),52.6,3.77,Mumbai Port,16.2,6.66,Dominant / Mildly Contested,0.636
-Maharashtra,AKOLA,501.0,1792807.0,False,Jawaharlal Nehru Port (JNPT),25.0,9.19,Mumbai Port,15.1,10.81,Highly Contested / Split Hinterland,0.901
-Maharashtra,AMRAVATI,503.0,2874317.0,False,Jawaharlal Nehru Port (JNPT),21.6,10.47,Paradip Port,15.6,16.76,Highly Contested / Split Hinterland,0.939
-Maharashtra,BEED,523.0,2464450.0,False,Jawaharlal Nehru Port (JNPT),41.3,5.27,Mumbai Port,15.8,8.16,Highly Contested / Split Hinterland,0.745
-Maharashtra,BHANDARA,506.0,1225015.0,False,Paradip Port,22.8,12.97,Jawaharlal Nehru Port (JNPT),14.1,13.21,Highly Contested / Split Hinterland,0.914
-Maharashtra,BULDHANA,500.0,2572145.0,False,Jawaharlal Nehru Port (JNPT),30.2,7.76,Mumbai Port,17.4,9.38,Highly Contested / Split Hinterland,0.872
-Maharashtra,CHANDRAPUR,509.0,2191510.0,False,Paradip Port,19.0,15.23,Jawaharlal Nehru Port (JNPT),15.8,13.0,Highly Contested / Split Hinterland,0.968
-Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515.0,3642642.0,False,Jawaharlal Nehru Port (JNPT),39.6,5.23,Mumbai Port,21.0,6.64,Highly Contested / Split Hinterland,0.815
-Maharashtra,DHARASHIV,525.0,1642019.0,False,Jawaharlal Nehru Port (JNPT),32.5,6.48,Mumbai Port,13.7,9.45,Highly Contested / Split Hinterland,0.812
-Maharashtra,DHULE,498.0,2039308.0,False,Jawaharlal Nehru Port (JNPT),33.2,6.84,Mumbai Port,23.4,7.33,Highly Contested / Split Hinterland,0.901
-Maharashtra,DHULE,598.0,2039162.0,False,Jawaharlal Nehru Port (JNPT),33.3,6.79,Mumbai Port,23.4,7.28,Highly Contested / Split Hinterland,0.901
-Maharashtra,GADCHIROLI,508.0,1067364.0,False,Paradip Port,20.4,15.45,Jawaharlal Nehru Port (JNPT),14.4,14.53,Highly Contested / Split Hinterland,0.941
-Maharashtra,GONDIA,507.0,1244434.0,False,Paradip Port,24.8,12.36,Visakhapatnam Port,14.5,12.67,Highly Contested / Split Hinterland,0.897
-Maharashtra,HINGOLI,512.0,1200351.0,False,Jawaharlal Nehru Port (JNPT),24.1,9.05,Mumbai Port,14.5,10.67,Highly Contested / Split Hinterland,0.904
-Maharashtra,JALGAON,499.0,4202382.0,False,Jawaharlal Nehru Port (JNPT),30.9,7.47,Mumbai Port,21.0,8.17,Highly Contested / Split Hinterland,0.901
-Maharashtra,JALNA,514.0,1911920.0,False,Jawaharlal Nehru Port (JNPT),35.7,5.95,Mumbai Port,18.9,7.58,Highly Contested / Split Hinterland,0.832
-Maharashtra,KOLHAPUR,530.0,3848517.0,False,Jawaharlal Nehru Port (JNPT),34.0,6.32,Mumbai Port,14.2,9.29,Highly Contested / Split Hinterland,0.802
-Maharashtra,LATUR,524.0,2504658.0,False,Jawaharlal Nehru Port (JNPT),28.7,7.5,Mumbai Port,13.2,10.39,Highly Contested / Split Hinterland,0.845
-Maharashtra,MUMBAI,519.0,2257941.0,False,Mumbai Port,92.5,0.56,Jawaharlal Nehru Port (JNPT),5.0,3.77,Captive Hinterland,0.125
-Maharashtra,MUMBAI SUBURBAN,518.0,8857861.0,False,Jawaharlal Nehru Port (JNPT),79.4,1.26,Mumbai Port,13.5,3.19,Captive Hinterland,0.341
-Maharashtra,NAGPUR,505.0,4622518.0,False,Paradip Port,19.5,14.39,Jawaharlal Nehru Port (JNPT),16.8,12.0,Highly Contested / Split Hinterland,0.973
-Maharashtra,NANDED,511.0,3307560.0,False,Jawaharlal Nehru Port (JNPT),25.3,8.41,Mumbai Port,13.3,10.76,Highly Contested / Split Hinterland,0.88
-Maharashtra,NANDURBAR,497.0,1632928.0,False,Jawaharlal Nehru Port (JNPT),30.8,7.74,Mumbai Port,21.9,8.23,Highly Contested / Split Hinterland,0.911
-Maharashtra,NASHIK,516.0,6075753.0,False,Jawaharlal Nehru Port (JNPT),37.7,5.27,Mumbai Port,25.7,5.76,Highly Contested / Split Hinterland,0.879
-Maharashtra,PALGHAR,681.0,6015627.0,False,Mumbai Port,46.1,1.85,Jawaharlal Nehru Port (JNPT),44.0,2.2,Highly Contested / Split Hinterland,0.978
-Maharashtra,PARBHANI,513.0,1805245.0,False,Jawaharlal Nehru Port (JNPT),30.6,7.15,Mumbai Port,15.0,9.53,Highly Contested / Split Hinterland,0.844
-Maharashtra,PUNE,521.0,9386363.0,False,Jawaharlal Nehru Port (JNPT),72.0,2.01,Mumbai Port,12.7,4.98,Dominant / Mildly Contested,0.407
-Maharashtra,RAIGAD,520.0,2556123.0,False,Jawaharlal Nehru Port (JNPT),78.0,1.65,Mumbai Port,11.2,4.62,Captive Hinterland,0.332
-Maharashtra,RATNAGIRI,528.0,1603560.0,False,Jawaharlal Nehru Port (JNPT),37.8,5.99,Mumbai Port,15.3,8.96,Highly Contested / Split Hinterland,0.775
-Maharashtra,SANGLI,531.0,2799723.0,False,Jawaharlal Nehru Port (JNPT),40.2,4.95,Mumbai Port,14.6,7.92,Highly Contested / Split Hinterland,0.744
-Maharashtra,SATARA,527.0,2982948.0,False,Jawaharlal Nehru Port (JNPT),48.9,4.06,Mumbai Port,15.6,7.03,Highly Contested / Split Hinterland,0.667
-Maharashtra,SINDHUDURG,529.0,842193.0,False,Jawaharlal Nehru Port (JNPT),31.4,7.0,Mumbai Port,13.8,9.97,Highly Contested / Split Hinterland,0.824
-Maharashtra,SOLAPUR,526.0,4277369.0,False,Jawaharlal Nehru Port (JNPT),42.6,4.71,Mumbai Port,15.0,7.68,Highly Contested / Split Hinterland,0.724
-Maharashtra,THANE,517.0,5154199.0,False,Jawaharlal Nehru Port (JNPT),77.0,1.73,Mumbai Port,11.7,4.7,Captive Hinterland,0.347
-Maharashtra,WARDHA,504.0,1292490.0,False,Paradip Port,18.1,15.05,Jawaharlal Nehru Port (JNPT),17.8,11.59,Highly Contested / Split Hinterland,0.997
-Maharashtra,WASHIM,502.0,1171158.0,False,Jawaharlal Nehru Port (JNPT),26.7,8.33,Mumbai Port,15.7,9.95,Highly Contested / Split Hinterland,0.89
-Maharashtra,YAVATMAL,510.0,2757352.0,False,Jawaharlal Nehru Port (JNPT),17.5,12.02,Paradip Port,16.1,16.58,Highly Contested / Split Hinterland,0.986
+Maharashtra,AHILYANAGAR,522.0,4595815.0,False,Jawaharlal Nehru Port (JNPT),52.6,3.77,Mumbai Port,16.2,6.66,Dominant / Mildly Contested,0.636
+Maharashtra,AKOLA,501.0,1825941.0,False,Jawaharlal Nehru Port (JNPT),25.0,9.19,Mumbai Port,15.1,10.81,Highly Contested / Split Hinterland,0.901
+Maharashtra,AMRAVATI,503.0,2927439.0,False,Jawaharlal Nehru Port (JNPT),21.6,10.47,Paradip Port,15.6,16.76,Highly Contested / Split Hinterland,0.939
+Maharashtra,BEED,523.0,2509997.0,False,Jawaharlal Nehru Port (JNPT),41.3,5.27,Mumbai Port,15.8,8.16,Highly Contested / Split Hinterland,0.745
+Maharashtra,BHANDARA,506.0,1247655.0,False,Paradip Port,22.8,12.97,Jawaharlal Nehru Port (JNPT),14.1,13.21,Highly Contested / Split Hinterland,0.914
+Maharashtra,BULDHANA,500.0,2619682.0,False,Jawaharlal Nehru Port (JNPT),30.2,7.76,Mumbai Port,17.4,9.38,Highly Contested / Split Hinterland,0.872
+Maharashtra,CHANDRAPUR,509.0,2232013.0,False,Paradip Port,19.0,15.23,Jawaharlal Nehru Port (JNPT),15.8,13.0,Highly Contested / Split Hinterland,0.968
+Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515.0,3709963.0,False,Jawaharlal Nehru Port (JNPT),39.6,5.23,Mumbai Port,21.0,6.64,Highly Contested / Split Hinterland,0.815
+Maharashtra,DHARASHIV,525.0,1672366.0,False,Jawaharlal Nehru Port (JNPT),32.5,6.48,Mumbai Port,13.7,9.45,Highly Contested / Split Hinterland,0.812
+Maharashtra,DHULE,498.0,2076997.0,False,Jawaharlal Nehru Port (JNPT),33.2,6.84,Mumbai Port,23.4,7.33,Highly Contested / Split Hinterland,0.901
+Maharashtra,GADCHIROLI,508.0,1087090.0,False,Paradip Port,20.4,15.45,Jawaharlal Nehru Port (JNPT),14.4,14.53,Highly Contested / Split Hinterland,0.941
+Maharashtra,GONDIA,507.0,1267434.0,False,Paradip Port,24.8,12.36,Visakhapatnam Port,14.5,12.67,Highly Contested / Split Hinterland,0.897
+Maharashtra,HINGOLI,512.0,1222535.0,False,Jawaharlal Nehru Port (JNPT),24.1,9.05,Mumbai Port,14.5,10.67,Highly Contested / Split Hinterland,0.904
+Maharashtra,JALGAON,499.0,4280048.0,False,Jawaharlal Nehru Port (JNPT),30.9,7.47,Mumbai Port,21.0,8.17,Highly Contested / Split Hinterland,0.901
+Maharashtra,JALNA,514.0,1947255.0,False,Jawaharlal Nehru Port (JNPT),35.7,5.95,Mumbai Port,18.9,7.58,Highly Contested / Split Hinterland,0.832
+Maharashtra,KOLHAPUR,530.0,3919643.0,False,Jawaharlal Nehru Port (JNPT),34.0,6.32,Mumbai Port,14.2,9.29,Highly Contested / Split Hinterland,0.802
+Maharashtra,LATUR,524.0,2550948.0,False,Jawaharlal Nehru Port (JNPT),28.7,7.5,Mumbai Port,13.2,10.39,Highly Contested / Split Hinterland,0.845
+Maharashtra,MUMBAI,519.0,2299672.0,False,Mumbai Port,92.5,0.56,Jawaharlal Nehru Port (JNPT),5.0,3.77,Captive Hinterland,0.125
+Maharashtra,MUMBAI SUBURBAN,518.0,9021568.0,False,Jawaharlal Nehru Port (JNPT),79.4,1.26,Mumbai Port,13.5,3.19,Captive Hinterland,0.341
+Maharashtra,NAGPUR,505.0,4707949.0,False,Paradip Port,19.5,14.39,Jawaharlal Nehru Port (JNPT),16.8,12.0,Highly Contested / Split Hinterland,0.973
+Maharashtra,NANDED,511.0,3368689.0,False,Jawaharlal Nehru Port (JNPT),25.3,8.41,Mumbai Port,13.3,10.76,Highly Contested / Split Hinterland,0.88
+Maharashtra,NANDURBAR,497.0,1663107.0,False,Jawaharlal Nehru Port (JNPT),30.8,7.74,Mumbai Port,21.9,8.23,Highly Contested / Split Hinterland,0.911
+Maharashtra,NASHIK,516.0,6188043.0,False,Jawaharlal Nehru Port (JNPT),37.7,5.27,Mumbai Port,25.7,5.76,Highly Contested / Split Hinterland,0.879
+Maharashtra,PALGHAR,681.0,6126805.0,False,Mumbai Port,46.1,1.85,Jawaharlal Nehru Port (JNPT),44.0,2.2,Highly Contested / Split Hinterland,0.978
+Maharashtra,PARBHANI,513.0,1838609.0,False,Jawaharlal Nehru Port (JNPT),30.6,7.15,Mumbai Port,15.0,9.53,Highly Contested / Split Hinterland,0.844
+Maharashtra,PUNE,521.0,9559837.0,False,Jawaharlal Nehru Port (JNPT),72.0,2.01,Mumbai Port,12.7,4.98,Dominant / Mildly Contested,0.407
+Maharashtra,RAIGAD,520.0,2603364.0,False,Jawaharlal Nehru Port (JNPT),78.0,1.65,Mumbai Port,11.2,4.62,Captive Hinterland,0.332
+Maharashtra,RATNAGIRI,528.0,1633196.0,False,Jawaharlal Nehru Port (JNPT),37.8,5.99,Mumbai Port,15.3,8.96,Highly Contested / Split Hinterland,0.775
+Maharashtra,SANGLI,531.0,2851467.0,False,Jawaharlal Nehru Port (JNPT),40.2,4.95,Mumbai Port,14.6,7.92,Highly Contested / Split Hinterland,0.744
+Maharashtra,SATARA,527.0,3038078.0,False,Jawaharlal Nehru Port (JNPT),48.9,4.06,Mumbai Port,15.6,7.03,Highly Contested / Split Hinterland,0.667
+Maharashtra,SINDHUDURG,529.0,857758.0,False,Jawaharlal Nehru Port (JNPT),31.4,7.0,Mumbai Port,13.8,9.97,Highly Contested / Split Hinterland,0.824
+Maharashtra,SOLAPUR,526.0,4356422.0,False,Jawaharlal Nehru Port (JNPT),42.6,4.71,Mumbai Port,15.0,7.68,Highly Contested / Split Hinterland,0.724
+Maharashtra,THANE,517.0,5249457.0,False,Jawaharlal Nehru Port (JNPT),77.0,1.73,Mumbai Port,11.7,4.7,Captive Hinterland,0.347
+Maharashtra,WARDHA,504.0,1316377.0,False,Paradip Port,18.1,15.05,Jawaharlal Nehru Port (JNPT),17.8,11.59,Highly Contested / Split Hinterland,0.997
+Maharashtra,WASHIM,502.0,1192803.0,False,Jawaharlal Nehru Port (JNPT),26.7,8.33,Mumbai Port,15.7,9.95,Highly Contested / Split Hinterland,0.89
+Maharashtra,YAVATMAL,510.0,2808312.0,False,Jawaharlal Nehru Port (JNPT),17.5,12.02,Paradip Port,16.1,16.58,Highly Contested / Split Hinterland,0.986
 Manipur,BISHNUPUR,275.0,196369.0,False,Paradip Port,24.9,30.04,Syama Prasad Mookerjee Port (Kolkata/Haldia),19.7,23.09,Highly Contested / Split Hinterland,0.947
 Manipur,CHANDEL,280.0,115888.0,False,Paradip Port,24.8,30.66,Syama Prasad Mookerjee Port (Kolkata/Haldia),19.4,23.71,Highly Contested / Split Hinterland,0.946
 Manipur,CHURACHANDPUR,274.0,130734.0,False,Paradip Port,24.9,30.31,Syama Prasad Mookerjee Port (Kolkata/Haldia),19.5,23.37,Highly Contested / Split Hinterland,0.946

@@ -12,6 +12,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - Maharashtra and national district access summaries (CSV/Parquet) regenerated: population weights and the Maharashtra `__STATE__` means change; village distances do not.
 - Stage 4 outputs regenerated (run `linux-2026-10-19-run4`): 780 rows; the DHULE/598 row is gone and Maharashtra `pop_2011` changes; isochrones and all routing values are unchanged. Hinterland: Highly Contested 688 (was 689). `producer_limitations.json` now has no source-identity disclosures.
 - API: `/api/v1/admin/districts/Dhule?state=Maharashtra` resolves (previously 409 ambiguous) and code 598 resolves to Alappuzha without a state.
+- National audit on the published tree: 5,359 checks, 0 FAIL, 12 WARN (the four Alappuzha/Dhule disclosure WARNs are gone).
 
 ## [1.1.0] - 2026-10-19
 
