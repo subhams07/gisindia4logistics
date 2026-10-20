@@ -66,7 +66,7 @@ def _domain_call(function, *args, **kwargs):
 
 def get_district(district_name_or_code: Union[str, int], *, state: str | None = None) -> Dict[str, Any]:
     """
-    Get full logistics and demographic indicators for any Indian district (1-781).
+    Get full logistics and demographic indicators for any Indian district (1-780).
     
     Example:
         >>> dist = gis.get_district("Pune")

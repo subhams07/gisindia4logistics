@@ -396,43 +396,42 @@ Madhya Pradesh,TIKAMGARH,424.0,1071848.0,False,Deendayal Port (Kandla),1203.9,17
 Madhya Pradesh,UJJAIN,435.0,1992614.0,False,Deendayal Port (Kandla),1119.3,16.25,4248.3,3044.2,,Conventional Rail,1204.1,28.3,380.0
 Madhya Pradesh,UMARIA,431.0,646430.0,False,Paradip Port,1191.8,17.31,4514.5,3158.7,,Conventional Rail,1355.8,30.0,380.0
 Madhya Pradesh,VIDISHA,443.0,1469028.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),1121.3,16.12,4254.5,3047.3,,Conventional Rail,1207.1,28.4,380.0
-Maharashtra,AHILYANAGAR,522.0,4512419.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),253.3,3.77,1070.4,1437.2,1064.2,Dedicated Freight Corridor (DFC),6.2,0.6,210.0
-Maharashtra,AKOLA,501.0,1792807.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),632.5,9.19,2461.6,2201.6,1545.7,Dedicated Freight Corridor (DFC),915.9,37.2,210.0
-Maharashtra,AMRAVATI,503.0,2874317.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),718.5,10.47,2777.5,2359.0,1654.9,Dedicated Freight Corridor (DFC),1122.6,40.4,210.0
-Maharashtra,BEED,523.0,2464450.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),361.6,5.27,1467.4,1671.8,1201.7,Dedicated Freight Corridor (DFC),265.7,18.1,210.0
-Maharashtra,BHANDARA,506.0,1225015.0,False,Paradip Port,899.1,12.97,3439.5,2689.6,1884.3,Dedicated Freight Corridor (DFC),1555.2,45.2,210.0
-Maharashtra,BULDHANA,500.0,2572145.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),535.4,7.76,2105.0,2023.9,1422.4,Dedicated Freight Corridor (DFC),682.6,32.4,210.0
-Maharashtra,CHANDRAPUR,509.0,2191510.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),897.0,13.0,3432.2,2685.8,1881.6,Dedicated Freight Corridor (DFC),1550.6,45.2,210.0
-Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515.0,3642642.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),361.6,5.23,1467.1,1671.8,1201.7,Dedicated Freight Corridor (DFC),265.4,18.1,210.0
-Maharashtra,DHARASHIV,525.0,1642019.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),443.0,6.48,1766.4,1848.0,1305.1,Dedicated Freight Corridor (DFC),461.3,26.1,210.0
-Maharashtra,DHULE,498.0,2039308.0,False,Hazira Port,374.7,5.52,1515.9,1700.1,1218.3,Dedicated Freight Corridor (DFC),297.6,19.6,210.0
-Maharashtra,DHULE,598.0,2039162.0,False,Hazira Port,376.5,5.47,1521.9,1704.0,1220.6,Dedicated Freight Corridor (DFC),301.3,19.8,210.0
-Maharashtra,GADCHIROLI,508.0,1067364.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),975.1,14.53,3721.8,2816.4,1980.8,Dedicated Freight Corridor (DFC),1741.1,46.8,210.0
-Maharashtra,GONDIA,507.0,1244434.0,False,Paradip Port,852.4,12.36,3268.6,2604.2,1825.0,Dedicated Freight Corridor (DFC),1443.6,44.2,210.0
-Maharashtra,HINGOLI,512.0,1200351.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),619.6,9.05,2414.6,2178.0,1529.3,Dedicated Freight Corridor (DFC),885.3,36.7,210.0
-Maharashtra,JALGAON,499.0,4202382.0,False,Hazira Port,441.9,6.4,1761.8,1845.6,1303.7,Dedicated Freight Corridor (DFC),458.2,26.0,210.0
-Maharashtra,JALNA,514.0,1911920.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),410.9,5.95,1648.1,1778.5,1264.3,Dedicated Freight Corridor (DFC),383.8,23.3,210.0
-Maharashtra,KOLHAPUR,530.0,3848517.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),414.0,6.32,1661.9,1785.2,1268.2,Dedicated Freight Corridor (DFC),393.6,23.7,210.0
-Maharashtra,LATUR,524.0,2504658.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),515.6,7.5,2032.6,1987.6,1397.3,Dedicated Freight Corridor (DFC),635.3,31.3,210.0
-Maharashtra,MUMBAI,519.0,2257941.0,False,Mumbai Port,19.7,0.56,214.4,900.9,767.5,Road Trucking,0.0,0.0,210.0
-Maharashtra,MUMBAI SUBURBAN,518.0,8857861.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),79.3,1.26,431.9,797.0,585.3,Road Trucking,0.0,0.0,210.0
-Maharashtra,NAGPUR,505.0,4622518.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),834.0,12.0,3200.3,2232.0,1463.1,Dedicated Freight Corridor (DFC),1737.2,54.3,210.0
-Maharashtra,NANDED,511.0,3307560.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),578.1,8.41,2262.0,2102.0,1476.6,Dedicated Freight Corridor (DFC),785.4,34.7,210.0
-Maharashtra,NANDURBAR,497.0,1632928.0,False,Hazira Port,440.4,6.42,1756.7,1842.4,1301.8,Dedicated Freight Corridor (DFC),454.9,25.9,210.0
-Maharashtra,NASHIK,516.0,6075753.0,False,Hazira Port,265.5,3.95,1115.2,1463.7,1079.7,Dedicated Freight Corridor (DFC),35.6,3.2,210.0
-Maharashtra,PALGHAR,681.0,6015627.0,False,Mumbai Port,115.0,1.85,563.5,1137.8,888.5,Road Trucking,0.0,0.0,210.0
-Maharashtra,PARBHANI,513.0,1805245.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),491.7,7.15,1944.8,1943.9,1366.9,Dedicated Freight Corridor (DFC),577.9,29.7,210.0
-Maharashtra,PUNE,521.0,9386363.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),131.2,2.01,622.3,985.5,721.8,Road Trucking,0.0,0.0,210.0
-Maharashtra,RAIGAD,520.0,2556123.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),109.0,1.65,540.6,1037.0,793.1,Road Trucking,0.0,0.0,210.0
-Maharashtra,RATNAGIRI,528.0,1603560.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),406.2,5.99,1631.6,1768.3,1258.3,Dedicated Freight Corridor (DFC),373.3,22.9,210.0
-Maharashtra,SANGLI,531.0,2799723.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),340.3,4.95,1389.1,1625.6,1174.6,Dedicated Freight Corridor (DFC),214.5,15.4,210.0
-Maharashtra,SATARA,527.0,2982948.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),272.5,4.06,1141.0,1478.8,1088.5,Dedicated Freight Corridor (DFC),52.4,4.6,210.0
-Maharashtra,SINDHUDURG,529.0,842193.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),481.2,7.0,1906.3,1924.6,1353.6,Dedicated Freight Corridor (DFC),552.7,29.0,210.0
-Maharashtra,SOLAPUR,526.0,4277369.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),318.9,4.71,1311.1,1579.3,1147.5,Dedicated Freight Corridor (DFC),163.6,12.5,210.0
-Maharashtra,THANE,517.0,5154199.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),116.2,1.73,566.8,1001.3,751.0,Road Trucking,0.0,0.0,210.0
-Maharashtra,WARDHA,504.0,1292490.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),804.9,11.59,3093.6,2277.8,1525.2,Dedicated Freight Corridor (DFC),1568.4,50.7,210.0
-Maharashtra,WASHIM,502.0,1171158.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),571.3,8.33,2237.2,2089.6,1468.0,Dedicated Freight Corridor (DFC),769.2,34.4,210.0
-Maharashtra,YAVATMAL,510.0,2757352.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),810.2,12.02,3115.7,2526.9,1771.4,Dedicated Freight Corridor (DFC),1344.3,43.1,210.0
+Maharashtra,AHILYANAGAR,522.0,4595815.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),253.3,3.77,1070.4,1437.2,1064.2,Dedicated Freight Corridor (DFC),6.2,0.6,210.0
+Maharashtra,AKOLA,501.0,1825941.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),632.5,9.19,2461.6,2201.6,1545.7,Dedicated Freight Corridor (DFC),915.9,37.2,210.0
+Maharashtra,AMRAVATI,503.0,2927439.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),718.5,10.47,2777.5,2359.0,1654.9,Dedicated Freight Corridor (DFC),1122.6,40.4,210.0
+Maharashtra,BEED,523.0,2509997.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),361.6,5.27,1467.4,1671.8,1201.7,Dedicated Freight Corridor (DFC),265.7,18.1,210.0
+Maharashtra,BHANDARA,506.0,1247655.0,False,Paradip Port,899.1,12.97,3439.5,2689.6,1884.3,Dedicated Freight Corridor (DFC),1555.2,45.2,210.0
+Maharashtra,BULDHANA,500.0,2619682.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),535.4,7.76,2105.0,2023.9,1422.4,Dedicated Freight Corridor (DFC),682.6,32.4,210.0
+Maharashtra,CHANDRAPUR,509.0,2232013.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),897.0,13.0,3432.2,2685.8,1881.6,Dedicated Freight Corridor (DFC),1550.6,45.2,210.0
+Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515.0,3709963.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),361.6,5.23,1467.1,1671.8,1201.7,Dedicated Freight Corridor (DFC),265.4,18.1,210.0
+Maharashtra,DHARASHIV,525.0,1672366.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),443.0,6.48,1766.4,1848.0,1305.1,Dedicated Freight Corridor (DFC),461.3,26.1,210.0
+Maharashtra,DHULE,498.0,2076997.0,False,Hazira Port,374.7,5.52,1515.9,1700.1,1218.3,Dedicated Freight Corridor (DFC),297.6,19.6,210.0
+Maharashtra,GADCHIROLI,508.0,1087090.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),975.1,14.53,3721.8,2816.4,1980.8,Dedicated Freight Corridor (DFC),1741.1,46.8,210.0
+Maharashtra,GONDIA,507.0,1267434.0,False,Paradip Port,852.4,12.36,3268.6,2604.2,1825.0,Dedicated Freight Corridor (DFC),1443.6,44.2,210.0
+Maharashtra,HINGOLI,512.0,1222535.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),619.6,9.05,2414.6,2178.0,1529.3,Dedicated Freight Corridor (DFC),885.3,36.7,210.0
+Maharashtra,JALGAON,499.0,4280048.0,False,Hazira Port,441.9,6.4,1761.8,1845.6,1303.7,Dedicated Freight Corridor (DFC),458.2,26.0,210.0
+Maharashtra,JALNA,514.0,1947255.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),410.9,5.95,1648.1,1778.5,1264.3,Dedicated Freight Corridor (DFC),383.8,23.3,210.0
+Maharashtra,KOLHAPUR,530.0,3919643.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),414.0,6.32,1661.9,1785.2,1268.2,Dedicated Freight Corridor (DFC),393.6,23.7,210.0
+Maharashtra,LATUR,524.0,2550948.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),515.6,7.5,2032.6,1987.6,1397.3,Dedicated Freight Corridor (DFC),635.3,31.3,210.0
+Maharashtra,MUMBAI,519.0,2299672.0,False,Mumbai Port,19.7,0.56,214.4,900.9,767.5,Road Trucking,0.0,0.0,210.0
+Maharashtra,MUMBAI SUBURBAN,518.0,9021568.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),79.3,1.26,431.9,797.0,585.3,Road Trucking,0.0,0.0,210.0
+Maharashtra,NAGPUR,505.0,4707949.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),834.0,12.0,3200.3,2232.0,1463.1,Dedicated Freight Corridor (DFC),1737.2,54.3,210.0
+Maharashtra,NANDED,511.0,3368689.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),578.1,8.41,2262.0,2102.0,1476.6,Dedicated Freight Corridor (DFC),785.4,34.7,210.0
+Maharashtra,NANDURBAR,497.0,1663107.0,False,Hazira Port,440.4,6.42,1756.7,1842.4,1301.8,Dedicated Freight Corridor (DFC),454.9,25.9,210.0
+Maharashtra,NASHIK,516.0,6188043.0,False,Hazira Port,265.5,3.95,1115.2,1463.7,1079.7,Dedicated Freight Corridor (DFC),35.6,3.2,210.0
+Maharashtra,PALGHAR,681.0,6126805.0,False,Mumbai Port,115.0,1.85,563.5,1137.8,888.5,Road Trucking,0.0,0.0,210.0
+Maharashtra,PARBHANI,513.0,1838609.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),491.7,7.15,1944.8,1943.9,1366.9,Dedicated Freight Corridor (DFC),577.9,29.7,210.0
+Maharashtra,PUNE,521.0,9559837.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),131.2,2.01,622.3,985.5,721.8,Road Trucking,0.0,0.0,210.0
+Maharashtra,RAIGAD,520.0,2603364.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),109.0,1.65,540.6,1037.0,793.1,Road Trucking,0.0,0.0,210.0
+Maharashtra,RATNAGIRI,528.0,1633196.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),406.2,5.99,1631.6,1768.3,1258.3,Dedicated Freight Corridor (DFC),373.3,22.9,210.0
+Maharashtra,SANGLI,531.0,2851467.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),340.3,4.95,1389.1,1625.6,1174.6,Dedicated Freight Corridor (DFC),214.5,15.4,210.0
+Maharashtra,SATARA,527.0,3038078.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),272.5,4.06,1141.0,1478.8,1088.5,Dedicated Freight Corridor (DFC),52.4,4.6,210.0
+Maharashtra,SINDHUDURG,529.0,857758.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),481.2,7.0,1906.3,1924.6,1353.6,Dedicated Freight Corridor (DFC),552.7,29.0,210.0
+Maharashtra,SOLAPUR,526.0,4356422.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),318.9,4.71,1311.1,1579.3,1147.5,Dedicated Freight Corridor (DFC),163.6,12.5,210.0
+Maharashtra,THANE,517.0,5249457.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),116.2,1.73,566.8,1001.3,751.0,Road Trucking,0.0,0.0,210.0
+Maharashtra,WARDHA,504.0,1316377.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),804.9,11.59,3093.6,2277.8,1525.2,Dedicated Freight Corridor (DFC),1568.4,50.7,210.0
+Maharashtra,WASHIM,502.0,1192803.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),571.3,8.33,2237.2,2089.6,1468.0,Dedicated Freight Corridor (DFC),769.2,34.4,210.0
+Maharashtra,YAVATMAL,510.0,2808312.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),810.2,12.02,3115.7,2526.9,1771.4,Dedicated Freight Corridor (DFC),1344.3,43.1,210.0
 Manipur,BISHNUPUR,275.0,196369.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1605.6,23.09,6031.6,3812.3,,Conventional Rail,2219.3,36.8,380.0
 Manipur,CHANDEL,280.0,115888.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1636.0,23.71,6144.5,3860.3,,Conventional Rail,2284.2,37.2,380.0
 Manipur,CHURACHANDPUR,274.0,130734.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1628.8,23.37,6116.3,3848.9,,Conventional Rail,2267.4,37.1,380.0

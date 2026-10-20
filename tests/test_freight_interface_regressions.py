@@ -346,7 +346,7 @@ def test_real_freight_state_disambiguation(interfaces, name):
         assert sdk.calculate_freight_cost(**body) == response.json()
 
 
-@pytest.mark.parametrize("code", [498, 598])
+@pytest.mark.parametrize("code", [498])
 def test_real_dhule_freight_code_and_state(interfaces, code):
     from pathlib import Path
 

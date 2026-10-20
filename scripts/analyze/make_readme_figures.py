@@ -2,7 +2,7 @@
 scripts/analyze/make_readme_figures.py
 Generate the README hero maps (light and dark variants) into docs/img/.
 
-Maps (781 current LGD districts, EPSG:7755, state outlines overlaid):
+Maps (780 current LGD districts, EPSG:7755, state outlines overlaid):
 1. readme_rail_access_{light,dark}.png - median straight-line distance from a
    district's villages/settlements to the nearest railway station
    (``rail_station_median_km`` in data/analysis/india_district_access_summary.csv).
@@ -28,12 +28,11 @@ Joins (all on LGD ``district_code``, scoped by state)
 * ICD map: ``nh_district_travel_time_summary.csv`` joined on (state,
   district_code); island districts have no road route.
 * Polygons with a null code (Nazul, Mirpur, Muzaffarabad) fall back to an exact
-  normalised (state, district) name match. LGD code 598 is carried by two
-  districts in different states, hence the state scoping. Nothing is guessed:
+  normalised (state, district) name match. Joins stay state-scoped so a
+  cross-state code collision can never paint the wrong district. Nothing is guessed:
   unmatched polygons are drawn grey and reported.
 * No-data polygons are drawn first, valued polygons on top, so a no-data
-  polygon can never hide a valued one (the layer has two overlapping
-  Maharashtra "DHULE" polygons).
+  polygon can never hide a valued one if polygons ever overlap.
 
 Usage: python scripts/analyze/make_readme_figures.py [--out-dir docs/img]
 """

@@ -1,12 +1,12 @@
 {
   "artifact_sha256": {
-    "district_freight_modal_split.csv": "73cf17aae86dbda6a6a22bb16c39c42be0f160f57bcf96358ec8ff6ce061ff7c",
-    "district_port_hinterland_catchment.csv": "cfcbdeb0b21c1ea3e065731f659894b9f11e43239d11ba5ff785953666a3a7d3",
+    "district_freight_modal_split.csv": "9dd2e3eb7e421bbbce38a6ec1f802113bd4ad7382bfd6015be184fe8bfbb5ead",
+    "district_port_hinterland_catchment.csv": "d0ec741d19d79a0a6a8dbcab3a6b9ab0b3ac220cebea6fdbd1ca8ce7f2d940c5",
     "major_ports_isochrones.geojson": "6f7141515637afec9bb5907702c83be14e0754ec48a16436aaabc28ffba32abe",
     "mmlp_isochrones.geojson": "b0f73c54fa0ccf0763c0a09660344e1a1432016ed028b0f13eaf72151eacbe8f",
-    "nh_district_port_matrix.csv": "a3ef880bc155ee03d95dfd7756942a3b52e99ffc58e6f3b7e2a85fb3f94ce47a",
-    "nh_district_travel_time_summary.csv": "5baad8c5039792aba3b79519d932d57290e44d883e68dac52f6661c376c19e86",
-    "nh_district_travel_time_summary.parquet": "cd0fb6e2b0bfe058e0eba87a3fd7348bf276b463df4f22a88adfd5837de5b5a6"
+    "nh_district_port_matrix.csv": "6038c817d170bfa64d6174d17d7ebd150d8371b93bce4d17f7b93056d12f8773",
+    "nh_district_travel_time_summary.csv": "d6d3ebfb9acbfb6a8c6e7d5030fd401b8c66d2ae6a077f3e1a86a6cd0329f829",
+    "nh_district_travel_time_summary.parquet": "ed8b778779dc7940da5dde0069dfa460871ab587a07e55bd3658184530ca0dc3"
   },
   "column_classification": {
     "district_freight_modal_split.csv": [
@@ -1524,65 +1524,7 @@
     ]
   },
   "resource_measurement_method": "resource.ru_maxrss_kib_times_1024",
-  "run_id": "linux-2026-10-19-run3",
+  "run_id": "linux-2026-10-19-run4",
   "schema_version": 2,
-  "source_identity_disclosures": [
-    {
-      "code": 598,
-      "kind": "cross_state_shared_code",
-      "note": "Upstream source condition: one district code under more than one state; rows and codes are preserved literally; cause not determined.",
-      "rows": [
-        {
-          "district": "Alappuzha",
-          "district_code": 598,
-          "pop_2011": 2103830,
-          "population_method": "census2011",
-          "source_row": 325,
-          "state": "Kerala"
-        },
-        {
-          "district": "DHULE",
-          "district_code": 598,
-          "pop_2011": 2039162,
-          "population_method": "census2011",
-          "source_row": 407,
-          "state": "Maharashtra"
-        }
-      ]
-    },
-    {
-      "district": "DHULE",
-      "kind": "same_state_label_multiple_codes",
-      "note": "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; Kerala/Alappuzha/598 is a separate cross-state code condition; cause not determined.",
-      "overlaps": [
-        {
-          "fraction_of_first": 0.9998481087,
-          "fraction_of_second": 0.9998987538,
-          "source_rows": [
-            406,
-            407
-          ]
-        }
-      ],
-      "rows": [
-        {
-          "district": "DHULE",
-          "district_code": 498,
-          "pop_2011": 2039308,
-          "population_method": "census2011",
-          "source_row": 406,
-          "state": "Maharashtra"
-        },
-        {
-          "district": "DHULE",
-          "district_code": 598,
-          "pop_2011": 2039162,
-          "population_method": "census2011",
-          "source_row": 407,
-          "state": "Maharashtra"
-        }
-      ],
-      "state": "Maharashtra"
-    }
-  ]
+  "source_identity_disclosures": []
 }
