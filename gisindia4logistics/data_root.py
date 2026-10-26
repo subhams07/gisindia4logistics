@@ -23,7 +23,9 @@ PUBLIC_MESSAGE = (
 
 
 class DataNotFoundError(DataIntegrityError):
-    """The data directory is missing; adapters map this to 503 ``data_not_found``."""
+    """The data directory is missing; the MCP adapter maps this to 503 ``data_not_found``.
+
+    REST served through a bare ``uvicorn server.app:app`` is unchanged (no mapping)."""
 
     def __init__(self, data_path):
         self.data_path = Path(data_path)

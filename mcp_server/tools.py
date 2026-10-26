@@ -196,6 +196,8 @@ def tool_plot_villages_map(
         raise ValueError("output_format must be one of: html, png, both")
     validate_metric(metric)
     state = canonical_state(state)
+    from gisindia4logistics.data_root import require_data_root  # lazy: keeps plot_villages out of import time
+    require_data_root(DATA_DIR)  # the directory the loader actually reads
     validate_village_map_paths(DATA_DIR, state)
     
     gdf = load_district_villages_gdf(state=state, district=district)

@@ -12,7 +12,7 @@ Quality status definitions:
 ## 1. Quality Policy & Standards
 
 1. **Official Sources First**: Prefer official Survey of India, Census of India, and Ministry portals (MoRTH, Indian Railways, IPA, CBIC, AAI, NHLML, IWAI, FCI); fall back to curated community data (DataMeet, OSM) only when official sources lack bulk open GIS formats or are restricted.
-2. **Deterministic Join Keys**: All layers standardize to **Local Government Directory (LGD)** state, district, sub-district, and village codes.
+2. **Deterministic Join Keys**: Layers join on the Survey of India ABDB state and district codes carried by the boundary layers. Districts are keyed on the Survey of India ABDB district code. It equals the LGD (and Census 2011) code for districts that existed in 2011 but uses a separate numbering for about 140 newer districts; a dedicated LGD code column is planned. Villages keep their source LGD district code in `source_district_code`. Sub-district and village codes are the source LGD codes.
 3. **Validation & Integrity Gates**: Every committed dataset must pass `scripts/audit/audit_all.py` (geometry validity, coordinate bounding, exact official counts).
 4. **Transparent Lineage**: Data with specific licensing (GODL-India, ODbL, CC BY 4.0, SoI copyright) is attributed below and in `catalog.yaml`. Inventory labels are not legal clearance; public availability does not establish permission. See [DATA_LICENSE.md](../DATA_LICENSE.md) for mixed terms and unresolved redistribution conditions.
 
@@ -25,12 +25,12 @@ Quality status definitions:
 | **Level 0 (National)** | `data/administrative/india_states_lgd.geojson` | 1 national boundary | Derived via spatial dissolve of SoI ABDB states | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 1 (States/UTs - Current)** | `data/administrative/india_states_lgd.geojson` | **36 States & UTs** | Survey of India ABDB product (NGDR & UGID; 1:50k DTDB, ORGI 2024–25 harmonized) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 1 (States - 2011 Vintage)**| `data/administrative/india_states.geojson` | 36 States & UTs | DataMeet maps archive (harmonized to 2011 Census tables) | CC BY 4.0 | **verified** |
-| **Level 2 (Districts - Current)** | `data/administrative/india_districts_lgd.geojson` | **781 LGD Districts** | SoI ABDB (780 official + Malegaon LGD 598 derived from 4 subdistricts; disputed slivers dropped) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
+| **Level 2 (Districts - Current)** | `data/administrative/india_districts_lgd.geojson` | **780 Districts** | SoI ABDB (disputed slivers dropped; Dhule's four sub-districts carry source code 598, corrected to 498) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 2 (Districts - 2011)** | `data/administrative/india_districts.geojson` | **640 Districts** | DataMeet maps (Census 2011 district layout, J&K placeholder dropped) | CC BY 4.0 | **verified** |
 | **Level 3 (Sub-districts / Talukas)** | `data/administrative/india_subdistricts_lgd.gpkg` | **6,636 Sub-districts** | SoI ABDB product (mojibake font fixed deterministically, 3 duplicate rows dropped) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 3 (Taluka Sample Extract)** | `data/administrative/pune_taluka.geojson` | 14 talukas | OpenStreetMap admin relations (majority-containment stitched polygons) | ODbL | **verified** |
 | **Level 4 (Villages - Polygons)** | `data/administrative/villages/*_soi_villages.geojson` | **543,391 Villages** (27 states/UTs) | Survey of India Village Boundary Database (national LCC reprojected to EPSG:4326) | Copyright SoI; redistribution unresolved, not written permission | **verified** |
-| **Level 4 (Habitations - Points)** | `data/administrative/villages/*_habitations.geojson` | **34,954 Settlements** (9 border states) | OpenStreetMap settlement place nodes (`place=village\|hamlet\|town`) joined with 781 LGD districts | ODbL | **verified** |
+| **Level 4 (Habitations - Points)** | `data/administrative/villages/*_habitations.geojson` | **34,954 Settlements** (9 border states) | OpenStreetMap settlement place nodes (`place=village\|hamlet\|town`) assigned to the 780 current district polygons | ODbL | **verified** |
 | **Level 4 (Combined National Coverage)** | Total National Settlements | **578,345 Villages & Habitations** | 100% settlement coverage across all 36 Indian States & UTs | Mixed (SoI + ODbL) | **verified** |
 
 ### Additional Reference & Alternative Administrative Sources
@@ -113,7 +113,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 | Dataset & File Path | Scope / Count | Methodology & Validation | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Census 2011 District Indicators**<br>`data/demographic/census2011_district_key_indicators.csv` | 640 districts | Total population **1,210,854,977** exactly matching official Census Primary Census Abstract (PCA) | GODL-India | **verified** |
-| **781-District Population Allocation**<br>`data/demographic/district_population_estimates.csv` | **781 current districts** | 50/50 area & village count geometric overlay in `EPSG:7755`; exactly preserves Census 2011 counts for 568 unchanged districts (**1,210,846,210** population conserved) | Derived / GODL-India | **verified** |
+| **780-District Population Allocation**<br>`data/demographic/district_population_estimates.csv` | **780 current districts** | 50/50 area & village count geometric overlay in `EPSG:7755`; villages are counted per current district polygon by spatial position within the same state; 567 unchanged districts are labelled `census2011` (all values are then scaled to the 2011 state totals) (**1,210,843,799** population) | Derived / GODL-India | **verified** |
 
 ---
 
@@ -121,13 +121,13 @@ The catalog labels the classification vintage approximately 2023, while the enri
 
 | Dataset & File Path | Scope / Resolution | Methodology & Metrics | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **578,345 settlements** (36 states/UTs) | Exact projected straight-line Euclidean distance in `EPSG:7755` (`sjoin_nearest`) to all infrastructure and hub targets | Derived in repo | **verified** |
+| **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **621,105 settlements** (36 states/UTs; spatially assigned to current districts, source district kept in `source_district*`) | Exact projected straight-line Euclidean distance in `EPSG:7755` (`sjoin_nearest`) to all infrastructure and hub targets | Derived in repo | **verified** |
 | **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 5km, 10km, 25km) and median distances | Derived in repo | **verified** |
-| **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **817 rows** (781 districts + 36 state pop-weighted rows) | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
-| **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **781 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km) on the 289k-node highway graph | Derived in repo | **verified** |
-| **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **781 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
-| **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **781 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 26.9% modal-shift savings) | Derived in repo | **verified** |
-| **Port Hinterland Gravity Model**<br>`data/analysis/district_port_hinterland_catchment.csv` | **781 districts** | Huff / Reilly Gravity Model market share capture P(ij) and hinterland contestability across 12 Major Ports | Derived in repo | **verified** |
+| **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **816 rows** (780 districts + 36 state pop-weighted rows), keyed on `(state, district_code, district)` | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
+| **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **780 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km) on the 289k-node highway graph | Derived in repo | **verified** |
+| **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **780 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
+| **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **780 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 26.9% modal-shift savings) | Derived in repo | **verified** |
+| **Port Hinterland Gravity Model**<br>`data/analysis/district_port_hinterland_catchment.csv` | **780 districts** | Huff / Reilly Gravity Model market share capture P(ij) and hinterland contestability across 12 Major Ports | Derived in repo | **verified** |
 | **Major Ports & MMLP Isochrones**<br>`data/analysis/*_isochrones.geojson` | **108 polygons** (48 port + 60 MMLP) | 1h, 2h, 4h, 8h vector drive-time catchment polygons generated via Dijkstra network traversal | Derived in repo | **verified** |
 
 ---

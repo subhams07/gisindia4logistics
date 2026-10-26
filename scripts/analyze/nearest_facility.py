@@ -1,5 +1,10 @@
 """Village-to-facility accessibility analysis.
 
+Each village is first assigned (spatially, state-scoped) to its CURRENT district
+polygon (see scripts/clean/district_assignment.py); the district summaries are keyed
+on that polygon's (district_code, district). ``--rebuild-summaries`` rebuilds the
+summaries from the existing per-village tables without recomputing distances.
+
 For every village in a state (Survey of India village boundaries), computes
 straight-line distance to the nearest facility of each selected type
 (rail station, port, ICD, ICP, air-cargo terminal, MMLP, IWAI terminal, ...).
@@ -26,6 +31,7 @@ import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR  # noqa: E402
+import district_assignment as _da  # noqa: E402  (not part of the Stage 4 code closure)
 
 ANALYSIS_DIR = DATA_DIR / "analysis"
 PROJ = 7755  # India NSF LCC (metres)
@@ -114,7 +120,15 @@ def main() -> None:
                     help=f"comma list from: {','.join(FACILITY_SOURCES)}")
     ap.add_argument("--thresholds", default="10,25,50",
                     help="catchment distances in km for share-below stats")
+    ap.add_argument("--rebuild-summaries", action="store_true",
+                    help="only rebuild the district summaries + national composite from the "
+                         "existing *_village_access.csv tables (no distance recomputation)")
     args = ap.parse_args()
+
+    if args.rebuild_summaries:
+        rebuild_summaries_from_village_tables(
+            [float(t) for t in args.thresholds.split(",")])
+        return
 
     if args.all:
         states = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
@@ -152,6 +166,99 @@ def build_national_summary() -> pd.DataFrame:
     return pd.DataFrame()
 
 
+def _load_population_estimates() -> pd.DataFrame:
+    est_path = DATA_DIR / "demographic" / "district_population_estimates.csv"
+    if not est_path.exists():
+        raise FileNotFoundError(f"Population estimates not found: {est_path} "
+                                "(run scripts/analyze/allocate_population.py)")
+    return pd.read_csv(est_path)
+
+
+def summarize_districts(base: pd.DataFrame, state: str, thresholds: list[float],
+                        estimates: pd.DataFrame | None = None) -> pd.DataFrame:
+    """District summary (+ ``__STATE__`` row) from a per-village access table.
+
+    Groups by (district_code, district) with ``dropna=False`` so the three null-code
+    polygons (NAZUL, MIRPUR, MUZAFFARABAD) keep their own rows. Rows flagged
+    ``exclude_from_district_stats`` (the SoI 'Disputed (Jharkhand)' placeholder) are
+    left out. Population is the exact ``(state, district_code)`` match against the
+    estimates table (exact ``(state, district)`` name only for null-code polygons);
+    no fuzzy matching, and a district without a population raises.
+    """
+    dist_cols = [c for c in base.columns if c.startswith("dist_") and c.endswith("_km")
+                 and c != "district_assignment_km"]
+    b = base
+    if "exclude_from_district_stats" in b.columns:
+        b = b[~b["exclude_from_district_stats"].astype(bool)]
+    b = b.copy()
+    b["district_code"] = pd.to_numeric(b["district_code"], errors="coerce").astype("Int64")
+    rows = []
+    for (code, district), grp in b.groupby(["district_code", "district"], dropna=False):
+        row = {"district": district, "district_code": code, "villages": len(grp)}
+        for c in dist_cols:
+            kind = c[5:-3]
+            row[f"{kind}_median_km"] = grp[c].median()
+            row[f"{kind}_mean_km"] = grp[c].mean().round(2)
+            for t in thresholds:
+                row[f"{kind}_within_{t:g}km_pct"] = (grp[c] <= t).mean() * 100
+        rows.append(row)
+    summary = pd.DataFrame(rows)
+    summary["district_code"] = summary["district_code"].astype("Int64")
+    summary = summary.sort_values(["district", "district_code"], kind="stable").reset_index(drop=True)
+
+    est = _load_population_estimates() if estimates is None else estimates
+    s_est = est[est["state"].astype(str).str.lower() == state.lower()]
+    coded = s_est[s_est["district_code"].notna()]
+    code_map = {int(c): p for c, p in zip(coded["district_code"], coded["pop_2011"])}
+    nocode = s_est[s_est["district_code"].isna()]
+    name_map = {str(d): p for d, p in zip(nocode["district"], nocode["pop_2011"])}
+    pops = []
+    for code, d in zip(summary["district_code"], summary["district"]):
+        pops.append(code_map.get(int(code)) if pd.notna(code) else name_map.get(str(d)))
+    summary["census2011_population"] = pops
+    missing = summary.loc[summary["census2011_population"].isna(), "district"].tolist()
+    if missing:
+        raise ValueError(f"{state}: no population estimate for districts {missing}")
+
+    # state-level row: district means weighted by population
+    state_row = {"district": "__STATE__", "villages": int(summary["villages"].sum())}
+    pop = summary["census2011_population"]
+    for c in dist_cols:
+        kind = c[5:-3]
+        col = f"{kind}_mean_km"
+        state_row[col] = (summary[col] * pop).sum() / pop.sum()
+        state_row[f"{kind}_median_km"] = None
+        # share of villages within thresholds, state-wide
+        for t in thresholds:
+            state_row[f"{kind}_within_{t:g}km_pct"] = (b[c] <= t).mean() * 100
+    state_row["census2011_population"] = float(pop.sum())
+    return pd.concat([summary, pd.DataFrame([state_row])], ignore_index=True)
+
+
+def rebuild_summaries_from_village_tables(thresholds: list[float] | None = None) -> pd.DataFrame:
+    """Rebuild the 36 state summaries, the national composite and its GeoParquet."""
+    thresholds = thresholds or [10.0, 25.0, 50.0]
+    est = _load_population_estimates()
+    states_gdf = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+    for st in sorted(states_gdf["state"].unique()):
+        label = st.lower().replace(" ", "_")
+        vpath = ANALYSIS_DIR / f"{label}_village_access.csv"
+        if not vpath.exists():
+            print(f"  [skip] {st}: no village table")
+            continue
+        base = pd.read_csv(vpath, dtype={"district_code": "Int64", "village_code": str})
+        summary = summarize_districts(base, st, thresholds, est)
+        summary.to_csv(ANALYSIS_DIR / f"{label}_district_access_summary.csv", index=False)
+        print(f"  {st}: {len(summary) - 1} districts + __STATE__")
+    composite = build_national_summary()
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))  # export_geoparquet uses scripts.*
+    from export_geoparquet import benchmark_conversion  # noqa: E402
+    benchmark_conversion(ANALYSIS_DIR / "india_district_access_summary.csv",
+                         ANALYSIS_DIR / "india_district_access_summary.parquet",
+                         layer_name=f"District Access Summary ({len(composite)} rows)")
+    return composite
+
+
 def run_one(state: str, args) -> None:
     thresholds = [float(t) for t in args.thresholds.split(",")]
     kinds = [k.strip() for k in args.facilities.split(",")]
@@ -177,29 +284,36 @@ def run_one(state: str, args) -> None:
             raise SystemExit(f"No village file and no districts for {args.state}")
         unit = "district_centroid"
         print(f"  no village data for {args.state} — using district centroids")
-    if args.district and "district" in villages:
-        villages = villages[villages["district"].str.lower() == args.district.lower()]
-        label = f"{args.state.lower().replace(' ', '_')}_{args.district.lower().replace(' ', '_')}"
-    else:
-        label = args.state.lower().replace(" ", "_")
+    label = args.state.lower().replace(" ", "_")
 
-    # one representative point per village polygon
-    pts = villages.copy()
-    pts["geometry"] = villages.geometry.representative_point()
-    pts = pts.to_crs(PROJ)
-    print(f"  {len(pts)} villages across {villages.district.nunique() if 'district' in villages else '?'} districts")
-
-    facilities = load_facilities(kinds)
-    print(f"Facility layers: { {k: len(v) for k, v in facilities.items()} }")
-
-    base = pd.DataFrame({
+    # Spatial assignment to the CURRENT district polygons (state-scoped). The source
+    # district name/code (SoI village file; stale for new districts, mojibake names) are
+    # kept in source_district / source_district_code.
+    src = pd.DataFrame({
         "village": villages["village"].values,
         "district": villages["district"].values if "district" in villages else None,
         "district_code": (pd.to_numeric(villages["district_code"], errors="coerce").values
                           if "district_code" in villages else None),
         "village_code": villages["village_code"].values,
-        "unit": unit,
-    })
+    }, index=villages.index)
+    assigned = _da.reassign_frame(src, args.state, villages.geometry)
+    if args.district:
+        keep = assigned["district"].astype(str).str.lower() == args.district.lower()
+        label = f"{label}_{args.district.lower().replace(' ', '_')}"
+        villages, assigned = villages[keep.values], assigned[keep.values]
+
+    # one representative point per village polygon
+    pts = villages.copy()
+    pts["geometry"] = villages.geometry.representative_point()
+    pts = pts.to_crs(PROJ)
+    print(f"  {len(pts)} villages across {assigned['district'].nunique(dropna=False)} districts")
+
+    facilities = load_facilities(kinds)
+    print(f"Facility layers: { {k: len(v) for k, v in facilities.items()} }")
+
+    base = assigned.reset_index(drop=True)
+    base["unit"] = unit
+    pts = pts.reset_index(drop=True)
     for kind, gdf in facilities.items():
         fac = gdf.to_crs(PROJ)
         joined = gpd.sjoin_nearest(pts, fac[["fac_name", "geometry"]],
@@ -215,81 +329,7 @@ def run_one(state: str, args) -> None:
     print(f"Wrote per-village table -> {vpath}")
 
     # --- district summary ---
-    dist_cols = [c for c in base.columns if c.startswith("dist_") and c.endswith("_km")]
-    rows = []
-    for district, grp in base.groupby("district", dropna=False):
-        row = {"district": district, "villages": len(grp)}
-        for c in dist_cols:
-            kind = c[5:-3]
-            row[f"{kind}_median_km"] = grp[c].median()
-            row[f"{kind}_mean_km"] = grp[c].mean().round(2)
-            for t in thresholds:
-                row[f"{kind}_within_{t:g}km_pct"] = (grp[c] <= t).mean() * 100
-        rows.append(row)
-    summary = pd.DataFrame(rows)
-
-    # population weighting via state-scoped district_code / district name
-    # against the estimates file (covers all 780 current districts: exact census
-    # or allocated; see scripts/analyze/allocate_population.py).
-    import re as _re
-    import difflib as _difflib
-
-    def _norm(s):
-        s = _re.sub(r"\s+", " ", str(s).lower().strip())
-        s = _re.sub(r"\s*\([^)]*\)", "", s)
-        s = s.replace(">", "a").replace("<", "a").replace("|", "i").replace("#", "u")
-        return s.replace(" ", "")
-
-    est_path = DATA_DIR / "demographic" / "district_population_estimates.csv"
-    if est_path.exists():
-        est = pd.read_csv(est_path)
-        s_est = est[est["state"].str.lower() == args.state.lower()].copy()
-        code_map = {float(c): p for c, p in zip(s_est["district_code"], s_est["pop_2011"]) if pd.notna(c)}
-        name_map = {_norm(d): p for d, p in zip(s_est["district"], s_est["pop_2011"])}
-
-        pops = []
-        for d in summary["district"]:
-            grp_v = base[base["district"] == d]
-            dc = grp_v["district_code"].dropna().iloc[0] if ("district_code" in grp_v and len(grp_v.dropna(subset=["district_code"]))) else None
-            p = None
-            if dc is not None:
-                try:
-                    p = code_map.get(float(dc))
-                except (ValueError, TypeError):
-                    p = None
-            if p is None:
-                target = _norm(d)
-                p = name_map.get(target)
-                if p is None and name_map:
-                    matches = _difflib.get_close_matches(target, list(name_map.keys()), n=1, cutoff=0.7)
-                    if matches:
-                        p = name_map[matches[0]]
-            pops.append(p)
-        summary["census2011_population"] = pops
-    else:
-        census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
-        ck = census["district"].astype(str).str.lower().str.replace(r"\s+", " ", regex=True).str.strip()
-        ck = ck.str.replace(r"\s*\([^)]*\)", "", regex=True)
-        sel = census["state"].str.lower() == args.state.lower()
-        census_map = dict(zip(ck[sel], census.loc[sel, "Population"]))
-        summary["census2011_population"] = (
-            summary["district"].astype(str).str.lower().str.strip().map(census_map))
-
-    # state-level row: district means weighted by Census 2011 population
-    # (post-2011 districts carry no 2011 population and are excluded from weighting)
-    state_row = {"district": "__STATE__", "villages": int(summary["villages"].sum())}
-    m = summary["census2011_population"].notna()
-    pop = summary.loc[m, "census2011_population"]
-    for c in dist_cols:
-        kind = c[5:-3]
-        col = f"{kind}_mean_km"
-        state_row[col] = (summary.loc[m, col] * pop).sum() / pop.sum() if m.any() else None
-        state_row[f"{kind}_median_km"] = None
-        # share of villages within thresholds, state-wide
-        for t in thresholds:
-            state_row[f"{kind}_within_{t:g}km_pct"] = (base[c] <= t).mean() * 100
-    state_row["census2011_population"] = float(pop.sum()) if m.any() else None
-    summary = pd.concat([summary, pd.DataFrame([state_row])], ignore_index=True)
+    summary = summarize_districts(base, args.state, thresholds)
 
     spath = ANALYSIS_DIR / f"{label}_district_access_summary.csv"
     summary.to_csv(spath, index=False)

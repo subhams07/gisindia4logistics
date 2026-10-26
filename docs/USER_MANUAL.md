@@ -33,8 +33,8 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Canonical Storage**: `EPSG:4326` (WGS 84, Longitude/Latitude degrees).
   * **Projected Metric Analysis**: `EPSG:7755` (India National System Framework LCC) for accurate distance and area calculations.
 * **Join Keys & Standardization**:
-  * **Administrative Layers**: Standardized to **Local Government Directory (LGD)** state, district, sub-district, and village codes.
-  * **Demographics**: Census 2011 indicators joined via LGD crosswalks and spatial allocation across 780 current districts; the recorded national population delta is below 0.001%, not exact conservation.
+  * **Administrative Layers**: Districts are keyed on the Survey of India ABDB district code. It equals the LGD (and Census 2011) code for districts that existed in 2011 but uses a separate numbering for about 140 newer districts; a dedicated LGD code column is planned. Village rows keep their source LGD district code in `source_district_code`. Sub-district and village codes are the source LGD codes.
+  * **Demographics**: Census 2011 indicators joined via crosswalks and spatial allocation across 780 current districts; the recorded national population delta is below 0.001%, not exact conservation.
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
@@ -75,9 +75,9 @@ python -m pytest tests/test_package.py tests/test_server.py
 
 ### Data location
 
-**Data location.** The ~1 GB data directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and point the package at its data before starting Python, the CLI, the API server or the MCP server: `export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data` (Windows: `set GIS4LOGISTICS_DATA_PATH=C:\path\to\gisindia4logistics\data`). The variable is read once, at import time. An editable install from the clone (`pip install -e .`) finds `data/` automatically. If the data cannot be found, the SDK raises `gisindia4logistics.sdk.DataNotFoundError` (a `DataIntegrityError`), the CLI prints `error: GISIndia4Logistics data not found at <path> ...` and exits 1, and MCP tools return `isError` with code `data_not_found`.
+The ~1 GB data directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and point the package at its data before starting Python, the CLI, the API server or the MCP server: `export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data` (Windows: `set GIS4LOGISTICS_DATA_PATH=C:\path\to\gisindia4logistics\data`). The variable is read once, at import time. An editable install from the clone (`pip install -e .`) finds `data/` automatically. If the data cannot be found, the SDK raises `gisindia4logistics.sdk.DataNotFoundError` (a `DataIntegrityError`), the CLI prints `error: GISIndia4Logistics data not found at <path> ...` and exits 1, and MCP tools return `isError` with code `data_not_found`.
 
-The CLI `serve` command checks for the data and refuses to start without it, while running `uvicorn server.app:app` directly does not yet perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
+The CLI `serve` command checks for the data and refuses to start without it (the `audit` command does not perform this data check), while running `uvicorn server.app:app` directly does not yet perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
 
 Two other locations are configurable the same way and, in a non-editable install, default to folders next to the installed `server` package (inside `site-packages`), which is often read-only or unwanted: `GIS4LOGISTICS_OUTPUT_PATH` (generated maps and reports; default `outputs/`) and `GIS4LOGISTICS_CACHE_PATH` (highway-graph cache; default `outputs/cache/`). Set both to writable directories of your choice.
 
@@ -90,11 +90,11 @@ Two other locations are configurable the same way and, in a non-editable install
 import geopandas as gpd
 import pandas as pd
 
-# Load 780 Current LGD Districts (GeoParquet or GeoJSON)
+# Load 780 current districts (Survey of India ABDB codes) (GeoParquet or GeoJSON)
 districts_gdf = gpd.read_parquet("data/administrative/india_districts_lgd.parquet")
 # or: districts_gdf = gpd.read_file("data/administrative/india_districts_lgd.geojson")
 
-# Load 6,636 LGD Sub-districts (Talukas/Tehsils)
+# Load 6,636 sub-districts (Talukas/Tehsils)
 subdistricts_gdf = gpd.read_parquet("data/administrative/india_subdistricts_lgd.parquet")
 
 # Load Village Polygons for a State (e.g. Haryana)
@@ -276,8 +276,8 @@ docker-compose down
 
 | Endpoint | Method | Params | Description |
 | :--- | :--- | :--- | :--- |
-| `/api/v1/admin/states` | `GET` | — | List 36 States/UTs with LGD codes and district counts |
-| `/api/v1/admin/districts` | `GET` | `state`, `search` | List 780 current LGD districts with population estimates |
+| `/api/v1/admin/states` | `GET` | — | List 36 States/UTs with state codes and district counts |
+| `/api/v1/admin/districts` | `GET` | `state`, `search` | List 780 current districts with population estimates |
 | `/api/v1/admin/districts/{name_or_code}` | `GET` | — | Comprehensive District Logistics Scorecard |
 | `/api/v1/admin/villages/map.html` | `GET` | `state`, `district`, `metric` | Interactive Leaflet HTML Map |
 | `/api/v1/admin/villages/geojson` | `GET` | `state`, `district` | Vector GeoJSON of district villages |

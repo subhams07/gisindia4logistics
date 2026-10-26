@@ -174,7 +174,7 @@ class CostParametersOverride(BaseModel):
 class FreightCostSimulationRequest(BaseModel):
     model_config = ConfigDict(validate_assignment=True, allow_inf_nan=False)
     origin_district: Optional[str] = Field(None, description="Origin district name, e.g. 'Pune' or 'Indore'")
-    origin_district_code: Optional[int] = Field(None, gt=0, description="LGD District Code, e.g. 521")
+    origin_district_code: Optional[int] = Field(None, gt=0, description="Survey of India ABDB district code (equals LGD for pre-2011 districts), e.g. 521")
     origin_state: str | None = Field(None, description="State used to disambiguate the origin district")
     target_port: Optional[str] = Field(None, description="Optional target port name; defaults to nearest major port")
     payload_tons: Optional[float] = Field(20.0, gt=0, description="Shipment weight in metric tonnes")

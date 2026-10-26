@@ -341,9 +341,10 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 }]}
             }
         except Exception as e:
-            LOGGER.exception("MCP tool call failed: %s", tool_name)
             if isinstance(e, DataNotFoundError):
+                LOGGER.warning("data not found: %s", e)
                 return _tool_failure(req_id, data_not_found_contract())
+            LOGGER.exception("MCP tool call failed: %s", tool_name)
             if isinstance(e, HTTPException):
                 bridged = domain_error_from_status(e.status_code)
                 if isinstance(bridged, AmbiguousLocationError) and isinstance(e.detail, dict):

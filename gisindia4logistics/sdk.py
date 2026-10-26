@@ -27,6 +27,7 @@ from server.models.schemas import (
     PortGravitySimulationRequest,
 )
 from server.routers.simulation import simulate_freight_cost, simulate_port_gravity
+from scripts.analyze import plot_villages as _plot_villages_module
 from scripts.analyze.plot_villages import (
     load_district_villages_gdf,
     generate_leaflet_html,
@@ -263,6 +264,8 @@ def plot_villages(
         raise ValueError("output_format must be one of: html, png, both")
     validate_metric(metric)
     _ensure_data()
+    # the loader reads plot_villages.DATA_DIR (GIS4LOGISTICS_DATA_PATH or the repo data/)
+    require_data_root(_plot_villages_module.DATA_DIR)
 
     gdf = load_district_villages_gdf(state=state, district=district)
     out_files = {}

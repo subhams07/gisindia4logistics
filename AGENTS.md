@@ -11,7 +11,7 @@ and medium datasets committed directly (~460 MB total), larger/regenerable
 datasets produced by fetch scripts.
 
 **Core standards (do not violate):**
-- CRS: EPSG:4326 (WGS 84). Join keys: LGD codes (state/district/sub-district/village).
+- CRS: EPSG:4326 (WGS 84). Join keys: state/district/sub-district/village codes carried by the layers. Districts are keyed on the Survey of India ABDB district code (`(state, district_code)`; null-code polygons by name), which equals the LGD/Census 2011 code only for districts that existed in 2011 (about 140 newer districts use a separate numbering; a dedicated `lgd_district_code` column is planned). Villages keep their source LGD district code in `source_district_code`.
 - Attribute naming: snake_case. `catalog.yaml` is the machine-readable catalog — every dataset has an entry with source, license, vintage, quality_status.
 - Data quality bar: committed datasets must pass validation (counts vs official totals, geometry validity, coordinate sanity). "High quality only" is a maintainer requirement.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
@@ -20,11 +20,11 @@ datasets produced by fetch scripts.
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
-| States (current) | LGD-coded polygons | 36 | SoI ABDB (PAN INDIA archive; provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
-| Districts (current) | LGD-coded | 780 | SoI ABDB | same |
-| Sub-districts (current) | LGD-coded, GPKG | 6,639 | SoI ABDB | same |
+| States (current) | ABDB-coded polygons | 36 | SoI ABDB (PAN INDIA archive; provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
+| Districts (current) | ABDB district code (LGD-equal for pre-2011 districts) | 780 | SoI ABDB | same |
+| Sub-districts (current) | ABDB-coded, GPKG | 6,639 | SoI ABDB | same |
 | States + districts (2011) | joins to Census tables | 36 / 640 | DataMeet maps | CC BY 4.0 |
-| Villages | LGD-coded polygons, per state | 543,391 across 27 states | Survey of India | same ABDB constraints |
+| Villages | polygons with source LGD codes, per state | 543,391 across 27 states | Survey of India | same ABDB constraints |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
 | Roads — NH network | all numbered NH routes | 145k segments, ~700 routes | OSM/Overpass | ODbL |
 | Roads — district fetcher | class-mapped (NH/SH/MDR/ODR) | Pune sample 19k | OSM/Overpass | ODbL |
@@ -381,6 +381,18 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     Regenerated population estimates, Maharashtra/national access
     summaries, and all Stage 4 outputs; the producer_limitations
     source-identity disclosures are now empty.
+
+### Phase G: district identity and population fix (2026-10-26)
+42. Village/settlement rows are assigned to the current district polygon containing them,
+    within their own state (`scripts/clean/district_assignment.py`,
+    `scripts/analyze/reassign_village_districts.py`; nearest-in-state fallback <= 2 km, max
+    0.965 km). `district`/`district_code` are polygon values; the source values are in
+    `source_district`/`source_district_code`; the 'Disputed (Jharkhand)' placeholder is flagged
+    `exclude_from_district_stats`. District summaries group by `(district_code, district)`
+    (816 national rows = 780 + 36), with exact-key population joins and no fuzzy matching.
+    `allocate_population.village_counts()` now counts villages per polygon spatially (the old
+    national count by source code collided across states: Mulugu, Tamulpur, Shahdara).
+    See docs/adr/007-district-identity-and-population.md.
 
 ## Enhancement backlog (suggested next steps)
 

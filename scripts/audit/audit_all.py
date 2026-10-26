@@ -206,7 +206,7 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
             check("analysis", f"{slug}: village access table exists", "FAIL", False)
             continue
         n_src = len(gpd.read_file(vf))
-        n_out = len(pd.read_csv(av))
+        n_out = len(pd.read_csv(av, usecols=["unit"]))
         check("analysis", f"{slug}: row count matches source", "FAIL",
               n_src == n_out, f"{n_out} vs {n_src}")
 
@@ -214,16 +214,21 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
     av = pd.read_csv(artifact_root / "haryana_village_access.csv")
     vill = gpd.read_file(source_root / "administrative" / "villages" / "haryana_soi_villages.geojson")
     st = pd.read_csv(source_root / "rail" / "railway_stations.csv")
-    sample = vill.sample(40, random_state=42)
+    sample = vill.sample(40, random_state=42)  # RangeIndex => index == row position
     pts = gpd.GeoSeries(sample.geometry.representative_point(), crs=4326).to_crs(7755)
     fac = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.longitude, st.latitude), crs=4326).to_crs(7755)
     d = fac.geometry.unary_union
     recomputed = pts.map(lambda p: p.distance(d) / 1000).round(2).values
-    joined = sample.assign(rek=recomputed).merge(
-        av, left_on=["district", "village"], right_on=["district", "village"])
-    ok = (joined.rek - joined.dist_rail_station_km).abs().max() < 0.15
+    # village_code is NOT unique and district names changed on reassignment: pair rows by position
+    stored = av.iloc[sample.index.to_numpy()]
+    same_codes = (sample["village_code"].astype(str).str.strip().to_numpy()
+                  == stored["village_code"].astype(str).str.strip().to_numpy()).all()
+    check("analysis", "Haryana sample rows aligned with source by position", "FAIL", bool(same_codes))
+    delta = np.abs(recomputed - stored["dist_rail_station_km"].to_numpy(dtype=float))
     check("analysis", "recomputed distances match stored (Haryana sample)", "FAIL",
-          bool(ok), f"max delta {(joined.rek - joined.dist_rail_station_km).abs().max():.3f} km")
+          bool(same_codes and delta.max() < 0.15), f"max delta {delta.max():.3f} km")
+
+    audit_district_identity(source_root, artifact_root, roll)
 
     # national rollup arithmetic: state row villages == sum(district villages)
     bad = []
@@ -236,6 +241,93 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
     # Producer contracts are registered independently in BOTH modes.
     # Keep legacy analysis limited to village access reproducibility.
     return
+
+
+def _ident_keys(states, codes, names):
+    """Polygon identity per row: (state, code, None) when coded, else (state, None, name)."""
+    out = []
+    for st, c, n in zip(states, codes, names):
+        c = pd.to_numeric(pd.Series([c]), errors="coerce").iloc[0]
+        out.append((st, int(c), None) if pd.notna(c) else (st, None, str(n)))
+    return out
+
+
+def audit_district_identity(source_root, artifact_root, roll):
+    """Spatial district assignment, summary keys and population weights (polygon layer = key)."""
+    polys = gpd.read_file(source_root / "administrative" / "india_districts_lgd.geojson")
+    n_poly = len(polys)
+    pcode = pd.to_numeric(polys.district_code, errors="coerce")
+    poly_keys = set(_ident_keys(polys.state, pcode, polys.district))
+    slug_state = {s.lower().replace(" ", "_"): s for s in polys.state.unique()}
+
+    need = ["village", "village_code", "district", "district_code", "source_district",
+            "source_district_code", "district_assignment", "district_assignment_km",
+            "exclude_from_district_stats"]
+    orphans, no_cols, far, within_nonzero, flagged, counted = [], [], [], 0, [], {}
+    for f in sorted(glob.glob(str(artifact_root / "*_village_access.csv"))):
+        slug = pathlib.Path(f).name[:-len("_village_access.csv")]
+        state = slug_state.get(slug)
+        if state is None:
+            continue
+        if not set(need) <= set(pd.read_csv(f, nrows=0).columns):
+            no_cols.append(slug)
+            continue
+        v = pd.read_csv(f, usecols=need, dtype={"village_code": str, "district_code": "Int64"})
+        code = v["district_code"]
+        keys = set(_ident_keys([state] * len(v), code, v["district"]))
+        bad = sorted(str(k) for k in keys if k not in poly_keys)
+        if bad:
+            orphans.append((slug, bad[:2]))
+        nearest = v.district_assignment == "nearest_in_state"
+        far.append(float(v.loc[nearest, "district_assignment_km"].max()) if nearest.any() else 0.0)
+        within_nonzero += int(((v.district_assignment == "within") & (v.district_assignment_km != 0)).sum())
+        ex = v.exclude_from_district_stats.astype(bool)
+        flagged += [(slug, a, b) for a, b in zip(v.village[ex], v.village_code[ex])]
+        for (c, n), cnt in v[~ex].groupby(["district_code", "district"], dropna=False).size().items():
+            counted[_ident_keys([state], [c], [n])[0]] = int(cnt)
+    check("analysis", "village tables carry the district assignment columns", "FAIL", not no_cols, str(no_cols))
+    check("analysis", "every village row's (state, district_code/name) exists in the polygon layer", "FAIL",
+          not orphans, str(orphans[:3]))
+    max_far = max(far) if far else 0.0
+    check("analysis", "nearest_in_state assignments within 2 km", "FAIL", max_far <= 2.0, f"max {max_far:.3f} km")
+    check("analysis", "'within' assignments have zero distance", "FAIL", within_nonzero == 0, str(within_nonzero))
+    check("analysis", "only the Jharkhand placeholder is excluded from district stats", "FAIL",
+          flagged == [("jharkhand", "Disputed (Jharkhand)", "Disputed (Jharkhand)")], str(flagged[:3]))
+
+    districts = roll[roll.district != "__STATE__"]
+    check("analysis", "rollup has 780 districts + 36 state rows == 816", "FAIL",
+          len(roll) == n_poly + 36 and len(districts) == n_poly, f"{len(roll)} rows, {len(districts)} districts")
+    coded = districts.dropna(subset=["district_code"])
+    check("analysis", "rollup keys unique: (state, district_code); null-code by (state, district)", "FAIL",
+          not coded.duplicated(["state", "district_code"]).any()
+          and not districts[districts.district_code.isna()].duplicated(["state", "district"]).any())
+    check("analysis", "no placeholder in district rollup", "FAIL",
+          not districts.district.str.contains("Disputed", case=False, na=False).any())
+    rk = set(_ident_keys(districts.state, districts.district_code, districts.district))
+    check("analysis", "rollup keys == polygon keys", "FAIL", rk == poly_keys,
+          f"{len(rk ^ poly_keys)} differ")
+    check("analysis", "rollup population present for every district", "FAIL",
+          districts.census2011_population.notna().all(), f"{int(districts.census2011_population.isna().sum())} null")
+
+    rv = {k: int(n) for k, n in zip(
+        _ident_keys(districts.state, districts.district_code, districts.district), districts.villages)}
+    off = {k: (rv.get(k), counted.get(k)) for k in set(rv) | set(counted)
+           if rv.get(k) != counted.get(k) and not (rv.get(k) in (None, 0) and counted.get(k) in (None, 0))}
+    check("analysis", "rollup village counts == non-excluded village rows per district", "FAIL",
+          not off, str(list(off.items())[:3]))
+
+    est_p = source_root / "demographic" / "district_population_estimates.csv"
+    if est_p.exists():
+        est = pd.read_csv(est_p)
+        ek = dict(zip(_ident_keys(est.state, est.district_code, est.district), est.pop_2011))
+        joined = sum(1 for k in poly_keys if k in ek)
+        check("analysis", "population weights join to polygons 780/780 (exact keys)", "FAIL",
+              joined == n_poly == len(est), f"{joined}/{n_poly}")
+        pops = dict(zip(_ident_keys(districts.state, districts.district_code, districts.district),
+                        districts.census2011_population))
+        agree = sum(1 for k, p in pops.items() if k in ek and abs(ek[k] - p) < 0.5)
+        check("analysis", "rollup population == estimates file for every district", "FAIL",
+              agree == n_poly, f"{agree}/{n_poly}")
 
 
 def audit_rail(source_root=DATA_DIR):

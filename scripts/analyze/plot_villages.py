@@ -7,6 +7,7 @@ Generates:
 2. High-resolution cartographic static PNG maps.
 """
 
+import os
 import sys
 import json
 import html
@@ -19,7 +20,11 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 
 sys.path.insert(0, ".")
-from scripts.clean.standardize import DATA_DIR
+from scripts.clean.standardize import DATA_DIR as _REPO_DATA_DIR
+
+# Honour GIS4LOGISTICS_DATA_PATH (read once, at import, like server.config) so non-editable
+# installs can point the village maps at a cloned repository's data directory.
+DATA_DIR = Path(os.environ["GIS4LOGISTICS_DATA_PATH"]) if os.environ.get("GIS4LOGISTICS_DATA_PATH") else _REPO_DATA_DIR
 
 METRIC_LABELS = {
     "dist_rail_station_km": "Distance to Nearest Railway Station (km)",
@@ -80,33 +85,45 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     else:
         raise FileNotFoundError(f"No village geometry file found for state '{state}'")
 
-    # Filter district
+    # 2. Access metrics table (district / district_code are the canonical CURRENT polygon
+    #    values assigned spatially by scripts/analyze/reassign_village_districts.py; the
+    #    geometry file still carries the stale source district, so selection is done on the
+    #    access table and the geometry is attached BY POSITION - village_code is not unique).
+    p_acc = DATA_DIR / "analysis" / f"{slug}_village_access.csv"
+    if p_acc.exists():
+        acc_df = pd.read_csv(p_acc, dtype={"village_code": str})
+        if len(acc_df) != len(gdf):
+            raise ValueError(f"Village access table for state '{state}' is out of sync with its geometry file")
+        if "village_code" in gdf.columns:
+            def _vc(s):
+                return s.astype(object).where(s.notna(), "").astype(str).str.replace(
+                    "\r\n", "\n", regex=False).str.strip().str.replace(r"\.0$", "", regex=True).to_numpy()
+            if not (_vc(gdf["village_code"]) == _vc(acc_df["village_code"])).all():
+                raise ValueError(f"Village access table for state '{state}' is out of sync with its geometry file")
+        wanted = district.strip().lower()
+        sel = acc_df["district"].astype("string").str.lower() == wanted
+        if not sel.any() and wanted.isdigit() and "district_code" in acc_df.columns:
+            sel = pd.to_numeric(acc_df["district_code"], errors="coerce") == int(wanted)
+        pos = sel.fillna(False).to_numpy().nonzero()[0]
+        if len(pos) == 0:
+            raise ValueError(f"District '{district}' not found in state '{state}' village dataset")
+        geo = gdf.iloc[pos].reset_index(drop=True)
+        acc = acc_df.iloc[pos].reset_index(drop=True)
+        # canonical district columns come from the access table; the geometry file's own
+        # (stale) values are dropped - the access table keeps them as source_district*.
+        geo = geo.drop(columns=[c for c in ("district", "district_code", "dtname") if c in geo.columns])
+        acc = acc.rename(columns={c: f"{c}_acc" for c in acc.columns
+                                  if c in geo.columns and c not in ("geometry",)})
+        out = pd.concat([geo, acc], axis=1)
+        return gpd.GeoDataFrame(out, geometry="geometry", crs=gdf.crs)
+
+    # No access table: fall back to the geometry file's own district column.
     d_col = "district" if "district" in gdf.columns else ("dtname" if "dtname" in gdf.columns else None)
     if not d_col:
         raise ValueError("Could not find district column in village dataset")
-
     gdf_dist = gdf[gdf[d_col].str.lower() == district.lower()].copy()
     if gdf_dist.empty:
         raise ValueError(f"District '{district}' not found in state '{state}' village dataset")
-
-    # 2. Access metrics table
-    p_acc = DATA_DIR / "analysis" / f"{slug}_village_access.csv"
-    if p_acc.exists():
-        acc_df = pd.read_csv(p_acc)
-        # Match by village_code or village name
-        acc_dist = acc_df[acc_df.district.str.lower() == district.lower()]
-        if not acc_dist.empty:
-            if "village_code" in gdf_dist.columns and "village_code" in acc_dist.columns:
-                gdf_dist["vcode_str"] = gdf_dist["village_code"].astype(str)
-                acc_dist["vcode_str"] = acc_dist["village_code"].astype(str)
-                merged = gdf_dist.merge(acc_dist, on="vcode_str", how="left", suffixes=("", "_acc"))
-                if not merged.empty:
-                    gdf_dist = merged
-            elif "village" in gdf_dist.columns and "village" in acc_dist.columns:
-                merged = gdf_dist.merge(acc_dist, on="village", how="left", suffixes=("", "_acc"))
-                if not merged.empty:
-                    gdf_dist = merged
-
     return gdf_dist
 
 

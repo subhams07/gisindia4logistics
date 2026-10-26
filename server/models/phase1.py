@@ -53,13 +53,13 @@ class DistrictLocation(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["district"] = "district"
     district: Optional[str] = Field(None, description="District name, e.g. 'Pune' or 'Indore'")
-    district_code: Optional[int] = Field(None, strict=True, ge=1, description="Official LGD district code, e.g. 521")
+    district_code: Optional[int] = Field(None, strict=True, ge=1, description="Survey of India ABDB district code (equals LGD for pre-2011 districts), e.g. 521")
     state: Optional[str] = Field(None, description="State or UT name, e.g. 'Maharashtra'")
 
     @model_validator(mode="after")
     def validate_district_presence(self) -> "DistrictLocation":
         if not (self.district and self.district.strip()) and self.district_code is None:
-            raise ValueError("Either 'district' (name) or 'district_code' (LGD integer) must be provided")
+            raise ValueError("Either 'district' (name) or 'district_code' (integer district code) must be provided")
         return self
 
 
@@ -102,7 +102,7 @@ class ResolvedLocation(BaseModel):
     canonical_name: str = Field(..., description="Standardized canonical name of the resolved entity")
     state: Optional[str] = Field(None, description="State or UT name if applicable")
     district: Optional[str] = Field(None, description="District name if applicable")
-    district_code: Optional[int] = Field(None, ge=1, description="LGD district code if applicable")
+    district_code: Optional[int] = Field(None, ge=1, description="Survey of India ABDB district code (equals LGD for pre-2011 districts), if applicable")
     latitude: float = Field(..., ge=-90.0, le=90.0, description="Resolved latitude WGS 84")
     longitude: float = Field(..., ge=-180.0, le=180.0, description="Resolved longitude WGS 84")
     source_dataset: str = Field(..., description="Source dataset used for resolution")
@@ -322,12 +322,12 @@ class DistrictReference(BaseModel):
     """Reference identifying a single district for batch comparison."""
     state: Optional[str] = Field(None, description="State name, e.g. 'Maharashtra'")
     district: Optional[str] = Field(None, description="District name, e.g. 'Pune'")
-    district_code: Optional[int] = Field(None, ge=1, description="LGD district code, e.g. 521")
+    district_code: Optional[int] = Field(None, ge=1, description="Survey of India ABDB district code (equals LGD for pre-2011 districts), e.g. 521")
 
     @model_validator(mode="after")
     def validate_district_reference(self) -> "DistrictReference":
         if not (self.district and self.district.strip()) and self.district_code is None:
-            raise ValueError("Either 'district' (name) or 'district_code' (LGD integer) must be provided")
+            raise ValueError("Either 'district' (name) or 'district_code' (integer district code) must be provided")
         return self
 
 

@@ -190,6 +190,8 @@ def map_data(tmp_path, monkeypatch):
     root = tmp_path / "data"
     village_dir = root / "administrative" / "villages"
     village_dir.mkdir(parents=True)
+    # marker file: tool_plot_villages_map checks the directory the loader reads
+    (root / "administrative" / "india_districts_lgd.geojson").write_text("{}")
     for state, district in [("odisha", "Cuttack"), ("delhi", "New Delhi"),
                             ("chhattisgarh", "Bilaspur"),
                             ("uttar_pradesh", "Hamirpur"), ("himachal_pradesh", "Hamirpur")]:

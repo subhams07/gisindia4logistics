@@ -8,7 +8,7 @@
 [![Data Licensing](https://img.shields.io/badge/Data%20Licensing-Mixed%20%2F%20Review%20Required-yellow.svg)](DATA_LICENSE.md)
 
 > **India's logistics map, ready to analyse.**
-> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on official LGD codes. It comes with routing, freight-cost and port-catchment models you can use from Python, the command line, a REST API or an AI agent.
+> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on consistent Survey of India district codes (equal to the LGD codes for districts that existed in 2011). It comes with routing, freight-cost and port-catchment models you can use from Python, the command line, a REST API or an AI agent.
 
 > [!NOTE]
 > **This is a personal hobby project**, built and maintained in spare time and shared as-is. There is no support commitment, and pull requests and outside contributions are not being accepted. You're welcome to use and fork it under the licences below.
@@ -26,7 +26,7 @@
 
 Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. This project does that plumbing once, in the open, and publishes the evidence alongside the data.
 
-- **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
+- **One join key for everything.** States, districts, sub-districts and villages carry codes that join across layers. Districts are keyed on the Survey of India ABDB district code, which equals the [Local Government Directory (LGD)](https://lgdirectory.gov.in) and Census 2011 code for districts that existed in 2011 but uses a separate numbering for about 140 newer districts; a dedicated LGD code column is planned. Villages keep their source LGD district code in `source_district_code`. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
 - **National coverage.** 780 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
 - **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
@@ -60,7 +60,7 @@ Village figures are straight-line distances over all 621,105 settlements. Drive 
 | 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for the 777 mainland districts (4 island districts flagged) across the 12 major ports, with α/β you can tune. |
 | 🏭 **Site screening** | *"How far does an 8-hour drive reach from JNPT or the Nagpur MMLP?"* | **Isochrones.** Drive-time catchments at 4, 8, 12 and 24 h around 12 major ports and at 4, 8 and 12 h around 20 MMLPs. |
 | 🌾 **Rural reach** | *"What share of villages in a district are within 10 km of a railway station?"* | **Village access engine.** Nearest NH, expressway, station, terminal, port, ICD, ICP, air cargo, MMLP, waterway terminal, FCI depot and toll plaza for every settlement. |
-| 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 780 LGD districts. |
+| 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 780 current districts. |
 
 ---
 
@@ -69,7 +69,7 @@ Village figures are straight-line distances over all 621,105 settlements. Drive 
 - 🚚 **Logistics and supply-chain people** sketching corridor or modal scenarios.
 - 🏢 **Site and warehouse analysts** comparing highway, rail and port access across locations.
 - 🏛️ **Policy and infrastructure watchers** looking for connectivity gaps between districts.
-- 🔬 **Researchers, students and data scientists** who want clean, LGD-joined Indian layers.
+- 🔬 **Researchers, students and data scientists** who want clean, consistently keyed Indian layers.
 - 🤖 **AI tinkerers** giving Claude, Cursor or another MCP client India-specific spatial tools.
 
 Outputs are strategic estimates from a hobby project. Verify routes, tariffs and transit times independently before any operational or commercial decision.
@@ -200,7 +200,7 @@ ports = pd.read_csv("data/logistics_hubs/ports.csv")                            
 
 ## 📦 Data Catalog
 
-Spatial layers use **EPSG:4326**, and metric analysis uses **EPSG:7755**. Administrative joins use **LGD codes**. The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
+Spatial layers use **EPSG:4326**, and metric analysis uses **EPSG:7755**. Administrative joins use the Survey of India ABDB codes carried by the layers (the district code equals the LGD code for districts that existed in 2011; see [docs/data_standards.md](docs/data_standards.md)). The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
 
 The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.md) records mixed terms and unresolved redistribution conditions; MIT covers the code only.
 
@@ -209,7 +209,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🏛️ **States** | LGD-coded boundaries | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏡 **Villages** | LGD-coded village polygons | **586,151** in 27 States/UTs | Survey of India | SoI copyright; redistribution unresolved |
+| 🏡 **Villages** | Village polygons with source LGD codes | **586,151** in 27 States/UTs | Survey of India | SoI copyright; redistribution unresolved |
 | 🏡 **Habitations** | Settlement points where SoI publishes no polygons | **34,954** in 9 border/NE States/UTs | OpenStreetMap | ODbL |
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
@@ -261,8 +261,8 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 **v1.1.0 evidence.** The national audit (`scripts/audit/audit_all.py --national`) ran 5,367 checks: 5,351 PASS, 16 WARN, 0 FAIL. The test suite passed 3,508 tests with 0 failures. Report: [`docs/audit_report.md`](docs/audit_report.md).
 
 **What the audit checks:**
-- ✅ **Boundaries.** 36 states and 780 districts, valid geometries on re-read, and LGD joins across layers.
-- ✅ **Population.** 1,210,846,213 people conserved across the 780 current districts, within 0.001% of Census 2011.
+- ✅ **Boundaries.** 36 states and 780 districts, valid geometries on re-read, and code joins across layers.
+- ✅ **Population.** 1,210,843,799 people conserved across the 780 current districts, within 0.001% of Census 2011.
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 

@@ -135,7 +135,7 @@ def export_all_geoparquet():
         (
             DATA_DIR / "analysis" / "india_district_access_summary.csv",
             DATA_DIR / "analysis" / "india_district_access_summary.parquet",
-            "District Access Summary (817 rows)"
+            "District Access Summary (816 rows)"
         )
     ]
 

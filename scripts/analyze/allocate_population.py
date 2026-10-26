@@ -79,15 +79,42 @@ def load_parents() -> gpd.GeoDataFrame:
                  "district_key": "p_key", "Population": "p_pop"})
 
 
-def village_counts() -> pd.Series:
-    frames = []
-    for f in glob.glob(str(DATA_DIR / "administrative" / "villages" / "*_soi_villages.geojson")):
-        g = gpd.read_file(f, ignore_geometry=True)
-        if "district_code" in g.columns:
-            frames.append(g[["district_code"]].dropna())
-    allv = pd.concat(frames)
-    allv["district_code"] = pd.to_numeric(allv["district_code"], errors="coerce")
-    return allv.dropna().groupby("district_code").size()
+def poly_key(state, district_code, district):
+    """Identity of a current district polygon: (state, code); (state, name) when the code is null."""
+    if pd.notna(district_code):
+        return (str(state).lower(), int(district_code))
+    return (str(state).lower(), str(district))
+
+
+def village_counts() -> dict:
+    """SoI village count per CURRENT district polygon, keyed by ``poly_key``.
+
+    Counts come from the per-state village access tables after spatial reassignment
+    (scripts/analyze/reassign_village_districts.py): every village is assigned to the polygon
+    that contains it, scoped to its own state. The source ``district_code`` is never used
+    (the SoI scheme collides with the polygon scheme across states). Only the 27 states
+    published by SoI as village polygons are counted (border-state habitation points are
+    not villages); the 'Disputed (Jharkhand)' placeholder is excluded.
+    """
+    counts: dict = {}
+    admin = DATA_DIR / "administrative"
+    pq = admin / "india_districts_lgd.parquet"
+    names = (pd.read_parquet(pq, columns=["state"]) if pq.exists()
+             else gpd.read_file(admin / "india_districts_lgd.geojson", ignore_geometry=True))["state"]
+    state_by_slug = {st.lower().replace(" ", "_"): st for st in names.unique()}
+    for f in sorted((DATA_DIR / "analysis").glob("*_village_access.csv")):
+        slug = f.name[: -len("_village_access.csv")]
+        if not ((admin / "villages_parquet" / f"{slug}_soi_villages.parquet").exists()
+                or (admin / "villages" / f"{slug}_soi_villages.geojson").exists()):
+            continue
+        t = pd.read_csv(f, usecols=["district", "district_code", "exclude_from_district_stats"],
+                        dtype={"district_code": "Int64"})
+        t = t[~t["exclude_from_district_stats"].astype(bool)]
+        state = state_by_slug[slug]
+        for (code, name), n in t.groupby(["district_code", "district"], dropna=False).size().items():
+            k = poly_key(state, code, name)
+            counts[k] = counts.get(k, 0) + int(n)
+    return counts
 
 
 def main() -> None:
@@ -141,11 +168,13 @@ def main() -> None:
     # to the pair's area share of the child, so boundary slivers from
     # neighbouring parents cannot claim the child's whole village count
     vcount = village_counts()
-    area_alloc["villages"] = area_alloc.district_code.astype("Float64").map(vcount).fillna(0)
-    inter_codes = inter[["state", "district_code", "p_key", "inter_area",
+    area_alloc["villages"] = [vcount.get(poly_key(st, c, d), 0) for st, c, d in
+                              zip(area_alloc.state, area_alloc.district_code, area_alloc.district)]
+    inter_codes = inter[["state", "district", "district_code", "p_key", "inter_area",
                          "area_frac_of_current"]].copy()
-    inter_codes["district_code"] = inter_codes.district_code.astype("Float64")
-    inter_codes["v_in_pair"] = (inter_codes.district_code.map(vcount).fillna(0)
+    inter_codes["v_in_pair"] = (pd.Series([vcount.get(poly_key(st, c, d), 0) for st, c, d in
+                                           zip(inter_codes.state, inter_codes.district_code, inter_codes.district)],
+                                          index=inter_codes.index, dtype=float)
                                 * inter_codes.area_frac_of_current)
     pv = inter_codes.groupby("p_key")["v_in_pair"].sum().rename("v_parent_sum")
     inter_codes = inter_codes.merge(pv, on="p_key", how="left")
@@ -153,7 +182,7 @@ def main() -> None:
     inter_codes = inter_codes.merge(
         parents[["p_key", "p_pop"]], on="p_key", how="left")
     inter_codes["pop_vill_share"] = inter_codes["v_share_frac"] * inter_codes["p_pop"]
-    vill_alloc = (inter_codes.groupby(["state", "district_code"], dropna=False)
+    vill_alloc = (inter_codes.groupby(["state", "district", "district_code"], dropna=False)
                   .agg(pop_vill_share=("pop_vill_share", "sum")).reset_index())
 
     # name-matched pairs for final capping: a current district whose
@@ -168,7 +197,7 @@ def main() -> None:
     for _, row in matched_pairs.iterrows():
         cap_map[(row["state"], float(row["district_code"]))] = row["p_pop"]
 
-    df = area_alloc.merge(vill_alloc, on=["state", "district_code"], how="left")
+    df = area_alloc.merge(vill_alloc, on=["state", "district", "district_code"], how="left")
     df["method"] = "area_share"
     df.loc[df.is_exact, "method"] = "census2011"
     blendable = (~df.is_exact) & df.pop_vill_share.notna() & (df.pop_vill_share > 0)

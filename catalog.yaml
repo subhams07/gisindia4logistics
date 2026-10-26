@@ -1,7 +1,7 @@
 datasets:
 - name: India states/UTs boundaries
   category: administrative
-  description: 36 states and union territories, LGD state codes, simplified ~100 m
+  description: 36 states and union territories, state codes, simplified ~100 m
   provider: DataMeet community (based on official sources)
   source_url: https://github.com/datameet/maps
   license: CC BY 4.0
@@ -12,10 +12,10 @@ datasets:
   fetch_script: scripts/fetch/fetch_admin_boundaries.py
   quality_status: verified
   quality_notes: 36 features, valid geometries, no unmapped state names; superseded for most uses by india_states_lgd.geojson
-    (current, LGD-coded)
+    (current, SoI ABDB)
 - name: India states/UTs boundaries (current, LGD)
   category: administrative
-  description: 36 states/UTs from the PAN INDIA LGD-coded dataset
+  description: 36 states/UTs from the PAN INDIA ABDB dataset
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
   license: copyright per metadata; redistribution unresolved, not written permission;
@@ -29,7 +29,7 @@ datasets:
   quality_notes: 36 features after dropping 4 inter-state disputed slivers; valid geometries
 - name: India district boundaries (current, LGD)
   category: administrative
-  description: 780 districts with LGD codes — post-2011 districts incl. 2024-25 formations
+  description: 780 districts keyed on the Survey of India ABDB district code (equals the LGD and Census 2011 code for districts that existed in 2011; about 140 newer districts use a separate numbering; a dedicated LGD code column is planned) — post-2011 districts incl. 2024-25 formations
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
   license: copyright per metadata; redistribution unresolved, not written permission;
@@ -44,7 +44,7 @@ datasets:
     kept with null codes; the source sub-district layer tags Dhule''s 4 talukas with code 598 (Kerala''s
     Alappuzha) — corrected to 498 in process_panindia_boundaries.py (this previously produced a duplicate
     DHULE polygon wrongly labelled as a Malegaon split; Malegaon taluka is in Nashik 516); mojibake names
-    fixed; verified: per-state counts match LGD'
+    fixed; verified: per-state counts match the reference list'
 - name: India sub-district boundaries (current, LGD)
   category: administrative
   description: 6,636 talukas/tehsils/blocks with LGD codes and type
@@ -63,7 +63,7 @@ datasets:
     GeoPackage as regular git blob
 - name: India district boundaries (Census 2011)
   category: administrative
-  description: 640 districts with census state/district codes and LGD state codes
+  description: 640 districts with census state/district codes
   provider: DataMeet community (based on official sources)
   source_url: https://github.com/datameet/maps
   license: CC BY 4.0
@@ -89,7 +89,7 @@ datasets:
   quality_status: verified
 - name: Village boundaries (Survey of India — official)
   category: administrative
-  description: Official village polygons with LGD codes at all levels (state/district/sub-district/village),
+  description: Official village polygons with source LGD codes at all levels (state/district/sub-district/village),
     village category Rural/Urban
   provider: Survey of India
   source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
@@ -101,7 +101,7 @@ datasets:
   path: data/administrative/villages/*_soi_villages.geojson
   fetch_script: scripts/fetch/fetch_village_boundaries_soi.py
   quality_status: verified
-  quality_notes: 27 states/UTs published (NE + border states absent); LGD-coded at every level; spot-validated
+  quality_notes: 27 states/UTs published (NE + border states absent); source LGD codes at every level (the source district code is kept as source_district_code in the analysis tables); spot-validated
     Sikkim, Pune, Telangana (33), UP (75); TN/Puducherry Subdist column alias fixed; MP Villl_name typo
     fixed; ~1,000 villages have blank names in SoI source (max Uttarakhand 577, Delhi 315) — flagged in
     audit; simplified ~50 m with grid-snap validity pipeline
@@ -119,7 +119,7 @@ datasets:
   fetch_script: scripts/fetch/fetch_village_boundaries.py
   quality_status: community
   quality_notes: use SoI script (fetch_village_boundaries_soi.py --state X) for authoritative sub-district/village
-    polygons with LGD codes; OSM variant is redistributable and fine for ODbL-compatible use
+    polygons with source LGD codes; OSM variant is redistributable and fine for ODbL-compatible use
 - name: Pune district taluka boundaries (sample)
   category: administrative
   description: 14 taluka/subdistrict polygons assembled from OSM relations
@@ -182,7 +182,7 @@ datasets:
     are separate ways — use for geometry/routing, not length statistics
 - name: Clustered OSM Toll Locations (not an official plaza register)
   category: roads
-  description: 1,536 clustered toll plazas across India with NH number, LGD district join, coordinates, and booth counts
+  description: 1,536 clustered toll plazas across India with NH number, district join, coordinates, and booth counts
   provider: OpenStreetMap contributors + NH network snap
   source_url: https://www.openstreetmap.org
   license: ODbL
@@ -201,7 +201,7 @@ datasets:
 - name: Border & North-Eastern State Habitations
   category: administrative
   description: 34,954 geocoded settlement and village place nodes for the 9 states not published in SoI polygons
-  provider: OpenStreetMap contributors + LGD district spatial join
+  provider: OpenStreetMap contributors + district polygon spatial join
   source_url: https://www.openstreetmap.org
   license: ODbL
   vintage: 2026-08 snapshot
@@ -210,7 +210,7 @@ datasets:
   path: data/administrative/villages/*_habitations.geojson
   fetch_script: scripts/fetch/fetch_border_habitations.py
   quality_status: verified
-  quality_notes: Covers Arunachal Pradesh (2.3k), Assam (1.8k), HP (18.5k), J&K (7.3k), Ladakh (1.9k), Manipur (1.6k), Meghalaya (362), Mizoram (610), Nagaland (589); joined to 780 LGD districts
+  quality_notes: Covers Arunachal Pradesh (2.3k), Assam (1.8k), HP (18.5k), J&K (7.3k), Ladakh (1.9k), Manipur (1.6k), Meghalaya (362), Mizoram (610), Nagaland (589); assigned to the 780 current district polygons
 - name: Village accessibility analysis (nearest facility)
   category: analysis
   description: Straight-line distance from every village to nearest rail station / ICD / port / air-cargo
@@ -228,7 +228,10 @@ datasets:
   quality_notes: 27 states at village level (SoI polygons); 9 border/NE states at district-centroid level
     (unit column flags this); EPSG:7755 nearest joins with equidistant-tie dedupe; __STATE__ rows are
     population-weighted; headline metric — pop-weighted mean distance to a rail station 13.6 km, to an
-    ICD 121 km across the 27 village-level states
+    ICD 121 km across the 27 village-level states; every village is assigned to the current district polygon that
+    contains it, within its own state (district / district_code = polygon values; source values kept in
+    source_district / source_district_code; the SoI 'Disputed (Jharkhand)' placeholder is flagged
+    exclude_from_district_stats and left out of district statistics)
 - name: Multi-Modal Generalized Freight Cost Engine
   category: analysis
   description: End-to-end financial freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail for all 780 districts
@@ -506,19 +509,19 @@ datasets:
   quality_status: verified
   quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state
     totals match)
-- name: District population estimates (780 current LGD districts)
+- name: District population estimates (780 current districts)
   category: demographic
-  description: 2011 Census population mapped to all 780 current LGD districts via geometric overlay and village-count blending
-  provider: derived in-repo (Census 2011 PCA x Survey of India LGD boundaries)
+  description: 2011 Census population mapped to all 780 current districts via geometric overlay and village-count blending (villages counted per current district polygon, state-scoped)
+  provider: derived in-repo (Census 2011 PCA x Survey of India ABDB boundaries)
   source_url: derived in-repo
   license: GODL-India (underlying census data)
-  vintage: 2011 population mapped to 2024-25 LGD boundaries
+  vintage: 2011 population mapped to 2024-25 ABDB boundaries
   resolution: district
   access: committed
   path: data/demographic/district_population_estimates.csv
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
-  quality_notes: Covers all 780 current districts (567 exact census, 134 blended, 79 area-share); national sum 1,210,846,213 reconciles to 1,210,854,977 (<0.001% delta)
+  quality_notes: Covers all 780 current districts (567 exact census, 134 blended, 79 area-share); national sum 1,210,843,799 reconciles to 1,210,854,977 (<0.001% delta)
 - name: Indian Railways annual freight loading
   category: freight
   description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)

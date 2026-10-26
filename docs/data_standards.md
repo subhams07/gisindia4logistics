@@ -12,11 +12,20 @@ All datasets in this repository follow these conventions.
 
 ## Join keys
 
-- **LGD codes** (Local Government Directory, lgdirectory.gov.in) are the
+- **Survey of India ABDB codes** carried by the boundary layers are the
   canonical identifiers:
-  - `state_code` — 2-digit LGD state code
-  - `district_code` — LGD district code (unique nationally)
+  - `state_code` — 2-digit state code
+  - `district_code` — Survey of India ABDB district code. It equals the LGD
+    (Local Government Directory, lgdirectory.gov.in) and Census 2011 code for
+    districts that existed in 2011 but uses a separate numbering for about 140
+    newer districts; a dedicated LGD code column is planned. Join on
+    `(state, district_code)`; the three null-code polygons (Delhi Nazul, Mirpur,
+    Muzaffarabad) join on `(state, district)`.
   - `lgd_village_code` — 6-digit village code where available
+- Village and settlement rows are assigned to the district polygon that contains
+  them (within their own state). `district` / `district_code` hold that polygon's
+  values; the village source's own LGD district name and code are kept in
+  `source_district` / `source_district_code`.
 - Census 2011 uses its own state/district codes; a crosswalk table is provided
   in `data/administrative/census2011_lgd_crosswalk.csv`.
 - Railway stations join on `station_code` (Indian Railways alpha codes).
