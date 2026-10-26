@@ -4,7 +4,7 @@
 
 ## 0. Live status and plan — update this section at every step
 
-Any session (local or remote) restarting this work: read **"Current state"** below first. It supersedes the older plan, harness and N2 sections further down, which are kept as history only.
+Any session (local or remote) restarting this work: read **"Current state"** below first. Decisions and the checks that confirm them: [`decision_log.md`](decision_log.md) and [ADR 007](adr/007-district-identity-and-population.md). It supersedes the older plan, harness and N2 sections further down, which are kept as history only.
 
 ### Current state (authoritative)
 
