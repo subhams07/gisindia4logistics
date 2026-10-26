@@ -73,6 +73,14 @@ python scripts/audit/audit_all.py --fast
 python -m pytest tests/test_package.py tests/test_server.py
 ```
 
+### Data location
+
+**Data location.** The ~1 GB data directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and point the package at its data before starting Python, the CLI, the API server or the MCP server: `export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data` (Windows: `set GIS4LOGISTICS_DATA_PATH=C:\path\to\gisindia4logistics\data`). The variable is read once, at import time. An editable install from the clone (`pip install -e .`) finds `data/` automatically. If the data cannot be found, the SDK raises `gisindia4logistics.sdk.DataNotFoundError` (a `DataIntegrityError`), the CLI prints `error: GISIndia4Logistics data not found at <path> ...` and exits 1, and MCP tools return `isError` with code `data_not_found`.
+
+The CLI `serve` command checks for the data and refuses to start without it, while running `uvicorn server.app:app` directly does not yet perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
+
+Two other locations are configurable the same way and, in a non-editable install, default to folders next to the installed `server` package (inside `site-packages`), which is often read-only or unwanted: `GIS4LOGISTICS_OUTPUT_PATH` (generated maps and reports; default `outputs/`) and `GIS4LOGISTICS_CACHE_PATH` (highway-graph cache; default `outputs/cache/`). Set both to writable directories of your choice.
+
 ---
 
 ## 3. Working with Data in Python (GeoPandas & DuckDB)

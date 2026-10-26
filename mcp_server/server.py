@@ -17,6 +17,9 @@ from server.models.schemas import CostParametersOverride, FreightCostSimulationR
 from server.services.error_contract import domain_error_from_status, route_error_contract
 from server.services.exceptions import AmbiguousLocationError, DataIntegrityError
 
+from gisindia4logistics.data_root import DataNotFoundError, data_not_found_contract, require_data_root
+from server.dependencies import DataStore
+
 from mcp_server.tools import (
     serialize_tool_result,
     tool_calculate_intermodal_freight_cost,
@@ -26,6 +29,7 @@ from mcp_server.tools import (
     tool_plan_highway_route,
     tool_simulate_port_catchment,
 )
+from mcp_server import tools as _tools
 
 LOGGER = logging.getLogger(__name__)
 MCP_PROTOCOL_VERSION = "2024-11-05"
@@ -312,6 +316,8 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 "status": 422, "code": "invalid_request", "message": "Request input is invalid.",
             })
         try:
+            if isinstance(_tools.store, _tools._LazyDataStore) and DataStore._instance is None:
+                require_data_root()
             if tool_name == "gis_plot_villages_map":
                 from mcp_server.tools import tool_plot_villages_map
                 res = tool_plot_villages_map(**args)
@@ -336,6 +342,8 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
             }
         except Exception as e:
             LOGGER.exception("MCP tool call failed: %s", tool_name)
+            if isinstance(e, DataNotFoundError):
+                return _tool_failure(req_id, data_not_found_contract())
             if isinstance(e, HTTPException):
                 bridged = domain_error_from_status(e.status_code)
                 if isinstance(bridged, AmbiguousLocationError) and isinstance(e.detail, dict):

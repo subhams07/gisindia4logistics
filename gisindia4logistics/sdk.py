@@ -35,10 +35,17 @@ from scripts.analyze.plot_villages import (
     validate_metric,
 )
 from server.config import settings
+from gisindia4logistics.data_root import DataNotFoundError, require_data_root  # noqa: F401 (re-exported)
+
+def _ensure_data() -> None:
+    """Fail with an actionable DataNotFoundError unless data (or an injected store) exists."""
+    if DataStore._instance is None:
+        require_data_root()
 
 
 def get_data_store() -> DataStore:
     """Returns the singleton in-memory GISIndia4Logistics DataStore instance."""
+    _ensure_data()
     return DataStore.get_instance()
 
 
@@ -94,6 +101,7 @@ def route_highway(
         "destination": list(destination) if isinstance(destination, tuple) else destination,
         "vehicle_type": vehicle_type,
     }, strict=True)
+    _ensure_data()
     return routing_facade.legacy_highway_route(req)
 
 
@@ -117,6 +125,7 @@ def plan_highway_route(
         vehicle_type=vehicle_type,
         include_route_geometry=include_route_geometry, geometry_detail=geometry_detail,
     )
+    _ensure_data()
     return serialize_result(routing_facade.plan_highway_route(request))
 
 
@@ -253,6 +262,7 @@ def plot_villages(
     if output_format not in {"html", "png", "both"}:
         raise ValueError("output_format must be one of: html, png, both")
     validate_metric(metric)
+    _ensure_data()
 
     gdf = load_district_villages_gdf(state=state, district=district)
     out_files = {}
