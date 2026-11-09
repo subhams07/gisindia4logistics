@@ -521,7 +521,7 @@ datasets:
   path: data/demographic/district_population_estimates.csv
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
-  quality_notes: Covers all 780 current districts (567 exact census, 134 blended, 79 area-share); national sum 1,210,843,799 reconciles to 1,210,854,977 (<0.001% delta)
+  quality_notes: Covers all 780 current districts (449 exact census, 225 blended, 106 area-share); census2011 rows hold the exact Census 2011 district figure and only estimated rows are scaled within each state group; national sum 1,210,854,977 equals the Census 2011 total
 - name: Indian Railways annual freight loading
   category: freight
   description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)

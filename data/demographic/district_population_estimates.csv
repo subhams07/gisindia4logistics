@@ -1,781 +1,781 @@
 state,district,district_code,pop_2011,method,villages
-Andaman and Nicobar Islands,NICOBARS,638,35779,blended,86
-Andaman and Nicobar Islands,NORTH AND MIDDLE ANDAMAN,639,105930,census2011,305
-Andaman and Nicobar Islands,SOUTH ANDAMANS,640,238872,census2011,191
-Andhra Pradesh,Alluri Sitarama Raju,684,5758475,blended,3428
-Andhra Pradesh,Anakapalli,685,1495706,census2011,736
-Andhra Pradesh,Ananthapuramu,553,2152149,census2011,512
-Andhra Pradesh,Annamayya,693,1739087,blended,543
-Andhra Pradesh,Bapatla,691,1217031,blended,286
-Andhra Pradesh,Chittoor,554,1831031,census2011,847
-Andhra Pradesh,Dr. B.R. Ambedkar Konaseema,687,1129464,census2011,326
-Andhra Pradesh,East Godavari,545,1119024,blended,271
-Andhra Pradesh,Eluru,688,3001325,blended,674
-Andhra Pradesh,Guntur,548,1034763,census2011,201
-Andhra Pradesh,Kakinada,686,1458885,census2011,421
-Andhra Pradesh,Krishna,547,1961233,census2011,497
-Andhra Pradesh,Kurnool,552,1798285,census2011,476
-Andhra Pradesh,NTR,689,1699368,census2011,317
-Andhra Pradesh,Nandyal,694,2202755,census2011,489
-Andhra Pradesh,Palnadu,690,3038382,census2011,402
-Andhra Pradesh,Parvathipuram Manyam,683,1486336,blended,971
-Andhra Pradesh,Prakasam,549,2719348,census2011,872
-Andhra Pradesh,Sri Potti Sriramulu Nellore,550,2131051,blended,728
-Andhra Pradesh,Sri Sathya Sai,695,1895740,census2011,476
-Andhra Pradesh,Srikakulam,542,1871330,census2011,1428
-Andhra Pradesh,Tirupati,692,2434084,blended,1056
-Andhra Pradesh,Visakhapatnam,544,265477,blended,95
-Andhra Pradesh,Vizianagaram,543,1594548,blended,970
-Andhra Pradesh,West Godavari,546,1104259,census2011,299
-Andhra Pradesh,Y.S.R.,551,1882569,census2011,729
-Arunachal Pradesh,ANJAW,260,20006,census2011,0
-Arunachal Pradesh,BICHOM,788,28755,area_share,0
-Arunachal Pradesh,CHANGLANG,253,153929,census2011,0
-Arunachal Pradesh,DIBANG VALLEY,257,8399,area_share,0
-Arunachal Pradesh,EAST KAMENG,247,47528,census2011,0
-Arunachal Pradesh,EAST SIANG,251,44644,area_share,0
-Arunachal Pradesh,KAMLE,733,54530,area_share,0
-Arunachal Pradesh,KEYI PANYOR,789,45149,area_share,0
-Arunachal Pradesh,KRA DAADI,721,33654,census2011,0
-Arunachal Pradesh,KURUNG KUMEY,256,66362,census2011,0
-Arunachal Pradesh,LEPA RADA,729,11035,census2011,0
-Arunachal Pradesh,LOHIT,259,99426,area_share,0
-Arunachal Pradesh,LONGDING,680,51967,census2011,0
-Arunachal Pradesh,LOWER DIBANG VALLEY,258,33879,census2011,0
-Arunachal Pradesh,LOWER SIANG,723,32699,area_share,0
-Arunachal Pradesh,LOWER SUBANSIRI,255,9315,census2011,0
-Arunachal Pradesh,NAMSAI,724,50856,census2011,0
-Arunachal Pradesh,PAKKE KESSANG,726,25250,census2011,0
-Arunachal Pradesh,PAPUMPARE,248,154541,census2011,0
-Arunachal Pradesh,SHI YOMI,730,38415,area_share,0
-Arunachal Pradesh,SIANG,722,68198,area_share,0
-Arunachal Pradesh,TAWANG,245,51784,census2011,0
-Arunachal Pradesh,TIRAP,254,58118,census2011,0
-Arunachal Pradesh,UPPER SIANG,252,34532,census2011,0
-Arunachal Pradesh,UPPER SUBANSIRI,249,78671,census2011,0
-Arunachal Pradesh,WEST KAMENG,246,62885,census2011,0
-Arunachal Pradesh,WEST SIANG,250,19200,census2011,0
-Assam,BAJALI,771,359192,area_share,0
-Assam,BAKSA,324,666770,area_share,0
-Assam,BARPETA,303,1292195,census2011,0
-Assam,BISWANATH,734,830108,census2011,0
-Assam,BONGAIGAON,319,757933,area_share,0
-Assam,CACHAR,316,1750989,census2011,0
-Assam,CHARAIDEO,704,445316,census2011,0
-Assam,CHIRANG,320,501209,area_share,0
-Assam,DARANG,325,909719,area_share,0
-Assam,DHEMAJI,308,650572,census2011,0
-Assam,DHUBRI,301,1589215,census2011,0
-Assam,DIBRUGARH,310,1329170,census2011,0
-Assam,DIMA HASAO,315,215467,census2011,0
-Assam,GOALPARA,302,962017,census2011,0
-Assam,GOLAGHAT,313,1023545,census2011,0
-Assam,HAILAKANDI,318,660630,census2011,0
-Assam,HOJAI,720,1039580,census2011,0
-Assam,JORHAT,312,684767,census2011,0
-Assam,KAMRUP METRO,322,971306,area_share,0
-Assam,KAMRUP RURAL,321,1799190,area_share,0
-Assam,KARBI ANGLONG,314,677809,census2011,0
-Assam,KOKRAJHAR,300,922187,area_share,0
-Assam,LAKHIMPUR,307,1056112,census2011,0
-Assam,MAJULI,707,458214,area_share,0
-Assam,MARIGAON,304,915575,census2011,0
-Assam,NAGAON,305,1805604,census2011,0
-Assam,NALBARI,323,783681,area_share,0
-Assam,SIBSAGAR,311,711842,census2011,0
-Assam,SONITPUR,306,1136704,census2011,0
-Assam,SOUTH SALMARA,664,263938,census2011,0
-Assam,SRIBHUMI,317,1203472,area_share,0
-Assam,TAMULPUR,766,357191,area_share,0
-Assam,TINSUKIA,309,1346538,census2011,0
-Assam,UDALGURI,326,846059,area_share,0
-Assam,WEST KARBI ANAGLONG,752,281763,census2011,0
-Bihar,Araria,209,2806898,census2011,733
-Bihar,Arwal,240,661150,census2011,315
-Bihar,Aurangabad,235,2564825,census2011,1852
-Bihar,Banka,225,2045923,blended,2097
-Bihar,Begusarai,222,2955569,census2011,1138
-Bihar,Bhagalpur,224,3063373,census2011,1523
-Bihar,Bhojpur,231,2748353,census2011,1194
-Bihar,Buxar,232,1713560,census2011,1119
-Bihar,Darbhanga,215,4100963,blended,1248
-Bihar,Gaya,236,4422156,census2011,2834
-Bihar,Gopalganj,217,2573785,census2011,1525
-Bihar,Jamui,238,1765337,census2011,1507
-Bihar,Jehanabad,239,1156211,blended,573
-Bihar,Kaimur (Bhabua),233,1632430,census2011,1685
-Bihar,Katihar,212,3076670,census2011,1526
-Bihar,Khagaria,223,1677533,census2011,285
-Bihar,Kishanganj,210,1692838,blended,769
-Bihar,Lakhisarai,227,961204,blended,467
-Bihar,Madhepura,213,2004898,blended,429
-Bihar,Madhubani,207,4584705,census2011,1090
-Bihar,Munger,226,1374222,blended,847
-Bihar,Muzaffarpur,216,4827227,census2011,1737
-Bihar,Nalanda,229,2907051,census2011,987
-Bihar,Nawada,237,2210826,census2011,1057
-Bihar,Pashchim Champaran,203,3980888,census2011,1463
-Bihar,Patna,230,5784679,census2011,1378
-Bihar,Purba Champaran,204,5146506,census2011,1275
-Bihar,Purnia,211,3251889,census2011,1228
-Bihar,Rohtas,234,2984513,census2011,1980
-Bihar,Saharsa,214,1883790,census2011,458
-Bihar,Samastipur,221,3912435,census2011,1147
-Bihar,Saran,219,3958308,census2011,1740
-Bihar,Sheikhpura,228,662779,blended,287
-Bihar,Sheohar,205,683510,blended,197
-Bihar,Sitamarhi,206,3260983,census2011,815
-Bihar,Siwan,218,3346257,census2011,1514
-Bihar,Supaul,208,2205224,census2011,548
-Bihar,Vaishali,220,3509985,census2011,1515
+Andaman and Nicobar Islands,NICOBARS,638,36842,blended,86
+Andaman and Nicobar Islands,NORTH AND MIDDLE ANDAMAN,639,105597,census2011,305
+Andaman and Nicobar Islands,SOUTH ANDAMANS,640,238142,census2011,191
+Andhra Pradesh,Alluri Sitarama Raju,684,5774124,blended,3428
+Andhra Pradesh,Anakapalli,685,1363865,blended,736
+Andhra Pradesh,Ananthapuramu,553,2141461,blended,512
+Andhra Pradesh,Annamayya,693,1743813,blended,543
+Andhra Pradesh,Bapatla,691,1220339,blended,286
+Andhra Pradesh,Chittoor,554,1989357,blended,847
+Andhra Pradesh,Dr. B.R. Ambedkar Konaseema,687,1002074,blended,326
+Andhra Pradesh,East Godavari,545,1122065,blended,271
+Andhra Pradesh,Eluru,688,3009482,blended,674
+Andhra Pradesh,Guntur,548,1177163,blended,201
+Andhra Pradesh,Kakinada,686,1287350,blended,421
+Andhra Pradesh,Krishna,547,2167898,blended,497
+Andhra Pradesh,Kurnool,552,1906026,blended,476
+Andhra Pradesh,NTR,689,1608572,blended,317
+Andhra Pradesh,Nandyal,694,2136243,blended,489
+Andhra Pradesh,Palnadu,690,2840070,blended,402
+Andhra Pradesh,Parvathipuram Manyam,683,1490375,blended,971
+Andhra Pradesh,Prakasam,549,2697380,blended,872
+Andhra Pradesh,Sri Potti Sriramulu Nellore,550,2136842,blended,728
+Andhra Pradesh,Sri Sathya Sai,695,1938204,blended,476
+Andhra Pradesh,Srikakulam,542,1951657,blended,1428
+Andhra Pradesh,Tirupati,692,2440699,blended,1056
+Andhra Pradesh,Visakhapatnam,544,266198,blended,95
+Andhra Pradesh,Vizianagaram,543,1598881,blended,970
+Andhra Pradesh,West Godavari,546,1229960,blended,299
+Andhra Pradesh,Y.S.R.,551,1956025,blended,729
+Arunachal Pradesh,ANJAW,260,21167,census2011,0
+Arunachal Pradesh,BICHOM,788,28777,area_share,0
+Arunachal Pradesh,CHANGLANG,253,148226,census2011,0
+Arunachal Pradesh,DIBANG VALLEY,257,8405,area_share,0
+Arunachal Pradesh,EAST KAMENG,247,47564,area_share,0
+Arunachal Pradesh,EAST SIANG,251,44678,area_share,0
+Arunachal Pradesh,KAMLE,733,54571,area_share,0
+Arunachal Pradesh,KEYI PANYOR,789,45183,area_share,0
+Arunachal Pradesh,KRA DAADI,721,33679,area_share,0
+Arunachal Pradesh,KURUNG KUMEY,256,66412,area_share,0
+Arunachal Pradesh,LEPA RADA,729,11043,area_share,0
+Arunachal Pradesh,LOHIT,259,99501,area_share,0
+Arunachal Pradesh,LONGDING,680,52006,area_share,0
+Arunachal Pradesh,LOWER DIBANG VALLEY,258,33904,area_share,0
+Arunachal Pradesh,LOWER SIANG,723,32723,area_share,0
+Arunachal Pradesh,LOWER SUBANSIRI,255,9322,area_share,0
+Arunachal Pradesh,NAMSAI,724,50894,area_share,0
+Arunachal Pradesh,PAKKE KESSANG,726,25269,area_share,0
+Arunachal Pradesh,PAPUMPARE,248,154657,area_share,0
+Arunachal Pradesh,SHI YOMI,730,38444,area_share,0
+Arunachal Pradesh,SIANG,722,68249,area_share,0
+Arunachal Pradesh,TAWANG,245,49977,census2011,0
+Arunachal Pradesh,TIRAP,254,58162,area_share,0
+Arunachal Pradesh,UPPER SIANG,252,35320,census2011,0
+Arunachal Pradesh,UPPER SUBANSIRI,249,83448,census2011,0
+Arunachal Pradesh,WEST KAMENG,246,62932,area_share,0
+Arunachal Pradesh,WEST SIANG,250,19214,area_share,0
+Assam,BAJALI,771,357099,area_share,0
+Assam,BAKSA,324,662883,area_share,0
+Assam,BARPETA,303,1284662,area_share,0
+Assam,BISWANATH,734,825269,area_share,0
+Assam,BONGAIGAON,319,753514,area_share,0
+Assam,CACHAR,316,1736617,census2011,0
+Assam,CHARAIDEO,704,442720,area_share,0
+Assam,CHIRANG,320,498287,area_share,0
+Assam,DARANG,325,928500,census2011,0
+Assam,DHEMAJI,308,686133,census2011,0
+Assam,DHUBRI,301,1579950,area_share,0
+Assam,DIBRUGARH,310,1326335,census2011,0
+Assam,DIMA HASAO,315,214102,census2011,0
+Assam,GOALPARA,302,1008183,census2011,0
+Assam,GOLAGHAT,313,1066888,census2011,0
+Assam,HAILAKANDI,318,659296,census2011,0
+Assam,HOJAI,720,1033519,area_share,0
+Assam,JORHAT,312,680775,area_share,0
+Assam,KAMRUP METRO,322,965644,area_share,0
+Assam,KAMRUP RURAL,321,1788701,area_share,0
+Assam,KARBI ANGLONG,314,673857,area_share,0
+Assam,KOKRAJHAR,300,887142,census2011,0
+Assam,LAKHIMPUR,307,1042137,census2011,0
+Assam,MAJULI,707,455543,area_share,0
+Assam,MARIGAON,304,957423,census2011,0
+Assam,NAGAON,305,1795078,area_share,0
+Assam,NALBARI,323,771639,census2011,0
+Assam,SIBSAGAR,311,707692,area_share,0
+Assam,SONITPUR,306,1130077,area_share,0
+Assam,SOUTH SALMARA,664,262399,area_share,0
+Assam,SRIBHUMI,317,1228686,census2011,0
+Assam,TAMULPUR,766,355109,area_share,0
+Assam,TINSUKIA,309,1327929,census2011,0
+Assam,UDALGURI,326,831668,census2011,0
+Assam,WEST KARBI ANAGLONG,752,280120,area_share,0
+Bihar,Araria,209,2811569,census2011,733
+Bihar,Arwal,240,700843,census2011,315
+Bihar,Aurangabad,235,2540073,census2011,1852
+Bihar,Banka,225,2034763,census2011,2097
+Bihar,Begusarai,222,2970541,census2011,1138
+Bihar,Bhagalpur,224,3037766,census2011,1523
+Bihar,Bhojpur,231,2728407,census2011,1194
+Bihar,Buxar,232,1706352,census2011,1119
+Bihar,Darbhanga,215,3937385,census2011,1248
+Bihar,Gaya,236,4391418,census2011,2834
+Bihar,Gopalganj,217,2562012,census2011,1525
+Bihar,Jamui,238,1760405,census2011,1507
+Bihar,Jehanabad,239,1125313,census2011,573
+Bihar,Kaimur (Bhabua),233,1626384,census2011,1685
+Bihar,Katihar,212,3071029,census2011,1526
+Bihar,Khagaria,223,1666886,census2011,285
+Bihar,Kishanganj,210,1690400,census2011,769
+Bihar,Lakhisarai,227,1000912,census2011,467
+Bihar,Madhepura,213,2001762,census2011,429
+Bihar,Madhubani,207,4487379,census2011,1090
+Bihar,Munger,226,1367765,census2011,847
+Bihar,Muzaffarpur,216,4801062,census2011,1737
+Bihar,Nalanda,229,2877653,census2011,987
+Bihar,Nawada,237,2219146,census2011,1057
+Bihar,Pashchim Champaran,203,3935042,census2011,1463
+Bihar,Patna,230,5838465,census2011,1378
+Bihar,Purba Champaran,204,5099371,census2011,1275
+Bihar,Purnia,211,3264619,census2011,1228
+Bihar,Rohtas,234,2959918,census2011,1980
+Bihar,Saharsa,214,1900661,census2011,458
+Bihar,Samastipur,221,4134841,blended,1147
+Bihar,Saran,219,3951862,census2011,1740
+Bihar,Sheikhpura,228,698729,blended,287
+Bihar,Sheohar,205,720584,blended,197
+Bihar,Sitamarhi,206,3423574,census2011,815
+Bihar,Siwan,218,3330464,census2011,1514
+Bihar,Supaul,208,2229076,census2011,548
+Bihar,Vaishali,220,3495021,census2011,1515
 Chandigarh,CHANDIGARH,55,1055450,census2011,35
-Chhattisgarh,BALOD,645,1304880,census2011,766
-Chhattisgarh,BALODA BAZAR,646,1285401,census2011,753
-Chhattisgarh,BALRAMPUR,642,938879,census2011,751
-Chhattisgarh,BASTAR,414,722305,blended,636
-Chhattisgarh,BEMETARA,644,1100400,census2011,699
-Chhattisgarh,BIJAPUR,417,249661,census2011,749
-Chhattisgarh,BILASPUR,406,1128112,census2011,708
-Chhattisgarh,DAKSHIN BASTAR DANTEWARA,416,166859,census2011,255
-Chhattisgarh,DHAMTARI,412,794982,census2011,685
-Chhattisgarh,DURG,409,889518,census2011,394
-Chhattisgarh,GARIYABAND,647,1573685,census2011,751
-Chhattisgarh,GAURELA-PENDRA-MARWAHI,669,632689,census2011,258
-Chhattisgarh,JANJGIR - CHAMPA,405,920345,census2011,441
-Chhattisgarh,JASHPUR,402,844779,census2011,1102
-Chhattisgarh,KAWARDHA (KABIRDHAM),407,812377,census2011,1058
-Chhattisgarh,KHAIRGARH-CHHUIKHADAN-GANDAI,755,439772,census2011,525
-Chhattisgarh,KONDAGAON,648,690040,census2011,618
-Chhattisgarh,KORBA,404,1198181,census2011,808
-Chhattisgarh,KOREA,400,244565,census2011,298
-Chhattisgarh,MAHASAMUND,411,1018970,census2011,1243
-Chhattisgarh,MANENDRAGARH-CHIRMIRI-BHARATPUR,758,408358,census2011,402
-Chhattisgarh,MOHLA-MANPUR-AMBAGARH CHOWKI,756,463580,census2011,577
-Chhattisgarh,MUNGELI,643,876032,census2011,702
-Chhattisgarh,NARAYANPUR,415,142661,blended,443
-Chhattisgarh,RAIGARH,403,1159353,census2011,1048
-Chhattisgarh,RAIPUR,410,942625,census2011,458
-Chhattisgarh,RAJNANDGAON,408,619471,census2011,733
-Chhattisgarh,SAKTI,759,680565,census2011,474
-Chhattisgarh,SARANGARH-BILAIGARH,757,804108,blended,791
-Chhattisgarh,SUKMA,649,324610,census2011,426
-Chhattisgarh,SURAJPUR,641,807947,census2011,643
-Chhattisgarh,SURGUJA,401,597428,census2011,633
-Chhattisgarh,UTTAR BASTAR KANKER,413,762059,blended,1185
-Dadra and Nagar Haveli and Daman and Diu,DADRA AND NAGAR HAVELI,496,340753,blended,60
-Dadra and Nagar Haveli and Daman and Diu,DAMAN,495,185672,blended,24
-Dadra and Nagar Haveli and Daman and Diu,DIU,494,49354,census2011,7
-Delhi,CENTRAL,95,871062,blended,18
-Delhi,EAST,93,1213660,census2011,16
-Delhi,NAZUL,,416151,blended,1
-Delhi,NEW DELHI,94,212416,blended,22
-Delhi,NORTH,91,1328280,blended,70
-Delhi,NORTH EAST,92,2037276,blended,22
-Delhi,NORTH WEST,90,1864524,census2011,37
-Delhi,SHAHDARA,676,1226805,blended,11
-Delhi,SOUTH,98,1718744,blended,44
-Delhi,SOUTH EAST,677,1544527,census2011,27
-Delhi,SOUTH WEST,97,2124089,census2011,70
-Delhi,WEST,96,2230407,blended,31
-Goa,KUSHAVATI,793,490702,census2011,100
-Goa,NORTH GOA,585,648738,census2011,220
-Goa,SOUTH GOA,586,319105,blended,113
-Gujarat,AHMADABAD,474,6416440,census2011,581
-Gujarat,AMRELI,480,1409737,census2011,699
-Gujarat,ANAND,482,2074553,census2011,438
-Gujarat,ARVALLI,650,1040966,census2011,729
-Gujarat,BANAS KANTHA,469,3113520,census2011,1274
-Gujarat,BHARUCH,488,1502929,blended,715
-Gujarat,BHAVNAGAR,481,2300635,census2011,753
-Gujarat,BOTAD,653,1302282,blended,212
-Gujarat,CHHOTAUDEPUR,654,1917629,census2011,904
-Gujarat,DAHOD,485,2163375,census2011,718
-Gujarat,DANGS,489,228890,census2011,311
-Gujarat,DEVBHUMI DWARKA,656,854541,blended,333
-Gujarat,GANDHINAGAR,473,1384271,blended,302
-Gujarat,GIR SOMNATH,652,959442,blended,386
-Gujarat,JAMNAGAR,477,1226779,blended,483
-Gujarat,JUNAGADH,479,2049092,census2011,583
-Gujarat,KACHCHH,468,2064822,blended,982
-Gujarat,KHEDA,483,1971017,census2011,598
-Gujarat,MAHESANA,471,2006969,census2011,674
-Gujarat,MAHISAGAR,655,1424054,blended,744
-Gujarat,MORBI,657,1418146,blended,383
-Gujarat,NARMADA,487,587735,census2011,678
-Gujarat,NAVSARI,490,1315059,census2011,404
-Gujarat,PANCH MAHALS,484,1479860,census2011,643
-Gujarat,PATAN,470,1345229,census2011,554
-Gujarat,PORBANDAR,478,586277,census2011,185
-Gujarat,RAJKOT,476,2615777,census2011,677
-Gujarat,SABAR KANTHA,472,1378815,census2011,768
-Gujarat,SURAT,492,6033005,census2011,758
-Gujarat,SURENDRANAGAR,475,1523747,blended,628
-Gujarat,TAPI,493,797549,census2011,521
-Gujarat,VADODARA,486,2256503,census2011,702
-Gujarat,VALSAD,491,1690045,census2011,504
-Haryana,AMBALA,70,1109877,census2011,487
-Haryana,BHIWANI,81,1163029,census2011,271
-Haryana,CHARKI DADRI,732,488072,census2011,172
-Haryana,FARIDABAD,88,1678700,census2011,189
-Haryana,FATEHABAD,78,980269,blended,244
-Haryana,GURUGRAM,86,1524153,census2011,287
-Haryana,HISAR,80,1699184,census2011,266
-Haryana,JHAJJAR,83,957466,blended,263
-Haryana,JIND,77,1305897,census2011,305
-Haryana,KAITHAL,73,1086526,blended,278
-Haryana,KARNAL,74,1418199,census2011,430
-Haryana,KURUKSHETRA,72,1003833,blended,418
-Haryana,MAHENDRAGARH,84,926603,blended,360
-Haryana,NUH,87,1154943,blended,441
-Haryana,PALWAL,89,1085056,blended,281
-Haryana,PANCHKULA,69,584089,blended,243
-Haryana,PANIPAT,75,1254394,blended,195
-Haryana,REWARI,85,895419,census2011,403
-Haryana,ROHTAK,82,1033688,census2011,145
-Haryana,SIRSA,79,1314516,census2011,327
-Haryana,SONIPAT,76,1479068,blended,344
-Haryana,YAMUNANAGAR,71,1208482,census2011,655
-Himachal Pradesh,BILASPUR,30,379805,census2011,0
-Himachal Pradesh,CHAMBA,23,518525,census2011,0
-Himachal Pradesh,HAMIRPUR,28,452435,census2011,0
-Himachal Pradesh,KANGRA,24,1514722,census2011,0
-Himachal Pradesh,KINNAUR,34,84562,census2011,0
-Himachal Pradesh,KULLU,26,437946,census2011,0
-Himachal Pradesh,LAHUL & SPITI,25,31725,census2011,0
-Himachal Pradesh,MANDI,27,1003341,census2011,0
-Himachal Pradesh,SHIMLA,33,814670,census2011,0
-Himachal Pradesh,SIRMAUR,32,532571,census2011,0
-Himachal Pradesh,SOLAN,31,573174,census2011,0
-Himachal Pradesh,UNA,29,521126,census2011,0
-Jammu and Kashmir,ANANTNAG,14,1094123,area_share,0
-Jammu and Kashmir,BADGAM,2,815408,area_share,0
-Jammu and Kashmir,BANDIPURA,9,618195,area_share,0
-Jammu and Kashmir,BARAMULA,8,738332,area_share,0
-Jammu and Kashmir,DODA,16,451445,area_share,0
-Jammu and Kashmir,GANDERBAL,11,341209,area_share,0
-Jammu and Kashmir,JAMMU,21,1645043,area_share,0
-Jammu and Kashmir,KATHUA,7,707130,area_share,0
-Jammu and Kashmir,KISHTWAR,18,264638,area_share,0
-Jammu and Kashmir,KULGAM,15,332894,area_share,0
-Jammu and Kashmir,KUPWARA,1,998407,area_share,0
-Jammu and Kashmir,MIRPUR,,24738,area_share,0
-Jammu and Kashmir,MUZAFFARABAD,,1532,area_share,0
-Jammu and Kashmir,PULWAMA,12,642896,area_share,0
-Jammu and Kashmir,PUNCH,5,536312,census2011,0
-Jammu and Kashmir,RAJAURI,6,746023,area_share,0
-Jammu and Kashmir,RAMBAN,17,325455,area_share,0
-Jammu and Kashmir,RIASI,20,311577,area_share,0
-Jammu and Kashmir,SAMBA,22,365817,area_share,0
-Jammu and Kashmir,SHUPIYAN,13,305383,area_share,0
-Jammu and Kashmir,SRINAGAR,10,315854,area_share,0
-Jammu and Kashmir,UDHAMPUR,19,588708,area_share,0
-Jharkhand,BOKARO,355,2090812,blended,675
-Jharkhand,CHATRA,347,1084320,blended,1473
-Jharkhand,DEOGHAR,350,1504388,census2011,2664
-Jharkhand,DHANBAD,354,2602227,census2011,1211
-Jharkhand,DUMKA,362,1328446,census2011,2939
-Jharkhand,EAST SINGHBHUM,357,2315455,census2011,1782
-Jharkhand,GARHWA,346,1335764,census2011,877
-Jharkhand,GIRIDIH,349,2438125,census2011,2732
-Jharkhand,GODDA,351,1328452,census2011,2255
-Jharkhand,GUMLA,366,1037050,census2011,949
-Jharkhand,HAZARIBAGH,360,1803407,blended,1310
-Jharkhand,JAMTARA,363,822470,blended,1164
-Jharkhand,KHUNTI,365,553017,blended,758
-Jharkhand,KODERMA,348,462179,census2011,701
-Jharkhand,LATEHAR,359,729952,census2011,795
-Jharkhand,LOHARDAGA,356,466683,census2011,354
-Jharkhand,PAKUR,353,898934,census2011,1252
-Jharkhand,PALAMU,358,1948228,census2011,1848
-Jharkhand,RAMGARH,361,978333,blended,314
-Jharkhand,RANCHI,364,2918766,blended,1334
-Jharkhand,SAHIBGANJ,352,1142179,census2011,1816
-Jharkhand,SARAIKELA-KHARSAWAN,369,1070376,census2011,1191
-Jharkhand,SIMDEGA,367,605300,census2011,451
-Jharkhand,WEST SINGHBHUM,368,1523272,census2011,1719
-Karnataka,B\dar,558,1707635,census2011,678
-Karnataka,Bagalkot,556,1897492,census2011,643
-Karnataka,Ballari,565,1236984,census2011,327
-Karnataka,Belagavi,555,4811506,census2011,1325
-Karnataka,Bengaluru (Rural),583,980117,census2011,1093
-Karnataka,Bengaluru (Urban),572,9609716,census2011,577
-Karnataka,Chamarajanagara,578,1020845,census2011,510
-Karnataka,Chikkaballapura,582,1261313,census2011,1664
-Karnataka,Chikkamagaluru,570,1144280,census2011,1169
-Karnataka,Chitradurga,566,1667810,census2011,1228
-Karnataka,Dakshina Kannada,575,2156485,blended,368
-Karnataka,Davanagere,567,1478631,census2011,894
-Karnataka,Dharwad,562,1852824,census2011,394
-Karnataka,Gadag,561,1071798,census2011,363
-Karnataka,Hassan,574,1784242,census2011,2611
-Karnataka,Haveri,564,1606877,census2011,720
-Karnataka,Kalaburagi,579,2578785,census2011,1059
-Karnataka,Kodagu,576,554814,census2011,339
-Karnataka,Kolara,581,1536431,census2011,1849
-Karnataka,Koppal,560,1398558,census2011,676
-Karnataka,Mandya,573,1812813,census2011,1543
-Karnataka,Mysuru,577,3006964,census2011,1384
-Karnataka,Raichur,559,1939392,census2011,913
-Karnataka,Ramanagara,584,1083856,census2011,879
-Karnataka,Shivamogga,568,1761273,census2011,1555
-Karnataka,Tumakuru,571,2687248,census2011,2922
-Karnataka,Udupi,569,1078241,census2011,254
-Karnataka,Uttara Kannada,563,1443485,census2011,1353
-Karnataka,Vijayanagara,761,1559159,blended,413
-Karnataka,Vijayapura,557,2191320,census2011,739
-Karnataka,Yadgir,580,1174404,census2011,582
-Kerala,Alappuzha,598,2103830,census2011,95
-Kerala,Ernakulam,595,3389018,blended,129
-Kerala,Idukki,596,967060,census2011,68
-Kerala,Kannur,589,2536093,census2011,133
-Kerala,Kasaragod,588,1309208,census2011,128
-Kerala,Kollam,600,2629046,census2011,104
-Kerala,Kottayam,597,1976139,census2011,102
-Kerala,Kozhikode,591,3103973,census2011,118
-Kerala,Malappuram,592,4121325,census2011,138
-Kerala,Palakkad,593,2815996,census2011,157
-Kerala,Pathanamthitta,599,1188745,census2011,66
-Kerala,Thiruvananthapuram,601,3314311,census2011,122
-Kerala,Thrissur,594,3130922,census2011,255
-Kerala,Wayanad,590,820395,census2011,49
-Ladakh,KARGIL,4,183859,area_share,0
-Ladakh,LEH,3,186324,census2011,0
+Chhattisgarh,BALOD,645,1350104,blended,766
+Chhattisgarh,BALODA BAZAR,646,1342061,blended,753
+Chhattisgarh,BALRAMPUR,642,912507,blended,751
+Chhattisgarh,BASTAR,414,726897,blended,636
+Chhattisgarh,BEMETARA,644,1186554,blended,699
+Chhattisgarh,BIJAPUR,417,255230,census2011,749
+Chhattisgarh,BILASPUR,406,1136715,blended,708
+Chhattisgarh,DAKSHIN BASTAR DANTEWARA,416,175656,blended,255
+Chhattisgarh,DHAMTARI,412,799781,census2011,685
+Chhattisgarh,DURG,409,804303,blended,394
+Chhattisgarh,GARIYABAND,647,1485272,blended,751
+Chhattisgarh,GAURELA-PENDRA-MARWAHI,669,525730,blended,258
+Chhattisgarh,JANJGIR - CHAMPA,405,856024,blended,441
+Chhattisgarh,JASHPUR,402,851669,census2011,1102
+Chhattisgarh,KAWARDHA (KABIRDHAM),407,822526,census2011,1058
+Chhattisgarh,KHAIRGARH-CHHUIKHADAN-GANDAI,755,442641,blended,525
+Chhattisgarh,KONDAGAON,648,703668,blended,618
+Chhattisgarh,KORBA,404,1206640,census2011,808
+Chhattisgarh,KOREA,400,264251,blended,298
+Chhattisgarh,MAHASAMUND,411,1032754,census2011,1243
+Chhattisgarh,MANENDRAGARH-CHIRMIRI-BHARATPUR,758,395942,blended,402
+Chhattisgarh,MOHLA-MANPUR-AMBAGARH CHOWKI,756,476545,blended,577
+Chhattisgarh,MUNGELI,643,1005051,blended,702
+Chhattisgarh,NARAYANPUR,415,143568,blended,443
+Chhattisgarh,RAIGARH,403,1080353,blended,1048
+Chhattisgarh,RAIPUR,410,897198,blended,458
+Chhattisgarh,RAJNANDGAON,408,620760,blended,733
+Chhattisgarh,SAKTI,759,764775,blended,474
+Chhattisgarh,SARANGARH-BILAIGARH,757,759673,blended,791
+Chhattisgarh,SUKMA,649,316524,blended,426
+Chhattisgarh,SURAJPUR,641,783337,blended,643
+Chhattisgarh,SURGUJA,401,671548,blended,633
+Chhattisgarh,UTTAR BASTAR KANKER,413,748941,census2011,1185
+Dadra and Nagar Haveli and Daman and Diu,DADRA AND NAGAR HAVELI,496,343709,census2011,60
+Dadra and Nagar Haveli and Daman and Diu,DAMAN,495,191173,census2011,24
+Dadra and Nagar Haveli and Daman and Diu,DIU,494,52074,census2011,7
+Delhi,CENTRAL,95,738210,blended,18
+Delhi,EAST,93,1281764,blended,16
+Delhi,NAZUL,,380331,blended,1
+Delhi,NEW DELHI,94,180019,blended,22
+Delhi,NORTH,91,1125695,blended,70
+Delhi,NORTH EAST,92,1772515,blended,22
+Delhi,NORTH WEST,90,1607608,blended,37
+Delhi,SHAHDARA,676,1200575,blended,11
+Delhi,SOUTH,98,2057785,blended,44
+Delhi,SOUTH EAST,677,1327254,blended,27
+Delhi,SOUTH WEST,97,1949628,blended,70
+Delhi,WEST,96,3166557,blended,31
+Goa,KUSHAVATI,793,452288,blended,100
+Goa,NORTH GOA,585,673703,blended,220
+Goa,SOUTH GOA,586,332554,blended,113
+Gujarat,AHMADABAD,474,6407680,blended,581
+Gujarat,AMRELI,480,1514190,census2011,699
+Gujarat,ANAND,482,2092745,census2011,438
+Gujarat,ARVALLI,650,1111470,blended,729
+Gujarat,BANAS KANTHA,469,3120506,census2011,1274
+Gujarat,BHARUCH,488,1551019,census2011,715
+Gujarat,BHAVNAGAR,481,2365026,blended,753
+Gujarat,BOTAD,653,1293780,blended,212
+Gujarat,CHHOTAUDEPUR,654,2131005,blended,904
+Gujarat,DAHOD,485,2127086,census2011,718
+Gujarat,DANGS,489,228291,census2011,311
+Gujarat,DEVBHUMI DWARKA,656,848961,blended,333
+Gujarat,GANDHINAGAR,473,1391753,census2011,302
+Gujarat,GIR SOMNATH,652,953178,blended,386
+Gujarat,JAMNAGAR,477,1218770,blended,483
+Gujarat,JUNAGADH,479,1921503,blended,583
+Gujarat,KACHCHH,468,2092371,census2011,982
+Gujarat,KHEDA,483,1882356,blended,598
+Gujarat,MAHESANA,471,2035064,census2011,674
+Gujarat,MAHISAGAR,655,1414756,blended,744
+Gujarat,MORBI,657,1408887,blended,383
+Gujarat,NARMADA,487,590297,census2011,678
+Gujarat,NAVSARI,490,1329672,census2011,404
+Gujarat,PANCH MAHALS,484,1360014,blended,643
+Gujarat,PATAN,470,1343734,census2011,554
+Gujarat,PORBANDAR,478,585449,census2011,185
+Gujarat,RAJKOT,476,2665208,blended,677
+Gujarat,SABAR KANTHA,472,1311090,blended,768
+Gujarat,SURAT,492,6081322,census2011,758
+Gujarat,SURENDRANAGAR,475,1513799,blended,628
+Gujarat,TAPI,493,807022,census2011,521
+Gujarat,VADODARA,486,2036010,blended,702
+Gujarat,VALSAD,491,1705678,census2011,504
+Haryana,AMBALA,70,1128350,census2011,487
+Haryana,BHIWANI,81,1116114,blended,271
+Haryana,CHARKI DADRI,732,580525,blended,172
+Haryana,FARIDABAD,88,1747539,blended,189
+Haryana,FATEHABAD,78,942011,census2011,244
+Haryana,GURUGRAM,86,1514432,census2011,287
+Haryana,HISAR,80,1743931,census2011,266
+Haryana,JHAJJAR,83,958405,census2011,263
+Haryana,JIND,77,1334152,census2011,305
+Haryana,KAITHAL,73,1074304,census2011,278
+Haryana,KARNAL,74,1505324,census2011,430
+Haryana,KURUKSHETRA,72,964655,census2011,418
+Haryana,MAHENDRAGARH,84,922088,census2011,360
+Haryana,NUH,87,1089263,census2011,441
+Haryana,PALWAL,89,1042708,census2011,281
+Haryana,PANCHKULA,69,561293,census2011,243
+Haryana,PANIPAT,75,1205437,census2011,195
+Haryana,REWARI,85,900332,census2011,403
+Haryana,ROHTAK,82,1061204,census2011,145
+Haryana,SIRSA,79,1295189,census2011,327
+Haryana,SONIPAT,76,1450001,census2011,344
+Haryana,YAMUNANAGAR,71,1214205,census2011,655
+Himachal Pradesh,BILASPUR,30,381956,census2011,0
+Himachal Pradesh,CHAMBA,23,519080,census2011,0
+Himachal Pradesh,HAMIRPUR,28,454768,census2011,0
+Himachal Pradesh,KANGRA,24,1510075,census2011,0
+Himachal Pradesh,KINNAUR,34,84121,census2011,0
+Himachal Pradesh,KULLU,26,437903,census2011,0
+Himachal Pradesh,LAHUL & SPITI,25,31564,census2011,0
+Himachal Pradesh,MANDI,27,999777,census2011,0
+Himachal Pradesh,SHIMLA,33,814010,census2011,0
+Himachal Pradesh,SIRMAUR,32,529855,census2011,0
+Himachal Pradesh,SOLAN,31,580320,census2011,0
+Himachal Pradesh,UNA,29,521173,census2011,0
+Jammu and Kashmir,ANANTNAG,14,1144894,area_share,0
+Jammu and Kashmir,BADGAM,2,853246,area_share,0
+Jammu and Kashmir,BANDIPURA,9,646882,area_share,0
+Jammu and Kashmir,BARAMULA,8,772594,area_share,0
+Jammu and Kashmir,DODA,16,472394,area_share,0
+Jammu and Kashmir,GANDERBAL,11,357042,area_share,0
+Jammu and Kashmir,JAMMU,21,1721379,area_share,0
+Jammu and Kashmir,KATHUA,7,616435,census2011,0
+Jammu and Kashmir,KISHTWAR,18,276918,area_share,0
+Jammu and Kashmir,KULGAM,15,348342,area_share,0
+Jammu and Kashmir,KUPWARA,1,870354,census2011,0
+Jammu and Kashmir,MIRPUR,,25886,area_share,0
+Jammu and Kashmir,MUZAFFARABAD,,1603,area_share,0
+Jammu and Kashmir,PULWAMA,12,672729,area_share,0
+Jammu and Kashmir,PUNCH,5,476835,census2011,0
+Jammu and Kashmir,RAJAURI,6,642415,census2011,0
+Jammu and Kashmir,RAMBAN,17,340557,area_share,0
+Jammu and Kashmir,RIASI,20,326036,area_share,0
+Jammu and Kashmir,SAMBA,22,382792,area_share,0
+Jammu and Kashmir,SHUPIYAN,13,319554,area_share,0
+Jammu and Kashmir,SRINAGAR,10,330511,area_share,0
+Jammu and Kashmir,UDHAMPUR,19,616026,area_share,0
+Jharkhand,BOKARO,355,2062330,census2011,675
+Jharkhand,CHATRA,347,1042886,census2011,1473
+Jharkhand,DEOGHAR,350,1492073,census2011,2664
+Jharkhand,DHANBAD,354,2684487,census2011,1211
+Jharkhand,DUMKA,362,1321442,census2011,2939
+Jharkhand,EAST SINGHBHUM,357,2293919,census2011,1782
+Jharkhand,GARHWA,346,1322784,census2011,877
+Jharkhand,GIRIDIH,349,2445474,census2011,2732
+Jharkhand,GODDA,351,1313551,census2011,2255
+Jharkhand,GUMLA,366,1025213,census2011,949
+Jharkhand,HAZARIBAGH,360,1922959,blended,1310
+Jharkhand,JAMTARA,363,791042,census2011,1164
+Jharkhand,KHUNTI,365,531885,census2011,758
+Jharkhand,KODERMA,348,527795,blended,701
+Jharkhand,LATEHAR,359,726978,census2011,795
+Jharkhand,LOHARDAGA,356,461790,census2011,354
+Jharkhand,PAKUR,353,900422,census2011,1252
+Jharkhand,PALAMU,358,1939869,census2011,1848
+Jharkhand,RAMGARH,361,949443,census2011,314
+Jharkhand,RANCHI,364,2914253,census2011,1334
+Jharkhand,SAHIBGANJ,352,1150567,census2011,1816
+Jharkhand,SARAIKELA-KHARSAWAN,369,1065056,census2011,1191
+Jharkhand,SIMDEGA,367,599578,census2011,451
+Jharkhand,WEST SINGHBHUM,368,1502338,census2011,1719
+Karnataka,B\dar,558,1703300,census2011,678
+Karnataka,Bagalkot,556,1889752,census2011,643
+Karnataka,Ballari,565,1247308,blended,327
+Karnataka,Belagavi,555,4779661,census2011,1325
+Karnataka,Bengaluru (Rural),583,990923,census2011,1093
+Karnataka,Bengaluru (Urban),572,9621551,census2011,577
+Karnataka,Chamarajanagara,578,1020791,census2011,510
+Karnataka,Chikkaballapura,582,1255104,census2011,1664
+Karnataka,Chikkamagaluru,570,1137961,census2011,1169
+Karnataka,Chitradurga,566,1659456,census2011,1228
+Karnataka,Dakshina Kannada,575,2089649,census2011,368
+Karnataka,Davanagere,567,1605202,blended,894
+Karnataka,Dharwad,562,1847023,census2011,394
+Karnataka,Gadag,561,1064570,census2011,363
+Karnataka,Hassan,574,1776421,census2011,2611
+Karnataka,Haveri,564,1597668,census2011,720
+Karnataka,Kalaburagi,579,2566326,census2011,1059
+Karnataka,Kodagu,576,554519,census2011,339
+Karnataka,Kolara,581,1536401,census2011,1849
+Karnataka,Koppal,560,1389920,census2011,676
+Karnataka,Mandya,573,1805769,census2011,1543
+Karnataka,Mysuru,577,3001127,census2011,1384
+Karnataka,Raichur,559,1928812,census2011,913
+Karnataka,Ramanagara,584,1082636,census2011,879
+Karnataka,Shivamogga,568,1752753,census2011,1555
+Karnataka,Tumakuru,571,2678980,census2011,2922
+Karnataka,Udupi,569,1177361,census2011,254
+Karnataka,Uttara Kannada,563,1437169,census2011,1353
+Karnataka,Vijayanagara,761,1545582,blended,413
+Karnataka,Vijayapura,557,2177331,census2011,739
+Karnataka,Yadgir,580,1174271,census2011,582
+Kerala,Alappuzha,598,2127789,census2011,95
+Kerala,Ernakulam,595,3482650,blended,129
+Kerala,Idukki,596,908712,blended,68
+Kerala,Kannur,589,2523003,census2011,133
+Kerala,Kasaragod,588,1307375,census2011,128
+Kerala,Kollam,600,2635375,census2011,104
+Kerala,Kottayam,597,1974551,census2011,102
+Kerala,Kozhikode,591,3086293,census2011,118
+Kerala,Malappuram,592,4112920,census2011,138
+Kerala,Palakkad,593,2809934,census2011,157
+Kerala,Pathanamthitta,599,1197412,census2011,66
+Kerala,Thiruvananthapuram,601,3301427,census2011,122
+Kerala,Thrissur,594,3121200,census2011,255
+Kerala,Wayanad,590,817420,census2011,49
+Ladakh,KARGIL,4,192391,area_share,0
+Ladakh,LEH,3,133487,census2011,0
 Lakshadweep,Lakshadweep,587,64473,blended,30
-Madhya Pradesh,AGAR MALWA,735,656955,census2011,528
-Madhya Pradesh,ALIRAJPUR,465,732200,census2011,592
-Madhya Pradesh,ANUPPUR,461,748968,census2011,612
-Madhya Pradesh,ASHOKNAGAR,459,853626,census2011,921
-Madhya Pradesh,BALAGHAT,457,1719591,census2011,1487
-Madhya Pradesh,BARWANI,441,1396704,census2011,774
-Madhya Pradesh,BETUL,447,1587756,census2011,1525
-Madhya Pradesh,BHIND,420,1714852,census2011,1015
-Madhya Pradesh,BHOPAL,444,2394281,blended,527
-Madhya Pradesh,BURHANPUR,467,764921,census2011,284
-Madhya Pradesh,CHHATARPUR,425,1773765,census2011,1318
-Madhya Pradesh,CHHINDWARA,455,1757837,census2011,1897
-Madhya Pradesh,DAMOH,428,1270780,census2011,1303
-Madhya Pradesh,DATIA,422,814930,blended,681
-Madhya Pradesh,DEWAS,437,1565515,census2011,1195
-Madhya Pradesh,DHAR,438,2209040,census2011,1616
-Madhya Pradesh,DINDORI,453,708942,census2011,984
-Madhya Pradesh,GUNA,458,1252959,census2011,1387
-Madhya Pradesh,GWALIOR,421,1786914,census2011,685
-Madhya Pradesh,HARDA,448,572680,census2011,581
-Madhya Pradesh,INDORE,439,3284305,census2011,656
-Madhya Pradesh,JABALPUR,451,2462878,census2011,1479
-Madhya Pradesh,JHABUA,464,1032335,census2011,905
-Madhya Pradesh,KATNI,450,1289000,census2011,984
-Madhya Pradesh,KHANDWA,466,1318985,census2011,785
-Madhya Pradesh,KHARGONE,440,1872694,census2011,1473
-Madhya Pradesh,MAIHAR,768,664617,census2011,598
-Madhya Pradesh,MANDLA,454,1057659,census2011,1393
-Madhya Pradesh,MANDSAUR,433,1305746,census2011,981
-Madhya Pradesh,MAUGANJ,767,712157,census2011,1075
-Madhya Pradesh,MORENA,419,1970545,census2011,878
-Madhya Pradesh,NARMADAPURAM,449,1243285,census2011,1029
-Madhya Pradesh,NARSIMHAPUR,452,1095959,census2011,1129
-Madhya Pradesh,NEEMUCH,432,855651,blended,869
-Madhya Pradesh,NIWARI,753,373609,census2011,314
-Madhya Pradesh,PANDHURNA,769,355812,census2011,354
-Madhya Pradesh,PANNA,426,1016105,census2011,1119
-Madhya Pradesh,RAISEN,446,1334815,census2011,1556
-Madhya Pradesh,RAJGARH,442,1553614,census2011,1807
-Madhya Pradesh,RATLAM,434,1465777,census2011,1120
-Madhya Pradesh,REWA,430,1672831,census2011,1734
-Madhya Pradesh,SAGAR,427,2397707,census2011,2165
-Madhya Pradesh,SATNA,429,1566537,census2011,1504
-Madhya Pradesh,SEHORE,445,1290236,census2011,1117
-Madhya Pradesh,SEONI,456,1392695,census2011,1755
-Madhya Pradesh,SHAHDOL,460,1067593,census2011,888
-Madhya Pradesh,SHAJAPUR,436,837664,census2011,649
-Madhya Pradesh,SHEOPUR,418,692342,census2011,621
-Madhya Pradesh,SHIVPURI,423,1659993,census2011,1508
-Madhya Pradesh,SIDHI,462,1134388,census2011,1228
-Madhya Pradesh,SINGRAULI,463,1186139,census2011,855
-Madhya Pradesh,TIKAMGARH,424,1071848,census2011,746
-Madhya Pradesh,UJJAIN,435,1992614,census2011,1138
-Madhya Pradesh,UMARIA,431,646430,census2011,682
-Madhya Pradesh,VIDISHA,443,1469028,census2011,1680
-Maharashtra,AHILYANAGAR,522,4595815,census2011,1622
-Maharashtra,AKOLA,501,1825941,census2011,978
-Maharashtra,AMRAVATI,503,2927439,census2011,1999
-Maharashtra,BEED,523,2509997,census2011,1376
-Maharashtra,BHANDARA,506,1247655,blended,926
-Maharashtra,BULDHANA,500,2619682,census2011,1436
-Maharashtra,CHANDRAPUR,509,2232013,census2011,1837
-Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515,3709963,census2011,1366
-Maharashtra,DHARASHIV,525,1672366,census2011,749
-Maharashtra,DHULE,498,2076997,census2011,711
-Maharashtra,GADCHIROLI,508,1087090,census2011,1721
-Maharashtra,GONDIA,507,1267434,census2011,958
-Maharashtra,HINGOLI,512,1222535,blended,711
-Maharashtra,JALGAON,499,4280048,census2011,1550
-Maharashtra,JALNA,514,1947255,census2011,976
-Maharashtra,KOLHAPUR,530,3919643,census2011,1273
-Maharashtra,LATUR,524,2550948,blended,951
-Maharashtra,MUMBAI,519,2299672,blended,1
-Maharashtra,MUMBAI SUBURBAN,518,9021568,census2011,1
-Maharashtra,NAGPUR,505,4707949,census2011,1958
-Maharashtra,NANDED,511,3368689,census2011,1685
-Maharashtra,NANDURBAR,497,1663107,census2011,989
-Maharashtra,NASHIK,516,6188043,census2011,1947
-Maharashtra,PALGHAR,681,6126805,census2011,911
-Maharashtra,PARBHANI,513,1838609,blended,854
-Maharashtra,PUNE,521,9559837,census2011,1884
-Maharashtra,RAIGAD,520,2603364,census2011,2083
-Maharashtra,RATNAGIRI,528,1633196,census2011,1547
-Maharashtra,SANGLI,531,2851467,census2011,753
-Maharashtra,SATARA,527,3038078,census2011,1800
-Maharashtra,SINDHUDURG,529,857758,census2011,754
-Maharashtra,SOLAPUR,526,4356422,census2011,1174
-Maharashtra,THANE,517,5249457,census2011,830
-Maharashtra,WARDHA,504,1316377,census2011,1421
-Maharashtra,WASHIM,502,1192803,census2011,781
-Maharashtra,YAVATMAL,510,2808312,census2011,2146
-Manipur,BISHNUPUR,275,228164,area_share,0
-Manipur,CHANDEL,280,134652,area_share,0
-Manipur,CHURACHANDPUR,274,151901,census2011,0
-Manipur,IMPHAL EAST,278,221542,area_share,0
-Manipur,IMPHAL WEST,277,216229,area_share,0
-Manipur,JIRIBAM,658,247003,area_share,0
-Manipur,KAKCHING,651,144359,area_share,0
-Manipur,KAMJANG,670,110117,area_share,0
-Manipur,KANGPOKPI,679,227346,area_share,0
-Manipur,NONEY,659,49751,area_share,0
-Manipur,PHERZAWL,718,370075,area_share,0
-Manipur,SENAPATI,272,253240,census2011,0
-Manipur,TAMENGLONG,273,142473,area_share,0
-Manipur,TENGNOUPAL,667,78955,area_share,0
-Manipur,THOUBAL,276,195542,census2011,0
-Manipur,UKHRUL,279,84444,census2011,0
-Meghalaya,EAST GARO HILLS,294,177723,area_share,0
-Meghalaya,EAST JAINTIA HILLS,666,211614,census2011,0
-Meghalaya,EAST KHASI HILLS,298,821348,census2011,0
-Meghalaya,EASTERN WEST KHASI HILLS,765,85164,census2011,0
-Meghalaya,NORTH GARO HILLS,674,135052,census2011,0
-Meghalaya,RI-BHOI,297,253670,area_share,0
-Meghalaya,SOUTH GARO HILLS,295,136768,census2011,0
-Meghalaya,SOUTH WEST GARO HILLS,660,161540,census2011,0
-Meghalaya,SOUTH WEST KHASI HILLS,668,96783,census2011,0
-Meghalaya,WEST GARO HILLS,293,496469,area_share,0
-Meghalaya,WEST JAINTIA HILLS,299,186439,census2011,0
-Meghalaya,WEST KHASI HILLS,296,204319,census2011,0
-Mizoram,AIZAWL,283,242667,area_share,0
-Mizoram,CHAMPHAI,284,68272,census2011,0
-Mizoram,HNAHTHIAL,713,32180,census2011,0
-Mizoram,KHAWZAWL,703,43678,area_share,0
-Mizoram,KOLASIB,282,91121,area_share,0
-Mizoram,LAWNGTLAI,287,127956,area_share,0
-Mizoram,LUNGLEI,286,138250,census2011,0
-Mizoram,MAMIT,281,90834,census2011,0
-Mizoram,SAIHA,288,45565,census2011,0
-Mizoram,SAITUAL,682,146203,area_share,0
-Mizoram,SERCHHIP,285,70479,area_share,0
-Nagaland,CHUMOUKEDIMA,711,316355,area_share,0
-Nagaland,DIMAPUR,265,31404,area_share,0
-Nagaland,KIPHIRE,269,68010,area_share,0
-Nagaland,KOHIMA,270,188123,area_share,0
-Nagaland,LONGLENG,268,54428,area_share,0
-Nagaland,MOKOKCHUNG,262,203868,census2011,0
-Nagaland,MON,261,269852,area_share,0
-Nagaland,NIULAND,709,31802,area_share,0
-Nagaland,NOKLAK,708,76583,census2011,0
-Nagaland,PEREN,271,102673,census2011,0
-Nagaland,PHEK,266,158524,census2011,0
-Nagaland,SHAMATOR,712,38720,area_share,0
-Nagaland,TSEMINYU,710,53195,area_share,0
-Nagaland,TUENSANG,267,66366,census2011,0
-Nagaland,WOKHA,264,166824,census2011,0
-Nagaland,ZUNHEBOTO,263,151776,area_share,0
-Odisha,ANUGUL,384,1278369,census2011,2013
-Odisha,BALANGIR,393,1656214,census2011,1884
-Odisha,BALASORE,377,2288802,blended,2937
-Odisha,BARGARH,370,1489765,census2011,1273
-Odisha,BHADRAK,378,1509391,census2011,1342
-Odisha,BOUDH,391,437710,census2011,1212
-Odisha,CUTTACK,381,2562386,census2011,2029
-Odisha,DEOGARH,373,344217,blended,791
-Odisha,DHENKANAL,383,1198423,census2011,1294
-Odisha,GAJAPATI,389,597457,census2011,1647
-Odisha,GANJAM,388,3509632,census2011,3286
-Odisha,JAGATSINGHPUR,380,1120376,census2011,1308
-Odisha,JAJAPUR,382,1827544,census2011,1823
-Odisha,JHARSUGUDA,371,576512,census2011,376
-Odisha,KALAHANDI,395,1587808,census2011,2370
-Odisha,KANDHAMAL,390,736047,census2011,2572
-Odisha,KENDRAPARA,379,1435800,census2011,1555
-Odisha,KEONJHAR (KENDUJHAR),375,1813036,census2011,2223
-Odisha,KHORDHA,386,2328209,blended,1606
-Odisha,KORAPUT,398,1331316,census2011,2165
-Odisha,MALKANGIRI,399,611009,census2011,1104
-Odisha,MAYURBHANJ,376,2537032,census2011,3985
-Odisha,NABARANGAPUR,397,1255617,census2011,939
-Odisha,NAYAGARH,385,968485,census2011,1741
-Odisha,NUAPARHA,394,610872,census2011,707
-Odisha,PURI,387,1661262,census2011,1718
-Odisha,RAYAGARHA,396,968526,census2011,2758
-Odisha,SAMBALPUR,372,1018647,census2011,1427
-Odisha,SUBARNAPUR,392,609309,census2011,1004
-Odisha,SUNDARGARH,374,2104442,census2011,1936
-Puducherry,KARAIKAL,637,213889,blended,37
-Puducherry,PUDUCHERRY,635,1034064,blended,92
-Punjab,AMRITSAR,49,2474752,census2011,752
-Punjab,BARNALA,54,566684,census2011,141
-Punjab,BATHINDA,46,1377290,census2011,289
-Punjab,FARIDKOT,45,614083,census2011,168
-Punjab,FATEHGARH SAHIB,40,615133,blended,453
-Punjab,FAZILKA,673,1109669,census2011,352
-Punjab,FIROZPUR,43,1141700,blended,652
-Punjab,GURDASPUR,35,1624072,blended,1210
-Punjab,HOSHIARPUR,38,1580533,census2011,1411
-Punjab,JALANDHAR,37,2184048,census2011,983
-Punjab,KAPURTHALA,36,783807,census2011,651
-Punjab,LUDHIANA,41,3500853,census2011,933
-Punjab,MALER KOTLA,748,309721,census2011,190
-Punjab,MANSA,47,750732,census2011,239
-Punjab,MOGA,42,951118,census2011,319
-Punjab,PATHANKOT,678,650020,blended,534
-Punjab,PATIALA,48,1874584,census2011,969
-Punjab,RUPNAGAR,51,658428,census2011,604
-Punjab,SANGRUR,53,1327137,census2011,397
-Punjab,SAS NAGAR (SAHIBZADA AJIT SINGH NAGAR),52,1015106,blended,420
-Punjab,SHAHID BHAGAT SINGH NAGAR,39,603587,blended,436
-Punjab,SRI MUKTSAR SAHIB,44,918399,census2011,235
-Punjab,TARN TARAN,50,1111883,census2011,492
-Rajasthan,AJMER,119,2107499,census2011,775
-Rajasthan,ALWAR,104,2069852,census2011,1134
-Rajasthan,BALOTRA,785,880490,census2011,1136
-Rajasthan,BANSWARA,125,1799922,census2011,1547
-Rajasthan,BARAN,128,1262298,census2011,1225
-Rajasthan,BARMER,115,1745276,census2011,2099
-Rajasthan,BEAWAR,779,1229038,blended,761
-Rajasthan,BHARATPUR,105,1456047,census2011,825
-Rajasthan,BHILWARA,122,2354579,census2011,1909
-Rajasthan,BIKANER,101,2377456,census2011,955
-Rajasthan,BUNDI,121,1146832,blended,896
-Rajasthan,CHITTAURGARH,126,1559935,census2011,1783
-Rajasthan,CHURU,102,2049188,census2011,918
-Rajasthan,DAUSA,109,1616072,blended,1149
-Rajasthan,DEEG,774,1082858,census2011,702
-Rajasthan,DHAULPUR,106,1212096,census2011,854
-Rajasthan,DIDWANA-KUCHAMAN,787,1281666,census2011,800
-Rajasthan,DUNGARPUR,124,1393620,census2011,1056
-Rajasthan,GANGANAGAR,99,2032850,blended,3060
-Rajasthan,HANUMANGARH,100,1726666,census2011,1916
-Rajasthan,JAIPUR,110,5807166,census2011,2001
-Rajasthan,JAISALMER,114,652403,census2011,855
-Rajasthan,JALOR,116,1829899,census2011,836
-Rajasthan,JHALAWAR,129,1445962,census2011,1631
-Rajasthan,JHUNJHUNUN,103,2142451,census2011,1003
-Rajasthan,JODHPUR,113,2153198,census2011,1247
-Rajasthan,KARAULI,107,1464179,census2011,901
-Rajasthan,KHAIRTHAL-TIJARA,777,893957,census2011,559
-Rajasthan,KOTA,127,1782428,census2011,881
-Rajasthan,KOTPUTLI-BEHROR,780,1440267,blended,599
-Rajasthan,NAGAUR,112,2040839,census2011,860
-Rajasthan,PALI,118,1639404,census2011,792
-Rajasthan,PHALODI,783,1455776,blended,761
-Rajasthan,PRATAPGARH,131,895914,blended,1023
-Rajasthan,RAJSAMAND,123,1069437,census2011,1063
-Rajasthan,SALUMBAR,775,685707,census2011,605
-Rajasthan,SAWAI MADHOPUR,108,1317207,census2011,833
-Rajasthan,SIKAR,111,2687702,census2011,1217
-Rajasthan,SIROHI,117,1028439,census2011,512
-Rajasthan,TONK,120,1405564,census2011,1216
-Rajasthan,UDAIPUR,130,2326296,census2011,1919
-Sikkim,GANGTOK,244,154721,blended,62
-Sikkim,GYALSHING,242,26508,census2011,70
-Sikkim,MANGAN,241,12594,census2011,53
-Sikkim,NAMCHI,243,364241,blended,149
-Sikkim,PAKYONG,702,39741,census2011,60
-Sikkim,SORENG,701,12773,census2011,53
-Tamil Nadu,ARIYALUR,616,751398,census2011,215
-Tamil Nadu,CHENGALPATTU,754,2319089,census2011,647
-Tamil Nadu,CHENNAI,603,4800851,blended,17
-Tamil Nadu,COIMBATORE,632,3474900,census2011,303
-Tamil Nadu,CUDDALORE,617,2614578,census2011,885
-Tamil Nadu,DHARMAPURI,630,1497072,census2011,512
-Tamil Nadu,DINDIGUL,612,2166851,census2011,415
-Tamil Nadu,ERODE,610,2254978,census2011,375
-Tamil Nadu,KALLAKURICHI,760,1594279,census2011,593
-Tamil Nadu,KANCHEEPURAM,604,1472455,census2011,468
-Tamil Nadu,KANNIYAKUMARI,629,1865451,census2011,187
-Tamil Nadu,KARUR,613,1066790,census2011,186
-Tamil Nadu,KRISHNAGIRI,631,1879658,census2011,673
-Tamil Nadu,MADURAI,623,3045712,census2011,639
-Tamil Nadu,MAYILADUTHURAI,696,759796,census2011,280
-Tamil Nadu,NAGAPATTINAM,618,819919,blended,235
-Tamil Nadu,NAMAKKAL,609,1730465,census2011,423
-Tamil Nadu,PERAMBALUR,615,565310,census2011,165
-Tamil Nadu,PUDUKKOTTAI,621,1619710,census2011,773
-Tamil Nadu,RAMANATHAPURAM,626,1398335,blended,404
-Tamil Nadu,RANIPET,750,1202637,census2011,338
-Tamil Nadu,SALEM,608,3476100,census2011,681
-Tamil Nadu,SIVAGANGA,622,1325524,census2011,542
-Tamil Nadu,TENKASI,764,1281003,census2011,242
-Tamil Nadu,THANJAVUR,620,2396299,census2011,866
-Tamil Nadu,THE NILGIRIS,611,736480,census2011,60
-Tamil Nadu,THENI,624,1255147,census2011,129
-Tamil Nadu,THIRUVARUR,619,1239765,census2011,539
-Tamil Nadu,THOOTHUKUDI,627,1814966,census2011,477
-Tamil Nadu,TIRUCHIRAPPALLI,614,2715258,census2011,514
-Tamil Nadu,TIRUNELVELI,628,1762966,census2011,320
-Tamil Nadu,TIRUPATHUR,751,1282400,census2011,237
-Tamil Nadu,TIRUPPUR,633,2471887,census2011,356
-Tamil Nadu,TIRUVALLUR,602,3734870,blended,665
-Tamil Nadu,TIRUVANNAMALAI,606,2475868,census2011,1106
-Tamil Nadu,VELLORE,605,1460262,census2011,372
-Tamil Nadu,VILUPPURAM,607,1934572,census2011,918
-Tamil Nadu,VIRUDHUNAGAR,625,1883433,census2011,620
-Telangana,ADILABAD,532,673641,census2011,505
-Telangana,BHADRADRI KOTHAGUDEM,739,1246953,census2011,382
-Telangana,HANUMAKONDA,731,474707,blended,144
-Telangana,HYDERABAD,536,3392180,blended,17
-Telangana,JAGTIAL,714,892546,census2011,295
-Telangana,JANGAON,737,578097,census2011,176
-Telangana,JAYASHANKAR BHUPALPALLI,736,811019,blended,223
-Telangana,JOGULAMBA GADWAL,744,565972,census2011,199
-Telangana,KAMAREDDY,719,1188077,census2011,465
-Telangana,KARIMNAGAR,534,674716,census2011,210
-Telangana,KHAMMAM,541,743181,census2011,368
-Telangana,KUMURAM BHEEM,705,760171,census2011,432
-Telangana,MAHABUBABAD,738,920848,blended,291
-Telangana,MAHBUBNAGAR,538,786857,blended,298
-Telangana,MANCHERIAL,697,651579,blended,376
-Telangana,MEDAK,535,855278,census2011,370
-Telangana,MEDCHAL-MALKAJGIRI,749,929073,census2011,89
-Telangana,MULUGU,762,998969,blended,343
-Telangana,NAGARKURNOOL,743,1366164,census2011,348
-Telangana,NALGONDA,539,1764948,census2011,553
-Telangana,NARAYANPET,763,519250,census2011,246
-Telangana,NIRMAL,700,630891,census2011,424
-Telangana,NIZAMABAD,533,1325002,census2011,437
-Telangana,PEDDAPALLI,715,691638,census2011,204
-Telangana,RAJANNA SIRCILLA,717,574390,blended,165
-Telangana,RANGA REDDY,537,2872943,blended,466
-Telangana,SANGAREDDY,740,1363354,census2011,583
-Telangana,SIDDIPET,741,1068753,blended,373
-Telangana,SURYAPET,745,875923,census2011,270
-Telangana,VIKARABAD,747,2566891,blended,497
-Telangana,WANAPARTHY,742,487383,census2011,224
-Telangana,WARANGAL,540,482590,census2011,172
-Telangana,YADADRI BHUVANAGIRI,746,825087,census2011,310
-Tripura,DHALAI,291,375283,census2011,154
-Tripura,GOMTI,725,464796,census2011,133
-Tripura,KHOWAI,698,584618,census2011,79
-Tripura,NORTH TRIPURA,292,459665,census2011,88
-Tripura,SEPAHIJALA,699,593146,census2011,118
-Tripura,SOUTH TRIPURA,290,402727,census2011,137
-Tripura,UNAKOTI,706,238190,census2011,78
-Tripura,WEST TRIPURA,289,555491,census2011,112
-Uttar Pradesh,AGRA,146,4414014,census2011,951
-Uttar Pradesh,ALIGARH,143,3613113,census2011,1169
-Uttar Pradesh,AMBEDKAR NAGAR,178,2380808,census2011,1702
-Uttar Pradesh,AMETHI,661,1830767,blended,992
-Uttar Pradesh,AMROHA,137,1751477,blended,1079
-Uttar Pradesh,AURAIYA,162,1373467,census2011,849
-Uttar Pradesh,AYODHYA,177,2393187,census2011,1185
-Uttar Pradesh,AZAMGARH,191,4575600,census2011,4011
-Uttar Pradesh,BAGHPAT,139,1301839,blended,333
-Uttar Pradesh,BAHRAICH,180,3614172,blended,1386
-Uttar Pradesh,BALLIA,193,3236375,census2011,2360
-Uttar Pradesh,BALRAMPUR,182,2139598,census2011,1021
-Uttar Pradesh,BANDA,170,1746141,census2011,740
-Uttar Pradesh,BARA BANKI,176,3326923,census2011,1813
-Uttar Pradesh,BAREILLY,150,4609626,blended,2074
-Uttar Pradesh,BASTI,185,2383663,census2011,3203
-Uttar Pradesh,BHADOHI,198,1579554,census2011,1190
-Uttar Pradesh,BIJNOR,134,3816223,blended,3010
-Uttar Pradesh,BUDAUN,149,3050529,census2011,1699
-Uttar Pradesh,BULANDSHAHR,142,3626027,blended,1256
-Uttar Pradesh,CHANDAULI,196,1952555,census2011,1639
-Uttar Pradesh,CHITRAKOOT,171,1027683,blended,651
-Uttar Pradesh,DEORIA,190,3102721,blended,2093
-Uttar Pradesh,ETAH,201,1715615,census2011,880
-Uttar Pradesh,ETAWAH,161,1571190,census2011,694
-Uttar Pradesh,FARRUKHABAD,159,1883430,census2011,984
-Uttar Pradesh,FATEHPUR,172,2625524,census2011,1482
-Uttar Pradesh,FIROZABAD,147,2485930,census2011,810
-Uttar Pradesh,GAUTAM BUDDHA NAGAR,141,1549934,census2011,144
-Uttar Pradesh,GHAZIABAD,140,2122055,blended,198
-Uttar Pradesh,GHAZIPUR,195,3640789,census2011,3386
-Uttar Pradesh,GONDA,183,3435570,blended,1811
-Uttar Pradesh,GORAKHPUR,188,4394669,census2011,3175
-Uttar Pradesh,HAMIRPUR,168,1017460,census2011,617
-Uttar Pradesh,HAPUR,665,2812899,blended,356
-Uttar Pradesh,HARDOI,155,4115672,census2011,2065
-Uttar Pradesh,HATHRAS,144,1607411,blended,669
-Uttar Pradesh,JALAUN,165,1700387,census2011,1155
-Uttar Pradesh,JAUNPUR,194,4524368,census2011,3292
-Uttar Pradesh,JHANSI,166,1983960,census2011,835
-Uttar Pradesh,KANNAUJ,160,1657980,census2011,756
-Uttar Pradesh,KANPUR DEHAT,163,1772036,census2011,1002
-Uttar Pradesh,KANPUR NAGAR,164,4697328,blended,1015
-Uttar Pradesh,KASGANJ,202,1417309,census2011,726
-Uttar Pradesh,KAUSHAMBI,174,1422875,census2011,817
-Uttar Pradesh,KHERI,153,4006322,census2011,1819
-Uttar Pradesh,KUSHINAGAR,189,3575920,census2011,1460
-Uttar Pradesh,LALITPUR,167,1232666,census2011,754
-Uttar Pradesh,LUCKNOW,157,4610239,census2011,726
-Uttar Pradesh,MAHOBA,169,907714,blended,526
-Uttar Pradesh,MAHRAJGANJ,187,2773811,census2011,1219
-Uttar Pradesh,MAINPURI,148,1936269,census2011,844
-Uttar Pradesh,MATHURA,145,2543983,census2011,820
-Uttar Pradesh,MAU,192,2245237,census2011,1523
-Uttar Pradesh,MEERUT,138,3349676,blended,679
-Uttar Pradesh,MIRZAPUR,199,2450357,census2011,1970
-Uttar Pradesh,MORADABAD,135,3075699,blended,1175
-Uttar Pradesh,MUZAFFARNAGAR,133,2748568,census2011,707
-Uttar Pradesh,PILIBHIT,151,2104638,blended,1446
-Uttar Pradesh,PRATAPGARH,173,3216551,census2011,2064
-Uttar Pradesh,PRAYAGRAJ,175,6226912,blended,2875
-Uttar Pradesh,RAE BARELI,158,2912515,census2011,1571
-Uttar Pradesh,RAMPUR,136,2118415,census2011,1172
-Uttar Pradesh,SAHARANPUR,132,3479300,census2011,1586
-Uttar Pradesh,SAMBHAL,663,2487256,blended,1019
-Uttar Pradesh,SANT KABIR NAGAR,186,1767021,blended,1594
-Uttar Pradesh,SHAHJAHANPUR,152,2768397,census2011,2312
-Uttar Pradesh,SHAMLI,662,1337376,census2011,330
-Uttar Pradesh,SHRAWASTI,181,862039,census2011,538
-Uttar Pradesh,SIDDHARTHNAGAR,184,2567827,census2011,2397
-Uttar Pradesh,SITAPUR,154,4522352,census2011,2344
-Uttar Pradesh,SONBHADRA,200,1930083,census2011,1444
-Uttar Pradesh,SULTANPUR,179,2311548,census2011,1725
-Uttar Pradesh,UNNAO,156,3093144,census2011,1801
-Uttar Pradesh,VARANASI,197,3650052,census2011,1248
-Uttarakhand,ALMORA,64,647541,census2011,2312
-Uttarakhand,BAGESHWAR,63,261150,census2011,958
-Uttarakhand,CHAMOLI,57,404819,census2011,1237
-Uttarakhand,CHAMPAWAT,65,275635,blended,735
-Uttarakhand,DEHRAD@N,60,1729450,census2011,714
-Uttarakhand,HARIDWAR,68,1844441,census2011,619
-Uttarakhand,NAINITAL,66,950212,census2011,1070
-Uttarakhand,PAURI GARHWAL,61,685772,census2011,3430
-Uttarakhand,PITHORAGARH,62,498558,census2011,1651
-Uttarakhand,RUDRAPRAYAG,58,257203,blended,679
-Uttarakhand,TEHRI GARHWAL,59,638232,census2011,1956
-Uttarakhand,UDHAM SINGH NAGAR,67,1555000,blended,674
-Uttarakhand,UTTARKASHI,56,338277,census2011,744
-West Bengal,ALIPUR DUAR,675,1816399,census2011,435
-West Bengal,BANKURA,339,3732273,census2011,3835
-West Bengal,BIRBH@M,334,3627068,census2011,2463
-West Bengal,DAKSHIN DINAJPUR,331,1795926,blended,1620
-West Bengal,DARJILING,327,1222193,census2011,660
-West Bengal,HAORA,341,4998672,census2011,789
-West Bengal,HUGLI,338,5703540,census2011,1944
-West Bengal,JALPAIGURI,328,2194584,census2011,476
-West Bengal,JHARGRAM,727,2028878,census2011,2992
-West Bengal,KALIMPONG,716,658530,census2011,193
-West Bengal,KOCH BIHAR,329,2896916,blended,1187
-West Bengal,KOLKATA,342,4774004,blended,1
-West Bengal,MALDAH,332,4096183,census2011,1803
-West Bengal,MURSHIDABAD,333,7381263,census2011,2217
-West Bengal,NADIA,336,5288972,census2011,1363
-West Bengal,NORTH TWENTY-FOUR PARGANAS,337,6917382,census2011,1635
-West Bengal,PASCHIM BARDDHAMAN,728,1838866,census2011,406
-West Bengal,PASCHIM MEDINIPUR,344,4140171,census2011,5716
-West Bengal,PURBA BARDDHAMAN,335,6176571,census2011,2191
-West Bengal,PURBA MEDINIPUR,345,5248089,blended,3023
-West Bengal,PURULIYA,340,3021701,census2011,2700
-West Bengal,SOUTH 24PARGANAS,343,8744550,blended,2174
-West Bengal,UTTAR DINAJPUR,330,2973383,census2011,1499
+Madhya Pradesh,AGAR MALWA,735,682403,blended,528
+Madhya Pradesh,ALIRAJPUR,465,728999,census2011,592
+Madhya Pradesh,ANUPPUR,461,749237,census2011,612
+Madhya Pradesh,ASHOKNAGAR,459,845071,census2011,921
+Madhya Pradesh,BALAGHAT,457,1701698,census2011,1487
+Madhya Pradesh,BARWANI,441,1385881,census2011,774
+Madhya Pradesh,BETUL,447,1575362,census2011,1525
+Madhya Pradesh,BHIND,420,1703005,census2011,1015
+Madhya Pradesh,BHOPAL,444,2371061,census2011,527
+Madhya Pradesh,BURHANPUR,467,757847,census2011,284
+Madhya Pradesh,CHHATARPUR,425,1762375,census2011,1318
+Madhya Pradesh,CHHINDWARA,455,1798326,blended,1897
+Madhya Pradesh,DAMOH,428,1264219,census2011,1303
+Madhya Pradesh,DATIA,422,826279,blended,681
+Madhya Pradesh,DEWAS,437,1563715,census2011,1195
+Madhya Pradesh,DHAR,438,2185793,census2011,1616
+Madhya Pradesh,DINDORI,453,704524,census2011,984
+Madhya Pradesh,GUNA,458,1241519,census2011,1387
+Madhya Pradesh,GWALIOR,421,1768717,blended,685
+Madhya Pradesh,HARDA,448,570465,census2011,581
+Madhya Pradesh,INDORE,439,3276697,census2011,656
+Madhya Pradesh,JABALPUR,451,2463289,census2011,1479
+Madhya Pradesh,JHABUA,464,1025048,census2011,905
+Madhya Pradesh,KATNI,450,1292042,census2011,984
+Madhya Pradesh,KHANDWA,466,1310061,census2011,785
+Madhya Pradesh,KHARGONE,440,1873046,census2011,1473
+Madhya Pradesh,MAIHAR,768,663391,blended,598
+Madhya Pradesh,MANDLA,454,1054905,census2011,1393
+Madhya Pradesh,MANDSAUR,433,1340411,census2011,981
+Madhya Pradesh,MAUGANJ,767,827015,blended,1075
+Madhya Pradesh,MORENA,419,1965970,census2011,878
+Madhya Pradesh,NARMADAPURAM,449,1241350,census2011,1029
+Madhya Pradesh,NARSIMHAPUR,452,1091854,census2011,1129
+Madhya Pradesh,NEEMUCH,432,826067,census2011,869
+Madhya Pradesh,NIWARI,753,409800,blended,314
+Madhya Pradesh,PANDHURNA,769,349671,blended,354
+Madhya Pradesh,PANNA,426,1016520,census2011,1119
+Madhya Pradesh,RAISEN,446,1331597,census2011,1556
+Madhya Pradesh,RAJGARH,442,1545814,census2011,1807
+Madhya Pradesh,RATLAM,434,1455069,census2011,1120
+Madhya Pradesh,REWA,430,1599696,blended,1734
+Madhya Pradesh,SAGAR,427,2378458,census2011,2165
+Madhya Pradesh,SATNA,429,1615228,blended,1504
+Madhya Pradesh,SEHORE,445,1311332,census2011,1117
+Madhya Pradesh,SEONI,456,1379131,census2011,1755
+Madhya Pradesh,SHAHDOL,460,1066063,census2011,888
+Madhya Pradesh,SHAJAPUR,436,854076,blended,649
+Madhya Pradesh,SHEOPUR,418,687861,census2011,621
+Madhya Pradesh,SHIVPURI,423,1726050,census2011,1508
+Madhya Pradesh,SIDHI,462,1127033,census2011,1228
+Madhya Pradesh,SINGRAULI,463,1178273,census2011,855
+Madhya Pradesh,TIKAMGARH,424,1066998,blended,746
+Madhya Pradesh,UJJAIN,435,1986864,census2011,1138
+Madhya Pradesh,UMARIA,431,644758,census2011,682
+Madhya Pradesh,VIDISHA,443,1458875,census2011,1680
+Maharashtra,AHILYANAGAR,522,4543159,census2011,1622
+Maharashtra,AKOLA,501,1813906,census2011,978
+Maharashtra,AMRAVATI,503,2888445,census2011,1999
+Maharashtra,BEED,523,2585049,census2011,1376
+Maharashtra,BHANDARA,506,1200334,census2011,926
+Maharashtra,BULDHANA,500,2586258,census2011,1436
+Maharashtra,CHANDRAPUR,509,2204307,census2011,1837
+Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,515,3701282,census2011,1366
+Maharashtra,DHARASHIV,525,1657576,census2011,749
+Maharashtra,DHULE,498,2050862,census2011,711
+Maharashtra,GADCHIROLI,508,1072942,census2011,1721
+Maharashtra,GONDIA,507,1322507,census2011,958
+Maharashtra,HINGOLI,512,1177345,census2011,711
+Maharashtra,JALGAON,499,4229917,census2011,1550
+Maharashtra,JALNA,514,1959046,census2011,976
+Maharashtra,KOLHAPUR,530,3876001,census2011,1273
+Maharashtra,LATUR,524,2454196,census2011,951
+Maharashtra,MUMBAI,519,1940799,blended,1
+Maharashtra,MUMBAI SUBURBAN,518,9356962,census2011,1
+Maharashtra,NAGPUR,505,4653570,census2011,1958
+Maharashtra,NANDED,511,3361292,census2011,1685
+Maharashtra,NANDURBAR,497,1648295,census2011,989
+Maharashtra,NASHIK,516,6107187,census2011,1947
+Maharashtra,PALGHAR,681,5074907,blended,911
+Maharashtra,PARBHANI,513,1836086,census2011,854
+Maharashtra,PUNE,521,9429408,census2011,1884
+Maharashtra,RAIGAD,520,2634200,census2011,2083
+Maharashtra,RATNAGIRI,528,1615069,census2011,1547
+Maharashtra,SANGLI,531,2822143,census2011,753
+Maharashtra,SATARA,527,3003741,census2011,1800
+Maharashtra,SINDHUDURG,529,849651,census2011,754
+Maharashtra,SOLAPUR,526,4317756,census2011,1174
+Maharashtra,THANE,517,7129853,blended,830
+Maharashtra,WARDHA,504,1300774,census2011,1421
+Maharashtra,WASHIM,502,1197160,census2011,781
+Maharashtra,YAVATMAL,510,2772348,census2011,2146
+Manipur,BISHNUPUR,275,237399,census2011,0
+Manipur,CHANDEL,280,134179,area_share,0
+Manipur,CHURACHANDPUR,274,151367,area_share,0
+Manipur,IMPHAL EAST,278,220763,area_share,0
+Manipur,IMPHAL WEST,277,215470,area_share,0
+Manipur,JIRIBAM,658,246135,area_share,0
+Manipur,KAKCHING,651,143851,area_share,0
+Manipur,KAMJANG,670,109730,area_share,0
+Manipur,KANGPOKPI,679,226547,area_share,0
+Manipur,NONEY,659,49576,area_share,0
+Manipur,PHERZAWL,718,368775,area_share,0
+Manipur,SENAPATI,272,252350,area_share,0
+Manipur,TAMENGLONG,273,141973,area_share,0
+Manipur,TENGNOUPAL,667,78677,area_share,0
+Manipur,THOUBAL,276,194855,area_share,0
+Manipur,UKHRUL,279,84147,area_share,0
+Meghalaya,EAST GARO HILLS,294,176173,area_share,0
+Meghalaya,EAST JAINTIA HILLS,666,209768,area_share,0
+Meghalaya,EAST KHASI HILLS,298,825922,census2011,0
+Meghalaya,EASTERN WEST KHASI HILLS,765,84421,area_share,0
+Meghalaya,NORTH GARO HILLS,674,133874,area_share,0
+Meghalaya,RI-BHOI,297,258840,census2011,0
+Meghalaya,SOUTH GARO HILLS,295,142334,census2011,0
+Meghalaya,SOUTH WEST GARO HILLS,660,160131,area_share,0
+Meghalaya,SOUTH WEST KHASI HILLS,668,95939,area_share,0
+Meghalaya,WEST GARO HILLS,293,492138,area_share,0
+Meghalaya,WEST JAINTIA HILLS,299,184813,area_share,0
+Meghalaya,WEST KHASI HILLS,296,202536,area_share,0
+Mizoram,AIZAWL,283,243745,area_share,0
+Mizoram,CHAMPHAI,284,68575,area_share,0
+Mizoram,HNAHTHIAL,713,32323,area_share,0
+Mizoram,KHAWZAWL,703,43872,area_share,0
+Mizoram,KOLASIB,282,91525,area_share,0
+Mizoram,LAWNGTLAI,287,128525,area_share,0
+Mizoram,LUNGLEI,286,138864,area_share,0
+Mizoram,MAMIT,281,86364,census2011,0
+Mizoram,SAIHA,288,45768,area_share,0
+Mizoram,SAITUAL,682,146853,area_share,0
+Mizoram,SERCHHIP,285,70792,area_share,0
+Nagaland,CHUMOUKEDIMA,711,320328,area_share,0
+Nagaland,DIMAPUR,265,31799,area_share,0
+Nagaland,KIPHIRE,269,68864,area_share,0
+Nagaland,KOHIMA,270,190486,area_share,0
+Nagaland,LONGLENG,268,50484,census2011,0
+Nagaland,MOKOKCHUNG,262,194622,census2011,0
+Nagaland,MON,261,273241,area_share,0
+Nagaland,NIULAND,709,32201,area_share,0
+Nagaland,NOKLAK,708,77544,area_share,0
+Nagaland,PEREN,271,95219,census2011,0
+Nagaland,PHEK,266,163418,census2011,0
+Nagaland,SHAMATOR,712,39207,area_share,0
+Nagaland,TSEMINYU,710,53863,area_share,0
+Nagaland,TUENSANG,267,67200,area_share,0
+Nagaland,WOKHA,264,166343,census2011,0
+Nagaland,ZUNHEBOTO,263,153683,area_share,0
+Odisha,ANUGUL,384,1273821,census2011,2013
+Odisha,BALANGIR,393,1648997,census2011,1884
+Odisha,BALASORE,377,2320529,census2011,2937
+Odisha,BARGARH,370,1481255,census2011,1273
+Odisha,BHADRAK,378,1506337,census2011,1342
+Odisha,BOUDH,391,441162,census2011,1212
+Odisha,CUTTACK,381,2624470,census2011,2029
+Odisha,DEOGARH,373,312520,census2011,791
+Odisha,DHENKANAL,383,1192811,census2011,1294
+Odisha,GAJAPATI,389,577817,census2011,1647
+Odisha,GANJAM,388,3529031,census2011,3286
+Odisha,JAGATSINGHPUR,380,1136971,census2011,1308
+Odisha,JAJAPUR,382,1827192,census2011,1823
+Odisha,JHARSUGUDA,371,579505,census2011,376
+Odisha,KALAHANDI,395,1576869,census2011,2370
+Odisha,KANDHAMAL,390,733110,census2011,2572
+Odisha,KENDRAPARA,379,1440361,census2011,1555
+Odisha,KEONJHAR (KENDUJHAR),375,1801733,census2011,2223
+Odisha,KHORDHA,386,2251673,census2011,1606
+Odisha,KORAPUT,398,1379647,census2011,2165
+Odisha,MALKANGIRI,399,613192,census2011,1104
+Odisha,MAYURBHANJ,376,2519738,census2011,3985
+Odisha,NABARANGAPUR,397,1220946,census2011,939
+Odisha,NAYAGARH,385,962789,census2011,1741
+Odisha,NUAPARHA,394,610382,census2011,707
+Odisha,PURI,387,1698730,census2011,1718
+Odisha,RAYAGARHA,396,967911,census2011,2758
+Odisha,SAMBALPUR,372,1041099,census2011,1427
+Odisha,SUBARNAPUR,392,610183,census2011,1004
+Odisha,SUNDARGARH,374,2093437,census2011,1936
+Puducherry,KARAIKAL,637,200222,census2011,37
+Puducherry,PUDUCHERRY,635,1047731,blended,92
+Punjab,AMRITSAR,49,2490656,census2011,752
+Punjab,BARNALA,54,595527,census2011,141
+Punjab,BATHINDA,46,1388525,census2011,289
+Punjab,FARIDKOT,45,617508,census2011,168
+Punjab,FATEHGARH SAHIB,40,600163,census2011,453
+Punjab,FAZILKA,673,917936,blended,352
+Punjab,FIROZPUR,43,1141432,blended,652
+Punjab,GURDASPUR,35,1623692,blended,1210
+Punjab,HOSHIARPUR,38,1586625,census2011,1411
+Punjab,JALANDHAR,37,2193590,census2011,983
+Punjab,KAPURTHALA,36,815168,census2011,651
+Punjab,LUDHIANA,41,3498739,census2011,933
+Punjab,MALER KOTLA,748,423932,blended,190
+Punjab,MANSA,47,769751,census2011,239
+Punjab,MOGA,42,995746,census2011,319
+Punjab,PATHANKOT,678,649868,blended,534
+Punjab,PATIALA,48,1895686,census2011,969
+Punjab,RUPNAGAR,51,684627,census2011,604
+Punjab,SANGRUR,53,1225706,blended,397
+Punjab,SAS NAGAR (SAHIBZADA AJIT SINGH NAGAR),52,994628,census2011,420
+Punjab,SHAHID BHAGAT SINGH NAGAR,39,612310,census2011,436
+Punjab,SRI MUKTSAR SAHIB,44,901896,census2011,235
+Punjab,TARN TARAN,50,1119627,census2011,492
+Rajasthan,AJMER,119,2021788,blended,775
+Rajasthan,ALWAR,104,2072688,blended,1134
+Rajasthan,BALOTRA,785,900323,blended,1136
+Rajasthan,BANSWARA,125,1797485,census2011,1547
+Rajasthan,BARAN,128,1222755,census2011,1225
+Rajasthan,BARMER,115,1722558,blended,2099
+Rajasthan,BEAWAR,779,1225475,blended,761
+Rajasthan,BHARATPUR,105,1420656,blended,825
+Rajasthan,BHILWARA,122,2408523,census2011,1909
+Rajasthan,BIKANER,101,2363937,census2011,955
+Rajasthan,BUNDI,121,1110906,census2011,896
+Rajasthan,CHITTAURGARH,126,1544338,census2011,1783
+Rajasthan,CHURU,102,2039547,census2011,918
+Rajasthan,DAUSA,109,1634409,census2011,1149
+Rajasthan,DEEG,774,1131023,blended,702
+Rajasthan,DHAULPUR,106,1206516,census2011,854
+Rajasthan,DIDWANA-KUCHAMAN,787,1443325,blended,800
+Rajasthan,DUNGARPUR,124,1388552,census2011,1056
+Rajasthan,GANGANAGAR,99,1969168,census2011,3060
+Rajasthan,HANUMANGARH,100,1774692,census2011,1916
+Rajasthan,JAIPUR,110,5838527,blended,2001
+Rajasthan,JAISALMER,114,669919,census2011,855
+Rajasthan,JALOR,116,1828730,census2011,836
+Rajasthan,JHALAWAR,129,1411129,census2011,1631
+Rajasthan,JHUNJHUNUN,103,2137045,census2011,1003
+Rajasthan,JODHPUR,113,2284293,blended,1247
+Rajasthan,KARAULI,107,1458248,census2011,901
+Rajasthan,KHAIRTHAL-TIJARA,777,958722,blended,559
+Rajasthan,KOTA,127,1780766,blended,881
+Rajasthan,KOTPUTLI-BEHROR,780,1436091,blended,599
+Rajasthan,NAGAUR,112,1882137,blended,860
+Rajasthan,PALI,118,1488151,blended,792
+Rajasthan,PHALODI,783,1451556,blended,761
+Rajasthan,PRATAPGARH,131,867848,census2011,1023
+Rajasthan,RAJSAMAND,123,1156597,census2011,1063
+Rajasthan,SALUMBAR,775,709146,blended,605
+Rajasthan,SAWAI MADHOPUR,108,1335551,census2011,833
+Rajasthan,SIKAR,111,2677333,census2011,1217
+Rajasthan,SIROHI,117,1036346,census2011,512
+Rajasthan,TONK,120,1421326,census2011,1216
+Rajasthan,UDAIPUR,130,2320312,blended,1919
+Sikkim,GANGTOK,244,141905,blended,62
+Sikkim,GYALSHING,242,77938,blended,70
+Sikkim,MANGAN,241,43709,census2011,53
+Sikkim,NAMCHI,243,160193,blended,149
+Sikkim,PAKYONG,702,139413,blended,60
+Sikkim,SORENG,701,47419,blended,53
+Tamil Nadu,ARIYALUR,616,754894,census2011,215
+Tamil Nadu,CHENGALPATTU,754,2282386,blended,647
+Tamil Nadu,CHENNAI,603,4773979,blended,17
+Tamil Nadu,COIMBATORE,632,3458045,census2011,303
+Tamil Nadu,CUDDALORE,617,2605914,census2011,885
+Tamil Nadu,DHARMAPURI,630,1506843,census2011,512
+Tamil Nadu,DINDIGUL,612,2159775,census2011,415
+Tamil Nadu,ERODE,610,2251744,census2011,375
+Tamil Nadu,KALLAKURICHI,760,1476604,blended,593
+Tamil Nadu,KANCHEEPURAM,604,1548995,blended,468
+Tamil Nadu,KANNIYAKUMARI,629,1870374,census2011,187
+Tamil Nadu,KARUR,613,1064493,census2011,186
+Tamil Nadu,KRISHNAGIRI,631,1879809,census2011,673
+Tamil Nadu,MADURAI,623,3038252,census2011,639
+Tamil Nadu,MAYILADUTHURAI,696,828066,blended,280
+Tamil Nadu,NAGAPATTINAM,618,815330,blended,235
+Tamil Nadu,NAMAKKAL,609,1726601,census2011,423
+Tamil Nadu,PERAMBALUR,615,565223,census2011,165
+Tamil Nadu,PUDUKKOTTAI,621,1618345,census2011,773
+Tamil Nadu,RAMANATHAPURAM,626,1353445,census2011,404
+Tamil Nadu,RANIPET,750,1305509,blended,338
+Tamil Nadu,SALEM,608,3482056,census2011,681
+Tamil Nadu,SIVAGANGA,622,1339101,census2011,542
+Tamil Nadu,TENKASI,764,1287867,blended,242
+Tamil Nadu,THANJAVUR,620,2405890,census2011,866
+Tamil Nadu,THE NILGIRIS,611,735394,census2011,60
+Tamil Nadu,THENI,624,1245899,census2011,129
+Tamil Nadu,THIRUVARUR,619,1264277,census2011,539
+Tamil Nadu,THOOTHUKUDI,627,1750176,census2011,477
+Tamil Nadu,TIRUCHIRAPPALLI,614,2722290,census2011,514
+Tamil Nadu,TIRUNELVELI,628,1737310,blended,320
+Tamil Nadu,TIRUPATHUR,751,1133738,blended,237
+Tamil Nadu,TIRUPPUR,633,2479052,census2011,356
+Tamil Nadu,TIRUVALLUR,602,3728104,census2011,665
+Tamil Nadu,TIRUVANNAMALAI,606,2464875,census2011,1106
+Tamil Nadu,VELLORE,605,1504775,blended,372
+Tamil Nadu,VILUPPURAM,607,2039312,blended,918
+Tamil Nadu,VIRUDHUNAGAR,625,1942288,census2011,620
+Telangana,ADILABAD,532,740806,blended,505
+Telangana,BHADRADRI KOTHAGUDEM,739,974857,blended,382
+Telangana,HANUMAKONDA,731,475997,blended,144
+Telangana,HYDERABAD,536,3401398,blended,17
+Telangana,JAGTIAL,714,947733,blended,295
+Telangana,JANGAON,737,577793,blended,176
+Telangana,JAYASHANKAR BHUPALPALLI,736,813223,blended,223
+Telangana,JOGULAMBA GADWAL,744,544247,blended,199
+Telangana,KAMAREDDY,719,1251489,blended,465
+Telangana,KARIMNAGAR,534,694383,blended,210
+Telangana,KHAMMAM,541,709471,blended,368
+Telangana,KUMURAM BHEEM,705,725923,blended,432
+Telangana,MAHABUBABAD,738,923351,blended,291
+Telangana,MAHBUBNAGAR,538,788995,blended,298
+Telangana,MANCHERIAL,697,653350,blended,376
+Telangana,MEDAK,535,892937,blended,370
+Telangana,MEDCHAL-MALKAJGIRI,749,847782,blended,89
+Telangana,MULUGU,762,1001684,blended,343
+Telangana,NAGARKURNOOL,743,1140472,blended,348
+Telangana,NALGONDA,539,1740314,blended,553
+Telangana,NARAYANPET,763,582345,blended,246
+Telangana,NIRMAL,700,654722,blended,424
+Telangana,NIZAMABAD,533,1280646,blended,437
+Telangana,PEDDAPALLI,715,692692,blended,204
+Telangana,RAJANNA SIRCILLA,717,575951,blended,165
+Telangana,RANGA REDDY,537,2880751,blended,466
+Telangana,SANGAREDDY,740,1414857,blended,583
+Telangana,SIDDIPET,741,1071657,blended,373
+Telangana,SURYAPET,745,856818,blended,270
+Telangana,VIKARABAD,747,2573867,blended,497
+Telangana,WANAPARTHY,742,537571,blended,224
+Telangana,WARANGAL,540,523365,blended,172
+Telangana,YADADRI BHUVANAGIRI,746,893207,blended,310
+Tripura,DHALAI,291,378230,census2011,154
+Tripura,GOMTI,725,445080,blended,133
+Tripura,KHOWAI,698,514397,blended,79
+Tripura,NORTH TRIPURA,292,413102,blended,88
+Tripura,SEPAHIJALA,699,625665,blended,118
+Tripura,SOUTH TRIPURA,290,420862,blended,137
+Tripura,UNAKOTI,706,282471,blended,78
+Tripura,WEST TRIPURA,289,594110,blended,112
+Uttar Pradesh,AGRA,146,4418797,census2011,951
+Uttar Pradesh,ALIGARH,143,3673889,census2011,1169
+Uttar Pradesh,AMBEDKAR NAGAR,178,2397888,census2011,1702
+Uttar Pradesh,AMETHI,661,1838916,blended,992
+Uttar Pradesh,AMROHA,137,1840221,census2011,1079
+Uttar Pradesh,AURAIYA,162,1379545,census2011,849
+Uttar Pradesh,AYODHYA,177,2470996,census2011,1185
+Uttar Pradesh,AZAMGARH,191,4613913,census2011,4011
+Uttar Pradesh,BAGHPAT,139,1303048,census2011,333
+Uttar Pradesh,BAHRAICH,180,3630260,blended,1386
+Uttar Pradesh,BALLIA,193,3239774,census2011,2360
+Uttar Pradesh,BALRAMPUR,182,2148665,census2011,1021
+Uttar Pradesh,BANDA,170,1799410,census2011,740
+Uttar Pradesh,BARA BANKI,176,3260699,census2011,1813
+Uttar Pradesh,BAREILLY,150,4448359,census2011,2074
+Uttar Pradesh,BASTI,185,2464464,census2011,3203
+Uttar Pradesh,BHADOHI,198,1578213,census2011,1190
+Uttar Pradesh,BIJNOR,134,3682713,census2011,3010
+Uttar Pradesh,BUDAUN,149,3055769,blended,1699
+Uttar Pradesh,BULANDSHAHR,142,3499171,census2011,1256
+Uttar Pradesh,CHANDAULI,196,1952756,census2011,1639
+Uttar Pradesh,CHITRAKOOT,171,991730,census2011,651
+Uttar Pradesh,DEORIA,190,3100946,census2011,2093
+Uttar Pradesh,ETAH,201,1774480,census2011,880
+Uttar Pradesh,ETAWAH,161,1581810,census2011,694
+Uttar Pradesh,FARRUKHABAD,159,1885204,census2011,984
+Uttar Pradesh,FATEHPUR,172,2632733,census2011,1482
+Uttar Pradesh,FIROZABAD,147,2498156,census2011,810
+Uttar Pradesh,GAUTAM BUDDHA NAGAR,141,1392816,blended,144
+Uttar Pradesh,GHAZIABAD,140,2152692,blended,198
+Uttar Pradesh,GHAZIPUR,195,3620268,census2011,3386
+Uttar Pradesh,GONDA,183,3433919,census2011,1811
+Uttar Pradesh,GORAKHPUR,188,4440895,census2011,3175
+Uttar Pradesh,HAMIRPUR,168,1104285,census2011,617
+Uttar Pradesh,HAPUR,665,2825420,blended,356
+Uttar Pradesh,HARDOI,155,4092845,census2011,2065
+Uttar Pradesh,HATHRAS,144,1564708,census2011,669
+Uttar Pradesh,JALAUN,165,1689974,census2011,1155
+Uttar Pradesh,JAUNPUR,194,4494204,census2011,3292
+Uttar Pradesh,JHANSI,166,1998603,census2011,835
+Uttar Pradesh,KANNAUJ,160,1656616,census2011,756
+Uttar Pradesh,KANPUR DEHAT,163,1796184,census2011,1002
+Uttar Pradesh,KANPUR NAGAR,164,4581268,census2011,1015
+Uttar Pradesh,KASGANJ,202,1436719,census2011,726
+Uttar Pradesh,KAUSHAMBI,174,1424013,blended,817
+Uttar Pradesh,KHERI,153,4021243,census2011,1819
+Uttar Pradesh,KUSHINAGAR,189,3564544,census2011,1460
+Uttar Pradesh,LALITPUR,167,1221592,census2011,754
+Uttar Pradesh,LUCKNOW,157,4589838,census2011,726
+Uttar Pradesh,MAHOBA,169,911755,blended,526
+Uttar Pradesh,MAHRAJGANJ,187,2684703,census2011,1219
+Uttar Pradesh,MAINPURI,148,1868529,census2011,844
+Uttar Pradesh,MATHURA,145,2547184,census2011,820
+Uttar Pradesh,MAU,192,2205968,census2011,1523
+Uttar Pradesh,MEERUT,138,3443689,census2011,679
+Uttar Pradesh,MIRZAPUR,199,2496970,census2011,1970
+Uttar Pradesh,MORADABAD,135,3089390,blended,1175
+Uttar Pradesh,MUZAFFARNAGAR,133,2821766,blended,707
+Uttar Pradesh,PILIBHIT,151,2114006,blended,1446
+Uttar Pradesh,PRATAPGARH,173,3209141,census2011,2064
+Uttar Pradesh,PRAYAGRAJ,175,5954391,census2011,2875
+Uttar Pradesh,RAE BARELI,158,2939200,blended,1571
+Uttar Pradesh,RAMPUR,136,2139769,blended,1172
+Uttar Pradesh,SAHARANPUR,132,3466382,census2011,1586
+Uttar Pradesh,SAMBHAL,663,2498328,blended,1019
+Uttar Pradesh,SANT KABIR NAGAR,186,1715183,census2011,1594
+Uttar Pradesh,SHAHJAHANPUR,152,3006538,census2011,2312
+Uttar Pradesh,SHAMLI,662,1344437,blended,330
+Uttar Pradesh,SHRAWASTI,181,867700,blended,538
+Uttar Pradesh,SIDDHARTHNAGAR,184,2559297,census2011,2397
+Uttar Pradesh,SITAPUR,154,4483992,census2011,2344
+Uttar Pradesh,SONBHADRA,200,1862559,census2011,1444
+Uttar Pradesh,SULTANPUR,179,2531085,blended,1725
+Uttar Pradesh,UNNAO,156,3108367,census2011,1801
+Uttar Pradesh,VARANASI,197,3676841,census2011,1248
+Uttarakhand,ALMORA,64,622506,census2011,2312
+Uttarakhand,BAGESHWAR,63,259898,census2011,958
+Uttarakhand,CHAMOLI,57,391605,census2011,1237
+Uttarakhand,CHAMPAWAT,65,259648,census2011,735
+Uttarakhand,DEHRAD@N,60,1696694,census2011,714
+Uttarakhand,HARIDWAR,68,1890422,census2011,619
+Uttarakhand,NAINITAL,66,954605,census2011,1070
+Uttarakhand,PAURI GARHWAL,61,687271,census2011,3430
+Uttarakhand,PITHORAGARH,62,483439,census2011,1651
+Uttarakhand,RUDRAPRAYAG,58,242285,census2011,679
+Uttarakhand,TEHRI GARHWAL,59,618931,census2011,1956
+Uttarakhand,UDHAM SINGH NAGAR,67,1648902,blended,674
+Uttarakhand,UTTARKASHI,56,330086,census2011,744
+West Bengal,ALIPUR DUAR,675,1923062,blended,435
+West Bengal,BANKURA,339,3596674,census2011,3835
+West Bengal,BIRBH@M,334,3502404,census2011,2463
+West Bengal,DAKSHIN DINAJPUR,331,1676276,census2011,1620
+West Bengal,DARJILING,327,1392173,blended,660
+West Bengal,HAORA,341,4850029,census2011,789
+West Bengal,HUGLI,338,5519145,census2011,1944
+West Bengal,JALPAIGURI,328,2210212,blended,476
+West Bengal,JHARGRAM,727,2129865,blended,2992
+West Bengal,KALIMPONG,716,561168,blended,193
+West Bengal,KOCH BIHAR,329,2819086,census2011,1187
+West Bengal,KOLKATA,342,4884885,blended,1
+West Bengal,MALDAH,332,3988845,census2011,1803
+West Bengal,MURSHIDABAD,333,7103807,census2011,2217
+West Bengal,NADIA,336,5167600,census2011,1363
+West Bengal,NORTH TWENTY-FOUR PARGANAS,337,7517922,blended,1635
+West Bengal,PASCHIM BARDDHAMAN,728,1589151,blended,406
+West Bengal,PASCHIM MEDINIPUR,344,4204095,blended,5716
+West Bengal,PURBA BARDDHAMAN,335,6658941,blended,2191
+West Bengal,PURBA MEDINIPUR,345,5095875,census2011,3023
+West Bengal,PURULIYA,340,2930115,census2011,2700
+West Bengal,SOUTH 24PARGANAS,343,8947651,blended,2174
+West Bengal,UTTAR DINAJPUR,330,3007134,census2011,1499

@@ -221,7 +221,7 @@ def main():
     # cost
     p_cost = subparsers.add_parser("cost", help="Calculate intermodal freight cost (Road vs Rail vs DFC)")
     p_cost.add_argument("--origin", type=str, help="Origin district name (e.g. 'Indore', 'Pune'); name or code required")
-    p_cost.add_argument("--origin-code", type=int, help="Origin LGD district code")
+    p_cost.add_argument("--origin-code", type=int, help="Origin district code (Survey of India ABDB; equals LGD for pre-2011 districts)")
     p_cost.add_argument("--state", type=str, help="Origin state for disambiguation")
     p_cost.add_argument("--truck-payload", type=float, help="Vehicle capacity in tonnes (default: 20; independent of shipment)")
     p_cost.add_argument("--rail-rate", type=float, help="IR base class rate factor")
@@ -233,8 +233,8 @@ def main():
     p_cost.add_argument("--toll-cost", type=float, help="Toll cost per plaza in INR")
     p_cost.set_defaults(func=cmd_cost)
 
-    p_district = subparsers.add_parser("district", help="Get a district scorecard by name or LGD code")
-    p_district.add_argument("identifier", help="District name or LGD code")
+    p_district = subparsers.add_parser("district", help="Get a district scorecard by name or district code")
+    p_district.add_argument("identifier", help="District name or district code (Survey of India ABDB; equals LGD for pre-2011 districts)")
     p_district.add_argument("--state", help="State used to disambiguate the district")
     p_district.set_defaults(func=cmd_district)
 

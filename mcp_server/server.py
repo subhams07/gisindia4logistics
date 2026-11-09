@@ -43,7 +43,7 @@ TOOLS_METADATA = [
             "properties": {
                 "district_name_or_code": {
                     "type": "string",
-                    "description": "District name (e.g. 'Pune', 'Indore', 'Ludhiana') or LGD code (e.g. '521')"
+                    "description": "District name (e.g. 'Pune', 'Indore', 'Ludhiana') or district code (Survey of India ABDB; equals LGD for pre-2011 districts; e.g. '521')"
                 }
             },
             "required": ["district_name_or_code"]

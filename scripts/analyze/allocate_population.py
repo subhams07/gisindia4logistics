@@ -12,12 +12,12 @@ Renames, splits, and merges are all handled by the same formula. Where
 village files exist (SoI, 27 states), a 50/50 blend with village-count-share
 corrects the urban-carve-out bias (a dense new city district gets little
 area but many villages relative to its rural parent). Current districts
-whose geometry is >=99.5% a single unchanged 2011 parent keep the exact
-census figure (method=census2011).
-
-Validation: children sum back to each parent +-0.5%; national total equals
-1,210,854,977 exactly (up to the 14 unmatched 2011 districts documented in
-the audit).
+whose geometry is a single unchanged 2011 parent (>=90% overlap both ways) keep the
+exact Census 2011 figure of that parent (method=census2011) and are never
+rescaled. Only the estimated rows (blended / area_share) are scaled, within
+each state group (AP+Telangana, J&K+Ladakh, every other state alone), so that
+the group total equals its Census 2011 target; the script raises if a group's
+residual is not positive or the scale factor leaves [0.5, 2.0].
 
 Outputs data/demographic/district_population_estimates.csv with per-row
 method in {census2011, area_share, blended}.
@@ -32,6 +32,7 @@ import re
 import sys
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
@@ -39,6 +40,7 @@ from standardize import DATA_DIR  # noqa: E402
 
 PROJ = 7755
 OFFICIAL_TOTAL = 1_210_854_977
+EXACT_OVERLAP = 0.90  # two-way overlap needed to treat a current district as an unchanged 2011 district
 OUT = DATA_DIR / "demographic" / "district_population_estimates.csv"
 
 
@@ -73,10 +75,23 @@ def load_parents() -> gpd.GeoDataFrame:
     merged = merged.to_crs(PROJ)
     merged["geometry"] = merged.geometry.make_valid()
     merged["parent_area"] = merged.area
+    # district_key is NOT unique across states (Delhi/Sikkim East-North-South-West, Bilaspur, Hamirpur,
+    # Raigarh, Bijapur, Aurangabad, Pratapgarh): scope the parent identity by state
+    merged["district_key"] = merged["state"].str.lower() + "|" + merged["district_key"].astype(str)
     return merged[["state", "district", "district_key", "Population",
                    "parent_area", "geometry"]].rename(
         columns={"state": "p_state", "district": "p_district",
                  "district_key": "p_key", "Population": "p_pop"})
+
+
+# Current states whose 2011 population sits inside a combined 2011 state (Telangana in AP, Ladakh in J&K)
+GROUP_OF_CURRENT = {"telangana": "andhra pradesh", "ladakh": "jammu and kashmir"}
+
+
+def group_key(state: str) -> str:
+    """Census-2011 state group a current state/UT belongs to."""
+    sl = str(state).lower()
+    return GROUP_OF_CURRENT.get(sl, sl)
 
 
 def poly_key(state, district_code, district):
@@ -148,20 +163,25 @@ def main() -> None:
     inter["area_frac_of_current"] = inter["inter_area"] / inter.groupby(
         ["state", "district_code"], dropna=False)["inter_area"].transform("sum")  # post-sliver-drop
 
-    # exact census rows: one parent covers >=99.5% of the current district AND
-    # that parent puts >=99.5% of itself into this current district
-    parent_out = inter.groupby("p_key")["pop_share"].sum()
-    inter["parent_out_frac"] = inter["p_key"].map(parent_out) / inter["p_pop"]
-    # cross-source boundary jitter means even unchanged districts differ ~1-3%;
-    # 97% two-way overlap is the exact-census bar
-    exact_mask = (inter["area_frac_of_current"] >= 0.97) & (inter["parent_out_frac"] >= 0.97)
+    # exact census rows: one parent covers >= EXACT_OVERLAP of the current district AND that same
+    # parent puts >= EXACT_OVERLAP of its own area into THIS current district (a child carved out
+    # of a larger parent is an estimate, not the parent's census figure). The 2011 (DataMeet) and
+    # current (ABDB) boundaries disagree by several percent along coasts and borders, e.g. the
+    # unchanged Mumbai Suburban overlaps 99.0% / 94.6%, so 97% would misclassify it.
+    inter["parent_in_child_frac"] = inter["inter_area"] / inter["parent_area"]
+    exact_mask = ((inter["area_frac_of_current"] >= EXACT_OVERLAP)
+                  & (inter["parent_in_child_frac"] >= EXACT_OVERLAP))
     exact = inter[exact_mask]
 
     area_alloc = (inter.groupby(["state", "district", "district_code"], dropna=False)
                   .agg(pop_area_share=("pop_share", "sum")).reset_index())
-    exact_keys = set(zip(exact["state"], exact["district_code"].astype("Float64")))
-    area_alloc["is_exact"] = [k in exact_keys for k in
-                              zip(area_alloc.state, area_alloc.district_code.astype("Float64"))]
+    # exact rows are keyed by polygon identity (state + code, name for null-code polygons)
+    exact_parent = {poly_key(r.state, r.district_code, r.district): (r.p_state, r.p_district, int(r.p_pop))
+                    for r in exact.itertuples()}
+    if len(exact_parent) != len(exact):
+        raise SystemExit("a current district matched two exact parents; refusing to guess")
+    area_alloc["is_exact"] = [poly_key(st, c, d) in exact_parent for st, c, d in
+                              zip(area_alloc.state, area_alloc.district_code, area_alloc.district)]
 
     # blend with village-count share where SoI villages exist — each
     # intersection pair gets a FRACTION of the child's villages proportional
@@ -205,13 +225,16 @@ def main() -> None:
     df["pop_2011"] = df["pop_area_share"]
     df.loc[blendable, "pop_2011"] = 0.5 * df.loc[blendable, "pop_area_share"] + \
                                     0.5 * df.loc[blendable, "pop_vill_share"]
-    df.loc[df.is_exact, "pop_2011"] = df.loc[df.is_exact, "pop_area_share"]
+    # census2011 rows are held at the EXACT Census 2011 population of their parent district
+    df["exact_census_pop"] = [exact_parent[poly_key(st, c, d)][2] if ex else np.nan for st, c, d, ex in
+                              zip(df.state, df.district_code, df.district, df.is_exact)]
+    df.loc[df.is_exact, "pop_2011"] = df.loc[df.is_exact, "exact_census_pop"]
 
     # final cap at parent census population +2% headroom (state-total scaling
     # below redistributes whatever this trims)
     capped = 0
     for i, row in df.iterrows():
-        if pd.isna(row["district_code"]):
+        if pd.isna(row["district_code"]) or row["is_exact"]:
             continue
         key = (row["state"], float(row["district_code"]))
         if key in cap_map and row["pop_2011"] > cap_map[key] * 1.02:
@@ -220,9 +243,9 @@ def main() -> None:
     if capped:
         print(f"final cap applied to {capped} name-matched districts")
 
-    # ---- validation ----
+    # ---- pre-scaling diagnostics ----
     national = df.pop_2011.sum()
-    print(f"\nnational allocated total: {national:,.0f} (official {OFFICIAL_TOTAL:,}, "
+    print(f"\nnational allocated total (before group scaling): {national:,.0f} (official {OFFICIAL_TOTAL:,}, "
           f"delta {abs(national - OFFICIAL_TOTAL)/OFFICIAL_TOTAL:.3%})")
     parent_check = inter.groupby("p_key").agg(
         allocated=("pop_share", "sum"), actual=("p_pop", "first"))
@@ -233,39 +256,84 @@ def main() -> None:
     print("largest estimated districts:")
     print(outliers[["state", "district", "pop_2011", "method"]].to_string(index=False))
 
-    # scale each state group so its total equals the 2011 census state total
-    # (current-state groups map back to 2011 states: AP+TG combined, DNH+DD)
+    # ---- group targets: Census 2011 totals of the 2011 states each current group covers ----
     census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
-    group_of = {"telangana": "andhra pradesh", "andhra pradesh": "andhra pradesh",
-                "dadra and nagar haveli and daman and diu": "dadra group",
-                "ladakh": "jammu and kashmir", "jammu and kashmir": "jammu and kashmir"}
-    g11 = {"dadra and nagar haveli": "dadra group", "daman and diu": "dadra group"}
     state_2011_tot = census.groupby(census.state.str.lower())["Population"].sum()
-    def group_key(s):
-        sl = s.lower()
-        if sl in group_of: return group_of[sl]
-        if sl in g11: return g11[sl]
-        return sl
-    target = {}
-    for s in df.state.unique():
-        gk = group_key(s)
-        target[s] = state_2011_tot.get(gk)
-    # scale JOINTLY per group (AP+TG share one 2011 target; so do J&K+Ladakh,
-    # DNH+DD) — per-state scaling would double-count combined targets
-    df["group"] = df.state.map(lambda s: group_key(s))
-    group_target = {}
-    for g in df.group.unique():
-        if g in state_2011_tot.index:
-            group_target[g] = state_2011_tot[g]
-    scaled = []
-    for g, grp in df.groupby("group"):
-        tot = grp.pop_2011.sum()
-        tgt = group_target.get(g)
-        if tot > 0 and tgt:
-            grp = grp.copy()
-            grp["pop_2011"] = grp.pop_2011 * tgt / tot
-        scaled.append(grp)
-    df = pd.concat(scaled, ignore_index=True)
+    df["group"] = df.state.map(group_key)
+    targets = state_2011_tot.to_dict()  # census state names already include merged UTs (DNH+DD)
+    missing = sorted(set(df.group) - set(targets))
+    if missing:
+        raise SystemExit(f"no Census 2011 target for state group(s): {missing}")
+    print(f"\nCensus 2011 group targets (sum {sum(targets.values()):,}; official {OFFICIAL_TOTAL:,}):")
+
+    # Hold `census2011` rows fixed; scale ONLY the estimated rows (blended / area_share) within each
+    # group so the group total equals its target. Largest-remainder rounding keeps integer totals exact.
+    df["pop_final"] = df["pop_2011"]
+    factors = {}
+    for g, idx in df.groupby("group").groups.items():
+        grp = df.loc[idx]
+        ex_sum = float(grp.loc[grp.is_exact, "pop_2011"].sum())
+        est = grp[~grp.is_exact]
+        est_sum = float(est["pop_2011"].sum())
+        residual = int(targets[g]) - int(ex_sum)
+        if est.empty or est_sum <= 0:
+            factors[g] = (None, ex_sum, residual, int(targets[g]))
+            print(f"  {g:45s} target {int(targets[g]):>12,}  exact rows {int(ex_sum):>12,}  "
+                  f"no estimated rows to scale; unallocated residual {residual:,}")
+            continue
+        if residual <= 0:
+            raise SystemExit(f"{g}: residual {residual:,} (target {int(targets[g]):,} minus exact rows "
+                             f"{int(ex_sum):,}) is not positive; refusing to scale")
+        f = residual / est_sum
+        if not 0.5 <= f <= 2.0:
+            raise SystemExit(f"{g}: scale factor {f:.4f} outside [0.5, 2.0] (residual {residual:,}, "
+                             f"estimated rows {est_sum:,.0f}); refusing to scale")
+        raw = est["pop_2011"].to_numpy(dtype=float) * f
+        base = np.floor(raw).astype(np.int64)
+        short = residual - int(base.sum())
+        order = np.argsort(-(raw - base), kind="stable")
+        base[order[:short]] += 1
+        df.loc[est.index, "pop_final"] = base
+        factors[g] = (f, ex_sum, residual, int(targets[g]))
+        print(f"  {g:45s} target {int(targets[g]):>12,}  exact rows {int(ex_sum):>12,}  "
+              f"estimated {est_sum:>14,.0f} -> {residual:>12,}  scale factor {f:.4f}")
+    # unscaled groups (no estimated rows) keep their exact values
+    df["pop_2011"] = df["pop_final"]
+
+    # ---- verification ----
+    national = int(round(df.pop_2011.sum()))
+    print(f"\nnational total: {national:,}  (official {OFFICIAL_TOTAL:,}, delta {national - OFFICIAL_TOTAL:+,}; "
+          f"sum of group targets {int(sum(targets.values())):,})")
+    bad = []
+    census_key = {(r.state.lower(), norm(r.district)): int(r.Population) for r in census.itertuples()}
+    for r in df[df.is_exact].itertuples():
+        ps, pd_, pp = exact_parent[poly_key(r.state, r.district_code, r.district)]
+        src = census_key.get((ps.lower(), norm(pd_)))
+        if src is None:  # alias spellings such as "Khandwa (East Nimar)"
+            src = next((int(c.Population) for c in census.itertuples()
+                        if c.state.lower() == ps.lower() and
+                        norm(pd_) in {norm(c.district), norm(re.sub(r".*\(([^)]+)\).*", r"\1", c.district))}), None)
+        if src is None or int(round(r.pop_2011)) != src:
+            bad.append((r.state, r.district, int(round(r.pop_2011)), src))
+    print(f"census2011 rows: {int(df.is_exact.sum())}; mismatches vs source Census 2011 district population: "
+          f"{len(bad)} {bad[:5]}")
+    # plausibility flags (blend itself unchanged): estimated rows far above the area-only estimate
+    # or above their largest 2011 parent's population
+    big_parent = (inter.sort_values("inter_area", ascending=False).drop_duplicates(["state", "district", "district_code"])
+                  .set_index(["state", "district", "district_code"])["p_pop"])
+    flags = []
+    for r in df[~df.is_exact].itertuples():
+        pp = big_parent.get((r.state, r.district, r.district_code))
+        reasons = []
+        if r.pop_area_share > 0 and r.pop_2011 > 2 * r.pop_area_share:
+            reasons.append(f">2x area-only ({r.pop_area_share:,.0f})")
+        if pp is not None and pd.notna(pp) and r.pop_2011 > pp:
+            reasons.append(f">parent ({pp:,.0f})")
+        if reasons:
+            flags.append((r.state, r.district, int(r.pop_2011), r.method, "; ".join(reasons)))
+    print(f"plausibility flags ({len(flags)}):")
+    for f_ in flags:
+        print("  ", f_)
 
     out = df[["state", "district", "district_code", "pop_2011", "method",
               "villages"]].sort_values(["state", "district"])

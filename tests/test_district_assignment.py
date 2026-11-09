@@ -181,3 +181,22 @@ def test_plot_villages_selects_by_corrected_district(state, district, code):
     assert len(load_district_villages_gdf(state, str(code))) == len(gdf)
     with pytest.raises(ValueError, match="not found"):
         load_district_villages_gdf(state, "NO SUCH DISTRICT")
+
+
+@needs_data
+def test_population_estimates_hold_exact_rows_and_hit_group_targets():
+    est = pd.read_csv(DATA / "demographic" / "district_population_estimates.csv")
+    census = pd.read_csv(DATA / "demographic" / "census2011_district_key_indicators.csv")
+    assert est.pop_2011.sum() == census.Population.sum() == 1_210_854_977
+    group = {"Telangana": "andhra pradesh", "Ladakh": "jammu and kashmir"}
+    est["g"] = [group.get(s, s.lower()) for s in est.state]
+    target = census.groupby(census.state.str.lower()).Population.sum()
+    sums = est.groupby("g").pop_2011.sum()
+    assert (sums == target.reindex(sums.index)).all()
+    assert sums["dadra and nagar haveli and daman and diu"] == 586_956
+    # census2011 rows carry an exact Census 2011 district population of their own state group
+    allowed = {g: set(c.Population) for g, c in census.groupby(census.state.str.lower())}
+    ex = est[est.method == "census2011"]
+    assert len(ex) > 300 and all(p in allowed[g] for g, p in zip(ex.g, ex.pop_2011))
+    # state-scoped parents: East/North/South/West of Delhi and Sikkim must not be merged
+    assert est[est.state == "Sikkim"].pop_2011.max() < 400_000

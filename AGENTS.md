@@ -392,6 +392,10 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     (816 national rows = 780 + 36), with exact-key population joins and no fuzzy matching.
     `allocate_population.village_counts()` now counts villages per polygon spatially (the old
     national count by source code collided across states: Mulugu, Tamulpur, Shahdara).
+    Also fixed there: parent keys are state-scoped (Delhi/Sikkim East-North-South-West collided);
+    `census2011` rows are held at the exact 2011 figure (>=90% overlap both ways) and only estimated
+    rows are scaled per state group; DNH+DD now has its Census target; national total is
+    1,210,854,977 (449 census2011 / 225 blended / 106 area_share).
     See docs/adr/007-district-identity-and-population.md.
 
 ## Enhancement backlog (suggested next steps)

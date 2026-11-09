@@ -138,13 +138,13 @@ class LocationResolver:
             method = "exact_code"
         elif name:
             if self._district_name_matches(df, name).empty:
-                raise LocationNotFoundError("District not found in official LGD register", location_query=loc.model_dump())
+                raise LocationNotFoundError("District not found in the district register", location_query=loc.model_dump())
             matches = df
             method = "exact_name"
         else:
             raise InvalidLocationError("District name or district_code must be provided")
         if matches.empty:
-            raise LocationNotFoundError("District not found in official LGD register", location_query=loc.model_dump())
+            raise LocationNotFoundError("District not found in the district register", location_query=loc.model_dump())
         if loc.state:
             matches = matches[matches.state.map(_state) == _state(loc.state)]
         if name:

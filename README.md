@@ -262,7 +262,7 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 
 **What the audit checks:**
 - ✅ **Boundaries.** 36 states and 780 districts, valid geometries on re-read, and code joins across layers.
-- ✅ **Population.** 1,210,843,799 people conserved across the 780 current districts, within 0.001% of Census 2011.
+- ✅ **Population.** 1,210,854,977 people allocated across the 780 current districts, equal to the Census 2011 national total.
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 

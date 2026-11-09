@@ -29,9 +29,9 @@ Quality status definitions:
 | **Level 2 (Districts - 2011)** | `data/administrative/india_districts.geojson` | **640 Districts** | DataMeet maps (Census 2011 district layout, J&K placeholder dropped) | CC BY 4.0 | **verified** |
 | **Level 3 (Sub-districts / Talukas)** | `data/administrative/india_subdistricts_lgd.gpkg` | **6,636 Sub-districts** | SoI ABDB product (mojibake font fixed deterministically, 3 duplicate rows dropped) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 3 (Taluka Sample Extract)** | `data/administrative/pune_taluka.geojson` | 14 talukas | OpenStreetMap admin relations (majority-containment stitched polygons) | ODbL | **verified** |
-| **Level 4 (Villages - Polygons)** | `data/administrative/villages/*_soi_villages.geojson` | **543,391 Villages** (27 states/UTs) | Survey of India Village Boundary Database (national LCC reprojected to EPSG:4326) | Copyright SoI; redistribution unresolved, not written permission | **verified** |
+| **Level 4 (Villages - Polygons)** | `data/administrative/villages/*_soi_villages.geojson` | **586,151 Villages** (27 states/UTs; Pune extract excluded) | Survey of India Village Boundary Database (national LCC reprojected to EPSG:4326) | Copyright SoI; redistribution unresolved, not written permission | **verified** |
 | **Level 4 (Habitations - Points)** | `data/administrative/villages/*_habitations.geojson` | **34,954 Settlements** (9 border states) | OpenStreetMap settlement place nodes (`place=village\|hamlet\|town`) assigned to the 780 current district polygons | ODbL | **verified** |
-| **Level 4 (Combined National Coverage)** | Total National Settlements | **578,345 Villages & Habitations** | 100% settlement coverage across all 36 Indian States & UTs | Mixed (SoI + ODbL) | **verified** |
+| **Level 4 (Combined National Coverage)** | Total National Settlements | **621,105 Villages & Habitations** (586,151 + 34,954) | 100% settlement coverage across all 36 Indian States & UTs | Mixed (SoI + ODbL) | **verified** |
 
 ### Additional Reference & Alternative Administrative Sources
 - **ISRO Bhuvan** ([bhuvan.nrsc.gov.in](https://bhuvan.nrsc.gov.in)): National remote sensing portal for satellite imagery and alternative administrative thematic layers.
@@ -113,7 +113,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 | Dataset & File Path | Scope / Count | Methodology & Validation | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Census 2011 District Indicators**<br>`data/demographic/census2011_district_key_indicators.csv` | 640 districts | Total population **1,210,854,977** exactly matching official Census Primary Census Abstract (PCA) | GODL-India | **verified** |
-| **780-District Population Allocation**<br>`data/demographic/district_population_estimates.csv` | **780 current districts** | 50/50 area & village count geometric overlay in `EPSG:7755`; villages are counted per current district polygon by spatial position within the same state; 567 unchanged districts are labelled `census2011` (all values are then scaled to the 2011 state totals) (**1,210,843,799** population) | Derived / GODL-India | **verified** |
+| **780-District Population Allocation**<br>`data/demographic/district_population_estimates.csv` | **780 current districts** | 50/50 area & village count geometric overlay in `EPSG:7755`; villages are counted per current district polygon by spatial position within the same state; 449 districts that overlap one 2011 district by at least 90% both ways keep its exact Census 2011 figure (`census2011`); only the 331 estimated districts are scaled within each state group to the Census 2011 group totals (**1,210,854,977** population, equal to the Census total) | Derived / GODL-India | **verified** |
 
 ---
 

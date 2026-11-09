@@ -130,7 +130,7 @@ def scorecard_enrichment_rows(
 
 @router.get("/states", response_model=List[StateSummary])
 def list_states(store: DataStore = Depends(get_data_store)):
-    """List all 36 Indian States/UTs with LGD code, district count, and village counts."""
+    """List all 36 Indian States/UTs with state code, district count, and village counts."""
     if store.states_df is None:
         raise HTTPException(status_code=500, detail="States data not loaded")
     return store.states_df.to_dict(orient="records")
@@ -142,7 +142,7 @@ def list_districts(
     search: Optional[str] = Query(None, description="Search by district name prefix/substring"),
     store: DataStore = Depends(get_data_store)
 ):
-    """List all 780 current LGD districts with population estimates."""
+    """List all 780 current districts (keyed on the Survey of India ABDB district code; equals LGD for pre-2011 districts) with population estimates."""
     if store.districts_df is None:
         raise HTTPException(status_code=500, detail="Districts data not loaded")
     

@@ -467,6 +467,8 @@ def audit_demographics(source_root=DATA_DIR):
         diff = abs(est.pop_2011.sum() - 1_210_854_977)
         check("population_estimates", "total population conserved (<0.01% delta)", "FAIL",
               diff / 1_210_854_977 < 0.0001, f"{est.pop_2011.sum():,} (delta {diff})")
+        check("population_estimates", "national total equals the Census 2011 total exactly", "FAIL",
+              int(est.pop_2011.sum()) == 1_210_854_977, f"{int(est.pop_2011.sum()):,}")
         valid_methods = set(est.method.unique()) <= {"census2011", "blended", "area_share"}
         check("population_estimates", "valid allocation methods", "FAIL", valid_methods,
               str(est.method.value_counts().to_dict()))

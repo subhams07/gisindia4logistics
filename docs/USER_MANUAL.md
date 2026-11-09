@@ -34,7 +34,7 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Projected Metric Analysis**: `EPSG:7755` (India National System Framework LCC) for accurate distance and area calculations.
 * **Join Keys & Standardization**:
   * **Administrative Layers**: Districts are keyed on the Survey of India ABDB district code. It equals the LGD (and Census 2011) code for districts that existed in 2011 but uses a separate numbering for about 140 newer districts; a dedicated LGD code column is planned. Village rows keep their source LGD district code in `source_district_code`. Sub-district and village codes are the source LGD codes.
-  * **Demographics**: Census 2011 indicators joined via crosswalks and spatial allocation across 780 current districts; the recorded national population delta is below 0.001%, not exact conservation.
+  * **Demographics**: Census 2011 indicators joined via crosswalks and spatial allocation across 780 current districts; the allocated national total equals the Census 2011 total (1,210,854,977); districts whose boundaries are unchanged keep their exact Census 2011 figure and only the estimated districts are scaled within each state group.
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
