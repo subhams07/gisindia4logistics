@@ -66,7 +66,7 @@ To provide both human-readable inspectability and high-throughput analytical que
 1. **Human & Web Tier (`.geojson`, `.csv`)**:
    - Small administrative boundaries, points of interest, and demo outputs are stored in standard GeoJSON and CSV for direct browser/Leaflet rendering, `jq`/`curl` inspectability, and Git line diffs.
 2. **Analytical & Big Data Tier (`.parquet`)**:
-   - Heavy spatial datasets (142k National Highway segments, 578k village polygons, 6.6k subdistricts) are exported to **OGC GeoParquet** with Snappy compression using `scripts/clean/export_geoparquet.py`.
+   - Heavy spatial datasets (142k National Highway segments, 586k village polygons, 6.6k subdistricts) are exported to **OGC GeoParquet** with Snappy compression using `scripts/clean/export_geoparquet.py`.
    - GeoParquet delivers **65%–80% smaller file sizes** and **10× faster load speeds** with column and bounding box predicate pushdown.
 
 ### Python GeoParquet Usage:

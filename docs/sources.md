@@ -128,7 +128,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 | **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **780 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
 | **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **780 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 26.9% modal-shift savings) | Derived in repo | **verified** |
 | **Port Hinterland Gravity Model**<br>`data/analysis/district_port_hinterland_catchment.csv` | **780 districts** | Huff / Reilly Gravity Model market share capture P(ij) and hinterland contestability across 12 Major Ports | Derived in repo | **verified** |
-| **Major Ports & MMLP Isochrones**<br>`data/analysis/*_isochrones.geojson` | **108 polygons** (48 port + 60 MMLP) | 1h, 2h, 4h, 8h vector drive-time catchment polygons generated via Dijkstra network traversal | Derived in repo | **verified** |
+| **Major Ports & MMLP Isochrones**<br>`data/analysis/*_isochrones.geojson` | **108 polygons** (48 port + 60 MMLP) | Vector drive-time catchment polygons at 4/8/12/24 h (ports) and 4/8/12 h (MMLPs) generated via Dijkstra network traversal | Derived in repo | **verified** |
 
 ---
 

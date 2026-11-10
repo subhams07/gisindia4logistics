@@ -26,7 +26,6 @@ Usage: python scripts/analyze/allocate_population.py
 """
 from __future__ import annotations
 
-import glob
 import pathlib
 import re
 import sys

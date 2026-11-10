@@ -1,5 +1,4 @@
 """Spatial district assignment, summaries, population allocation and village maps."""
-import importlib
 import pathlib
 import sys
 

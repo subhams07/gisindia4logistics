@@ -27,7 +27,6 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR))
 
 import geopandas as gpd
-import pandas as pd
 
 from scripts.clean.standardize import DATA_DIR, http_session
 

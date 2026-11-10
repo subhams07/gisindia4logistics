@@ -7,13 +7,12 @@ Covers:
 """
 
 import sys
-import pathlib
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString
 
 sys.path.insert(0, ".")
-from scripts.clean.standardize import DATA_DIR, write_geojson
+from scripts.clean.standardize import DATA_DIR
 
 # Key DFC Junction Stations & Crossing Yards with official coordinates & chainage
 DFC_STATIONS_DATA = [

@@ -21,11 +21,10 @@ import re
 import sys
 
 import geopandas as gpd
-import pandas as pd
 import requests
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
-from standardize import LGD_STATE_CODES, clean_state_name, DATA_DIR, REPO_ROOT  # noqa: E402
+from standardize import LGD_STATE_CODES, clean_state_name, DATA_DIR  # noqa: E402
 
 DATA_URL = "https://github.com/datameet/maps/archive/refs/heads/master.zip"
 RAW_DIR = DATA_DIR / "raw" / "admin"

@@ -38,7 +38,7 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
-  * Heavy layers (142k highway segments, 578k villages, 6.6k subdistricts) stored in **OGC GeoParquet** (`.parquet`) with Snappy compression for $10\times$ faster read performance.
+  * Heavy layers (142k highway segments, 621k villages and settlements, 6.6k subdistricts) stored in **OGC GeoParquet** (`.parquet`) with Snappy compression for $10\times$ faster read performance.
 
 ---
 

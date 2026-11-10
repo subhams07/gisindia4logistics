@@ -19,7 +19,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR  # noqa: E402
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from nearest_facility import FACILITY_SOURCES, load_facilities  # noqa: E402
+from nearest_facility import load_facilities  # noqa: E402
 
 PROJ = 7755
 

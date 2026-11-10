@@ -1,4 +1,0 @@
-gis4logistics
-mcp_server
-scripts
-server

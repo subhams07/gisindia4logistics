@@ -146,9 +146,9 @@ def main() -> None:
     out_csv = DATA_DIR / "roads" / "toll_plazas.csv"
     plazas_df.to_csv(out_csv, index=False)
     print(f"\nWrote {len(plazas_df)} clustered Toll Plazas -> {out_csv}")
-    print(f"Toll types distribution:")
+    print("Toll types distribution:")
     print(plazas_df["toll_type"].value_counts())
-    print(f"Top states by toll plaza count:")
+    print("Top states by toll plaza count:")
     print(plazas_df["state"].value_counts().head(10))
 
 

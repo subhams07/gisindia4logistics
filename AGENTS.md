@@ -1,13 +1,13 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-10-19.
+Read this before making changes. Last updated: 2026-11-10.
 
 ## What this repository is
 
 An open, curated GIS data collection and freight analytics platform for logistics/transport analysis in
 India, published at https://github.com/subhams07/gisindia4logistics (PUBLIC canonical repository). It is a **hybrid** repo: small
-and medium datasets committed directly (~460 MB total), larger/regenerable
+and medium datasets committed directly (~1 GB total), larger/regenerable
 datasets produced by fetch scripts.
 
 **Core standards (do not violate):**
@@ -16,32 +16,33 @@ datasets produced by fetch scripts.
 - Data quality bar: committed datasets must pass validation (counts vs official totals, geometry validity, coordinate sanity). "High quality only" is a maintainer requirement.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
-## Repository contents (as of 2026-08-23, after phase 7)
+## Repository contents (counts verified 2026-11-10)
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
 | States (current) | ABDB-coded polygons | 36 | SoI ABDB (PAN INDIA archive; provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
 | Districts (current) | ABDB district code (LGD-equal for pre-2011 districts) | 780 | SoI ABDB | same |
-| Sub-districts (current) | ABDB-coded, GPKG | 6,639 | SoI ABDB | same |
+| Sub-districts (current) | ABDB-coded, GPKG | 6,636 | SoI ABDB | same |
 | States + districts (2011) | joins to Census tables | 36 / 640 | DataMeet maps | CC BY 4.0 |
-| Villages | polygons with source LGD codes, per state | 543,391 across 27 states | Survey of India | same ABDB constraints |
+| Villages | polygons with source LGD codes, per state | 586,151 across 27 states | Survey of India | same ABDB constraints |
+| Habitations | settlement points for the 9 states SoI does not publish | 34,954 | OSM | ODbL |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
-| Roads — NH network | all numbered NH routes | 145k segments, ~700 routes | OSM/Overpass | ODbL |
+| Roads — NH network | all numbered NH routes | 141,990 segments | OSM/Overpass | ODbL |
 | Roads — district fetcher | class-mapped (NH/SH/MDR/ODR) | Pune sample 19k | OSM/Overpass | ODbL |
 | Rail stations | codes/names/coords | 8,697 | DataMeet railways (2016) | none declared (reference) |
-| Station categories | NSG1-6 (+P variants) | 5,941 | community (railway-stations-classification.pages.dev) | unclear — flagged |
-| Freight terminals | Gati Shakti GCTs, 70 geocoded | 84 | PIB PRID 1910049 | GODL-India |
+| Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
+| Freight terminals | Gati Shakti GCTs, 78 geocoded | 84 | PIB PRID 1910049 | GODL-India |
 | Rail lines fetcher | any district | — | OSM/Overpass | ODbL |
-| Logistics hubs | ports 22, ICPs 19, ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI terminals 40, FCI depots 77 | 247 total points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + Wikipedia | GODL / CC BY-SA, per-row source_url |
+| Logistics hubs | ports 22, ICPs 19, ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI terminals 40, FCI depots 77, e-NAM mandis 16, cold chain 15, NICDC nodes 21, PM MITRA parks 7 | 306 total points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + Wikipedia | GODL / CC BY-SA, per-row source_url |
 | Demographics | Census 2011 district indicators | 640 | community digitization, validated vs official | GODL-India |
-| Analysis | village accessibility (nearest facility) | Sikkim + Haryana examples | derived in-repo | mixed upstream |
+| Analysis | village accessibility (621,105 rows, all 36 States/UTs), district summaries, Stage 4 outputs (travel times, port matrix, modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
 
 Key paths: `data/` (committed data incl. `data/analysis/`), `scripts/fetch/`
 (downloaders), `scripts/clean/` (standardization + shared utils in
 `standardize.py`), `scripts/analyze/` (accessibility toolkit),
 `scripts/make_demo.py` (end-to-end district pipeline → GeoPackage + map PNG),
 `examples/` (notebook), `docs/` (sources.md, data_standards.md,
-legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
+legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (42 datasets).
 
 ## Build history — steps taken, in order
 

@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: "Sahu"
     given-names: "Subham"
-version: "1.0.0"
+version: "1.1.0"
 repository-code: "https://github.com/subhams07/gisindia4logistics"
 url: "https://github.com/subhams07/gisindia4logistics"
 license: MIT
