@@ -9,6 +9,7 @@ Usage: python scripts/analyze/subdistrict_access.py
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 
@@ -25,6 +26,7 @@ PROJ = 7755
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     sub = gpd.read_file(DATA_DIR / "administrative" / "india_subdistricts_lgd.gpkg")
     pts = sub.copy()
     pts["geometry"] = sub.geometry.representative_point()

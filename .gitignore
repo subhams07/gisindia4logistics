@@ -18,3 +18,7 @@ data/raw/soi_villages/
 data/administrative/villages/worker*.log
 data/cache/
 docs/audit_report_fast.md
+
+# Generated village map artefacts (plot-villages) must not be committed
+data/analysis/*_map.html
+data/analysis/*_map.png

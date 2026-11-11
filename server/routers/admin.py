@@ -132,7 +132,7 @@ def scorecard_enrichment_rows(
 def list_states(store: DataStore = Depends(get_data_store)):
     """List all 36 Indian States/UTs with state code, district count, and village counts."""
     if store.states_df is None:
-        raise HTTPException(status_code=500, detail="States data not loaded")
+        raise HTTPException(status_code=503, detail="States data not loaded")
     return store.states_df.to_dict(orient="records")
 
 
@@ -144,7 +144,7 @@ def list_districts(
 ):
     """List all 780 current districts (keyed on the Survey of India ABDB district code; equals LGD for pre-2011 districts) with population estimates."""
     if store.districts_df is None:
-        raise HTTPException(status_code=500, detail="Districts data not loaded")
+        raise HTTPException(status_code=503, detail="Districts data not loaded")
     
     df = store.districts_df.copy()
     if state is not None:
@@ -164,7 +164,7 @@ def get_district_scorecard(
 ):
     """Get a comprehensive logistics and accessibility scorecard for a specific district."""
     if store.districts_df is None:
-        raise HTTPException(status_code=500, detail="Districts data not loaded")
+        raise HTTPException(status_code=503, detail="Districts data not loaded")
 
     # Scorecards need rows, not routing centroids. The routing resolver requires
     # boundary data and still selects first rows for some duplicates; do not use
@@ -318,7 +318,7 @@ def get_villages_geojson(
 def get_villages_interactive_map(
     state: str = Query(..., description="State name, e.g. 'Haryana', 'Maharashtra'"),
     district: str = Query(..., description="District name, e.g. 'Ambala', 'Pune'"),
-    metric: str = Query("dist_rail_station_km", description="Metric to visualize: dist_rail_station_km, dist_nh_km, dist_icd_km, dist_freight_terminal_km, dist_port_km, dist_toll_plaza_km"),
+    metric: str = Query("dist_rail_station_km", description="Metric to visualize: dist_rail_station_km, dist_nh_km, dist_icd_km, dist_freight_terminal_km, dist_port_km, dist_air_cargo_km, dist_mmlp_km, dist_toll_plaza_km"),
     store: DataStore = Depends(get_data_store)
 ):
     """Renders a standalone, responsive Leaflet.js interactive choropleth map directly in the browser."""

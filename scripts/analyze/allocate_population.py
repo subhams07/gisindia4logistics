@@ -26,6 +26,7 @@ Usage: python scripts/analyze/allocate_population.py
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import re
 import sys
@@ -132,6 +133,7 @@ def village_counts() -> dict:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     parents = load_parents()
     current = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson").to_crs(PROJ)
     current["geometry"] = current.geometry.make_valid()
@@ -333,6 +335,11 @@ def main() -> None:
     print(f"plausibility flags ({len(flags)}):")
     for f_ in flags:
         print("  ", f_)
+
+    # verification gate: never overwrite the committed table with a failing allocation
+    if national != OFFICIAL_TOTAL or bad:
+        raise SystemExit(f"verification failed, nothing written: national total {national:,} vs official "
+                         f"{OFFICIAL_TOTAL:,}; {len(bad)} census2011 row(s) differ from source")
 
     out = df[["state", "district", "district_code", "pop_2011", "method",
               "villages"]].sort_values(["state", "district"])

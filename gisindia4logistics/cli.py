@@ -145,14 +145,22 @@ def cmd_district(args):
 
 def cmd_plot_villages(args):
     """Plot village accessibility maps."""
+    from gisindia4logistics.data_root import DataNotFoundError
     from gisindia4logistics.sdk import plot_villages
-    res = plot_villages(
-        state=args.state,
-        district=args.district,
-        metric=args.metric,
-        output_format=args.format,
-        output_path=args.output
-    )
+    try:
+        res = plot_villages(
+            state=args.state,
+            district=args.district,
+            metric=args.metric,
+            output_format=args.format,
+            output_path=args.output
+        )
+    except DataNotFoundError:
+        raise
+    except (ValueError, FileNotFoundError) as exc:
+        # Unknown state/district or unsupported metric: a user error, not a crash.
+        print(f"error: {exc}", file=sys.stderr)
+        raise SystemExit(2) from None
     print(f"Successfully generated maps for {res['villages_count']} villages in {args.district}, {args.state}:")
     for fmt, p in res["files"].items():
         print(f"  [{fmt.upper()}] -> {p}")
@@ -248,7 +256,7 @@ def main():
     p_plot.set_defaults(func=cmd_plot_villages)
 
     # audit
-    p_audit = subparsers.add_parser("audit", help="Run national spatial data integrity audit")
+    p_audit = subparsers.add_parser("audit", help="Run the spatial data integrity audit (standard checks; national outputs are not validated)")
     p_audit.add_argument("--fast", action="store_true", help="Run fast verification")
     p_audit.set_defaults(func=cmd_audit)
 

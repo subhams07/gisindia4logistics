@@ -256,7 +256,9 @@ def plot_villages(
     Args:
         state: State name (e.g. 'Haryana', 'Maharashtra')
         district: District name (e.g. 'Ambala', 'Pune')
-        metric: 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km', 'dist_port_km'
+        metric: one of 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km',
+            'dist_freight_terminal_km', 'dist_port_km', 'dist_air_cargo_km',
+            'dist_mmlp_km', 'dist_toll_plaza_km'
         output_format: 'html', 'png', or 'both'
         output_path: Optional custom destination file path
     """

@@ -70,7 +70,7 @@ def get_nearest_hubs(
     top_k: int = Query(3, ge=1, le=10, description="Number of nearest facilities per category"),
     store: DataStore = Depends(get_data_store)
 ):
-    """Find the nearest logistics facilities (Ports, ICDs, MMLPs, Toll Plazas, Rail Stations) to any coordinate."""
+    """Find the nearest logistics hubs (every loaded hub category, e.g. Ports, ICDs, MMLPs) and Toll Plazas to any coordinate. Rail stations are not searched."""
     out = {}
 
     # 1. Hubs search
@@ -133,7 +133,7 @@ def query_rail_stations(
 ):
     """Query 8,697 Indian Railways stations with NSG classification and coordinates."""
     if store.rail_stations_df is None:
-        raise HTTPException(status_code=500, detail="Rail stations data not loaded")
+        raise HTTPException(status_code=503, detail="Rail stations data not loaded")
 
     df = store.rail_stations_df.copy()
     if search:
@@ -179,6 +179,14 @@ def get_dfc_roster(store: DataStore = Depends(get_data_store)):
     }
 
 
+def _nh_key(value: Any) -> Optional[str]:
+    """Normalize an NH reference for comparison: 'nh 48', 'NH48' and '48' all become 'NH48'."""
+    if not isinstance(value, str):
+        return None
+    key = "".join(value.split()).upper()
+    return f"NH{key}" if key[:1].isdigit() else key
+
+
 @router.get("/roads/toll-plazas", response_model=List[TollPlazaItem])
 def query_toll_plazas(
     state: Optional[str] = Query(None, description="Filter by state"),
@@ -188,13 +196,13 @@ def query_toll_plazas(
 ):
     """Query 1,536 clustered National Toll Plazas and FASTag points."""
     if store.toll_plazas_df is None:
-        raise HTTPException(status_code=500, detail="Toll plazas data not loaded")
+        raise HTTPException(status_code=503, detail="Toll plazas data not loaded")
 
     df = store.toll_plazas_df.copy()
     if state is not None:
         df = df[df.state.map(clean_state_name) == canonical_state(state)]
     if nh_number:
-        df = df[df.nh_number.str.upper() == nh_number.upper()]
+        df = df[df.nh_number.map(_nh_key) == _nh_key(nh_number)]
 
     raw_records = df.iloc[:limit].to_dict(orient="records")
     return sanitize_records(raw_records)

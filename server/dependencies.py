@@ -5,7 +5,7 @@ In-memory data store and spatial indexing for ultra-fast API response times (< 1
 
 import logging
 import time
-from threading import RLock
+from threading import Lock, RLock
 
 import geopandas as gpd
 import numpy as np
@@ -15,11 +15,11 @@ from scipy.spatial import KDTree
 
 from server.config import settings
 
-PROJ = 7755  # India NSF LCC (metres)
 LOGGER = logging.getLogger(__name__)
 
 class DataStore:
     _instance = None
+    _instance_lock = Lock()
 
     def __init__(self):
         self._graph_lock = RLock()
@@ -37,7 +37,6 @@ class DataStore:
         self.dfc_stations_df: pd.DataFrame | None = None
         self.freight_terminals_df: pd.DataFrame | None = None
         self.toll_plazas_df: pd.DataFrame | None = None
-        self.toll_tree: KDTree | None = None
         
         # Highway graph for routing
         self.nh_graph: csr_matrix | None = None
@@ -45,7 +44,6 @@ class DataStore:
         self.nh_bridge_mask: csr_matrix | None = None
         self.nh_tree: KDTree | None = None
         self.nh_node_xy: np.ndarray | None = None
-        self.nh_node_list: list | None = None
         self.nh_comp_labels: np.ndarray | None = None
 
     def __setattr__(self, name, value):
@@ -71,14 +69,12 @@ class DataStore:
             generation = 1 if self._highway_snapshot is None else self._highway_snapshot.generation + 1
             snapshot = GraphSnapshot(graph_time, graph_dist, coords, labels, tree,
                                      bridge_mask, generation=generation)
-            node_list = tuple(tuple(pt) for pt in snapshot.nh_node_xy)
             component_labels, counts = np.unique(snapshot.nh_comp_labels, return_counts=True)
             # Sorted unique labels retain bincount's smallest-label tie break
             # without allocating storage proportional to the largest label.
             main_label = int(component_labels[np.argmax(counts)])
             for name in GRAPH_FIELDS:
                 object.__setattr__(self, name, getattr(snapshot, name))
-            self.nh_node_list = node_list
             self.main_comp_label = main_label
             self._highway_snapshot = snapshot
             return snapshot
@@ -98,11 +94,15 @@ class DataStore:
 
     @classmethod
     def get_instance(cls) -> "DataStore":
-        if cls._instance is None:
-            instance = cls()
-            instance.initialize_store()
-            cls._instance = instance
-        return cls._instance
+        instance = cls._instance
+        if instance is None:
+            with cls._instance_lock:
+                instance = cls._instance
+                if instance is None:
+                    instance = cls()
+                    instance.initialize_store()
+                    cls._instance = instance
+        return instance
 
     def initialize_store(self):
         t0 = time.time()
@@ -165,16 +165,12 @@ class DataStore:
         p_tolls = self.data_dir / "roads" / "toll_plazas.csv"
         if p_tolls.exists():
             self.toll_plazas_df = pd.read_csv(p_tolls)
-            coords = self.toll_plazas_df[["longitude", "latitude"]].values
-            # Build projected KDTree for toll queries
-            self.toll_tree = KDTree(coords)
 
         # 5. Build States Aggregate Summary
         if self.districts_df is not None:
-            agg_dict = {
-                "district_count": ("district", "count"),
-                "pop_2011_total": ("pop_2011", "sum")
-            }
+            agg_dict = {"district_count": ("district", "count")}
+            if "pop_2011" in self.districts_df.columns:
+                agg_dict["pop_2011_total"] = ("pop_2011", "sum")
             if "state_code" in self.districts_df.columns:
                 agg_dict["state_code"] = ("state_code", "first")
             states_grp = self.districts_df.groupby("state").agg(**agg_dict).reset_index()
