@@ -80,7 +80,6 @@ CENSUS_VILLAGES_2011 = {
 
 RESULTS: list[dict] = []
 _RESULT_SINK = ContextVar("audit_results", default=None)
-BASELINE_PATH = REPO_ROOT / "data" / "audit_baseline.json"
 
 
 def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str = "") -> None:

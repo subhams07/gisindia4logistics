@@ -33,7 +33,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data"
 PROJ = 7755
 ACCESS_SPEED = 35.0
-ISLAND_DISTRICT_NAMES = {"nicobars", "north and middle andaman", "south andamans", "lakshadweep"}
 HUB_FILES = {
     "rail_station": ("rail/railway_stations.csv", "station_name"),
     "freight_terminal": ("rail/freight_terminals.csv", "name"),

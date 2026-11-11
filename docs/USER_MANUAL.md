@@ -293,7 +293,7 @@ docker-compose down
 
 This table describes existing public entrypoints, not a completed decision workbench. SDK `get_district(name_or_code)` returns a dictionary, not an object with attribute access. SDK `find_nearest(latitude, longitude, top_k=3)` returns category-keyed results and has no `facility_types` argument. Highway SDK results use the legacy dictionary envelope shown in section 4.2.
 
-Public highway routing is implemented for review; the [stabilization plan](stabilization_plan.md) records its current acceptance gate. Other Phase 1 schemas and `docs/contracts/` examples do not prove implemented corridor decisions, district comparison, matched official toll tariffs or PDF/XLSX export. Producer unification, toll matching, corridor workflow and secure exports require separate verification gates.
+Public highway routing is implemented for review; the [stabilization plan](archive/stabilization_plan.md) records its current acceptance gate. Other Phase 1 schemas and `docs/contracts/` examples do not prove implemented corridor decisions, district comparison, matched official toll tariffs or PDF/XLSX export. Producer unification, toll matching, corridor workflow and secure exports require separate verification gates.
 
 ---
 

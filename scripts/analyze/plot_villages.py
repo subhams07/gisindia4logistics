@@ -127,22 +127,6 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     return gdf_dist
 
 
-def get_color_for_value(val: float, metric: str) -> str:
-    """Returns hex color based on distance thresholds."""
-    if pd.isna(val):
-        return "#cccccc"
-    if val <= 5.0:
-        return "#1a9850"   # Dark green (excellent)
-    elif val <= 10.0:
-        return "#91cf60"  # Light green (good)
-    elif val <= 25.0:
-        return "#fee08b"  # Yellow (moderate)
-    elif val <= 50.0:
-        return "#fc8d59"  # Orange (distant)
-    else:
-        return "#d73027"   # Red (isolated)
-
-
 def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metric: str = "dist_rail_station_km") -> str:
     """Generates a standalone, responsive Leaflet.js interactive HTML map."""
     validate_metric(metric)

@@ -1,6 +1,6 @@
 # N2 resource-feasibility specification — paused handoff
 
-Read [the remote handoff](claude_remote_handoff.md) first. This is a curated portable specification of reviewed design decisions, **not execution authority or implemented code**. No harness exists yet. Current operator pause overrides earlier synthetic-only design permission. Original model reports/control receipts remain private and are not bundled here.
+Read [the remote handoff](../claude_remote_handoff.md) first. This is a curated portable specification of reviewed design decisions, **not execution authority or implemented code**. No harness exists yet. Current operator pause overrides earlier synthetic-only design permission. Original model reports/control receipts remain private and are not bundled here.
 
 ## A. Purpose and scope
 
