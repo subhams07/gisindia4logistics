@@ -393,8 +393,10 @@ datasets:
   path: data/rail/freight_terminals.csv
   fetch_script: scripts/fetch/build_gct_terminals.py
   quality_status: verified
-  quality_notes: coordinates joined from stations table (exact/substring/fuzzy) + hub files for port GCTs;
-    14 greenfield sites have no coordinates yet (flagged per row); 306 GCTs approved / 118+ commissioned
+  quality_notes: 78 of 84 have coordinates — 66 joined from the stations table (exact/substring/fuzzy) and
+    4 from hub files for port GCTs by scripts/fetch/build_gct_terminals.py, plus 8 geocoded via Nominatim by
+    scripts/fetch/geocode_gcts.py (site-level precision, flagged in capacity_notes); 6 greenfield sites
+    have no coordinates yet; 306 GCTs approved / 118+ commissioned
     per PIB 2025 — list covers the 2023 identification annexure only
 - name: Rail lines
   category: rail

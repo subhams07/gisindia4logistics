@@ -41,6 +41,7 @@ def overpass(query: str, timeout_s: int = 600) -> dict:
             try:
                 r = sess.post(url, data={"data": query}, timeout=timeout_s + 60)
                 if r.status_code in (429, 502, 503):
+                    last_err = f"HTTP {r.status_code} from {url}"
                     time.sleep(20 * (attempt + 1))
                     continue
                 r.raise_for_status()
@@ -133,6 +134,7 @@ def main() -> None:
                 raise
             print("India-wide query failed; falling back to per-state queries ...")
             states = load_states()
+            failed = []
             for _, row in states.iterrows():
                 b = row.geometry.bounds  # (minx, miny, maxx, maxy)
                 bbox_s = (b[1], b[0], b[3], b[2])
@@ -141,6 +143,10 @@ def main() -> None:
                     all_features.extend(to_features(overpass(bbox_query(bbox_s, 300))))
                 except RuntimeError as e:
                     print(f"  WARN {row['state']}: {e}")
+                    failed.append(row["state"])
+            if failed:
+                raise SystemExit(f"per-state fallback failed for {len(failed)} state(s): "
+                                 f"{', '.join(failed)} — nothing written")
             data = None
         if data:
             all_features.extend(to_features(data))

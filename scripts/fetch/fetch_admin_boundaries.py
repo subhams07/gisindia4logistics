@@ -97,7 +97,8 @@ def main() -> None:
     assert states["state"].notna().all(), states.loc[states["state"].isna(), "ST_NM"]
     states["state_code"] = states["state"].str.lower().map(LGD_STATE_CODES)
     states = states[["state", "state_code", "geometry"]].sort_values("state")
-    states = states.to_crs(4326).simplify(SIMPLIFY_TOL) if states.crs != 4326 else states
+    if states.crs != 4326:
+        states = states.to_crs(4326)
     states.geometry = states.geometry.simplify(SIMPLIFY_TOL)
 
     # --- districts ---
@@ -126,6 +127,9 @@ def main() -> None:
     }
     for k, v in checks.items():
         print(f"  {k}: {v}")
+    failed = [k for k, v in checks.items() if k != "dropped placeholder features" and not v]
+    if failed:
+        raise SystemExit(f"validation failed, nothing written: {', '.join(failed)}")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_geojson(OUT_DIR / "india_states.geojson", states)

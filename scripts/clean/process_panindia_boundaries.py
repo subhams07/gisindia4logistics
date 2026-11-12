@@ -9,7 +9,7 @@ data/raw/panindia/State_District_Subdistrict_PAN INDIA.rar
 Outputs (committed, simplified):
     data/administrative/india_states_lgd.geojson        (~36 features, current)
     data/administrative/india_districts_lgd.geojson     (780 current districts)
-    data/administrative/india_subdistricts_lgd.geojson  (~6,600 talukas/tehsils)
+    data/administrative/india_subdistricts_lgd.gpkg     (~6,600 talukas/tehsils)
 
 These are CURRENT administrative units with LGD codes — they complement the
 Census-2011-vintage district file (india_districts.geojson) used for joining
@@ -21,6 +21,7 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
 import json
 import pathlib
 import sys
@@ -106,7 +107,8 @@ def process(layer: str) -> gpd.GeoDataFrame:
     n_unmapped = int(gdf["state"].isna().sum())
     assert n_unmapped == 0, f"[{layer}] unmapped state names remain"
 
-    # LGD codes arrive as zero-padded strings ("095") — normalize to integers
+    # LGD codes arrive as zero-padded strings ("095") — normalize to integers;
+    # non-numeric values (PoK districts Mirpur/Muzaffarabad carry "NOT AVAILABLE") become <NA>
     for code_col in ("district_code", "sub_district_code", "state_code"):
         if code_col in gdf:
             gdf[code_col] = pd.to_numeric(
@@ -127,12 +129,6 @@ def process(layer: str) -> gpd.GeoDataFrame:
             gdf.loc[hit, "district_code"] = good
             print(f"[{layer}] {state}/{district}: district_code {bad} -> {good} ({int(hit.sum())} rows)")
 
-    # PoK districts (Mirpur, Muzaffarabad) carry "NOT AVAILABLE" LGD codes
-    for col in ("district_code", "sub_district_code"):
-        if col in gdf:
-            gdf[col] = gdf[col].mask(
-                gdf[col].astype(str).str.upper().eq("NOT AVAILABLE"))
-
     print(f"[{layer}] raw={len(gdf) + n_disputed} disputed_dropped={n_disputed} kept={len(gdf)}")
     gdf.geometry = gdf.geometry.simplify(SIMPLIFY[layer])
     gdf = gdf[cfg["keep"]].sort_values(
@@ -141,6 +137,7 @@ def process(layer: str) -> gpd.GeoDataFrame:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     for layer, fname in (("states", "india_states_lgd.geojson"),
                          ("districts", "india_districts_lgd.geojson"),
@@ -159,11 +156,11 @@ def main() -> None:
         dup = int(gdf[key].duplicated().sum()) if key in gdf else 0
         if fname.endswith(".gpkg"):
             path = OUT / fname
-            gdf.to_file(path, layer="subdistricts", driver="GPKG")  # large layer -> Git LFS
+            gdf.to_file(path, layer="subdistricts", driver="GPKG")  # large layer -> GeoPackage (regular blob, no LFS)
         else:
             fc = json.loads(gdf.to_json())
             fc["name"] = fname.replace(".geojson", "")
-            fc["attribution"] = ("Administrative boundaries (LGD-coded, current): "
+            fc["attribution"] = ("Administrative boundaries (ABDB district codes, current): "
                                  "PAN INDIA dataset via repo maintainer; "
                                  "schema consistent with Survey of India / LGD")
             path = OUT / fname

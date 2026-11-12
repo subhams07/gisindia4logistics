@@ -1,6 +1,6 @@
 """
 scripts/analyze/plot_villages.py
-Interactive and Static Map Plotting Engine for India's 578,000+ Villages & Settlements.
+Interactive and Static Map Plotting Engine for India's 621,105 villages and settlements.
 
 Generates:
 1. Interactive Leaflet HTML maps with choropleth village polygons, popups, and facility overlays.

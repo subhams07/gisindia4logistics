@@ -97,7 +97,8 @@ def main() -> None:
     ap.add_argument("--district", help="district name (requires committed boundaries)")
     ap.add_argument("--state", help="state name to disambiguate district")
     ap.add_argument("--bbox", help="minlon,minlat,maxlon,maxlat (alternative to district)")
-    ap.add_argument("--name", default="roads", help="output file base name")
+    ap.add_argument("--name", default=None,
+                    help="output file base name (default: district slug, else 'roads')")
     ap.add_argument("--output", default=str(DATA_DIR / "roads"),
                     help="output directory")
     ap.add_argument("--classes",
@@ -113,6 +114,8 @@ def main() -> None:
         bbox = district_bbox(args.district, args.state)
     else:
         ap.error("one of --district or --bbox is required")
+    if args.name is None:
+        args.name = "_".join(args.district.lower().split()) if args.district else "roads"
 
     highways = [c.strip() for c in args.classes.split(",") if c.strip()]
     print(f"Querying Overpass for bbox {bbox} ...")

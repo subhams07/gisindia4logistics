@@ -13,6 +13,7 @@ Usage: python scripts/fetch/build_gct_terminals.py
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 
@@ -78,6 +79,7 @@ def norm(s: str) -> str:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     stations = pd.read_csv(DATA_DIR / "rail" / "railway_stations.csv")
     stations["nname"] = stations["station_name"].map(norm)
 

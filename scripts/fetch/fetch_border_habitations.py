@@ -19,6 +19,7 @@ in data/administrative/villages/{state_slug}_habitations.geojson.
 
 from __future__ import annotations
 
+import argparse
 import sys
 import time
 from pathlib import Path
@@ -105,6 +106,7 @@ out body;
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     states_gdf = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
     districts_gdf = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
 
@@ -112,11 +114,13 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     total_habitations = 0
+    failed = []
 
     for st in BORDER_STATES:
         st_row = states_gdf[states_gdf["state"].str.lower() == st.lower()]
         if not len(st_row):
             print(f"State not found: {st}")
+            failed.append(st)
             continue
         
         st_geom = st_row.iloc[0].geometry
@@ -128,6 +132,7 @@ def main() -> None:
         print(f"  Retrieved {len(gdf_places)} settlement points within state boundary")
 
         if not len(gdf_places):
+            failed.append(st)
             continue
 
         # Spatial join with LGD districts to assign district & district_code
@@ -168,6 +173,8 @@ def main() -> None:
         total_habitations += len(final_gdf)
 
     print(f"\n=== Completed Border Habitations Ingestion: {total_habitations} total settlements across 9 states ===")
+    if failed:
+        raise SystemExit(f"FAILED (no output written) for {len(failed)} state(s): {', '.join(failed)}")
 
 
 if __name__ == "__main__":

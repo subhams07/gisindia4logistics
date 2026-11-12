@@ -10,6 +10,7 @@ Outputs:
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -45,6 +46,7 @@ def fetch_raw_toll_booths() -> list[dict]:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     raw_elements = fetch_raw_toll_booths()
     if not raw_elements:
         print("ERROR: No toll booth elements returned.")
@@ -141,7 +143,8 @@ def main() -> None:
                 plazas_df.at[idx, "toll_type"] = "national_highway"
 
     # Sort and clean
-    plazas_df = plazas_df.sort_values(["state", "district", "name"]).reset_index(drop=True)
+    plazas_df = plazas_df.sort_values(["state", "district", "name", "latitude", "longitude"],
+                                      kind="stable").reset_index(drop=True)
 
     out_csv = DATA_DIR / "roads" / "toll_plazas.csv"
     plazas_df.to_csv(out_csv, index=False)

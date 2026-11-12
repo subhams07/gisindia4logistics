@@ -13,6 +13,7 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
 import json
 import pathlib
 import re
@@ -73,6 +74,7 @@ def fetch_or_load_data() -> pd.DataFrame:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     print("Loading 2024 Indian Railway classification data...")
     raw = fetch_or_load_data()
     print(f"Loaded {len(raw)} records from source")
