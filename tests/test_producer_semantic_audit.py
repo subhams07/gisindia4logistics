@@ -1149,7 +1149,6 @@ def test_staged_validator_reports_forbidden_roots_as_issues_without_creating_any
 # ---------------------------------------------------------------------------------------------
 from collections import Counter  # noqa: E402
 
-INTEGRATION_LABEL = "producer-contract integration with source-inventory audits isolated; not raw-inventory or national validation"
 INVENTORY_AUDITS = ("audit_boundaries", "audit_rail", "audit_hubs", "audit_freight", "audit_demographics", "audit_geoparquet", "audit_catalog",
                     "check_baseline", "audit_roads", "audit_villages", "audit_analysis")
 CLOSURE_WARN = ("provenance", "code closure validation deferred to full mode")

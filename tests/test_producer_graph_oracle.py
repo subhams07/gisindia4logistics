@@ -1223,7 +1223,7 @@ N1C_SIDECAR = "producer_limitations.json"
 N1C_AVAILABILITY = "coverage sidecar availability"
 N1C_LEGACY = "not applicable: legacy coverage unavailable"
 N1C_FINAL = "coverage hub set equals source order"
-N1C_COORDINATE_AST_SHA256 = "48c85ff3845929f61b94170eee611a57531842fcaac3fa4bad87162618edc302"
+N1C_COORDINATE_AST_SHA256 = "25290b0e9a3d830cd309ca3650829d23e6ef810d639a018b4645fcd468e3aa36"  # sha256 of ast.unparse(node): stable across Python versions
 N1C_FIELDS = ("nh_graph", "nh_distance_graph", "nh_node_xy", "nh_comp_labels", "nh_tree", "nh_bridge_mask")
 
 
@@ -1672,7 +1672,7 @@ def test_n1c_old_coercive_coordinate_is_unchanged_and_numeric_text_still_differs
     oracle = n1c_oracle()
     tree = ast.parse(Path(oracle.__file__).read_text(encoding="utf-8"))
     node = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "coordinate")
-    assert hashlib.sha256(ast.dump(node).encode()).hexdigest() == N1C_COORDINATE_AST_SHA256
+    assert hashlib.sha256(ast.unparse(node).encode()).hexdigest() == N1C_COORDINATE_AST_SHA256
     text_row = {"longitude": "77", "latitude": "20"}
     assert oracle.coordinate(text_row) is not None and oracle._strict_coordinate(text_row) is None
 

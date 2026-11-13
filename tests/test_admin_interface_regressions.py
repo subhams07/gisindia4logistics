@@ -1,4 +1,4 @@
-"""HTTP regressions using isolated data, never the production store."""
+"""HTTP regressions using isolated data; the `test_real_*` cases read committed CSVs from data/."""
 from types import SimpleNamespace
 
 import pandas as pd

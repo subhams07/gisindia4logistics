@@ -155,10 +155,6 @@ def test_zero_and_numpy_real_exponents_pass_preflight(source, tmp_path, monkeypa
         run(tmp_path, alpha=alpha, beta=beta)  # Reached the first producer: preflight accepted the exponents.
 
 
-def required_inputs():
-    return [*pm().NATIONAL_FIXED_INPUTS]
-
-
 @pytest.mark.parametrize("logical", [*pm().NATIONAL_FIXED_INPUTS, "highway"])
 def test_each_of_the_eleven_inputs_is_required_before_any_write(source, tmp_path, logical):
     if logical == "highway":

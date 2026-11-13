@@ -34,4 +34,11 @@ A line-by-line read of the server and packages (31 files), the analysis and audi
 | 28 | Scripts | `enrich_rail_stations.py`: `.gemini` cache fallback path, crash on empty zone, overwrites its own input; the base stations table has no script. | Tidy; document the base-table origin. |
 | 29 | Scripts | `clean_state_name` title-cases "And", so 2011 layers and current layers disagree for three state names (closure file). | Canonical lookup, with run 5. |
 
-Not yet read line by line: `tests/`, documentation, and the data tree (covered so far by scripted checks only).
+| 30 | Tests | ~80–100 s of the suite is cold rebuilds of the national highway graph (`test_mcp_transport_regressions.py`, `test_route_adapter_parity.py`, `test_adapter_ambiguity_candidates.py`); `test_producer_graph_oracle.py` rebuilds its bundle per test. | Session-scoped cache/template fixtures. |
+| 31 | Tests | No `tests/conftest.py`: helpers are imported from other test modules and one autouse fixture is copied into 7 files; `test_district_assignment.py` leaves `scripts/clean` and `scripts/analyze` on `sys.path`. | Add a conftest; use package imports. |
+| 32 | Tests | Fragile pins: exact routed distance `131.19` km, data version `"2026.08"`, package version literal, toll rates repeated in three files. | Tolerance band; derive versions from the manifest/package. |
+| 33 | Tests | Weak assertions (`pytest.raises(Exception)`, `status in (200, 400)`, `returncode in (0, 1)`, two bounds in one call) in 8 places. | Tighten. |
+| 34 | Tests | Duplicates: Pune→JNPT parity computed in 8 places, the toll matrix twice, the Dhule/598 data check five times; `test_package.py`/`test_server.py` are older smoke tests mostly covered elsewhere. | Trim. |
+| 35 | Tests | No tests at all for the 16 fetch scripts, `subdistrict_access.py`, `make_readme_figures.py`, `make_demo.py`, the notebook, the `audit` CLI command, `/health/ready`, or the SDK `plot_villages` success path; `allocate_population.py` logic is tested only through its committed output. | Add unit tests for the pure helpers first (GCT name join, demographics gate, population blend/scaling). |
+
+Tests were read in full for about 30 of 49 files; the five largest producer test files were covered by fixture reads and grep sweeps only. Not yet read line by line: documentation and the data tree (covered so far by scripted checks only).
