@@ -27,7 +27,7 @@ Previous iterations provided scalar road distances and travel times without vect
    - Exactly equal resolved coordinates produce zero travel, null geometry and a warning after graph/coordinate/snap validation. Proximity diagnostics remain truthful; access-distance fields are zero because no journey occurs. Distinct points sharing one snap node must disclose that no network edge is traversed.
 5. **Geometry Simplification**:
    - Supports `geometry_detail: "full" | "simplified" | "none"`.
-   - Default is `"simplified"`: Douglas-Peucker in EPSG:7755 with a 50 projected-metre tolerance, preserving endpoints but not length. Serialize in WGS84 rounded to five decimal places; rounding adds error beyond the simplification tolerance. Tests allow 52 projected metres between full and simplified display lines.
+   - Default is `"none"` (no display geometry). `"simplified"` is Douglas-Peucker in EPSG:7755 with a 50 projected-metre tolerance, preserving endpoints but not length. Serialize in WGS84 rounded to five decimal places; rounding adds error beyond the simplification tolerance. Tests allow 52 projected metres between full and simplified display lines.
    - `geometry_detail="none"` or `include_route_geometry=False` suppresses display geometry. Null geometry is also valid for zero movement or output collapsed at coordinate precision; never emit a one-position LineString.
 6. **Synthetic Bridge Graph Metadata**:
    - The builder/cache exposes a sparse `bridge_mask` containing only marked bridge entries (no explicit zeros); physical duplicate edges retain their fastest weight and take precedence over synthetic links.

@@ -1,7 +1,7 @@
 # ADR 006: Sandboxed Multi-Format Report Generation
 
 ## Status
-Accepted
+Proposed — not implemented. No report service or `/reports` route exists; the `reports` extra is not used by any code.
 
 ## Context
 Logistics analysts, infrastructure consultants, and executives require shareable, board-ready exports (HTML, PDF, Excel) for corridor plans and district site comparisons. Generating files on the server introduces potential risks: heavy mandatory dependencies, arbitrary HTML/JavaScript execution in headless browsers, race conditions on shared files, and directory traversal vulnerabilities.

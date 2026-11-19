@@ -19,9 +19,9 @@ LocationReference = Annotated[
 1. **Coordinates (`type: "coordinate"`)**:
    - Validated bounds: $-90 \le \text{latitude} \le 90$, $-180 \le \text{longitude} \le 180$.
 2. **Districts (`type: "district"`)**:
-   - Step 1: Exact integer `district_code` match (LGD).
+   - Step 1: Exact integer `district_code` match (Survey of India ABDB code; equals LGD for districts that existed in 2011).
    - Step 2: Exact case-insensitive `state` + `district` name match.
-   - Step 3: Exact `district` name only if globally unique across all 781 Indian districts.
+   - Step 3: Exact `district` name only if globally unique across all 780 Indian districts.
    - Step 4: If duplicate exists and no state is specified, raise `AmbiguousLocationError` listing matching states.
 3. **Hubs (`type: "hub"`)**:
    - Step 1: Exact code match.
