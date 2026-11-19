@@ -5,23 +5,23 @@ All datasets in this repository follow these conventions.
 ## Geometry & CRS
 
 - Canonical CRS: **EPSG:4326 (WGS 84)**.
-- Derived/analysis outputs may additionally use EPSG:7755 (India NSF LCC) or
-  relevant UTM zones, named with a `_ projected` suffix.
-- Formats: GeoJSON (committed small vector), CSV (attribute tables),
-  GeoPackage (multi-layer analysis outputs), Parquet (large tabular).
+- Analysis uses EPSG:7755 (India NSF LCC) for metric work; committed outputs are
+  in EPSG:4326.
+- Formats: GeoJSON, CSV, GeoPackage (sub-districts) and GeoParquet twins of the
+  large layers.
 
 ## Join keys
 
 - **Survey of India ABDB codes** carried by the boundary layers are the
   canonical identifiers:
-  - `state_code` — 2-digit state code
+  - `state` — state/UT name (the current state layer carries no state code)
   - `district_code` — Survey of India ABDB district code. It equals the LGD
     (Local Government Directory, lgdirectory.gov.in) and Census 2011 code for
     districts that existed in 2011 but uses a separate numbering for about 140
     newer districts; a dedicated LGD code column is planned. Join on
     `(state, district_code)`; the three null-code polygons (Delhi Nazul, Mirpur,
     Muzaffarabad) join on `(state, district)`.
-  - `lgd_village_code` — 6-digit village code where available
+  - `village_code` — the Survey of India village code (LGD) where available
 - Village and settlement rows are assigned to the district polygon that contains
   them (within their own state). `district` / `district_code` hold that polygon's
   values; the village source's own LGD district name and code are kept in
@@ -51,17 +51,20 @@ Ref-tagged roads (`ref=NH…`, `ref=SH…`) take precedence over the generic cla
 
 ## Rail categories
 
-Station categories per Indian Railways (NSG1–NSG7, formerly A1/A/B/C/D/E/F),
-plus a boolean `freight_terminal` flag for goods terminals/sidings where known.
+Station categories per Indian Railways: NSG1–NSG6 and suburban NSG1P–NSG5P
+(`data/rail/station_categories.csv`). Freight terminals are a separate table
+(`data/rail/freight_terminals.csv`).
 
 ## Hub types
 
-`hub_type` ∈ {major_port, minor_port, icd, cfs, icp, air_cargo_terminal,
-logistics_park, warehouse_cluster, dry_port, mmlp}
+`hub_type` ∈ {major_port, minor_port, icd, cfs, icp, air_cargo, mmlp,
+iw_terminal, foodgodown}. Seven hub files share the columns `name, hub_type,
+state, city, latitude, longitude, operator, capacity_notes, source_url`; the
+cold-chain, e-NAM, industrial-node and PM MITRA files have their own columns.
 
 ## GeoParquet & Hybrid Storage Architecture
 
-To provide both human-readable inspectability and high-throughput analytical query speeds, GIS4Logistics uses a **dual-tier hybrid pattern**:
+To provide both human-readable inspectability and high-throughput analytical query speeds, GISIndia4Logistics uses a **dual-tier hybrid pattern**:
 
 1. **Human & Web Tier (`.geojson`, `.csv`)**:
    - Small administrative boundaries, points of interest, and demo outputs are stored in standard GeoJSON and CSV for direct browser/Leaflet rendering, `jq`/`curl` inspectability, and Git line diffs.
@@ -84,4 +87,5 @@ villages_gdf = gpd.read_parquet("data/administrative/villages_parquet/haryana_so
 
 Every dataset has an entry in `catalog.yaml`:
 `name, category, description, source_url, license, vintage, resolution,
-provider, access (committed|script), path, fetch_script`.
+provider, access (committed|script), path, fetch_script, quality_status,
+quality_notes`.

@@ -20,9 +20,11 @@ For authoritative texts see the links at the end.
 
 ## Boundary depiction (important)
 
-The boundaries in this repo (DataMeet-derived) are **indicative, not
-authoritative**. They are not Survey of India products and must not be used as
-an official depiction of India's boundaries. Authoritative depiction is the
+The boundaries in this repo are **indicative, not authoritative**. The current
+state, district, sub-district and village layers are simplified derivatives of
+Survey of India products (ABDB and the village boundary database); the Census
+2011 state and district layers are DataMeet-derived. None of them is a
+certified Survey of India boundary, and none may be used as an official depiction of India's boundaries. Authoritative depiction is the
 prerogative of the Survey of India, in its own published maps. Maps and notebooks in this repo carry this
 disclaimer, and derived works should too.
 
@@ -55,9 +57,13 @@ applicable laws." No explicit open-data license is granted.
 
 **Current repository posture (maintainer, 2026-08):** the public repository
 redistributes standardized derivatives in good faith, based on free,
-login-free availability on a government portal, with attribution ("Boundary
-data: Survey of India, Government of India — ABDB") embedded in files and
-documentation. The metadata nevertheless states "copyright" and no written
+login-free availability on a government portal, with attribution in the
+documentation. The ABDB GeoJSONs embed the string "Administrative boundaries
+(LGD-coded, current): PAN INDIA dataset via repo maintainer; schema consistent
+with Survey of India / LGD" (to be corrected at the next regeneration) and the
+SoI village GeoJSONs embed "Village boundaries: Survey of India, Government of
+India"; the Parquet and GeoPackage copies, the habitation files and the
+DataMeet layers embed none. The metadata nevertheless states "copyright" and no written
 blanket redistribution grant is recorded here. This is therefore an
 **unresolved release-governance item**, not a claim of explicit permission.
 Before a formal public data release, DOI deposit, or broad redistribution

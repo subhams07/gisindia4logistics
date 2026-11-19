@@ -1,6 +1,6 @@
 # Data Sources, Lineage & Methodology
 
-Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GIS4Logistics India** platform.
+Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GISIndia4Logistics India** platform.
 
 Quality status definitions:
 - **verified** — passed the repository's recorded validation gates (exact counts vs official registers, geometry checks, coordinate bounds, and join-key checks). This label describes data validation, not legal clearance or source freshness; the audit date and execution context should be recorded with releases.
@@ -24,7 +24,7 @@ Quality status definitions:
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Level 0 (National)** | `data/administrative/india_states_lgd.geojson` | 1 national boundary | Derived via spatial dissolve of SoI ABDB states | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 1 (States/UTs - Current)** | `data/administrative/india_states_lgd.geojson` | **36 States & UTs** | Survey of India ABDB product (NGDR & UGID; 1:50k DTDB, ORGI 2024–25 harmonized) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
-| **Level 1 (States - 2011 Vintage)**| `data/administrative/india_states.geojson` | 36 States & UTs | DataMeet maps archive (harmonized to 2011 Census tables) | CC BY 4.0 | **verified** |
+| **Level 1 (States - DataMeet, current names)**| `data/administrative/india_states.geojson` | 36 States & UTs | DataMeet maps archive (harmonized to 2011 Census tables) | CC BY 4.0 | **verified** |
 | **Level 2 (Districts - Current)** | `data/administrative/india_districts_lgd.geojson` | **780 Districts** | SoI ABDB (disputed slivers dropped; Dhule's four sub-districts carry source code 598, corrected to 498) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
 | **Level 2 (Districts - 2011)** | `data/administrative/india_districts.geojson` | **640 Districts** | DataMeet maps (Census 2011 district layout, J&K placeholder dropped) | CC BY 4.0 | **verified** |
 | **Level 3 (Sub-districts / Talukas)** | `data/administrative/india_subdistricts_lgd.gpkg` | **6,636 Sub-districts** | SoI ABDB product (mojibake font fixed deterministically, 3 duplicate rows dropped) | Copyright SoI; redistribution unresolved, not written permission (see `DATA_LICENSE.md`) | **verified** |
@@ -39,7 +39,7 @@ Quality status definitions:
 - **DataMeet Maps** ([github.com/datameet/maps](https://github.com/datameet/maps)): Community open GIS boundary repository (CC BY 4.0) used for Census 2011 joins.
 
 ### Technical & Processing Notes
-- **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). PoK districts (Mirpur, Muzaffarabad) retained with null LGD codes as per source. Malegaon district (LGD 598) derived by dissolving its 4 constituent subdistricts.
+- **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). Mirpur and Muzaffarabad (Jammu and Kashmir) retained with null codes as per source. The source tagged Dhule's four sub-districts with code 598 (Kerala's Alappuzha); this is corrected to 498 (no Malegaon district exists). Names using `@` (ū) and `\` (ī) are not yet fixed (e.g. `DEHRAD@N`).
 - **SoI Village Processing (`fetch_village_boundaries_soi.py`)**: Reprojected from national LCC to WGS 84 (`EPSG:4326`). Processed via `shapely.set_precision(1e-5)` grid-snap and `make_valid()` to eliminate GEOS topological slivers.
 - **Border Habitations Ingestion (`fetch_border_habitations.py`)**: Covers the 9 states not published in SoI village boundary zips (Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram, Nagaland) using geocoded place nodes joined to LGD districts.
 
@@ -122,11 +122,11 @@ The catalog labels the classification vintage approximately 2023, while the enri
 | Dataset & File Path | Scope / Resolution | Methodology & Metrics | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **621,105 settlements** (36 states/UTs; spatially assigned to current districts, source district kept in `source_district*`) | Exact projected straight-line Euclidean distance in `EPSG:7755` (`sjoin_nearest`) to all infrastructure and hub targets | Derived in repo | **verified** |
-| **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 5km, 10km, 25km) and median distances | Derived in repo | **verified** |
+| **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 10 km, 25 km and 50 km) and median distances | Derived in repo | **verified** |
 | **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **816 rows** (780 districts + 36 state pop-weighted rows), keyed on `(state, district_code, district)` | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
 | **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **780 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km) on the 289k-node highway graph | Derived in repo | **verified** |
 | **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **780 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
-| **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **780 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 26.9% modal-shift savings) | Derived in repo | **verified** |
+| **Multi-Modal Freight Cost Model**<br>`data/analysis/district_freight_modal_split.csv` | **780 districts** | End-to-end freight cost comparison (INR/tonne) across Road Trucking, Conventional Rail, and DFC Heavy-Haul Rail (mean 27.0% modal-shift savings) | Derived in repo | **verified** |
 | **Port Hinterland Gravity Model**<br>`data/analysis/district_port_hinterland_catchment.csv` | **780 districts** | Huff / Reilly Gravity Model market share capture P(ij) and hinterland contestability across 12 Major Ports | Derived in repo | **verified** |
 | **Major Ports & MMLP Isochrones**<br>`data/analysis/*_isochrones.geojson` | **108 polygons** (48 port + 60 MMLP) | Vector drive-time catchment polygons at 4/8/12/24 h (ports) and 4/8/12 h (MMLPs) generated via Dijkstra network traversal | Derived in repo | **verified** |
 
