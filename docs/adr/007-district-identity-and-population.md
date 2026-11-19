@@ -1,7 +1,7 @@
 # ADR 007: District Identity, Village Assignment and Population Allocation
 
 ## Status
-Accepted by the operator on 2026-10-26. Implementation is in progress on branch `claude/gisindia-remote-handoff-verify-veukfs`. The verification checks below are **pending** until the implementation, the Stage 4 regeneration (run 5) and the national audit are complete.
+Accepted by the operator on 2026-10-26. Implemented on branch `claude/gisindia-remote-handoff-verify-veukfs` (village reassignment, summaries, population fix, map tool, wording). The Stage 4 regeneration (run 5) and the national audit are still pending: run 5 waits for the Census 2011 sub-district tables (operator ruling 2026-11-09), so checks that depend on it stay **Pending**.
 
 ## Context
 An Opus design review on 2026-10-26 found three linked problems:
@@ -44,9 +44,9 @@ A check marked **operator** needs something only the operator can do. All others
 ### D-A Population allocation
 | # | Check | Expected result | Status |
 |---|---|---|---|
-| A1 | National total of `pop_2011` in `district_population_estimates.csv` | Unchanged: 1,210,846,210 | Pending |
-| A2 | Per-state totals before vs after | Unchanged for every state (the method preserves state totals) | Pending |
-| A3 | Districts with method `census2011` (boundaries unchanged since 2011) | Values identical before and after | Pending |
+| A1 | National total of `pop_2011` in `district_population_estimates.csv` | Equals the official Census 2011 total, 1,210,854,977 (the earlier file was 8,767 short because DNH+DD had no target) | **Done**: 1,210,854,977 |
+| A2 | Per-state (state-group) totals | Equal the Census 2011 target of each group (AP+Telangana, DNH+DD, J&K+Ladakh scaled jointly) | Pending |
+| A3 | Districts with method `census2011` (two-way boundary overlap ≥ 90% with one 2011 district) | Hold that district's exact Census 2011 figure; only estimated rows are scaled | Pending |
 | A4 | Spatial village count per polygon vs the count used by the allocator | Equal for all 780 districts; no polygon credited with another state's villages | Pending |
 | A5 | List the 20 largest changes, and Mulugu, Tamulpur, Shahdara before and after | Each change traceable to a corrected village count; new values plausible relative to the parent 2011 district | Pending |
 | A6 | **Operator:** compare a sample of post-2011 districts (Mulugu, Tamulpur, Shahdara, Charki Dadri, Kushavati) with state government district profiles that re-tabulate Census 2011 | Same order of magnitude; large gaps explained by the area/village blend | Pending |
