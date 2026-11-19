@@ -40,7 +40,7 @@ datasets:
   path: data/administrative/india_districts_lgd.geojson
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
-  quality_notes: '780 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (PoK) and Delhi''s Nazul
+  quality_notes: '780 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (Jammu and Kashmir; no LGD code and no Census 2011 enumeration) and Delhi''s Nazul
     kept with null codes; the source sub-district layer tags Dhule''s 4 talukas with code 598 (Kerala''s
     Alappuzha) — corrected to 498 in process_panindia_boundaries.py (this previously produced a duplicate
     DHULE polygon wrongly labelled as a Malegaon split; Malegaon taluka is in Nashik 516); mojibake names

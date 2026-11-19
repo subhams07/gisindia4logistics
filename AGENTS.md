@@ -14,6 +14,7 @@ datasets produced by fetch scripts.
 - CRS: EPSG:4326 (WGS 84). Join keys: state/district/sub-district/village codes carried by the layers. Districts are keyed on the Survey of India ABDB district code (`(state, district_code)`; null-code polygons by name), which equals the LGD/Census 2011 code only for districts that existed in 2011 (about 140 newer districts use a separate numbering; a dedicated `lgd_district_code` column is planned). Villages keep their source LGD district code in `source_district_code`.
 - Attribute naming: snake_case. `catalog.yaml` is the machine-readable catalog — every dataset has an entry with source, license, vintage, quality_status.
 - Data quality bar: committed datasets must pass validation (counts vs official totals, geometry validity, coordinate sanity). "High quality only" is a maintainer requirement.
+- **India's official political map is the reference** (operator ruling 2026-11-14): all boundaries, maps and territorial wording follow the Survey of India depiction. Aksai Chin and Gilgit-Baltistan are in Ladakh; Mirpur and Muzaffarabad are districts of Jammu and Kashmir; Arunachal Pradesh is shown in full. Never take national or state outlines from sources that draw India differently (OSM admin boundaries, Natural Earth, GADM), and never describe such areas as outside India.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
 ## Repository contents (counts verified 2026-11-10)

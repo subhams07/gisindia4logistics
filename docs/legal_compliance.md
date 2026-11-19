@@ -22,10 +22,20 @@ For authoritative texts see the links at the end.
 
 The boundaries in this repo (DataMeet-derived) are **indicative, not
 authoritative**. They are not Survey of India products and must not be used as
-an official depiction of India's external or disputed boundaries
-(LoC, Arunachal Pradesh, Aksai Chin). Authoritative depiction is the
-prerogative of the Survey of India. Maps and notebooks in this repo carry this
+an official depiction of India's boundaries. Authoritative depiction is the
+prerogative of the Survey of India, in its own published maps. Maps and notebooks in this repo carry this
 disclaimer, and derived works should too.
+
+**India's official political map is the reference.** All boundaries, maps and
+territorial descriptions in this repository follow the Survey of India
+depiction of India. National and state outlines are never taken from sources
+that draw India differently (OpenStreetMap administrative boundaries, Natural
+Earth, GADM). The committed layers were checked on 2026-11-14 with five
+reference points: Aksai Chin and Gilgit fall in Ladakh, Muzaffarabad and Mirpur
+in Jammu and Kashmir, and Tawang in Arunachal Pradesh, in both the current
+layer (`india_states_lgd`) and the Census 2011 layer (`india_states.geojson`).
+A location is described as outside India only when it falls outside these
+polygons.
 
 ## Survey of India boundary data — redistribution posture
 

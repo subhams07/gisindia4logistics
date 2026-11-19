@@ -46,7 +46,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 ### Known limitations (disclosed)
 
 - The gravity model uses α = 0.85, β = 1.65, unchanged from earlier releases and the live API default. These values are **uncalibrated**; a sensitivity table is in the drift report.
-- MIRPUR and MUZAFFARABAD (PoK) and NAZUL populations are `area_share` estimates from the source population file.
+- MIRPUR and MUZAFFARABAD (Jammu and Kashmir; no LGD code and no Census 2011 enumeration) and NAZUL populations are `area_share` estimates from the source population file.
 - 372 district–hub pairs have road distance more than 3× the straight-line distance, a pre-existing graph-fragmentation issue under investigation.
 - Highway-access values for Lakshadweep and Nicobars are over-sea distances above the 150 km snap limit.
 - Isochrone hub snapping (nearest highway component of at least 1,000 nodes within 150 km) is a modelling policy, not a measured property. Hubs whose nearby components are all smaller (e.g. Andaman, parts of Arunachal) would be reported as unsupported; no current hub is affected. API responses do not yet carry routing warnings at the point of use; see `producer_limitations.json`.
