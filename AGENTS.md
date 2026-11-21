@@ -436,6 +436,34 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     straight-line km, isochrone buffers, routing service, graph oracle and
     allocate_population area shares — all inside the Stage 4 producer chain.
 
+### Phase I: official LGD district codes (2026-11-21)
+44. While importing NWDP village files (which carry real LGD codes) we found
+    the boundary layer's `district_code` was mostly NOT the LGD code: the
+    ABDB DIST_LGD column holds the Census 2011 code for 635 older districts
+    and its own numbering for 142 newer ones (only 10 real LGD codes). The
+    LGD web service is public and answers POST requests:
+    `POST https://lgdirectory.gov.in/webservices/lgdws/districtList` with
+    form field `stateCode` (the download page itself is CAPTCHA-protected;
+    do not script it). `scripts/fetch/fetch_lgd_directory.py` snapshots all
+    790 districts to `data/administrative/lgd_districts.csv`;
+    `scripts/clean/apply_lgd_codes.py` maps the 780 polygons (Census code ->
+    exact name -> close name -> MANUAL) and re-keys the district and
+    sub-district layers in place (GeoJSON edited property-by-property so the
+    geometry text is untouched), keeping `abdb_district_code` and adding
+    `census2011_code`. Idempotent. DNH&DD state code 26 -> 38.
+    Consequences: the "village files use an older scheme" diagnosis in
+    Phase G was backwards for new districts — the SoI village files carry
+    real LGD codes for many of them (Devbhumi Dwarka 674, Yadadri 697); the
+    village files' codes are still a mix of LGD, Census and a shifted
+    numbering (Andhra's 2022 districts), so district identity stays spatial.
+    allocate_population.py had keyed village counts by those mixed codes;
+    it now counts villages by point-in-polygon and measures area in
+    ESRI:102028. Rule: never treat a numeric district code as LGD without
+    checking it against lgd_districts.csv; LGD codes are unique nationally,
+    Census codes are not the same numbers (Karaikal is LGD 598, Alappuzha is
+    Census 598). Remaining gaps vs LGD: Ladakh's 2025 districts, Delhi's
+    2025 reorganisation, a few other 2025 formations (catalog notes).
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

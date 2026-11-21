@@ -53,7 +53,7 @@ class DistrictLocation(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: Literal["district"] = "district"
     district: Optional[str] = Field(None, description="District name, e.g. 'Pune' or 'Indore'")
-    district_code: Optional[int] = Field(None, strict=True, ge=1, description="Official LGD district code, e.g. 521")
+    district_code: Optional[int] = Field(None, strict=True, ge=1, description="Official LGD district code, e.g. 490 (Pune)")
     state: Optional[str] = Field(None, description="State or UT name, e.g. 'Maharashtra'")
 
     @model_validator(mode="after")
@@ -322,7 +322,7 @@ class DistrictReference(BaseModel):
     """Reference identifying a single district for batch comparison."""
     state: Optional[str] = Field(None, description="State name, e.g. 'Maharashtra'")
     district: Optional[str] = Field(None, description="District name, e.g. 'Pune'")
-    district_code: Optional[int] = Field(None, ge=1, description="LGD district code, e.g. 521")
+    district_code: Optional[int] = Field(None, ge=1, description="LGD district code, e.g. 490 (Pune)")
 
     @model_validator(mode="after")
     def validate_district_reference(self) -> "DistrictReference":

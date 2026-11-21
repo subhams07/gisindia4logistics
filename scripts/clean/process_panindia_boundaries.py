@@ -11,9 +11,14 @@ Outputs (committed, simplified):
     data/administrative/india_districts_lgd.geojson     (780 current districts)
     data/administrative/india_subdistricts_lgd.geojson  (~6,600 talukas/tehsils)
 
-These are CURRENT administrative units with LGD codes — they complement the
+These are CURRENT administrative units — they complement the
 Census-2011-vintage district file (india_districts.geojson) used for joining
-Census tables. 'DISPUTED' inter-state slivers are kept out of the states layer
+Census tables. The source's DIST_LGD column is not the LGD district code: it
+holds the Census 2011 code for older districts and a scheme of its own for
+newer ones. After regenerating, refresh the Parquet copies
+(scripts/clean/export_geoparquet.py) and then run
+scripts/clean/apply_lgd_codes.py, which sets district_code to the official
+LGD code (keeping the source value as abdb_district_code). 'DISPUTED' inter-state slivers are kept out of the states layer
 and flagged in district/subdistrict layers via `remarks`.
 
 Usage:
@@ -67,9 +72,10 @@ SIMPLIFY = {"states": 0.001, "districts": 0.0012, "subdistricts": 0.0012}
 NAME_CHAR_FIXES = {"<": "a", ">": "A", "#": "u"}
 
 # sub-district rows whose DIST_LGD disagrees with the district layer:
-# (state, district, wrong code) -> LGD code. The source's 4 Dhule talukas
-# (Dhule, Sakri, Shirpur, Sindkhede) carry 598, which is Kerala's Alappuzha;
-# Maharashtra's codes run 497-531 and the district layer has DHULE = 498.
+# (state, district, wrong code) -> source code. DIST_LGD is the Census 2011 code
+# for older districts; the source's 4 Dhule talukas (Dhule, Sakri, Shirpur,
+# Sindkhede) carry 598, Kerala's Alappuzha in that numbering; Maharashtra's
+# Census codes run 497-531 and the district layer has DHULE = 498 (LGD 474).
 # (Malegaon taluka stays in Nashik 516 — the source has no Malegaon district.)
 SUBDISTRICT_DISTRICT_CODE_FIXES = {("Maharashtra", "DHULE", 598): 498}
 

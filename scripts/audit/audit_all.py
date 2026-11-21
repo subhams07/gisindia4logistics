@@ -33,14 +33,14 @@ if str(pathlib.Path(__file__).resolve().parents[2]) not in sys.path:
 from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
 
 # ---------------------------------------------------------------- reference
-# District counts per state/UT, verified against the source's own LGD codes
-# (incl. 2024-25 formations: Arunachal Bichom/Keyi Panyor, Chhattisgarh 2025
-# batch incl. Khairagarh, Goa Kushavati; Maharashtra 36 — the source's
-# Dhule sub-districts carried code 598, which is Kerala's Alappuzha, and
-# were once dissolved into a duplicate "Malegaon" DHULE; that code is now
-# corrected to 498 in process_panindia_boundaries). Documented source gaps: Ladakh source predates the 2024
-# five-district split (2 only); Puducherry lacks Mahe/Yanam (2 of 4); J&K
-# = 20 coded + 2 PoK rows with null codes; Delhi = 11 coded + Nazul (null).
+# District counts per state/UT in the SoI ABDB layer (incl. 2024-25 formations:
+# Arunachal Bichom/Keyi Panyor, Chhattisgarh 2025 batch incl. Khairagarh, Goa
+# Kushavati; Maharashtra 36 — the source's Dhule sub-districts carried 598,
+# Kerala's Alappuzha in the source's Census 2011 numbering, and were once
+# dissolved into a duplicate "Malegaon" DHULE). Codes are now official LGD codes
+# (scripts/clean/apply_lgd_codes.py). Documented gaps against the LGD directory:
+# Ladakh predates the 2025 split (2 of 8); Delhi predates its 2025 reorganisation
+# (11 coded + Shahdara and Nazul without LGD codes); J&K = 20 coded + 2 PoK rows.
 EXPECTED_DISTRICTS = {
     "Andhra Pradesh": 26, "Arunachal Pradesh": 27, "Assam": 35, "Bihar": 38,
     "Chhattisgarh": 33, "Goa": 3, "Gujarat": 33, "Haryana": 22,
@@ -134,6 +134,26 @@ def audit_boundaries(source_root=DATA_DIR):
         ["sub_district_code", "sub_district"], keep=False).sum()
     check("subdistricts_lgd", "no true duplicate subdistrict codes (RURAL/URBAN pairs OK)", "FAIL",
           real_dups == 0, f"{int(real_dups)} real dups")
+
+    # district_code is the official LGD code (lgd_districts.csv snapshot of
+    # lgdirectory.gov.in); census2011_code is LGD's own Census 2011 code for it
+    lgd = pd.read_csv(source_root / "administrative" / "lgd_districts.csv")
+    official = {(s, c): (n, c11) for s, c, n, c11 in
+                zip(lgd.state_code, lgd.district_code, lgd.district_name, lgd.census2011_code)}
+    coded = dist.dropna(subset=["district_code"])
+    wrong = [(st, d, c) for st, d, s, c in zip(coded.state, coded.district, coded.state_code, coded.district_code)
+             if (int(s), int(c)) not in official]
+    check("districts_lgd", "district_code is an official LGD code of the same state", "FAIL",
+          not wrong, f"{len(wrong)} not in the LGD directory, e.g. {wrong[:3]}" if wrong else f"{len(coded)} coded")
+    c11 = [(d, c, x) for d, s, c, x in zip(coded.district, coded.state_code, coded.district_code, coded.census2011_code)
+           if (int(s), int(c)) in official and not (pd.isna(x) and pd.isna(official[(int(s), int(c))][1]))
+           and x != official[(int(s), int(c))][1]]
+    check("districts_lgd", "census2011_code matches the LGD directory", "FAIL", not c11, str(c11[:3]))
+    check("districts_lgd", "LGD district codes unique nationally", "FAIL",
+          not coded.district_code.duplicated().any())
+    uncoded = sorted(dist[dist.district_code.isna()].district)
+    check("districts_lgd", "only Nazul, Shahdara and the 2 PoK rows lack an LGD code", "FAIL",
+          uncoded == ["MIRPUR", "MUZAFFARABAD", "NAZUL", "SHAHDARA"], str(uncoded))
 
 
 def audit_villages(source_root=DATA_DIR):

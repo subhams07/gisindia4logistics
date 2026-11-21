@@ -38,13 +38,16 @@ datasets:
   resolution: district
   access: committed
   path: data/administrative/india_districts_lgd.geojson
-  fetch_script: scripts/clean/process_panindia_boundaries.py
+  fetch_script: scripts/clean/process_panindia_boundaries.py, then scripts/clean/apply_lgd_codes.py
   quality_status: verified
-  quality_notes: '780 after dropping 28 disputed slivers; Mirpur & Muzaffarabad (PoK) and Delhi''s Nazul
-    kept with null codes; the source sub-district layer tags Dhule''s 4 talukas with code 598 (Kerala''s
-    Alappuzha) — corrected to 498 in process_panindia_boundaries.py (this previously produced a duplicate
-    DHULE polygon wrongly labelled as a Malegaon split; Malegaon taluka is in Nashik 516); mojibake names
-    fixed; verified: per-state counts match LGD'
+  quality_notes: '780 after dropping 28 disputed slivers. district_code is the official LGD code (776
+    districts), mapped by scripts/clean/apply_lgd_codes.py against lgd_districts.csv; the source''s own
+    DIST_LGD value (Census 2011 code for older districts, a scheme of its own for newer ones) is kept as
+    abdb_district_code, and LGD''s Census 2011 code as census2011_code. No LGD code: Mirpur & Muzaffarabad
+    (PoK), Delhi''s Nazul and Shahdara (absent from LGD after Delhi''s 2025 reorganisation). The layer
+    predates the 2025 formations in Ladakh (6), Delhi, Gujarat (Vav-Tharad), Haryana (Hansi) and others
+    listed in LGD. Dhule''s source sub-districts carried 598 (Kerala''s Alappuzha in Census numbering),
+    corrected in process_panindia_boundaries.py; mojibake names fixed'
 - name: India sub-district boundaries (current, LGD)
   category: administrative
   description: 6,636 talukas/tehsils/blocks with LGD codes and type
@@ -59,7 +62,8 @@ datasets:
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
   quality_notes: 6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 81 rows have null
-    LGD codes in source; SoI RURAL/URBAN pairs legitimately share one LGD code; mojibake fixed; 22 MB
+    sub-district codes in source; district_code follows the district layer's LGD code (source value kept
+    as abdb_district_code); SoI RURAL/URBAN pairs legitimately share one LGD code; mojibake fixed; 22 MB
     GeoPackage as regular git blob
 - name: India district boundaries (Census 2011)
   category: administrative
@@ -75,6 +79,35 @@ datasets:
   quality_status: verified
   quality_notes: 640 features after dropping 1 placeholder; joins 1:1 with census2011_district_key_indicators.csv
     via district_key
+- name: LGD district directory (official snapshot)
+  category: administrative
+  description: Every district in the Local Government Directory with its LGD code and Census 2011 / 2001 codes
+  provider: Ministry of Panchayati Raj — Local Government Directory (lgdirectory.gov.in web service)
+  source_url: https://lgdirectory.gov.in
+  license: Government of India open data (GODL-India); attribute LGD, Ministry of Panchayati Raj
+  vintage: snapshot (fetched_on column)
+  resolution: district
+  access: committed
+  path: data/administrative/lgd_districts.csv
+  fetch_script: scripts/fetch/fetch_lgd_directory.py
+  quality_status: verified
+  quality_notes: 790 districts across 36 states/UTs; LGD codes unique nationally (the fetcher refuses to write
+    otherwise); census codes 0/blank mean none
+- name: District code crosswalk (SoI ABDB -> LGD)
+  category: administrative
+  description: Maps each of the 780 boundary-layer districts from its ABDB source code to its LGD code
+  provider: derived in this repo
+  source_url: https://lgdirectory.gov.in
+  license: CC BY 4.0 (derived)
+  vintage: current
+  resolution: district
+  access: committed
+  path: data/administrative/district_code_crosswalk.csv
+  fetch_script: scripts/clean/apply_lgd_codes.py
+  quality_status: verified
+  quality_notes: 638 by Census 2011 code, 123 by exact name, 11 by close name (spelling variants), 8 manual
+    (4 to an LGD code, 4 with none); no LGD code is used twice; cross-checked against the LGD codes carried by
+    the NWDP village files
 - name: Census 2011 ↔ LGD crosswalk
   category: administrative
   description: District name/spelling crosswalk and code mapping
@@ -523,7 +556,7 @@ datasets:
   path: data/demographic/district_population_estimates.csv
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
-  quality_notes: Covers all 780 current districts (567 exact census, 134 blended, 79 area-share); national sum 1,210,846,213 reconciles to 1,210,854,977 (<0.001% delta)
+  quality_notes: "Covers all 780 current districts (567 exact census, 136 blended, 77 area-share), keyed by LGD district_code; national sum 1,210,843,803 reconciles to 1,210,854,977 (<0.001% delta). Areas in ESRI:102028 (equal-area); villages counted per current district by point-in-polygon. Known weakness: village count is a poor population proxy in tribal agency areas (e.g. Alluri Sitarama Raju is over-estimated); village-level Census population would fix it"
 - name: Indian Railways annual freight loading
   category: freight
   description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)
