@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-10-20.
+Read this before making changes. Last updated: 2026-11-21.
 
 ## What this repository is
 
@@ -299,10 +299,10 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     `docs/audit_report.md`.
 34. Three evaluate-fix-evaluate cycles: 28 FAIL -> 4 FAIL -> 0 FAIL
     (201 PASS / 11 documented WARN). Real bugs found & fixed:
-    - **Malegaon (LGD 598) missing from districts** — the source's
-      subdistrict layer is NEWER than its district layer; derived the
-      district by dissolving its 4 subdistricts (now 781 districts;
-      `reconcile_districts()` in process_panindia_boundaries).
+    - ~~**Malegaon (LGD 598) missing from districts**~~ — WRONG diagnosis,
+      reverted in item 41: the "missing" district was Dhule's own 4
+      talukas mis-coded 598 in the source; the dissolve duplicated Dhule
+      (781 districts). Correct count is 780.
     - TN/Puducherry `Subdist` column alias (sub-districts restored).
     - MP `Villl_name` typo (names restored).
     - 3 exact-dup subdistrict rows; NH junk refs ("Old NH7") + 2 degenerate
@@ -362,22 +362,41 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - Enables multi-threshold feeder and catchment metrics (`nh_within_5km_pct`, `nh_within_10km_pct`, `expressway_within_25km_pct`, `rail_station_within_10km_pct`, `freight_terminal_within_25km_pct`).
     - Full deep audit suite passed: **227 checks | 216 PASS | 11 WARN | 0 FAIL**.
 
-### Phase F: village-access district identity (2026-10-20)
-41. **Village-access outputs now carry current LGD districts.** The SoI village
+### Phase F: Dhule / 598 source-code correction (2026-10-19)
+41. The derived "Malegaon (LGD 598)" district was a duplicate DHULE polygon
+    (6,929 km², ~100% overlap with DHULE 498). Cause: the source
+    sub-district layer tags Dhule's 4 talukas (Dhule 3959, Sakri 3958,
+    Shirpur 3956, Sindkhede 3957) with district code 598, which is Kerala's
+    Alappuzha (LGD codes run per state: Maharashtra 497-531, Kerala 588-601).
+    The source has no Malegaon district — Malegaon taluka (4146) is in
+    Nashik (516). Fix: `SUBDISTRICT_DISTRICT_CODE_FIXES` in
+    process_panindia_boundaries corrects 598 -> 498, and
+    `reconcile_districts()` now raises instead of deriving when a
+    "missing" code's name already exists in the state or the code belongs
+    to another state. Committed layers patched (raw source is not in the
+    repo); districts 781 -> 780, Maharashtra 37 -> 36.
+    Downstream: the duplicate also double-counted Dhule's ~2.04 M people in
+    `district_population_estimates.csv`, which the Maharashtra state
+    scaling then took out of every other Maharashtra district (~1.8% each).
+    Regenerated population estimates, Maharashtra/national access
+    summaries, and all Stage 4 outputs; the producer_limitations
+    source-identity disclosures are now empty.
+
+### Phase G: village-access district identity (2026-10-20, rebased 2026-11-21)
+42. **Village-access outputs now carry current LGD districts.** The SoI village
     files use an older district-code scheme and legacy-font names (Gujarat
     Devbhumi Dwarka 674 vs LGD 656; Telangana 697 = Yadadri in the village file
     but Mancherial in the LGD layer; `DEVBHUMI DW>RKA`, `DEVBHUMI DWARKAl`).
     `nearest_facility.assign_current_districts()` assigns each village's
     representative point to the same-state polygon of
     `india_districts_lgd.parquet` containing it (EPSG:4326 `within`).
-    Multi-polygon hits (sliver overlaps of the simplified layer, and the
-    near-identical DHULE 498/598 pair) resolve by largest village-polygon
+    Multi-polygon hits (sliver overlaps of the simplified layer) resolve by largest village-polygon
     overlap, then original over subdistrict-derived polygon, then the file's
     own code, then lowest code. 134 points (coastal generalisation; 13 border
     villages whose point lies metres into a neighbouring state) fall in no
     same-state polygon and take the nearest one (`district_assignment=nearest`).
     `source_district` / `source_district_code` keep the SoI values.
-    - Summaries group by (district, district_code): 781 district rows + 36
+    - Summaries group by (district, district_code): 780 district rows + 36
       `__STATE__`; population joins exactly on (state, district_code) (name
       only for the 3 null-code districts). The old fuzzy name join had
       mis-weighted 12 states (e.g. West Bengal -7.4 M, Tamil Nadu -6.4 M);
@@ -387,18 +406,17 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - `plot_villages.load_district_villages_gdf` aligns access rows to geometry
       by row order (village_code is not unique within states) and accepts the
       current or the source district name; it is in the producer code closure,
-      so the Stage 4 producers were regenerated (run `linux-2026-10-20-run1`).
+      so the Stage 4 producers were regenerated (run `linux-2026-11-21-run1`,
+      on top of the Phase F Dhule fix).
     - `make_readme_figures.py` (README maps) now joins the access summary on
       (state, district_code) like the travel table; its fuzzy village-name
       grouping workaround is gone.
     - Audit: `audit_access_districts()` re-checks point-in-polygon for all
       621,105 rows, one summary row per district, parquet == CSV, subdistrict
       districts. Haryana reproducibility check now aligns by row order.
-    - Residual: the LGD layer itself still has 4 legacy names (`B\dar`,
-      `DEHRAD@N`, `BIRBH@M`, `SOUTH 24PARGANAS`) and the derived DHULE 598 is
-      a near-duplicate of DHULE 498 (3 edge villages fall only in 598, and the
-      estimates file counts Dhule's population twice). Fixing these means
-      changing pinned producer inputs.
+    - Residual: the LGD layer still has 4 legacy names (`B\dar`,
+      `DEHRAD@N`, `BIRBH@M`, `SOUTH 24PARGANAS`); fixing them changes pinned
+      producer inputs.
 
 ## Enhancement backlog (suggested next steps)
 

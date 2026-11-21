@@ -32,7 +32,7 @@ Disclosures are derived generically from the declared district GeoJSON and the p
 
 Rows keep the literal labels, ascending source row and integer codes. Population and method are copied verbatim only for a unique exact literal `(state, district, district_code)` match in the population CSV; otherwise both are null. This is a disclosure, not an alternative population policy.
 
-Fixed notes: the cross-state note states an upstream source condition with rows and codes preserved literally and cause not determined. The same-state note reads: "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; Kerala/Alappuzha/598 is a separate cross-state code condition; cause not determined."
+Fixed notes: the cross-state note states an upstream source condition with rows and codes preserved literally and cause not determined. The same-state note reads: "Retained rows; overlapping geometries can make row-count or population-weighted aggregation double-represent the area; cause not determined." The national sources currently produce no disclosures: the only recorded condition (code 598 under Kerala/Alappuzha and Maharashtra/DHULE, plus DHULE under 498 and 598) was a source coding error in the sub-district layer, corrected in `scripts/clean/process_panindia_boundaries.py` (`SUBDISTRICT_DISTRICT_CODE_FIXES`).
 
 ## Fixed limitations
 

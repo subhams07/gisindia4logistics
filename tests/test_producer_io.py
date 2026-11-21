@@ -76,15 +76,16 @@ def test_real_population_collision_preserves_both_districts_and_totals():
     districts = gpd.read_file(root / "administrative/india_districts_lgd.geojson")
     population = pd.read_csv(root / "demographic/district_population_estimates.csv")
     result = io.district_population(districts, population)
-    # State/name alone also collides: the source has DHULE with codes 498 and 598.
+    # (state, district, code) is the identity; DHULE is a single 498 row since the
+    # source's Dhule/598 sub-district coding error was corrected.
     def identity(row):
         return row.state, row.district, None if pd.isna(row.district_code) else row.district_code
     expected = {identity(row): float(row.pop_2011) for row in population.itertuples()}
     assert len(expected) == len(population)
-    assert len({identity(row) for row in districts.itertuples()}) == len(population) == 781
+    assert len({identity(row) for row in districts.itertuples()}) == len(population) == 780
     assert result.tolist() == [expected[identity(row)] for row in districts.itertuples()]
     assert result.sum() == population.pop_2011.sum()
-    assert len(result) == len(districts) == 781
+    assert len(result) == len(districts) == 780
 
 
 @pytest.mark.parametrize("value", [True, "100", -1, float("inf")])

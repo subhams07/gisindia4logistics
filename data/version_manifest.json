@@ -14,7 +14,7 @@
       "vintage": "2024-25 LGD",
       "source": "Survey of India (ABDB)",
       "path": "data/administrative/india_districts_lgd.geojson",
-      "feature_count": 781
+      "feature_count": 780
     },
     "subdistricts_lgd": {
       "vintage": "2024-25 LGD",
@@ -91,10 +91,10 @@
       "feature_count": 77
     },
     "district_population_estimates": {
-      "vintage": "Census 2011 geometrically allocated to 781 LGD districts",
+      "vintage": "Census 2011 geometrically allocated to 780 LGD districts",
       "source": "Office of the Registrar General & Census Commissioner, India",
       "path": "data/demographic/district_population_estimates.csv",
-      "feature_count": 781
+      "feature_count": 780
     },
     "port_throughput_annual": {
       "vintage": "FY 2019-20 to FY 2023-24",

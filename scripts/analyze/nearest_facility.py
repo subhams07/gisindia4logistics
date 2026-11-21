@@ -87,10 +87,10 @@ def assign_current_districts(units: gpd.GeoDataFrame, state: str,
 
     The representative point of each unit is joined (EPSG:4326, ``within``) to
     the district polygons of the same state. Points inside several polygons
-    (sliver overlaps of the simplified layer, or the derived duplicate DHULE
-    598) are resolved by: largest overlap with the village polygon, then
-    original over subdistrict-derived polygons, then the village file's own
-    code, then the lowest code. Points inside no same-state polygon (coastal
+    (sliver overlaps of the simplified layer) are resolved by: largest overlap
+    with the village polygon, then original over subdistrict-derived polygons
+    (reconcile_districts), then the village file's own code, then the lowest
+    code. Points inside no same-state polygon (coastal
     generalisation, or a border village whose point lies a few metres into a
     neighbouring state) take the nearest same-state polygon.
 
@@ -311,7 +311,7 @@ def run_one(state: str, args) -> None:
     summary["district_code"] = summary["district_code"].astype("Int64")
 
     # population weighting: exact (state, district_code) join against the
-    # estimates file (covers all 781 current districts, row-aligned with the
+    # estimates file (covers all 780 current districts, row-aligned with the
     # boundary layer: exact census or allocated; see allocate_population.py);
     # null-code districts join on their exact name.
     est_path = DATA_DIR / "demographic" / "district_population_estimates.csv"

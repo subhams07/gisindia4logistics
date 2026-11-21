@@ -13,7 +13,7 @@ Covers the 9 states/UTs not published in SoI village boundary zips:
 
 Queries OpenStreetMap Overpass for geocoded settlement place nodes
 (village, hamlet, town, isolated_dwelling), spatially joins them with
-the 781 LGD districts layer, standardizes the schema, and saves GeoJSONs
+the 780 LGD districts layer, standardizes the schema, and saves GeoJSONs
 in data/administrative/villages/{state_slug}_habitations.geojson.
 """
 

@@ -47,7 +47,8 @@ def district_population(districts, population):
 
     Same-state duplicate codes fail. Unique state/name fallback applies only to
     uncoded primary rows; missing matches stay null. Source codes are not fixed
-    or reassigned here, including the observed Alappuzha/Dhule 598 collision.
+    or reassigned here (the former Alappuzha/Dhule 598 collision was a source
+    coding error, corrected upstream in process_panindia_boundaries.py).
     """
     for frame in (districts, population):
         if not {"district_code", "state", "district"}.issubset(frame.columns):

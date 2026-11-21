@@ -8,7 +8,7 @@ data/raw/panindia/State_District_Subdistrict_PAN INDIA.rar
 
 Outputs (committed, simplified):
     data/administrative/india_states_lgd.geojson        (~36 features, current)
-    data/administrative/india_districts_lgd.geojson     (~800, current districts)
+    data/administrative/india_districts_lgd.geojson     (780 current districts)
     data/administrative/india_subdistricts_lgd.geojson  (~6,600 talukas/tehsils)
 
 These are CURRENT administrative units with LGD codes — they complement the
@@ -66,6 +66,13 @@ SIMPLIFY = {"states": 0.001, "districts": 0.0012, "subdistricts": 0.0012}
 # Dh<rw<d=DHARWAD, Bengal#ru=BENGALURU) — verified on samples across states
 NAME_CHAR_FIXES = {"<": "a", ">": "A", "#": "u"}
 
+# sub-district rows whose DIST_LGD disagrees with the district layer:
+# (state, district, wrong code) -> LGD code. The source's 4 Dhule talukas
+# (Dhule, Sakri, Shirpur, Sindkhede) carry 598, which is Kerala's Alappuzha;
+# Maharashtra's codes run 497-531 and the district layer has DHULE = 498.
+# (Malegaon taluka stays in Nashik 516 — the source has no Malegaon district.)
+SUBDISTRICT_DISTRICT_CODE_FIXES = {("Maharashtra", "DHULE", 598): 498}
+
 
 def fix_mojibake(s):
     import pandas as pd
@@ -112,6 +119,13 @@ def process(layer: str) -> gpd.GeoDataFrame:
                 lambda s: s.strip() if isinstance(s, str) else s)  # strip stray \r
     if "remarks" in gdf:
         gdf["remarks"] = gdf["remarks"].map(fix_mojibake)
+
+    if layer == "subdistricts":
+        for (state, district, bad), good in SUBDISTRICT_DISTRICT_CODE_FIXES.items():
+            hit = gdf.state.eq(state) & gdf.district.eq(district) & gdf.district_code.eq(bad)
+            assert hit.any(), f"[{layer}] code fix {state}/{district}/{bad} matched no rows"
+            gdf.loc[hit, "district_code"] = good
+            print(f"[{layer}] {state}/{district}: district_code {bad} -> {good} ({int(hit.sum())} rows)")
 
     # PoK districts (Mirpur, Muzaffarabad) carry "NOT AVAILABLE" LGD codes
     for col in ("district_code", "sub_district_code"):
@@ -160,24 +174,36 @@ def main() -> None:
 
 
 def reconcile_districts(districts: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """The source's subdistrict layer is newer than its district layer: e.g.
-    Maharashtra's Dhule split (LGD 598, Malegaon, 2024) exists in subdistricts
-    but not districts. Derive missing districts by dissolving their
-    subdistrict polygons so the two layers join cleanly."""
+    """The source's subdistrict layer may be newer than its district layer.
+    Derive a district that only exists in the subdistrict layer by
+    dissolving its subdistrict polygons so the two layers join cleanly.
+
+    A (state, code) pair absent from the district layer is only treated as a
+    new district when neither its name already exists in that state nor its
+    code belongs to another state — otherwise it is a coding error in the
+    source (e.g. Dhule 598) that must be fixed in
+    SUBDISTRICT_DISTRICT_CODE_FIXES, not dissolved into a duplicate polygon."""
     sub = process("subdistricts").dropna(subset=["district_code"])
     have = set(zip(districts.state, districts.district_code))
     missing = sub[~sub.apply(lambda r: (r.state, r.district_code) in have, axis=1)]
     if not len(missing):
         return districts
+    names = set(zip(districts.state, districts.district))
+    codes = districts.dropna(subset=["district_code"]).groupby("district_code")["state"].agg(set)
     rows = []
     for (state, code), grp in missing.groupby(["state", "district_code"]):
-        geom = grp.geometry.union_all()
         name = grp["district"].mode().iloc[0]
+        clash = [f"name {name!r} already in {state}"] if (state, name) in names else []
+        if code in codes.index:
+            clash.append(f"code {code} belongs to {sorted(codes[code])}")
+        if clash:
+            raise ValueError(f"[districts] subdistricts of {state}/{name} carry code {code} "
+                             f"absent from the district layer, but {'; '.join(clash)} — "
+                             "add a SUBDISTRICT_DISTRICT_CODE_FIXES entry")
         rows.append({"state": state, "state_code": grp.state_code.iloc[0],
                      "district": name, "district_code": code,
                      "remarks": "derived from subdistrict dissolve (absent from "
-                                "source district layer; e.g. LGD 598 Malegaon "
-                                "carved from Dhule 2024)", "geometry": geom})
+                                "source district layer)", "geometry": grp.geometry.union_all()})
         print(f"[districts] derived missing district: {name} ({code}) from "
               f"{len(grp)} subdistricts")
     out = pd.concat([districts, gpd.GeoDataFrame(rows, crs=4326)], ignore_index=True)

@@ -17,7 +17,7 @@ def test_root_endpoint():
     data = res.json()
     assert data["status"] == "operational"
     assert data["datasets_online"]["states_count"] == 36
-    assert data["datasets_online"]["districts_count"] == 781
+    assert data["datasets_online"]["districts_count"] == 780
 
 
 def test_admin_states():
@@ -27,7 +27,7 @@ def test_admin_states():
     assert len(states) == 36
     mh = [s for s in states if s["state"] == "Maharashtra"]
     assert len(mh) == 1
-    assert mh[0]["district_count"] == 37
+    assert mh[0]["district_count"] == 36
 
 
 def test_admin_districts():

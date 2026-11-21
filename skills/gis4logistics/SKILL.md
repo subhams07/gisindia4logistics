@@ -2,14 +2,14 @@
 name: gis4logistics
 description: >-
   Provides logistics intelligence, spatial infrastructure queries, highway routing,
-  and multi-modal freight cost optimization across all 36 Indian States/UTs, 781 districts,
+  and multi-modal freight cost optimization across all 36 Indian States/UTs, 780 districts,
   and 578,000+ habitations.
 ---
 
 # GIS4Logistics India Skill Guide
 
 Use this skill when you need to answer questions, generate reports, or run simulations on:
-1. **District Logistics Scorecards & Demographics**: Proximity to National Highways, Railway Stations, Toll Plazas, ICDs, Ports, and MMLPs across India's 781 current LGD districts.
+1. **District Logistics Scorecards & Demographics**: Proximity to National Highways, Railway Stations, Toll Plazas, ICDs, Ports, and MMLPs across India's 780 current LGD districts.
 2. **Multi-Modal Freight Cost Optimization**: Comparing Road Trucking vs Conventional Indian Railways vs Dedicated Freight Corridor (DFC) with custom freight rates, toll outlays, and transit delays.
 3. **Nearest Logistics Infrastructure**: Finding the closest Sea Ports, ICDs, MMLPs, Air Cargo terminals, Inland Waterways, Cold Chain storages, APMC e-NAM Mandis, or Toll Plazas to any coordinate.
 4. **Highway Route & Toll Friction**: Computing road driving distance, driving hours, toll plaza counts, and FASTag toll expense.
