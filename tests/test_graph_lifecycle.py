@@ -9,7 +9,7 @@ import pytest
 from server.dependencies import DataStore
 from server.services.exceptions import GISIndia4LogisticsError, RouteNotAvailableError
 from server.services.routing_service import RoutingService
-from tests.test_routing_edge_cases import graph, location
+from tests.routing_helpers import graph, location
 
 
 def fixture_graph():

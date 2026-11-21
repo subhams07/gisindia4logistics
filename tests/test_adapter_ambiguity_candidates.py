@@ -99,10 +99,10 @@ def test_committed_bilaspur_candidates_across_surfaces(monkeypatch):
     json.dumps(candidates, allow_nan=False)
 
 
-def test_committed_cli_ambiguity_is_safe(tmp_path):
+def test_committed_cli_ambiguity_is_safe(tmp_path, shared_graph_cache):
     env = {k: v for k, v in os.environ.items() if k not in ('PYTHONPATH', 'PYTHONHOME')}
     env['PYTHONDONTWRITEBYTECODE'] = '1'
-    env['GIS4LOGISTICS_CACHE_PATH'] = str(tmp_path / 'cache')
+    env['GIS4LOGISTICS_CACHE_PATH'] = str(shared_graph_cache)
     env['GIS4LOGISTICS_OUTPUT_PATH'] = str(tmp_path / 'outputs')
     result = subprocess.run([sys.executable, '-B', '-m', 'gisindia4logistics.cli',
         'district', 'Bilaspur'], env=env, capture_output=True, text=True, timeout=180)

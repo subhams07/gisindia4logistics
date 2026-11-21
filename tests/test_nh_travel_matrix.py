@@ -211,7 +211,9 @@ def test_invalid_source_fails_before_cache_or_outputs(synthetic, tmp_path, failu
             pop = pd.concat([pop, pd.DataFrame({'state': ['X', 'x'], 'district': ['Missing', ' missing '],
                                               'district_code': [20., 21.], 'pop_2011': [2., 3.]})])
         pop.to_csv(pop_path, index=False)
-    with pytest.raises(Exception):
+    import pyarrow
+    expected = {'missing_nh': FileNotFoundError, 'corrupt_preferred': pyarrow.lib.ArrowInvalid}.get(failure, ValueError)
+    with pytest.raises(expected):
         matrix.build_travel_outputs(data_dir=root, cache_dir=tmp_path / 'cache')
     assert captures == []
     assert not (tmp_path / 'cache').exists()

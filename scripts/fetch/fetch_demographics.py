@@ -38,6 +38,20 @@ KEEP_COLS = ["census_district_code", "state", "district", "Population", "Male",
              "Graduate_Education", "Age_Group_0_29", "Age_Group_30_49", "Age_Group_50"]
 
 
+def validation_checks(df: pd.DataFrame) -> dict[str, bool]:
+    """Validation gate: the district table must reconcile with the official Census 2011 totals."""
+    checks = {
+        "districts == 640": len(df) == OFFICIAL_2011["districts"],
+        "population reconciles": df["Population"].sum() == OFFICIAL_2011["total_population"],
+        "male+female == total": (df["Male"].sum() + df["Female"].sum()
+                                 == df["Population"].sum()),
+    }
+    state_pop = df.groupby("state")["Population"].sum()
+    for st, pop in OFFICIAL_2011["top_state_pop"].items():
+        checks[f"{st} pop == {pop:,}"] = state_pop.get(st) == pop
+    return {k: bool(v) for k, v in checks.items()}
+
+
 def main() -> None:
     argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     out_dir = DATA_DIR / "demographic"
@@ -54,16 +68,7 @@ def main() -> None:
     if df["state"].isna().any():
         raise ValueError(f"Unmapped states: {df['State_name'][df.state.isna()].unique()}")
 
-    # --- validation gate ---
-    checks = {
-        "districts == 640": len(df) == OFFICIAL_2011["districts"],
-        "population reconciles": df["Population"].sum() == OFFICIAL_2011["total_population"],
-        "male+female == total": (df["Male"].sum() + df["Female"].sum()
-                                 == df["Population"].sum()),
-    }
-    state_pop = df.groupby("state")["Population"].sum()
-    for st, pop in OFFICIAL_2011["top_state_pop"].items():
-        checks[f"{st} pop == {pop:,}"] = state_pop.get(st) == pop
+    checks = validation_checks(df)
     print("Validation:")
     for k, v in checks.items():
         print(f"  {k}: {v}")

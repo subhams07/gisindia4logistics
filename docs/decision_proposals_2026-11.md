@@ -87,3 +87,33 @@ Closure files include every `server/` module, `scripts/analyze/{stage4_generate,
 3. **Batch C (needs maintainer input or a source):** 13 (re-sourcing), 18, 40, 41, 49.
 
 Items marked "Check" are resolved during implementation by grepping the producers for the file; the result is noted in the commit.
+
+## Batch A progress (2026-11-21)
+
+Implemented on the review branch without waiting for the Codex review, because none of these change Stage 4 closure files or published analysis numbers.
+
+| # | Status | What was done |
+|---|---|---|
+| 4 | Done | `india_subdistrict_access.csv` and `subdistrict_access.py` deleted. |
+| 9 | Done | The 34,954 border-state rows carry `unit = habitation`; only that column changed. The unreachable centroid fallback is removed (a state with no file now exits with an error). |
+| 13 | Partly | Self-comparing asserts replaced by part-vs-total checks (script output and an audit WARN); both tables marked `quality_status: unverified` with the inconsistencies stated. Re-sourcing still needs the PIB/IPA documents. |
+| 15 | Done | Habitation GeoJSON and Parquet: `state_code` from the district layer, integer `district_code`; the fetcher writes the same. |
+| 16, 17 | Done | Pune extract (GeoJSON + Parquet) and the unread sub-district GeoJSON deleted; audit baseline updated. |
+| 19 | Done | DBSCAN replaced by scipy connected components (`cluster_labels`, unit-tested). |
+| 26 | Done | Parquet twin parity (rows and columns) for all 27 village and 9 habitation files; baseline village counts read from Parquet metadata. The two "duplicate" checks are either/or branches, not duplicates, so they stay. |
+| 27 | Done | `--state` rebuilds that state's summary, then the national composite. |
+| 28 | Done, with a change | `.gemini` path removed, `--source-file` added, empty zones handled, base-table origin documented. Instead of writing to a new file, the script keeps existing zone/division values and fills only gaps, so re-running it is idempotent and consumers keep reading the same path. |
+| 30 | Partly | Subprocess and in-process tests that route on the committed data share one session graph cache (fingerprint-checked). The per-test oracle bundle in `test_producer_graph_oracle.py` is unchanged. |
+| 31 | Partly | `tests/conftest.py` holds the component-floor fixture once (was copied in 7 files); routing and MCP helpers moved to `tests/routing_helpers.py` and `tests/mcp_helpers.py`. The `sys.path` edits in `test_district_assignment.py` remain. |
+| 32 | Done | Routed distance has a ±0.5 km tolerance; package, API and data versions are read from `pyproject.toml` and `version_manifest.json`; toll rates come from one table in `tests/routing_helpers.py` (finding 1 will change only that table). |
+| 33 | Done | Six weak assertions now name the exact exception or status. |
+| 34 | Deferred | Removing tests reduces coverage; left for the Codex review to confirm which duplicates are safe to drop. |
+| 35 | Partly | `tests/test_audit_batch_a.py` (24 tests): political-map points, habitation codes, population state-group totals and census2011 rows (ADR 007 A1–A3 now have tests), the demographics gate (`validation_checks`, extracted), freight consistency, toll clustering, GCT name normalisation, zone cleaning, twin parity, catalog statuses. GCT matching tests wait for finding 12. |
+| 37 | Done | Legacy `skills/gis4logistics/` and `plugins/gis4logistics/` deleted; nothing referenced them. |
+| 43 | Done | `reports` extra removed; ADR 006 "Not planned". |
+| 48 | Done | Crosswalk deleted (file, catalog entry, fetcher output, data-standards line); catalog lists 41 datasets. |
+| 54 | Archive part done | `roadmap.md` and `routing_review.md` in `docs/archive/`; links updated. |
+| 56 | Done | CHANGELOG has a 1.0.0 section and one "Changed" block in 1.1.0; SECURITY.md names the `v1.0.0` tag. No tag created. |
+| 57 | Done | Docker is evaluation-only: runtime requirements only, data excluded from the image and mounted, outputs on a named volume, no `version:` key. Not built here (no Docker in the container). |
+| 58 | Done | Investment classifier, 3.10/3.12 classifiers and the empty `package-data` removed. |
+| 61 | Done | Five-point political-map audit check on both state layers (10 PASS); remaining "PoK" labels reworded. The Survey of India "DISPUTED (X & Y)" inter-state sliver labels stay: they describe state-boundary disputes inside India. |

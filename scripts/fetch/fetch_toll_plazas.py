@@ -47,6 +47,15 @@ def fetch_raw_toll_booths() -> list[dict]:
     return elements
 
 
+def cluster_labels(coords: np.ndarray, radius_m: float) -> np.ndarray:
+    """Single-linkage clusters: points chained by gaps <= radius_m share a label
+    (same partition as DBSCAN with eps=radius_m, min_samples=1)."""
+    n = len(coords)
+    pairs = cKDTree(coords).query_pairs(r=radius_m, output_type="ndarray")
+    adj = coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])), shape=(n, n))
+    return connected_components(adj, directed=False)[1]
+
+
 def main() -> None:
     argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     raw_elements = fetch_raw_toll_booths()
@@ -86,12 +95,7 @@ def main() -> None:
     # 2. Cluster multi-lane toll booths within 150 meters in projected CRS (EPSG:7755)
     gdf_proj = gdf_in.to_crs(7755)
     coords = np.column_stack([gdf_proj.geometry.x, gdf_proj.geometry.y])
-    # Single-linkage clusters within 150 m (same result as DBSCAN eps=150, min_samples=1).
-    pairs = cKDTree(coords).query_pairs(r=150, output_type="ndarray")
-    n = len(coords)
-    adj = coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])), shape=(n, n))
-    _, labels = connected_components(adj, directed=False)
-    gdf_in["cluster"] = labels
+    gdf_in["cluster"] = cluster_labels(coords, 150.0)
 
     # 3. Aggregate clusters into single discrete Toll Plazas
     plazas = []

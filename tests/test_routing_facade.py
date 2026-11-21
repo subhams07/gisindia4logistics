@@ -14,7 +14,7 @@ from server.models.phase1 import CoordinateLocation, HighwayRoutePlanRequest, Ve
 from server.models.schemas import RouteRequest, RouteResponse
 from server.services import routing_facade as facade
 from server.services.routing_service import RoutingService
-from tests.test_routing_edge_cases import graph, location
+from tests.routing_helpers import graph, location, toll_rate
 
 
 @pytest.fixture
@@ -96,8 +96,7 @@ def test_display_simplification_actual_vertices(synthetic):
 
 
 @pytest.mark.parametrize("distance,count", [(0, 0), (39, 0), (40, 1), (65, 1), (130, 2)])
-@pytest.mark.parametrize("vehicle,rate", [(v.value, 340 if v == VehicleType.MAV_20T else
-                                         120 if v == VehicleType.LMV else 220) for v in VehicleType])
+@pytest.mark.parametrize("vehicle,rate", [(v.value, toll_rate(v)) for v in VehicleType])
 def test_legacy_thresholds_and_rates(synthetic, distance, count, vehicle, rate):
     store, refs = synthetic
     result = facade.plan_highway_route(rich(refs), store).model_copy(update={"distance_km": float(distance)})

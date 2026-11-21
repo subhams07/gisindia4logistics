@@ -193,6 +193,7 @@ def audit_villages(source_root=DATA_DIR):
               f"{int(g['village'].isna().sum())} blank in SoI source" if "village" in g else "no col")
         check("villages", f"{slug}: geometries valid+non-empty", "FAIL",
               bool(g.geometry.is_valid.all()) and not g.geometry.is_empty.any())
+        _twin_parity_check("villages", slug, g, pathlib.Path(f))
         ref = CENSUS_VILLAGES_2011.get(state)
         if ref:
             ratio = len(g) / ref
@@ -203,6 +204,31 @@ def audit_villages(source_root=DATA_DIR):
         if exp:
             check("villages", f"{slug}: districts covered == districts layer", "WARN",
                   nd >= exp - 1, f"{nd}/{exp}")
+
+    for f in sorted(glob.glob(str(source_root / "administrative" / "villages" / "*_habitations.geojson"))):
+        g = gpd.read_file(f)
+        slug = pathlib.Path(f).stem
+        check("habitations", f"{slug}: state_code filled", "FAIL",
+              "state_code" in g and g["state_code"].notna().all())
+        _twin_parity_check("habitations", slug, g, pathlib.Path(f))
+
+
+def _parquet_twin(geojson_path: pathlib.Path) -> pathlib.Path:
+    return geojson_path.parent.parent / "villages_parquet" / f"{geojson_path.stem}.parquet"
+
+
+def _twin_parity_check(dataset, slug, frame, geojson_path):
+    """The GeoParquet twin must hold the same rows and columns as the GeoJSON."""
+    import pyarrow.parquet as pq
+    twin = _parquet_twin(geojson_path)
+    if not twin.exists():
+        check(dataset, f"{slug}: parquet twin exists", "FAIL", False, str(twin.name))
+        return
+    meta = pq.read_metadata(twin)
+    columns = set(meta.schema.names) - {"__index_level_0__"}
+    same = meta.num_rows == len(frame) and columns == set(frame.columns)
+    check(dataset, f"{slug}: parquet twin rows and columns match", "FAIL", same,
+          f"{meta.num_rows} vs {len(frame)} rows; column diff {sorted(columns ^ set(frame.columns))}")
 
 
 def audit_analysis(source_root=DATA_DIR, artifact_root=None):
@@ -1641,7 +1667,9 @@ def main() -> None:
         deep_counts["admin:subdistricts"] = len(sub)
         import glob as g
         for f in g.glob(str(source_root / "administrative" / "villages" / "*_soi_villages.geojson")):
-            deep_counts[f"villages:{pathlib.Path(f).stem}"] = len(gpd.read_file(f))
+            # row count from the GeoParquet twin's metadata (the audit checks parity)
+            import pyarrow.parquet as pq
+            deep_counts[f"villages:{pathlib.Path(f).stem}"] = pq.read_metadata(_parquet_twin(pathlib.Path(f))).num_rows
         deep_counts.update(collect_counts(source_root, artifact_root))
         baseline_path = source_root / "audit_baseline.json"
         baseline_path.write_text(json.dumps(deep_counts, indent=1, sort_keys=True))
