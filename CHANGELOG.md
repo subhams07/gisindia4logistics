@@ -4,6 +4,13 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — geodesic village distances
+
+- Village and sub-district access distances (`dist_*_km` in `data/analysis/*_village_access.csv`, the district summaries and `india_subdistrict_access.csv`) are now geodesic on the WGS84 ellipsoid. They were measured in EPSG:7755, a conformal projection whose scale runs from ~0.980 (24°N) to ~1.03 (6.7°N), so distances were up to ~2% short in central and north India and up to ~2% long in the far south. Median change +1.9% (1st–99th percentile −0.7% to +2.0%). EPSG:7755 now only narrows the candidates; the nearest facility is the one with the smallest geodesic distance, which changes the named facility for 0.02–0.25% of villages per type.
+- Headline figures: population-weighted mean distance to a rail station 14.8 → 15.1 km and to an ICD 125.4 → 127.4 km (27 village-level states); median village distance to a National Highway 6.6 → 6.7 km and to a railway station 13.3 → 13.5 km.
+- Audit: the Haryana reproducibility check is replaced by a brute-force geodesic recomputation of rail-station and port distances for 40 villages each in Haryana, Kerala, Andaman & Nicobar and Sikkim (tolerance 0.006 km).
+- Highway routing, drive times and the other Stage 4 outputs still measure in EPSG:7755; they are corrected separately.
+
 ### Fixed — Dhule duplicate / district code 598
 
 - `india_districts_lgd` had two Maharashtra "DHULE" polygons (codes 498 and 598) covering the same ~6,929 km². The source sub-district layer tags Dhule's four talukas (Dhule, Sakri, Shirpur, Sindkhede) with district code 598, which is Kerala's Alappuzha; `reconcile_districts()` took the unknown (Maharashtra, 598) pair for a new "Malegaon" district and dissolved those talukas into a second Dhule. The source contains no Malegaon district (Malegaon taluka is in Nashik, 516). `process_panindia_boundaries.py` now corrects the code to 498 (`SUBDISTRICT_DISTRICT_CODE_FIXES`), and `reconcile_districts()` raises instead of deriving when a name already exists in the state or a code belongs to another state.

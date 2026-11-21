@@ -418,6 +418,24 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
       `DEHRAD@N`, `BIRBH@M`, `SOUTH 24PARGANAS`); fixing them changes pinned
       producer inputs.
 
+### Phase H: geodesic village distances (2026-11-21)
+43. A comparison with saketlab/bharatviz exposed that EPSG:7755 (Lambert
+    conformal, standard parallels 12.47°/35.17°N) is not distance- or
+    area-preserving: point scale is 0.980 at 24°N and ~1.03 at 6.7°N, so
+    7755 areas sum India to 3.179 M km² vs 3.270 M km² geodesic, and
+    distances were ~2% short across central/north India.
+    `nearest_facility.nearest_geodesic()` keeps 7755 only to collect
+    candidates (everything within 1.06× the projected nearest distance) and
+    picks the smallest WGS84 geodesic distance (pyproj.Geod); for lines the
+    closest point is found in 7755 and measured geodesically. Matches a
+    brute-force geodesic search exactly on samples at 8–28°N. Used by
+    nearest_facility.py and subdistrict_access.py; all 36 states regenerated
+    (~4 min). Rule: never report km or km² measured in EPSG:7755; use
+    pyproj.Geod (distances/lengths) or an equal-area CRS such as ESRI:102028
+    (areas). Still pending (Phase H2): NH graph edge lengths, travel-matrix
+    straight-line km, isochrone buffers, routing service, graph oracle and
+    allocate_population area shares — all inside the Stage 4 producer chain.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one
