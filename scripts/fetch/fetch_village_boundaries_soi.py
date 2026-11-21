@@ -144,6 +144,28 @@ def load_standardized(zip_path: pathlib.Path) -> gpd.GeoDataFrame:
     return gdf
 
 
+def robust_prep(geom, tol: float):
+    """Simplify + grid-snap + repair one feature; GEOS chokes vectorized
+    on some source polygons (Karnataka has free-hole shells), so this is
+    per-feature with fallbacks."""
+    import shapely
+    from shapely import make_valid
+
+    if geom is None or geom.is_empty:
+        return geom
+    try:
+        g = geom.simplify(tol) if tol > 0 else geom
+        g = shapely.set_precision(g, 1e-5)
+        return make_valid(g)
+    except Exception:
+        try:
+            return make_valid(shapely.set_precision(geom.buffer(0), 1e-5))
+        except Exception:
+            parts = geom.geoms if hasattr(geom, "geoms") else [geom]
+            polys = [p for p in parts if p.geom_type == "Polygon" and p.area > 0]
+            return max(polys, key=lambda p: p.area) if polys else None
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--state", help="state name as used in this repo (e.g. 'Sikkim')")
@@ -170,28 +192,7 @@ def main() -> None:
     else:
         label = state_name.lower().replace(" ", "_")
 
-    import shapely
-    from shapely import make_valid
-
-    def robust_prep(geom, tol=args.simplify):
-        """Simplify + grid-snap + repair one feature; GEOS chokes vectorized
-        on some source polygons (Karnataka has free-hole shells), so this is
-        per-feature with fallbacks."""
-        if geom is None or geom.is_empty:
-            return geom
-        try:
-            g = geom.simplify(tol) if tol > 0 else geom
-            g = shapely.set_precision(g, 1e-5)
-            return make_valid(g)
-        except Exception:
-            try:
-                return make_valid(shapely.set_precision(geom.buffer(0), 1e-5))
-            except Exception:
-                parts = geom.geoms if hasattr(geom, "geoms") else [geom]
-                polys = [p for p in parts if p.geom_type == "Polygon" and p.area > 0]
-                return max(polys, key=lambda p: p.area) if polys else None
-
-    gdf.geometry = gdf.geometry.map(robust_prep)
+    gdf.geometry = gdf.geometry.map(lambda g: robust_prep(g, args.simplify))
     # a handful of source rows carry zero-area/empty geometry (e.g. Dhaond in
     # MP's Burhanpur) — drop and report rather than write nulls
     n_empty = int((gdf.geometry.is_empty | gdf.geometry.isna()).sum())

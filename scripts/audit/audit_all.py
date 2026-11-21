@@ -54,7 +54,12 @@ EXPECTED_DISTRICTS = {
     "Jammu and Kashmir": 22, "Ladakh": 2, "Lakshadweep": 1, "Puducherry": 2,
 }
 
-# SoI publishes village files for exactly these 27 (the 9 border/NE absent)
+# SoI's village portal publishes these 27; the other 9 come from SoI's own
+# files on the National Water Data Portal (fetch_village_boundaries_nwdp.py)
+NWDP_VILLAGE_STATES = [
+    "Arunachal Pradesh", "Assam", "Himachal Pradesh", "Jammu and Kashmir", "Ladakh",
+    "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+]
 SOI_PUBLISHED_STATES = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Bihar", "Chandigarh",
     "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi",
@@ -162,13 +167,25 @@ def audit_villages(source_root=DATA_DIR):
     slugs = {pathlib.Path(f).stem.replace("_soi_villages", "") for f in files}
     # pune_* is a district extract, not a state file
     state_slugs = {s for s in slugs if not s.startswith("pune")}
-    expected_slugs = {s.lower().replace(" ", "_") for s in SOI_PUBLISHED_STATES}
-    expected_slugs = {s.replace("andaman_and_nicobar_islands", "andaman_and_nicobar_islands")
-                      for s in expected_slugs}
+    expected_slugs = {s.lower().replace(" ", "_") for s in SOI_PUBLISHED_STATES + NWDP_VILLAGE_STATES}
     missing = expected_slugs - state_slugs
     extra = state_slugs - expected_slugs
-    check("villages", "exactly the 27 published states present", "FAIL",
+    check("villages", "village files for all 36 states/UTs", "FAIL",
           not missing and not extra, f"missing={sorted(missing)} extra={sorted(extra)}")
+    # NWDP files carry village-level Census 2011 population: state sums must
+    # match the census table (J&K's 2011 total includes Ladakh)
+    census = pd.read_csv(source_root / "demographic" / "census2011_district_key_indicators.csv")
+    census_tot = census.groupby(census.state.str.lower()).Population.sum()
+    pops = {}
+    for st in NWDP_VILLAGE_STATES:
+        f = source_root / "administrative" / "villages" / f"{st.lower().replace(' ', '_')}_soi_villages.geojson"
+        if f.exists():
+            pops[st] = gpd.read_file(f, columns=["population_2011"], ignore_geometry=True).population_2011.sum()
+    pops["Jammu and Kashmir"] = pops.get("Jammu and Kashmir", 0) + pops.pop("Ladakh", 0)
+    off = {st: (int(v), int(census_tot.get(st.lower(), 0))) for st, v in pops.items()
+           if abs(v - census_tot.get(st.lower(), 0)) > 0.0005 * census_tot.get(st.lower(), 1)}
+    check("villages", "NWDP village population sums == Census 2011 state totals (±0.05%)", "FAIL",
+          len(pops) == 8 and not off, str(off) if off else f"{len(pops)} states (J&K incl. Ladakh)")
 
     dist = gpd.read_file(source_root / "administrative" / "india_districts_lgd.geojson")
     dist_counts = dist.groupby("state")["district"].count()
@@ -197,7 +214,13 @@ def audit_villages(source_root=DATA_DIR):
             ratio = len(g) / ref
             check("villages", f"{slug}: count vs census-2011 soft ref", "WARN",
                   0.75 <= ratio <= 1.3, f"{len(g)} vs {ref} (x{ratio:.2f})")
-        nd = g.district.nunique() if "district" in g else 0
+        # districts covered = current districts the villages fall in (the access
+        # table's spatial assignment); source district names predate new districts
+        access = source_root / "analysis" / f"{slug}_village_access.csv"
+        if access.exists():
+            nd = pd.read_csv(access, usecols=["district"]).district.nunique()
+        else:
+            nd = g.district.nunique() if "district" in g else 0
         exp = dist_counts.get(state)
         if exp:
             check("villages", f"{slug}: districts covered == districts layer", "WARN",
@@ -490,7 +513,7 @@ def audit_demographics(source_root=DATA_DIR):
         diff = abs(est.pop_2011.sum() - 1_210_854_977)
         check("population_estimates", "total population conserved (<0.01% delta)", "FAIL",
               diff / 1_210_854_977 < 0.0001, f"{est.pop_2011.sum():,} (delta {diff})")
-        valid_methods = set(est.method.unique()) <= {"census2011", "blended", "area_share"}
+        valid_methods = set(est.method.unique()) <= {"census2011", "village_census", "blended", "area_share"}
         check("population_estimates", "valid allocation methods", "FAIL", valid_methods,
               str(est.method.value_counts().to_dict()))
 

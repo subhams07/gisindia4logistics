@@ -4,7 +4,7 @@ Generate the README hero maps (light and dark variants) into docs/img/.
 
 Maps (780 current LGD districts, EPSG:7755, state outlines overlaid):
 1. readme_rail_access_{light,dark}.png - median straight-line distance from a
-   district's villages/settlements to the nearest railway station
+   district's villages to the nearest railway station
    (``rail_station_median_km`` in data/analysis/india_district_access_summary.csv).
 2. readme_icd_drive_{light,dark}.png - drive time along the National Highway
    network to the nearest inland container depot
@@ -77,7 +77,7 @@ MAPS = {
     "rail_access": dict(
         stem="readme_rail_access",
         title="How far is the nearest railway station?",
-        subtitle="Median straight-line distance from each district's villages and settlements to the nearest station",
+        subtitle="Median straight-line distance from each district's villages to the nearest station",
         legend_title="Median distance, km",
         bins=[5, 10, 20, 40],
         labels=["<5", "5–10", "10–20", "20–40", "≥40"],

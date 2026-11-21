@@ -28,68 +28,68 @@ Andhra Pradesh,Visakhapatnam,520,264599,blended,94
 Andhra Pradesh,Vizianagaram,521,1594170,blended,970
 Andhra Pradesh,West Godavari,523,1102954,census2011,299
 Andhra Pradesh,Y.S.R.,504,1884738,census2011,729
-Arunachal Pradesh,ANJAW,628,20005,census2011,0
-Arunachal Pradesh,BICHOM,787,28744,area_share,0
-Arunachal Pradesh,CHANGLANG,229,153925,census2011,0
-Arunachal Pradesh,DIBANG VALLEY,230,8399,area_share,0
-Arunachal Pradesh,EAST KAMENG,231,47514,census2011,0
-Arunachal Pradesh,EAST SIANG,232,44655,area_share,0
-Arunachal Pradesh,KAMLE,718,54525,area_share,0
-Arunachal Pradesh,KEYI PANYOR,786,45151,area_share,0
-Arunachal Pradesh,KRA DAADI,677,33654,census2011,0
-Arunachal Pradesh,KURUNG KUMEY,233,66355,census2011,0
-Arunachal Pradesh,LEPA RADA,724,11046,census2011,0
-Arunachal Pradesh,LOHIT,234,99412,area_share,0
-Arunachal Pradesh,LONGDING,666,51975,census2011,0
-Arunachal Pradesh,LOWER DIBANG VALLEY,235,33891,census2011,0
-Arunachal Pradesh,LOWER SIANG,719,32741,area_share,0
-Arunachal Pradesh,LOWER SUBANSIRI,236,9316,census2011,0
-Arunachal Pradesh,NAMSAI,678,50868,census2011,0
-Arunachal Pradesh,PAKKE KESSANG,723,25266,census2011,0
-Arunachal Pradesh,PAPUMPARE,237,154551,census2011,0
-Arunachal Pradesh,SHI YOMI,725,38378,area_share,0
-Arunachal Pradesh,SIANG,679,68168,area_share,0
-Arunachal Pradesh,TAWANG,238,51782,census2011,0
-Arunachal Pradesh,TIRAP,239,58109,census2011,0
-Arunachal Pradesh,UPPER SIANG,240,34531,census2011,0
-Arunachal Pradesh,UPPER SUBANSIRI,241,78664,census2011,0
-Arunachal Pradesh,WEST KAMENG,242,62893,census2011,0
-Arunachal Pradesh,WEST SIANG,243,19209,census2011,0
-Assam,BAJALI,739,359119,area_share,0
-Assam,BAKSA,616,666738,area_share,0
-Assam,BARPETA,280,1292297,census2011,0
-Assam,BISWANATH,705,830063,census2011,0
-Assam,BONGAIGAON,281,757926,area_share,0
-Assam,CACHAR,282,1750984,census2011,0
-Assam,CHARAIDEO,708,445265,census2011,0
-Assam,CHIRANG,612,501208,area_share,0
-Assam,DARANG,283,909738,area_share,0
-Assam,DHEMAJI,284,650531,census2011,0
-Assam,DHUBRI,285,1589119,census2011,0
-Assam,DIBRUGARH,286,1329169,census2011,0
-Assam,DIMA HASAO,299,215466,census2011,0
-Assam,GOALPARA,287,962033,census2011,0
-Assam,GOLAGHAT,288,1023565,census2011,0
-Assam,HAILAKANDI,289,660628,census2011,0
-Assam,HOJAI,709,1039923,census2011,0
-Assam,JORHAT,290,684878,census2011,0
-Assam,KAMRUP METRO,618,971267,area_share,0
-Assam,KAMRUP RURAL,291,1799234,area_share,0
-Assam,KARBI ANGLONG,292,677729,census2011,0
-Assam,KOKRAJHAR,294,922185,area_share,0
-Assam,LAKHIMPUR,295,1056126,census2011,0
-Assam,MAJULI,706,458076,area_share,0
-Assam,MARIGAON,296,915575,census2011,0
-Assam,NAGAON,297,1805261,census2011,0
-Assam,NALBARI,298,783675,area_share,0
-Assam,SIBSAGAR,300,711891,census2011,0
-Assam,SONITPUR,301,1136741,census2011,0
-Assam,SOUTH SALMARA,707,264052,census2011,0
-Assam,SRIBHUMI,293,1203534,area_share,0
-Assam,TAMULPUR,756,357179,area_share,0
-Assam,TINSUKIA,302,1346526,census2011,0
-Assam,UDALGURI,617,846034,area_share,0
-Assam,WEST KARBI ANAGLONG,710,281839,census2011,0
+Arunachal Pradesh,ANJAW,628,21176,village_census,313
+Arunachal Pradesh,BICHOM,787,9752,village_census,62
+Arunachal Pradesh,CHANGLANG,229,149665,village_census,384
+Arunachal Pradesh,DIBANG VALLEY,230,8072,village_census,152
+Arunachal Pradesh,EAST KAMENG,231,62849,village_census,278
+Arunachal Pradesh,EAST SIANG,232,70571,village_census,81
+Arunachal Pradesh,KAMLE,718,22353,village_census,248
+Arunachal Pradesh,KEYI PANYOR,786,25762,village_census,201
+Arunachal Pradesh,KRA DAADI,677,46527,village_census,363
+Arunachal Pradesh,KURUNG KUMEY,233,45524,village_census,387
+Arunachal Pradesh,LEPA RADA,724,19800,village_census,75
+Arunachal Pradesh,LOHIT,234,50406,village_census,133
+Arunachal Pradesh,LONGDING,666,57239,village_census,84
+Arunachal Pradesh,LOWER DIBANG VALLEY,235,53430,village_census,312
+Arunachal Pradesh,LOWER SIANG,719,22640,village_census,116
+Arunachal Pradesh,LOWER SUBANSIRI,236,41895,village_census,211
+Arunachal Pradesh,NAMSAI,678,95991,village_census,183
+Arunachal Pradesh,PAKKE KESSANG,723,12486,village_census,87
+Arunachal Pradesh,PAPUMPARE,237,176649,village_census,503
+Arunachal Pradesh,SHI YOMI,725,13316,village_census,120
+Arunachal Pradesh,SIANG,679,38444,village_census,139
+Arunachal Pradesh,TAWANG,238,49998,village_census,246
+Arunachal Pradesh,TIRAP,239,52814,village_census,115
+Arunachal Pradesh,UPPER SIANG,240,35335,village_census,124
+Arunachal Pradesh,UPPER SUBANSIRI,241,76966,village_census,497
+Arunachal Pradesh,WEST KAMENG,242,77619,village_census,268
+Arunachal Pradesh,WEST SIANG,243,46448,village_census,120
+Assam,BAJALI,739,412255,village_census,241
+Assam,BAKSA,616,560843,village_census,418
+Assam,BARPETA,280,1278777,village_census,612
+Assam,BISWANATH,705,750636,village_census,969
+Assam,BONGAIGAON,281,746036,village_census,575
+Assam,CACHAR,282,1736665,village_census,1066
+Assam,CHARAIDEO,708,434491,village_census,331
+Assam,CHIRANG,612,464963,village_census,495
+Assam,DARANG,283,889426,village_census,546
+Assam,DHEMAJI,284,684533,village_census,1320
+Assam,DHUBRI,285,1575358,village_census,971
+Assam,DIBRUGARH,286,1326371,village_census,1367
+Assam,DIMA HASAO,299,214108,village_census,702
+Assam,GOALPARA,287,1006765,village_census,836
+Assam,GOLAGHAT,288,1061416,village_census,1120
+Assam,HAILAKANDI,289,659314,village_census,337
+Assam,HOJAI,709,932150,village_census,414
+Assam,JORHAT,290,924977,village_census,624
+Assam,KAMRUP METRO,618,1237287,village_census,233
+Assam,KAMRUP RURAL,291,1545369,village_census,1103
+Assam,KARBI ANGLONG,292,660973,village_census,2277
+Assam,KOKRAJHAR,294,880330,village_census,1071
+Assam,LAKHIMPUR,295,1043785,village_census,1197
+Assam,MAJULI,706,172810,village_census,256
+Assam,MARIGAON,296,941247,village_census,628
+Assam,NAGAON,297,1906511,village_census,1035
+Assam,NALBARI,298,779404,village_census,471
+Assam,SIBSAGAR,300,716591,village_census,557
+Assam,SONITPUR,301,1173059,village_census,937
+Assam,SOUTH SALMARA,707,384529,village_census,144
+Assam,SRIBHUMI,293,1228720,village_census,950
+Assam,TAMULPUR,756,381288,village_census,267
+Assam,TINSUKIA,302,1327965,village_census,1201
+Assam,UDALGURI,617,871258,village_census,821
+Assam,WEST KARBI ANAGLONG,710,295366,village_census,569
 Bihar,Araria,188,2806899,census2011,733
 Bihar,Arwal,611,661150,census2011,315
 Bihar,Aurangabad,189,2564831,census2011,1852
@@ -213,62 +213,62 @@ Gujarat,SURENDRANAGAR,460,1523699,blended,628
 Gujarat,TAPI,641,797535,census2011,521
 Gujarat,VADODARA,461,2256496,census2011,702
 Gujarat,VALSAD,462,1690023,census2011,504
-Haryana,AMBALA,58,1109880,census2011,487
-Haryana,BHIWANI,59,1162829,census2011,271
-Haryana,CHARKI DADRI,701,488271,census2011,172
-Haryana,FARIDABAD,60,1678630,census2011,189
-Haryana,FATEHABAD,61,980269,blended,244
-Haryana,GURUGRAM,62,1524151,census2011,287
-Haryana,HISAR,63,1699205,census2011,266
-Haryana,JHAJJAR,64,957471,blended,263
-Haryana,JIND,65,1305923,census2011,305
-Haryana,KAITHAL,66,1086518,blended,278
-Haryana,KARNAL,67,1418199,census2011,430
-Haryana,KURUKSHETRA,68,1003833,blended,418
-Haryana,MAHENDRAGARH,69,926603,blended,360
-Haryana,NUH,604,1154943,blended,441
-Haryana,PALWAL,619,1085056,blended,281
-Haryana,PANCHKULA,70,584089,blended,243
-Haryana,PANIPAT,71,1254394,blended,195
-Haryana,REWARI,72,895422,census2011,403
-Haryana,ROHTAK,73,1033690,census2011,145
-Haryana,SIRSA,74,1314518,census2011,327
-Haryana,SONIPAT,75,1479078,blended,344
-Haryana,YAMUNANAGAR,76,1208489,census2011,655
-Himachal Pradesh,BILASPUR,15,379806,census2011,0
-Himachal Pradesh,CHAMBA,16,518528,census2011,0
-Himachal Pradesh,HAMIRPUR,17,452435,census2011,0
-Himachal Pradesh,KANGRA,18,1514725,census2011,0
-Himachal Pradesh,KINNAUR,19,84562,census2011,0
-Himachal Pradesh,KULLU,20,437948,census2011,0
-Himachal Pradesh,LAHUL & SPITI,21,31725,census2011,0
-Himachal Pradesh,MANDI,22,1003343,census2011,0
-Himachal Pradesh,SHIMLA,23,814666,census2011,0
-Himachal Pradesh,SIRMAUR,24,532570,census2011,0
-Himachal Pradesh,SOLAN,25,573168,census2011,0
-Himachal Pradesh,UNA,26,521128,census2011,0
-Jammu and Kashmir,ANANTNAG,1,1094181,area_share,0
-Jammu and Kashmir,BADGAM,2,815495,area_share,0
-Jammu and Kashmir,BANDIPURA,623,617950,area_share,0
-Jammu and Kashmir,BARAMULA,3,738332,area_share,0
-Jammu and Kashmir,DODA,4,451478,area_share,0
-Jammu and Kashmir,GANDERBAL,626,341208,area_share,0
-Jammu and Kashmir,JAMMU,5,1645021,area_share,0
-Jammu and Kashmir,KATHUA,7,707128,area_share,0
-Jammu and Kashmir,KISHTWAR,620,264637,area_share,0
-Jammu and Kashmir,KULGAM,622,332909,area_share,0
-Jammu and Kashmir,KUPWARA,8,998405,area_share,0
-Jammu and Kashmir,MIRPUR,,24757,area_share,0
-Jammu and Kashmir,MUZAFFARABAD,,1529,area_share,0
-Jammu and Kashmir,PULWAMA,11,642895,area_share,0
-Jammu and Kashmir,PUNCH,10,536312,census2011,0
-Jammu and Kashmir,RAJAURI,12,746034,area_share,0
-Jammu and Kashmir,RAMBAN,621,325454,area_share,0
-Jammu and Kashmir,RIASI,627,311564,area_share,0
-Jammu and Kashmir,SAMBA,624,365816,area_share,0
-Jammu and Kashmir,SHUPIYAN,625,305382,area_share,0
-Jammu and Kashmir,SRINAGAR,13,315966,area_share,0
-Jammu and Kashmir,UDHAMPUR,14,588698,area_share,0
+Haryana,AMBALA,58,1560,village_census,488
+Haryana,BHIWANI,59,1215993,census2011,271
+Haryana,CHARKI DADRI,701,510594,census2011,172
+Haryana,FARIDABAD,60,1755377,census2011,189
+Haryana,FATEHABAD,61,1025087,blended,244
+Haryana,GURUGRAM,62,1593835,census2011,287
+Haryana,HISAR,63,1776892,census2011,266
+Haryana,JHAJJAR,64,1001246,blended,263
+Haryana,JIND,65,1365630,census2011,305
+Haryana,KAITHAL,66,1136194,blended,278
+Haryana,KARNAL,67,1483039,census2011,430
+Haryana,KURUKSHETRA,68,1049728,blended,418
+Haryana,MAHENDRAGARH,69,968967,blended,360
+Haryana,NUH,604,1207747,blended,441
+Haryana,PALWAL,619,1134665,blended,281
+Haryana,PANCHKULA,70,610793,blended,243
+Haryana,PANIPAT,71,1311745,blended,195
+Haryana,REWARI,72,936361,census2011,403
+Haryana,ROHTAK,73,1080951,census2011,145
+Haryana,SIRSA,74,1374617,census2011,327
+Haryana,SONIPAT,75,1546701,blended,344
+Haryana,YAMUNANAGAR,76,1263741,census2011,655
+Himachal Pradesh,BILASPUR,15,382053,village_census,1053
+Himachal Pradesh,CHAMBA,16,519212,village_census,1596
+Himachal Pradesh,HAMIRPUR,17,454884,village_census,1730
+Himachal Pradesh,KANGRA,18,1510460,village_census,3881
+Himachal Pradesh,KINNAUR,19,84142,village_census,660
+Himachal Pradesh,KULLU,20,438015,village_census,333
+Himachal Pradesh,LAHUL & SPITI,21,31284,village_census,522
+Himachal Pradesh,MANDI,22,1000032,village_census,3346
+Himachal Pradesh,SHIMLA,23,814218,village_census,3258
+Himachal Pradesh,SIRMAUR,24,528528,village_census,979
+Himachal Pradesh,SOLAN,25,580468,village_census,2561
+Himachal Pradesh,UNA,26,521306,village_census,853
+Jammu and Kashmir,ANANTNAG,1,1063361,village_census,370
+Jammu and Kashmir,BADGAM,2,748966,village_census,485
+Jammu and Kashmir,BANDIPURA,623,406683,village_census,132
+Jammu and Kashmir,BARAMULA,3,999183,village_census,547
+Jammu and Kashmir,DODA,4,406544,village_census,414
+Jammu and Kashmir,GANDERBAL,626,300165,village_census,124
+Jammu and Kashmir,JAMMU,5,1533123,village_census,913
+Jammu and Kashmir,KATHUA,7,615288,village_census,527
+Jammu and Kashmir,KISHTWAR,620,230994,village_census,164
+Jammu and Kashmir,KULGAM,622,437018,village_census,248
+Jammu and Kashmir,KUPWARA,8,860640,village_census,374
+Jammu and Kashmir,MIRPUR,,21972,area_share,0
+Jammu and Kashmir,MUZAFFARABAD,,1357,area_share,0
+Jammu and Kashmir,PULWAMA,11,553035,village_census,334
+Jammu and Kashmir,PUNCH,10,475948,village_census,183
+Jammu and Kashmir,RAJAURI,12,639556,village_census,388
+Jammu and Kashmir,RAMBAN,621,292427,village_census,140
+Jammu and Kashmir,RIASI,627,303711,village_census,250
+Jammu and Kashmir,SAMBA,624,318361,village_census,385
+Jammu and Kashmir,SHUPIYAN,625,272082,village_census,233
+Jammu and Kashmir,SRINAGAR,13,1234528,village_census,19
+Jammu and Kashmir,UDHAMPUR,14,552580,village_census,359
 Jharkhand,BOKARO,322,2090815,blended,675
 Jharkhand,CHATRA,323,1084321,blended,1473
 Jharkhand,DEOGHAR,324,1504389,census2011,2664
@@ -338,8 +338,8 @@ Kerala,Pathanamthitta,564,1188743,census2011,66
 Kerala,Thiruvananthapuram,565,3314327,census2011,122
 Kerala,Thrissur,566,3130943,census2011,255
 Kerala,Wayanad,567,820398,census2011,49
-Ladakh,KARGIL,6,183862,area_share,0
-Ladakh,LEH,9,186292,census2011,0
+Ladakh,KARGIL,6,140540,village_census,131
+Ladakh,LEH,9,133239,village_census,119
 Lakshadweep,Lakshadweep,553,64473,blended,25
 Madhya Pradesh,AGAR MALWA,667,656993,census2011,528
 Madhya Pradesh,ALIRAJPUR,639,732201,census2011,592
@@ -432,61 +432,61 @@ Maharashtra,THANE,497,5246310,census2011,830
 Maharashtra,WARDHA,498,1316377,census2011,1421
 Maharashtra,WASHIM,499,1192790,census2011,781
 Maharashtra,YAVATMAL,500,2808314,census2011,2146
-Manipur,BISHNUPUR,252,228165,area_share,0
-Manipur,CHANDEL,253,134656,area_share,0
-Manipur,CHURACHANDPUR,254,151901,census2011,0
-Manipur,IMPHAL EAST,255,221540,area_share,0
-Manipur,IMPHAL WEST,256,216232,area_share,0
-Manipur,JIRIBAM,713,247003,area_share,0
-Manipur,KAKCHING,711,144362,area_share,0
-Manipur,KAMJANG,717,110132,area_share,0
-Manipur,KANGPOKPI,712,227367,area_share,0
-Manipur,NONEY,714,49761,area_share,0
-Manipur,PHERZAWL,715,370078,area_share,0
-Manipur,SENAPATI,257,253204,census2011,0
-Manipur,TAMENGLONG,258,142468,area_share,0
-Manipur,TENGNOUPAL,716,78953,area_share,0
-Manipur,THOUBAL,259,195539,census2011,0
-Manipur,UKHRUL,260,84432,census2011,0
-Meghalaya,EAST GARO HILLS,273,177744,area_share,0
-Meghalaya,EAST JAINTIA HILLS,657,211632,census2011,0
-Meghalaya,EAST KHASI HILLS,274,821352,census2011,0
-Meghalaya,EASTERN WEST KHASI HILLS,740,85154,census2011,0
-Meghalaya,NORTH GARO HILLS,656,135037,census2011,0
-Meghalaya,RI-BHOI,276,253664,area_share,0
-Meghalaya,SOUTH GARO HILLS,277,136768,census2011,0
-Meghalaya,SOUTH WEST GARO HILLS,663,161563,census2011,0
-Meghalaya,SOUTH WEST KHASI HILLS,658,96801,census2011,0
-Meghalaya,WEST GARO HILLS,278,496443,area_share,0
-Meghalaya,WEST JAINTIA HILLS,275,186421,census2011,0
-Meghalaya,WEST KHASI HILLS,279,204311,census2011,0
-Mizoram,AIZAWL,261,242665,area_share,0
-Mizoram,CHAMPHAI,262,68271,census2011,0
-Mizoram,HNAHTHIAL,726,32181,census2011,0
-Mizoram,KHAWZAWL,728,43677,area_share,0
-Mizoram,KOLASIB,263,91121,area_share,0
-Mizoram,LAWNGTLAI,264,127957,area_share,0
-Mizoram,LUNGLEI,265,138251,census2011,0
-Mizoram,MAMIT,266,90834,census2011,0
-Mizoram,SAIHA,267,45562,census2011,0
-Mizoram,SAITUAL,727,146207,area_share,0
-Mizoram,SERCHHIP,268,70480,area_share,0
-Nagaland,CHUMOUKEDIMA,758,316357,area_share,0
-Nagaland,DIMAPUR,244,31400,area_share,0
-Nagaland,KIPHIRE,614,68010,area_share,0
-Nagaland,KOHIMA,245,188134,area_share,0
-Nagaland,LONGLENG,615,54427,area_share,0
-Nagaland,MOKOKCHUNG,246,203865,census2011,0
-Nagaland,MON,247,269850,area_share,0
-Nagaland,NIULAND,764,31802,area_share,0
-Nagaland,NOKLAK,736,76593,census2011,0
-Nagaland,PEREN,613,102673,census2011,0
-Nagaland,PHEK,248,158526,census2011,0
-Nagaland,SHAMATOR,765,38723,area_share,0
-Nagaland,TSEMINYU,757,53187,area_share,0
-Nagaland,TUENSANG,249,66358,census2011,0
-Nagaland,WOKHA,250,166821,census2011,0
-Nagaland,ZUNHEBOTO,251,151775,area_share,0
+Manipur,BISHNUPUR,252,266125,village_census,67
+Manipur,CHANDEL,253,81568,village_census,263
+Manipur,CHURACHANDPUR,254,225604,village_census,508
+Manipur,IMPHAL EAST,255,364671,village_census,169
+Manipur,IMPHAL WEST,256,516565,village_census,136
+Manipur,JIRIBAM,713,43840,village_census,53
+Manipur,KAKCHING,711,140147,village_census,50
+Manipur,KAMJANG,717,51513,village_census,145
+Manipur,KANGPOKPI,712,199606,village_census,469
+Manipur,NONEY,714,42119,village_census,74
+Manipur,PHERZAWL,715,47400,village_census,94
+Manipur,SENAPATI,257,288062,village_census,151
+Manipur,TAMENGLONG,258,112108,village_census,160
+Manipur,TENGNOUPAL,716,60040,village_census,172
+Manipur,THOUBAL,259,279454,village_census,70
+Manipur,UKHRUL,260,136973,village_census,94
+Meghalaya,EAST GARO HILLS,273,138090,village_census,487
+Meghalaya,EAST JAINTIA HILLS,657,122953,village_census,208
+Meghalaya,EAST KHASI HILLS,274,827381,village_census,999
+Meghalaya,EASTERN WEST KHASI HILLS,740,113666,village_census,216
+Meghalaya,NORTH GARO HILLS,656,185239,village_census,653
+Meghalaya,RI-BHOI,276,256964,village_census,624
+Meghalaya,SOUTH GARO HILLS,277,139433,village_census,785
+Meghalaya,SOUTH WEST GARO HILLS,663,160607,village_census,472
+Meghalaya,SOUTH WEST KHASI HILLS,658,100290,village_census,314
+Meghalaya,WEST GARO HILLS,278,480198,village_census,1198
+Meghalaya,WEST JAINTIA HILLS,275,272217,village_census,335
+Meghalaya,WEST KHASI HILLS,279,169852,village_census,605
+Mizoram,AIZAWL,261,374392,village_census,92
+Mizoram,CHAMPHAI,262,74578,village_census,53
+Mizoram,HNAHTHIAL,726,24737,village_census,24
+Mizoram,KHAWZAWL,728,33518,village_census,32
+Mizoram,KOLASIB,263,79591,village_census,52
+Mizoram,LAWNGTLAI,264,117963,village_census,173
+Mizoram,LUNGLEI,265,136787,village_census,178
+Mizoram,MAMIT,266,85768,village_census,128
+Mizoram,SAIHA,267,56607,village_census,64
+Mizoram,SAITUAL,727,48012,village_census,37
+Mizoram,SERCHHIP,268,65252,village_census,46
+Nagaland,CHUMOUKEDIMA,758,155660,village_census,120
+Nagaland,DIMAPUR,244,192375,village_census,32
+Nagaland,KIPHIRE,614,70531,village_census,99
+Nagaland,KOHIMA,245,211313,village_census,74
+Nagaland,LONGLENG,615,50101,village_census,54
+Nagaland,MOKOKCHUNG,246,195890,village_census,122
+Nagaland,MON,247,251050,village_census,148
+Nagaland,NIULAND,764,29689,village_census,82
+Nagaland,NOKLAK,736,55477,village_census,47
+Nagaland,PEREN,613,95168,village_census,122
+Nagaland,PHEK,248,163687,village_census,134
+Nagaland,SHAMATOR,765,34250,village_census,41
+Nagaland,TSEMINYU,757,56256,village_census,41
+Nagaland,TUENSANG,249,110411,village_census,78
+Nagaland,WOKHA,250,166472,village_census,165
+Nagaland,ZUNHEBOTO,251,140172,village_census,205
 Odisha,ANUGUL,344,1278364,census2011,2013
 Odisha,BALANGIR,345,1656207,census2011,1884
 Odisha,BALASORE,346,2288803,blended,2937
@@ -660,14 +660,14 @@ Telangana,VIKARABAD,698,2567002,blended,497
 Telangana,WANAPARTHY,693,486966,census2011,224
 Telangana,WARANGAL,522,482466,census2011,172
 Telangana,YADADRI BHUVANAGIRI,697,826422,census2011,310
-Tripura,DHALAI,269,375283,census2011,154
-Tripura,GOMTI,654,464821,census2011,133
-Tripura,KHOWAI,652,584628,census2011,79
-Tripura,NORTH TRIPURA,270,459667,census2011,88
-Tripura,SEPAHIJALA,653,593128,census2011,118
-Tripura,SOUTH TRIPURA,271,402702,census2011,137
-Tripura,UNAKOTI,655,238189,census2011,78
-Tripura,WEST TRIPURA,272,555499,census2011,112
+Tripura,DHALAI,269,428864,census2011,154
+Tripura,GOMTI,654,531185,census2011,133
+Tripura,KHOWAI,652,668098,census2011,79
+Tripura,NORTH TRIPURA,270,754,village_census,89
+Tripura,SEPAHIJALA,653,677812,census2011,118
+Tripura,SOUTH TRIPURA,271,460198,census2011,137
+Tripura,UNAKOTI,655,272196,census2011,78
+Tripura,WEST TRIPURA,272,634811,census2011,112
 Uttar Pradesh,AGRA,118,4413593,census2011,951
 Uttar Pradesh,ALIGARH,119,3612750,census2011,1169
 Uttar Pradesh,AMBEDKAR NAGAR,121,2380580,census2011,1702
