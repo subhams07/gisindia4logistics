@@ -8,8 +8,13 @@ Enriches:
 1. data/rail/station_categories.csv (5,938 stations with category, zone, division, passengers, revenue)
 2. data/rail/railway_stations.csv (fills missing zones, increasing zone coverage from ~48% to ~80%)
 
+The base table, data/rail/railway_stations.csv, was converted from DataMeet's
+railways stations.json (2016 vintage); no script in this repository rebuilds it.
+This script only fills its zone and division columns. It is safe to re-run:
+existing zone and division values are kept and only gaps are filled.
+
 Usage:
-    python scripts/fetch/enrich_rail_stations.py
+    python scripts/fetch/enrich_rail_stations.py [--source-file saved_page.html]
 """
 from __future__ import annotations
 
@@ -38,11 +43,24 @@ ZONE_FIXES = {
 def clean_zone(z: str | float | None) -> str | None:
     if z is None or pd.isna(z):
         return None
-    z = str(z).strip().split()[0].upper()
+    parts = str(z).strip().split()
+    if not parts:
+        return None
+    z = parts[0].upper()
     return ZONE_FIXES.get(z, z)
 
 
-def fetch_or_load_data() -> pd.DataFrame:
+def _parse(text: str) -> pd.DataFrame | None:
+    m = re.search(r"const data\s*=\s*(\[\s*\{.*?\}\s*\]);", text, re.DOTALL)
+    return pd.DataFrame(json.loads(m.group(1))) if m else None
+
+
+def fetch_or_load_data(source_file: pathlib.Path | None = None) -> pd.DataFrame:
+    if source_file is not None:
+        df = _parse(source_file.read_text(encoding="utf-8"))
+        if df is None:
+            raise RuntimeError(f"No station data array found in {source_file}")
+        return df
     try:
         session = http_session()
         resp = session.get(SOURCE_URL, timeout=15)
@@ -52,31 +70,21 @@ def fetch_or_load_data() -> pd.DataFrame:
         text = None
 
     if text:
-        m = re.search(r"const data\s*=\s*(\[\s*\{.*?\}\s*\]);", text, re.DOTALL)
-        if m:
-            data = json.loads(m.group(1))
-            return pd.DataFrame(data)
+        df = _parse(text)
+        if df is not None:
+            return df
 
-    # Fallback to local steps content if available
-    local_candidates = list(pathlib.Path.home().glob(".gemini/antigravity/brain/*/content.md")) + \
-                       list(pathlib.Path.home().glob(".gemini/antigravity/brain/*/*/*/content.md"))
-    for cand in local_candidates:
-        try:
-            c_text = cand.read_text(encoding="utf-8")
-            m = re.search(r"const data\s*=\s*(\[\s*\{.*?\}\s*\]);", c_text, re.DOTALL)
-            if m:
-                print(f"Loaded cached data from {cand}")
-                return pd.DataFrame(json.loads(m.group(1)))
-        except Exception:
-            continue
-
-    raise RuntimeError("Could not fetch or locate station classification source data.")
+    raise RuntimeError("Could not fetch the station classification page; save it in a browser "
+                       "and pass --source-file.")
 
 
 def main() -> None:
-    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--source-file", type=pathlib.Path,
+                    help="saved copy of the classification page (used instead of fetching it)")
+    args = ap.parse_args()
     print("Loading 2024 Indian Railway classification data...")
-    raw = fetch_or_load_data()
+    raw = fetch_or_load_data(args.source_file)
     print(f"Loaded {len(raw)} records from source")
 
     # Format station categories dataset
@@ -112,9 +120,10 @@ def main() -> None:
     filled_zones = st_zones.fillna(st["code_norm"].map(cat_map["zone"].to_dict()))
     st["zone"] = filled_zones
 
-    # Add division if not present or fill it
+    # Fill missing divisions; keep existing values so re-runs are idempotent
     div_map = cat_map["division"].dropna().to_dict()
-    st["division"] = st["code_norm"].map(div_map)
+    existing = st["division"] if "division" in st.columns else pd.Series(pd.NA, index=st.index)
+    st["division"] = existing.where(existing.notna(), st["code_norm"].map(div_map))
 
     # Clean and save
     st = st.drop(columns=["code_norm"])

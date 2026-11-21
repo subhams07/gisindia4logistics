@@ -108,7 +108,7 @@ def process(layer: str) -> gpd.GeoDataFrame:
     assert n_unmapped == 0, f"[{layer}] unmapped state names remain"
 
     # LGD codes arrive as zero-padded strings ("095") — normalize to integers;
-    # non-numeric values (PoK districts Mirpur/Muzaffarabad carry "NOT AVAILABLE") become <NA>
+    # non-numeric values (J&K districts Mirpur/Muzaffarabad carry "NOT AVAILABLE") become <NA>
     for code_col in ("district_code", "sub_district_code", "state_code"):
         if code_col in gdf:
             gdf[code_col] = pd.to_numeric(

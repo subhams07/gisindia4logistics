@@ -43,7 +43,7 @@ Key paths: `data/` (committed data incl. `data/analysis/`), `scripts/fetch/`
 `standardize.py`), `scripts/analyze/` (accessibility toolkit),
 `scripts/make_demo.py` (end-to-end district pipeline → GeoPackage + map PNG),
 `examples/` (notebook), `docs/` (sources.md, data_standards.md,
-legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (42 datasets).
+legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (41 datasets).
 
 ## Build history — steps taken, in order
 
@@ -157,7 +157,7 @@ legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (42 
     - States 40 → **36** after dropping 4 "DISPUTED (X & Y)" inter-state
       slivers.
     - Districts 808 → **780** after dropping 28 disputed slivers (rows with
-      NaN state + REMARKS containing DISPUTED). Mirpur & Muzaffarabad (PoK)
+      NaN state + REMARKS containing DISPUTED). Mirpur & Muzaffarabad (J&K)
       kept with null LGD codes ("NOT AVAILABLE" in source).
     - Sub-districts 6,667 → 6,639. 89 rows have null LGD codes in source;
       one genuine code collision (3606 shared by Bari Pattan J&K / Khirkiya MP).
@@ -267,14 +267,16 @@ legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (42 
    would enforce the quality bar.
 8. Accessibility is straight-line only (EPSG:7755); road-network travel time
    via OSRM/Valhalla is the planned upgrade.
-9. The 9 border/NE states' accessibility uses district centroids (no village
-   data exists); re-run when SoI publishes those states.
+9. The 9 border/NE states' accessibility uses OSM habitation points
+   (`unit = habitation`), not SoI village polygons; re-run when SoI publishes
+   those states.
 
 ### Phase 8: all-India accessibility (2026-08-23)
 32. `nearest_facility.py --all` covers ALL 36 states/UTs. 27 at village
     level (SoI polygons); the 9 border/NE states run on district centroids
     (`unit` column = district_centroid; villages_geojson_path now returns
-    None instead of exiting). Committed outputs: per-village CSVs,
+    None instead of exiting). *Superseded:* these states now use the OSM
+    habitation files and carry `unit = habitation` (2026-11 audit). Committed outputs: per-village CSVs,
     per-district summaries, and `data/analysis/india_district_access_
     summary.csv` (817 rows incl. 36 `__STATE__` rows). National headline:
     population-weighted mean distance to a rail station 13.6 km, to an ICD
@@ -313,7 +315,7 @@ legal_compliance.md, metadata/abdb/, decision_log.md, adr/), `catalog.yaml` (42 
       27 incl. Bichom/Keyi Panyor, Chhattisgarh 33, Goa 3 incl. Kushavati).
     Accepted WARNs: ~1k blank village names (SoI source), revenue-vs-census
     village counting for Delhi/Chandigarh, documented gaps (Ladakh 2,
-    Puducherry 2/4, J&K PoK rows, Delhi Nazul).
+    Puducherry 2/4, J&K Mirpur/Muzaffarabad rows, Delhi Nazul).
     **Audit-script lesson**: naive line-counting breaks on multiline CSV
     names; NaN != "" comparisons don't filter; glob patterns in catalog
     paths need expansion; quote YAML values with colons — THREE separate

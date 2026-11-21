@@ -20,7 +20,8 @@ Per file:
 
 Idempotent and deterministic: a second run reads ``source_*`` from the file and yields the
 same bytes. Afterwards the 36 district summaries, the national composite and its parquet
-are rebuilt (``--no-summaries`` to skip).
+are rebuilt (``--no-summaries`` to skip); with ``--state`` only that state's summary
+is rebuilt, then the national composite.
 
 Usage: python scripts/analyze/reassign_village_districts.py [--no-summaries] [--state Haryana]
 """
@@ -151,9 +152,9 @@ def main() -> None:
               f"nearest_in_state={t.nearest_in_state.sum():,} "
               f"max nearest distance={t.max_nearest_km.max():.3f} km "
               f"excluded placeholders={t.excluded.sum()}")
-    if not args.no_summaries and not args.state:
+    if not args.no_summaries:
         import nearest_facility as nf  # noqa: E402  (sibling script)
-        nf.rebuild_summaries_from_village_tables()
+        nf.rebuild_summaries_from_village_tables(states=states if args.state else None)
 
 
 if __name__ == "__main__":

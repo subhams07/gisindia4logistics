@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   gisindia4logistics-api:
     build:
@@ -16,4 +14,9 @@ services:
     restart: unless-stopped
     volumes:
       - ./data:/app/data:ro
-      - ./outputs:/app/outputs
+      # Named volume: it inherits the image's ownership, so the unprivileged
+      # 'app' user can write generated maps. Copy them out with `docker cp`.
+      - outputs:/app/outputs
+
+volumes:
+  outputs:

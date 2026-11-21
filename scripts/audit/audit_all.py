@@ -40,7 +40,7 @@ from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
 # were once dissolved into a duplicate "Malegaon" DHULE; that code is now
 # corrected to 498 in process_panindia_boundaries). Documented source gaps: Ladakh source predates the 2024
 # five-district split (2 only); Puducherry lacks Mahe/Yanam (2 of 4); J&K
-# = 20 coded + 2 PoK rows with null codes; Delhi = 11 coded + Nazul (null).
+# = 20 coded + 2 rows with null codes (Mirpur, Muzaffarabad); Delhi = 11 coded + Nazul (null).
 EXPECTED_DISTRICTS = {
     "Andhra Pradesh": 26, "Arunachal Pradesh": 27, "Assam": 35, "Bihar": 38,
     "Chhattisgarh": 33, "Goa": 3, "Gujarat": 33, "Haryana": 22,
@@ -91,12 +91,38 @@ def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str =
     print(f"  [{status}] {name}" + (f" — {detail}" if detail else ""))
 
 
+# India's official political map (Survey of India) is the reference: these points
+# must fall inside the named state (operator ruling 2026-11-14).
+POLITICAL_MAP_POINTS = {
+    "Aksai Chin": (79.0, 35.0, "ladakh"),
+    "Gilgit": (74.31, 35.92, "ladakh"),
+    "Muzaffarabad": (73.47, 34.37, "jammu and kashmir"),
+    "Mirpur": (73.75, 33.15, "jammu and kashmir"),
+    "Tawang": (91.86, 27.59, "arunachal pradesh"),
+}
+
+
+def _political_map_checks(dataset, states):
+    from shapely.geometry import Point
+    for place, (lon, lat, expected) in POLITICAL_MAP_POINTS.items():
+        hits = states[states.geometry.contains(Point(lon, lat))]["state"].astype(str)
+        found = [h.strip().lower().replace("&", "and") for h in hits]
+        label = {"ladakh": "Ladakh", "jammu and kashmir": "Jammu and Kashmir",
+                 "arunachal pradesh": "Arunachal Pradesh"}[expected]
+        check(dataset, f"official map: {place} in {label}", "FAIL",
+              found == [expected], ", ".join(hits) or "no state")
+
+
 def audit_boundaries(source_root=DATA_DIR):
     print("\n== LGD boundaries (states/districts/subdistricts) ==")
     states = gpd.read_file(source_root / "administrative" / "india_states_lgd.geojson")
     check("states_lgd", "36 states/UTs", "FAIL", len(states) == 36, f"{len(states)}")
     check("states_lgd", "valid geometries", "FAIL", states.geometry.is_valid.all())
     check("states_lgd", "no null state names", "FAIL", states.state.notna().all())
+    _political_map_checks("states_lgd", states)
+    states_2011 = source_root / "administrative" / "india_states.geojson"
+    if states_2011.exists():
+        _political_map_checks("states_2011", gpd.read_file(states_2011))
 
     dist = gpd.read_file(source_root / "administrative" / "india_districts_lgd.geojson")
     check("districts_lgd", "valid geometries", "FAIL", dist.geometry.is_valid.all())
@@ -109,7 +135,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("districts_lgd", "per-state counts == verified reference", "FAIL",
           not mismatches, str(mismatches) if mismatches else "all 36 match")
     jk = dist[dist.state == "Jammu and Kashmir"]
-    check("districts_lgd", "J&K = 20 coded + 2 PoK (null code)", "FAIL",
+    check("districts_lgd", "J&K = 20 coded + 2 Mirpur/Muzaffarabad (null code)", "FAIL",
           len(jk) == 22 and jk.district_code.isna().sum() == 2,
           f"{len(jk)} rows, {int(jk.district_code.isna().sum())} null-coded")
 
@@ -502,6 +528,12 @@ def audit_freight(source_root=DATA_DIR):
         paradip_24 = pt[(pt.fy == "2023-24") & (pt.entity_code == "INPRT")].value.iloc[0]
         check("port_throughput", "Paradip is #1 major port (>= 140 MT)", "FAIL",
               paradip_24 >= 140.0, f"{paradip_24} MT")
+        if rf_p.exists():
+            sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "fetch"))
+            from build_freight_tables import consistency_issues
+            issues = consistency_issues(rf, pt)
+            check("freight", "parts add up to national rows (1%; data marked unverified)", "WARN",
+                  not issues, "; ".join(issues))
 
     # Road indicators
     rd_p = source_root / "freight" / "road_indicators_annual.csv"

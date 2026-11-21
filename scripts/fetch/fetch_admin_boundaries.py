@@ -8,7 +8,6 @@ the Census 2011 demographic tables in this repo.
 Outputs (committed, simplified to ~100 m tolerance to stay under 10 MB):
     data/administrative/india_states.geojson
     data/administrative/india_districts.geojson
-    data/administrative/census2011_lgd_crosswalk.csv
 
 Usage:
     python scripts/fetch/fetch_admin_boundaries.py [--keep-raw]
@@ -134,10 +133,6 @@ def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_geojson(OUT_DIR / "india_states.geojson", states)
     write_geojson(OUT_DIR / "india_districts.geojson", districts)
-
-    # crosswalk: (state, district_key) -> LGD state code + census codes
-    xw = districts.drop(columns="geometry")
-    xw.to_csv(OUT_DIR / "census2011_lgd_crosswalk.csv", index=False)
 
     for f in ("india_states.geojson", "india_districts.geojson"):
         size = (OUT_DIR / f).stat().st_size / 1e6

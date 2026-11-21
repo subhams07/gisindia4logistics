@@ -20,7 +20,9 @@ sys.path.insert(0, str(ROOT_DIR))
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-from sklearn.cluster import DBSCAN
+from scipy.sparse import coo_matrix
+from scipy.sparse.csgraph import connected_components
+from scipy.spatial import cKDTree
 
 from scripts.clean.standardize import DATA_DIR, http_session
 
@@ -84,8 +86,12 @@ def main() -> None:
     # 2. Cluster multi-lane toll booths within 150 meters in projected CRS (EPSG:7755)
     gdf_proj = gdf_in.to_crs(7755)
     coords = np.column_stack([gdf_proj.geometry.x, gdf_proj.geometry.y])
-    db = DBSCAN(eps=150, min_samples=1).fit(coords)
-    gdf_in["cluster"] = db.labels_
+    # Single-linkage clusters within 150 m (same result as DBSCAN eps=150, min_samples=1).
+    pairs = cKDTree(coords).query_pairs(r=150, output_type="ndarray")
+    n = len(coords)
+    adj = coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])), shape=(n, n))
+    _, labels = connected_components(adj, directed=False)
+    gdf_in["cluster"] = labels
 
     # 3. Aggregate clusters into single discrete Toll Plazas
     plazas = []

@@ -242,12 +242,17 @@ def summarize_districts(base: pd.DataFrame, state: str, thresholds: list[float],
     return pd.concat([summary, pd.DataFrame([state_row])], ignore_index=True)
 
 
-def rebuild_summaries_from_village_tables(thresholds: list[float] | None = None) -> pd.DataFrame:
-    """Rebuild the 36 state summaries, the national composite and its GeoParquet."""
+def rebuild_summaries_from_village_tables(thresholds: list[float] | None = None,
+                                         states: list[str] | None = None) -> pd.DataFrame:
+    """Rebuild state summaries (all 36, or only ``states``), then the national
+    composite and its GeoParquet from every state summary on disk."""
     thresholds = thresholds or [10.0, 25.0, 50.0]
     est = _load_population_estimates()
     states_gdf = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+    wanted = {s.lower() for s in states} if states else None
     for st in sorted(states_gdf["state"].unique()):
+        if wanted is not None and st.lower() not in wanted:
+            continue
         label = st.lower().replace(" ", "_")
         vpath = ANALYSIS_DIR / f"{label}_village_access.csv"
         if not vpath.exists():
@@ -277,20 +282,11 @@ def run_one(state: str, args) -> None:
 
     print(f"Loading villages for {args.state} ...")
     vpath = villages_geojson_path(args.state)
-    if vpath is not None:
-        villages = gpd.read_file(vpath)
-        unit = "village"
-    else:
-        # no SoI village file (9 border/NE states) — fall back to district
-        # centroids so every state has coverage; unit marked in outputs
-        districts = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson")
-        villages = districts[districts["state"].str.lower() == args.state.lower()].copy()
-        villages = villages.rename(columns={"district_code": "village_code"})
-        villages["village"] = villages["district"]
-        if not len(villages):
-            raise SystemExit(f"No village file and no districts for {args.state}")
-        unit = "district_centroid"
-        print(f"  no village data for {args.state} — using district centroids")
+    if vpath is None:
+        raise SystemExit(f"No village or habitation file for {args.state}")
+    villages = gpd.read_file(vpath)
+    # SoI village polygons, or OSM settlement points for the 9 states SoI does not publish
+    unit = "habitation" if vpath.name.endswith("_habitations.geojson") else "village"
     label = args.state.lower().replace(" ", "_")
 
     # Spatial assignment to the CURRENT district polygons (state-scoped). The source

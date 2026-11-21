@@ -45,7 +45,7 @@ GISIndia4Logistics adheres strictly to national Indian spatial standards:
 ## 2. Installation & Setup
 
 ### Prerequisites
-* Python 3.10+ (Python 3.11 recommended)
+* Python 3.11 (the only version tested; `requires-python` allows 3.10+)
 * Git
 
 ### Step-by-Step Setup

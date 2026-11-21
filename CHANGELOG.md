@@ -37,11 +37,6 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 - Isochrone hubs now snap to a supported highway component (at least 1,000 nodes) within 150 km instead of the nearest vertex of any fragment. JNPT, Mumbai, Chennai and Visakhapatnam ports, plus six MMLPs including Jammu, now have real catchments instead of fragment-sized or missing ones.
 
-### Changed
-
-- Package classifier is now `Development Status :: 4 - Beta`; `tabulate` added to the `dev` extra (needed by the audit report writer). `catalog.yaml` analysis entries updated (vintage 2026-10, isochrone bands, hinterland counts, disclosures).
-- The freight modal-split CSV has the same columns in a different order. `pop_2011` is now float64 in the analysis tables.
-- Recurring push/PR CI (`ci.yml`) and the weekly deep-audit workflow are removed. Tests and the national audit were run locally for this release (3,508 tests passed; audit 0 FAIL).
 
 ### Known limitations (disclosed)
 
@@ -61,6 +56,9 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ### Changed
 
+- Package classifier is now `Development Status :: 4 - Beta`; `tabulate` added to the `dev` extra (needed by the audit report writer). `catalog.yaml` analysis entries updated (vintage 2026-10, isochrone bands, hinterland counts, disclosures).
+- The freight modal-split CSV has the same columns in a different order. `pop_2011` is now float64 in the analysis tables.
+- Recurring push/PR CI (`ci.yml`) and the weekly deep-audit workflow are removed. Tests and the national audit were run locally for this release (3,508 tests passed; audit 0 FAIL).
 - Nearest-facility calculations use WGS84 geodesic distance instead of degree-distance approximation.
 - Requested target ports now select their own matrix-backed distance and drive time.
 - Highway route distance is summed from path edges rather than inferred from a fixed average speed.
@@ -73,4 +71,6 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - Generated MCP maps are written outside the committed data tree.
 - Wildcard credentialed CORS is no longer the default.
 
-> Earlier repository history predates this changelog. A tagged baseline release should document those changes before publication.
+## [1.0.0] - 2026-08-29
+
+Tagged baseline (`v1.0.0`). It is the state of the repository after the August 2026 build: administrative boundaries (Survey of India ABDB and DataMeet 2011), Survey of India village boundaries for 27 states/UTs, the national highway network, rail stations and categories, Gati Shakti cargo terminals, logistics hubs, Census 2011 demographics, freight tables, all-India village accessibility, the national highway travel-time engine, the REST API, SDK, CLI and MCP server. This changelog was started after the tag; the build history is in `AGENTS.md` (phases 1–E).

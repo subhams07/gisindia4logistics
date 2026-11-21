@@ -28,6 +28,7 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR))
 
 import geopandas as gpd
+import pandas as pd
 
 from scripts.clean.standardize import DATA_DIR, http_session
 
@@ -124,7 +125,9 @@ def main() -> None:
             continue
         
         st_geom = st_row.iloc[0].geometry
-        state_code = st_row.iloc[0].get("state_code", None)
+        # the state layer has no code column; take it from the district layer
+        codes = districts_gdf.loc[districts_gdf["state"].str.lower() == st.lower(), "state_code"].dropna().unique()
+        state_code = int(codes[0]) if len(codes) == 1 else None
         slug = st.lower().replace(" ", "_")
 
         print(f"\nProcessing {st} ...")
@@ -153,7 +156,8 @@ def main() -> None:
             joined.loc[unmatched, "district_code"] = near_j["district_code"].values
 
         joined["state"] = st
-        joined["state_code"] = state_code
+        joined["state_code"] = pd.array([state_code] * len(joined), dtype="Int64")
+        joined["district_code"] = pd.to_numeric(joined["district_code"], errors="coerce").astype("Int64")
         joined["id"] = range(1, len(joined) + 1)
         joined["village_code"] = joined["osm_id"]
         joined["sub_district"] = None

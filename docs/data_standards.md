@@ -26,8 +26,8 @@ All datasets in this repository follow these conventions.
   them (within their own state). `district` / `district_code` hold that polygon's
   values; the village source's own LGD district name and code are kept in
   `source_district` / `source_district_code`.
-- Census 2011 uses its own state/district codes; a crosswalk table is provided
-  in `data/administrative/census2011_lgd_crosswalk.csv`.
+- Census 2011 uses its own state/district codes; join Census tables to the 2011
+  district layer (`india_districts.geojson`) on `district_key`.
 - Railway stations join on `station_code` (Indian Railways alpha codes).
 
 ## Attribute naming
@@ -89,3 +89,9 @@ Every dataset has an entry in `catalog.yaml`:
 `name, category, description, source_url, license, vintage, resolution,
 provider, access (committed|script), path, fetch_script, quality_status,
 quality_notes`.
+
+`quality_status` values:
+- `verified`: checked against an official total or reference by the audit.
+- `community`: from a community source; plausible but not officially verified.
+- `sample`: a partial extract or schematic, for demonstration.
+- `unverified`: compiled by hand and known or suspected to be inconsistent; re-source before use.
