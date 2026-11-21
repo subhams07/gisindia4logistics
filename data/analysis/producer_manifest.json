@@ -1,7 +1,7 @@
 {
   "artifacts": {
     "district_freight_modal_split.csv": {
-      "bytes": 116317,
+      "bytes": 116311,
       "columns": [
         "state",
         "district",
@@ -21,11 +21,11 @@
       ],
       "path": "district_freight_modal_split.csv",
       "rows": 780,
-      "sha256": "9dd2e3eb7e421bbbce38a6ec1f802113bd4ad7382bfd6015be184fe8bfbb5ead",
+      "sha256": "003cec3aac742a22703d8671ee13b3584f06f4898144e820f28078989eb278f2",
       "type": "csv"
     },
     "district_port_hinterland_catchment.csv": {
-      "bytes": 117275,
+      "bytes": 117269,
       "columns": [
         "state",
         "district",
@@ -43,7 +43,7 @@
       ],
       "path": "district_port_hinterland_catchment.csv",
       "rows": 780,
-      "sha256": "d0ec741d19d79a0a6a8dbcab3a6b9ab0b3ac220cebea6fdbd1ca8ce7f2d940c5",
+      "sha256": "14b97dfe1494036967ace41f01e7e504ad9624570f0d15f23f088fc43a80f7ba",
       "type": "csv"
     },
     "major_ports_isochrones.geojson": {
@@ -61,7 +61,7 @@
       "type": "geojson"
     },
     "nh_district_port_matrix.csv": {
-      "bytes": 139869,
+      "bytes": 139864,
       "columns": [
         "state",
         "district",
@@ -93,11 +93,11 @@
       ],
       "path": "nh_district_port_matrix.csv",
       "rows": 780,
-      "sha256": "6038c817d170bfa64d6174d17d7ebd150d8371b93bce4d17f7b93056d12f8773",
+      "sha256": "2216d573b774207625bdadbb8d12aa878f682cb2cd2fcb5d0bec01e2ec4b04c2",
       "type": "csv"
     },
     "nh_district_travel_time_summary.csv": {
-      "bytes": 345197,
+      "bytes": 345191,
       "columns": [
         "state",
         "district",
@@ -154,11 +154,11 @@
       ],
       "path": "nh_district_travel_time_summary.csv",
       "rows": 780,
-      "sha256": "d6d3ebfb9acbfb6a8c6e7d5030fd401b8c66d2ae6a077f3e1a86a6cd0329f829",
+      "sha256": "db1c1189aeae936d33392c0c3a3ebd9d10bbad7c5c7f699c0e2e87110091436d",
       "type": "csv"
     },
     "nh_district_travel_time_summary.parquet": {
-      "bytes": 215971,
+      "bytes": 215953,
       "columns": [
         "state",
         "district",
@@ -215,7 +215,7 @@
       ],
       "path": "nh_district_travel_time_summary.parquet",
       "rows": 780,
-      "sha256": "ed8b778779dc7940da5dde0069dfa460871ab587a07e55bd3658184530ca0dc3",
+      "sha256": "19a393698c19e606492766be227e9a6623cf9e1a49862c26d815569a9bf27f88",
       "type": "parquet"
     }
   },
@@ -241,8 +241,8 @@
     "server/config.py": "c397619e88d0071b8af72df08ebb1ba45bcd783e99210984542c39993636d4c6",
     "server/dependencies.py": "00ad93199e6ed29e293be3c66c2012dc1128dc3bcfd0dc562229136bc938d780",
     "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
-    "server/models/phase1.py": "04eccc7851cddcbd1bbc901181afc64ee6b0306f33f53899119b1a0658200398",
-    "server/models/schemas.py": "bd09898a8f55e05f9dc4c84794f1f1433b0fe386b8ad5de337bfd3de93a44fa0",
+    "server/models/phase1.py": "1dbe4e46718a8422fdcce25bf188adc4751190042a8986385dba45f3e29dd59a",
+    "server/models/schemas.py": "bd929eb3b341fe222b328d18db4180a477ab441d791c88dde59ec528afe0b65a",
     "server/routers/__init__.py": "e7fa915392e982063a995334d2bee6b7910ea988a16e8cd5ac8e09867331bebf",
     "server/routers/admin.py": "74711ed9ce045e3f01a2998b2f8f6f1c15736fe9cdf05be0dfb7ccc361172ea3",
     "server/routers/hubs.py": "ba0582c882c5c97723f41e7ef562edccce6079cd8471baf555bd709e2b7b92c0",
@@ -350,12 +350,12 @@
   },
   "inputs": {
     "administrative/india_districts_lgd.geojson": {
-      "bytes": 9325500,
-      "sha256": "10e96f22608c49dedd1d6efccdcb02c80709c0a74231e3aabcd4747b67249bf1"
+      "bytes": 9362090,
+      "sha256": "bad36e2b60884c142cdf4c6eb02b787f91f51e57431e2d59f5f57a320d3803b2"
     },
     "demographic/district_population_estimates.csv": {
-      "bytes": 37918,
-      "sha256": "a5c0f77b1b8cb95e48965e6afc5cbb6c7d9cb371b2465b198fddd895a849c1d2"
+      "bytes": 36390,
+      "sha256": "432cd349ad68569456420dacf06b1df86fcc808d26712bad8bc241fcf3a6ec59"
     },
     "logistics_hubs/air_cargo.csv": {
       "bytes": 6020,
@@ -404,10 +404,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 852.99546998,
-    "peak_memory_bytes": 650629120
+    "elapsed_seconds": 884.3595820110002,
+    "peak_memory_bytes": 633290752
   },
-  "run_id": "linux-2026-11-21-run1",
+  "run_id": "linux-2026-11-21-run2",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

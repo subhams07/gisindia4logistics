@@ -90,7 +90,7 @@ def test_committed_bilaspur_candidates_across_surfaces(monkeypatch):
     candidates = [response.json()['detail']['candidates'], caught.value.candidates, mcp['candidates']]
     for values in candidates:
         assert len(values) == 2
-        assert {value['district_code'] for value in values} == {406, 30}
+        assert {value['district_code'] for value in values} == {375, 15}  # LGD codes
         assert {value['state'].lower() for value in values} == {'chhattisgarh', 'himachal pradesh'}
         assert all(type(value['district_code']) is int for value in values)
         assert all(value['district'].lower() == 'bilaspur' for value in values)

@@ -49,15 +49,19 @@ def test_genuinely_new_district_is_derived(monkeypatch):
     assert new.district == "NEW" and new.geometry.area == pytest.approx(0.5)
 
 
-def test_committed_layers_carry_dhule_once_as_498():
+def test_committed_layers_carry_dhule_once_as_lgd_474():
     districts = gpd.read_file(DATA / "india_districts_lgd.geojson")
     subdistricts = gpd.read_file(DATA / "india_subdistricts_lgd.gpkg")
     assert len(districts) == 780
-    assert districts.loc[districts.district == "DHULE", "district_code"].tolist() == [498]
-    assert districts.loc[districts.district_code == 598, "district"].tolist() == ["Alappuzha"]
+    dhule_row = districts[districts.district == "DHULE"]
+    assert dhule_row.district_code.tolist() == [474]  # LGD
+    assert dhule_row.abdb_district_code.tolist() == [498]  # source (Census 2011) code
+    assert districts.loc[districts.district_code == 554, "district"].tolist() == ["Alappuzha"]
+    assert districts.loc[districts.district_code == 598, "district"].tolist() == ["KARAIKAL"]
     dhule = subdistricts[subdistricts.district == "DHULE"]
     assert sorted(dhule.sub_district) == ["DHULE", "SAKRI", "SHIRPUR", "SINDKHEDE"]
-    assert set(dhule.district_code) == {498}
+    assert set(dhule.district_code) == {474}
+    assert set(dhule.abdb_district_code) == {498}
     # every coded sub-district joins to a district of the same state
     have = set(zip(districts.state, districts.district_code))
     coded = subdistricts.dropna(subset=["district_code"])

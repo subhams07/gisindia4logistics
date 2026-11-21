@@ -51,20 +51,26 @@ def test_resolve_coordinate_valid(resolver, store):
 
 def test_resolve_district_by_exact_unique_code(resolver, store):
     """Verifies resolving district by unique official LGD district_code."""
-    dist = DistrictLocation(district_code=521)  # Pune
+    dist = DistrictLocation(district_code=490)  # Pune (LGD; Census 2011 code 521)
     res = resolver.resolve(dist, store)
     assert res.type == "district"
     assert res.district == "Pune"
     assert res.state == "Maharashtra"
-    assert res.district_code == 521
+    assert res.district_code == 490
     assert res.match_method == "exact_code"
     assert 18.0 <= res.latitude <= 19.5
     assert 73.5 <= res.longitude <= 75.0
 
 
-def test_resolve_code_598_is_alappuzha_and_dhule_is_498(resolver, store):
-    """Code 598 is Alappuzha only; the source's Dhule-598 duplicate was a coding error, now corrected."""
-    res_kerala = resolver.resolve(DistrictLocation(district_code=598), store)
+def test_resolve_lgd_codes_598_554_and_dhule_474(resolver, store):
+    """LGD 598 is Karaikal (it is Alappuzha only in Census numbering); Alappuzha is 554, Dhule 474."""
+    res_py = resolver.resolve(DistrictLocation(district_code=598), store)
+    assert res_py.district.lower() == "karaikal"
+    assert res_py.state.lower() == "puducherry"
+    assert 10.7 <= res_py.latitude <= 11.1
+    assert 79.6 <= res_py.longitude <= 80.0
+
+    res_kerala = resolver.resolve(DistrictLocation(district_code=554), store)
     assert res_kerala.district.lower() == "alappuzha"
     assert res_kerala.state.lower() == "kerala"
     assert 9.0 <= res_kerala.latitude <= 10.0
@@ -75,7 +81,7 @@ def test_resolve_code_598_is_alappuzha_and_dhule_is_498(resolver, store):
 
     res_mh = resolver.resolve(DistrictLocation(district="Dhule", state="Maharashtra"), store)
     assert res_mh.district.lower() == "dhule"
-    assert res_mh.district_code == 498
+    assert res_mh.district_code == 474
     assert 20.0 <= res_mh.latitude <= 22.0
     assert 74.0 <= res_mh.longitude <= 75.5
 
