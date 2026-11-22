@@ -20,7 +20,7 @@ from server.models.phase1 import VehicleType
 from server.services.exceptions import DataIntegrityError
 from server.services.graph_snapshot import GRAPH_FIELDS, GraphSnapshot
 from server.services.routing_service import RoutingService
-from tests.test_routing_edge_cases import location
+from tests.routing_helpers import location
 from scripts.clean.graph_builder import edge_lengths_km
 
 

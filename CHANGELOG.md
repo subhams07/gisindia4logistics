@@ -4,6 +4,17 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — project-audit fixes (no Stage 4 regeneration)
+
+- SDK, CLI and MCP raise a clear `DataNotFoundError` when the data directory is missing; the MCP `serverInfo.version` is the package version.
+- India's official political map is the stated reference for all boundaries and territorial wording. The audit checks five reference points (Aksai Chin and Gilgit in Ladakh, Muzaffarabad and Mirpur in Jammu and Kashmir, Tawang in Arunachal Pradesh) on both state layers. "PoK" labels are reworded.
+- Removed: `india_subdistricts_lgd.geojson` (20.7 MB; the GPKG and Parquet layers remain), the duplicate Pune village extract, `data/rail/stations_raw.csv`, the Ambala village map, unused images, the tracked `*.egg-info/` directories and the legacy `gis4logistics` skill and plugin. Finished planning documents move to `docs/archive/`.
+- The freight tables are `unverified` in the catalog: their parts do not add up to the national rows. `build_freight_tables.py` reports this instead of asserting its own anchors, and the audit adds a WARN check. The DFC layers are `sample` (schematic station-to-station lines). The hand-compiled hub files carry mixed licence terms.
+- Fetch and clean scripts take `--help` instead of running on bare invocation. The toll fetcher uses scipy instead of scikit-learn. `enrich_rail_stations.py` drops a hard-coded cache path. `make_demo.py` matches the census row by state as well as name.
+- Packaging and Docker: no LFS rule for parquet, PEP 639 licence metadata, no unused `reports` extra, PyPI publishing is manual-only, and Docker mounts `data/` instead of baking it into the image.
+- Tests: the AST pin hashes `ast.unparse` (stable on Python 3.13), the CLI test does not depend on `PATH`, MCP maps go to `tmp_path`, routing fixtures are shared in `tests/routing_helpers.py`, one highway-graph cache serves all subprocess tests, and the audit checks that every village GeoParquet twin matches its GeoJSON.
+- Docs: the user manual, skill examples (official LGD codes), ADR status notes, contract examples, catalog, sources, data standards and legal text match the current data.
+
 ### Fixed — geodesic highway lengths and drive times
 
 - The National Highway graph measured every edge as a Euclidean length in EPSG:7755. That projection is conformal: its scale is ~0.98 around 24°N, so highway lengths and drive times were ~2% short across central and north India, and up to ~3% long in the far south. Edge lengths are now WGS84 geodesics (`graph_builder.geodesic_m` / `edge_lengths_km`) and drive times are those lengths over the same class speeds. The same applies to the snap feeders (hub and district to the highway, inclusive 150 km), highway access distance, `*_straight_km`, and the routing API's feeder-excess diagnostic. EPSG:7755 is still used for snapping, KD-tree search (with a 1.06 margin, then the geodesic test) and geometry.

@@ -1899,13 +1899,5 @@ def test_n1c_f1_schema_valid_wrong_cardinality_fails_only_the_independent_entry(
 
 
 @pytest.fixture(autouse=True, scope="module")
-def _tiny_synthetic_graphs_are_supported():
-    """Synthetic fixtures are far below the production component-size floor, so this module runs with
-    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
-    tests/test_supported_component_floor.py."""
-    from scripts.analyze import highway_pair_kernel as _kernel
-    with pytest.MonkeyPatch.context() as patch:
-        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
-        from scripts.audit import producer_graph_oracle as _oracle
-        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
-        yield
+def _tiny_synthetic_graphs_are_supported(tiny_component_floor):
+    """Component-size floor at 1 for this module; see tests/conftest.py."""

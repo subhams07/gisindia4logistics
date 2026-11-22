@@ -264,7 +264,8 @@ def test_real_full_cli_with_a_report_dir_still_runs_and_uses_the_cache_and_repor
     source, artifacts = graph_backed_bundle(tmp_path)
     fresh_cache, reports = tmp_path / "fresh-cache", tmp_path / "reports"
     done = run_cli(tmp_path, "--data-dir", source, "--analysis-dir", artifacts, "--cache-dir", fresh_cache, "--report-dir", reports)
-    assert done.returncode in (0, 1), done.stdout[-1500:] + done.stderr[-1500:]
+    # The synthetic bundle lacks most national files, so the audit runs to completion with FAILs.
+    assert done.returncode == 1 and "AUDIT:" in done.stdout, done.stdout[-1500:] + done.stderr[-1500:]
     assert (reports / "audit_report.md").exists() and (fresh_cache / "canonical_nh_graph.npz").exists()
 
 
@@ -280,11 +281,5 @@ def test_real_cli_national_full_on_empty_trees_is_blocked_without_creating_a_cac
 
 
 @pytest.fixture(autouse=True, scope="module")
-def _tiny_synthetic_graphs_are_supported():
-    """Synthetic fixtures are far below the production component-size floor."""
-    from scripts.analyze import highway_pair_kernel as _kernel
-    with pytest.MonkeyPatch.context() as patch:
-        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
-        from scripts.audit import producer_graph_oracle as _oracle
-        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
-        yield
+def _tiny_synthetic_graphs_are_supported(tiny_component_floor):
+    """Component-size floor at 1 for this module; see tests/conftest.py."""

@@ -223,7 +223,7 @@ def main() -> None:
     print("=== Compiling Freight Flow Tables (Initiative 4) ===")
     df_rail = build_rail_freight()
     df_port = build_port_throughput()
-    df_road = build_road_indicators()
+    build_road_indicators()
 
     issues = consistency_issues(df_rail, df_port)
     for issue in issues:

@@ -62,7 +62,7 @@ def test_sdk_raises_actionable_error(absent, name):
 
 def test_sdk_validation_still_precedes_data_check(absent):
     bad = {"type": "coordinate", "latitude": 999, "longitude": 78}
-    with pytest.raises(Exception) as caught:
+    with pytest.raises(ValueError) as caught:  # pydantic ValidationError
         sdk.plan_highway_route(bad, COORD2)
     assert not isinstance(caught.value, DataNotFoundError)
     with pytest.raises(ValueError):

@@ -20,6 +20,7 @@ from server.services.exceptions import (
 )
 from server.services.routing_service import RoutingService
 from tests import test_routing_facade as facade_tests
+from tests.routing_helpers import toll_rate
 
 synthetic = facade_tests.synthetic
 
@@ -232,7 +233,7 @@ def test_sdk_legacy_precision_and_rates(synthetic, distance, count, vehicle):
     assert legacy['distance_km'] == round(distance, 1)
     assert legacy['drive_time_hours'] == 1.23
     assert legacy['tolls_encountered_count'] == count
-    rate = 340 if vehicle == 'MAV_20T' else 120 if vehicle == 'LMV' else 220
+    rate = toll_rate(vehicle)
     assert legacy['estimated_toll_cost_inr'] == count * rate
     assert legacy['origin_snapped'] == [result.origin_snapped.latitude, result.origin_snapped.longitude]
 
