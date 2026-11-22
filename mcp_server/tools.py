@@ -85,7 +85,6 @@ def tool_calculate_intermodal_freight_cost(
     dfc_handling_cost: float | None = None,
     dfc_commercial_speed_kmh: float | None = None,
     dfc_yard_transfer_hours: float | None = None,
-    commodity_name: str | None = "General Merchandise",
 ) -> dict[str, Any]:
     """
     Simulates and compares end-to-end generalized freight costs across:
@@ -108,7 +107,6 @@ def tool_calculate_intermodal_freight_cost(
         "origin_state": origin_state,
         "target_port": target_port,
         "payload_tons": payload_tons,
-        "commodity_name": commodity_name,
         "custom_parameters": custom_params,
     }, strict=True)
     res = simulate_freight_cost(req=req, store=_get_store())

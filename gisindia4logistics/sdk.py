@@ -152,7 +152,6 @@ def calculate_freight_cost(
     dfc_handling_cost: float | None = None,
     dfc_commercial_speed_kmh: float | None = None,
     dfc_yard_transfer_hours: float | None = None,
-    commodity_name: str | None = "General Merchandise",
 ) -> Dict[str, Any]:
     """
     Simulate and optimize generalized freight cost (INR/tonne) and transit hours
@@ -201,7 +200,6 @@ def calculate_freight_cost(
         origin_state=origin_state,
         target_port=target_port,
         payload_tons=payload_tons,
-        commodity_name=commodity_name,
         custom_parameters=params
     )
     store = get_data_store()
