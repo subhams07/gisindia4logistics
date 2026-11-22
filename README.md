@@ -150,11 +150,11 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 
 ## 🛡️ Quality You Can Check
 
-**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,474 checks: 5,461 PASS, 13 WARN, 0 FAIL**, and the test suite passes **3,568 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
+**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,489 checks: 5,476 PASS, 13 WARN, 0 FAIL**, and the test suite passes **3,568 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
 
 **What the audit checks:**
 - ✅ **Boundaries.** 36 states and 780 districts, official political-map reference points, valid geometries on re-read, GeoParquet twin parity across all 36 village files, and LGD joins across layers.
-- ✅ **Population.** 1,210,846,213 people conserved across the 780 current districts, within 0.001% of Census 2011.
+- ✅ **Population.** 1,210,843,804 people conserved across the 780 current districts, within 0.001% of Census 2011.
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 
