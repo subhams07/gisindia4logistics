@@ -472,6 +472,29 @@ def audit_rail(source_root=DATA_DIR):
               bool(df_dfc_st.longitude.between(68, 97.5).all() and df_dfc_st.latitude.between(6, 37.5).all()))
 
 
+def _hubs_outside_own_state(points: pd.DataFrame, source_root, tolerance_m=5000.0):
+    """Hub rows whose point is not inside, or within tolerance_m (geodesic) of, their state's polygon."""
+    from pyproj import Geod
+    from shapely.geometry import Point
+    from shapely.ops import nearest_points
+    states_path = source_root / "administrative" / "india_states_lgd.geojson"
+    if not states_path.exists() or points.empty:
+        return []
+    key = lambda v: " ".join(str(v).lower().replace("&", " and ").split())  # noqa: E731
+    states = gpd.read_file(states_path)
+    shapes = {key(s): g for s, g in zip(states.state, states.geometry)}
+    geod, bad = Geod(ellps="WGS84"), []
+    for row in points.itertuples():
+        shape, pt = shapes.get(key(row.state)), Point(float(row.longitude), float(row.latitude))
+        if shape is None:
+            bad.append(f"{row.name}: unknown state {row.state}")
+        elif not shape.contains(pt):
+            near = nearest_points(shape, pt)[0]
+            if geod.inv(pt.x, pt.y, near.x, near.y)[2] > tolerance_m:
+                bad.append(f"{row.name} ({row.state})")
+    return bad
+
+
 def audit_hubs(source_root=DATA_DIR):
     print("\n== logistics hubs ==")
     expected = {"ports.csv": (12, {"major_port", "minor_port"}), "icps.csv": (15, {"icp"}),
@@ -490,9 +513,17 @@ def audit_hubs(source_root=DATA_DIR):
                   not unexpected and bool(df.hub_type.notna().all()),
                   f"unexpected {unexpected}" if unexpected else "")
         check("hubs", f"{f}: >= {min_rows} rows", "FAIL", len(df) >= min_rows, f"{len(df)}")
+        have = df.dropna(subset=["latitude", "longitude"])
+        pending = df[df.latitude.isna() | df.longitude.isna()]
         check("hubs", f"{f}: coords in bbox + per-row source", "FAIL",
-              bool(df.longitude.between(68, 97.5).all() and df.latitude.between(6, 37.5).all()
+              bool(have.longitude.between(68, 97.5).all() and have.latitude.between(6, 37.5).all()
                    and df.source_url.notna().all()))
+        check("hubs", f"{f}: rows without coordinates are marked coordinate pending", "FAIL",
+              bool(pending.capacity_notes.astype(str).str.contains("coordinate pending").all()),
+              f"{len(pending)} pending")
+        outside = _hubs_outside_own_state(have, source_root)
+        check("hubs", f"{f}: each point in its own state (5 km coastal tolerance)", "FAIL",
+              not outside, "; ".join(outside[:5]))
 
     # NICDC Industrial Nodes & PM MITRA
     ind_p = source_root / "logistics_hubs" / "industrial_nodes.csv"
