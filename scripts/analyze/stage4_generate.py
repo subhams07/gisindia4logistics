@@ -256,7 +256,7 @@ def _publish(pending, final):
 
 # ---- orchestrator -------------------------------------------------------------------------------
 
-def generate_stage4(*, source_root, stage_root, cache_root, run_id, alpha=1.2, beta=1.5) -> dict:
+def generate_stage4(*, source_root, stage_root, cache_root, run_id, alpha=0.85, beta=1.65) -> dict:
     """Generate the seven artifacts, the limitations sidecar and (last) the manifest under ``stage_root/analysis``."""
     started = time.perf_counter()
     # -- preflight: nothing below this line creates, writes or imports a producer before it completes ----
@@ -358,8 +358,8 @@ def main(argv=None):
     parser.add_argument("--stage-root", type=Path, required=True)
     parser.add_argument("--cache-root", type=Path, required=True)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--alpha", type=float, default=1.2)
-    parser.add_argument("--beta", type=float, default=1.5)
+    parser.add_argument("--alpha", type=float, default=0.85)
+    parser.add_argument("--beta", type=float, default=1.65)
     args = parser.parse_args(argv)
     try:
         summary = generate_stage4(source_root=args.source_root, stage_root=args.stage_root, cache_root=args.cache_root,

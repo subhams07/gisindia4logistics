@@ -22,17 +22,17 @@ def inputs():
 
 def build(inputs, **kwargs):
     return gravity.build_port_hinterland(*inputs, kwargs.pop("port_data", None),
-                                        kwargs.pop("alpha", 1.2), kwargs.pop("beta", 1.5), **kwargs)
+                                        kwargs.pop("alpha", .85), kwargs.pop("beta", 1.65), **kwargs)
 
 
 def test_defaults_order_formula_and_exact_oracle(inputs):
     assert gravity.PORT_MATRIX_DATA == PORT_MATRIX_DATA
     assert list(gravity.PORT_MATRIX_DATA) == list(PORT_MATRIX_DATA)
-    assert inspect.signature(gravity.run_port_gravity_model).parameters["alpha"].default == 1.2
-    assert inspect.signature(gravity.run_port_gravity_model).parameters["beta"].default == 1.5
+    assert inspect.signature(gravity.run_port_gravity_model).parameters["alpha"].default == .85
+    assert inspect.signature(gravity.run_port_gravity_model).parameters["beta"].default == 1.65
     result = build(inputs).iloc[0]
     row = inputs[0].iloc[0]
-    utility = {name: cap ** 1.2 / ((row[col] / 5) ** 1.5) for col, (name, cap) in PORT_MATRIX_DATA.items()}
+    utility = {name: cap ** .85 / ((row[col] / 5) ** 1.65) for col, (name, cap) in PORT_MATRIX_DATA.items()}
     ordered = sorted(utility, key=utility.get, reverse=True)
     total = sum(utility.values())
     assert result.primary_port == ordered[0] and result.secondary_port == ordered[1]

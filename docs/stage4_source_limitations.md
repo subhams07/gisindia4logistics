@@ -44,7 +44,7 @@ Fixed notes: the cross-state note states an upstream source condition with rows 
 6. Recomputation does not upgrade source vintage, copyright or licensing claims.
 7. Isochrones are approximate coverage.
 8. The graph oracle is a bounded sample.
-9. Live default gravity parameters 0.85/1.65 differ from batch parameters 1.2/1.5.
+9. Gravity parameters alpha/beta are uncalibrated; the values used are in the run's producer_manifest.json config (default 0.85/1.65).
 
 ## Oracle independence and resources
 

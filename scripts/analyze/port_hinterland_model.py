@@ -1,6 +1,6 @@
 """Pure per-district Huff allocation and root-scoped atomic CSV adapter.
 
-Defaults: alpha=1.2, beta=1.5; utility arithmetic matches the live consumer
+Defaults: alpha=0.85, beta=1.65 (the published run and the live API); utility arithmetic matches the live consumer
 for the same explicit parameters. Missing routes/population stay observational
 nulls; source corruption is fatal before publication. Islands are geographic.
 """
@@ -74,7 +74,7 @@ def _capacities(overrides):
     return capacities
 
 
-def build_port_hinterland(df_matrix, population, port_data=None, alpha=1.2, beta=1.5):
+def build_port_hinterland(df_matrix, population, port_data=None, alpha=0.85, beta=1.65):
     """Pure allocation; port_data is {matrix_time_column: positive_capacity}.
 
     Partial capacity overrides retain all twelve ports and fixed source order.
@@ -139,7 +139,7 @@ def build_port_hinterland(df_matrix, population, port_data=None, alpha=1.2, beta
     return pd.DataFrame(results, columns=columns)
 
 
-def run_port_gravity_model(alpha=1.2, beta=1.5, custom_capacities=None, output_csv=None,
+def run_port_gravity_model(alpha=0.85, beta=1.65, custom_capacities=None, output_csv=None,
                            *, data_dir=None, matrix_csv=None, population_csv=None):
     """Preserve positional calls and display-name custom-capacity compatibility.
 
@@ -165,8 +165,8 @@ def run_port_gravity_model(alpha=1.2, beta=1.5, custom_capacities=None, output_c
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--alpha", type=float, default=1.2)
-    parser.add_argument("--beta", type=float, default=1.5)
+    parser.add_argument("--alpha", type=float, default=0.85)
+    parser.add_argument("--beta", type=float, default=1.65)
     parser.add_argument("--config", type=Path, help="JSON with alpha, beta and port_capacities")
     parser.add_argument("--output-csv", type=Path)
     parser.add_argument("--data-dir", type=Path)
