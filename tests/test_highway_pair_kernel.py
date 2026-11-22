@@ -21,6 +21,7 @@ from server.services.exceptions import DataIntegrityError
 from server.services.graph_snapshot import GRAPH_FIELDS, GraphSnapshot
 from server.services.routing_service import RoutingService
 from tests.test_routing_edge_cases import location
+from scripts.clean.graph_builder import edge_lengths_km
 
 
 @pytest.fixture
@@ -32,7 +33,7 @@ def fixture_graph(xy, edges, speeds=None, bridges=()):
     xy = np.asarray(xy, dtype=float)
     rows, cols, km, hours = [], [], [], []
     for i, (u, v) in enumerate(edges):
-        distance = float(np.linalg.norm(xy[u] - xy[v]) / 1000)
+        distance = float(edge_lengths_km(xy, [u], [v])[0])
         for a, b in ((u, v), (v, u)):
             rows.append(a)
             cols.append(b)
@@ -51,6 +52,20 @@ def fixture_graph(xy, edges, speeds=None, bridges=()):
     return graph
 
 
+def km(xy, a, b):
+    """Geodesic edge length (km) between fixture vertices a and b, as the builder measures it."""
+    return float(edge_lengths_km(np.asarray(xy, dtype=float), [a], [b])[0])
+
+
+def geodesic_east(xy, metres):
+    """EPSG:7755 point a WGS84 geodesic distance due east of xy."""
+    from scripts.clean.graph_builder import GEOD
+    from pyproj import Transformer
+    lon, lat = Transformer.from_crs(7755, 4326, always_xy=True).transform(*xy)
+    lon2, lat2, _ = GEOD.fwd(lon, lat, 90.0, metres)
+    return np.array(Transformer.from_crs(4326, 7755, always_xy=True).transform(lon2, lat2))
+
+
 def faster_detour():
     return fixture_graph([(0, 0), (1000, 0), (500, 600)],
                          [(0, 1), (0, 2), (2, 1)], [35, 90, 90])
@@ -62,7 +77,8 @@ def test_fastest_predecessor_path_not_shortest_distance(kernel, published):
     if published:
         graph = GraphSnapshot(*(getattr(graph, field) for field in GRAPH_FIELDS))
     metric = kernel.pair_network_metrics(graph, [(0, 1)])[0]
-    expected_km = 2 * np.hypot(500, 600) / 1000
+    xy = graph.nh_node_xy
+    expected_km = km(xy, 0, 2) + km(xy, 2, 1)
     assert metric.network_distance_km == pytest.approx(expected_km)
     assert metric.network_distance_km > dijkstra(graph.nh_distance_graph, indices=0)[1]
     assert metric.network_time_hours == pytest.approx(expected_km / 90)
@@ -77,22 +93,26 @@ def test_duplicate_physical_and_bridge_builder_metrics(kernel):
                      LineString([(600, 0), (900, 0)])],
         "highway": ["primary", "motorway", "trunk"]}, crs=7755)
     graph = SimpleNamespace(**dict(zip(GRAPH_FIELDS, build_canonical_highway_graph(frame))))
-    assert graph.nh_distance_graph[0, 1] == .3
-    assert graph.nh_graph[0, 1] == pytest.approx(.3 / 90)
+    xy = graph.nh_node_xy
+    a, b, c = km(xy, 0, 1), km(xy, 1, 2), km(xy, 2, 3)
+    assert graph.nh_distance_graph[0, 1] == a
+    assert graph.nh_graph[0, 1] == pytest.approx(a / 90)
     assert graph.nh_bridge_mask[0, 1] == 0
     metric = kernel.pair_network_metrics(graph, [(0, 3)])[0]
-    assert metric.network_distance_km == pytest.approx(.9)
-    assert metric.network_time_hours == pytest.approx(.3 / 90 + .3 / 35 + .3 / 70)
+    assert metric.network_distance_km == pytest.approx(a + b + c)
+    assert metric.network_time_hours == pytest.approx(a / 90 + b / 35 + c / 70)
     assert metric.synthetic_bridge_count == 1
-    assert metric.synthetic_bridge_distance_km == .3
-    assert metric.maximum_synthetic_bridge_m == 300
+    assert metric.synthetic_bridge_distance_km == b
+    assert metric.maximum_synthetic_bridge_m == b * 1000
 
 
 def test_radius_threshold_inclusive(kernel):
-    graph = fixture_graph([(150000, 0), (150000.001, 0)], [(0, 1)])
-    ids, distances = kernel.radius_candidates(np.array([0., 0.]), graph)
+    origin = np.array([4000000., 4000000.])  # 80E 24N: the radius margin assumes Indian latitudes
+    graph = fixture_graph([geodesic_east(origin, 150000 - 1e-4), geodesic_east(origin, 150000.01)], [(0, 1)])
+    ids, distances = kernel.radius_candidates(origin, graph)
     assert ids.tolist() == [0]
-    assert distances.tolist() == [150000.]
+    assert distances.tolist() == pytest.approx([150000. - 1e-4], abs=1e-6)
+    assert kernel.radius_candidates(origin, graph, max_distance_m=distances[0])[0].tolist() == [0]
 
 
 def test_threshold_before_nearest_and_sparse_labels(kernel):
@@ -240,8 +260,8 @@ def test_real_dijkstra_allocation_bound_and_release(kernel, monkeypatch, chunk_s
     assert max(shape[0] for shape in allocations) <= chunk_size
     assert all(ref() is None for ref in prior)
     for (u, v), metric in zip(pairs, outputs):
-        assert metric.network_distance_km == v - u
-        assert metric.network_time_hours == pytest.approx((v - u) / 70)
+        assert metric.network_distance_km == pytest.approx(sum(km(graph.nh_node_xy, i, i + 1) for i in range(u, v)))
+        assert metric.network_time_hours == pytest.approx(metric.network_distance_km / 70)
 
 
 @pytest.mark.parametrize("seed", [1728, 51])
@@ -302,16 +322,18 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.spatial import KDTree
 assert Path(kernel.__file__).resolve() == root / 'scripts/analyze/highway_pair_kernel.py'
+from scripts.clean.graph_builder import edge_lengths_km
 xy = np.array([[0., 0.], [300., 0.]])
-time = csr_matrix(([.3/70, .3/70], ([0, 1], [1, 0])), shape=(2, 2))
-dist = time * 70
+length = float(edge_lengths_km(xy, [0], [1])[0])
+dist = csr_matrix(([length, length], ([0, 1], [1, 0])), shape=(2, 2))
+time = dist / 70
 labels, tree, mask = np.array([0, 0]), KDTree(xy), csr_matrix((2, 2))
 validate_graph_metadata(time, dist, xy, labels, tree, mask)
 graph = SimpleNamespace(nh_graph=time, nh_distance_graph=dist, nh_node_xy=xy,
                         nh_comp_labels=labels, nh_tree=tree, nh_bridge_mask=mask)
 ids, ds = kernel.radius_candidates(xy[0], graph)
 assert kernel.select_compatible_pair(ds, ids, ds, ids, labels)[:2] == (0, 0)
-assert kernel.pair_network_metrics(graph, [(0, 1)])[0].network_distance_km == .3
+assert kernel.pair_network_metrics(graph, [(0, 1)])[0].network_distance_km == length
 '''
     env = {k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "PYTHONHOME")}
     env["PYTHONDONTWRITEBYTECODE"] = "1"

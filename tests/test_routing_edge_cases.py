@@ -11,6 +11,7 @@ from shapely.geometry import LineString
 from server.models.phase1 import ResolvedLocation
 from server.services.exceptions import DataIntegrityError, RouteNotAvailableError
 from server.services.routing_service import RoutingService
+from scripts.clean.graph_builder import GEOD, edge_lengths_km, geodesic_m
 
 
 @pytest.fixture
@@ -24,6 +25,11 @@ def location(service, xy):
                             longitude=lon, source_dataset="test", match_method="coordinate")
 
 
+def gkm(a, b):
+    """WGS84 geodesic km between two EPSG:7755 points, as routing measures feeders."""
+    return float(geodesic_m(np.asarray(a, dtype=float), np.asarray(b, dtype=float))) / 1000
+
+
 def graph(xy, edges, bridges=()):
     xy = np.asarray(xy, dtype=float)
     rows, cols, distances = [], [], []
@@ -31,7 +37,7 @@ def graph(xy, edges, bridges=()):
         for a, b in [(u, v), (v, u)]:
             rows.append(a)
             cols.append(b)
-            distances.append(np.linalg.norm(xy[u] - xy[v]) / 1000)
+            distances.append(float(edge_lengths_km(xy, [u], [v])[0]))
     dist = csr_matrix((distances, (rows, cols)), shape=(len(xy), len(xy)))
     time = dist / 70
     br = [(a, b) for u, v in bridges for a, b in [(u, v), (v, u)]]
@@ -54,8 +60,8 @@ def test_dense_nodes_do_not_hide_compatible_component(service):
     store = graph(xy, [(151, 152)])
     result = service.calculate_highway_route(location(service, base), location(service, xy[-1]), store=store)
     assert result.route_quality.connected_component == store.nh_comp_labels[151]
-    assert result.network_distance_km == 300
-    assert result.origin_access_distance_km == 1
+    assert result.network_distance_km == round(gkm(xy[151], xy[152]), 2)
+    assert result.origin_access_distance_km == round(gkm(base, xy[151]), 2)
 
 
 def test_threshold_valid_alternative_end_to_end(service):
@@ -65,8 +71,9 @@ def test_threshold_valid_alternative_end_to_end(service):
     result = service.calculate_highway_route(
         location(service, base), location(service, base + (320000, 0)), store=store)
     assert result.route_quality.connected_component == store.nh_comp_labels[2]
-    assert result.origin_access_distance_km == result.destination_access_distance_km == 100
-    assert result.network_distance_km == 120
+    assert result.origin_access_distance_km == round(gkm(base, xy[2]), 2)
+    assert result.destination_access_distance_km == round(gkm(xy[3], base + (320000, 0)), 2)
+    assert result.network_distance_km == round(gkm(xy[2], xy[3]), 2)
     assert result.route_quality.quality == "low_confidence"
 
 
@@ -114,8 +121,8 @@ def test_exact_bridge_and_internal_path(service, bridge):
         geometry_detail="none", store=store)
     q = result.route_quality
     assert q.synthetic_bridge_count == int(bridge)
-    assert q.synthetic_bridge_distance_km == (.3 if bridge else 0)
-    assert q.maximum_synthetic_bridge_m == (300 if bridge else 0)
+    assert q.synthetic_bridge_distance_km == (round(gkm(xy[1], xy[2]), 2) if bridge else 0)
+    assert q.maximum_synthetic_bridge_m == (round(gkm(xy[1], xy[2]) * 1000, 1) if bridge else 0)
     assert path.node_ids == (0, 1, 2, 3)
     assert path.edge_kinds == ("physical", "bridge" if bridge else "physical", "physical")
     assert np.array_equal(path.projected_coordinates, xy)
@@ -208,7 +215,7 @@ def test_distinct_endpoints_same_snap_are_feeder_only(service, monkeypatch, isol
     assert result.network_distance_km == 0
     # Preserve the minimum-snap objective: ~40km modelled feeders for 100m separation,
     # not an invented routable direct path. Disclose the pathology instead.
-    assert result.distance_km == 40
+    assert result.distance_km == round(gkm(base, base + (0, 20000)) + gkm(base, base + (100, 20000)), 2)
     assert result.drive_time_hours > 0
     assert result.route_quality.quality == "low_confidence"
     assert any("no network traversal" in w and "feeder-only via snap node" in w
@@ -237,7 +244,7 @@ def test_feeder_excess_warning_strict_ratio_boundary(service, monkeypatch, heigh
     assert bool(warnings) is expected
     if expected:
         assert warnings == [
-            ("Feeder sum exceeds 3x direct projected endpoint distance; straight-line feeders "
+            ("Feeder sum exceeds 3x direct geodesic endpoint distance; straight-line feeders "
              "may dominate this estimate. Direct separation is diagnostic only, not a routable alternative.")
         ]
 
@@ -257,13 +264,18 @@ def test_zero_movement_skips_dijkstra_and_feeder_excess_warning(service, monkeyp
 
 
 def test_exact_150km_radius_is_inclusive(service):
-    store = graph([(150000, 0), (150000.001, 0)], [(0, 1)])
-    indices, distances = service._radius_candidates(np.array([0., 0.]), store)
+    # Nodes a geodesic 150 km (to within float precision) and 150.01 km east of the origin.
+    origin = np.array(service.to_proj.transform(78, 22))
+    inside, outside = (np.array(service.to_proj.transform(*GEOD.fwd(78, 22, 90, metres)[:2]))
+                       for metres in (150000 - 1e-4, 150000.01))
+    store = graph([inside, outside], [(0, 1)])
+    indices, distances = service._radius_candidates(origin, store)
     assert indices.tolist() == [0]
-    assert distances.tolist() == [150000.]
+    assert distances.tolist() == pytest.approx([150000. - 1e-4], abs=1e-6)
+    d = float(distances[0])
     assert service._find_compatible_component_pair(
         distances, indices, distances, indices, store.nh_comp_labels
-    ) == (0, 0, 150000., 150000., 0)
+    ) == (0, 0, d, d, 0)
 
 
 @pytest.mark.parametrize("reverse", [False, True])

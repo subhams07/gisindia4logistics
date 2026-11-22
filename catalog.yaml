@@ -291,33 +291,33 @@ datasets:
   provider: derived in this repo (IR Tariff + NLP benchmarks + NHAI TIS)
   source_url: null
   license: MIT (code) / GODL-India derived
-  vintage: 2026-10
+  vintage: 2026-11
   resolution: district
   access: committed
   path: data/analysis/district_freight_modal_split.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 27.0% savings). Regenerated 2026-10 by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json."
+  quality_notes: "Calibrated against Indian Railways Class 120/140 tariff and 20T truck highway cost; computes optimal mode and modal-shift savings per tonne (national mean 27.3% savings). Regenerated 2026-11 (geodesic highway lengths) by scripts/analyze/stage4_generate.py (cost logic in intermodal_cost_engine.py); provenance in data/analysis/producer_manifest.json, limitations in producer_limitations.json."
 - name: Port Hinterland Gravity & Catchment Model
   category: analysis
   description: Huff / Reilly Gravity Model estimating port market share probabilities P(ij) and hinterland contestability across all 780 districts for 12 Major Ports
   provider: derived in this repo (IPA throughput x Dijkstra highway travel matrix)
   source_url: null
   license: MIT (code) / GODL-India derived
-  vintage: 2026-10
+  vintage: 2026-11
   resolution: district
   access: committed
   path: data/analysis/district_port_hinterland_catchment.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "780 districts: Captive Hinterland 29, Dominant / Mildly Contested 59, Highly Contested / Split Hinterland 688, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)."
+  quality_notes: "780 districts: Captive Hinterland 29, Dominant / Mildly Contested 57, Highly Contested / Split Hinterland 690, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)."
 - name: Major Ports & MMLP Drive-Time Isochrones
   category: analysis
   description: Vector drive-time catchment polygons at 4h, 8h, 12h, 24h around 12 Major Commercial Ports and at 4h, 8h, 12h around 20 Multimodal Logistics Parks
   provider: derived in this repo (Dijkstra network traversal on NH graph)
   source_url: null
   license: MIT (code) / ODbL derived
-  vintage: 2026-10
+  vintage: 2026-11
   resolution: national vector polygons
   access: committed
   path: data/analysis/*_isochrones.geojson
@@ -617,10 +617,10 @@ datasets:
 - name: National Highway district travel-time summary
   category: analysis
   description: Road-network shortest path drive times (hours/min) and distances (km) from 780 district centers to nearest ports, ICDs, MMLPs, air cargo, and ICPs
-  provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
+  provider: derived in-repo (OSM National Highway network graph; EPSG:7755 topology, WGS84 geodesic edge lengths)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
-  vintage: 2026-10
+  vintage: 2026-11
   resolution: district
   access: committed
   path: data/analysis/nh_district_travel_time_summary.csv
@@ -630,13 +630,13 @@ datasets:
 - name: District to Major Ports highway drive-time matrix
   category: analysis
   description: 780 districts x 12 major commercial ports drive-time matrix in hours
-  provider: derived in-repo (OSM National Highway network graph in EPSG:7755)
+  provider: derived in-repo (OSM National Highway network graph; EPSG:7755 topology, WGS84 geodesic edge lengths)
   source_url: derived in-repo
   license: ODbL (derived from OpenStreetMap NH network)
-  vintage: 2026-10
+  vintage: 2026-11
   resolution: district x port
   access: committed
   path: data/analysis/nh_district_port_matrix.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "780 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-10 by scripts/analyze/stage4_generate.py."
+  quality_notes: "780 rows x 12 major ports, drive hours plus road distance columns; regenerated 2026-11 (geodesic edge lengths) by scripts/analyze/stage4_generate.py."

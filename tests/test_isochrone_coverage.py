@@ -17,6 +17,7 @@ from scripts.analyze import generate_isochrones as iso
 from scripts.analyze import highway_pair_kernel as kernel
 from scripts.analyze import isochrone_coverage as cov
 from scripts.clean import graph_builder
+from scripts.clean.graph_builder import edge_lengths_km
 
 ENTRY_ORDER = ["hub_type", "hub_name", "hub_order", "thresholds_hours", "statuses", "reachable_node_counts",
                "snap_feeder_km", "snap_component_node_count", "ok_threshold_count", "saturated_across_ok_thresholds",
@@ -35,7 +36,7 @@ def make_graph(xy, edges, label_map=None):
     n = len(xy)
     km, hours = np.zeros((n, n)), np.zeros((n, n))
     for a, b in edges:
-        length = float(np.linalg.norm(xy[a] - xy[b])) / 1000
+        length = float(edge_lengths_km(xy, [a], [b])[0])
         km[a, b] = km[b, a] = length
         hours[a, b] = hours[b, a] = length / 50
     time_graph, dist_graph = csr_matrix(hours), csr_matrix(km)
@@ -52,14 +53,19 @@ def make_graph(xy, edges, label_map=None):
 HUB = (77.0, 20.0)
 
 
+def east(metres, lon=HUB[0], lat=HUB[1]):
+    """EPSG:7755 point at a WGS84 geodesic distance due east (west if negative) of a hub."""
+    lon2, lat2, _ = graph_builder.GEOD.fwd(lon, lat, 90.0 if metres >= 0 else 270.0, abs(metres))
+    return project(lon2, lat2)
+
+
 def hub_row(name, lon=HUB[0], lat=HUB[1], **extra):
     return {"name": name, "longitude": lon, "latitude": lat, **extra}
 
 
 def hub_graph(label_map=None):
     """Hub at HUB: component A nodes 0-2 near it (10 km, 11 km, 12 km east); component B nodes 3-4 farther."""
-    origin = project(*HUB)
-    xy = [origin + [10000, 0], origin + [11000, 0], origin + [12000, 0], origin + [-40000, 0], origin + [-41000, 0]]
+    xy = [east(10000), east(11000), east(12000), east(-40000), east(-41000)]
     return make_graph(xy, [(0, 1), (1, 2), (3, 4)], label_map)
 
 
@@ -134,14 +140,13 @@ def test_component_facts_snaps_nearest_vertex_and_reports_its_component_size():
 
 
 def test_component_facts_uses_the_far_small_component_when_it_is_nearest():
-    origin = project(*HUB)
-    graph = make_graph([origin + [60000, 0], origin + [61000, 0], origin + [-5000, 0], origin + [-6000, 0], origin + [-7000, 0]],
+    graph = make_graph([east(60000), east(61000), east(-5000), east(-6000), east(-7000)],
                        [(0, 1), (2, 3), (3, 4)])
     row = hub_row("Near", *HUB)
     assert cov.component_facts(graph, [row], "mmlp")[0]["snap_component_node_count"] == 3
     # Nearest vertex is in the 2-node component when the hub moves east: size follows the snap, not the largest component.
-    east = gpd.GeoSeries([Point(*(origin + [60500, 0]))], crs=7755).to_crs(4326).iloc[0]
-    assert cov.component_facts(graph, [hub_row("East", east.x, east.y)], "mmlp")[0]["snap_component_node_count"] == 2
+    east_pt = gpd.GeoSeries([Point(*east(60500))], crs=7755).to_crs(4326).iloc[0]
+    assert cov.component_facts(graph, [hub_row("East", east_pt.x, east_pt.y)], "mmlp")[0]["snap_component_node_count"] == 2
 
 
 def test_component_facts_order_types_and_unsnapped_rows():
@@ -182,10 +187,9 @@ def test_component_facts_snap_distance_boundary_is_inclusive_150km_and_filters_i
 
 
 def test_component_facts_real_tree_boundary_includes_inside_and_excludes_outside():
-    origin = project(*HUB)
-    graph = make_graph([origin + [149000, 0], origin + [149500, 0], origin + [151000, 0]], [(0, 1)])
+    graph = make_graph([east(149000), east(149500), east(151000)], [(0, 1)])
     assert cov.component_facts(graph, [hub_row("In")], "major_port")[0]["snap_component_node_count"] == 2
-    outside = make_graph([origin + [150500, 0], origin + [151000, 0]], [(0, 1)])
+    outside = make_graph([east(150500), east(151000)], [(0, 1)])
     assert cov.component_facts(outside, [hub_row("Out")], "major_port")[0] == {
         "hub_type": "major_port", "hub_name": "Out", "hub_order": 0, "snap_feeder_km": None, "snap_component_node_count": None}
 

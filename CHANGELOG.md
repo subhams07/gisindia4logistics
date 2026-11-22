@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — geodesic highway lengths and drive times
+
+- The National Highway graph measured every edge as a Euclidean length in EPSG:7755. That projection is conformal: its scale is ~0.98 around 24°N, so highway lengths and drive times were ~2% short across central and north India, and up to ~3% long in the far south. Edge lengths are now WGS84 geodesics (`graph_builder.geodesic_m` / `edge_lengths_km`) and drive times are those lengths over the same class speeds. The same applies to the snap feeders (hub and district to the highway, inclusive 150 km), highway access distance, `*_straight_km`, and the routing API's feeder-excess diagnostic. EPSG:7755 is still used for snapping, KD-tree search (with a 1.06 margin, then the geodesic test) and geometry.
+- Topology is unchanged: the 350 m junction-bridge heuristic still selects endpoint pairs by projected separation (932,722 directed edges, as before). A geodesic 350 m threshold would have dropped 1,198 bridges in north India and disconnected real junctions; for example, Katihar to Jogbani ICP went from 124 km to 277 km. Bridge lengths are reported geodesically, so they can measure up to ~357 m.
+- Graph cache version 6 → 7; cached graphs are rebuilt.
+- Stage 4 outputs regenerated (run `linux-2026-11-22-run2`). District road distances and drive times change by a median +1.85% (1st–99th percentile about −1.3% to +2.0%, positive between the projection's standard parallels at 12.5°N and 35.2°N, negative south of 12.5°N). Mean road distance to the nearest port is 877 → 893 km. Nearest-hub identities change in 14 of 7,020 district–category cells. Median district drive time to a major port is 12.2 → 12.4 h; to an ICD 3.67 → 3.72 h; to a Gati Shakti terminal 3.09 → 3.14 h.
+- Port hinterland: Highly Contested 688 → 690, Dominant 59 → 57; captive districts stay at 29. Freight modal split: Rail 324 → 323, Road 172 → 173; mean modal-shift saving 27.0% → 27.3%. The 372 high-circuity district–hub pairs are unchanged in number. Isochrone polygons change because reachable node sets shrink by ~2%; all 108 are still `ok`.
+- Pune → JNPT (LCV, REST/SDK/MCP/CLI parity test): 131.19 → 133.25 km.
+- Not changed: isochrone buffers stay 8 km in EPSG:7755. That is 7.8–8.2 km on the ground, below the 500 m simplification tolerance.
+
 ### Added — village polygons for the 9 border/NE states
 
 - Survey of India village polygons for Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram and Nagaland (72,097 villages), from SoI's files on the National Water Data Portal (NWIC, Ministry of Jal Shakti), standardized by `scripts/fetch/fetch_village_boundaries_nwdp.py` into the same `*_soi_villages` schema plus Census 2011 `population_2011` and `households_2011`. Village populations sum to the Census 2011 state totals. All 36 states/UTs are now analysed at village level (658,248 villages); the OSM habitation points remain in the repo but are no longer used.

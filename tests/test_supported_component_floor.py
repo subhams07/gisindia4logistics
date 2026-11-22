@@ -30,7 +30,7 @@ def test_oracle_literal_matches_kernel_constant():
     assert oracle.ORACLE_MIN_SUPPORTED_COMPONENT_NODES == kernel.MIN_SUPPORTED_COMPONENT_NODES == 1000
 
 
-def test_component_facts_skip_fragment_two_sided(monkeypatch):
+def test_component_facts_skip_fragment_two_sided(planar, monkeypatch):
     graph, rows = _graph(), [{"name": "Hub", "longitude": 0.0, "latitude": 0.0}]
     monkeypatch.setattr(cov, "hub_point", lambda row: np.array([0., 0.]))
     monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 3)
@@ -44,7 +44,7 @@ def test_component_facts_skip_fragment_two_sided(monkeypatch):
     assert fact["snap_feeder_km"] is None and fact["snap_component_node_count"] is None
 
 
-def test_oracle_iso_expectations_skip_fragment_two_sided(monkeypatch):
+def test_oracle_iso_expectations_skip_fragment_two_sided(planar, monkeypatch):
     graph = _graph()
     monkeypatch.setattr(oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 3)
     far = oracle.iso_expectations(graph, np.array([0., 0.]), [24.])[0]

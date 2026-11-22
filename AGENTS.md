@@ -432,9 +432,8 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     nearest_facility.py and subdistrict_access.py; all 36 states regenerated
     (~4 min). Rule: never report km or km² measured in EPSG:7755; use
     pyproj.Geod (distances/lengths) or an equal-area CRS such as ESRI:102028
-    (areas). Still pending (Phase H2): NH graph edge lengths, travel-matrix
-    straight-line km, isochrone buffers, routing service, graph oracle and
-    allocate_population area shares — all inside the Stage 4 producer chain.
+    (areas). The Stage 4 / routing side followed in Phase I (area shares)
+    and Phase K (highway graph).
 
 ### Phase I: official LGD district codes (2026-11-21)
 44. While importing NWDP village files (which carry real LGD codes) we found
@@ -483,6 +482,30 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     district where the files carry them (`village_census`, 153 districts),
     which also fixes Leh and Srinagar. Audit expects village files for all
     36 states and checks NWDP population sums against Census.
+
+### Phase K: geodesic highway graph (2026-11-22)
+46. The NH graph's edge lengths were EPSG:7755 Euclidean norms (~2% short in
+    central/north India). `graph_builder.geodesic_m(a, b)` (EPSG:7755 points ->
+    WGS84 metres, thread-local Transformer) and `edge_lengths_km(coords, rows,
+    cols)` (measured lower->higher vertex ID so the matrix stays bit-symmetric)
+    now give every edge length; time = length / class speed. `validate_graph_
+    metadata` recomputes geodesic lengths; CACHE_VERSION 6 -> 7 (the
+    fingerprint's key set is pinned by producer_manifest, so do not add keys).
+    `kernel.radius_candidates` collects nodes within SCALE_MARGIN (1.06) x the
+    radius in projected metres and keeps those within the geodesic radius;
+    `kernel.nearest_node_distance_m` does the same for highway access;
+    `*_straight_km`, the oracle and the routing feeder-excess check use
+    geodesic_m. **Junction bridges are still chosen by projected separation
+    <= 350 m** — a geodesic threshold dropped 1,198 bridges in the north and
+    disconnected real junctions (Katihar->Jogbani ICP 124 -> 277 km); bridge
+    lengths are geodesic (<= 350 x SCALE_MARGIN, which the kernel's defensive
+    check and the routing tier now use). Isochrone 8 km buffers stay
+    projected (error below the 500 m simplification). Stage 4 regenerated
+    (`linux-2026-11-22-run2`): median +1.85% on road km / drive time.
+    Tests: fixtures now build geodesic edge lengths; tests whose synthetic
+    coordinates sit near the EPSG:7755 false origin (~14S, where scale is
+    ~1.2) and that check arithmetic/ties use the `planar` fixture in
+    tests/conftest.py; metric behaviour is tested on Indian coordinates.
 
 ## Enhancement backlog (suggested next steps)
 

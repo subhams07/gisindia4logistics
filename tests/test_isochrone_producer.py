@@ -23,8 +23,12 @@ def sources(tmp_path):
     (root / "logistics_hubs").mkdir()
     center = gpd.GeoSeries([Point(78, 22)], crs=4326).to_crs(7755).iloc[0]
     x, y = builder.snap_pt(center.x, center.y)
+    # Vertices a geodesic 30 and 60 km east, on the builder's 15 m grid (so ~30 km edges, within ~20 m).
+    lon, lat = gpd.GeoSeries([Point(x, y)], crs=7755).to_crs(4326).iloc[0].coords[0]
+    east = [builder.snap_pt(*gpd.GeoSeries([Point(*builder.GEOD.fwd(lon, lat, 90, km * 1000)[:2])], crs=4326)
+                            .to_crs(7755).iloc[0].coords[0]) for km in (30, 60)]
     nh = gpd.GeoDataFrame({"class": ["missing-old-speed"]}, geometry=[
-        LineString([(x, y), (x + 30000, y), (x + 60000, y)])], crs=7755)
+        LineString([(x, y), *east])], crs=7755)
     nh.to_crs(4326).to_file(root / "roads/india_nh_network.geojson", driver="GeoJSON")
     point = gpd.GeoSeries([Point(x, y)], crs=7755).to_crs(4326).iloc[0]
     hubs = pd.DataFrame([dict(source_id="a", name="A", state="State", city="City",
@@ -94,7 +98,7 @@ def test_null_geometry_identity_roundtrip_and_both_rest(sources):
 
 @pytest.mark.parametrize("point,expected", [((0, 0), (0, 1.005)), ((0, -150000), None),
                                               ((-151005, 0), (0, 150.0))])
-def test_nearest_inclusive_and_node_id_tie(point, expected):
+def test_nearest_inclusive_and_node_id_tie(planar, point, expected):
     graph = builder.build_canonical_highway_graph(gpd.GeoDataFrame(geometry=[
         LineString([(-1005, 0), (1005, 0), (1005, 30000)])], crs=7755))
     capture = SimpleNamespace(nh_graph=graph[0], nh_distance_graph=graph[1], nh_node_xy=graph[2],
@@ -110,9 +114,8 @@ def test_nearest_inclusive_and_node_id_tie(point, expected):
 def test_feeder_deducted_and_same_snap_monotonic(sources):
     root, _, _ = sources
     frame = pd.read_csv(root / "logistics_hubs/ports.csv").iloc[:1].copy()
-    pt = gpd.GeoSeries(gpd.points_from_xy(frame.longitude, frame.latitude), crs=4326).to_crs(7755).iloc[0]
-    shifted = gpd.GeoSeries([Point(pt.x, pt.y + 35000)], crs=7755).to_crs(4326).iloc[0]
-    frame["longitude"], frame["latitude"] = shifted.x, shifted.y
+    lon, lat, _ = builder.GEOD.fwd(frame.longitude.iloc[0], frame.latitude.iloc[0], 0, 35000)  # 35 km north
+    frame["longitude"], frame["latitude"] = lon, lat
     frame.to_csv(root / "logistics_hubs/ports.csv", index=False)
     ports, _, _ = build(sources, thresholds_ports=(0.5, 1.01, 1.61, 2.21))
     assert ports.status.tolist() == ["feeder_exceeds_threshold", "unsupported_threshold", "unsupported_threshold", "ok"]
@@ -211,7 +214,7 @@ def test_nearest_small_component_not_mainland_or_larger_component(monkeypatch):
     assert result.snap_feeder_km.eq(0).all()
 
 
-def test_exact_threshold_boundary_and_limited_search(monkeypatch):
+def test_exact_threshold_boundary_and_limited_search(planar, monkeypatch):
     nh = gpd.GeoDataFrame(geometry=[LineString([(0, 0), (30000, 0), (60000, 0)])], crs=7755)
     values = builder.build_canonical_highway_graph(nh)
     capture = SimpleNamespace(nh_graph=values[0], nh_distance_graph=values[1], nh_node_xy=values[2],
@@ -307,7 +310,7 @@ def _fragment_and_main_graph():
     return graph
 
 
-def test_nearest_source_skips_fragment_for_supported_component(monkeypatch):
+def test_nearest_source_skips_fragment_for_supported_component(planar, monkeypatch):
     from scripts.analyze import highway_pair_kernel as kernel
     graph = _fragment_and_main_graph()
     monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 5)
@@ -320,7 +323,7 @@ def test_nearest_source_skips_fragment_for_supported_component(monkeypatch):
     assert size == 3 and feeder_km == 0.0
 
 
-def test_hub_features_report_supported_component_and_node_count(monkeypatch):
+def test_hub_features_report_supported_component_and_node_count(planar, monkeypatch):
     from scripts.analyze import highway_pair_kernel as kernel
     graph = _fragment_and_main_graph()
     monkeypatch.setattr(kernel, "MIN_SUPPORTED_COMPONENT_NODES", 5)

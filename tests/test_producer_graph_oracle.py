@@ -17,6 +17,7 @@ from shapely.geometry import LineString, Point, mapping
 from scripts.audit import audit_all as audit
 from scripts.analyze import producer_manifest as pm
 from scripts.analyze.freight_cost_core import FreightCostParameters, calculate_unit_costs
+from scripts.clean import graph_builder as builder
 
 
 def capture(fn, *args):
@@ -42,7 +43,7 @@ def config():
 def refresh(bundle):
     source, root, cache, provenance = bundle
     value = pm.build_manifest("synthetic-oracle", {n: root / n for n in pm.REQUIRED_ARTIFACTS}, {},
-        dict(fingerprint=provenance["graph_fingerprint"], version=6, node_count=provenance["nodes"],
+        dict(fingerprint=provenance["graph_fingerprint"], version=builder.CACHE_VERSION, node_count=provenance["nodes"],
              edge_count=provenance["edges"], selected_source="roads/india_nh_network.parquet"), config(), {},
         dict(elapsed_seconds=None, peak_memory_bytes=None))
     pm.atomic_write_manifest(value, root / pm.MANIFEST_FILENAME)
@@ -152,9 +153,12 @@ def test_rehashed_distance_only_shortcut_fails_time_path_oracle(bundle):
     source, root, cache, _ = bundle
     summary = pd.read_csv(root / pm.REQUIRED_ARTIFACTS[0])
     matrix = pd.read_csv(root / pm.REQUIRED_ARTIFACTS[2])
-    # Actual source motorway path is ~30 km / .33h; direct primary ~22.4 km is slower.
-    assert summary.loc[0, "port_road_distance_km"] == 30.
-    assert summary.loc[0, "port_drive_time_hours"] == .33
+    # Actual source motorway path is ~30 km (three ~10 km geodesic edges) / ~.34h; direct primary ~22.4 km is slower.
+    center = gpd.GeoSeries([Point(73., 19.)], crs=4326).to_crs(7755).iloc[0]
+    xy = np.array([(center.x + x, center.y + y) for x, y in [(0., 0.), (10000., 0.), (10000., 10000.), (20000., 10000.)]])
+    motorway_km = float(builder.edge_lengths_km(xy, [0, 1, 2], [1, 2, 3]).sum())
+    assert summary.loc[0, "port_road_distance_km"] == round(motorway_km, 1)
+    assert summary.loc[0, "port_drive_time_hours"] == round(motorway_km / 90., 2)
     summary.loc[0, "port_road_distance_km"] = summary.loc[0, "port_straight_km"]
     for column in matrix:
         if column.startswith("road_km_to_") and pd.notna(matrix.loc[0, column]):
@@ -247,7 +251,7 @@ def test_scalar_time_path_not_distance_path_and_sparse_unreachable(monkeypatch):
     assert seen == [1]
 
 
-def test_iso_physical_snap_threshold_feeder_and_unsupported():
+def test_iso_physical_snap_threshold_feeder_and_unsupported(planar):
     from scripts.audit import producer_graph_oracle as oracle
     graph = graph_fixture()
     values = oracle.iso_expectations(graph, np.array([0., -35000.]), [1., 1.05, 1.3])
@@ -683,7 +687,7 @@ def find_rounding_boundary(scale, target, digits):
 
 
 @pytest.mark.parametrize("quantity", ["hours", "km"])
-def test_sequential_feeder_arithmetic_matches_producer_rounding_boundary(quantity):
+def test_sequential_feeder_arithmetic_matches_producer_rounding_boundary(planar, quantity):
     from scripts.audit import producer_graph_oracle as oracle
     if quantity == "hours":
         od, hd, network = find_rounding_boundary(35., 1.005, 2)
@@ -931,7 +935,7 @@ def test_category_section_with_invalid_source_identity_is_blocked_not_crashed(bu
 
 # ---- pure expectations: objective, arithmetic, nulls ----------------------------------------
 
-def test_category_time_winner_beats_shorter_distance_and_source_order_breaks_exact_ties():
+def test_category_time_winner_beats_shorter_distance_and_source_order_breaks_exact_ties(planar):
     from scripts.audit import producer_graph_oracle as oracle
     graph = graph_fixture()  # Direct 0-1 edge is shorter in km but slower: 0.2 h via node 2 beats 2 h.
     hubs = {"rail_station": [hub("rail_station", "SlowerShorter", [5000., 0.], 0), hub("rail_station", "FasterNode2", [0., 5000.], 1)],
@@ -947,7 +951,7 @@ def test_category_time_winner_beats_shorter_distance_and_source_order_breaks_exa
 
 
 @pytest.mark.parametrize("quantity", ["hours", "km"])
-def test_category_sequential_feeder_arithmetic_matches_producer_rounding_boundary(quantity):
+def test_category_sequential_feeder_arithmetic_matches_producer_rounding_boundary(planar, quantity):
     from scripts.audit import producer_graph_oracle as oracle
     if quantity == "hours":
         od, hd, network = find_rounding_boundary(35., 1.005, 2)
@@ -967,7 +971,7 @@ def linear_graph_pair(network_hours, network_km):
     return linear_graph(network_hours, network_km)
 
 
-def test_category_nulls_invalid_coordinates_disconnected_island_and_same_point_rules():
+def test_category_nulls_invalid_coordinates_disconnected_island_and_same_point_rules(planar):
     from scripts.audit import producer_graph_oracle as oracle
     graph = graph_fixture()  # Mainland nodes 0-2 and a distant island node 3 in its own component.
     far = np.array([1000000., 1000000.])
@@ -984,7 +988,7 @@ def test_category_nulls_invalid_coordinates_disconnected_island_and_same_point_r
     assert raw > 150 and values[3]["access"] == {"highway_access_dist_km": round(raw, 1), "highway_access_time_min": round(raw / 35.0 * 60, 1)}
 
 
-def test_access_uses_the_oracles_own_tree_and_rounds_distance_and_minutes_independently():
+def test_access_uses_the_oracles_own_tree_and_rounds_distance_and_minutes_independently(planar):
     from scripts.audit import producer_graph_oracle as oracle
     graph = linear_graph(1., 1.)
 
@@ -1694,7 +1698,7 @@ def n1c_make_graph(xy, edges, label_map=None):
     count = len(xy)
     km, hours = np.zeros((count, count)), np.zeros((count, count))
     for a, b in edges:
-        length = float(np.linalg.norm(xy[a] - xy[b])) / 1000
+        length = float(builder.edge_lengths_km(xy, [a], [b])[0])
         km[a, b] = km[b, a] = length
         hours[a, b] = hours[b, a] = length / 50
     labels = connected_components(csr_matrix(hours), directed=False)[1].astype(np.int64)
@@ -1725,7 +1729,7 @@ def test_n1c_snap_ties_resolve_by_node_id_and_a_nearer_node_beats_a_lower_id(mon
     assert oracle._coverage_snap(None, SimpleNamespace(nh_comp_labels=np.zeros(5, dtype=int))) is None
 
 
-def test_n1c_supported_mainland_beats_a_nearer_tiny_island_two_sided(monkeypatch):
+def test_n1c_supported_mainland_beats_a_nearer_tiny_island_two_sided(planar, monkeypatch):
     oracle = n1c_oracle()
     graph = n1c_make_graph([(5000., 0.), (6000., 0.), (40000., 0.), (41000., 0.), (42000., 0.), (43000., 0.)], [(0, 1), (2, 3), (3, 4), (4, 5)])
     sizes = oracle._coverage_component_sizes(graph.nh_comp_labels)

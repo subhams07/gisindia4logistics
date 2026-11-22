@@ -9,7 +9,7 @@ from pathlib import Path
 import geopandas as gpd
 import numpy as np
 import pytest
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Point
 
 from scripts.clean.graph_builder import (
     load_or_build_cached_graph,
@@ -179,10 +179,11 @@ def test_exact_bridge_sparse_mask_and_warm_route(tmp_path, monkeypatch):
             return ResolvedLocation(type="coordinate", canonical_name="cache fixture", latitude=lat,
                                     longitude=lon, source_dataset="test", match_method="coordinate")
         result, path = service.calculate_highway_route_with_path(loc(xy[0]), loc(xy[-1]), store=store)
-        assert result.network_distance_km == 2.28
+        lengths = builder.edge_lengths_km(np.asarray(xy), [0, 1, 2], [1, 2, 3])  # geodesic, ~2% over projected
+        assert result.network_distance_km == round(float(lengths.sum()), 2)
         assert result.route_quality.synthetic_bridge_count == 1
-        assert result.route_quality.synthetic_bridge_distance_km == .3
-        assert result.route_quality.maximum_synthetic_bridge_m == 300
+        assert result.route_quality.synthetic_bridge_distance_km == round(float(lengths[1]), 2)
+        assert result.route_quality.maximum_synthetic_bridge_m == round(float(lengths[1]) * 1000, 1)
         assert path.edge_kinds == ("physical", "bridge", "physical")
 
 
@@ -241,7 +242,30 @@ def test_duplicate_physical_edges_never_sum_or_become_bridges(tmp_path):
     gt, gd, coords, labels, tree, mask = load_or_build_cached_graph(gdf, tmp_path)
     assert gt.nnz == gd.nnz == 2
     assert mask.nnz == 0
-    assert gt[0, 1] == pytest.approx(.3 / 90)
-    assert gd[0, 1] == .3
+    from scripts.clean.graph_builder import edge_lengths_km
+    length = float(edge_lengths_km(coords, [0], [1])[0])
+    assert gt[0, 1] == pytest.approx(length / 90)
+    assert gd[0, 1] == length
     assert len(coords) == tree.n == 2
     assert np.array_equal(labels, [0, 0])
+
+
+def test_junction_bridges_keep_projected_topology_and_measure_geodesically():
+    """A 345 m projected gap at 26N (scale < 1) is longer than 350 m on the ground but stays a bridge.
+
+    The 350 m junction heuristic fixes the topology in projected metres, as it always has; only
+    the reported lengths are geodesic. Dropping such bridges disconnected real junctions
+    (e.g. Katihar -> Jogbani ICP doubled from 124 to 277 km).
+    """
+    from scripts.clean.graph_builder import BRIDGE_MAX_METERS, build_canonical_highway_graph, edge_lengths_km
+
+    base = gpd.GeoSeries([Point(87.5, 26.)], crs=4326).to_crs(7755).iloc[0]
+    x, y = round(base.x / 15) * 15, round(base.y / 15) * 15
+    gdf = gpd.GeoDataFrame({"highway": ["trunk", "trunk"], "geometry": [
+        LineString([(x - 3000, y), (x, y)]), LineString([(x + 345, y), (x + 3345, y)])]}, crs=7755)
+    gt, gd, coords, labels, tree, mask = build_canonical_highway_graph(gdf)
+    assert mask.nnz == 2 and len(set(labels)) == 1
+    u, v = mask.nonzero()[0][0], mask.nonzero()[1][0]
+    assert np.linalg.norm(coords[u] - coords[v]) <= BRIDGE_MAX_METERS
+    assert gd[u, v] * 1000 > BRIDGE_MAX_METERS  # geodesic length of the same gap
+    assert gd[u, v] == pytest.approx(float(edge_lengths_km(coords, [u], [v])[0]))

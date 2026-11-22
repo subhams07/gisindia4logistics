@@ -30,15 +30,32 @@ def _node_id(value, size, message="Invalid highway node index"):
 
 
 def radius_candidates(point, graph, *, max_distance_m=MAX_FEEDER_DISTANCE_M):
-    """Return (node IDs, projected metre distances) for all nodes in the radius.
+    """Return (node IDs, WGS84 geodesic metre distances) for all nodes in the radius.
 
     point is an EPSG:7755 two-vector; graph supplies nh_tree and nh_node_xy.
-    Candidate order is the tree's order, as in live routing; selection resolves
-    ties separately. The inclusive default radius is 150000 metres.
+    The tree collects nodes within SCALE_MARGIN x the radius in projected metres;
+    those within the inclusive geodesic radius (default 150000 m) are kept, in
+    the tree's order, as in live routing; selection resolves ties separately.
     """
-    idx = np.asarray(graph.nh_tree.query_ball_point(point, max_distance_m), dtype=int)
-    distances = np.linalg.norm(graph.nh_node_xy[idx] - point, axis=1)
-    return idx, distances
+    from scripts.clean.graph_builder import SCALE_MARGIN, geodesic_m
+
+    idx = np.asarray(graph.nh_tree.query_ball_point(point, max_distance_m * SCALE_MARGIN), dtype=int)
+    distances = geodesic_m(graph.nh_node_xy[idx], point) if len(idx) else np.array([], dtype=float)
+    keep = distances <= max_distance_m
+    return idx[keep], distances[keep]
+
+
+def nearest_node_distance_m(point, graph):
+    """WGS84 geodesic metres from an EPSG:7755 point to its geodesically nearest node.
+
+    The projected nearest node bounds the search: every node within SCALE_MARGIN
+    x its projected distance is measured on the ellipsoid.
+    """
+    from scripts.clean.graph_builder import SCALE_MARGIN, geodesic_m
+
+    nearest = float(graph.nh_tree.query(point)[0])
+    idx = np.asarray(graph.nh_tree.query_ball_point(point, nearest * SCALE_MARGIN), dtype=int)
+    return float(geodesic_m(graph.nh_node_xy[idx], point).min())
 
 
 def nearest_per_component(distances, indices, comp_labels, *,
@@ -142,6 +159,10 @@ def analyze_path_edges(path_nodes, graph):
     shortest-distance path. A singleton has zero metrics. Coherence was validated
     at capture; defensive checks reject corrupt traversed distance/bridge values.
     """
+    from scripts.clean.graph_builder import BRIDGE_MAX_METERS, SCALE_MARGIN
+
+    # Bridges are chosen within 350 projected metres; their geodesic length is at most SCALE_MARGIN longer.
+    bridge_limit_m = BRIDGE_MAX_METERS * SCALE_MARGIN + 1e-6
     total, count, bridges, maximum = 0.0, 0, 0.0, 0.0
     for u, v in pairwise(path_nodes):
         u = _node_id(u, graph.nh_distance_graph.shape[0])
@@ -152,7 +173,7 @@ def analyze_path_edges(path_nodes, graph):
         total += km
         bridge = graph.nh_bridge_mask[u, v]
         if (not np.isfinite(bridge) or bridge not in (0, 1)
-                or (bridge and km * 1000 > 350.0 + 1e-6)):
+                or (bridge and km * 1000 > bridge_limit_m)):
             raise _integrity("Invalid highway edge distance/bridge metadata")
         if bridge:
             count += 1

@@ -7,6 +7,11 @@ All datasets in this repository follow these conventions.
 - Canonical CRS: **EPSG:4326 (WGS 84)**.
 - Derived/analysis outputs may additionally use EPSG:7755 (India NSF LCC) or
   relevant UTM zones, named with a `_ projected` suffix.
+- EPSG:7755 is conformal, not equidistant or equal-area (scale 0.98-1.03 over
+  India). Report distances and lengths as WGS84 geodesics (`pyproj.Geod`;
+  `scripts/clean/graph_builder.geodesic_m` for EPSG:7755 points) and areas in
+  an equal-area CRS such as ESRI:102028; use EPSG:7755 only for indexing,
+  snapping and geometry construction.
 - Formats: GeoJSON (committed small vector), CSV (attribute tables),
   GeoPackage (multi-layer analysis outputs), Parquet (large tabular).
 

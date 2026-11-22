@@ -2,6 +2,11 @@
 scripts/clean/graph_builder.py
 Unified, canonical Highway Graph Builder and Serializer for GISIndia4Logistics.
 Used identically by live server (server.dependencies.DataStore) and analytical engines.
+
+Vertices live in EPSG:7755 metres (snapping, KD-trees, bridge search), but
+EPSG:7755 is conformal, not equidistant: its scale runs from ~0.98 at 24N to
+~1.03 at the southern tip. Every reported length is therefore measured on the
+WGS84 ellipsoid (geodesic_m), never as a projected Euclidean norm.
 """
 
 from pathlib import Path
@@ -11,11 +16,13 @@ import json
 import logging
 import os
 import tempfile
+import threading
 import numpy as np
 import scipy.sparse as sp
 from scipy.spatial import KDTree
 from scipy.sparse.csgraph import connected_components
 import geopandas as gpd
+from pyproj import Geod, Transformer
 
 LOGGER = logging.getLogger(__name__)
 
@@ -23,9 +30,42 @@ PROJ_EPSG = 7755
 SPEEDS = {"motorway": 90.0, "trunk": 70.0, "primary": 55.0}
 DEFAULT_SPEED = 50.0
 BRIDGE_SPEED = 35.0
-BRIDGE_MAX_METERS = 350.0
+BRIDGE_MAX_METERS = 350.0  # projected separation (~343-357 m on the ground)
 SNAP_GRID_METERS = 15.0
-CACHE_VERSION = 6
+# EPSG:7755 point scale is 0.98-1.03 over India: a projected search radius this much
+# wider than a geodesic threshold finds every candidate within it, and a geodesic
+# length is at most this much longer than its projected separation.
+SCALE_MARGIN = 1.06
+CACHE_VERSION = 7  # 7: geodesic edge lengths (6 and earlier: projected EPSG:7755 norms)
+GEOD = Geod(ellps="WGS84")
+_LOCAL = threading.local()  # pyproj Transformers are not shared across threads
+
+
+def _to_lonlat() -> Transformer:
+    if not hasattr(_LOCAL, "to_lonlat"):
+        _LOCAL.to_lonlat = Transformer.from_crs(PROJ_EPSG, 4326, always_xy=True)
+    return _LOCAL.to_lonlat
+
+
+def geodesic_m(a, b) -> np.ndarray:
+    """WGS84 geodesic metres between EPSG:7755 points; (..., 2) arrays broadcast."""
+    a, b = np.broadcast_arrays(np.asarray(a, dtype=np.float64), np.asarray(b, dtype=np.float64))
+    if a.shape[-1:] != (2,):
+        raise ValueError("geodesic_m expects (..., 2) EPSG:7755 coordinates")
+    transform = _to_lonlat().transform
+    lon1, lat1 = transform(a[..., 0], a[..., 1])
+    lon2, lat2 = transform(b[..., 0], b[..., 1])
+    return np.asarray(GEOD.inv(lon1, lat1, lon2, lat2)[2], dtype=np.float64).reshape(a.shape[:-1])
+
+
+def edge_lengths_km(coords: np.ndarray, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
+    """Geodesic length (km) of each edge rows[i] -> cols[i] between EPSG:7755 vertices.
+
+    Measured from the lower to the higher vertex ID, so u->v and v->u are bit-identical.
+    """
+    rows, cols = np.asarray(rows), np.asarray(cols)
+    lo, hi = np.minimum(rows, cols), np.maximum(rows, cols)
+    return geodesic_m(coords[lo], coords[hi]) / 1000.0
 
 
 def load_highway_source(data_dir: Path) -> Optional[Tuple[gpd.GeoDataFrame, Path]]:
@@ -66,10 +106,12 @@ def validate_graph_metadata(graph_time, graph_dist, coords, labels, tree, bridge
             or bridge_mask.multiply(graph_time != 0).nnz != bridge_mask.nnz):
         raise ValueError("Invalid edge distance/bridge metadata")
     rows = np.repeat(np.arange(n), np.diff(graph_dist.indptr))
-    lengths_km = np.linalg.norm(coords[rows] - coords[graph_dist.indices], axis=1) / 1000
+    lengths_km = edge_lengths_km(coords, rows, graph_dist.indices)
     if not np.allclose(graph_dist.data, lengths_km, rtol=1e-9, atol=1e-9):
-        raise ValueError("Edge distance metadata disagrees with projected vertices")
-    if np.any(bridge_mask.multiply(graph_dist).data * 1000 > BRIDGE_MAX_METERS + 1e-6):
+        raise ValueError("Edge distance metadata disagrees with geodesic vertex distances")
+    # Bridges are chosen by projected separation, so that is what the threshold bounds.
+    b_rows = np.repeat(np.arange(n), np.diff(bridge_mask.indptr))
+    if np.any(np.linalg.norm(coords[b_rows] - coords[bridge_mask.indices], axis=1) > BRIDGE_MAX_METERS + 1e-6):
         raise ValueError("Synthetic bridge metadata exceeds junction threshold")
     actual = connected_components(graph_time, directed=False)[1]
     # Component IDs need not be canonical, but the partition must match exactly.
@@ -126,7 +168,7 @@ def build_canonical_highway_graph(
 
     Returns:
         graph_time: csr_matrix weighted by transit duration (hours)
-        graph_dist: csr_matrix weighted by road distance (km)
+        graph_dist: csr_matrix weighted by road distance (km, WGS84 geodesic per edge)
         coords_arr: (N, 2) numpy array of vertex coordinates in EPSG:7755
         labels: (N,) numpy array of connected component IDs
         tree: KDTree built on coords_arr
@@ -148,7 +190,9 @@ def build_canonical_highway_graph(
             return nid
         return node_map[k]
 
-    edges_dict: Dict[Tuple[int, int], Tuple[float, float]] = {}
+    # Fastest speed per undirected vertex pair: with equal endpoints the length is the
+    # same, so the minimum-time edge is the maximum-speed one.
+    edge_speed: Dict[Tuple[int, int], float] = {}
     linestring_endpoints: set = set()
 
     for _, row in nh_gdf.iterrows():
@@ -173,12 +217,9 @@ def build_canonical_highway_graph(
                 u = get_node(coords[i][0], coords[i][1])
                 v = get_node(coords[i + 1][0], coords[i + 1][1])
                 if u != v:
-                    d_m = float(np.hypot(node_coords[u][0] - node_coords[v][0], node_coords[u][1] - node_coords[v][1]))
-                    t_hrs = (d_m / 1000.0) / spd
-
                     for edge in [(u, v), (v, u)]:
-                        if edge not in edges_dict or t_hrs < edges_dict[edge][0]:
-                            edges_dict[edge] = (t_hrs, d_m)
+                        if edge not in edge_speed or spd > edge_speed[edge]:
+                            edge_speed[edge] = spd
 
     if not node_coords:
         raise ValueError("Highway graph has no nodes")
@@ -189,23 +230,24 @@ def build_canonical_highway_graph(
     bridge_edges_set: set = set()
     if len(endpoint_coords) > 0:
         ep_tree = KDTree(endpoint_coords)
+        # The junction heuristic is a projected-separation threshold (it fixes the topology);
+        # the bridge's length, like every edge's, is then measured geodesically.
         ep_pairs = ep_tree.query_pairs(r=BRIDGE_MAX_METERS)
         for i_ep, j_ep in ep_pairs:
             u = endpoint_indices[i_ep]
             v = endpoint_indices[j_ep]
-            d_m = float(np.hypot(coords_arr[u][0] - coords_arr[v][0], coords_arr[u][1] - coords_arr[v][1]))
-            if d_m > 0:
-                t_hrs = (d_m / 1000.0) / BRIDGE_SPEED
+            if u != v:  # distinct snapped vertices are always apart
                 for edge in [(u, v), (v, u)]:
-                    if edge not in edges_dict:
-                        edges_dict[edge] = (t_hrs, d_m)
+                    if edge not in edge_speed:
+                        edge_speed[edge] = BRIDGE_SPEED
                         bridge_edges_set.add(edge)
 
     N = len(node_coords)
-    rows = [e[0] for e in edges_dict]
-    cols = [e[1] for e in edges_dict]
-    time_data = [v[0] for v in edges_dict.values()]
-    dist_data = [v[1] / 1000.0 for v in edges_dict.values()]
+    rows = np.fromiter((e[0] for e in edge_speed), dtype=np.int64, count=len(edge_speed))
+    cols = np.fromiter((e[1] for e in edge_speed), dtype=np.int64, count=len(edge_speed))
+    speeds = np.fromiter(edge_speed.values(), dtype=np.float64, count=len(edge_speed))
+    dist_data = edge_lengths_km(coords_arr, rows, cols)
+    time_data = dist_data / speeds
     bridge_edges = sorted(bridge_edges_set)
 
     graph_time = sp.csr_matrix((time_data, (rows, cols)), shape=(N, N), dtype=np.float64)

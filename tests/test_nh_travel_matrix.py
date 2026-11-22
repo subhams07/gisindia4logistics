@@ -12,6 +12,7 @@ from shapely.geometry import LineString, Point
 
 from scripts.analyze import nh_travel_matrix as matrix
 from scripts.analyze import highway_pair_kernel as kernel
+from scripts.clean.graph_builder import edge_lengths_km
 
 
 def test_missing_root_does_not_fall_back(tmp_path):
@@ -66,7 +67,7 @@ def test_declared_hub_name_columns_match_committed_sources():
 
 
 def test_freight_terminal_uses_actual_name_schema(synthetic, tmp_path):
-    root, _, _ = synthetic
+    root, graph, _ = synthetic
     stations = pd.read_csv(root / 'rail/railway_stations.csv')
     terminal = stations.iloc[[0]].rename(columns={'station_name': 'name'})
     terminal['name'] = 'Actual-schema terminal'
@@ -74,7 +75,7 @@ def test_freight_terminal_uses_actual_name_schema(synthetic, tmp_path):
     summary, _, _ = matrix.build_travel_outputs(data_dir=root, cache_dir=tmp_path / 'cache')
     assert summary.loc[0, 'nearest_freight_terminal_name'] == 'Actual-schema terminal'
     assert summary.loc[0, 'freight_terminal_drive_time_hours'] == .2
-    assert summary.loc[0, 'freight_terminal_road_distance_km'] == round(2 * np.hypot(5, 10), 1)
+    assert summary.loc[0, 'freight_terminal_road_distance_km'] == round(float(graph.nh_distance_graph[0, 2] + graph.nh_distance_graph[2, 1]), 1)
 
 
 @pytest.fixture
@@ -90,7 +91,7 @@ def synthetic(tmp_path, monkeypatch):
         rows.extend([u, v])
         cols.extend([v, u])
         times.extend([hours, hours])
-        distance = np.linalg.norm(xy[u] - xy[v]) / 1000
+        distance = float(edge_lengths_km(xy, [u], [v])[0])
         distances.extend([distance, distance])
     gt = csr_matrix((times, (rows, cols)), shape=(5, 5))
     gd = csr_matrix((distances, (rows, cols)), shape=(5, 5))
@@ -159,7 +160,7 @@ def test_build_fastest_path_nulls_identity_and_port_order(synthetic, tmp_path, m
     assert summary.loc[0, 'nearest_rail_station_name'] == 'Fast distant'
     # Longer 0->2->1 is faster than the direct 0->1 path.
     assert summary.loc[0, 'rail_station_drive_time_hours'] == .2
-    assert summary.loc[0, 'rail_station_road_distance_km'] == round(2 * np.hypot(5, 10), 1)
+    assert summary.loc[0, 'rail_station_road_distance_km'] == round(float(graph.nh_distance_graph[0, 2] + graph.nh_distance_graph[2, 1]), 1)
     assert summary.loc[0, 'rail_station_drive_time_min'] == 12.
     assert summary.loc[0, 'highway_access_dist_km'] == 0.
     assert summary.loc[0, 'pop_2011'] == 12.
@@ -251,10 +252,18 @@ def test_invalid_chunk_size_before_io(tmp_path, chunk_size):
 
 
 def test_inclusive_radius_sparse_ties_and_permutations():
-    xy = np.array([[150000., 0], [-150000., 0], [150000.01, 0], [0, 0]])
+    # Geodesic placements around 80E 24N: 150 km east and west (to float precision), 150.01 km east, and the origin.
+    from scripts.clean.graph_builder import GEOD, geodesic_m
+    from pyproj import Transformer
+    to_proj = Transformer.from_crs(4326, 7755, always_xy=True)
+    origin = np.array(to_proj.transform(80, 24))
+    xy = np.array([to_proj.transform(*GEOD.fwd(80, 24, azimuth, metres)[:2])
+                   for azimuth, metres in ((90, 150000 - 1e-4), (270, 150000 - 1e-4), (90, 150000.01))] + [origin])
     labels = np.array([999999999, 999999999, 8, 100])
     graph = SimpleNamespace(nh_tree=KDTree(xy), nh_node_xy=xy, nh_comp_labels=labels)
-    assert matrix._point_candidates(np.array([0., 0.]), graph) == {100: (0., 3), 999999999: (150000., 0)}
+    east, west = geodesic_m(xy[:2], origin)
+    winner = (float(min(east, west)), 0 if east <= west else 1)
+    assert matrix._point_candidates(origin, graph) == {100: (0., 3), 999999999: winner}
     origin = {999999999: (2., 1), 100: (2., 0)}
     dest = {999999999: (3., 0), 100: (3., 3)}
     expected = (0, 3, 2., 3., 100)
@@ -398,7 +407,7 @@ def test_many_origins_time_csr_chunk_and_buffer_release(synthetic, tmp_path, mon
     rows = np.r_[np.arange(count - 1), np.arange(1, count)]
     cols = np.r_[np.arange(1, count), np.arange(count - 1)]
     gt = csr_matrix((np.full(len(rows), .02), (rows, cols)), shape=(count, count))
-    gd = csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(count, count))
+    gd = csr_matrix((edge_lengths_km(xy, rows, cols), (rows, cols)), shape=(count, count))
     fields = (gt, gd, xy, np.zeros(count, dtype=int), KDTree(xy), csr_matrix((count, count)))
     monkeypatch.setattr(matrix, 'load_or_build_cached_graph', lambda nh, cache_dir: fields)
     districts = gpd.GeoDataFrame({'state': ['X'] * count, 'district': [f'D{i}' for i in range(count)],
@@ -484,7 +493,7 @@ def test_bridge_diagnostics_on_winner_path(synthetic, tmp_path, monkeypatch):
     xy = np.vstack((graph.nh_node_xy[0], graph.nh_node_xy[0] + [100., 0]))
     rows, cols = [0, 1], [1, 0]
     gt = csr_matrix(([.002, .002], (rows, cols)), shape=(2, 2))
-    gd = csr_matrix(([.1, .1], (rows, cols)), shape=(2, 2))
+    gd = csr_matrix((edge_lengths_km(xy, rows, cols), (rows, cols)), shape=(2, 2))
     bridge = csr_matrix(([1., 1.], (rows, cols)), shape=(2, 2))
     fields = (gt, gd, xy, np.array([91, 91]), KDTree(xy), bridge)
     monkeypatch.setattr(matrix, 'load_or_build_cached_graph', lambda nh, cache_dir: fields)
@@ -492,13 +501,13 @@ def test_bridge_diagnostics_on_winner_path(synthetic, tmp_path, monkeypatch):
     pd.DataFrame({'station_name': ['Bridge'], 'latitude': [point.y], 'longitude': [point.x]}).to_csv(
         root / 'rail/railway_stations.csv', index=False)
     summary, _, provenance = matrix.build_travel_outputs(data_dir=root, cache_dir=tmp_path / 'cache')
-    assert summary.loc[0, 'rail_station_road_distance_km'] == .1
+    assert summary.loc[0, 'rail_station_road_distance_km'] == round(float(gd[0, 1]), 1)
     diagnostics = [r for r in provenance['winner_and_port_diagnostics']
                    if r['district_row'] == 0 and r['kind'] == 'rail_station']
     assert len(diagnostics) == 1
     assert diagnostics[0]['synthetic_bridge_count'] == 1
-    assert diagnostics[0]['synthetic_bridge_distance_km'] == .1
-    assert diagnostics[0]['maximum_synthetic_bridge_m'] == 100.
+    assert diagnostics[0]['synthetic_bridge_distance_km'] == float(gd[0, 1])
+    assert diagnostics[0]['maximum_synthetic_bridge_m'] == float(gd[0, 1]) * 1000
 
 
 

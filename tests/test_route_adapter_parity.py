@@ -195,6 +195,6 @@ def test_committed_corridor_parity_including_cli(tmp_path, monkeypatch):
     outputs = [response.json(), python, mcp, cli]
     assert all(without_timestamp(value) == without_timestamp(python) for value in outputs)
     assert_timestamps(outputs, before, after)
-    assert python['distance_km'] == 131.19  # Accepted model diagnostic, not corridor ground truth.
+    assert python['distance_km'] == 133.25  # Accepted model diagnostic (geodesic edges), not corridor ground truth.
     assert python['route_quality']['synthetic_bridge_count'] == 5
     assert response.headers['X-GIS4L-Data-Version'] == python['metadata']['data_version']
