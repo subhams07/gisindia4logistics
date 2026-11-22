@@ -40,14 +40,14 @@ Headline figures computed from the committed v1.1.0 outputs:
 
 | Indicator | Value |
 |---|---|
-| Median distance from a village or settlement to the nearest National Highway | **6.6 km** (65.8% within 10 km) |
-| Median distance from a village or settlement to the nearest railway station | **13.3 km** (39.9% within 10 km) |
+| Median distance from a village or settlement to the nearest National Highway | **6.7 km** (65.2% within 10 km) |
+| Median distance from a village or settlement to the nearest railway station | **13.5 km** (39.3% within 10 km) |
 | Median district drive time to the nearest Gati Shakti cargo terminal | **3.1 h** |
 | Median district drive time to the nearest ICD / CFS | **3.7 h** |
 | Median district drive time to the nearest major port | **12.2 h** |
 | Districts captive to a single major port (gravity model) | **29 of 780** (688 are contested between ports) |
 
-Village figures are straight-line distances over all 621,105 settlements. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
+Village figures are geodesic straight-line distances over all 621,105 settlements. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
 
 ---
 

@@ -3,8 +3,9 @@
 For every village in a state (Survey of India village boundaries), computes
 straight-line distance to the nearest facility of each selected type
 (rail station, port, ICD, ICP, air-cargo terminal, MMLP, IWAI terminal, ...).
-Distances are computed in EPSG:7755 (metres) via spatial-indexed nearest join,
-then summarized per district with Census-2011 population weighting.
+Distances are geodesic on the WGS84 ellipsoid (``nearest_geodesic``); EPSG:7755
+only narrows the candidates. Results are summarized per district with
+Census-2011 population weighting.
 
 District identity comes from the current LGD boundary layer, not from the
 village files: SoI village files carry an older district-code scheme and
@@ -27,7 +28,10 @@ import pathlib
 import sys
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
+import pyproj
+import shapely
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR  # noqa: E402
@@ -38,6 +42,12 @@ PROJ = 7755  # India NSF LCC (metres)
 # candidates whose village-polygon overlap is within this share of the best
 # overlap are treated as tied (simplified district polygons overlap in slivers)
 OVERLAP_TIE = 0.01
+GEOD = pyproj.Geod(ellps="WGS84")
+# EPSG:7755 is conformal, not distance-preserving: its point scale over India runs
+# from ~0.980 (24°N) to ~1.03 (6.7°N, Great Nicobar). A facility geodesically
+# nearer than the projected-nearest one therefore lies within this factor of
+# the projected nearest distance.
+SCALE_MARGIN = 1.06
 
 FACILITY_SOURCES = {
     "nh": DATA_DIR / "roads" / "india_nh_network.geojson",
@@ -136,6 +146,33 @@ def assign_current_districts(units: gpd.GeoDataFrame, state: str,
         out.loc[outside, "district_assignment"] = "nearest"
     out["district_code"] = pd.to_numeric(out["district_code"])
     return out
+
+
+def nearest_geodesic(points: gpd.GeoSeries, facilities: gpd.GeoSeries) -> tuple[np.ndarray, np.ndarray]:
+    """Index into ``facilities`` of, and geodesic distance in km to, the nearest one for each point.
+
+    Candidates are the facilities within SCALE_MARGIN x the EPSG:7755 nearest
+    distance; each is measured on the WGS84 ellipsoid from the point to its
+    closest point on the facility (found in EPSG:7755 for lines). Equidistant
+    candidates resolve to the lowest facility position.
+    """
+    pts_ll = points.to_crs(4326)
+    lon, lat = pts_ll.x.to_numpy(), pts_ll.y.to_numpy()
+    pts = np.asarray(pts_ll.to_crs(PROJ).values)
+    fac = np.asarray(facilities.to_crs(PROJ).values)
+    tree = shapely.STRtree(fac)
+    (src, _), d_proj = tree.query_nearest(pts, return_distance=True, all_matches=False)
+    radius = np.empty(len(pts))
+    radius[src] = d_proj * SCALE_MARGIN + 1.0
+    inp, cand = tree.query(pts, predicate="dwithin", distance=radius)
+    ends = shapely.get_coordinates(shapely.get_point(shapely.shortest_line(pts[inp], fac[cand]), 1))
+    end_lon, end_lat = pyproj.Transformer.from_crs(PROJ, 4326, always_xy=True).transform(ends[:, 0], ends[:, 1])
+    _, _, dist = GEOD.inv(lon[inp], lat[inp], end_lon, end_lat)
+    order = np.lexsort((cand, dist, inp))
+    first = order[np.r_[True, inp[order][1:] != inp[order][:-1]]]
+    best, km = np.empty(len(pts), dtype=int), np.empty(len(pts))
+    best[inp[first]], km[inp[first]] = cand[first], dist[first] / 1000
+    return best, km
 
 
 def load_facilities(kinds: list[str]) -> dict[str, gpd.GeoDataFrame]:
@@ -258,9 +295,7 @@ def run_one(state: str, args) -> None:
         label = args.state.lower().replace(" ", "_")
 
     # one representative point per village polygon
-    pts = villages.copy()
-    pts["geometry"] = villages.geometry.representative_point()
-    pts = pts.to_crs(PROJ)
+    pts = villages.geometry.representative_point()
     n_near = int((assigned["district_assignment"] == "nearest").sum())
     print(f"  {len(pts)} villages across {assigned.district_code.nunique()} current districts"
           f" ({n_near} assigned to the nearest district polygon)")
@@ -281,13 +316,9 @@ def run_one(state: str, args) -> None:
                                  if "district_code" in villages else assigned["district_code"].astype("Int64").values),
     })
     for kind, gdf in facilities.items():
-        fac = gdf.to_crs(PROJ)
-        joined = gpd.sjoin_nearest(pts, fac[["fac_name", "geometry"]],
-                                   how="left", distance_col=f"dist_{kind}")
-        # equidistant ties return duplicate rows — keep first (min distance)
-        joined = joined[~joined.index.duplicated(keep="first")]
-        base[f"nearest_{kind}"] = joined["fac_name"].values
-        base[f"dist_{kind}_km"] = (joined[f"dist_{kind}"].values / 1000).round(2)
+        best, km = nearest_geodesic(pts, gdf.geometry)
+        base[f"nearest_{kind}"] = gdf["fac_name"].to_numpy()[best]
+        base[f"dist_{kind}_km"] = km.round(2)
 
     ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
     vpath = ANALYSIS_DIR / f"{label}_village_access.csv"

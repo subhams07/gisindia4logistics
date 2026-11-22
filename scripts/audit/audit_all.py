@@ -210,21 +210,28 @@ def audit_analysis(source_root=DATA_DIR, artifact_root=None):
         check("analysis", f"{slug}: row count matches source", "FAIL",
               n_src == n_out, f"{n_out} vs {n_src}")
 
-    # reproducibility: recompute 40 sample villages in Haryana
-    av = pd.read_csv(artifact_root / "haryana_village_access.csv")
-    vill = gpd.read_file(source_root / "administrative" / "villages" / "haryana_soi_villages.geojson")
-    st = pd.read_csv(source_root / "rail" / "railway_stations.csv")
-    sample = vill.sample(40, random_state=42)
-    pts = gpd.GeoSeries(sample.geometry.representative_point(), crs=4326).to_crs(7755)
-    fac = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.longitude, st.latitude), crs=4326).to_crs(7755)
-    d = fac.geometry.unary_union
-    recomputed = pts.map(lambda p: p.distance(d) / 1000).round(2).values
-    # access rows are written in village-file order (district names differ:
-    # the access table carries the current LGD district)
-    stored = av["dist_rail_station_km"].to_numpy()[sample.index.to_numpy()]
-    delta = np.abs(recomputed - stored).max() if len(av) == len(vill) else np.inf
-    check("analysis", "recomputed distances match stored (Haryana sample)", "FAIL",
-          bool(delta < 0.15), f"max delta {delta:.3f} km")
+    # reproducibility: brute-force geodesic distance (WGS84 ellipsoid) from 40
+    # sample villages per state, spanning ~8-28°N, to every station and port.
+    # Access rows are written in village-file order (district names differ:
+    # the access table carries the current LGD district).
+    import pyproj
+    geod = pyproj.Geod(ellps="WGS84")
+    targets = {"rail_station": pd.read_csv(source_root / "rail" / "railway_stations.csv"),
+               "port": pd.read_csv(source_root / "logistics_hubs" / "ports.csv")}
+    for slug in ("haryana", "kerala", "andaman_and_nicobar_islands", "sikkim"):
+        av = pd.read_csv(artifact_root / f"{slug}_village_access.csv", low_memory=False)
+        vill = gpd.read_file(source_root / "administrative" / "villages" / f"{slug}_soi_villages.geojson", columns=[])
+        sample = vill.geometry.representative_point().sample(40, random_state=42)
+        for kind, fac in targets.items():
+            fac = fac.dropna(subset=["latitude", "longitude"])
+            n = len(fac)
+            _, _, d = geod.inv(np.repeat(sample.x.values, n), np.repeat(sample.y.values, n),
+                               np.tile(fac.longitude.values, len(sample)), np.tile(fac.latitude.values, len(sample)))
+            recomputed = d.reshape(len(sample), n).min(axis=1) / 1000
+            stored = av[f"dist_{kind}_km"].to_numpy()[sample.index.to_numpy()]
+            delta = np.abs(recomputed - stored).max() if len(av) == len(vill) else np.inf
+            check("analysis", f"geodesic distances match stored ({slug} {kind} sample)", "FAIL",
+                  bool(delta <= 0.006), f"max delta {delta:.4f} km")
 
     audit_access_districts(source_root, artifact_root, roll)
 

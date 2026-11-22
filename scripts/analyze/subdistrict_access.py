@@ -1,6 +1,6 @@
 """Sub-district (taluka/tehsil) accessibility analysis — all of India.
 
-Computes straight-line distance from every sub-district centroid (6,636
+Computes geodesic straight-line distance from every sub-district point (6,636
 current LGD-coded subdistricts) to the nearest facility of each type —
 national coverage in one table, complementing the village-level analysis
 (which covers 27 states). Reveals the worst-served talukas nationally.
@@ -21,16 +21,12 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR  # noqa: E402
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from nearest_facility import DISTRICTS_PATH, assign_current_districts, load_facilities  # noqa: E402
-
-PROJ = 7755
+from nearest_facility import DISTRICTS_PATH, assign_current_districts, load_facilities, nearest_geodesic  # noqa: E402
 
 
 def main() -> None:
     sub = gpd.read_file(DATA_DIR / "administrative" / "india_subdistricts_lgd.gpkg")
-    pts = sub.copy()
-    pts["geometry"] = sub.geometry.representative_point()
-    pts = pts.to_crs(PROJ)
+    pts = sub.geometry.representative_point()
     print(f"sub-districts: {len(pts)} across {sub.state.nunique()} states")
 
     facilities = load_facilities(["rail_station", "icd", "port", "air_cargo", "icp"])
@@ -47,12 +43,9 @@ def main() -> None:
         "sub_district_code": sub["sub_district_code"].astype("Int64").values,
     })
     for kind, gdf in facilities.items():
-        fac = gdf.to_crs(PROJ)
-        joined = gpd.sjoin_nearest(pts, fac[["fac_name", "geometry"]],
-                                   how="left", distance_col=f"dist_{kind}")
-        joined = joined[~joined.index.duplicated(keep="first")]  # tie dedupe
-        base[f"nearest_{kind}"] = joined["fac_name"].values
-        base[f"dist_{kind}_km"] = (joined[f"dist_{kind}"].values / 1000).round(2)
+        best, km = nearest_geodesic(pts, gdf.geometry)
+        base[f"nearest_{kind}"] = gdf["fac_name"].to_numpy()[best]
+        base[f"dist_{kind}_km"] = km.round(2)
 
     out = DATA_DIR / "analysis" / "india_subdistrict_access.csv"
     out.parent.mkdir(parents=True, exist_ok=True)

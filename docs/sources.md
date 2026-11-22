@@ -121,7 +121,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 
 | Dataset & File Path | Scope / Resolution | Methodology & Metrics | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **578,345 settlements** (36 states/UTs) | Exact projected straight-line Euclidean distance in `EPSG:7755` (`sjoin_nearest`) to all infrastructure and hub targets | Derived in repo | **verified** |
+| **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **621,105 villages and settlements** (36 states/UTs) | Geodesic straight-line distance (WGS84 ellipsoid) to the nearest target of each type; EPSG:7755 only narrows the candidates | Derived in repo | **verified** |
 | **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 5km, 10km, 25km) and median distances | Derived in repo | **verified** |
 | **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **817 rows** (781 districts + 36 state pop-weighted rows) | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
 | **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **781 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km) on the 289k-node highway graph | Derived in repo | **verified** |
