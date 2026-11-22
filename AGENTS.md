@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-11-21.
+Read this before making changes. Last updated: 2026-11-22.
 
 ## What this repository is
 
@@ -17,32 +17,32 @@ datasets produced by fetch scripts.
 - **India's official political map is the reference** (operator ruling 2026-11-14): all boundaries, maps and territorial wording follow the Survey of India depiction. Aksai Chin and Gilgit-Baltistan are in Ladakh; Mirpur and Muzaffarabad are districts of Jammu and Kashmir; Arunachal Pradesh is shown in full. Never take national or state outlines from sources that draw India differently (OSM admin boundaries, Natural Earth, GADM), and never describe such areas as outside India.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
-## Repository contents (as of 2026-08-23, after phase 7)
+## Repository contents (as of 2026-11-22)
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
-| States (current) | LGD-coded polygons | 36 | SoI ABDB (PAN INDIA archive; provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
-| Districts (current) | LGD-coded | 780 | SoI ABDB | same |
-| Sub-districts (current) | LGD-coded, GPKG | 6,639 | SoI ABDB | same |
+| States (current) | polygons (name only) | 36 | SoI ABDB (provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
+| Districts (current) | official LGD codes (abdb_district_code, census2011_code kept) | 780 | SoI ABDB + LGD directory | same |
+| Sub-districts (current) | GPKG + Parquet, district names from the district layer | 6,636 | SoI ABDB | same |
+| LGD district directory | official snapshot + ABDB→LGD crosswalk | 790 / 780 | lgdirectory.gov.in | GODL-India |
 | States + districts (2011) | joins to Census tables | 36 / 640 | DataMeet maps | CC BY 4.0 |
-| Villages | LGD-coded polygons, per state | 543,391 across 27 states | Survey of India | same ABDB constraints |
+| Villages | polygons, all 36 states/UTs (GeoJSON + Parquet) | 658,248 | Survey of India (27 via SoI portal, 9 via NWDP) | same ABDB constraints / GODL (NWDP) |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
-| Roads — NH network | all numbered NH routes | 145k segments, ~700 routes | OSM/Overpass | ODbL |
-| Roads — district fetcher | class-mapped (NH/SH/MDR/ODR) | Pune sample 19k | OSM/Overpass | ODbL |
-| Rail stations | codes/names/coords | 8,697 | DataMeet railways (2016) | none declared (reference) |
-| Station categories | NSG1-6 (+P variants) | 5,941 | community (railway-stations-classification.pages.dev) | unclear — flagged |
-| Freight terminals | Gati Shakti GCTs, 70 geocoded | 84 | PIB PRID 1910049 | GODL-India |
-| Rail lines fetcher | any district | — | OSM/Overpass | ODbL |
-| Logistics hubs | ports 22, ICPs 19, ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI terminals 40, FCI depots 77 | 247 total points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + Wikipedia | GODL / CC BY-SA, per-row source_url |
-| Demographics | Census 2011 district indicators | 640 | community digitization, validated vs official | GODL-India |
-| Analysis | village accessibility (nearest facility) | Sikkim + Haryana examples | derived in-repo | mixed upstream |
+| Roads — NH network | numbered NH routes | 141,990 segments | OSM/Overpass | ODbL |
+| Toll plazas | clustered OSM toll points | 1,536 | OSM | ODbL |
+| Rail stations | codes/names/coords; state from polygons (source_state kept) | 8,697 | DataMeet railways (2016) | none declared (reference) |
+| Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
+| Freight terminals | Gati Shakti GCTs, 73 geocoded (state-checked) | 84 | PIB PRID 1910049 | GODL-India |
+| Logistics hubs | ports 22, ICPs 19 (2 coordinate-pending), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
+| Demographics | Census 2011 district indicators; current-district population estimates | 640 / 780 | community digitization (validated) / derived | GODL-India |
+| Analysis | village access (geodesic), district/sub-district summaries, Stage 4 (geodesic NH routing, port matrix, freight modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
 
 Key paths: `data/` (committed data incl. `data/analysis/`), `scripts/fetch/`
 (downloaders), `scripts/clean/` (standardization + shared utils in
 `standardize.py`), `scripts/analyze/` (accessibility toolkit),
 `scripts/make_demo.py` (end-to-end district pipeline → GeoPackage + map PNG),
 `examples/` (notebook), `docs/` (sources.md, data_standards.md,
-legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
+legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
 
 ## Build history — steps taken, in order
 
@@ -528,6 +528,25 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - The parquet LFS rule is gone; parquet commits as plain binary.
     Still open from the proposals: Census sub-district tables, ICP and station
     coordinate fixes, DFC alignments, freight-table re-sourcing.
+
+### Phase M: audit batch C — names and locations (2026-11-22)
+48. Decision items 36, 38, 39, 42, 44, 45, 53, 59, 60 (Stage 4 run
+    `linux-2026-11-22-run4`). New scripts: `scripts/clean/patch_boundary_names.py`
+    (applies `fix_mojibake`'s @/backslash decoding to the committed layers),
+    `assign_station_states.py` (station state from polygons, `source_state`
+    kept, review lists in `docs/review/`), `refresh_version_manifest.py`. Hub
+    fixes used Nominatim town/station nodes checked inside the state polygon;
+    unverifiable points are blanked and marked "coordinate pending" (the
+    audit requires that note). Rules:
+    - A hub or terminal point must lie in its own state (audit, 5 km coastal
+      tolerance); border posts must be on the Indian side.
+    - Do not rewrite the large village GeoJSON/Parquet files for cosmetic
+      fixes (state column, Z values): each rewrite adds the full files to the
+      public repo's history. Clean values where they are written instead
+      (`nearest_facility.clean_text`).
+    Still open: Census sub-district tables (#10), DFC alignments, freight-table
+    re-sourcing, the five coordinate-pending GCTs and two ICPs, the API
+    redesign items (#5-7, #21, #22, #24, #25, #29).
 
 ## Enhancement backlog (suggested next steps)
 
