@@ -230,3 +230,17 @@ def test_nearest_facility_all_fails_loudly_and_skips_the_composite(monkeypatch, 
     monkeypatch.setattr(nf, "run_one", lambda state, args: None)
     nf.main()
     assert composite == [1]
+
+
+def test_village_access_reads_are_cached_until_the_file_changes(tmp_path):
+    import os
+    path = tmp_path / "x_village_access.csv"
+    pd.DataFrame({"district": ["A"], "v": [1]}).to_csv(path, index=False)
+    admin._read_village_access_cached.cache_clear()
+    first = admin.read_village_access(path)
+    first.loc[0, "v"] = 99  # callers get a copy; the cache is not mutated
+    assert admin.read_village_access(path).v.tolist() == [1]
+    assert admin._read_village_access_cached.cache_info().hits == 1
+    pd.DataFrame({"district": ["A"], "v": [2]}).to_csv(path, index=False)
+    os.utime(path, ns=(path.stat().st_atime_ns, path.stat().st_mtime_ns + 1_000_000))
+    assert admin.read_village_access(path).v.tolist() == [2]

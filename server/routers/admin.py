@@ -4,6 +4,7 @@ Administrative endpoints: States, Districts, Villages, and District Scorecards.
 """
 
 import math
+from functools import lru_cache
 from numbers import Real
 from pathlib import Path
 from typing import List, Optional
@@ -73,6 +74,21 @@ def contained_data_path(data_dir: Path, *parts: str) -> Path:
         return path
     except (OSError, ValueError, RuntimeError):
         raise HTTPException(status_code=422, detail="Invalid data path") from None
+
+
+@lru_cache(maxsize=4)
+def _read_village_access_cached(path: str, mtime_ns: int, size: int) -> pd.DataFrame:
+    return pd.read_csv(path)
+
+
+def read_village_access(path: Path) -> pd.DataFrame:
+    """A state's village access table, cached per (path, mtime, size); callers get a copy.
+
+    Uttar Pradesh's table takes ~0.6 s to parse; a rewritten file has a new mtime
+    and is read again.
+    """
+    stat = path.stat()
+    return _read_village_access_cached(str(path), stat.st_mtime_ns, stat.st_size).copy()
 
 
 def validate_village_map_paths(data_dir: Path, state: str) -> None:
@@ -282,7 +298,7 @@ def query_villages(
     if not p_access.exists():
         raise HTTPException(status_code=404, detail=f"No village access data found for state '{state}'")
 
-    df = pd.read_csv(p_access)
+    df = read_village_access(p_access)
     # State-specific access tables historically omit this required API field.
     df["state"] = state
     if district:
