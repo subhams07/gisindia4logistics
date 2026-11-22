@@ -540,10 +540,8 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     audit requires that note). Rules:
     - A hub or terminal point must lie in its own state (audit, 5 km coastal
       tolerance); border posts must be on the Indian side.
-    - Do not rewrite the large village GeoJSON/Parquet files for cosmetic
-      fixes (state column, Z values): each rewrite adds the full files to the
-      public repo's history. Clean values where they are written instead
-      (`nearest_facility.clean_text`).
+    - (Superseded in Phase O: a properties-only rewrite of the village files
+      costs ~20 MB of history, not the full file size.)
     Still open after this phase: see Phase N.
 
 ### Phase N: audit batch D — API consistency and last locations (2026-11-22)
@@ -562,6 +560,27 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
       (`server/dependencies.district_attributes`).
     Still open: Census sub-district tables (#10), DFC alignments,
     freight-table re-sourcing, the 6 greenfield GCT sites.
+
+### Phase O: village file attribute schema (2026-11-22)
+50. Audit item 14, decided after a measured scratch-clone benchmark (another
+    agent, on main 70f5a0e): `scripts/clean/normalize_village_properties.py`
+    gives all 36 village files one schema - `state` = LGD spelling on every
+    row (Chandigarh had no column, 14 Maharashtra rows were null, Delhi had
+    'DELHI\r\n', spellings differed per file), the four code columns as text
+    (Goa district_code, Tripura state_code and MP sub_district_code were
+    integers), and whitespace collapsed in every text value. 26 files changed.
+    Rules:
+    - Edit village GeoJSON properties only: the files round-trip
+      byte-identically through `json.dumps(separators=(",", ":"))`, so the
+      geometry text stays identical and git delta-compresses the rewrite
+      (benchmark: +21 MB history for all 36 files incl. Parquet twins).
+      Never rewrite the geometry (dropping Z = 0.0 measured +152 MB).
+    - Regenerate a Parquet twin with gpd.read_file -> to_parquet (snappy) and
+      check its geometry WKB is unchanged (the script refuses otherwise).
+    - pandas 3 reads GeoJSON text as StringDtype, not object: a check that
+      filters `dtype == object` silently skips every column.
+    The village access tables and Stage 4 are unaffected (they do not read
+    `state`; codes go through `pd.to_numeric`/`clean_text`).
 
 ## Enhancement backlog (suggested next steps)
 

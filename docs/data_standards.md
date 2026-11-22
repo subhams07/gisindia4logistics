@@ -29,6 +29,9 @@ All datasets in this repository follow these conventions.
     `data/administrative/district_code_crosswalk.csv`
     (`scripts/clean/apply_lgd_codes.py`).
   - `village_code` — the Survey of India village code (LGD) where available
+  - In the village files every code column is text (as the source pads them,
+    e.g. `"055"`, `"05614"`), and `state` is the LGD state name on every row
+    (`scripts/clean/normalize_village_properties.py`; the audit enforces both).
 - Census 2011 uses its own state/district codes; a crosswalk table is provided
   in `data/administrative/census2011_lgd_crosswalk.csv`.
 - Village rows are assigned to the district polygon that contains them
