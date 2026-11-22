@@ -134,7 +134,7 @@ def route_expectations(graph, points, hubs, *, chunk_size=32):
         km = 0. if zero else metric.network_distance_km + pair[2] / 1000. + pair[3] / 1000.
         if not np.isfinite([hours, km]).all():
             raise ValueError("Nonfinite route oracle metrics")
-        by_row[index][slot] = (hours, km, float(np.linalg.norm(point - hub["point"])) / 1000.)
+        by_row[index][slot] = (hours, km, float(builder.geodesic_m(point, hub["point"])) / 1000.)
     outputs = []
     for values in by_row:
         result = {"matrix": {}}
@@ -447,12 +447,14 @@ def category_expectations(graph, points, hubs_by_kind, *, chunk_size=32):
         pair, hub = plan[number][3], hubs_by_kind[kind][slot]
         distance = 0. if zero else metric.network_distance_km + pair[2] / 1000. + pair[3] / 1000.
         columns = _category_columns(kind)
-        outputs[index][kind].update(zip(columns, [hub["name"], round(float(np.linalg.norm(points[index] - hub["point"])) / 1000, 1),
+        outputs[index][kind].update(zip(columns, [hub["name"], round(float(builder.geodesic_m(points[index], hub["point"])) / 1000, 1),
                                                   round(float(distance), 1), round(total, 2), round(total * 60., 1)]))
     tree = cKDTree(graph.nh_node_xy)  # The oracle's own tree, not graph.nh_tree.
     for index, point in enumerate(points):
         if np.isfinite(point).all():
-            raw = float(tree.query(point)[0]) / 1000.
+            # Geodesic minimum over every vertex the projected nearest distance bounds.
+            near = tree.query_ball_point(point, float(tree.query(point)[0]) * builder.SCALE_MARGIN)
+            raw = float(builder.geodesic_m(graph.nh_node_xy[near], point).min()) / 1000.
             outputs[index]["access"].update(zip(ACCESS_COLUMNS, [round(raw, 1), round(raw / 35. * 60, 1)]))  # Independent roundings.
     return outputs
 

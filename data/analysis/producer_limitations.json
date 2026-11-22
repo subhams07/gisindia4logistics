@@ -1,12 +1,12 @@
 {
   "artifact_sha256": {
-    "district_freight_modal_split.csv": "135234c1d0ee6df3dfd7981b70c4bebe051ab9ac2da30db459c81f69b443e6ee",
-    "district_port_hinterland_catchment.csv": "7be481997a03a1221954c2af61a552ec6136b46f3d117c31909b1669313c0d2f",
-    "major_ports_isochrones.geojson": "6f7141515637afec9bb5907702c83be14e0754ec48a16436aaabc28ffba32abe",
-    "mmlp_isochrones.geojson": "b0f73c54fa0ccf0763c0a09660344e1a1432016ed028b0f13eaf72151eacbe8f",
-    "nh_district_port_matrix.csv": "2216d573b774207625bdadbb8d12aa878f682cb2cd2fcb5d0bec01e2ec4b04c2",
-    "nh_district_travel_time_summary.csv": "944b8ab696a8271d06650feaee9cdf5a67d2047ecff31cf2dae46a206faff213",
-    "nh_district_travel_time_summary.parquet": "b635555f7bb4cbbee7e2a3963049e4fda1748f04b3814f0ad82cc72fc9a7d253"
+    "district_freight_modal_split.csv": "11e1c23d303e8396efbe1488fb6b4e9bec5f7bcc24f1b9a85479dbd5251aa7b0",
+    "district_port_hinterland_catchment.csv": "72a4ca0b2bd53f53d8ee7d043b222593b1276d6766e14e29f04bea0b47889018",
+    "major_ports_isochrones.geojson": "2340e3fe885b323b9cf5a1b713b70a65693eba22810ceb87d74edb1124ba32a5",
+    "mmlp_isochrones.geojson": "d5e4286b2319b23a3ccfe12127acd948c179bf3e2a2b5dd176abd166c89b43d6",
+    "nh_district_port_matrix.csv": "4c764c4c251d6e7c53ed99620435eb0fb9194a9b7f7e23e29f27395ac11313a0",
+    "nh_district_travel_time_summary.csv": "7e5b174d1b6c1959d35afa37ec79e8e3eca8e81adc82dd7a39aa8aee95d20cdb",
+    "nh_district_travel_time_summary.parquet": "90edcf133d119c48a15ebb312a7c664e43821545fe772831e31c5e19fa771e59"
   },
   "column_classification": {
     "district_freight_modal_split.csv": [
@@ -667,14 +667,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          2721,
-          12890,
-          20934,
-          131454
+          2669,
+          12554,
+          20234,
+          128052
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 3.0690220939290334,
+        "snap_feeder_km": 3.1295016734654246,
         "statuses": [
           "ok",
           "ok",
@@ -695,14 +695,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          3408,
-          17262,
-          40482,
-          151508
+          3275,
+          16701,
+          39252,
+          146065
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 12.674086451430902,
+        "snap_feeder_km": 12.87753005820999,
         "statuses": [
           "ok",
           "ok",
@@ -723,14 +723,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          8094,
-          26656,
-          50211,
-          164878
+          7904,
+          25945,
+          48539,
+          160036
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 3.556234678961481,
+        "snap_feeder_km": 3.6129726389413155,
         "statuses": [
           "ok",
           "ok",
@@ -751,14 +751,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          2471,
-          13511,
-          39220,
-          118867
+          2442,
+          13169,
+          38164,
+          116609
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 2.9513979163416626,
+        "snap_feeder_km": 2.9771289275260786,
         "statuses": [
           "ok",
           "ok",
@@ -779,14 +779,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          5138,
-          17090,
-          45743,
-          111806
+          5122,
+          16997,
+          45315,
+          109904
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.39391450328420874,
+        "snap_feeder_km": 0.39450451722755026,
         "statuses": [
           "ok",
           "ok",
@@ -807,14 +807,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          5346,
-          12987,
-          25125,
-          87474
+          5424,
+          13044,
+          25171,
+          86536
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 1.6236653178744758,
+        "snap_feeder_km": 1.608475662631933,
         "statuses": [
           "ok",
           "ok",
@@ -835,14 +835,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          2248,
-          9632,
-          16201,
-          74289
+          2290,
+          9721,
+          16363,
+          73931
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 4.879722635699565,
+        "snap_feeder_km": 4.809472020030215,
         "statuses": [
           "ok",
           "ok",
@@ -863,14 +863,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          3429,
-          18039,
-          42123,
-          115598
+          3411,
+          17874,
+          41824,
+          113902
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 8.860444573060217,
+        "snap_feeder_km": 8.879542755416495,
         "statuses": [
           "ok",
           "ok",
@@ -891,14 +891,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          3239,
-          17314,
-          41444,
-          114907
+          3217,
+          17178,
+          41133,
+          113237
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 15.924445886894068,
+        "snap_feeder_km": 15.963725178459597,
         "statuses": [
           "ok",
           "ok",
@@ -919,14 +919,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          3762,
-          12454,
-          30027,
-          160297
+          3671,
+          12164,
+          28854,
+          156611
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 13.500170645808032,
+        "snap_feeder_km": 13.687762192679447,
         "statuses": [
           "ok",
           "ok",
@@ -947,14 +947,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          1736,
-          12381,
-          24565,
-          132131
+          1650,
+          11871,
+          23724,
+          127023
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 3.8813626980017464,
+        "snap_feeder_km": 3.950172725497449,
         "statuses": [
           "ok",
           "ok",
@@ -975,14 +975,14 @@
         "hub_type": "major_port",
         "ok_threshold_count": 4,
         "reachable_node_counts": [
-          4549,
-          16341,
-          38587,
-          142050
+          4350,
+          15731,
+          37289,
+          135956
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.16110345387560812,
+        "snap_feeder_km": 0.1642499866549353,
         "statuses": [
           "ok",
           "ok",
@@ -1003,13 +1003,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          12321,
-          41823,
-          66609
+          11974,
+          41019,
+          65007
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.9185966855429091,
+        "snap_feeder_km": 0.9344122963015234,
         "statuses": [
           "ok",
           "ok",
@@ -1028,13 +1028,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          4232,
-          22163,
-          42857
+          4214,
+          22095,
+          42684
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 15.710713382425679,
+        "snap_feeder_km": 15.741581463678555,
         "statuses": [
           "ok",
           "ok",
@@ -1053,13 +1053,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          11468,
-          37083,
-          63539
+          11405,
+          37038,
+          63044
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.7265378940195157,
+        "snap_feeder_km": 0.7280310880363311,
         "statuses": [
           "ok",
           "ok",
@@ -1078,13 +1078,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          1765,
-          6982,
-          26766
+          1708,
+          6569,
+          25040
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 3.6136623930371155,
+        "snap_feeder_km": 3.6844895430791738,
         "statuses": [
           "ok",
           "ok",
@@ -1103,13 +1103,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          9472,
-          31627,
-          70527
+          9209,
+          30624,
+          67752
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 6.825585515448959,
+        "snap_feeder_km": 6.949041070815227,
         "statuses": [
           "ok",
           "ok",
@@ -1128,13 +1128,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          4896,
-          16712,
-          40348
+          4743,
+          16196,
+          38946
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.03512642971931172,
+        "snap_feeder_km": 0.03579638619175554,
         "statuses": [
           "ok",
           "ok",
@@ -1153,13 +1153,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          6856,
-          24405,
-          59598
+          6622,
+          23555,
+          56695
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.5877478358130748,
+        "snap_feeder_km": 0.599257013416819,
         "statuses": [
           "ok",
           "ok",
@@ -1178,13 +1178,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          12117,
-          32590,
-          58583
+          11692,
+          32001,
+          56866
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.8915080881351887,
+        "snap_feeder_km": 0.9070279077427283,
         "statuses": [
           "ok",
           "ok",
@@ -1203,13 +1203,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          5498,
-          25734,
-          55500
+          5333,
+          24692,
+          54174
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.6593381641425643,
+        "snap_feeder_km": 0.6721654272761054,
         "statuses": [
           "ok",
           "ok",
@@ -1228,13 +1228,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          9655,
-          34011,
-          70995
+          9559,
+          33434,
+          70115
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 1.8568691085187459,
+        "snap_feeder_km": 1.8694957253725848,
         "statuses": [
           "ok",
           "ok",
@@ -1253,13 +1253,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          7614,
-          34294,
-          75133
+          7482,
+          33269,
+          73809
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.48703180049480116,
+        "snap_feeder_km": 0.4934706837840151,
         "statuses": [
           "ok",
           "ok",
@@ -1278,13 +1278,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          13714,
-          33425,
-          61648
+          13368,
+          32981,
+          60011
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.15218649877834245,
+        "snap_feeder_km": 0.15451376603764816,
         "statuses": [
           "ok",
           "ok",
@@ -1303,13 +1303,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          3762,
-          12454,
-          30027
+          3671,
+          12164,
+          28854
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 13.500170645808032,
+        "snap_feeder_km": 13.687762192679447,
         "statuses": [
           "ok",
           "ok",
@@ -1328,13 +1328,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          5349,
-          16446,
-          25308
+          5149,
+          15987,
+          24805
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.5703717739772669,
+        "snap_feeder_km": 0.5816333143865443,
         "statuses": [
           "ok",
           "ok",
@@ -1353,13 +1353,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          4918,
-          15816,
-          44637
+          4700,
+          15392,
+          42967
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 1.0920466678028322,
+        "snap_feeder_km": 1.1044495266058851,
         "statuses": [
           "ok",
           "ok",
@@ -1378,13 +1378,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          4452,
-          22519,
-          51250
+          4290,
+          21686,
+          49666
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 5.721774537639328,
+        "snap_feeder_km": 5.8282440537832,
         "statuses": [
           "ok",
           "ok",
@@ -1403,13 +1403,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          4310,
-          15927,
-          37977
+          4166,
+          15274,
+          36725
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 3.805298879896958,
+        "snap_feeder_km": 3.8796440352132766,
         "statuses": [
           "ok",
           "ok",
@@ -1428,13 +1428,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          8960,
-          19614,
-          37894
+          9020,
+          19617,
+          37815
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.26412354561306284,
+        "snap_feeder_km": 0.2627442344934158,
         "statuses": [
           "ok",
           "ok",
@@ -1453,13 +1453,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          6507,
-          22460,
-          37464
+          6421,
+          21993,
+          36723
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 0.82984028929504,
+        "snap_feeder_km": 0.8363208353335733,
         "statuses": [
           "ok",
           "ok",
@@ -1478,13 +1478,13 @@
         "hub_type": "mmlp",
         "ok_threshold_count": 3,
         "reachable_node_counts": [
-          13946,
-          34582,
-          59312
+          13688,
+          33874,
+          58291
         ],
         "saturated_across_ok_thresholds": false,
         "snap_component_node_count": 289458,
-        "snap_feeder_km": 1.903958316724439,
+        "snap_feeder_km": 1.930143986156063,
         "statuses": [
           "ok",
           "ok",
@@ -1524,7 +1524,7 @@
     ]
   },
   "resource_measurement_method": "resource.ru_maxrss_kib_times_1024",
-  "run_id": "linux-2026-11-21-run3",
+  "run_id": "linux-2026-11-22-run2",
   "schema_version": 2,
   "source_identity_disclosures": []
 }

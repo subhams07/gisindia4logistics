@@ -31,7 +31,7 @@ WGS84_EPSG = 4326
 ACCESS_SPEED_KMH = 35.0
 MAX_FEEDER_SNAP_KM = 150.0
 # Diagnostic only: >3x avoids flagging modest feeder detours. Compare unrounded
-# projected metres, exclude zero movement, and never infer direct-path routability.
+# geodesic metres, exclude zero movement, and never infer direct-path routability.
 FEEDER_EXCESS_RATIO = 3.0
 SIMPLIFY_TOLERANCE_M = 50.0
 VEHICLE_SPEED_FACTORS: dict[VehicleType, float] = {
@@ -152,9 +152,10 @@ class RoutingService:
         elif u == v:
             warnings.append("Distinct endpoints selected the same snap node: no network traversal; "
                             "feeder-only via snap node, not an established highway route.")
-        direct_m = float(np.linalg.norm(d - o))
+        from scripts.clean.graph_builder import BRIDGE_MAX_METERS, SCALE_MARGIN, geodesic_m
+        direct_m = float(geodesic_m(o, d))
         if not zero and om + dm > FEEDER_EXCESS_RATIO * direct_m:
-            warnings.append("Feeder sum exceeds 3x direct projected endpoint distance; straight-line feeders "
+            warnings.append("Feeder sum exceeds 3x direct geodesic endpoint distance; straight-line feeders "
                             "may dominate this estimate. Direct separation is diagnostic only, not a routable alternative.")
         if bridge_count:
             warnings.append(f"Route traverses {bridge_count} synthetic topological junction bridge(s) ({bridge_km:.2f}km total)")
@@ -163,7 +164,7 @@ class RoutingService:
                 warnings.append(f"{name} is {km:.1f}km feeder distance from the selected compatible National Highway node")
         if bridge_count == 0 and okm <= 25 and dkm <= 25:
             tier = "network_exact"
-        elif max_bridge <= 350 and okm <= 50 and dkm <= 50:
+        elif max_bridge <= BRIDGE_MAX_METERS * SCALE_MARGIN and okm <= 50 and dkm <= 50:  # any valid bridge
             tier = "modelled_connectivity"
         else:
             tier = "low_confidence"
@@ -204,10 +205,10 @@ class RoutingService:
             metadata=self.metadata_service.get_metadata(custom_limitations=[
                 "National Highway fastest graph path after minimum compatible feeder snap-sum selection",
                 "Snap model: all nodes within 150km per endpoint; straight-line feeders, no global door-to-door optimum",
-                "Topology model: 15m grid nodes may merge grade-separated roads; all-endpoint junction bridges within 350m are heuristic",
+                "Topology model: 15m grid nodes may merge grade-separated roads; all-endpoint junction bridges within 350m (projected separation) are heuristic",
                 "The undirected highway graph ignores one-way restrictions",
                 "network_exact denotes no marked synthetic bridges and each feeder <=25km, not physical ground truth; same-snap distinct endpoints are low_confidence",
-                "Feeder excess diagnostic: warn only when feeder sum >3x direct projected endpoint distance; direct separation does not establish a routable path",
+                "Feeder excess diagnostic: warn only when feeder sum >3x direct geodesic endpoint distance; direct separation does not establish a routable path",
                 "Travel times reflect free-flow speed limits scaled by commercial vehicle class",
             ]),
         )

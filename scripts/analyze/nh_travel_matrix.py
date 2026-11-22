@@ -25,8 +25,8 @@ from scripts.analyze.producer_io import (
     sha256_file,
 )
 from scripts.clean.graph_builder import (
-    DEFAULT_SPEED as DEFAULT_SPEED, SPEEDS as SPEEDS, compute_graph_fingerprint, load_highway_source,
-    load_or_build_cached_graph, validate_graph_metadata,
+    DEFAULT_SPEED as DEFAULT_SPEED, SPEEDS as SPEEDS, compute_graph_fingerprint, geodesic_m,
+    load_highway_source, load_or_build_cached_graph, validate_graph_metadata,
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -231,7 +231,7 @@ def build_travel_outputs(*, data_dir, cache_dir, chunk_size=32):
         row["pop_2011"] = populations.iloc[pos]
         row["is_island"] = is_island_state(identity["state"])
         if np.isfinite(points[pos]).all():
-            access = float(graph.nh_tree.query(points[pos])[0]) / 1000.0
+            access = kernel.nearest_node_distance_m(points[pos], graph) / 1000.0
             row["highway_access_dist_km"] = round(access, 1)
             row["highway_access_time_min"] = round(access / ACCESS_SPEED * 60, 1)
         rows.append(row)
@@ -288,7 +288,7 @@ def build_travel_outputs(*, data_dir, cache_dir, chunk_size=32):
             if kind is not None:
                 row = rows[pos]
                 row[f"nearest_{kind}_name"] = hubs[slot]["name"]
-                row[f"{kind}_straight_km"] = round(float(np.linalg.norm(points[pos] - hubs[slot]["point"])) / 1000, 1)
+                row[f"{kind}_straight_km"] = round(float(geodesic_m(points[pos], hubs[slot]["point"])) / 1000, 1)
                 row[f"{kind}_road_distance_km"] = round(float(distance), 1)
                 row[f"{kind}_drive_time_hours"] = round(total, 2)
                 row[f"{kind}_drive_time_min"] = round(total * 60.0, 1)

@@ -26,7 +26,7 @@
 
 Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. This project does that plumbing once, in the open, and publishes the evidence alongside the data.
 
-- **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
+- **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326; distances and lengths are geodesic on the WGS84 ellipsoid (EPSG:7755 is used only for indexing and snapping).
 - **National coverage.** 780 current districts and 658,248 Survey of India village polygons in all 36 States/UTs, each with a precomputed accessibility profile. The 9 border/NE States/UTs that SoI's village portal does not publish come from SoI's own files on the National Water Data Portal.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
 - **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
@@ -44,10 +44,10 @@ Headline figures computed from the committed v1.1.0 outputs:
 | Median distance from a village to the nearest railway station | **13.4 km** (39.5% within 10 km) |
 | Median district drive time to the nearest Gati Shakti cargo terminal | **3.1 h** |
 | Median district drive time to the nearest ICD / CFS | **3.7 h** |
-| Median district drive time to the nearest major port | **12.2 h** |
-| Districts captive to a single major port (gravity model) | **29 of 780** (688 are contested between ports) |
+| Median district drive time to the nearest major port | **12.4 h** |
+| Districts captive to a single major port (gravity model) | **29 of 780** (690 are contested between ports) |
 
-Village figures are geodesic straight-line distances over all 658,248 villages. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
+Village figures are geodesic straight-line distances over all 658,248 villages. Drive times run over the National Highway network for the 777 mainland districts, with geodesic edge lengths. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
 
 ---
 
@@ -194,7 +194,7 @@ ports = pd.read_csv("data/logistics_hubs/ports.csv")                            
 
 ## 📦 Data Catalog
 
-Spatial layers use **EPSG:4326**, and metric analysis uses **EPSG:7755**. Administrative joins use **LGD codes**. The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
+Spatial layers use **EPSG:4326**. Distances and lengths are measured geodesically (WGS84) and areas in an equal-area projection (ESRI:102028); EPSG:7755 is used only for spatial indexing, snapping and display geometry. Administrative joins use **LGD codes**. The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
 
 The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.md) records mixed terms and unresolved redistribution conditions; MIT covers the code only.
 

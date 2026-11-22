@@ -9,7 +9,7 @@ import pytest
 from server.dependencies import DataStore
 from server.services.exceptions import GISIndia4LogisticsError, RouteNotAvailableError
 from server.services.routing_service import RoutingService
-from tests.test_routing_edge_cases import graph, location
+from tests.test_routing_edge_cases import gkm, graph, location
 
 
 def fixture_graph():
@@ -17,6 +17,14 @@ def fixture_graph():
     base = np.array(service.to_proj.transform(78, 22))
     raw = graph([base, base + (1000, 0)], [(0, 1)])
     return service, raw, location(service, base), location(service, base + (1000, 0))
+
+
+def edge_km(raw):
+    """Rounded route km of the fixture's single 0-1 edge (geodesic, so not exactly 1)."""
+    return round(gkm(raw.nh_node_xy[0], raw.nh_node_xy[1]), 2)
+
+
+EDGE_KM = edge_km(fixture_graph()[1])
 
 
 def publish(store, raw):
@@ -131,7 +139,7 @@ def test_publication_and_warm_requests_validate_once():
         snapshot = publish(store, raw)
         assert validation.call_count == 1
         for _ in range(3):
-            assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == 1
+            assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == EDGE_KM
         assert validation.call_count == 1
         assert store.get_highway_snapshot() is snapshot
         assert publish(store, raw).generation == snapshot.generation + 1
@@ -185,7 +193,7 @@ def test_partial_replacement_requires_explicit_validated_publication(field):
     raw.nh_comp_labels[:] = 0
     new = publish(store, raw)
     assert new.generation == old.generation + 1
-    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == 1
+    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == EDGE_KM
 
 
 @pytest.mark.parametrize('mutation', ['array', 'flags', 'csr_item', 'csr_method',
@@ -227,11 +235,11 @@ def test_published_graph_cannot_be_mutated(mutation):
             snapshot.nh_graph.eliminate_zeros()
         else:
             snapshot.nh_tree.data = raw.nh_node_xy + 1
-    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == 1
+    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == EDGE_KM
     # Original mutable builder buffers are detached from the publication.
     raw.nh_node_xy[:] += 123
     raw.nh_graph.data[:] = 99
-    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == 1
+    assert service.calculate_highway_route(origin, destination, store=store).network_distance_km == EDGE_KM
 
 
 def test_raw_stores_revalidate_each_call():
@@ -262,7 +270,7 @@ def test_reload_during_request_keeps_one_generation(monkeypatch):
 
     monkeypatch.setattr(service, '_radius_candidates', reload)
     result, path = service.calculate_highway_route_with_path(origin, destination, store=store)
-    assert result.network_distance_km == 1
+    assert result.network_distance_km == EDGE_KM
     assert path.node_ids == (0, 1)
     assert store.get_highway_snapshot().generation > old.generation
 
@@ -280,8 +288,10 @@ def test_parallel_publications_and_requests_are_coherent():
         result, path = service.calculate_highway_route_with_path(origin, destination, store=store)
         return result.network_distance_km, path.node_ids
 
+    xy = other.nh_node_xy
+    detour = round(gkm(xy[0], xy[1]) + gkm(xy[1], xy[2]), 2)
     with ThreadPoolExecutor(max_workers=4) as pool:
-        assert set(pool.map(work, range(30))) <= {(1., (0, 1)), (2.24, (0, 1, 2))}
+        assert set(pool.map(work, range(30))) <= {(EDGE_KM, (0, 1)), (detour, (0, 1, 2))}
 
 
 def test_unchecked_trusted_flag_does_not_skip_validation():
