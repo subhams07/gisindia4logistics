@@ -345,7 +345,7 @@ def audit_access_districts(source_root, artifact_root, roll):
            for s, d, c in zip(districts.state, districts.district, districts.district_code)}
     states = sorted(districts.state.unique())
     village_dir = source_root / "administrative" / "villages"
-    bad_states, n_rows, n_near = [], 0, 0
+    bad_states, n_rows, n_near, broken_text = [], 0, 0, []
     for st in states:
         slug = st.lower().replace(" ", "_")
         src = village_dir / f"{slug}_soi_villages.geojson"
@@ -353,7 +353,11 @@ def audit_access_districts(source_root, artifact_root, roll):
         av_path = artifact_root / f"{slug}_village_access.csv"
         if src is None or not av_path.exists():
             continue
-        av = pd.read_csv(av_path, usecols=["district", "district_code", "district_assignment"])
+        av = pd.read_csv(av_path, usecols=["village", "village_code", "district", "district_code", "district_assignment"],
+                         dtype={"village": str, "village_code": str})
+        multiline = av[["village", "village_code"]].apply(lambda col: col.str.contains(r"[\r\n]|\s{2}", regex=True, na=False)).any(axis=1)
+        if multiline.any():
+            broken_text.append(f"{slug}: {int(multiline.sum())}")
         vill = gpd.read_file(src, columns=[])
         if len(av) != len(vill):
             bad_states.append(f"{slug}: row count")
@@ -376,6 +380,8 @@ def audit_access_districts(source_root, artifact_root, roll):
         n_rows += len(av)
         if wrong:
             bad_states.append(f"{slug}: {wrong}")
+    check("analysis", "village names and codes carry no line breaks or repeated spaces", "FAIL",
+          not broken_text, "; ".join(broken_text[:5]))
     check("analysis", "village district_code == containing current-district polygon", "FAIL",
           not bad_states and n_rows > 0,
           f"{n_rows} rows checked, {n_near} nearest-polygon fallbacks; bad: {bad_states[:5]}")
