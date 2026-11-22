@@ -25,6 +25,13 @@ from server.services.routing_service import RoutingService
 from server.services.serialization import serialize_result
 
 
+# Modelled toll per plaza (INR) by vehicle class; not an NHAI tariff. Rates rise strictly
+# with class. LMV 120 and MAV_20T 340 are the long-standing anchors; LCV, 2-axle and
+# 7-axle follow the NHAI fee-rule ratios relative to their neighbours.
+TOLL_RATE_PER_PLAZA_INR = {"LMV": 120.0, "LCV": 195.0, "2_AXLE_TRUCK": 280.0,
+                           "MAV_20T": 340.0, "7_AXLE_OVERSIZED": 410.0}
+
+
 @lru_cache(maxsize=8)
 def _service_for_root(root: Path) -> RoutingService:
     return RoutingService(resolver=LocationResolver(data_dir=root),
@@ -86,7 +93,7 @@ def legacy_highway_route(req: RouteRequest, store: DataStore | None = None) -> d
         raise DataIntegrityError("Calculated highway route is invalid.") from None
     distance = canonical.distance_km
     count = int(max(round(distance / 65.0), 1)) if distance >= 40.0 else 0
-    rate = 340.0 if req.vehicle_type == "MAV_20T" else 120.0 if req.vehicle_type == "LMV" else 220.0
+    rate = TOLL_RATE_PER_PLAZA_INR[getattr(req.vehicle_type, "value", req.vehicle_type)]
     envelope = RouteResponse(
         distance_km=round(distance, 1), drive_time_hours=round(canonical.drive_time_hours, 2),
         drive_time_formatted=canonical.drive_time_formatted, tolls_encountered_count=count,

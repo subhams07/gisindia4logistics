@@ -508,6 +508,27 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     ~1.2) and that check arithmetic/ties use the `planar` fixture in
     tests/conftest.py; metric behaviour is tested on Indian coordinates.
 
+### Phase L: audit batches A and B (2026-11-22)
+47. Ported the November audit fixes from the `veukfs` review branch (forked
+    at PR #8, so every commit was adapted to the LGD codes, geodesic metrics
+    and NWDP villages of #9-#13). Batch A (#15) touched no Stage 4 closure
+    file; batch B (this phase) did and regenerated Stage 4
+    (`linux-2026-11-22-run3`) plus the village access tables. Lessons:
+    - GCT matching must check the row's state polygon: nationwide name and
+      hub-file fallbacks put five terminals in other states and Wadi at the
+      wrong Wadi. The PIB annexure gives some locations under their railway
+      division's state (Lajkura, Nipania, Samba); `state` is the place's own.
+    - Live API and batch producers must share joins
+      (`producer_io.district_population`); the API's code-only population
+      map silently dropped the 4 uncoded districts.
+    - Standalone producer CLIs refuse the manifest directory; regenerate
+      `data/analysis/` only through `stage4_generate`.
+    - Do not run a script with `--help` to test it unless it has argparse:
+      `apply_lgd_codes.py` has none and rewrote its outputs (idempotently).
+    - The parquet LFS rule is gone; parquet commits as plain binary.
+    Still open from the proposals: Census sub-district tables, ICP and station
+    coordinate fixes, DFC alignments, freight-table re-sourcing.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

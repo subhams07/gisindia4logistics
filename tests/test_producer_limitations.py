@@ -96,7 +96,7 @@ def test_constants_exported_and_obsolete_sections_removed(world):
     assert set(lim.RESOURCE_METHODS) == {"windows_peak_working_set", "linux_ru_maxrss"}
     assert list(world.document) == TOP_ORDER
     assert "population_sensitive_outputs" not in world.document and "route_only_outputs" not in world.document
-    assert lim.LIMITATIONS[4].startswith("No cause is asserted") and any("0.85/1.65" in s and "1.2/1.5" in s for s in lim.LIMITATIONS)
+    assert lim.LIMITATIONS[4].startswith("No cause is asserted") and any("uncalibrated" in s and "0.85/1.65" in s for s in lim.LIMITATIONS)
 
 
 def test_document_is_plain_json_without_local_paths(world, tmp_path):

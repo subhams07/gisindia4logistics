@@ -26,6 +26,7 @@ sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR
 
 from scripts.analyze import freight_cost_core as freight_core
+from scripts.analyze import producer_io
 from scripts.analyze.freight_cost_core import (
     FreightCostParameters as FreightCostParameters,
     ir_telescopic_freight_rate as ir_telescopic_freight_rate,
@@ -143,7 +144,9 @@ def main():
     
     # Config file input
     parser.add_argument("--config", type=str, help="Path to JSON config file containing custom cost assumptions")
-    parser.add_argument("--output-csv", type=str, help="Destination output CSV path")
+    parser.add_argument("--output-csv", type=str, help="Destination CSV (default: $GIS4LOGISTICS_OUTPUT_PATH or outputs/)")
+    parser.add_argument("--allow-manifest-dir", action="store_true",
+                        help="allow writing into a directory that holds producer_manifest.json")
 
     # Road Parameters
     parser.add_argument("--road-linehaul-rate", type=float, default=3.30, help="Road linehaul rate INR/tonne-km (default: 3.30)")
@@ -198,6 +201,8 @@ def main():
         )
 
     out_p = Path(args.output_csv) if args.output_csv else None
+    out_p = (producer_io.standalone_output_dir(out_p.parent if out_p else None, allow_manifest_dir=args.allow_manifest_dir)
+             / (out_p.name if out_p else "district_freight_modal_split.csv"))
     compute_modal_costs(params=params, output_csv=out_p)
 
 

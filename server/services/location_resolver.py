@@ -19,8 +19,6 @@ from server.services.exceptions import (
 )
 
 LOGGER = logging.getLogger(__name__)
-REPO_ROOT = Path(__file__).resolve().parents[2]
-ALIASES_PATH = REPO_ROOT / "data" / "aliases" / "location_aliases.yaml"
 
 
 def _text(value):

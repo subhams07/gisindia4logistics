@@ -359,7 +359,7 @@ def test_real_dhule_is_one_district_with_its_lgd_code(api):
     assert len(access) == 1
     access = access.iloc[0]
     assert response.json()["share_villages_within_10km_rail"] == access.rail_station_within_10km_pct
-    assert response.json()["share_villages_within_5km_rail"] == access.rail_station_within_10km_pct
+    assert "share_villages_within_5km_rail" not in response.json()
     assert response.json()["share_villages_within_25km_rail"] == access.rail_station_within_25km_pct
     assert response.json()["share_villages_within_50km_icd"] == access.icd_within_50km_pct
     # Dhule's Census 2011 code 498 is Wardha's LGD code

@@ -45,7 +45,7 @@ LIMITATIONS = [
     VINTAGE_STATEMENT,
     "Isochrones are approximate coverage.",
     "The graph oracle is a bounded sample.",
-    "Live default gravity parameters 0.85/1.65 differ from batch parameters 1.2/1.5.",
+    "Gravity parameters alpha/beta are uncalibrated; the values used are in the run's producer_manifest.json config (default 0.85/1.65).",
 ]
 # Schema 2 adds the isochrone_coverage section; schema 1 sidecars stay valid and unchanged.
 SCHEMA_VERSION_V2 = 2

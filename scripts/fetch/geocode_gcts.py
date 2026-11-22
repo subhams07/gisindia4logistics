@@ -16,13 +16,15 @@ import time
 import pandas as pd
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from standardize import DATA_DIR, http_session  # noqa: E402
+from build_gct_terminals import in_state, load_states  # noqa: E402
 
 PATH = DATA_DIR / "rail" / "freight_terminals.csv"
 INDIA_BBOX = (68.0, 6.0, 97.5, 37.5)
 
 
-def geocode(sess, name: str, state: str) -> tuple | None:
+def geocode(sess, name: str, state: str, states) -> tuple | None:
     q = f"{name}, {state}, India"
     r = sess.get("https://nominatim.openstreetmap.org/search",
                  params={"q": q, "format": "json", "countrycodes": "in",
@@ -32,7 +34,8 @@ def geocode(sess, name: str, state: str) -> tuple | None:
     results = r.json()
     for hit in results:
         lat, lon = float(hit["lat"]), float(hit["lon"])
-        if INDIA_BBOX[0] <= lon <= INDIA_BBOX[2] and INDIA_BBOX[1] <= lat <= INDIA_BBOX[3]:
+        if (INDIA_BBOX[0] <= lon <= INDIA_BBOX[2] and INDIA_BBOX[1] <= lat <= INDIA_BBOX[3]
+                and in_state(lat, lon, state, states)):
             return round(lat, 5), round(lon, 5), hit.get("display_name", "")[:120]
     return None
 
@@ -42,11 +45,12 @@ def main() -> None:
     df = pd.read_csv(PATH)
     need = df[df.latitude.isna() | (df.astype(str).latitude == "")]
     print(f"GCTs needing coordinates: {len(need)}")
+    states = load_states()
     sess = http_session()
     sess.headers["User-Agent"] += " (nominatim geocode, one-shot batch)"
     filled = 0
     for idx, row in need.iterrows():
-        hit = geocode(sess, row["name"], row["state"])
+        hit = geocode(sess, row["name"], row["state"], states)
         if hit:
             df.loc[idx, "latitude"], df.loc[idx, "longitude"] = hit[0], hit[1]
             df.loc[idx, "capacity_notes"] = (

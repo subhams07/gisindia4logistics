@@ -55,7 +55,7 @@ def test_official_map_check_fails_when_a_point_moves(audit):
     assert by_place["Muzaffarabad"] == by_place["Mirpur"] == by_place["Tawang"] == "FAIL"
 
 
-# --- Habitations -------------------------------------------------------------------------
+# --- Village units ----------------------------------------------------------------------
 
 @needs_data
 def test_soi_states_keep_village_unit():
@@ -155,3 +155,16 @@ def test_catalog_statuses_are_known_and_removed_files_are_not_listed():
                "data/administrative/villages/pune_soi_villages.geojson"}
     assert not deleted & {d.get("path") for d in catalog}
     assert not any((DATA.parent / path).exists() for path in deleted)
+
+
+@needs_data
+def test_gct_matcher_requires_the_rows_own_state():
+    gct = _script("fetch", "build_gct_terminals")
+    stations = pd.read_csv(DATA / "rail" / "railway_stations.csv")
+    stations["nname"] = stations["station_name"].map(gct.norm)
+    states = gct.load_states()
+    wadi = gct.match_station("wadi", "Karnataka", stations, states)
+    assert wadi is not None and wadi.latitude > 16.5  # Wadi junction (Kalaburagi), not a Wadi in Chitradurga
+    assert gct.match_station("kamalajari", "Assam", stations, states) is None  # the only candidate is in Odisha
+    for row in pd.read_csv(DATA / "rail" / "freight_terminals.csv").dropna(subset=["latitude"]).itertuples():
+        assert gct.in_state(row.latitude, row.longitude, row.state, states), row.name

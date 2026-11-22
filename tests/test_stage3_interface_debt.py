@@ -25,12 +25,14 @@ def interfaces(monkeypatch):
            "port_drive_time_hours": 3.0}
     cols = list(simulation.PORT_MATRIX_DATA)
     matrix = pd.DataFrame([
-        {"district_code": 521, cols[0]: 5.0, cols[1]: 10.0},
-        {"district_code": 522, cols[0]: 10.0, cols[1]: 5.0},
-        {"district_code": 523, cols[0]: 0.0, cols[1]: None},
+        {"state": "Maharashtra", "district": "Pune", "district_code": 521, cols[0]: 5.0, cols[1]: 10.0},
+        {"state": "Maharashtra", "district": "Raigad", "district_code": 522, cols[0]: 10.0, cols[1]: 5.0},
+        {"state": "Maharashtra", "district": "Satara", "district_code": 523, cols[0]: 0.0, cols[1]: None},
     ])
     store = SimpleNamespace(travel_time_df=pd.DataFrame([row]), port_matrix_df=matrix,
-                            districts_df=pd.DataFrame({"district_code": [521, 522, 523],
+                            districts_df=pd.DataFrame({"state": ["Maharashtra"] * 3,
+                                                       "district": ["Pune", "Raigad", "Satara"],
+                                                       "district_code": [521, 522, 523],
                                                        "pop_2011": [100000, 200000, 300000]}))
     monkeypatch.setattr(tools, "store", store)
     app = FastAPI()
@@ -195,11 +197,11 @@ def map_data(tmp_path, monkeypatch):
                             ("uttar_pradesh", "Hamirpur"), ("himachal_pradesh", "Hamirpur")]:
         gdf = gpd.GeoDataFrame({"district": [district], "village": ["Map fixture"],
                                "dist_rail_station_km": [3.0]}, geometry=[Point(77, 28)], crs="EPSG:4326")
-        gdf.to_file(village_dir / f"{state}_habitations.geojson", driver="GeoJSON")
+        gdf.to_file(village_dir / f"{state}_soi_villages.geojson", driver="GeoJSON")
     gpd.GeoDataFrame({"district": ["Bilaspur", "Hamirpur"], "village": ["Fixture A", "Fixture B"],
                       "dist_rail_station_km": [3.0, 4.0]},
                      geometry=[Point(77, 28), Point(77.1, 28.1)], crs="EPSG:4326").to_file(
-                         village_dir / "himachal_pradesh_habitations.geojson", driver="GeoJSON")
+                         village_dir / "himachal_pradesh_soi_villages.geojson", driver="GeoJSON")
     monkeypatch.setattr(plot_villages, "DATA_DIR", root)
     monkeypatch.setattr(tools.settings, "OUTPUT_PATH", tmp_path / "output")
     return tmp_path
@@ -249,7 +251,7 @@ def test_map_metric_validation_before_read(map_data, monkeypatch):
 
 
 def test_map_resolved_input_escape_rejected_before_read(map_data, monkeypatch):
-    target = map_data / "data/administrative/villages/odisha_habitations.geojson"
+    target = map_data / "data/administrative/villages/odisha_soi_villages.geojson"
     original = Path.resolve
 
     def escaped(path, *args, **kwargs):
@@ -269,7 +271,11 @@ def test_committed_gravity_winner_counts_and_population_unchanged(interfaces, al
     data_dir = Path(__file__).resolve().parents[1] / "data"
     store.port_matrix_df = pd.read_csv(data_dir / "analysis/nh_district_port_matrix.csv")
     store.districts_df = pd.read_csv(data_dir / "demographic/district_population_estimates.csv")
-    population = store.districts_df.dropna(subset=["district_code"]).set_index("district_code")["pop_2011"].to_dict()
+    # (state, district_code), then (state, district) for the uncoded districts.
+    population = {}
+    for r in store.districts_df.itertuples():
+        population[(r.state, r.district_code) if pd.notna(r.district_code) else (r.state, r.district)] = r.pop_2011
+    assert sum(isinstance(k, str) for _, k in population) == 4  # Nazul, Shahdara, Mirpur, Muzaffarabad are counted
     counts = dict.fromkeys((name for name, _ in simulation.PORT_MATRIX_DATA.values()), 0)
     populations = dict.fromkeys(counts, 0)
     for _, row in store.port_matrix_df.iterrows():
@@ -279,7 +285,8 @@ def test_committed_gravity_winner_counts_and_population_unchanged(interfaces, al
         if utility:
             winner = max(utility, key=utility.get)
             counts[winner] += 1
-            populations[winner] += population.get(row.get("district_code"), 0)
+            key = (row["state"], row["district_code"]) if pd.notna(row["district_code"]) else (row["state"], row["district"])
+            populations[winner] += population.get(key, 0)
     response = client.post("/simulate/port-gravity", json={"alpha": alpha, "beta": beta})
     assert response.status_code == 200, response.text
     result = response.json()

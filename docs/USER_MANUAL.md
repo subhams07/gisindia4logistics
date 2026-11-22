@@ -131,6 +131,12 @@ print(res)
 
 ## 4. Analytical & Simulation Engines
 
+The published outputs in `data/analysis/` are one manifest-validated set
+(`producer_manifest.json`); regenerate them together with
+`python -m scripts.analyze.stage4_generate`. Run on their own, the producer scripts
+below write to `$GIS4LOGISTICS_OUTPUT_PATH` (default `outputs/`) and refuse to write
+into a directory holding `producer_manifest.json` unless given `--allow-manifest-dir`.
+
 ### 4.1 Multi-Modal Freight Cost Optimizer
 Compare generalized freight cost (₹/tonne) and transit time across **Road Trucking**, **Conventional Rail**, and **Dedicated Freight Corridor (DFC)**.
 
@@ -145,7 +151,7 @@ python scripts/analyze/intermodal_cost_engine.py \
   --rail-base-rate 1.40 \
   --dfc-linehaul-rate 1.05 \
   --inventory-holding-rate 8.50 \
-  --output-csv data/analysis/custom_freight_modal_split.csv
+  --output-csv outputs/custom_freight_modal_split.csv
 ```
 
 #### Python API Usage:
@@ -203,7 +209,7 @@ python scripts/analyze/port_hinterland_model.py --alpha 0.90 --beta 1.70
 ---
 
 ### 4.4 Village Accessibility Analysis
-Village access tables calculate projected straight-line proximity to infrastructure. District highway travel-time tables are separate network outputs; village proximity must not be presented as a verified road journey.
+Village access tables calculate geodesic straight-line proximity to infrastructure. District highway travel-time tables are separate network outputs; village proximity must not be presented as a verified road journey.
 
 ```bash
 # Run accessibility for a specific state
@@ -222,7 +228,7 @@ Generates drive-time vector catchment polygons at 4, 8, 12 and 24 hours around t
 # Generate isochrones for 12 Major Ports and 20 MMLPs
 python scripts/analyze/generate_isochrones.py
 ```
-Outputs saved to `data/analysis/major_ports_isochrones.geojson` and `data/analysis/mmlp_isochrones.geojson`.
+Outputs are saved to `outputs/major_ports_isochrones.geojson` and `outputs/mmlp_isochrones.geojson` (or `--output-dir`); the published isochrones in `data/analysis/` come from the full Stage 4 run.
 
 ---
 

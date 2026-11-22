@@ -169,7 +169,7 @@ def export_all_geoparquet():
         total_pq_mb += res["pq_size_mb"]
         v_count += res["rows"]
 
-    print(f"  -> Converted {len(v_files)} village datasets ({v_count:,} total habitations)")
+    print(f"  -> Converted {len(v_files)} village datasets ({v_count:,} total features)")
     print(f"  -> Total Village Size: {round(total_src_mb, 1)} MB GeoJSON -> {round(total_pq_mb, 1)} MB GeoParquet ({round((1.0 - total_pq_mb/total_src_mb)*100, 1)}% smaller)")
 
     print("\n" + "=" * 80)

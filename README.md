@@ -42,7 +42,7 @@ Headline figures computed from the committed v1.1.0 outputs:
 |---|---|
 | Median distance from a village to the nearest National Highway | **6.6 km** (66.3% within 10 km) |
 | Median distance from a village to the nearest railway station | **13.4 km** (39.5% within 10 km) |
-| Median district drive time to the nearest Gati Shakti cargo terminal | **3.1 h** |
+| Median district drive time to the nearest Gati Shakti cargo terminal | **3.2 h** |
 | Median district drive time to the nearest ICD / CFS | **3.7 h** |
 | Median district drive time to the nearest major port | **12.4 h** |
 | Districts captive to a single major port (gravity model) | **29 of 780** (690 are contested between ports) |
@@ -210,7 +210,6 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
-| 🏡 **Habitations** | OSM settlement points for the 9 border/NE States/UTs (superseded by the village polygons above; kept for reference) | **34,954** | OpenStreetMap | ODbL |
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
@@ -281,7 +280,7 @@ Passing checks are not proof of operational routing accuracy, data freshness or 
 These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHANGELOG.md) and `data/analysis/producer_limitations.json`.
 
 - **Gravity model.** The parameters (α 0.85, β 1.65) are **uncalibrated**; a sensitivity table is in [the drift report](docs/stage4_drift_linux-2026-10-18-run1.md).
-- **Routing scope.** Routing uses the OSM National Highway network only (no state roads), at free-flow speeds. 372 district–hub pairs have road distances more than 3× the straight-line distance.
+- **Routing scope.** Routing uses the OSM National Highway network only (no state roads), at free-flow speeds. 368 district–hub pairs have road distances more than 3× the straight-line distance.
 - **Island values.** Highway-access values for Lakshadweep and the Nicobars are over-sea distances.
 - **Isochrone snapping.** Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km. This is a modelling policy.
 - **Tolls.** Toll figures are distance-based estimates, not FASTag/NHAI tariffs.

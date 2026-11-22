@@ -4,6 +4,7 @@ Administrative endpoints: States, Districts, Villages, and District Scorecards.
 """
 
 import math
+from functools import lru_cache
 from numbers import Real
 from pathlib import Path
 from typing import List, Optional
@@ -75,13 +76,26 @@ def contained_data_path(data_dir: Path, *parts: str) -> Path:
         raise HTTPException(status_code=422, detail="Invalid data path") from None
 
 
+@lru_cache(maxsize=4)
+def _read_village_access_cached(path: str, mtime_ns: int, size: int) -> pd.DataFrame:
+    return pd.read_csv(path)
+
+
+def read_village_access(path: Path) -> pd.DataFrame:
+    """A state's village access table, cached per (path, mtime, size); callers get a copy.
+
+    Uttar Pradesh's table takes ~0.6 s to parse; a rewritten file has a new mtime
+    and is read again.
+    """
+    stat = path.stat()
+    return _read_village_access_cached(str(path), stat.st_mtime_ns, stat.st_size).copy()
+
+
 def validate_village_map_paths(data_dir: Path, state: str) -> None:
     slug = state.lower().replace(" ", "_")
     for folder, suffix in [
         ("villages_parquet", "soi_villages.parquet"),
-        ("villages_parquet", "habitations.parquet"),
         ("villages", "soi_villages.geojson"),
-        ("villages", "habitations.geojson"),
     ]:
         contained_data_path(data_dir, "administrative", folder, f"{slug}_{suffix}")
     contained_data_path(data_dir, "analysis", f"{slug}_village_access.csv")
@@ -132,7 +146,7 @@ def scorecard_enrichment_rows(
 def list_states(store: DataStore = Depends(get_data_store)):
     """List all 36 Indian States/UTs with LGD code, district count, and village counts."""
     if store.states_df is None:
-        raise HTTPException(status_code=500, detail="States data not loaded")
+        raise HTTPException(status_code=503, detail="States data not loaded")
     return store.states_df.to_dict(orient="records")
 
 
@@ -144,7 +158,7 @@ def list_districts(
 ):
     """List all 780 current LGD districts with population estimates."""
     if store.districts_df is None:
-        raise HTTPException(status_code=500, detail="Districts data not loaded")
+        raise HTTPException(status_code=503, detail="Districts data not loaded")
     
     df = store.districts_df.copy()
     if state is not None:
@@ -164,7 +178,7 @@ def get_district_scorecard(
 ):
     """Get a comprehensive logistics and accessibility scorecard for a specific district."""
     if store.districts_df is None:
-        raise HTTPException(status_code=500, detail="Districts data not loaded")
+        raise HTTPException(status_code=503, detail="Districts data not loaded")
 
     # Scorecards need rows, not routing centroids. The routing resolver requires
     # boundary data and still selects first rows for some duplicates; do not use
@@ -260,7 +274,6 @@ def get_district_scorecard(
             ar = a_row.iloc[0]
             ten_km_val = ar.get("rail_station_within_10km_pct")
             scorecard["share_villages_within_10km_rail"] = ten_km_val
-            scorecard["share_villages_within_5km_rail"] = ten_km_val  # Deprecated backward-compatible alias
             scorecard["share_villages_within_25km_rail"] = ar.get("rail_station_within_25km_pct")
             scorecard["share_villages_within_50km_icd"] = ar.get("icd_within_50km_pct")
 
@@ -283,7 +296,7 @@ def query_villages(
     if not p_access.exists():
         raise HTTPException(status_code=404, detail=f"No village access data found for state '{state}'")
 
-    df = pd.read_csv(p_access)
+    df = read_village_access(p_access)
     # State-specific access tables historically omit this required API field.
     df["state"] = state
     if district:
@@ -318,7 +331,7 @@ def get_villages_geojson(
 def get_villages_interactive_map(
     state: str = Query(..., description="State name, e.g. 'Haryana', 'Maharashtra'"),
     district: str = Query(..., description="District name, e.g. 'Ambala', 'Pune'"),
-    metric: str = Query("dist_rail_station_km", description="Metric to visualize: dist_rail_station_km, dist_nh_km, dist_icd_km, dist_freight_terminal_km, dist_port_km, dist_toll_plaza_km"),
+    metric: str = Query("dist_rail_station_km", description="Metric to visualize: dist_rail_station_km, dist_nh_km, dist_icd_km, dist_freight_terminal_km, dist_port_km, dist_air_cargo_km, dist_mmlp_km, dist_toll_plaza_km"),
     store: DataStore = Depends(get_data_store)
 ):
     """Renders a standalone, responsive Leaflet.js interactive choropleth map directly in the browser."""

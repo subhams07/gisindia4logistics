@@ -31,7 +31,6 @@ Quality status definitions:
 | **Level 3 (Taluka Sample Extract)** | `data/administrative/pune_taluka.geojson` | 14 talukas | OpenStreetMap admin relations (majority-containment stitched polygons) | ODbL | **verified** |
 | **Level 4 (Villages - Polygons)** | `data/administrative/villages/*_soi_villages.geojson` | **658,248 Villages** (36 states/UTs: 586,151 from the SoI portal for 27, 72,097 from SoI files on the National Water Data Portal for the 9 border/NE states) | Survey of India Village Boundary Database (national LCC / EPSG:7755 reprojected to EPSG:4326) | Copyright SoI; redistribution unresolved, not written permission | **verified** |
 | **Level 4 (Villages - Polygons, border/NE)** | `data/administrative/villages/*_soi_villages.geojson` | **72,097 Villages** (9 border/NE states) | Survey of India files on the National Water Data Portal (NWIC, Ministry of Jal Shakti), with Census 2011 village population | Government of India open data, attributed to SoI and NWIC | **verified** |
-| **Level 4 (Habitations - Points)** | `data/administrative/villages/*_habitations.geojson` | **34,954 Settlements** (9 border states) | OpenStreetMap settlement place nodes (`place=village\|hamlet\|town`); superseded for analysis by the NWDP polygons | ODbL | **verified** |
 | **Level 4 (Combined National Coverage)** | Village polygons | **658,248 Villages** | Survey of India polygons in all 36 States & UTs | SoI (portal + NWDP) | **verified** |
 
 ### Additional Reference & Alternative Administrative Sources
@@ -43,7 +42,6 @@ Quality status definitions:
 - **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). Mirpur and Muzaffarabad (Jammu and Kashmir) retained with null codes as per source. The source tags Dhule's 4 sub-districts with 598 (Alappuzha's Census code); corrected to Dhule. District codes are then mapped to official LGD codes by `apply_lgd_codes.py`. Names using `@` (ū) and `\` (ī) are not yet fixed (e.g. `DEHRAD@N`).
 - **SoI Village Processing (`fetch_village_boundaries_soi.py`)**: Reprojected from national LCC to WGS 84 (`EPSG:4326`). Processed via `shapely.set_precision(1e-5)` grid-snap and `make_valid()` to eliminate GEOS topological slivers.
 - **NWDP Village Ingestion (`fetch_village_boundaries_nwdp.py`)**: Standardizes the Survey of India village GeoJSON zips from the National Water Data Portal for the 9 border/NE states (downloaded by hand into `data/raw/nwdp_villages/`): EPSG:7755 → 4326, same schema and simplify/grid-snap/make_valid pipeline as the SoI portal files, plus `population_2011`/`households_2011`; code 999999 → null `village_code`.
-- **Border Habitations Ingestion (`fetch_border_habitations.py`, superseded)**: Covers the 9 states not published in SoI village boundary zips (Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram, Nagaland) using geocoded place nodes joined to LGD districts.
 
 ---
 

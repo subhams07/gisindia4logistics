@@ -17,6 +17,7 @@ from server.models.schemas import (
     ModalCostBreakdown, PortGravitySimulationRequest, PortMarketShareItem
 )
 from scripts.analyze import freight_cost_core as freight_core
+from scripts.analyze import producer_io
 from scripts.clean.standardize import clean_state_name
 from server.routers.admin import canonical_state
 
@@ -269,9 +270,16 @@ def simulate_port_gravity(req: PortGravitySimulationRequest, store: DataStore = 
 
     # Population lookup
     if (store.districts_df is None
-            or not {"district_code", "pop_2011"}.issubset(store.districts_df.columns)):
+            or not {"district_code", "state", "district", "pop_2011"}.issubset(store.districts_df.columns)):
         raise HTTPException(status_code=503, detail="District population data not loaded or invalid")
-    pop_map = store.districts_df.dropna(subset=["district_code"]).set_index("district_code")["pop_2011"].to_dict()
+    # Same join as the batch producer: (state, district_code), then (state, district) for
+    # the uncoded districts (Nazul, Shahdara, Mirpur, Muzaffarabad; 2.26 M people) that a code-only lookup dropped.
+    for value in store.districts_df["pop_2011"]:  # a stored NaN/inf/negative is corrupt, not "no match"
+        _finite_nonnegative(value, "stored district population", status_code=503)
+    try:
+        populations = producer_io.district_population(df_matrix, store.districts_df)
+    except ValueError:
+        raise HTTPException(status_code=503, detail="District population data not loaded or invalid") from None
 
     port_data = PORT_MATRIX_DATA.copy()
 
@@ -294,9 +302,9 @@ def simulate_port_gravity(req: PortGravitySimulationRequest, store: DataStore = 
     captured_pop = {p_name: 0 for p_name, _ in port_data.values()}
     total_valid = 0
 
-    for _, row in df_matrix.iterrows():
-        d_code = row.get("district_code")
-        pop = _finite_nonnegative(pop_map.get(d_code, 0), "stored district population", status_code=503)
+    for index, row in df_matrix.iterrows():
+        pop = populations.loc[index]
+        pop = _finite_nonnegative(0 if pd.isna(pop) else pop, "stored district population", status_code=503)
 
         utilities = {}
         for p_col in port_cols:

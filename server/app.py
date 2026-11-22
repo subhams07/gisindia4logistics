@@ -150,6 +150,6 @@ def root_info(request: Request):
             "dfc_stations_count": len(store.dfc_stations_df) if store.dfc_stations_df is not None else 0,
             "toll_plazas_count": len(store.toll_plazas_df) if store.toll_plazas_df is not None else 0,
             "logistics_hubs_categories": list(store.hubs_dict.keys()),
-            "highway_network_nodes": len(store.nh_node_list) if store.nh_node_list is not None else 0
+            "highway_network_nodes": len(store.nh_node_xy) if store.nh_node_xy is not None else 0
         }
     }

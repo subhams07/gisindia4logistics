@@ -47,7 +47,6 @@ class DistrictScorecard(BaseModel):
     
     # Catchment shares
     share_villages_within_10km_rail: Optional[float] = None
-    share_villages_within_5km_rail: Optional[float] = Field(None, deprecated=True, description="Deprecated alias for 10km catchment")
     share_villages_within_25km_rail: Optional[float] = None
     share_villages_within_50km_icd: Optional[float] = None
 
@@ -178,7 +177,6 @@ class FreightCostSimulationRequest(BaseModel):
     origin_state: str | None = Field(None, description="State used to disambiguate the origin district")
     target_port: Optional[str] = Field(None, description="Optional target port name; defaults to nearest major port")
     payload_tons: Optional[float] = Field(20.0, gt=0, description="Shipment weight in metric tonnes")
-    commodity_name: Optional[str] = Field("General Merchandise", description="Commodity description")
     custom_parameters: Optional[CostParametersOverride] = None
 
     @model_validator(mode="after")

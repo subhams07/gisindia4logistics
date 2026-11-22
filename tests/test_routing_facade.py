@@ -317,3 +317,12 @@ def test_committed_corridor_metadata_and_legacy_parity():
     assert envelope["drive_time_hours"] == round(result.drive_time_hours, 2)
     assert envelope["route_quality"] == result.route_quality.model_dump(mode="json")
     json.dumps(envelope, allow_nan=False)
+
+
+def test_toll_rates_rise_strictly_with_vehicle_class():
+    from server.models.phase1 import VehicleType
+    from server.services.routing_facade import TOLL_RATE_PER_PLAZA_INR
+    order = [VehicleType.LMV, VehicleType.LCV, VehicleType.TRUCK_2AXLE, VehicleType.MAV_20T, VehicleType.OVERSIZED_7AXLE]
+    rates = [TOLL_RATE_PER_PLAZA_INR[v.value] for v in order]
+    assert set(TOLL_RATE_PER_PLAZA_INR) == {v.value for v in VehicleType}
+    assert rates == sorted(rates) and len(set(rates)) == len(rates)

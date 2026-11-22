@@ -70,7 +70,7 @@ SOI_PUBLISHED_STATES = [
 ]
 
 # Census 2011 total villages (incl. uninhabited) — SOFT reference only:
-# SoI revenue-village definitions differ from Census; use ±25% tolerance
+# SoI revenue-village definitions differ from Census; tolerance is -25% / +30%
 CENSUS_VILLAGES_2011 = {
     "Uttar Pradesh": 107276, "Madhya Pradesh": 55266, "Bihar": 45103,
     "Rajasthan": 44673, "Odisha": 51749, "Maharashtra": 43664,
@@ -89,8 +89,6 @@ _RESULT_SINK = ContextVar("audit_results", default=None)
 
 def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str = "") -> None:
     status = "PASS" if ok else ("FAIL" if severity == "FAIL" else "WARN")
-    if ok:
-        status = "PASS"
     sink = _RESULT_SINK.get()
     sink = RESULTS if sink is None else sink
     sink.append({"dataset": dataset, "check": name, "status": status,
@@ -151,7 +149,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("subdistricts_lgd", "valid geometries", "FAIL", sub.geometry.is_valid.all())
     check("subdistricts_lgd", "no CR/LF in names", "FAIL",
           not sub.sub_district.str.contains(r"[\r\n]", regex=True).any())
-    # cross-layer: every village-layer district_code must exist in districts
+    # cross-layer: every sub-district-layer district_code must exist in districts
     sub_codes = set(zip(dist.state, dist.district_code.astype("Float64")))
     bad = [(s, c) for s, c in zip(sub.state, sub.district_code.astype("Float64"))
            if (s, c) not in sub_codes]
@@ -350,8 +348,8 @@ def audit_access_districts(source_root, artifact_root, roll):
     bad_states, n_rows, n_near = [], 0, 0
     for st in states:
         slug = st.lower().replace(" ", "_")
-        src = next((p for p in (village_dir / f"{slug}_soi_villages.geojson",
-                                village_dir / f"{slug}_habitations.geojson") if p.exists()), None)
+        src = village_dir / f"{slug}_soi_villages.geojson"
+        src = src if src.exists() else None
         av_path = artifact_root / f"{slug}_village_access.csv"
         if src is None or not av_path.exists():
             continue
@@ -440,6 +438,16 @@ def audit_rail(source_root=DATA_DIR):
     check("freight_terminals", "geocoded coords in bbox", "FAIL",
           bool(have.longitude.astype(float).between(68, 97.5).all()
                and have.latitude.astype(float).between(6, 37.5).all()))
+    states_path = source_root / "administrative" / "india_states_lgd.geojson"
+    if states_path.exists() and len(have):
+        states = gpd.read_file(states_path)[["state", "geometry"]].rename(columns={"state": "polygon_state"})
+        points = gpd.GeoDataFrame(have, geometry=gpd.points_from_xy(have.longitude.astype(float),
+                                                                     have.latitude.astype(float)), crs=4326)
+        joined = gpd.sjoin(points, states, how="left", predicate="within")
+        key = lambda v: " ".join(str(v).lower().replace("&", " and ").split())  # noqa: E731
+        wrong = joined[joined.state.map(key) != joined.polygon_state.map(key)]
+        check("freight_terminals", "each coordinate lies in its own state", "FAIL", wrong.empty,
+              "; ".join(f"{r.name}: {r.state} vs {r.polygon_state}" for r in wrong.itertuples()))
 
     # DFC Network & Stations
     dfc_p = source_root / "rail" / "dfc_network.geojson"
@@ -460,16 +468,21 @@ def audit_rail(source_root=DATA_DIR):
 
 def audit_hubs(source_root=DATA_DIR):
     print("\n== logistics hubs ==")
-    expected = {"ports.csv": (12, "major_port"), "icps.csv": (15, "icp"),
-                "icds.csv": (30, "icd"), "air_cargo.csv": (15, "air_cargo"),
-                "mmlps.csv": (15, "mmlp"), "inland_waterway_terminals.csv": (30, "iw_terminal"),
-                "fci_depots.csv": (40, "foodgodown")}
+    expected = {"ports.csv": (12, {"major_port", "minor_port"}), "icps.csv": (15, {"icp"}),
+                "icds.csv": (30, {"icd", "cfs"}), "air_cargo.csv": (15, {"air_cargo"}),
+                "mmlps.csv": (15, {"mmlp"}), "inland_waterway_terminals.csv": (30, {"iw_terminal"}),
+                "fci_depots.csv": (40, {"foodgodown"})}
     cols = ["name", "hub_type", "state", "city", "latitude", "longitude",
             "operator", "capacity_notes", "source_url"]
-    for f, (min_rows, type_key) in expected.items():
+    for f, (min_rows, allowed_types) in expected.items():
         p = source_root / "logistics_hubs" / f
         df = pd.read_csv(p)
         check("hubs", f"{f}: schema", "FAIL", list(df.columns) == cols)
+        if "hub_type" in df.columns:
+            unexpected = sorted(set(df.hub_type.dropna().astype(str)) - allowed_types)
+            check("hubs", f"{f}: hub_type values", "FAIL",
+                  not unexpected and bool(df.hub_type.notna().all()),
+                  f"unexpected {unexpected}" if unexpected else "")
         check("hubs", f"{f}: >= {min_rows} rows", "FAIL", len(df) >= min_rows, f"{len(df)}")
         check("hubs", f"{f}: coords in bbox + per-row source", "FAIL",
               bool(df.longitude.between(68, 97.5).all() and df.latitude.between(6, 37.5).all()
@@ -635,7 +648,14 @@ def audit_geoparquet(source_root=DATA_DIR):
 def audit_catalog(source_root=DATA_DIR):
     print("\n== catalog vs disk ==")
     import yaml
-    cat = yaml.safe_load(open(REPO_ROOT / "catalog.yaml", encoding="utf-8"))
+    try:
+        with open(REPO_ROOT / "catalog.yaml", encoding="utf-8") as fh:
+            cat = yaml.safe_load(fh)
+        if not isinstance(cat, dict) or not isinstance(cat.get("datasets"), list):
+            raise ValueError("catalog.yaml has no 'datasets' list")
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        check("catalog", "parses", "FAIL", False, f"{type(exc).__name__}: {str(exc).splitlines()[0] if str(exc) else ''}")
+        return
     check("catalog", "parses", "FAIL", True)
     n_missing = 0
     for ds in cat["datasets"]:
@@ -651,9 +671,9 @@ def audit_catalog(source_root=DATA_DIR):
 
 
 def collect_counts(source_root=DATA_DIR, artifact_root=None) -> dict:
-    artifact_root = source_root / "analysis" if artifact_root is None else artifact_root
     """Cheap counts for baseline drift (CSV row counts; geojson counts read
     only in deep mode and cached here)."""
+    artifact_root = source_root / "analysis" if artifact_root is None else artifact_root
     import glob as g
     counts = {}
     for f in g.glob(str(source_root / "logistics_hubs" / "*.csv")):
@@ -685,7 +705,16 @@ def check_baseline(source_root=DATA_DIR, artifact_root=None):
         return
     base = json.loads(baseline_path.read_text())
     current = collect_counts(source_root, artifact_root)
-    drift = {k: (base.get(k), v) for k, v in current.items() if base.get(k) != v}
+    # A baseline series that is no longer produced is drift too. Only the prefixes
+    # collect_counts emits are compared (admin:/villages: are deep-mode-only baseline keys);
+    # analysis:* is skipped for a separate artifact root, which need not hold every
+    # file of the data/analysis layout the baseline was written from.
+    prefixes = ["hubs:", "freight:", "rail:", "census:", "demographic:"]
+    if artifact_root is None or pathlib.Path(artifact_root) == source_root / "analysis":
+        prefixes.append("analysis:")
+    vanished = {k for k in base if k not in current and k.startswith(tuple(prefixes))}
+    drift = {k: (base.get(k), current.get(k)) for k in sorted(set(current) | vanished)
+             if base.get(k) != current.get(k)}
     check("baseline", "counts match baseline", "FAIL", not drift,
           f"{len(drift)} drifted, e.g. {dict(list(drift.items())[:3])}" if drift
           else f"{len(current)} series stable")

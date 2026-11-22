@@ -79,15 +79,12 @@ _ROADS_CACHE: gpd.GeoDataFrame | None = None
 
 
 def villages_geojson_path(state: str):
-    """Path to the SoI village file or border habitations file, or None."""
+    """Path to the state's SoI village file, or None."""
     s = state.lower().replace(" ", "_")
     s = STATE_FILE_MAP.get(state.lower(), s)
     p = DATA_DIR / "administrative" / "villages" / f"{s}_soi_villages.geojson"
     if p.exists():
         return p
-    p_hab = DATA_DIR / "administrative" / "villages" / f"{s}_habitations.geojson"
-    if p_hab.exists():
-        return p_hab
     return None
 
 
@@ -223,14 +220,21 @@ def main() -> None:
 
     if args.all:
         states = gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+        failed = []
         for st in sorted(states["state"].unique()):
             print(f"\n########## {st} ##########", flush=True)
             try:
                 run_one(st, args)
             except SystemExit as e:
                 print(f"  SKIP: {e}", flush=True)
+                failed.append(st)
             except Exception as e:
                 print(f"  ERROR: {e}", flush=True)
+                failed.append(st)
+        if failed:
+            # A composite built from a partial run would mix fresh and stale state summaries.
+            raise SystemExit(f"{len(failed)} state(s) failed: {', '.join(failed)}; "
+                             "national composite NOT rebuilt")
         build_national_summary()
         return
     if not args.state:

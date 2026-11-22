@@ -64,7 +64,7 @@ documentation. The ABDB GeoJSONs embed the string "Administrative boundaries
 with Survey of India / LGD", the SoI portal village GeoJSONs embed "Village
 boundaries: Survey of India, Government of India" and the NWDP village GeoJSONs
 name Survey of India and the National Water Data Portal; the Parquet and
-GeoPackage copies, the habitation files and the DataMeet layers embed none. The metadata nevertheless states "copyright" and no written
+GeoPackage copies and the DataMeet layers embed none. The metadata nevertheless states "copyright" and no written
 blanket redistribution grant is recorded here. This is therefore an
 **unresolved release-governance item**, not a claim of explicit permission.
 Before a formal public data release, DOI deposit, or broad redistribution

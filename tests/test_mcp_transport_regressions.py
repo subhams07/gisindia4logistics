@@ -486,10 +486,8 @@ def test_committed_full_rest_sdk_mcp_freight_parity(
     app = FastAPI()
     app.include_router(router)
     app.dependency_overrides[get_data_store] = lambda: committed_store
-    args = {**identity, "payload_tons": payload, "target_port": target_port,
-            "commodity_name": "Cement", **overrides}
-    request = {**identity, "payload_tons": payload, "target_port": target_port,
-               "commodity_name": "Cement"}
+    args = {**identity, "payload_tons": payload, "target_port": target_port, **overrides}
+    request = {**identity, "payload_tons": payload, "target_port": target_port}
     if overrides:
         request["custom_parameters"] = overrides
     with TestClient(app) as client:

@@ -126,7 +126,7 @@ def test_public_signature_and_main_exist():
     parameters = inspect.signature(module.generate_stage4).parameters
     assert list(parameters) == ["source_root", "stage_root", "cache_root", "run_id", "alpha", "beta"]
     assert all(p.kind is inspect.Parameter.KEYWORD_ONLY for p in parameters.values())
-    assert parameters["alpha"].default == 1.2 and parameters["beta"].default == 1.5
+    assert parameters["alpha"].default == .85 and parameters["beta"].default == 1.65
     assert module.REPO_ROOT == REPO and callable(module.main)
     assert module.ENTRY == pm().NATIONAL_CODE_ENTRY
 
