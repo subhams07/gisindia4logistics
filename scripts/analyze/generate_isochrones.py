@@ -218,9 +218,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path)
     parser.add_argument("--cache-dir", type=Path)
-    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, help="default: $GIS4LOGISTICS_OUTPUT_PATH or outputs/ (not data/analysis)")
+    parser.add_argument("--allow-manifest-dir", action="store_true",
+                        help="allow writing into a directory that holds producer_manifest.json")
     args = parser.parse_args(argv)
-    return generate_isochrones(data_dir=args.data_dir, cache_dir=args.cache_dir, output_dir=args.output_dir)
+    output_dir = producer_io.standalone_output_dir(args.output_dir, allow_manifest_dir=args.allow_manifest_dir)
+    return generate_isochrones(data_dir=args.data_dir, cache_dir=args.cache_dir, output_dir=output_dir)
 
 
 if __name__ == "__main__":

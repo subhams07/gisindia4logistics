@@ -10,6 +10,26 @@ import tempfile
 
 import pandas as pd
 
+MANIFEST_FILENAME = "producer_manifest.json"
+STANDALONE_OUTPUT_DIR = Path(__file__).resolve().parents[2] / "outputs"
+
+
+def standalone_output_dir(path=None, *, allow_manifest_dir=False) -> Path:
+    """Destination for a standalone producer CLI run.
+
+    Defaults to $GIS4LOGISTICS_OUTPUT_PATH or outputs/, never data/analysis. A directory
+    holding producer_manifest.json is the published, manifest-validated set: writing one
+    file there with other parameters would silently break it, so that needs
+    allow_manifest_dir (the full regeneration is scripts/analyze/stage4_generate.py).
+    """
+    directory = Path(path) if path is not None else Path(os.environ.get("GIS4LOGISTICS_OUTPUT_PATH", STANDALONE_OUTPUT_DIR))
+    if (directory / MANIFEST_FILENAME).exists() and not allow_manifest_dir:
+        raise SystemExit(f"{directory} holds {MANIFEST_FILENAME} (published, manifest-validated outputs); "
+                         "write elsewhere, regenerate everything with stage4_generate.py, "
+                         "or pass --allow-manifest-dir")
+    return directory
+
+
 ISLAND_STATES = frozenset({"andaman and nicobar islands", "lakshadweep"})
 
 

@@ -22,7 +22,7 @@ if __package__ in (None, ""):
 from scripts.analyze import highway_pair_kernel as kernel
 from scripts.analyze.producer_io import (
     atomic_write_csv, atomic_write_parquet, district_population, is_island_state,
-    sha256_file,
+    sha256_file, standalone_output_dir,
 )
 from scripts.clean.graph_builder import (
     DEFAULT_SPEED as DEFAULT_SPEED, SPEEDS as SPEEDS, compute_graph_fingerprint, geodesic_m,
@@ -334,9 +334,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
     parser.add_argument("--cache-dir", type=Path, default=PROJECT_ROOT / "outputs/cache")
-    parser.add_argument("--output-dir", type=Path, default=None)
+    parser.add_argument("--output-dir", type=Path, default=None,
+                        help="default: $GIS4LOGISTICS_OUTPUT_PATH or outputs/ (not data/analysis)")
+    parser.add_argument("--allow-manifest-dir", action="store_true",
+                        help="allow writing into a directory that holds producer_manifest.json")
     args = parser.parse_args()
-    output_dir = args.output_dir if args.output_dir is not None else args.data_dir / "analysis"
+    output_dir = standalone_output_dir(args.output_dir, allow_manifest_dir=args.allow_manifest_dir)
     summary, port_matrix, provenance = build_travel_outputs(data_dir=args.data_dir, cache_dir=args.cache_dir)
     write_travel_outputs(summary, port_matrix,
                          summary_csv=output_dir / "nh_district_travel_time_summary.csv",

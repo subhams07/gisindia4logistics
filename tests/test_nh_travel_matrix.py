@@ -298,14 +298,33 @@ def test_cli_explicit_roots_and_no_second_writer(synthetic, tmp_path, monkeypatc
     assert 'nh_district_travel_time_summary' not in source
 
 
-def test_cli_custom_root_default_output_is_not_repo(synthetic, tmp_path, monkeypatch):
+def test_cli_default_output_is_the_outputs_dir_not_analysis(synthetic, tmp_path, monkeypatch):
     root, _, _ = synthetic
+    outputs = tmp_path / 'outputs'
+    monkeypatch.setenv('GIS4LOGISTICS_OUTPUT_PATH', str(outputs))
     monkeypatch.setattr('sys.argv', ['nh_travel_matrix.py', '--data-dir', str(root),
                                     '--cache-dir', str(tmp_path / 'cache')])
     matrix.main()
-    assert (root / 'analysis/nh_district_travel_time_summary.parquet').is_file()
-    assert (root / 'analysis/nh_district_travel_time_summary.csv').is_file()
-    assert (root / 'analysis/nh_district_port_matrix.csv').is_file()
+    assert (outputs / 'nh_district_travel_time_summary.parquet').is_file()
+    assert (outputs / 'nh_district_travel_time_summary.csv').is_file()
+    assert (outputs / 'nh_district_port_matrix.csv').is_file()
+    assert not (root / 'analysis').exists()
+
+
+def test_cli_refuses_a_manifest_directory_unless_allowed(synthetic, tmp_path, monkeypatch):
+    root, _, _ = synthetic
+    published = tmp_path / 'published'
+    published.mkdir()
+    (published / 'producer_manifest.json').write_text('{}')
+    argv = ['nh_travel_matrix.py', '--data-dir', str(root), '--cache-dir', str(tmp_path / 'cache'),
+            '--output-dir', str(published)]
+    monkeypatch.setattr('sys.argv', argv)
+    with pytest.raises(SystemExit, match='producer_manifest.json'):
+        matrix.main()
+    assert sorted(p.name for p in published.iterdir()) == ['producer_manifest.json']
+    monkeypatch.setattr('sys.argv', argv + ['--allow-manifest-dir'])
+    matrix.main()
+    assert (published / 'nh_district_port_matrix.csv').is_file()
 
 
 def test_pipeline_seeded_scalar_pair_kernel_oracle(synthetic, tmp_path):

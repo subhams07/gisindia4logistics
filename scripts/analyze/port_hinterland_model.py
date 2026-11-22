@@ -172,10 +172,15 @@ def main(argv=None):
     parser.add_argument("--data-dir", type=Path)
     parser.add_argument("--matrix-csv", type=Path)
     parser.add_argument("--population-csv", type=Path)
+    parser.add_argument("--allow-manifest-dir", action="store_true",
+                        help="allow writing into a directory that holds producer_manifest.json")
     args = parser.parse_args(argv)
     cfg = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
+    output_csv = (producer_io.standalone_output_dir(args.output_csv.parent if args.output_csv else None,
+                                                    allow_manifest_dir=args.allow_manifest_dir)
+                  / (args.output_csv.name if args.output_csv else "district_port_hinterland_catchment.csv"))
     return run_port_gravity_model(cfg.get("alpha", args.alpha), cfg.get("beta", args.beta),
-        cfg.get("port_capacities"), args.output_csv, data_dir=args.data_dir,
+        cfg.get("port_capacities"), output_csv, data_dir=args.data_dir,
         matrix_csv=args.matrix_csv, population_csv=args.population_csv)
 
 
