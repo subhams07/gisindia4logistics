@@ -15,7 +15,7 @@ Previous iterations provided scalar road distances and travel times without vect
    - Domain schemas use explicit `latitude` and `longitude` fields to prevent inversion bugs.
 3. **Component-Compatible Snapping**:
    - Consider all nodes within a 150 km projected radius of each endpoint, apply that threshold before pair selection, and retain the nearest node per component. Select the compatible pair with minimum combined snap distance, with deterministic ties. Do not force mainland membership or impose an uncalibrated minimum component size.
-   - Then compute the fastest graph path between those selected nodes. This objective is not the globally fastest/shortest door-to-door modelled route: a slightly farther snap node can produce a materially shorter corridor. See [review evidence](../routing_review.md).
+   - Then compute the fastest graph path between those selected nodes. This objective is not the globally fastest/shortest door-to-door modelled route: a slightly farther snap node can produce a materially shorter corridor. See [review evidence](../archive/routing_review.md).
    - If no common component exists within a documented snap threshold, `RouteNotAvailableError` is raised.
 4. **Transparent Route Quality Model (`RouteQuality`)**:
    Every route result returns diagnostic metadata:

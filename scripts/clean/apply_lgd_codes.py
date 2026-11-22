@@ -12,8 +12,8 @@ india_districts_lgd to the official LGD directory snapshot
   4. MANUAL below (decided by hand; None = not in the LGD directory).
 
 and writes data/administrative/district_code_crosswalk.csv. It then sets
-`district_code` to the LGD code in the district and sub-district layers
-(GeoJSON, Parquet, GPKG), keeps the ABDB code as `abdb_district_code` and adds
+`district_code` to the LGD code in the district layer (GeoJSON, Parquet) and
+the sub-district layer (Parquet, GPKG), keeps the ABDB code as `abdb_district_code` and adds
 `census2011_code` on the district layer, and moves Dadra & Nagar Haveli and
 Daman & Diu to LGD state code 38. Idempotent: an already re-keyed layer is
 mapped again from its `abdb_district_code`.
@@ -169,21 +169,8 @@ def main() -> None:
     districts = districts[cols[:at] + ["census2011_code", "abdb_district_code"] + cols[at:] + ["geometry"]]
     districts.to_parquet(ADMIN / "india_districts_lgd.parquet", engine="pyarrow", compression="snappy", index=False)
 
-    # sub-districts: district_code follows the district layer (strings in the GeoJSON),
-    # with the ABDB code kept as abdb_district_code
-    def edit_subdistrict(props):
-        abdb = props.get("abdb_district_code", props["district_code"])
-        code = lgd_code(props["state_code"], abdb)
-        out = {}
-        for k, v in props.items():
-            if k == "abdb_district_code":
-                continue
-            out[k] = str(fixed_state(v)) if k == "state_code" else v
-            if k == "district_code":
-                out[k] = None if code is None else str(code)
-                out["abdb_district_code"] = abdb
-        return out
-    rewrite_geojson(ADMIN / "india_subdistricts_lgd.geojson", edit_subdistrict)
+    # sub-districts (Parquet, GPKG): district_code follows the district layer, the ABDB
+    # code is kept as abdb_district_code
     for path in (ADMIN / "india_subdistricts_lgd.parquet", ADMIN / "india_subdistricts_lgd.gpkg"):
         sub = gpd.read_parquet(path) if path.suffix == ".parquet" else gpd.read_file(path)
         abdb = sub["abdb_district_code"] if "abdb_district_code" in sub else sub["district_code"]
@@ -200,7 +187,7 @@ def main() -> None:
             sub.to_file(path, layer="subdistricts", driver="GPKG")
     if unknown:
         raise SystemExit(f"sub-district district codes absent from the district layer: {sorted(unknown)}")
-    print("re-keyed: india_districts_lgd (.geojson/.parquet), india_subdistricts_lgd (.geojson/.parquet/.gpkg)")
+    print("re-keyed: india_districts_lgd (.geojson/.parquet), india_subdistricts_lgd (.parquet/.gpkg)")
 
 
 if __name__ == "__main__":

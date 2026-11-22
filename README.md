@@ -296,7 +296,7 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 - 📐 **[Model Assumptions](docs/model_assumptions.md)**: speeds, toll formulas and freight-cost models.
 - 📚 **[Data Sources](docs/sources.md)**: upstream URLs, vintages and lineage.
 - 📜 **[Data Licensing](DATA_LICENSE.md)**: terms by source class and unresolved conditions.
-- 🗓️ **[Changelog](CHANGELOG.md)** and **[Roadmap](docs/roadmap.md)**.
+- 🗓️ **[Changelog](CHANGELOG.md)** and **[Roadmap](docs/archive/roadmap.md)**.
 
 ---
 

@@ -571,6 +571,12 @@ def audit_freight(source_root=DATA_DIR):
         paradip_24 = pt[(pt.fy == "2023-24") & (pt.entity_code == "INPRT")].value.iloc[0]
         check("port_throughput", "Paradip is #1 major port (>= 140 MT)", "FAIL",
               paradip_24 >= 140.0, f"{paradip_24} MT")
+        if rf_p.exists():
+            sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "fetch"))
+            from build_freight_tables import consistency_issues
+            issues = consistency_issues(rf, pt)
+            check("freight", "parts add up to national rows (1%; data marked unverified)", "WARN",
+                  not issues, "; ".join(issues))
 
     # Road indicators
     rd_p = source_root / "freight" / "road_indicators_annual.csv"

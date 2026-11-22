@@ -28,9 +28,13 @@ All datasets in this repository follow these conventions.
     and the district layer also carries `census2011_code`. The mapping is
     `data/administrative/district_code_crosswalk.csv`
     (`scripts/clean/apply_lgd_codes.py`).
-  - `lgd_village_code` — 6-digit village code where available
+  - `village_code` — the Survey of India village code (LGD) where available
 - Census 2011 uses its own state/district codes; a crosswalk table is provided
   in `data/administrative/census2011_lgd_crosswalk.csv`.
+- Village rows are assigned to the district polygon that contains them
+  (within their own state). `district` / `district_code` hold that polygon's
+  values; the village source's own district name and code are kept in
+  `source_district` / `source_district_code`.
 - Railway stations join on `station_code` (Indian Railways alpha codes).
 
 ## Attribute naming
@@ -87,4 +91,11 @@ villages_gdf = gpd.read_parquet("data/administrative/villages_parquet/haryana_so
 
 Every dataset has an entry in `catalog.yaml`:
 `name, category, description, source_url, license, vintage, resolution,
-provider, access (committed|script), path, fetch_script`.
+provider, access (committed|script), path, fetch_script, quality_status,
+quality_notes`.
+
+`quality_status` values:
+- `verified`: checked against an official total or reference by the audit.
+- `community`: from a community source; plausible but not officially verified.
+- `sample`: a partial extract or schematic, for demonstration.
+- `unverified`: compiled by hand and known or suspected to be inconsistent; re-source before use.

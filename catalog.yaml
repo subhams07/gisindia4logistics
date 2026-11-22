@@ -588,8 +588,10 @@ datasets:
   access: committed
   path: data/freight/rail_freight_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: verified
-  quality_notes: 61 series; FY23-24 national total (1,591.0 MT) and commodity breakdown validated against PIB PRID 2016942
+  quality_status: unverified
+  quality_notes: '61 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: the FY23-24
+    zone rows sum to 1,697 MT against the 1,591 MT national total (zones are originating loading as compiled, not
+    a partition). Re-source from PIB / Railway Board before analytical use.'
 - name: Major Ports cargo throughput
   category: freight
   description: Annual cargo traffic handled across all 12 major ports (FY 2019-20 through 2023-24)
@@ -601,8 +603,10 @@ datasets:
   access: committed
   path: data/freight/port_throughput_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: verified
-  quality_notes: 65 series; FY23-24 total (819.0 MT) and individual port totals (Paradip 145.4 MT, Deendayal 132.5 MT) validated
+  quality_status: unverified
+  quality_notes: '65 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: port rows
+    sum to 822.9 MT in FY23-24 and 783.4 MT in FY22-23 against national rows of 819 and 795 MT. Re-source from IPA
+    before analytical use.'
 - name: MoRTH classified road network indicators
   category: freight
   description: National and state road lengths across functional classes (NH, SH, MDR, Rural roads)
