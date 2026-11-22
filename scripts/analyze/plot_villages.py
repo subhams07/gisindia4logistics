@@ -85,16 +85,31 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     if not d_col:
         raise ValueError("Could not find district column in village dataset")
 
-    gdf_dist = gdf[gdf[d_col].str.lower() == district.lower()].copy()
+    p_acc = DATA_DIR / "analysis" / f"{slug}_village_access.csv"
+    acc_df = pd.read_csv(p_acc) if p_acc.exists() else None
+    wanted = district.lower()
+    source_sel = (gdf[d_col].astype("string").str.lower() == wanted).fillna(False).to_numpy()
+
+    # 2. Access metrics table. nearest_facility writes one row per geometry row,
+    # in file order, carrying the CURRENT LGD district (village files keep the
+    # older SoI names/codes), so align by position and accept either name.
+    # village_code is not unique within a state and is not a safe join key.
+    if acc_df is not None and len(acc_df) == len(gdf) and "district" in acc_df.columns:
+        acc_df.index = gdf.index
+        sel = (acc_df["district"].astype("string").str.lower() == wanted).fillna(False).to_numpy()
+        if not sel.any():
+            sel = source_sel
+        if not sel.any():
+            raise ValueError(f"District '{district}' not found in state '{state}' village dataset")
+        return gdf[sel].join(acc_df[sel], rsuffix="_acc")
+
+    gdf_dist = gdf[source_sel].copy()
     if gdf_dist.empty:
         raise ValueError(f"District '{district}' not found in state '{state}' village dataset")
 
-    # 2. Access metrics table
-    p_acc = DATA_DIR / "analysis" / f"{slug}_village_access.csv"
-    if p_acc.exists():
-        acc_df = pd.read_csv(p_acc)
+    if acc_df is not None:
         # Match by village_code or village name
-        acc_dist = acc_df[acc_df.district.str.lower() == district.lower()]
+        acc_dist = acc_df[acc_df.district.astype("string").str.lower() == wanted]
         if not acc_dist.empty:
             if "village_code" in gdf_dist.columns and "village_code" in acc_dist.columns:
                 gdf_dist["vcode_str"] = gdf_dist["village_code"].astype(str)
