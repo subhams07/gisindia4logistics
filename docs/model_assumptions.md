@@ -18,7 +18,7 @@ Current assumptions:
 - modeled speeds are 90 km/h for motorway, 70 km/h for trunk, 55 km/h for primary, and 50 km/h for unclassified fallback edges;
 - nearby disconnected nodes may be bridged at up to 350 m and modeled at 35 km/h;
 - real network edges take precedence over synthetic bridges;
-- origins and destinations are snapped to the principal connected component;
+- origins and destinations are snapped to the nearest node of each graph component within 150 km, and the route uses the best component pair (no forced mainland membership);
 - off-network feeder access is modeled at 35 km/h;
 - returned route distance sums the selected graph-path edge lengths plus feeder access;
 - one-way restrictions, turn restrictions, live traffic, height/weight limits, closures, ferries, and local-road navigation are not modeled.

@@ -1,6 +1,6 @@
 # Data Sources, Lineage & Methodology
 
-Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GIS4Logistics India** platform.
+Comprehensive, per-source documentation of datasets, provenance, licensing, lineage, and validation gates across all layers of the **GISIndia4Logistics India** platform.
 
 Quality status definitions:
 - **verified** — passed the repository's recorded validation gates (exact counts vs official registers, geometry checks, coordinate bounds, and join-key checks). This label describes data validation, not legal clearance or source freshness; the audit date and execution context should be recorded with releases.
@@ -40,7 +40,7 @@ Quality status definitions:
 - **DataMeet Maps** ([github.com/datameet/maps](https://github.com/datameet/maps)): Community open GIS boundary repository (CC BY 4.0) used for Census 2011 joins.
 
 ### Technical & Processing Notes
-- **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). Mirpur and Muzaffarabad (Jammu and Kashmir) retained with null codes as per source. The source tags Dhule's 4 sub-districts with 598 (Alappuzha's Census code); corrected to Dhule. District codes are then mapped to official LGD codes by `apply_lgd_codes.py`.
+- **PAN INDIA ABDB Processing (`process_panindia_boundaries.py`)**: 4 inter-state disputed slivers dropped from state layer (28 from districts/subdistricts). Mojibake font artifacts fixed deterministically (`<` $\to$ a, `>` $\to$ A, `#` $\to$ u — e.g. `BR>HMAUR` $\to$ BRAHMAUR, `Bengal#ru` $\to$ BENGALURU). Mirpur and Muzaffarabad (Jammu and Kashmir) retained with null codes as per source. The source tags Dhule's 4 sub-districts with 598 (Alappuzha's Census code); corrected to Dhule. District codes are then mapped to official LGD codes by `apply_lgd_codes.py`. Names using `@` (ū) and `\` (ī) are not yet fixed (e.g. `DEHRAD@N`).
 - **SoI Village Processing (`fetch_village_boundaries_soi.py`)**: Reprojected from national LCC to WGS 84 (`EPSG:4326`). Processed via `shapely.set_precision(1e-5)` grid-snap and `make_valid()` to eliminate GEOS topological slivers.
 - **NWDP Village Ingestion (`fetch_village_boundaries_nwdp.py`)**: Standardizes the Survey of India village GeoJSON zips from the National Water Data Portal for the 9 border/NE states (downloaded by hand into `data/raw/nwdp_villages/`): EPSG:7755 → 4326, same schema and simplify/grid-snap/make_valid pipeline as the SoI portal files, plus `population_2011`/`households_2011`; code 999999 → null `village_code`.
 - **Border Habitations Ingestion (`fetch_border_habitations.py`, superseded)**: Covers the 9 states not published in SoI village boundary zips (Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram, Nagaland) using geocoded place nodes joined to LGD districts.
@@ -124,7 +124,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 | Dataset & File Path | Scope / Resolution | Methodology & Metrics | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Village Dual-Distance Tables**<br>`data/analysis/*_village_access.csv` | **658,248 villages** (36 states/UTs) | Geodesic straight-line distance (WGS84 ellipsoid) to the nearest target of each type; EPSG:7755 only narrows the candidates | Derived in repo | **verified** |
-| **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 5km, 10km, 25km) and median distances | Derived in repo | **verified** |
+| **State District Summary Rollups**<br>`data/analysis/*_district_access_summary.csv` | 36 state tables | Population-weighted catchment shares (% within 10 km, 25 km and 50 km) and median distances | Derived in repo | **verified** |
 | **National Composite Accessibility**<br>`data/analysis/india_district_access_summary.csv` | **816 rows** (780 districts + 36 state pop-weighted rows), keyed on `(state, district_code, district)` | Unified all-India demographic-weighted accessibility indicators | Derived in repo | **verified** |
 | **Highway Travel-Time Summary**<br>`data/analysis/nh_district_travel_time_summary.csv` | **780 districts** | Dijkstra shortest-path drive times (hours/min) and road distances (km, geodesic edge lengths) on the 289k-node highway graph | Derived in repo | **verified** |
 | **District Major Port Matrix**<br>`data/analysis/nh_district_port_matrix.csv` | **780 districts $\times$ 12 major ports** | Complete origin-to-port road distance and drive time catchment matrix | Derived in repo | **verified** |
