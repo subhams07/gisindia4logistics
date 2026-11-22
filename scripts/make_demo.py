@@ -31,11 +31,12 @@ from standardize import DATA_DIR, REPO_ROOT, points_from_csv  # noqa: E402
 
 OUT_DIR = REPO_ROOT / "examples" / "output"
 
+# Koraput × Ganjam (South Odisha) semantic road palette
 ROAD_STYLE = {
-    "NH": dict(color="#d62728", linewidth=1.6, zorder=5),
-    "SH": dict(color="#ff7f0e", linewidth=1.1, zorder=4),
-    "MDR": dict(color="#bcbd22", linewidth=0.7, zorder=3),
-    "ODR": dict(color="#7f7f7f", linewidth=0.4, zorder=2),
+    "NH": dict(color="#a83b32", linewidth=1.6, zorder=5),   # Kotpad Aal
+    "SH": dict(color="#d99b38", linewidth=1.1, zorder=4),   # Kewda / Alasi Gold
+    "MDR": dict(color="#3e5c45", linewidth=0.7, zorder=3),  # Deomali Moss
+    "ODR": dict(color="#a89f94", linewidth=0.4, zorder=2),  # Eastern Ghats Stone
 }
 
 
@@ -105,28 +106,29 @@ def main() -> None:
 
     # --- map ---
     import matplotlib.pyplot as plt
-    fig, ax = plt.subplots(figsize=(11, 11))
-    district.boundary.plot(ax=ax, color="#2c3e50", linewidth=1.2)
+    fig, ax = plt.subplots(figsize=(11, 11), facecolor="#faf6ee")
+    ax.set_facecolor("#faf6ee")
+    district.boundary.plot(ax=ax, color="#1b1917", linewidth=1.2)
     for cls, style in ROAD_STYLE.items():
         sub = roads[roads["road_class"] == cls]
         if len(sub):
             sub.plot(ax=ax, label=f"Road {cls}", **style)
     if len(rail):
-        rail.plot(ax=ax, color="#17a2b8", linewidth=0.8, linestyle="--", label="Railway")
+        rail.plot(ax=ax, color="#1e5468", linewidth=0.8, linestyle="--", label="Railway")
     if len(stations):
-        stations.plot(ax=ax, color="k", markersize=3, marker="s", label="Stations")
+        stations.plot(ax=ax, color="#4d1716", markersize=3, marker="s", label="Stations")
     if len(hubs):
-        hubs.plot(ax=ax, color="#8e44ad", markersize=40, marker="^",
-                  edgecolor="w", label="Logistics hubs")
-    ax.set_title(f"{args.district} district — logistics layers (OSM + committed datasets)")
-    ax.legend(loc="lower left", fontsize=8, framealpha=0.9)
+        hubs.plot(ax=ax, color="#7d2434", markersize=40, marker="^",
+                  edgecolor="#faf6ee", label="Logistics hubs")
+    ax.set_title(f"{args.district} district — logistics layers (OSM + committed datasets)", color="#1b1917")
+    ax.legend(loc="lower left", fontsize=8, framealpha=0.92, facecolor="#faf6ee", edgecolor="#d6ccbe")
     ax.set_axis_off()
     fig.text(0.99, 0.01,
              "Boundaries indicative (Survey of India ABDB), not authoritative "
              "depictions; © OpenStreetMap contributors (ODbL)",
-             ha="right", fontsize=6, color="#555555")
+             ha="right", fontsize=6, color="#6b6158")
     png = OUT_DIR / f"{args.district.lower().replace(' ', '_')}_logistics_map.png"
-    fig.savefig(png, dpi=150, bbox_inches="tight")
+    fig.savefig(png, dpi=150, bbox_inches="tight", facecolor="#faf6ee")
     print(f"Wrote map -> {png}")
 
 
