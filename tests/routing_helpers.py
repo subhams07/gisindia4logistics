@@ -12,7 +12,7 @@ from server.models.phase1 import ResolvedLocation
 
 # Modelled toll rate per plaza (INR) by vehicle class, as priced by
 # server/services/routing_facade.py. Tests compare against this one table.
-TOLL_RATES = {"LMV": 120.0, "LCV": 220.0, "2_AXLE_TRUCK": 220.0, "MAV_20T": 340.0, "7_AXLE_OVERSIZED": 220.0}
+TOLL_RATES = {"LMV": 120.0, "LCV": 195.0, "2_AXLE_TRUCK": 280.0, "MAV_20T": 340.0, "7_AXLE_OVERSIZED": 410.0}
 
 
 def toll_rate(vehicle) -> float:
