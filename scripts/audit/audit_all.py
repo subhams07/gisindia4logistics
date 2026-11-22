@@ -438,6 +438,16 @@ def audit_rail(source_root=DATA_DIR):
     check("freight_terminals", "geocoded coords in bbox", "FAIL",
           bool(have.longitude.astype(float).between(68, 97.5).all()
                and have.latitude.astype(float).between(6, 37.5).all()))
+    states_path = source_root / "administrative" / "india_states_lgd.geojson"
+    if states_path.exists() and len(have):
+        states = gpd.read_file(states_path)[["state", "geometry"]].rename(columns={"state": "polygon_state"})
+        points = gpd.GeoDataFrame(have, geometry=gpd.points_from_xy(have.longitude.astype(float),
+                                                                     have.latitude.astype(float)), crs=4326)
+        joined = gpd.sjoin(points, states, how="left", predicate="within")
+        key = lambda v: " ".join(str(v).lower().replace("&", " and ").split())  # noqa: E731
+        wrong = joined[joined.state.map(key) != joined.polygon_state.map(key)]
+        check("freight_terminals", "each coordinate lies in its own state", "FAIL", wrong.empty,
+              "; ".join(f"{r.name}: {r.state} vs {r.polygon_state}" for r in wrong.itertuples()))
 
     # DFC Network & Stations
     dfc_p = source_root / "rail" / "dfc_network.geojson"

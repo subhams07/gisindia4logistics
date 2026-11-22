@@ -5,9 +5,17 @@ Source: Ministry of Railways answer in Lok Sabha via PIB release ID 1910049
 expected to be developed in next three financial years (tentative data)".
 https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049  (GODL-India)
 
-Coordinates are joined from data/rail/railway_stations.csv by station-name
-match within the same state (most GCT rows are "serving station" locations).
-Unmatched rows keep empty coordinates — fill manually if needed.
+Coordinates are joined from data/rail/railway_stations.csv by station name
+(most GCT rows are "serving station" locations): exact name first, then
+substring, then a close fuzzy match, then the port/ICD hub files. Every
+candidate must lie inside the row's state polygon (india_states_lgd) — the
+station table's own state label is missing for half its rows, and nationwide
+matches once put six GCTs in the wrong state. Unmatched rows keep empty
+coordinates (scripts/fetch/geocode_gcts.py can fill them, with the same check).
+
+The annexure lists some locations under the state of their railway division;
+`state` here is the location's own state (Lajkura: Odisha, Nipania:
+Chhattisgarh, Samba: Jammu and Kashmir).
 
 Usage: python scripts/fetch/build_gct_terminals.py
 """
@@ -34,7 +42,7 @@ GCT_ROWS = [
     ("ECR", "SPJ", "Semra", "Bihar"), ("ECR", "SPJ", "Bhelwa", "Bihar"),
     ("ECR", "SEE", "Mansi", "Bihar"), ("ECR", "SEE", "Pasraha", "Bihar"),
     ("ECR", "SEE", "Khudiram Bose Pusa", "Bihar"), ("ECoR", "WAT", "Amagura", "Chhattisgarh"),
-    ("SECR", "BSP", "Lajkura", "Chhattisgarh"), ("NR", "DLI", "Narela", "Delhi"),
+    ("SECR", "BSP", "Lajkura", "Odisha"), ("NR", "DLI", "Narela", "Delhi"),
     ("WR", "BRC", "Kayavarohan", "Gujarat"), ("WR", "ADI", "Virochan Nagar", "Gujarat"),
     ("WR", "RJT", "Makansar", "Gujarat"), ("NR", "DLI", "Farukh Nagar", "Haryana"),
     ("NWR", "BKN", "Lahli", "Haryana"), ("NWR", "BKN", "Bhattu", "Haryana"),
@@ -43,7 +51,7 @@ GCT_ROWS = [
     ("ECR", "DHN", "Phulbasiya", "Jharkhand"), ("ECR", "DHN", "Shivpur - Godawari Commodity Pvt. Ltd.", "Jharkhand"),
     ("ECR", "DHN", "Jarangdih", "Jharkhand"), ("SER", "CKP", "Gua", "Jharkhand"),
     ("CR", "SUR", "Hirenanduru", "Karnataka"), ("CR", "SUR", "Wadi", "Karnataka"),
-    ("SR", "TVC", "Balaramapuram", "Kerala"), ("SECR", "R", "Nipania", "Madhya Pradesh"),
+    ("SR", "TVC", "Balaramapuram", "Kerala"), ("SECR", "R", "Nipania", "Chhattisgarh"),
     ("CR", "Mumbai", "Taloja Panchanand", "Maharashtra"), ("CR", "NGP", "New Makardhokda", "Maharashtra"),
     ("CR", "NGP", "Ghuggus", "Maharashtra"), ("CR", "NGP", "Moorsa", "Maharashtra"),
     ("CR", "NGP", "Sindi", "Maharashtra"), ("CR", "NGP", "Kalmeshwar", "Maharashtra"),
@@ -55,7 +63,7 @@ GCT_ROWS = [
     ("ECoR", "KUR", "Jaipur Keonjhar Road", "Odisha"), ("ECoR", "KUR", "Paradeep", "Odisha"),
     ("NR", "FZR", "Chhina", "Punjab"), ("NR", "FZR", "Kathunangal", "Punjab"),
     ("NR", "FZR", "Ladhuka", "Punjab"), ("NR", "FZR", "Sanehwal", "Punjab"),
-    ("NR", "UMB", "Chajli", "Punjab"), ("NR", "FZR", "Samba", "Punjab"),
+    ("NR", "UMB", "Chajli", "Punjab"), ("NR", "FZR", "Samba", "Jammu and Kashmir"),
     ("NWR", "JU", "Bhadwasi", "Rajasthan"), ("NWR", "AII", "Ras Babra", "Rajasthan"),
     ("SR", "MAS", "Tondiarpet Marshalling Yard", "Tamil Nadu"), ("SR", "TPJ", "Uttangal Mangalam", "Tamil Nadu"),
     ("SR", "MAS", "Mappedu", "Tamil Nadu"), ("SCR", "SC", "Ramagundam", "Telangana"),
@@ -78,33 +86,50 @@ def norm(s: str) -> str:
     return s.strip()
 
 
+def load_states():
+    import geopandas as gpd
+    return gpd.read_file(DATA_DIR / "administrative" / "india_states_lgd.geojson")
+
+
+def _state_key(name) -> str:
+    return " ".join(str(name).lower().replace("&", " and ").split())
+
+
+def in_state(lat, lon, state, states) -> bool:
+    """True when (lat, lon) lies inside the named state's polygon."""
+    from shapely.geometry import Point
+    poly = states[states["state"].map(_state_key) == _state_key(state)]
+    return bool(len(poly)) and bool(poly.geometry.contains(Point(float(lon), float(lat))).any())
+
+
+def match_station(key, state, stations, states):
+    """First station whose point lies in `state`: exact name, then substring, then fuzzy (>= 0.82)."""
+    import difflib
+    inside = lambda frame: frame[[in_state(r.latitude, r.longitude, state, states)  # noqa: E731
+                                  for r in frame.itertuples()]] if len(frame) else frame
+    for frame in (stations[stations["nname"] == key],
+                  stations[stations["nname"].str.contains(key, regex=False, na=False)]):
+        frame = inside(frame.dropna(subset=["latitude", "longitude"]))
+        if len(frame):
+            return frame.iloc[0]
+    for close in difflib.get_close_matches(key, stations["nname"].drop_duplicates().tolist(), n=5, cutoff=0.82):
+        frame = inside(stations[stations["nname"] == close].dropna(subset=["latitude", "longitude"]))
+        if len(frame):
+            return frame.iloc[0]
+    return None
+
+
 def main() -> None:
     argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     stations = pd.read_csv(DATA_DIR / "rail" / "railway_stations.csv")
     stations["nname"] = stations["station_name"].map(norm)
 
+    states = load_states()
+
     rows = []
-    import difflib
     for zone, division, loc, state in GCT_ROWS:
         key = norm(loc.split("(")[0].split(" - ")[0])
-        # pass 1: same state; pass 2: nationwide (station state often null)
-        # pass 3: fuzzy close-match within state, then nationwide
-        hit = None
-        pools = [stations[stations["state"].str.lower() == state.lower()], stations]
-        for cand in pools:
-            exact = cand[cand["nname"] == key]
-            if len(exact):
-                hit = exact.iloc[0]
-                break
-            sub = cand[cand["nname"].str.contains(key, regex=False, na=False)]
-            if len(sub):
-                hit = sub.iloc[0]
-                break
-        if hit is None:
-            names = pd.concat(pools)["nname"].drop_duplicates().tolist()
-            close = difflib.get_close_matches(key, names, n=1, cutoff=0.82)
-            if close:
-                hit = stations[stations["nname"] == close[0]].iloc[0]
+        hit = match_station(key, state, stations, states)
         if hit is None:
             # final fallback: hub CSVs (some GCTs sit at ports, e.g. Krishnapatnam)
             for hub in ("ports.csv", "icds.csv"):
@@ -113,6 +138,7 @@ def main() -> None:
                     h = pd.read_csv(hpath)
                     m = h[h["name"].str.lower().map(norm).str.contains(
                         key.split()[0], regex=False, na=False)]
+                    m = m[[in_state(r.latitude, r.longitude, state, states) for r in m.itertuples()]]
                     if len(m):
                         rows_hint = m.iloc[0]
                         rows.append({
