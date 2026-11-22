@@ -4,11 +4,10 @@
 [![Hobby project](https://img.shields.io/badge/project-hobby%20%C2%B7%20as--is-lightgrey.svg)](#about-this-project)
 [![Python](https://img.shields.io/badge/python-3.11%20tested-blue.svg?logo=python)](pyproject.toml)
 [![Code License: MIT](https://img.shields.io/badge/Code%20License-MIT-green.svg)](LICENSE)
-[![Data Audit](https://img.shields.io/badge/Data%20Audit-5%2C367%20checks%20%C2%B7%200%20FAIL-brightgreen.svg)](docs/audit_report.md)
 [![Data Licensing](https://img.shields.io/badge/Data%20Licensing-Mixed%20%2F%20Review%20Required-yellow.svg)](DATA_LICENSE.md)
 
-> **India's logistics map, ready to analyse.**
-> Every district, more than 600,000 villages and settlements, the National Highway network, rail, ports and about 300 logistics hubs and industrial sites, joined on official LGD codes. It comes with routing, freight-cost and port-catchment models you can use from Python, the command line, a REST API or an AI agent.
+> **India's open geospatial, multimodal routing, and freight analytics platform.**
+> 780 LGD-coded districts, 658,248 Survey of India village polygons across all 36 States/UTs, 141,990 National Highway segments, 8,697 rail stations, and ~300 ports and logistics hubs — paired with geodesic routing, intermodal freight-cost, port-catchment, and isochrone models via **Python, CLI, REST API, or MCP for AI agents**.
 
 > [!NOTE]
 > **This is a personal hobby project**, built and maintained in spare time and shared as-is. There is no support commitment, and pull requests and outside contributions are not being accepted. You're welcome to use and fork it under the licences below.
@@ -29,14 +28,14 @@ Logistics analysis in India usually starts with weeks of data plumbing: fragment
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326; distances and lengths are geodesic on the WGS84 ellipsoid (EPSG:7755 is used only for indexing and snapping).
 - **National coverage.** 780 current districts and 658,248 Survey of India village polygons in all 36 States/UTs, each with a precomputed accessibility profile. The 9 border/NE States/UTs that SoI's village portal does not publish come from SoI's own files on the National Water Data Portal.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
-- **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
-- **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known limitations](#known-limitations).
+- **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. The current tree passes a 5,474-check national audit with 0 failures.
+- **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known Limitations](#known-limitations).
 
 ---
 
 ## 📊 India at a Glance
 
-Headline figures computed from the committed v1.1.0 outputs:
+Headline figures computed from the committed national outputs:
 
 | Indicator | Value |
 |---|---|
@@ -70,9 +69,9 @@ Village figures are geodesic straight-line distances over all 658,248 villages. 
 - 🏢 **Site and warehouse analysts** comparing highway, rail and port access across locations.
 - 🏛️ **Policy and infrastructure watchers** looking for connectivity gaps between districts.
 - 🔬 **Researchers, students and data scientists** who want clean, LGD-joined Indian layers.
-- 🤖 **AI tinkerers** giving Claude, Cursor or another MCP client India-specific spatial tools.
+- 🤖 **AI builders** giving Claude, Cursor or another MCP client India-specific spatial tools.
 
-Outputs are strategic estimates from a hobby project. Verify routes, tariffs and transit times independently before any operational or commercial decision.
+Outputs are strategic estimates — verify routes, tariffs and transit times independently before any operational or commercial decision.
 
 ---
 
@@ -86,9 +85,86 @@ flowchart LR
     C --> E["CLI"]
     C --> F["REST API"]
     C --> G["MCP tools for AI agents"]
-    H["National audit<br/>5,367 checks"] -.verifies.-> A
+    H["National audit<br/>5,474 checks"] -.verifies.-> A
     H -.verifies.-> C
 ```
+
+---
+
+## 📦 Data Catalog
+
+Spatial layers use **EPSG:4326**. Distances and lengths are measured geodesically (WGS84) and areas in an equal-area projection (ESRI:102028); EPSG:7755 is used only for spatial indexing, snapping and display geometry. Administrative joins use **LGD codes**. The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
+
+The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.md) records mixed terms and unresolved redistribution conditions; MIT covers the code only.
+
+| Layer | Contents | Count | Source | Licence / conditions |
+|---|---|---|---|---|
+| 🏛️ **States** | State/UT boundaries (name only; no state code) | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
+| 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
+| 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
+| 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
+| 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
+| 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
+| 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
+| ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link as schematic station-to-station lines | **3 corridors, 54 stations** | DFCCIL | GODL-India |
+| 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (73 geocoded, 11 pending) | **84** | Ministry of Railways / PIB | GODL-India |
+| 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
+| 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
+| 🏬 **MMLPs** | Awarded and planned multimodal logistics parks | **20** | NHLML / PIB | Mixed; per-row terms |
+| ✈️ **Air cargo** | Cargo-handling airports | **25** | AAI / operators | Mixed; per-row terms |
+| 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
+| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
+| 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |
+| 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
+| 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
+| 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
+
+**Analysis outputs** (in `data/analysis/`):
+- Geodesic Stage 4 outputs with a provenance manifest (`producer_manifest.json`):
+  - the district travel-time summary and the district × port drive-time matrix;
+  - freight modal split and port hinterland catchment;
+  - port and MMLP isochrones.
+- Village access for all 658,248 villages across all 36 States/UTs (geodesic straight-line, assigned to current LGD districts), with sub-district, district and national summaries.
+
+---
+
+## 🗺️ Maps
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_icd_drive_dark.png">
+    <img src="docs/img/readme_icd_drive_light.png" alt="Map of India's districts shaded by highway drive time to the nearest inland container depot" width="640">
+  </picture>
+</p>
+
+The two maps on this page come from `scripts/analyze/make_readme_figures.py`. You can draw village-level maps for any district too:
+
+```bash
+python scripts/analyze/plot_villages.py --state Haryana --district Ambala --metric dist_rail_station_km --format both
+```
+
+With the API running, maps are also available at `http://localhost:8000/api/v1/admin/villages/map.html?state=Haryana&district=Ambala`.
+
+
+---
+
+## 🛡️ Quality You Can Check
+
+**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,474 checks: 5,461 PASS, 13 WARN, 0 FAIL**, and the test suite passes **3,568 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
+
+**What the audit checks:**
+- ✅ **Boundaries.** 36 states and 780 districts, official political-map reference points, valid geometries on re-read, GeoParquet twin parity across all 36 village files, and LGD joins across layers.
+- ✅ **Population.** 1,210,846,213 people conserved across the 780 current districts, within 0.001% of Census 2011.
+- ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
+- ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
+
+**The 13 warnings:**
+- 12 are disclosed source issues (blank village names in SoI files, revenue-vs-census village counts for Delhi and Chandigarh, and documented boundary gaps).
+- 1 is a freight part-vs-total consistency check (annual freight tables are flagged `unverified` in `catalog.yaml`).
+
+Passing checks are not proof of operational routing accuracy, data freshness or legal clearance.
+
+**Geospatial guidelines.** The project follows the DST Geospatial Guidelines (2021) as a policy reference for civilian logistics analytics. All boundaries are indicative, not authoritative Survey of India certifications. See [`docs/legal_compliance.md`](docs/legal_compliance.md).
 
 ---
 
@@ -103,7 +179,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -e .
 ```
 
-The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB. The project is installed from source only (it is not published on PyPI) and is tested on Python 3.11.
+The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB (use `git clone --depth 1` for a faster checkout, or browse lightweight tables like [`data/analysis/india_district_access_summary.csv`](data/analysis/india_district_access_summary.csv) and [`data/logistics_hubs/ports.csv`](data/logistics_hubs/ports.csv) directly on GitHub). The project is installed from source only (it is not published on PyPI) and supports Python 3.10+.
 
 **Data location.** The ~1 GB `data/` directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and set the variable below before starting Python, the CLI or a server; an editable install from the clone finds `data/` automatically. Without data the SDK raises `DataNotFoundError`, the CLI exits 1 with a clear message, and MCP tools return `data_not_found`.
 
@@ -198,86 +274,9 @@ ports = pd.read_csv("data/logistics_hubs/ports.csv")                            
 
 ---
 
-## 📦 Data Catalog
-
-Spatial layers use **EPSG:4326**. Distances and lengths are measured geodesically (WGS84) and areas in an equal-area projection (ESRI:102028); EPSG:7755 is used only for spatial indexing, snapping and display geometry. Administrative joins use **LGD codes**. The machine-readable inventory, with source, licence, vintage and quality status for every dataset, is [`catalog.yaml`](catalog.yaml).
-
-The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.md) records mixed terms and unresolved redistribution conditions; MIT covers the code only.
-
-| Layer | Contents | Count | Source | Licence / conditions |
-|---|---|---|---|---|
-| 🏛️ **States** | State/UT boundaries (name only; no state code) | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
-| 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
-| 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
-| 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
-| ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link as schematic station-to-station lines | **3 corridors, 54 stations** | DFCCIL | GODL-India |
-| 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (78 geocoded, 6 pending) | **84** | Ministry of Railways / PIB | GODL-India |
-| 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
-| 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
-| 🏬 **MMLPs** | Awarded and planned multimodal logistics parks | **20** | NHLML / PIB | Mixed; per-row terms |
-| ✈️ **Air cargo** | Cargo-handling airports | **25** | AAI / operators | Mixed; per-row terms |
-| 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
-| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
-| 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |
-| 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
-| 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
-| 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
-
-**Analysis outputs** (in `data/analysis/`):
-- Regenerated for v1.1.0, with a provenance manifest:
-  - the district travel-time summary and the district × port drive-time matrix;
-  - freight modal split and port hinterland catchment;
-  - port and MMLP isochrones.
-- From 2026-08, with no manifest: village access for all 621,105 settlements (straight-line), with sub-district, district and national summaries.
-
----
-
-## 🗺️ Maps
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_icd_drive_dark.png">
-    <img src="docs/img/readme_icd_drive_light.png" alt="Map of India's districts shaded by highway drive time to the nearest inland container depot" width="640">
-  </picture>
-</p>
-
-The two maps on this page come from `scripts/analyze/make_readme_figures.py`. You can draw village-level maps for any district too:
-
-```bash
-python scripts/analyze/plot_villages.py --state Haryana --district Ambala --metric dist_rail_station_km --format both
-```
-
-With the API running, maps are also available at `http://localhost:8000/api/v1/admin/villages/map.html?state=Haryana&district=Ambala`.
-
-
----
-
-## 🛡️ Quality You Can Check
-
-**v1.1.0 evidence.** The national audit (`scripts/audit/audit_all.py --national`) ran 5,367 checks: 5,351 PASS, 16 WARN, 0 FAIL. The test suite passed 3,508 tests with 0 failures. Report: [`docs/audit_report.md`](docs/audit_report.md).
-
-**What the audit checks:**
-- ✅ **Boundaries.** 36 states and 780 districts, valid geometries on re-read, and LGD joins across layers.
-- ✅ **Population.** 1,210,846,213 people conserved across the 780 current districts, within 0.001% of Census 2011.
-- ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
-- ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
-
-**The 16 warnings:**
-- 15 are disclosed source issues: blank village names in SoI files (in 9 states), village counts above the Census-2011 reference for Delhi and Chandigarh, and duplicate LGD codes.
-- 1 is an informational audit note.
-
-Passing checks are not proof of operational routing accuracy, data freshness or legal clearance.
-
-**Geospatial guidelines.** The project follows the DST Geospatial Guidelines (2021) as a policy reference for civilian logistics analytics. All boundaries are indicative, not authoritative Survey of India certifications. See [`docs/legal_compliance.md`](docs/legal_compliance.md).
-
----
-
 ## Known Limitations
 
-These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHANGELOG.md) and `data/analysis/producer_limitations.json`.
+These limitations are disclosed alongside the committed outputs; details are in the [CHANGELOG](CHANGELOG.md) and `data/analysis/producer_limitations.json`.
 
 - **Gravity model.** The parameters (α 0.85, β 1.65) are **uncalibrated**; a sensitivity table is in [the drift report](docs/stage4_drift_linux-2026-10-18-run1.md).
 - **Routing scope.** Routing uses the OSM National Highway network only (no state roads), at free-flow speeds. 370 district–hub pairs have road distances more than 3× the straight-line distance.
@@ -295,13 +294,13 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 - 📐 **[Model Assumptions](docs/model_assumptions.md)**: speeds, toll formulas and freight-cost models.
 - 📚 **[Data Sources](docs/sources.md)**: upstream URLs, vintages and lineage.
 - 📜 **[Data Licensing](DATA_LICENSE.md)**: terms by source class and unresolved conditions.
-- 🗓️ **[Changelog](CHANGELOG.md)** and **[Roadmap](docs/archive/roadmap.md)**.
+- 🗓️ **[Changelog](CHANGELOG.md)**.
 
 ---
 
 ## About This Project
 
-GISIndia4Logistics is a **hobby project**: one person's spare-time effort to make Indian logistics data easier to work with. It is shared as-is, without warranty or support commitments, and it is not affiliated with any government body or company.
+GISIndia4Logistics is a **personal hobby project**: one person's spare-time effort to make Indian logistics data easier to work with. It is shared as-is, without warranty or support commitments, and it is not affiliated with any government body or company.
 
 - **Contributions:** pull requests and outside contributions are not being accepted. Feel free to fork it.
 - **Data or licence concerns:** if you hold rights in a dataset here and want it attributed differently or removed, open an issue using the *Source or license concern* template.
@@ -311,5 +310,5 @@ GISIndia4Logistics is a **hobby project**: one person's spare-time effort to mak
 ---
 
 <div align="center">
-  <sub>A hobby project for anyone curious about how India moves goods. © OpenStreetMap contributors for OSM-derived layers.</sub>
+  <sub>An independent open-source project for Indian logistics and geospatial analysis. © OpenStreetMap contributors for OSM-derived layers.</sub>
 </div>
