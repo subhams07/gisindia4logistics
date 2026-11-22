@@ -76,7 +76,7 @@ python -m pytest tests/test_package.py tests/test_server.py
 
 **Data location.** The ~1 GB data directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and point the package at its data before starting Python, the CLI, the API server or the MCP server: `export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data` (Windows: `set GIS4LOGISTICS_DATA_PATH=C:\path\to\gisindia4logistics\data`). The variable is read once, at import time. An editable install from the clone (`pip install -e .`) finds `data/` automatically. If the data cannot be found, the SDK raises `gisindia4logistics.sdk.DataNotFoundError` (a `DataIntegrityError`), the CLI prints `error: GISIndia4Logistics data not found at <path> ...` and exits 1, and MCP tools return `isError` with code `data_not_found`.
 
-The CLI `serve` command checks for the data and refuses to start without it, while running `uvicorn server.app:app` directly does not yet perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
+The CLI `serve` command (also the Docker entrypoint) checks for the data and refuses to start without it, while running `uvicorn server.app:app` directly does not perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
 
 Two other locations are configurable the same way and, in a non-editable install, default to folders next to the installed `server` package (inside `site-packages`), which is often read-only or unwanted: `GIS4LOGISTICS_OUTPUT_PATH` (generated maps and reports; default `outputs/`) and `GIS4LOGISTICS_CACHE_PATH` (highway-graph cache; default `outputs/cache/`). Set both to writable directories of your choice.
 
@@ -247,6 +247,8 @@ python scripts/analyze/plot_villages.py --state Maharashtra --district Pune --me
 python scripts/analyze/plot_villages.py --state Gujarat --district Surat --metric dist_icd_km --format both
 ```
 
+The CLI, `gis.plot_villages(...)` and the MCP tool `gis_plot_villages_map` share one implementation. Maps go to `$GIS4LOGISTICS_OUTPUT_PATH/maps/<state>_<district>_village_<metric>_map.html` / `.png` (default `outputs/maps/`), and the result is `{"status", "state", "district", "metric", "villages_count", "outputs": {"html_map_path", "png_map_path"}}`. A custom `output_path` (`--output`) must end in `.html` or `.png` for the format requested; with `both`, the other file takes the same name with the other suffix.
+
 ### Visual Metrics Available:
 * `dist_rail_station_km`: Distance to closest railway station.
 * `dist_nh_km`: Distance to closest National Highway.
@@ -261,8 +263,11 @@ python scripts/analyze/plot_villages.py --state Gujarat --district Surat --metri
 
 ### 6.1 Direct Local Launch
 ```bash
-uvicorn server.app:app --host 0.0.0.0 --port 8000 --reload
+gisindia4logistics serve            # host/port from GIS4LOGISTICS_HOST / GIS4LOGISTICS_PORT (default 0.0.0.0:8000)
+gisindia4logistics serve --port 8080 --reload
+# or, without the data check: uvicorn server.app:app --host 0.0.0.0 --port 8000 --reload
 ```
+The Docker image starts through `gisindia4logistics serve`, so the `GIS4LOGISTICS_HOST` / `GIS4LOGISTICS_PORT` values in `docker-compose.yml` take effect.
 * **Interactive OpenAPI/Swagger Docs**: [`http://localhost:8000/docs`](http://localhost:8000/docs)
 * **ReDoc Documentation**: [`http://localhost:8000/redoc`](http://localhost:8000/redoc)
 
@@ -295,7 +300,13 @@ docker-compose down
 | `/api/v1/route/highway` | `POST` | `origin`, `destination`, `vehicle_type` | Legacy strategic highway routing & modelled toll heuristic |
 | `/api/v1/route/highway/plan` | `POST` | Strict location references, vehicle, geometry controls | Canonical route geometry, quality and provenance; no toll fields |
 | `/api/v1/simulate/freight-cost` | `POST` | `origin_district`, `custom_parameters` | Intermodal freight cost optimization |
-| `/api/v1/simulate/port-gravity` | `POST` | `alpha`, `beta` | National port hinterland gravity capture |
+| `/api/v1/simulate/port-gravity` | `POST` | `alpha`, `beta`, `custom_port_capacities` | National port hinterland gravity capture |
+
+**Errors.** Every REST error has the same body: `{"detail": {"status": 404, "code": "not_found", "message": "..."}}`, with `candidates` added for an ambiguous location (409). Codes: `invalid_request` and the domain codes (`invalid_location`, `location_not_found`, `ambiguous_location`, `route_not_available`, `data_integrity`, `unsupported_scenario`), and for router errors `bad_request`, `not_found`, `method_not_allowed`, `invalid_request`, `data_unavailable`. Validation errors never echo the input.
+
+**Labels.** States use the LGD spellings ("Andaman and Nicobar Islands", "Jammu and Kashmir", "Dadra and Nagar Haveli and Daman and Diu"); spelling variants such as "Orissa" or "Andaman & Nicobar" are accepted. Major ports use the names in `data/logistics_hubs/ports.csv` (e.g. "Jawaharlal Nehru Port (JNPT/Navi Mumbai)"); the earlier gravity labels "Jawaharlal Nehru Port (JNPT)" and "Syama Prasad Mookerjee Port (Kolkata/Haldia)" are still accepted in requests. `/api/v1/simulate/port-gravity`, `gis.simulate_port_catchment(...)` and the MCP tool all take `custom_port_capacities` (MT by port name).
+
+**Fields.** `/admin/states` and `/admin/districts` return `state_code` (LGD). Districts also return `area_sqkm` (equal-area ESRI:102028) and `subdistrict_count`. `/admin/villages` returns the latitude/longitude of the point distances are measured from, and `/hubs/rail/stations` returns the NSG `category` whenever the community roster has the station.
 
 This table describes existing public entrypoints, not a completed decision workbench. SDK `get_district(name_or_code)` returns a dictionary, not an object with attribute access. SDK `find_nearest(latitude, longitude, top_k=3)` returns category-keyed results and has no `facility_types` argument. Highway SDK results use the legacy dictionary envelope shown in section 4.2.
 

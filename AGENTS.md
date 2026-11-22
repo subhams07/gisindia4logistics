@@ -32,8 +32,8 @@ datasets produced by fetch scripts.
 | Toll plazas | clustered OSM toll points | 1,536 | OSM | ODbL |
 | Rail stations | codes/names/coords; state from polygons (source_state kept) | 8,697 | DataMeet railways (2016) | none declared (reference) |
 | Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
-| Freight terminals | Gati Shakti GCTs, 73 geocoded (state-checked) | 84 | PIB PRID 1910049 | GODL-India |
-| Logistics hubs | ports 22, ICPs 19 (2 coordinate-pending), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
+| Freight terminals | Gati Shakti GCTs, 78 geocoded (state-checked; 6 greenfield pending) | 84 | PIB PRID 1910049 | GODL-India |
+| Logistics hubs | ports 22, ICPs 19 (2 approximate: Zorinpui village, Srimantapur town), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
 | Demographics | Census 2011 district indicators; current-district population estimates | 640 / 780 | community digitization (validated) / derived | GODL-India |
 | Analysis | village access (geodesic), district/sub-district summaries, Stage 4 (geodesic NH routing, port matrix, freight modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
 
