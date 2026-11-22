@@ -12,6 +12,23 @@ def _invalid_cli_input():
     return ValidationError.from_exception_data("CLI input", [])
 
 
+def _require_data_or_exit():
+    """Refuse to start a long-running server that cannot serve anything."""
+    from gisindia4logistics.data_root import DataNotFoundError, require_data_root
+    try:
+        require_data_root()
+    except DataNotFoundError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        raise SystemExit(1) from None
+
+
+def _warn_if_data_missing():
+    """MCP initialize/tools/list work without data, so only warn on stderr."""
+    from gisindia4logistics.data_root import PUBLIC_MESSAGE, data_root_available
+    if not data_root_available():
+        print(f"warning: {PUBLIC_MESSAGE}", file=sys.stderr)
+
+
 def cmd_route_plan(args):
     """Emit a strict JSON strategic highway plan."""
     import json
@@ -34,6 +51,7 @@ def cmd_route_plan(args):
 
 def cmd_serve(args):
     """Launch the FastAPI REST API Server."""
+    _require_data_or_exit()
     import uvicorn
     print(f"Starting GISIndia4Logistics REST API Server on http://{args.host}:{args.port} ...")
     print(f"OpenAPI documentation available at http://{args.host}:{args.port}/docs")
@@ -42,6 +60,7 @@ def cmd_serve(args):
 
 def cmd_mcp(args):
     """Launch the Model Context Protocol (MCP) stdio JSON-RPC tool server."""
+    _warn_if_data_missing()
     from mcp_server.server import run_stdio_server
     run_stdio_server()
 
@@ -146,6 +165,25 @@ def cmd_audit(args):
     audit_main()
 
 
+def _dispatch(args):
+    if args.command in {"route", "route-plan", "cost", "district"}:
+        from fastapi import HTTPException
+        from server.services.error_contract import domain_error_from_status, route_error_contract
+        from gisindia4logistics.data_root import DataNotFoundError
+        try:
+            args.func(args)
+        except Exception as exc:
+            if isinstance(exc, DataNotFoundError):
+                raise
+            if isinstance(exc, HTTPException):
+                exc = domain_error_from_status(exc.status_code)
+            contract = route_error_contract(exc)
+            print(f"error: {contract['message']}", file=sys.stderr)
+            raise SystemExit(2 if contract['status'] in {400, 404, 409, 422} else 1) from None
+    else:
+        args.func(args)
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="gisindia4logistics",
@@ -216,19 +254,12 @@ def main():
 
     args = parser.parse_args()
     if hasattr(args, "func"):
-        if args.command in {"route", "route-plan", "cost", "district"}:
-            from fastapi import HTTPException
-            from server.services.error_contract import domain_error_from_status, route_error_contract
-            try:
-                args.func(args)
-            except Exception as exc:
-                if isinstance(exc, HTTPException):
-                    exc = domain_error_from_status(exc.status_code)
-                contract = route_error_contract(exc)
-                print(f"error: {contract['message']}", file=sys.stderr)
-                raise SystemExit(2 if contract['status'] in {400, 404, 409, 422} else 1) from None
-        else:
-            args.func(args)
+        from gisindia4logistics.data_root import DataNotFoundError
+        try:
+            _dispatch(args)
+        except DataNotFoundError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            raise SystemExit(1) from None
     else:
         parser.print_help()
 

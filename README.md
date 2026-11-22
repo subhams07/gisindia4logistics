@@ -105,6 +105,12 @@ pip install -e .
 
 The data ships with the repository, so no downloads or API keys are needed; a full checkout is about 1.3 GB. The project is installed from source only (it is not published on PyPI) and is tested on Python 3.11.
 
+**Data location.** The ~1 GB `data/` directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and set the variable below before starting Python, the CLI or a server; an editable install from the clone finds `data/` automatically. Without data the SDK raises `DataNotFoundError`, the CLI exits 1 with a clear message, and MCP tools return `data_not_found`.
+
+```bash
+export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data
+```
+
 ### 2. Python SDK
 
 ```python
