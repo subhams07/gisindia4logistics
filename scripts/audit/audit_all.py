@@ -348,8 +348,8 @@ def audit_access_districts(source_root, artifact_root, roll):
     bad_states, n_rows, n_near = [], 0, 0
     for st in states:
         slug = st.lower().replace(" ", "_")
-        src = next((p for p in (village_dir / f"{slug}_soi_villages.geojson",
-                                village_dir / f"{slug}_habitations.geojson") if p.exists()), None)
+        src = village_dir / f"{slug}_soi_villages.geojson"
+        src = src if src.exists() else None
         av_path = artifact_root / f"{slug}_village_access.csv"
         if src is None or not av_path.exists():
             continue

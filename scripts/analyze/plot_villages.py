@@ -60,23 +60,17 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
     
     # 1. Geometry File (GeoParquet preferred, GeoJSON fallback)
     p_poly_pq = (admin_dir / "villages_parquet" / f"{slug}_soi_villages.parquet").resolve()
-    p_pts_pq = (admin_dir / "villages_parquet" / f"{slug}_habitations.parquet").resolve()
     p_poly = (admin_dir / "villages" / f"{slug}_soi_villages.geojson").resolve()
-    p_pts = (admin_dir / "villages" / f"{slug}_habitations.geojson").resolve()
 
     # Path traversal check
-    for p in [p_poly_pq, p_pts_pq, p_poly, p_pts]:
+    for p in [p_poly_pq, p_poly]:
         if not str(p).startswith(str(admin_dir)):
             raise ValueError(f"Invalid state path traversal attempt: '{state}'")
     
     if p_poly_pq.exists():
         gdf = gpd.read_parquet(p_poly_pq)
-    elif p_pts_pq.exists():
-        gdf = gpd.read_parquet(p_pts_pq)
     elif p_poly.exists():
         gdf = gpd.read_file(p_poly)
-    elif p_pts.exists():
-        gdf = gpd.read_file(p_pts)
     else:
         raise FileNotFoundError(f"No village geometry file found for state '{state}'")
 
@@ -188,7 +182,7 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
     <div id="map"></div>
     <div class="info-panel">
         <div class="header-title">{district_upper_html} ({state_html})</div>
-        <div class="header-subtitle">{len(gdf):,} Villages & Habitations</div>
+        <div class="header-subtitle">{len(gdf):,} Villages</div>
         <div style="font-size: 13px; font-weight: 600; color: #0284c7;">{metric_title_html}</div>
         <div id="village-detail" style="margin-top: 8px; font-size: 12px; color: #334155;">
             Hover or click on any village to inspect accessibility metrics.

@@ -197,11 +197,11 @@ def map_data(tmp_path, monkeypatch):
                             ("uttar_pradesh", "Hamirpur"), ("himachal_pradesh", "Hamirpur")]:
         gdf = gpd.GeoDataFrame({"district": [district], "village": ["Map fixture"],
                                "dist_rail_station_km": [3.0]}, geometry=[Point(77, 28)], crs="EPSG:4326")
-        gdf.to_file(village_dir / f"{state}_habitations.geojson", driver="GeoJSON")
+        gdf.to_file(village_dir / f"{state}_soi_villages.geojson", driver="GeoJSON")
     gpd.GeoDataFrame({"district": ["Bilaspur", "Hamirpur"], "village": ["Fixture A", "Fixture B"],
                       "dist_rail_station_km": [3.0, 4.0]},
                      geometry=[Point(77, 28), Point(77.1, 28.1)], crs="EPSG:4326").to_file(
-                         village_dir / "himachal_pradesh_habitations.geojson", driver="GeoJSON")
+                         village_dir / "himachal_pradesh_soi_villages.geojson", driver="GeoJSON")
     monkeypatch.setattr(plot_villages, "DATA_DIR", root)
     monkeypatch.setattr(tools.settings, "OUTPUT_PATH", tmp_path / "output")
     return tmp_path
@@ -251,7 +251,7 @@ def test_map_metric_validation_before_read(map_data, monkeypatch):
 
 
 def test_map_resolved_input_escape_rejected_before_read(map_data, monkeypatch):
-    target = map_data / "data/administrative/villages/odisha_habitations.geojson"
+    target = map_data / "data/administrative/villages/odisha_soi_villages.geojson"
     original = Path.resolve
 
     def escaped(path, *args, **kwargs):

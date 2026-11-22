@@ -55,7 +55,7 @@ def test_official_map_check_fails_when_a_point_moves(audit):
     assert by_place["Muzaffarabad"] == by_place["Mirpur"] == by_place["Tawang"] == "FAIL"
 
 
-# --- Habitations -------------------------------------------------------------------------
+# --- Village units ----------------------------------------------------------------------
 
 @needs_data
 def test_soi_states_keep_village_unit():

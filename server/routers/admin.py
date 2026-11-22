@@ -95,9 +95,7 @@ def validate_village_map_paths(data_dir: Path, state: str) -> None:
     slug = state.lower().replace(" ", "_")
     for folder, suffix in [
         ("villages_parquet", "soi_villages.parquet"),
-        ("villages_parquet", "habitations.parquet"),
         ("villages", "soi_villages.geojson"),
-        ("villages", "habitations.geojson"),
     ]:
         contained_data_path(data_dir, "administrative", folder, f"{slug}_{suffix}")
     contained_data_path(data_dir, "analysis", f"{slug}_village_access.csv")

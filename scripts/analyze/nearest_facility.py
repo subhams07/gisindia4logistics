@@ -79,15 +79,12 @@ _ROADS_CACHE: gpd.GeoDataFrame | None = None
 
 
 def villages_geojson_path(state: str):
-    """Path to the SoI village file or border habitations file, or None."""
+    """Path to the state's SoI village file, or None."""
     s = state.lower().replace(" ", "_")
     s = STATE_FILE_MAP.get(state.lower(), s)
     p = DATA_DIR / "administrative" / "villages" / f"{s}_soi_villages.geojson"
     if p.exists():
         return p
-    p_hab = DATA_DIR / "administrative" / "villages" / f"{s}_habitations.geojson"
-    if p_hab.exists():
-        return p_hab
     return None
 
 

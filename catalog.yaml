@@ -250,19 +250,6 @@ datasets:
     rest; J&K incl. Ladakh); 634 polygons with code 999999 (forest blocks, data not available) kept with null village_code; same
     simplification/validity pipeline as the SoI portal files. The portal's TLS certificate had expired when fetched, so files were
     downloaded by hand."
-- name: Border & North-Eastern State Habitations
-  category: administrative
-  description: 34,954 geocoded settlement and village place nodes for the 9 border/NE states (superseded for analysis by the NWDP village polygons)
-  provider: OpenStreetMap contributors + LGD district spatial join
-  source_url: https://www.openstreetmap.org
-  license: ODbL
-  vintage: 2026-08 snapshot
-  resolution: settlement / village point
-  access: committed
-  path: data/administrative/villages/*_habitations.geojson
-  fetch_script: scripts/fetch/fetch_border_habitations.py
-  quality_status: verified
-  quality_notes: Covers Arunachal Pradesh (2.3k), Assam (1.8k), HP (18.5k), J&K (7.3k), Ladakh (1.9k), Manipur (1.6k), Meghalaya (362), Mizoram (610), Nagaland (589); joined to 780 LGD districts
 - name: Village accessibility analysis (nearest facility)
   category: analysis
   description: Straight-line distance from every village to nearest rail station / ICD / port / air-cargo
