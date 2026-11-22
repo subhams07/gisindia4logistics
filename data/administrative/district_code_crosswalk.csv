@@ -293,7 +293,7 @@ Jharkhand,SAHIBGANJ,20,352,340,Sahebganj,352,census2011_code
 Jharkhand,SARAIKELA-KHARSAWAN,20,369,341,Saraikela Kharsawan,369,census2011_code
 Jharkhand,SIMDEGA,20,367,342,Simdega,367,census2011_code
 Jharkhand,WEST SINGHBHUM,20,368,343,West Singhbhum,368,census2011_code
-Karnataka,B\dar,29,558,529,Bidar,558,census2011_code
+Karnataka,Bidar,29,558,529,Bidar,558,census2011_code
 Karnataka,Bagalkot,29,556,524,Bagalkote,556,census2011_code
 Karnataka,Ballari,29,565,528,Ballari,565,census2011_code
 Karnataka,Belagavi,29,555,527,Belagavi,555,census2011_code
@@ -747,7 +747,7 @@ Uttarakhand,ALMORA,5,64,45,Almora,64,census2011_code
 Uttarakhand,BAGESHWAR,5,63,46,Bageshwar,63,census2011_code
 Uttarakhand,CHAMOLI,5,57,47,Chamoli,57,census2011_code
 Uttarakhand,CHAMPAWAT,5,65,48,Champawat,65,census2011_code
-Uttarakhand,DEHRAD@N,5,60,49,Dehradun,60,census2011_code
+Uttarakhand,DEHRADUN,5,60,49,Dehradun,60,census2011_code
 Uttarakhand,HARIDWAR,5,68,50,Haridwar,68,census2011_code
 Uttarakhand,NAINITAL,5,66,51,Nainital,66,census2011_code
 Uttarakhand,PAURI GARHWAL,5,61,52,Pauri Garhwal,61,census2011_code
@@ -758,7 +758,7 @@ Uttarakhand,UDHAM SINGH NAGAR,5,67,56,Udham Singh Nagar,67,census2011_code
 Uttarakhand,UTTARKASHI,5,56,57,Uttarkashi,56,census2011_code
 West Bengal,ALIPUR DUAR,19,675,664,Alipurduar,,name
 West Bengal,BANKURA,19,339,305,Bankura,339,census2011_code
-West Bengal,BIRBH@M,19,334,307,Birbhum,334,census2011_code
+West Bengal,BIRBHUM,19,334,307,Birbhum,334,census2011_code
 West Bengal,DAKSHIN DINAJPUR,19,331,310,Dakshin Dinajpur,331,census2011_code
 West Bengal,DARJILING,19,327,309,Darjeeling,327,census2011_code
 West Bengal,HAORA,19,341,313,Howrah,341,census2011_code
@@ -777,5 +777,5 @@ West Bengal,PASCHIM MEDINIPUR,19,344,318,Paschim Medinipur,344,census2011_code
 West Bengal,PURBA BARDDHAMAN,19,335,306,Purba Bardhaman,335,census2011_code
 West Bengal,PURBA MEDINIPUR,19,345,317,Purba Medinipur,345,census2011_code
 West Bengal,PURULIYA,19,340,321,Purulia,340,census2011_code
-West Bengal,SOUTH 24PARGANAS,19,343,304,South 24 Parganas,343,census2011_code
+West Bengal,SOUTH 24 PARGANAS,19,343,304,South 24 Parganas,343,census2011_code
 West Bengal,UTTAR DINAJPUR,19,330,311,Uttar Dinajpur,330,census2011_code
