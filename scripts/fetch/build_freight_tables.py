@@ -5,15 +5,18 @@ Compiles official annual logistics series (FY 2019-20 through 2023-24/2024-25):
 2. data/freight/port_throughput_annual.csv (Major port traffic by port & commodity)
 3. data/freight/road_indicators_annual.csv (MoRTH classified road network lengths by state)
 
-Validates anchor totals against official Ministry / PIB disclosures:
-- Indian Railways FY23-24 ≈ 1,591 MT
-- Major Ports FY23-24 ≈ 819 MT
+The values are hand-transcribed and NOT re-verified against the cited pages
+(catalog quality_status: unverified). The script reports, without failing,
+whether the parts add up to the national rows:
+- rail commodity groups vs the national total, and zone rows vs the national total
+- major-port rows vs the all-major-ports total (1% tolerance)
 
 Usage:
     python scripts/fetch/build_freight_tables.py
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 import pandas as pd
@@ -22,7 +25,6 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR
 
 FREIGHT_DIR = DATA_DIR / "freight"
-FREIGHT_DIR.mkdir(parents=True, exist_ok=True)
 
 LICENSE_GODL = "GODL-India"
 PIB_RAIL_URL = "https://pib.gov.in/PressReleasePage.aspx?PRID=2016942"
@@ -194,20 +196,40 @@ def build_road_indicators() -> pd.DataFrame:
     return df
 
 
+def consistency_issues(rail: pd.DataFrame, port: pd.DataFrame, tol: float = 0.01) -> list[str]:
+    """Parts that do not add up to their national row (relative tolerance ``tol``)."""
+    issues = []
+
+    def compare(label, parts, total):
+        if total and abs(parts - total) > tol * total:
+            issues.append(f"{label}: parts {parts:,.1f} vs total {total:,.1f}")
+
+    nat = rail[rail.entity_type == "national"]
+    for fy, g in nat.groupby("fy"):
+        total = g.loc[g.commodity_group == "all", "value"].sum()
+        compare(f"rail {fy} commodities", g.loc[g.commodity_group != "all", "value"].sum(), total)
+        zones = rail[(rail.entity_type == "zone") & (rail.fy == fy)]
+        if len(zones):
+            compare(f"rail {fy} zones", zones.value.sum(), total)
+    for fy, g in port.groupby("fy"):
+        compare(f"ports {fy}", g.loc[g.entity_type == "port", "value"].sum(),
+                g.loc[g.entity_type == "national", "value"].sum())
+    return issues
+
+
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
+    FREIGHT_DIR.mkdir(parents=True, exist_ok=True)
     print("=== Compiling Freight Flow Tables (Initiative 4) ===")
     df_rail = build_rail_freight()
     df_port = build_port_throughput()
-    df_road = build_road_indicators()
+    build_road_indicators()
 
-    # Anchor checks
-    r24 = df_rail[(df_rail.fy == "2023-24") & (df_rail.entity_code == "ALL_INDIA") & (df_rail.commodity_group == "all")].value.iloc[0]
-    assert abs(r24 - 1591.0) < 1.0, f"Rail FY24 mismatch: {r24}"
-
-    p24 = df_port[(df_port.fy == "2023-24") & (df_port.entity_code == "ALL_MAJOR_PORTS")].value.iloc[0]
-    assert abs(p24 - 819.0) < 1.0, f"Port FY24 mismatch: {p24}"
-
-    print("\nAll freight anchor validation checks passed!")
+    issues = consistency_issues(df_rail, df_port)
+    for issue in issues:
+        print(f"  [INCONSISTENT] {issue}")
+    print("\nConsistency: " + ("parts add up to the national rows" if not issues else
+                               f"{len(issues)} inconsistencies (data is unverified; see catalog.yaml)"))
 
 
 if __name__ == "__main__":

@@ -88,7 +88,8 @@ def main() -> None:
     ap.add_argument("--district")
     ap.add_argument("--state")
     ap.add_argument("--bbox", help="minlon,minlat,maxlon,maxlat")
-    ap.add_argument("--name", default="rail")
+    ap.add_argument("--name", default=None,
+                    help="output file base name (default: district slug, else 'rail')")
     ap.add_argument("--stations", action="store_true",
                     help="also fetch station/halt nodes from OSM")
     ap.add_argument("--output", default=str(DATA_DIR / "rail"))
@@ -100,6 +101,8 @@ def main() -> None:
         bbox = district_bbox(args.district, args.state)
     else:
         ap.error("one of --district or --bbox is required")
+    if args.name is None:
+        args.name = "_".join(args.district.lower().split()) if args.district else "rail"
     south, west, north, east = bbox[1], bbox[0], bbox[3], bbox[2]
     out = pathlib.Path(args.output)
     out.mkdir(parents=True, exist_ok=True)

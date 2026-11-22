@@ -3,10 +3,12 @@ scripts/fetch/build_agri_logistics.py
 Compiles Cold Chain Storage Facilities and APMC e-NAM Mandis across India.
 """
 
+import argparse
 import sys
+from pathlib import Path
 import pandas as pd
 
-sys.path.insert(0, ".")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from scripts.clean.standardize import DATA_DIR
 
 COLD_CHAIN_DATA = [
@@ -65,4 +67,5 @@ def build_agri():
 
 
 if __name__ == "__main__":
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     build_agri()

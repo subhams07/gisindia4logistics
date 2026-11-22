@@ -3,7 +3,7 @@ name: gisindia4logistics
 description: >-
   Provides logistics intelligence, spatial infrastructure queries, highway routing,
   and multi-modal freight cost optimization across all 36 Indian States/UTs, 780 districts,
-  and 578,000+ habitations.
+  and 658,000+ villages.
 ---
 
 # GISIndia4Logistics Skill Guide
@@ -12,7 +12,7 @@ Use this skill when you need to answer questions, generate reports, or run simul
 1. **District Logistics Scorecards & Demographics**: Proximity to National Highways, Railway Stations, Toll Plazas, ICDs, Ports, and MMLPs across India's 780 current LGD districts.
 2. **Multi-Modal Freight Cost Optimization**: Comparing Road Trucking vs Conventional Indian Railways vs Dedicated Freight Corridor (DFC) with custom freight rates, toll outlays, and transit delays.
 3. **Nearest Logistics Infrastructure**: Finding the closest Sea Ports, ICDs, MMLPs, Air Cargo terminals, Inland Waterways, Cold Chain storages, APMC e-NAM Mandis, or Toll Plazas to any coordinate.
-4. **Highway Route & Toll Friction**: Computing road driving distance, driving hours, toll plaza counts, and FASTag toll expense.
+4. **Highway Route & Toll Friction**: Computing road driving distance, driving hours, toll plaza counts, and a modelled toll estimate (not FASTag/NHAI tariffs).
 5. **Port Hinterland Gravity & Contestability**: Modeling cargo catchment and market share across India's 12 Major Commercial Ports.
 6. **Village Accessibility Mapping**: Generating interactive Leaflet web maps or 300 DPI PNG choropleths of district villages.
 
@@ -53,11 +53,13 @@ Use to locate the closest logistics infrastructure to any coordinate:
 ```
 
 ### 4. `gis_highway_route_and_tolls`
-Use to calculate commercial highway distance, driving hours, and FASTag toll outlay:
+Use to calculate commercial highway distance, driving hours, and a modelled toll estimate (not an official tariff):
 ```json
 {
-  "origin": [18.5204, 73.8567],
-  "destination": [18.9500, 72.9500],
+  "origin_lat": 18.5204,
+  "origin_lon": 73.8567,
+  "dest_lat": 18.9500,
+  "dest_lon": 72.9500,
   "vehicle_type": "MAV_20T"
 }
 ```
@@ -78,6 +80,17 @@ Use to render village-level accessibility choropleths:
   "state": "Haryana",
   "district": "Ambala",
   "metric": "dist_rail_station_km",
-  "format": "html"
+  "output_format": "html"
+}
+```
+
+### 7. `gis_plan_highway_route`
+Use for a canonical highway route with quality warnings, provenance and optional geometry:
+```json
+{
+  "origin": {"type": "district", "district_code": 490},
+  "destination": {"type": "hub", "hub_type": "port", "name": "JNPT"},
+  "vehicle_type": "LCV",
+  "geometry_detail": "none"
 }
 ```

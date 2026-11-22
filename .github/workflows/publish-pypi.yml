@@ -1,11 +1,8 @@
 name: Publish GISIndia4Logistics to PyPI
 
+# Manual only: the maintainer has decided not to publish to PyPI for now, so a tag or
+# GitHub release must not trigger an upload.
 on:
-  release:
-    types: [published]
-  push:
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
 
 jobs:

@@ -17,15 +17,17 @@ them.
 
 1. **CRS**: EPSG:4326 (WGS 84). Projected outputs may additionally be provided
    in EPSG:7755 or UTM zones, but 4326 is the canonical format.
-2. **Join keys**: use LGD (Local Government Directory) state/district codes
-   where applicable; attribute names snake_case.
+2. **Join keys**: districts are keyed on the official LGD district code (unique
+   nationally; `data/administrative/lgd_districts.csv`); attribute names
+   snake_case.
 3. **Metadata**: every dataset needs a `catalog.yaml` entry with: name,
    category, source_url, license, vintage, resolution, and how it is obtained.
-4. **Size**: no hard limit; files >20 MB should use a Git LFS-routed format
-   (`*.gpkg`, `*.parquet`, `*.zip`) per `.gitattributes`.
-5. **License**: only commit data that is openly licensed or redistributable.
-   Ambiguous-license sources are documented in `docs/sources.md` with a fetch
-   script, not committed.
+4. **Size**: no hard limit, but every file must stay under GitHub's 100 MB
+   limit. The repository uses no Git LFS.
+5. **License**: prefer openly licensed data. Some committed datasets have
+   unresolved redistribution terms (Survey of India layers, the DataMeet
+   station base, community station categories); these are recorded in
+   `DATA_LICENSE.md`.
 
 ## Adding a dataset — checklist
 

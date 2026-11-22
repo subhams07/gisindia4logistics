@@ -1,8 +1,8 @@
 {
   "name": "gisindia4logistics",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "GISIndia4Logistics — Open Geospatial & Multimodal Freight Intelligence Plugin for Antigravity, Codex, and Claude",
-  "author": "GISIndia4Logistics",
+  "author": "Subham Sahu",
   "homepage": "https://github.com/subhams07/gisindia4logistics",
   "skills": [
     "skills/gisindia4logistics"

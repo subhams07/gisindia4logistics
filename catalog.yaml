@@ -44,7 +44,7 @@ datasets:
     districts), mapped by scripts/clean/apply_lgd_codes.py against lgd_districts.csv; the source''s own
     DIST_LGD value (Census 2011 code for older districts, a scheme of its own for newer ones) is kept as
     abdb_district_code, and LGD''s Census 2011 code as census2011_code. No LGD code: Mirpur & Muzaffarabad
-    (PoK), Delhi''s Nazul and Shahdara (absent from LGD after Delhi''s 2025 reorganisation). The layer
+    (Jammu and Kashmir; no Census 2011 enumeration), Delhi''s Nazul and Shahdara (absent from LGD after Delhi''s 2025 reorganisation). The layer
     predates the 2025 formations in Ladakh (6), Delhi, Gujarat (Vav-Tharad), Haryana (Hansi) and others
     listed in LGD. Dhule''s source sub-districts carried 598 (Kerala''s Alappuzha in Census numbering),
     corrected in process_panindia_boundaries.py; mojibake names fixed'
@@ -61,7 +61,7 @@ datasets:
   path: data/administrative/india_subdistricts_lgd.gpkg
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
-  quality_notes: 6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 81 rows have null
+  quality_notes: 6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 79 rows have null
     sub-district codes in source; district_code follows the district layer's LGD code (source value kept
     as abdb_district_code); SoI RURAL/URBAN pairs legitimately share one LGD code; mojibake fixed; 22 MB
     GeoPackage as regular git blob
@@ -130,7 +130,7 @@ datasets:
     written permission; redistribution unresolved (see DATA_LICENSE.md)
   vintage: current (published by SoI; page updated 2026)
   resolution: village
-  access: committed (states ≤10 MB; larger states script-generated)
+  access: committed (all 36 state files, 27 from the SoI portal and 9 via the National Water Data Portal)
   path: data/administrative/villages/*_soi_villages.geojson
   fetch_script: scripts/fetch/fetch_village_boundaries_soi.py
   quality_status: verified
@@ -229,7 +229,7 @@ datasets:
   quality_notes: 150m DBSCAN clusters of OSM toll booths; raw input count is not recorded.
     Model labels are 1,100 national_highway, 101 expressway_toll and 335 unclassified highway_toll
     records, not verified SH/bridge identities. Missing NH numbers are filled from the nearest
-    NH without a distance limit; 334 unclassified records have NH labels. Treat NH labels as
+    NH without a distance limit; all 335 unclassified records have NH labels. Treat NH labels as
     inferred attribution, not trusted plaza identity or passage evidence. Not an official NHAI
     register and not tariff-verified.
 - name: Village boundaries, border/NE states (Survey of India via NWDP)
@@ -358,8 +358,8 @@ datasets:
     remain unresolved; data.gov.in remains the authoritative upgrade path.
 - name: Dedicated Freight Corridor Network (WDFC & EDFC)
   category: rail
-  description: LineString alignments for Western DFC (1,506 km Dadri-JNPT), Eastern DFC (1,337 km Ludhiana-Sonnagar), and Dadri-Khurja link
-  provider: DFCCIL operational alignments
+  description: Schematic station-to-station polylines for Western DFC (nominal 1,506 km Dadri-JNPT), Eastern DFC (nominal 1,337 km Ludhiana-Sonnagar), and the Dadri-Khurja link; not surveyed alignments
+  provider: DFCCIL (station roster and nominal lengths)
   source_url: https://dfccil.com
   license: GODL-India / Public Information
   vintage: 2026-08
@@ -367,8 +367,8 @@ datasets:
   access: committed
   path: data/rail/dfc_network.geojson
   fetch_script: scripts/fetch/build_dfc_network.py
-  quality_status: verified
-  quality_notes: Verified continuous connectivity across WDFC (1,506 km) and EDFC (1,337 km) with Dadri-Khurja connecting link
+  quality_status: sample
+  quality_notes: Straight segments between station points (geodesic 1,384 / 1,183 / 43 km against nominal 1,506 / 1,337 / 46 km); use for topology and station order, not for lengths
 - name: DFC Junction Stations & Crossing Yards
   category: rail
   description: 54 DFC junction stations, crossing yards, and interchange points with coordinates, corridor, and IR feeder links
@@ -380,8 +380,8 @@ datasets:
   access: committed
   path: data/rail/dfc_stations.csv
   fetch_script: scripts/fetch/build_dfc_network.py
-  quality_status: verified
-  quality_notes: 54 stations with coordinates bounded in India; covers major yards including New Dadri, New Rewari, New Sanand, New Khurja, New Bhaupur, New DDU, New Sonnagar
+  quality_status: sample
+  quality_notes: 54 stations with coordinates bounded in India; chainages are nominal and do not match the coordinates; covers major yards including New Dadri, New Rewari, New Sanand, New Khurja, New Bhaupur, New DDU, New Sonnagar
 - name: Industrial Corridors & NICDC Manufacturing Nodes
   category: logistics_hubs
   description: 21 smart industrial cities and manufacturing clusters across DMIC, CBIC, AKIC, VCIC, BMIC, and HNIC
@@ -413,7 +413,7 @@ datasets:
   description: 15 key cold storage, CA store, and integrated packhouse hubs across major horticulture and perishable belts
   provider: National Centre for Cold-chain Development (NCCD) / APEDA / MoFPI
   source_url: https://nccd.gov.in
-  license: GODL-India
+  license: mixed (official references and secondary sources; per-row terms unresolved)
   vintage: 2026-08
   resolution: national points
   access: committed
@@ -426,7 +426,7 @@ datasets:
   description: 16 major APMC wholesale agricultural terminal markets integrated with the e-NAM platform
   provider: Directorate of Marketing and Inspection (DMI) / Small Farmers' Agri-Business Consortium (SFAC)
   source_url: https://enam.gov.in
-  license: GODL-India
+  license: mixed (official references and secondary sources; per-row terms unresolved)
   vintage: 2026-08
   resolution: national points
   access: committed
@@ -446,8 +446,10 @@ datasets:
   path: data/rail/freight_terminals.csv
   fetch_script: scripts/fetch/build_gct_terminals.py
   quality_status: verified
-  quality_notes: coordinates joined from stations table (exact/substring/fuzzy) + hub files for port GCTs;
-    14 greenfield sites have no coordinates yet (flagged per row); 306 GCTs approved / 118+ commissioned
+  quality_notes: 78 of 84 have coordinates — 66 joined from the stations table (exact/substring/fuzzy) and
+    4 from hub files for port GCTs by scripts/fetch/build_gct_terminals.py, plus 8 geocoded via Nominatim by
+    scripts/fetch/geocode_gcts.py (site-level precision, flagged in capacity_notes); 6 greenfield sites
+    have no coordinates yet; 306 GCTs approved / 118+ commissioned
     per PIB 2025 — list covers the 2023 identification annexure only
 - name: Rail lines
   category: rail
@@ -528,7 +530,7 @@ datasets:
   description: 40 terminals across NW-1/2/3/4/5/16 with official capacities where published
   provider: IWAI (iwai.gov.in)
   source_url: per-row source_url (iwai.gov.in per-waterway pages)
-  license: GODL-India
+  license: mixed (official references and secondary sources; per-row terms unresolved)
   vintage: 2026
   resolution: national points
   access: committed
@@ -540,7 +542,7 @@ datasets:
   description: 77 notable FCI depots/regional hubs across all 5 zones
   provider: FCI (fci.gov.in)
   source_url: per-row source_url
-  license: GODL-India
+  license: mixed (official references and secondary sources; per-row terms unresolved)
   vintage: 2026
   resolution: national points (city-level)
   access: committed
@@ -586,8 +588,10 @@ datasets:
   access: committed
   path: data/freight/rail_freight_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: verified
-  quality_notes: 61 series; FY23-24 national total (1,591.0 MT) and commodity breakdown validated against PIB PRID 2016942
+  quality_status: unverified
+  quality_notes: '61 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: the FY23-24
+    zone rows sum to 1,697 MT against the 1,591 MT national total (zones are originating loading as compiled, not
+    a partition). Re-source from PIB / Railway Board before analytical use.'
 - name: Major Ports cargo throughput
   category: freight
   description: Annual cargo traffic handled across all 12 major ports (FY 2019-20 through 2023-24)
@@ -599,8 +603,10 @@ datasets:
   access: committed
   path: data/freight/port_throughput_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: verified
-  quality_notes: 65 series; FY23-24 total (819.0 MT) and individual port totals (Paradip 145.4 MT, Deendayal 132.5 MT) validated
+  quality_status: unverified
+  quality_notes: '65 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: port rows
+    sum to 822.9 MT in FY23-24 and 783.4 MT in FY22-23 against national rows of 819 and 795 MT. Re-source from IPA
+    before analytical use.'
 - name: MoRTH classified road network indicators
   category: freight
   description: National and state road lengths across functional classes (NH, SH, MDR, Rural roads)

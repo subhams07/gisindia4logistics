@@ -20,7 +20,7 @@ from server.services.exceptions import (
 )
 from server.services.routing_service import RoutingService
 from server.services.serialization import serialize_result
-from tests.test_routing_edge_cases import graph, location
+from tests.routing_helpers import graph, location
 
 
 @pytest.fixture
@@ -183,7 +183,7 @@ def test_committed_corridor_parity_including_cli(tmp_path, monkeypatch):
     mcp = json.loads(tool['content'][0]['text'])
     env = {k: v for k, v in os.environ.items() if k not in ('PYTHONPATH', 'PYTHONHOME')}
     env['PYTHONDONTWRITEBYTECODE'] = '1'
-    env['GIS4LOGISTICS_CACHE_PATH'] = str(tmp_path / 'cli-cache')
+    env['GIS4LOGISTICS_CACHE_PATH'] = os.environ.get('GIS4L_TEST_SHARED_GRAPH_CACHE') or str(tmp_path / 'cli-cache')
     env['GIS4LOGISTICS_OUTPUT_PATH'] = str(tmp_path / 'outputs')
     command = [sys.executable, '-B', '-m', 'gisindia4logistics.cli', 'route-plan',
                '--origin', json.dumps(request['origin']), '--dest', json.dumps(request['destination']),

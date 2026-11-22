@@ -15,7 +15,7 @@ Previous iterations provided scalar road distances and travel times without vect
    - Domain schemas use explicit `latitude` and `longitude` fields to prevent inversion bugs.
 3. **Component-Compatible Snapping**:
    - Consider all nodes within a 150 km projected radius of each endpoint, apply that threshold before pair selection, and retain the nearest node per component. Select the compatible pair with minimum combined snap distance, with deterministic ties. Do not force mainland membership or impose an uncalibrated minimum component size.
-   - Then compute the fastest graph path between those selected nodes. This objective is not the globally fastest/shortest door-to-door modelled route: a slightly farther snap node can produce a materially shorter corridor. See [review evidence](../routing_review.md).
+   - Then compute the fastest graph path between those selected nodes. This objective is not the globally fastest/shortest door-to-door modelled route: a slightly farther snap node can produce a materially shorter corridor. See [review evidence](../archive/routing_review.md).
    - If no common component exists within a documented snap threshold, `RouteNotAvailableError` is raised.
 4. **Transparent Route Quality Model (`RouteQuality`)**:
    Every route result returns diagnostic metadata:
@@ -27,7 +27,7 @@ Previous iterations provided scalar road distances and travel times without vect
    - Exactly equal resolved coordinates produce zero travel, null geometry and a warning after graph/coordinate/snap validation. Proximity diagnostics remain truthful; access-distance fields are zero because no journey occurs. Distinct points sharing one snap node must disclose that no network edge is traversed.
 5. **Geometry Simplification**:
    - Supports `geometry_detail: "full" | "simplified" | "none"`.
-   - Default is `"simplified"`: Douglas-Peucker in EPSG:7755 with a 50 projected-metre tolerance, preserving endpoints but not length. Serialize in WGS84 rounded to five decimal places; rounding adds error beyond the simplification tolerance. Tests allow 52 projected metres between full and simplified display lines.
+   - Default is `"none"` (no display geometry). `"simplified"` is Douglas-Peucker in EPSG:7755 with a 50 projected-metre tolerance, preserving endpoints but not length. Serialize in WGS84 rounded to five decimal places; rounding adds error beyond the simplification tolerance. Tests allow 52 projected metres between full and simplified display lines.
    - `geometry_detail="none"` or `include_route_geometry=False` suppresses display geometry. Null geometry is also valid for zero movement or output collapsed at coordinate precision; never emit a one-position LineString.
 6. **Synthetic Bridge Graph Metadata**:
    - The builder/cache exposes a sparse `bridge_mask` containing only marked bridge entries (no explicit zeros); physical duplicate edges retain their fastest weight and take precedence over synthetic links.

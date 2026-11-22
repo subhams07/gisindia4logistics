@@ -1,7 +1,7 @@
 # ADR 006: Sandboxed Multi-Format Report Generation
 
 ## Status
-Accepted
+Not planned (2026-11). Never implemented: no report service or `/reports` route exists, and the `reports` extra was removed from `pyproject.toml`. Kept for reference; reopen if report export is wanted.
 
 ## Context
 Logistics analysts, infrastructure consultants, and executives require shareable, board-ready exports (HTML, PDF, Excel) for corridor plans and district site comparisons. Generating files on the server introduces potential risks: heavy mandatory dependencies, arbitrary HTML/JavaScript execution in headless browsers, race conditions on shared files, and directory traversal vulnerabilities.

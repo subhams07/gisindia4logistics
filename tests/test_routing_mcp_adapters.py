@@ -16,8 +16,8 @@ from server.services.exceptions import (
     LocationNotFoundError, RouteNotAvailableError, UnsupportedScenarioError,
 )
 from server.services.routing_service import RoutingService
-from tests.test_mcp_transport_regressions import _handshake, _rpc, _stdio, _success, _strict_json
-from tests.test_routing_edge_cases import graph, location
+from tests.mcp_helpers import _handshake, _rpc, _stdio, _success, _strict_json
+from tests.routing_helpers import graph, location, toll_rate
 
 RICH = "gis_plan_highway_route"
 VALID = {"origin": {"type": "district", "district_code": 521},
@@ -119,7 +119,7 @@ def test_initialized_stdio_committed_batch(tmp_path):
     assert len({r["distance_km"] for r in legacy}) == 1
     assert all(r["distance_km"] > 0 and r["drive_time_hours"] > 0 for r in legacy)
     for vehicle, result in zip(VehicleType, legacy):
-        rate = 340 if vehicle == VehicleType.MAV_20T else 120 if vehicle == VehicleType.LMV else 220
+        rate = toll_rate(vehicle)
         assert result["estimated_toll_cost_inr"] == result["tolls_encountered_count"] * rate
         assert "not official" in result["toll_estimation_method"]
         assert len(result["origin_snapped"]) == len(result["destination_snapped"]) == 2

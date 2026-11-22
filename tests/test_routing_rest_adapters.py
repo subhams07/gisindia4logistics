@@ -24,7 +24,7 @@ from server.services.exceptions import (
 )
 from server.services.routing_service import RoutingService
 from server.services.serialization import serialize_result
-from tests.test_routing_edge_cases import graph, location
+from tests.routing_helpers import graph, location
 
 app_module = importlib.import_module("server.app")
 PLAN = "/api/v1/route/highway/plan"
@@ -240,7 +240,7 @@ def test_liveness_and_header_only_are_data_lazy(tmp_path, monkeypatch):
                 assert response.headers["X-GIS4L-Data-Version"] == "lazy"
             preflight = client.options(PLAN, headers={"Origin": "http://localhost:3000",
                 "Access-Control-Request-Method": "POST"})
-            assert preflight.status_code in (200, 400)  # configured CORS origin policy
+            assert preflight.status_code == 200  # http://localhost:3000 is a default CORS origin
             assert preflight.headers["X-GIS4L-Data-Version"] == "lazy"
             assert client.head(PLAN).status_code == 405
 

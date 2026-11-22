@@ -4,16 +4,21 @@ Comprehensive test suite for the GISIndia4Logistics Python SDK and CLI tool.
 """
 
 import subprocess
+import sys
+from pathlib import Path
 import gisindia4logistics as gis
 import gis4logistics as legacy_gis
 
 
 def test_import_and_version():
     """Verify package imports cleanly under both names and exposes version string."""
+    import tomllib
+    from pathlib import Path
+    declared = tomllib.loads((Path(__file__).resolve().parents[1] / "pyproject.toml").read_text())["project"]["version"]
     assert hasattr(gis, "__version__")
-    assert gis.__version__ == "1.1.0"
+    assert gis.__version__ == declared
     assert hasattr(legacy_gis, "__version__")
-    assert legacy_gis.__version__ == "1.1.0"
+    assert legacy_gis.__version__ == declared
 
 
 def test_get_district_sdk():
@@ -72,30 +77,13 @@ def test_simulate_port_catchment_sdk():
 
 def test_cli_execution():
     """Verify both gisindia4logistics and gis4logistics CLI entry points execute cleanly."""
-    res1 = subprocess.run(["gisindia4logistics", "--help"], capture_output=True, text=True)
+    bin_dir = Path(sys.executable).parent  # console scripts live beside the interpreter; PATH may not include it
+    res1 = subprocess.run([str(bin_dir / "gisindia4logistics"), "--help"], capture_output=True, text=True)
     assert res1.returncode == 0
     assert "GISIndia4Logistics" in res1.stdout
     assert "serve" in res1.stdout
 
-    res2 = subprocess.run(["gis4logistics", "--help"], capture_output=True, text=True)
+    res2 = subprocess.run([str(bin_dir / "gis4logistics"), "--help"], capture_output=True, text=True)
     assert res2.returncode == 0
     assert "serve" in res2.stdout
 
-
-if __name__ == "__main__":
-    print("Running GISIndia4Logistics package test suite...")
-    test_import_and_version()
-    print("  [PASS] test_import_and_version (gisindia4logistics & gis4logistics)")
-    test_get_district_sdk()
-    print("  [PASS] test_get_district_sdk")
-    test_route_highway_sdk()
-    print("  [PASS] test_route_highway_sdk")
-    test_calculate_freight_cost_sdk()
-    print("  [PASS] test_calculate_freight_cost_sdk")
-    test_find_nearest_sdk()
-    print("  [PASS] test_find_nearest_sdk")
-    test_simulate_port_catchment_sdk()
-    print("  [PASS] test_simulate_port_catchment_sdk")
-    test_cli_execution()
-    print("  [PASS] test_cli_execution (both CLI entrypoints)")
-    print("\n==== ALL 7 GISINDIA4LOGISTICS PACKAGE TESTS PASSED ====")

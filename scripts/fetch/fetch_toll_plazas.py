@@ -10,6 +10,7 @@ Outputs:
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -19,7 +20,9 @@ sys.path.insert(0, str(ROOT_DIR))
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-from sklearn.cluster import DBSCAN
+from scipy.sparse import coo_matrix
+from scipy.sparse.csgraph import connected_components
+from scipy.spatial import cKDTree
 
 from scripts.clean.standardize import DATA_DIR, http_session
 
@@ -44,7 +47,17 @@ def fetch_raw_toll_booths() -> list[dict]:
     return elements
 
 
+def cluster_labels(coords: np.ndarray, radius_m: float) -> np.ndarray:
+    """Single-linkage clusters: points chained by gaps <= radius_m share a label
+    (same partition as DBSCAN with eps=radius_m, min_samples=1)."""
+    n = len(coords)
+    pairs = cKDTree(coords).query_pairs(r=radius_m, output_type="ndarray")
+    adj = coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])), shape=(n, n))
+    return connected_components(adj, directed=False)[1]
+
+
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     raw_elements = fetch_raw_toll_booths()
     if not raw_elements:
         print("ERROR: No toll booth elements returned.")
@@ -82,8 +95,7 @@ def main() -> None:
     # 2. Cluster multi-lane toll booths within 150 meters in projected CRS (EPSG:7755)
     gdf_proj = gdf_in.to_crs(7755)
     coords = np.column_stack([gdf_proj.geometry.x, gdf_proj.geometry.y])
-    db = DBSCAN(eps=150, min_samples=1).fit(coords)
-    gdf_in["cluster"] = db.labels_
+    gdf_in["cluster"] = cluster_labels(coords, 150.0)
 
     # 3. Aggregate clusters into single discrete Toll Plazas
     plazas = []
@@ -141,14 +153,15 @@ def main() -> None:
                 plazas_df.at[idx, "toll_type"] = "national_highway"
 
     # Sort and clean
-    plazas_df = plazas_df.sort_values(["state", "district", "name"]).reset_index(drop=True)
+    plazas_df = plazas_df.sort_values(["state", "district", "name", "latitude", "longitude"],
+                                      kind="stable").reset_index(drop=True)
 
     out_csv = DATA_DIR / "roads" / "toll_plazas.csv"
     plazas_df.to_csv(out_csv, index=False)
     print(f"\nWrote {len(plazas_df)} clustered Toll Plazas -> {out_csv}")
-    print(f"Toll types distribution:")
+    print("Toll types distribution:")
     print(plazas_df["toll_type"].value_counts())
-    print(f"Top states by toll plaza count:")
+    print("Top states by toll plaza count:")
     print(plazas_df["state"].value_counts().head(10))
 
 

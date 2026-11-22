@@ -155,10 +155,6 @@ def test_zero_and_numpy_real_exponents_pass_preflight(source, tmp_path, monkeypa
         run(tmp_path, alpha=alpha, beta=beta)  # Reached the first producer: preflight accepted the exponents.
 
 
-def required_inputs():
-    return [*pm().NATIONAL_FIXED_INPUTS]
-
-
 @pytest.mark.parametrize("logical", [*pm().NATIONAL_FIXED_INPUTS, "highway"])
 def test_each_of_the_eleven_inputs_is_required_before_any_write(source, tmp_path, logical):
     if logical == "highway":
@@ -338,7 +334,8 @@ def test_corrupt_preferred_parquet_is_an_error_with_no_geojson_fallback(source, 
     nh = gpd.read_parquet(source / "roads/india_nh_network.parquet")
     nh.to_file(write_geojson, driver="GeoJSON")  # A perfectly valid fallback exists...
     (source / "roads/india_nh_network.parquet").write_bytes(b"not parquet")
-    with pytest.raises(Exception):
+    import pyarrow
+    with pytest.raises(pyarrow.lib.ArrowInvalid):
         run(tmp_path)
     stage = tmp_path / "stage" / "analysis"
     assert not (stage / "producer_manifest.json").exists() and not list(stage.glob("*.geojson")) if stage.exists() else True
@@ -1136,13 +1133,5 @@ def test_n1b_unedited_run_records_the_post_producer_hashes_of_both_iso_files(suc
 
 
 @pytest.fixture(autouse=True, scope="module")
-def _tiny_synthetic_graphs_are_supported():
-    """Synthetic fixtures are far below the production component-size floor, so this module runs with
-    the floor at 1; supported-component snapping is covered in tests/test_isochrone_producer.py and
-    tests/test_supported_component_floor.py."""
-    from scripts.analyze import highway_pair_kernel as _kernel
-    with pytest.MonkeyPatch.context() as patch:
-        patch.setattr(_kernel, "MIN_SUPPORTED_COMPONENT_NODES", 1)
-        from scripts.audit import producer_graph_oracle as _oracle
-        patch.setattr(_oracle, "ORACLE_MIN_SUPPORTED_COMPONENT_NODES", 1)
-        yield
+def _tiny_synthetic_graphs_are_supported(tiny_component_floor):
+    """Component-size floor at 1 for this module; see tests/conftest.py."""

@@ -200,7 +200,12 @@ def test_mcp_tool_failure_returns_is_error():
 
 def test_map_path_traversal_is_rejected():
     from scripts.analyze.plot_villages import load_district_villages_gdf
-    with pytest.raises(Exception):
+    from scripts.analyze.plot_villages import safe_filename_component
+    # The state is sanitised into a safe slug first, so a traversal string cannot leave the
+    # data tree: it is rejected outright or simply matches no village file.
+    assert "/" not in safe_filename_component("../../../../tmp/evil")
+    assert ".." not in safe_filename_component("../../../../tmp/evil")
+    with pytest.raises((ValueError, FileNotFoundError)):
         load_district_villages_gdf(state="../../../../tmp/evil", district="test")
 
 

@@ -55,16 +55,17 @@ def test_all_version_manifest_paths_exist():
 
 def test_metadata_service_loads_manifest():
     """Verifies that MetadataService loads data/version_manifest.json and builds ResponseMetadata."""
+    manifest = json.loads((REPO_ROOT / "data" / "version_manifest.json").read_text())
     svc = MetadataService.get_instance()
-    assert svc.api_version == "1.0.0"
-    assert svc.data_version == "2026.08"
+    assert svc.api_version == manifest["api_version"]
+    assert svc.data_version == manifest["data_version"]
     assert svc.model_version == "phase1-decision-workbench"
     assert svc.package_version is not None
 
     meta = svc.get_metadata()
     assert isinstance(meta, ResponseMetadata)
-    assert meta.api_version == "1.0.0"
-    assert meta.data_version == "2026.08"
+    assert meta.api_version == manifest["api_version"]
+    assert meta.data_version == manifest["data_version"]
     assert meta.road_network_vintage == "2026-08"
     assert meta.port_capacity_vintage == "FY 2019-20 to FY 2023-24"
     assert len(meta.limitations) >= 1
@@ -292,6 +293,7 @@ def test_fastapi_version_headers():
     client = TestClient(app)
     resp = client.get("/")
     assert resp.status_code == 200
-    assert resp.headers.get("X-GIS4L-API-Version") == "1.0.0"
-    assert resp.headers.get("X-GIS4L-Data-Version") == "2026.08"
+    manifest = json.loads((REPO_ROOT / "data" / "version_manifest.json").read_text())
+    assert resp.headers.get("X-GIS4L-API-Version") == manifest["api_version"]
+    assert resp.headers.get("X-GIS4L-Data-Version") == manifest["data_version"]
     assert resp.headers.get("X-GIS4L-Model-Version") == "phase1-decision-workbench"

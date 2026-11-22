@@ -17,6 +17,9 @@ from server.models.schemas import CostParametersOverride, FreightCostSimulationR
 from server.services.error_contract import domain_error_from_status, route_error_contract
 from server.services.exceptions import AmbiguousLocationError, DataIntegrityError
 
+from gisindia4logistics.data_root import DataNotFoundError, data_not_found_contract, require_data_root
+from server.dependencies import DataStore
+
 from mcp_server.tools import (
     serialize_tool_result,
     tool_calculate_intermodal_freight_cost,
@@ -26,6 +29,7 @@ from mcp_server.tools import (
     tool_plan_highway_route,
     tool_simulate_port_catchment,
 )
+from mcp_server import tools as _tools
 
 LOGGER = logging.getLogger(__name__)
 MCP_PROTOCOL_VERSION = "2024-11-05"
@@ -104,7 +108,7 @@ TOOLS_METADATA = [
                 "metric": {
                     "type": "string",
                     "enum": ["dist_rail_station_km", "dist_nh_km", "dist_icd_km", "dist_freight_terminal_km", "dist_port_km", "dist_air_cargo_km", "dist_mmlp_km", "dist_toll_plaza_km"],
-                    "description": "Accessibility metric: 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km', 'dist_freight_terminal_km', 'dist_port_km', 'dist_toll_plaza_km' (default: 'dist_rail_station_km')"
+                    "description": "Accessibility metric: 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km', 'dist_freight_terminal_km', 'dist_port_km', 'dist_air_cargo_km', 'dist_mmlp_km', 'dist_toll_plaza_km' (default: 'dist_rail_station_km')"
                 },
                 "output_format": {
                     "type": "string",
@@ -198,6 +202,12 @@ def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> No
 SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05"}
 
 
+def _package_version() -> str:
+    """Package version for serverInfo; reads the package __init__ only, never the SDK module."""
+    from gisindia4logistics import __version__
+    return __version__
+
+
 def _tool_failure(req_id: Any, contract: dict[str, Any]) -> dict[str, Any]:
     return {"jsonrpc": "2.0", "id": req_id, "result": {
         "isError": True,
@@ -275,7 +285,7 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
             "result": {
                 "protocolVersion": negotiated_version,
                 "capabilities": {"tools": {"listChanged": False}},
-                "serverInfo": {"name": "gisindia4logistics", "version": "1.0.0"},
+                "serverInfo": {"name": "gisindia4logistics", "version": _package_version()},
             },
         }
 
@@ -312,6 +322,8 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 "status": 422, "code": "invalid_request", "message": "Request input is invalid.",
             })
         try:
+            if isinstance(_tools.store, _tools._LazyDataStore) and DataStore._instance is None:
+                require_data_root()
             if tool_name == "gis_plot_villages_map":
                 from mcp_server.tools import tool_plot_villages_map
                 res = tool_plot_villages_map(**args)
@@ -336,6 +348,8 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
             }
         except Exception as e:
             LOGGER.exception("MCP tool call failed: %s", tool_name)
+            if isinstance(e, DataNotFoundError):
+                return _tool_failure(req_id, data_not_found_contract())
             if isinstance(e, HTTPException):
                 bridged = domain_error_from_status(e.status_code)
                 if isinstance(bridged, AmbiguousLocationError) and isinstance(e.detail, dict):

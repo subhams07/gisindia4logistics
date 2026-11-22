@@ -4,47 +4,19 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 from scipy.sparse import csr_matrix
-from scipy.sparse.csgraph import connected_components
 from scipy.spatial import KDTree
 from shapely.geometry import LineString
 
 from server.models.phase1 import ResolvedLocation
 from server.services.exceptions import DataIntegrityError, RouteNotAvailableError
 from server.services.routing_service import RoutingService
-from scripts.clean.graph_builder import GEOD, edge_lengths_km, geodesic_m
+from scripts.clean.graph_builder import GEOD
+from tests.routing_helpers import gkm, graph, location
 
 
 @pytest.fixture
 def service():
     return RoutingService()
-
-
-def location(service, xy):
-    lon, lat = service.to_wgs84.transform(*xy)
-    return ResolvedLocation(type="coordinate", canonical_name="synthetic", latitude=lat,
-                            longitude=lon, source_dataset="test", match_method="coordinate")
-
-
-def gkm(a, b):
-    """WGS84 geodesic km between two EPSG:7755 points, as routing measures feeders."""
-    return float(geodesic_m(np.asarray(a, dtype=float), np.asarray(b, dtype=float))) / 1000
-
-
-def graph(xy, edges, bridges=()):
-    xy = np.asarray(xy, dtype=float)
-    rows, cols, distances = [], [], []
-    for u, v in edges:
-        for a, b in [(u, v), (v, u)]:
-            rows.append(a)
-            cols.append(b)
-            distances.append(float(edge_lengths_km(xy, [u], [v])[0]))
-    dist = csr_matrix((distances, (rows, cols)), shape=(len(xy), len(xy)))
-    time = dist / 70
-    br = [(a, b) for u, v in bridges for a, b in [(u, v), (v, u)]]
-    mask = csr_matrix(([1] * len(br), ([a for a, b in br], [b for a, b in br])), shape=time.shape)
-    return SimpleNamespace(nh_graph=time, nh_distance_graph=dist, nh_bridge_mask=mask,
-                           nh_node_xy=xy, nh_tree=KDTree(xy),
-                           nh_comp_labels=connected_components(time, directed=False)[1], main_comp_label=999)
 
 
 def test_threshold_before_min_sum(service):

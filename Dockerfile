@@ -1,4 +1,6 @@
-# Production Dockerfile for GIS4Logistics API Server
+# Evaluation Dockerfile for the GIS4Logistics API server.
+# Not hardened for production. The data directory is not baked into the image:
+# mount it at /app/data (docker-compose.yml does this read-only).
 FROM python:3.11-slim
 
 # Install system dependencies for GDAL/GEOS
@@ -16,11 +18,14 @@ WORKDIR /app
 RUN addgroup --system app && adduser --system --ingroup app app
 
 # Install Python requirements
+# Install Python requirements (runtime only: notebook and test tools are skipped)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN grep -vE '^(jupyter|pytest)' requirements.txt > /tmp/requirements-runtime.txt \
+    && pip install --no-cache-dir -r /tmp/requirements-runtime.txt
 
-# Copy project files and datasets
+# Copy project code (data/ is excluded by .dockerignore and mounted at run time)
 COPY --chown=app:app . .
+RUN mkdir -p /app/data && chown app:app /app/data
 RUN mkdir -p /app/outputs && chown -R app:app /app/outputs
 
 # Expose port

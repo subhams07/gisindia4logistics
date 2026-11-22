@@ -6,14 +6,15 @@ Covers:
 - Eastern Dedicated Freight Corridor (EDFC, ~1,337 km Ludhiana to Sonnagar)
 """
 
+import argparse
 import sys
-import pathlib
+from pathlib import Path
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString
 
-sys.path.insert(0, ".")
-from scripts.clean.standardize import DATA_DIR, write_geojson
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from scripts.clean.standardize import DATA_DIR
 
 # Key DFC Junction Stations & Crossing Yards with official coordinates & chainage
 DFC_STATIONS_DATA = [
@@ -109,4 +110,5 @@ def build_dfc():
 
 
 if __name__ == "__main__":
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     build_dfc()

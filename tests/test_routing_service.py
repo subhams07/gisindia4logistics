@@ -81,7 +81,7 @@ def test_delhi_to_jaipur_model_corridor(routing_service, store):
     """
     Existing model regression bounds, not independently verified corridor truth.
 
-    The ~379km detour is explained in docs/routing_review.md; bounds are unchanged.
+    The ~379km detour is explained in docs/archive/routing_review.md; bounds are unchanged.
     """
     orig = HubLocation(hub_type="rail_station", code="NDLS")
     dest = DistrictLocation(district="Jaipur", state="Rajasthan")

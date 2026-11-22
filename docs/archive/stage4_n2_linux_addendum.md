@@ -1,6 +1,6 @@
 # N2 Linux addendum — containment, parent death, termination and telemetry
 
-This is an addendum to [the N2 resource specification](stage4_n2_resource_spec.md), covering its sections F, G and H, for the Linux cloud host described in section 0 of [the handoff](claude_remote_handoff.md). **It is a design only: not approved, and not execution authority.** No harness exists. Sections A–E and I–J of the base spec apply unchanged except where noted here. Anything marked "smoke-verify" is unproven on this host and must be proven by the synthetic native smoke before any real run is considered. Wherever this document says "recommended" or "preferred", that is the designer's recommendation pending the operator decision named alongside it.
+This is an addendum to [the N2 resource specification](stage4_n2_resource_spec.md), covering its sections F, G and H, for the Linux cloud host described in section 0 of [the handoff](../claude_remote_handoff.md). **It is a design only: not approved, and not execution authority.** No harness exists. Sections A–E and I–J of the base spec apply unchanged except where noted here. Anything marked "smoke-verify" is unproven on this host and must be proven by the synthetic native smoke before any real run is considered. Wherever this document says "recommended" or "preferred", that is the designer's recommendation pending the operator decision named alongside it.
 
 Terms used throughout:
 

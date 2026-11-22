@@ -27,7 +27,7 @@ This manual provides end-to-end guidance for data scientists, logistics professi
 
 ## 1. Architecture & Core Standards
 
-GIS4Logistics adheres strictly to national Indian spatial standards:
+GISIndia4Logistics adheres strictly to national Indian spatial standards:
 
 * **Coordinate Reference Systems (CRS)**:
   * **Canonical Storage**: `EPSG:4326` (WGS 84, Longitude/Latitude degrees).
@@ -38,14 +38,14 @@ GIS4Logistics adheres strictly to national Indian spatial standards:
   * **Railways**: Indian Railways alpha codes (`station_code`).
 * **Hybrid Storage Architecture**:
   * Small layers stored in plain-text **GeoJSON & CSV** for human inspectability and web rendering.
-  * Heavy layers (142k highway segments, 578k villages, 6.6k subdistricts) stored in **OGC GeoParquet** (`.parquet`) with Snappy compression for $10\times$ faster read performance.
+  * Heavy layers (142k highway segments, 658k villages, 6.6k subdistricts) stored in **OGC GeoParquet** (`.parquet`) with Snappy compression for $10\times$ faster read performance.
 
 ---
 
 ## 2. Installation & Setup
 
 ### Prerequisites
-* Python 3.10+ (Python 3.11 recommended)
+* Python 3.11 (the only version tested; `requires-python` allows 3.10+)
 * Git
 
 ### Step-by-Step Setup
@@ -61,17 +61,24 @@ python -m venv venv
 # On Linux/macOS:
 source venv/bin/activate
 
-# 3. Install dependencies & package in editable mode
-pip install -r requirements.txt
-pip install -e .
+# 3. Install the package with development extras (tabulate is needed for the audit report)
+pip install -e ".[dev]"
 
-# 4. Optional fast audit (subset only; writes the audit report)
+# 4. Optional fast audit (subset only; writes docs/audit_report_fast.md)
 # Do not replace full-audit evidence with a fast report for release verification.
 python scripts/audit/audit_all.py --fast
 
 # 5. Run Python SDK and server verification test suites with pytest
 python -m pytest tests/test_package.py tests/test_server.py
 ```
+
+### Data location
+
+**Data location.** The ~1 GB data directory ships with the Git repository, not with the Python package. If you install non-editably (a wheel, `pip install .`, or `pip install git+https://github.com/subhams07/gisindia4logistics`), also clone the repository and point the package at its data before starting Python, the CLI, the API server or the MCP server: `export GIS4LOGISTICS_DATA_PATH=/path/to/gisindia4logistics/data` (Windows: `set GIS4LOGISTICS_DATA_PATH=C:\path\to\gisindia4logistics\data`). The variable is read once, at import time. An editable install from the clone (`pip install -e .`) finds `data/` automatically. If the data cannot be found, the SDK raises `gisindia4logistics.sdk.DataNotFoundError` (a `DataIntegrityError`), the CLI prints `error: GISIndia4Logistics data not found at <path> ...` and exits 1, and MCP tools return `isError` with code `data_not_found`.
+
+The CLI `serve` command checks for the data and refuses to start without it, while running `uvicorn server.app:app` directly does not yet perform that check. The MCP server (`gisindia4logistics mcp`) starts without data, prints a warning on stderr, and answers `initialize` and `tools/list` normally; only tool calls fail.
+
+Two other locations are configurable the same way and, in a non-editable install, default to folders next to the installed `server` package (inside `site-packages`), which is often read-only or unwanted: `GIS4LOGISTICS_OUTPUT_PATH` (generated maps and reports; default `outputs/`) and `GIS4LOGISTICS_CACHE_PATH` (highway-graph cache; default `outputs/cache/`). Set both to writable directories of your choice.
 
 ---
 
@@ -106,6 +113,7 @@ tolls_df = pd.read_parquet("data/roads/toll_plazas.parquet")
 ```
 
 ### 3.3 Querying Multi-Modal Logistics Hubs with DuckDB
+DuckDB is optional and not a project dependency: install it with `pip install duckdb`.
 ```python
 import duckdb
 
@@ -208,7 +216,7 @@ python scripts/analyze/nearest_facility.py --all
 ---
 
 ### 4.5 Drive-Time Isochrone Generation
-Generates 1-hour, 2-hour, 4-hour, and 8-hour drive-time vector catchment polygons around infrastructure assets.
+Generates drive-time vector catchment polygons at 4, 8, 12 and 24 hours around the 12 major ports and at 4, 8 and 12 hours around the 20 MMLPs.
 
 ```bash
 # Generate isochrones for 12 Major Ports and 20 MMLPs
@@ -285,34 +293,35 @@ docker-compose down
 
 This table describes existing public entrypoints, not a completed decision workbench. SDK `get_district(name_or_code)` returns a dictionary, not an object with attribute access. SDK `find_nearest(latitude, longitude, top_k=3)` returns category-keyed results and has no `facility_types` argument. Highway SDK results use the legacy dictionary envelope shown in section 4.2.
 
-Public highway routing is implemented for review; the [stabilization plan](stabilization_plan.md) records its current acceptance gate. Other Phase 1 schemas and `docs/contracts/` examples do not prove implemented corridor decisions, district comparison, matched official toll tariffs or PDF/XLSX export. Producer unification, toll matching, corridor workflow and secure exports require separate verification gates.
+Public highway routing is implemented for review; the [stabilization plan](archive/stabilization_plan.md) records its current acceptance gate. Other Phase 1 schemas and `docs/contracts/` examples do not prove implemented corridor decisions, district comparison, matched official toll tariffs or PDF/XLSX export. Producer unification, toll matching, corridor workflow and secure exports require separate verification gates.
 
 ---
 
 ## 7. AI Agent & MCP Plugin Integration
 
-GIS4Logistics includes a native **Model Context Protocol (MCP)** server enabling AI assistants in Antigravity, Codex, Cursor, and Claude Desktop to execute spatial tools directly.
+GISIndia4Logistics includes a native **Model Context Protocol (MCP)** server enabling AI assistants in Antigravity, Codex, Cursor, and Claude Desktop to execute spatial tools directly.
 
 ### Configuration (`mcp_config.json`)
 Add the server definition to your workspace configuration:
 ```json
 {
   "mcpServers": {
-    "gis4logistics": {
-      "command": "python",
+    "gisindia4logistics": {
+      "command": "/path/to/gisindia4logistics/.venv/bin/python",
       "args": ["-m", "mcp_server.server"]
     }
   }
 }
 ```
 
-### The 6 Agent Tools:
+### The 7 Agent Tools:
 1. `gis_get_district_scorecard`: Retrieves full demographic, nearest NH, rail, ICD, and port connectivity.
 2. `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight rates and modal shift savings.
 3. `gis_find_nearest_facilities`: Finds closest infrastructure to any latitude/longitude coordinate.
 4. `gis_highway_route_and_tolls`: Calculates strategic driving distance, modelled hours and distance-based toll estimates, not verified FASTag/NHAI tariffs.
 5. `gis_simulate_port_catchment`: Models port market contestability under the Huff gravity model.
 6. `gis_plot_villages_map`: Generates interactive Leaflet HTML or PNG maps for a district.
+7. `gis_plan_highway_route`: Canonical highway route with quality warnings, provenance and optional geometry.
 
 #### Example Agent Prompt:
 > *"Compare the freight cost of shipping 25 tonnes of automotive parts from Pune to JNPT using Road trucking vs DFC Rail assuming a trucking rate of ₹3.80/tonne-km."*
@@ -345,11 +354,11 @@ The **Department of Science and Technology (DST) Guidelines for Acquiring and Pr
 * **Boundary Disclaimer**: Administrative boundaries are indicative analytical derivatives (DataMeet / Survey of India ABDB lineage) published for logistics and economic modeling, not official Survey of India boundary certifications.
 
 ### Required Citations
-When using GIS4Logistics in research, reports, or commercial products, please cite:
+When using GISIndia4Logistics in research, reports, or commercial products, please cite:
 ```bibtex
-@misc{gis4logistics_india_2026,
-  author = {GIS4Logistics Contributors},
-  title = {GIS4Logistics India: Curated Geospatial Data & Analytical Platform for Indian Logistics},
+@misc{gisindia4logistics_2026,
+  author = {Sahu, Subham},
+  title = {GISIndia4Logistics: Curated Geospatial Data and Analytics for Indian Logistics},
   year = {2026},
   publisher = {GitHub},
   url = {https://github.com/subhams07/gisindia4logistics}

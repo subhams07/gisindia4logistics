@@ -142,7 +142,9 @@ def test_villages_map_endpoints():
     assert "AMBALA" in res_html.text
 
 
-def test_mcp_tools_rpc():
+def test_mcp_tools_rpc(tmp_path, monkeypatch):
+    from server.config import settings
+    monkeypatch.setattr(settings, "OUTPUT_PATH", tmp_path)  # keep generated maps out of the repo tree
     # 1. tools/list
     req_list = {"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}
     res_list = handle_rpc_request(req_list)

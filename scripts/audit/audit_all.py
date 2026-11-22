@@ -40,7 +40,7 @@ from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
 # dissolved into a duplicate "Malegaon" DHULE). Codes are now official LGD codes
 # (scripts/clean/apply_lgd_codes.py). Documented gaps against the LGD directory:
 # Ladakh predates the 2025 split (2 of 8); Delhi predates its 2025 reorganisation
-# (11 coded + Shahdara and Nazul without LGD codes); J&K = 20 coded + 2 PoK rows.
+# (11 coded + Shahdara and Nazul without LGD codes); J&K = 20 coded + Mirpur and Muzaffarabad (no LGD code).
 EXPECTED_DISTRICTS = {
     "Andhra Pradesh": 26, "Arunachal Pradesh": 27, "Assam": 35, "Bihar": 38,
     "Chhattisgarh": 33, "Goa": 3, "Gujarat": 33, "Haryana": 22,
@@ -85,7 +85,6 @@ CENSUS_VILLAGES_2011 = {
 
 RESULTS: list[dict] = []
 _RESULT_SINK = ContextVar("audit_results", default=None)
-BASELINE_PATH = REPO_ROOT / "data" / "audit_baseline.json"
 
 
 def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str = "") -> None:
@@ -99,12 +98,38 @@ def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str =
     print(f"  [{status}] {name}" + (f" — {detail}" if detail else ""))
 
 
+# India's official political map (Survey of India) is the reference: these points
+# must fall inside the named state (operator ruling 2026-11-14).
+POLITICAL_MAP_POINTS = {
+    "Aksai Chin": (79.0, 35.0, "ladakh"),
+    "Gilgit": (74.31, 35.92, "ladakh"),
+    "Muzaffarabad": (73.47, 34.37, "jammu and kashmir"),
+    "Mirpur": (73.75, 33.15, "jammu and kashmir"),
+    "Tawang": (91.86, 27.59, "arunachal pradesh"),
+}
+
+
+def _political_map_checks(dataset, states):
+    from shapely.geometry import Point
+    for place, (lon, lat, expected) in POLITICAL_MAP_POINTS.items():
+        hits = states[states.geometry.contains(Point(lon, lat))]["state"].astype(str)
+        found = [h.strip().lower().replace("&", "and") for h in hits]
+        label = {"ladakh": "Ladakh", "jammu and kashmir": "Jammu and Kashmir",
+                 "arunachal pradesh": "Arunachal Pradesh"}[expected]
+        check(dataset, f"official map: {place} in {label}", "FAIL",
+              found == [expected], ", ".join(hits) or "no state")
+
+
 def audit_boundaries(source_root=DATA_DIR):
     print("\n== LGD boundaries (states/districts/subdistricts) ==")
     states = gpd.read_file(source_root / "administrative" / "india_states_lgd.geojson")
     check("states_lgd", "36 states/UTs", "FAIL", len(states) == 36, f"{len(states)}")
     check("states_lgd", "valid geometries", "FAIL", states.geometry.is_valid.all())
     check("states_lgd", "no null state names", "FAIL", states.state.notna().all())
+    _political_map_checks("states_lgd", states)
+    states_2011 = source_root / "administrative" / "india_states.geojson"
+    if states_2011.exists():
+        _political_map_checks("states_2011", gpd.read_file(states_2011))
 
     dist = gpd.read_file(source_root / "administrative" / "india_districts_lgd.geojson")
     check("districts_lgd", "valid geometries", "FAIL", dist.geometry.is_valid.all())
@@ -117,7 +142,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("districts_lgd", "per-state counts == verified reference", "FAIL",
           not mismatches, str(mismatches) if mismatches else "all 36 match")
     jk = dist[dist.state == "Jammu and Kashmir"]
-    check("districts_lgd", "J&K = 20 coded + 2 PoK (null code)", "FAIL",
+    check("districts_lgd", "J&K = 20 coded + Mirpur and Muzaffarabad (null code)", "FAIL",
           len(jk) == 22 and jk.district_code.isna().sum() == 2,
           f"{len(jk)} rows, {int(jk.district_code.isna().sum())} null-coded")
 
@@ -157,7 +182,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("districts_lgd", "LGD district codes unique nationally", "FAIL",
           not coded.district_code.duplicated().any())
     uncoded = sorted(dist[dist.district_code.isna()].district)
-    check("districts_lgd", "only Nazul, Shahdara and the 2 PoK rows lack an LGD code", "FAIL",
+    check("districts_lgd", "only Nazul, Shahdara, Mirpur and Muzaffarabad lack an LGD code", "FAIL",
           uncoded == ["MIRPUR", "MUZAFFARABAD", "NAZUL", "SHAHDARA"], str(uncoded))
 
 
@@ -209,6 +234,7 @@ def audit_villages(source_root=DATA_DIR):
               f"{int(g['village'].isna().sum())} blank in SoI source" if "village" in g else "no col")
         check("villages", f"{slug}: geometries valid+non-empty", "FAIL",
               bool(g.geometry.is_valid.all()) and not g.geometry.is_empty.any())
+        _twin_parity_check("villages", slug, g, pathlib.Path(f))
         ref = CENSUS_VILLAGES_2011.get(state)
         if ref:
             ratio = len(g) / ref
@@ -225,6 +251,25 @@ def audit_villages(source_root=DATA_DIR):
         if exp:
             check("villages", f"{slug}: districts covered == districts layer", "WARN",
                   nd >= exp - 1, f"{nd}/{exp}")
+
+
+
+def _parquet_twin(geojson_path: pathlib.Path) -> pathlib.Path:
+    return geojson_path.parent.parent / "villages_parquet" / f"{geojson_path.stem}.parquet"
+
+
+def _twin_parity_check(dataset, slug, frame, geojson_path):
+    """The GeoParquet twin must hold the same rows and columns as the GeoJSON."""
+    import pyarrow.parquet as pq
+    twin = _parquet_twin(geojson_path)
+    if not twin.exists():
+        check(dataset, f"{slug}: parquet twin exists", "FAIL", False, str(twin.name))
+        return
+    meta = pq.read_metadata(twin)
+    columns = set(meta.schema.names) - {"__index_level_0__"}
+    same = meta.num_rows == len(frame) and columns == set(frame.columns)
+    check(dataset, f"{slug}: parquet twin rows and columns match", "FAIL", same,
+          f"{meta.num_rows} vs {len(frame)} rows; column diff {sorted(columns ^ set(frame.columns))}")
 
 
 def audit_analysis(source_root=DATA_DIR, artifact_root=None):
@@ -546,6 +591,12 @@ def audit_freight(source_root=DATA_DIR):
         paradip_24 = pt[(pt.fy == "2023-24") & (pt.entity_code == "INPRT")].value.iloc[0]
         check("port_throughput", "Paradip is #1 major port (>= 140 MT)", "FAIL",
               paradip_24 >= 140.0, f"{paradip_24} MT")
+        if rf_p.exists():
+            sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "fetch"))
+            from build_freight_tables import consistency_issues
+            issues = consistency_issues(rf, pt)
+            check("freight", "parts add up to national rows (1%; data marked unverified)", "WARN",
+                  not issues, "; ".join(issues))
 
     # Road indicators
     rd_p = source_root / "freight" / "road_indicators_annual.csv"
@@ -1637,7 +1688,9 @@ def main() -> None:
         deep_counts["admin:subdistricts"] = len(sub)
         import glob as g
         for f in g.glob(str(source_root / "administrative" / "villages" / "*_soi_villages.geojson")):
-            deep_counts[f"villages:{pathlib.Path(f).stem}"] = len(gpd.read_file(f))
+            # row count from the GeoParquet twin's metadata (the audit checks parity)
+            import pyarrow.parquet as pq
+            deep_counts[f"villages:{pathlib.Path(f).stem}"] = pq.read_metadata(_parquet_twin(pathlib.Path(f))).num_rows
         deep_counts.update(collect_counts(source_root, artifact_root))
         baseline_path = source_root / "audit_baseline.json"
         baseline_path.write_text(json.dumps(deep_counts, indent=1, sort_keys=True))

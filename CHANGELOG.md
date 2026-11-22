@@ -4,6 +4,17 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — project-audit fixes (no Stage 4 regeneration)
+
+- SDK, CLI and MCP raise a clear `DataNotFoundError` when the data directory is missing; the MCP `serverInfo.version` is the package version.
+- India's official political map is the stated reference for all boundaries and territorial wording. The audit checks five reference points (Aksai Chin and Gilgit in Ladakh, Muzaffarabad and Mirpur in Jammu and Kashmir, Tawang in Arunachal Pradesh) on both state layers. "PoK" labels are reworded.
+- Removed: `india_subdistricts_lgd.geojson` (20.7 MB; the GPKG and Parquet layers remain), the duplicate Pune village extract, `data/rail/stations_raw.csv`, the Ambala village map, unused images, the tracked `*.egg-info/` directories and the legacy `gis4logistics` skill and plugin. Finished planning documents move to `docs/archive/`.
+- The freight tables are `unverified` in the catalog: their parts do not add up to the national rows. `build_freight_tables.py` reports this instead of asserting its own anchors, and the audit adds a WARN check. The DFC layers are `sample` (schematic station-to-station lines). The hand-compiled hub files carry mixed licence terms.
+- Fetch and clean scripts take `--help` instead of running on bare invocation. The toll fetcher uses scipy instead of scikit-learn. `enrich_rail_stations.py` drops a hard-coded cache path. `make_demo.py` matches the census row by state as well as name.
+- Packaging and Docker: no LFS rule for parquet, PEP 639 licence metadata, no unused `reports` extra, PyPI publishing is manual-only, and Docker mounts `data/` instead of baking it into the image.
+- Tests: the AST pin hashes `ast.unparse` (stable on Python 3.13), the CLI test does not depend on `PATH`, MCP maps go to `tmp_path`, routing fixtures are shared in `tests/routing_helpers.py`, one highway-graph cache serves all subprocess tests, and the audit checks that every village GeoParquet twin matches its GeoJSON.
+- Docs: the user manual, skill examples (official LGD codes), ADR status notes, contract examples, catalog, sources, data standards and legal text match the current data.
+
 ### Fixed — geodesic highway lengths and drive times
 
 - The National Highway graph measured every edge as a Euclidean length in EPSG:7755. That projection is conformal: its scale is ~0.98 around 24°N, so highway lengths and drive times were ~2% short across central and north India, and up to ~3% long in the far south. Edge lengths are now WGS84 geodesics (`graph_builder.geodesic_m` / `edge_lengths_km`) and drive times are those lengths over the same class speeds. The same applies to the snap feeders (hub and district to the highway, inclusive 150 km), highway access distance, `*_straight_km`, and the routing API's feeder-excess diagnostic. EPSG:7755 is still used for snapping, KD-tree search (with a 1.06 margin, then the geodesic test) and geometry.
@@ -26,7 +37,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - `district_code` in the current boundary layers was not the LGD code: the SoI ABDB source numbers 635 of 780 districts by their Census 2011 code and 142 newer ones by a scheme of its own; only 10 carried their real LGD code. Checked against the Local Government Directory's own district list (790 districts, lgdirectory.gov.in web service). Example: Pune is LGD 490 (Census 521); Himachal's Bilaspur is LGD 15 (Census 30); Puducherry's Karaikal is LGD 598, the number the old layer gave Kerala's Alappuzha (Census 598, LGD 554).
 - New `data/administrative/lgd_districts.csv` (official snapshot, `scripts/fetch/fetch_lgd_directory.py`) and `data/administrative/district_code_crosswalk.csv` (`scripts/clean/apply_lgd_codes.py`: 638 districts by Census code, 123 by name, 11 by spelling variant, 8 by hand). `district_code` is now the LGD code in the district and sub-district layers (GeoJSON, Parquet, GPKG) and everything derived from them; the source value is kept as `abdb_district_code`, and the district layer adds `census2011_code`. LGD codes are unique nationally.
 - Dadra & Nagar Haveli and Daman & Diu move to LGD state code 38 (was 26, the pre-2020 Dadra & Nagar Haveli code).
-- Four districts have no LGD code: Mirpur and Muzaffarabad (PoK), Delhi's Nazul, and Shahdara, which the LGD directory no longer lists after Delhi's 2025 reorganisation.
+- Four districts have no LGD code: Mirpur and Muzaffarabad (Jammu and Kashmir), Delhi's Nazul, and Shahdara, which the LGD directory no longer lists after Delhi's 2025 reorganisation.
 - Population estimates: villages are now counted per current district by point-in-polygon instead of by the village files' own district codes, which mix Census, LGD and older numbering and had credited villages to the wrong district (e.g. 1,075 villages to Assam's Tamulpur, for which no SoI village file exists). Area shares are measured in an equal-area projection (ESRI:102028) instead of EPSG:7755. 101 districts change by more than 5%; state totals still equal the Census 2011 totals.
 - API examples and schema descriptions now cite Pune as LGD 490.
 - Audit: new checks that every district code is an official LGD code of its state, that `census2011_code` matches the directory, that codes are unique, and that only the four districts above lack one.
@@ -72,16 +83,11 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 - Isochrone hubs now snap to a supported highway component (at least 1,000 nodes) within 150 km instead of the nearest vertex of any fragment. JNPT, Mumbai, Chennai and Visakhapatnam ports, plus six MMLPs including Jammu, now have real catchments instead of fragment-sized or missing ones.
 
-### Changed
-
-- Package classifier is now `Development Status :: 4 - Beta`; `tabulate` added to the `dev` extra (needed by the audit report writer). `catalog.yaml` analysis entries updated (vintage 2026-10, isochrone bands, hinterland counts, disclosures).
-- The freight modal-split CSV has the same columns in a different order. `pop_2011` is now float64 in the analysis tables.
-- Recurring push/PR CI (`ci.yml`) and the weekly deep-audit workflow are removed. Tests and the national audit were run locally for this release (3,508 tests passed; audit 0 FAIL).
 
 ### Known limitations (disclosed)
 
 - The gravity model uses α = 0.85, β = 1.65, unchanged from earlier releases and the live API default. These values are **uncalibrated**; a sensitivity table is in the drift report.
-- MIRPUR and MUZAFFARABAD (PoK) and NAZUL populations are `area_share` estimates from the source population file.
+- MIRPUR and MUZAFFARABAD (Jammu and Kashmir; no LGD code and no Census 2011 enumeration) and NAZUL populations are `area_share` estimates from the source population file.
 - 372 district–hub pairs have road distance more than 3× the straight-line distance, a pre-existing graph-fragmentation issue under investigation.
 - Highway-access values for Lakshadweep and Nicobars are over-sea distances above the 150 km snap limit.
 - Isochrone hub snapping (nearest highway component of at least 1,000 nodes within 150 km) is a modelling policy, not a measured property. Hubs whose nearby components are all smaller (e.g. Andaman, parts of Arunachal) would be reported as unsupported; no current hub is affected. API responses do not yet carry routing warnings at the point of use; see `producer_limitations.json`.
@@ -96,6 +102,9 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ### Changed
 
+- Package classifier is now `Development Status :: 4 - Beta`; `tabulate` added to the `dev` extra (needed by the audit report writer). `catalog.yaml` analysis entries updated (vintage 2026-10, isochrone bands, hinterland counts, disclosures).
+- The freight modal-split CSV has the same columns in a different order. `pop_2011` is now float64 in the analysis tables.
+- Recurring push/PR CI (`ci.yml`) and the weekly deep-audit workflow are removed. Tests and the national audit were run locally for this release (3,508 tests passed; audit 0 FAIL).
 - Nearest-facility calculations use WGS84 geodesic distance instead of degree-distance approximation.
 - Requested target ports now select their own matrix-backed distance and drive time.
 - Highway route distance is summed from path edges rather than inferred from a fixed average speed.
@@ -108,4 +117,6 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - Generated MCP maps are written outside the committed data tree.
 - Wildcard credentialed CORS is no longer the default.
 
-> Earlier repository history predates this changelog. A tagged baseline release should document those changes before publication.
+## [1.0.0] - 2026-08-29
+
+Tagged baseline (`v1.0.0`). It is the state of the repository after the August 2026 build: administrative boundaries (Survey of India ABDB and DataMeet 2011), Survey of India village boundaries for 27 states/UTs, the national highway network, rail stations and categories, Gati Shakti cargo terminals, logistics hubs, Census 2011 demographics, freight tables, all-India village accessibility, the national highway travel-time engine, the REST API, SDK, CLI and MCP server. This changelog was started after the tag; the build history is in `AGENTS.md` (phases 1–E).
