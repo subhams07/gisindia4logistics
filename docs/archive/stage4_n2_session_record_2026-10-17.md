@@ -1,6 +1,6 @@
 # Session record — Claude remote session, 2026-10-17
 
-Written for independent verification (for example by another model). It states what was done in this session, what was not, and how to check every claim from the repository alone. Detailed chronology is in [`claude_remote_handoff.md`](claude_remote_handoff.md) section 0.
+Written for independent verification (for example by another model). It states what was done in this session, what was not, and how to check every claim from the repository alone. Detailed chronology is in [`claude_remote_handoff.md`](../claude_remote_handoff.md) section 0.
 
 ## Bottom line
 

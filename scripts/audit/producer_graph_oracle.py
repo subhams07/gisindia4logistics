@@ -23,7 +23,7 @@ from shapely.ops import transform
 from scripts.analyze import highway_pair_kernel as kernel
 from scripts.analyze.producer_io import is_island_state
 from scripts.analyze.producer_manifest import MANIFEST_FILENAME, read_manifest, validate_config
-from scripts.audit.identity_contract import IdentityError, collision_rows, exact_identities_equal, identity_key, validate_identities
+from scripts.audit.identity_contract import IdentityError, collision_rows, exact_identities_equal, validate_identities
 from scripts.clean import graph_builder as builder
 
 FIELDS = ("nh_graph", "nh_distance_graph", "nh_node_xy", "nh_comp_labels", "nh_tree", "nh_bridge_mask")
@@ -204,11 +204,6 @@ def _equal(actual, expected):
 
 def _values_equal(row, expected):
     return all(column in row and _equal(row[column], value) for column, value in expected.items())
-
-
-def _identity(row):
-    """Qualified key: (coded, state, code) or (uncoded, state, district); raises IdentityError."""
-    return identity_key(row)
 
 
 def _identities_aligned(frame, records):
