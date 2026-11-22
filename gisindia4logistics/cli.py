@@ -53,9 +53,12 @@ def cmd_serve(args):
     """Launch the FastAPI REST API Server."""
     _require_data_or_exit()
     import uvicorn
-    print(f"Starting GISIndia4Logistics REST API Server on http://{args.host}:{args.port} ...")
-    print(f"OpenAPI documentation available at http://{args.host}:{args.port}/docs")
-    uvicorn.run("server.app:app", host=args.host, port=args.port, reload=args.reload)
+    from server.config import settings
+    host = args.host if args.host is not None else settings.HOST
+    port = args.port if args.port is not None else settings.PORT
+    print(f"Starting GISIndia4Logistics REST API Server on http://{host}:{port} ...")
+    print(f"OpenAPI documentation available at http://{host}:{port}/docs")
+    uvicorn.run("server.app:app", host=host, port=port, reload=args.reload)
 
 
 def cmd_mcp(args):
@@ -201,8 +204,10 @@ def main():
 
     # serve
     p_serve = subparsers.add_parser("serve", help="Start the FastAPI REST API Server")
-    p_serve.add_argument("--host", type=str, default="0.0.0.0", help="Host address (default: 0.0.0.0)")
-    p_serve.add_argument("--port", type=int, default=8000, help="Port number (default: 8000)")
+    p_serve.add_argument("--host", type=str, default=None,
+                         help="Host address (default: $GIS4LOGISTICS_HOST or 0.0.0.0)")
+    p_serve.add_argument("--port", type=int, default=None,
+                         help="Port number (default: $GIS4LOGISTICS_PORT or 8000)")
     p_serve.add_argument("--reload", action="store_true", help="Enable auto-reload for dev")
     p_serve.set_defaults(func=cmd_serve)
 

@@ -225,7 +225,7 @@ def get_district_scorecard(
         "district": d_name,
         "district_code": d_code,
         "pop_2011": pop,
-        "is_island": st_name in ["Andaman And Nicobar Islands", "Lakshadweep"]
+        "is_island": st_name in ["Andaman and Nicobar Islands", "Lakshadweep"]
     }
 
     # Enrich from Travel Time summary

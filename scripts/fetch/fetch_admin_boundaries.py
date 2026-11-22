@@ -93,7 +93,7 @@ def main() -> None:
     districts = gpd.read_file(f"zip://{zp}!maps-master/Districts/Census_2011/2011_Dist.shp")
 
     # --- states ---
-    states["state"] = states["ST_NM"].map(clean_state_name).str.title()
+    states["state"] = states["ST_NM"].map(clean_state_name)
     assert states["state"].notna().all(), states.loc[states["state"].isna(), "ST_NM"]
     states["state_code"] = states["state"].str.lower().map(LGD_STATE_CODES)
     states = states[["state", "state_code", "geometry"]].sort_values("state")
@@ -104,7 +104,7 @@ def main() -> None:
     # --- districts ---
     n_raw = len(districts)
     districts = districts[districts["DISTRICT"].str.upper() != "DATA NOT AVAILABLE"].copy()
-    districts["state"] = districts["ST_NM"].map(clean_state_name).str.title()
+    districts["state"] = districts["ST_NM"].map(clean_state_name)
     assert districts["state"].notna().all(), districts.loc[districts["state"].isna(), "ST_NM"]
     districts["state_code"] = districts["state"].str.lower().map(LGD_STATE_CODES)
     districts["district"] = districts["DISTRICT"].str.title().map(

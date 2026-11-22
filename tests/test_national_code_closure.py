@@ -31,7 +31,6 @@ REQUIRED = (
     "scripts/clean/standardize.py",
     "scripts/clean/graph_builder.py",
     "server/__init__.py",
-    "server/app.py",
     "server/services/__init__.py",
     "server/services/exceptions.py",
 )
@@ -65,7 +64,8 @@ def test_the_required_files_follow_from_actual_static_imports_not_from_a_guess()
     assert ("scripts.clean", ("graph_builder",)) in imports(ENTRY)
     # The kernel's error path is why the server package is reachable from a pure analytical pipeline.
     assert ("server.services.exceptions", ("DataIntegrityError",)) in imports("scripts/analyze/highway_pair_kernel.py")
-    assert ("server.app", ("app",)) in imports("server/__init__.py")
+    # The package init imports nothing, so the FastAPI app and its routers stay out of the closure.
+    assert imports("server/__init__.py") == []
     assert any(module == "server.services.exceptions" for module, _ in imports("server/services/__init__.py"))
     assert "from scripts.clean.standardize import" in (ROOT / "scripts/analyze/intermodal_cost_engine.py").read_text(encoding="utf-8")
 

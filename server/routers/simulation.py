@@ -197,7 +197,7 @@ def simulate_freight_cost(req: FreightCostSimulationRequest, store: DataStore = 
 
     # Reject islands for land freight
     island_flag = match.get("is_island", False)
-    if (pd.notna(island_flag) and bool(island_flag)) or clean_state_name(match["state"]) in {"Andaman And Nicobar Islands", "Lakshadweep"}:
+    if (pd.notna(island_flag) and bool(island_flag)) or clean_state_name(match["state"]) in {"Andaman and Nicobar Islands", "Lakshadweep"}:
         raise HTTPException(
             status_code=422,
             detail=f"District '{match['district']} ({match['state']})' is an island with no contiguous highway network connection to mainland major ports"

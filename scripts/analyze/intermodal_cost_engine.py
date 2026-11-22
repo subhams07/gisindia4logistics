@@ -85,7 +85,7 @@ def compute_modal_costs(params: FreightCostParameters = None, output_csv: Path =
         if not isinstance(district, str) or not district.strip():
             raise freight_core.SourceValidationError("Invalid stored district name")
         flag = row.get("is_island", False)
-        is_island = (pd.notna(flag) and bool(flag)) or canonical in {"Andaman And Nicobar Islands", "Lakshadweep"}
+        is_island = (pd.notna(flag) and bool(flag)) or canonical in {"Andaman and Nicobar Islands", "Lakshadweep"}
         target_port = row.get("nearest_port_name")
         road_km = observation(row["port_road_distance_km"], "road distance")
         drive_hours = observation(row["port_drive_time_hours"], "drive time")

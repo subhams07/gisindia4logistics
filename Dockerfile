@@ -35,6 +35,7 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD curl -f http://localhost:8000/health/ready || exit 1
 
-# Start FastAPI server
+# Start FastAPI server (host and port from GIS4LOGISTICS_HOST / GIS4LOGISTICS_PORT;
+# `serve` refuses to start without the mounted data)
 USER app
-CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "gisindia4logistics.cli", "serve"]

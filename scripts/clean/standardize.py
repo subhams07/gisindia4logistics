@@ -85,13 +85,24 @@ STATE_NAME_FIXES = {
 }
 
 
+# The spelling every data file and endpoint uses (as in india_states_lgd): words
+# capitalised, "and" lower case ("Andaman and Nicobar Islands").
+CANONICAL_STATE_NAMES = {
+    key: " ".join(word if word == "and" else word.capitalize() for word in key.split())
+    for key in LGD_STATE_CODES
+}
+
+
 def clean_state_name(name: str) -> str | None:
-    """Normalize a state name to LGD spelling; return None if unknown."""
+    """Normalize a state name to its canonical LGD spelling; return None if unknown."""
     if name is None:
         return None
     key = str(name).strip().lower()
     key = STATE_NAME_FIXES.get(key, key)
-    return key.title() if key in LGD_STATE_CODES else None
+    if key not in CANONICAL_STATE_NAMES:
+        key = " ".join(key.replace("&", " and ").split())
+        key = STATE_NAME_FIXES.get(key, key)
+    return CANONICAL_STATE_NAMES.get(key)
 
 
 def to_wgs84(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
