@@ -240,7 +240,7 @@ def main():
     p_cost.add_argument("--truck-payload", type=float, help="Vehicle capacity in tonnes (default: 20; independent of shipment)")
     p_cost.add_argument("--rail-rate", type=float, help="IR base class rate factor")
     p_cost.add_argument("--inventory-rate", type=float, help="Inventory holding rate INR/tonne-hour")
-    p_cost.add_argument("--port", "--target-port", dest="port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT)', 'Paradip Port')")
+    p_cost.add_argument("--port", "--target-port", dest="port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT/Navi Mumbai)', 'Paradip Port')")
     p_cost.add_argument("--payload", type=float, default=20.0, help="Payload in tonnes (default: 20.0)")
     p_cost.add_argument("--road-rate", type=float, help="Road linehaul rate INR/t-km")
     p_cost.add_argument("--dfc-rate", type=float, help="DFC linehaul rate INR/t-km")

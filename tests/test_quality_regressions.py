@@ -59,7 +59,7 @@ def test_target_port_changes_distance_and_time_used_by_freight_model():
                     "state": "Maharashtra",
                     "district": "Pune",
                     "district_code": 521,
-                    "nearest_port_name": "Jawaharlal Nehru Port (JNPT)",
+                    "nearest_port_name": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
                     "port_road_distance_km": 150.0,
                     "port_drive_time_hours": 3.0,
                     "freight_terminal_road_distance_km": 30.0,

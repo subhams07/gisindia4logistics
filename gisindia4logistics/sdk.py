@@ -154,7 +154,7 @@ def calculate_freight_cost(
     vehicle capacity used to allocate toll cost per tonne.
     
     Example:
-        >>> cost = gis.calculate_freight_cost("Indore", target_port="Jawaharlal Nehru Port (JNPT)", payload_tons=25.0)
+        >>> cost = gis.calculate_freight_cost("Indore", target_port="Jawaharlal Nehru Port (JNPT/Navi Mumbai)", payload_tons=25.0)
         >>> print(cost["optimal_mode"], f"Savings: {cost['modal_shift_savings_pct']:.1f}%")
     """
     params = None
@@ -222,12 +222,20 @@ def find_nearest(
     ))
 
 
-def simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> List[Dict[str, Any]]:
+def simulate_port_catchment(
+    alpha: float = 0.85,
+    beta: float = 1.65,
+    custom_port_capacities: Optional[Dict[str, float]] = None,
+) -> List[Dict[str, Any]]:
     """
     Simulate national port hinterland market share and captured population across
     all 12 Major Commercial Ports using the Huff/Reilly gravity model.
+
+    Args:
+        custom_port_capacities: optional capacity overrides in MT keyed by port name,
+            e.g. {"Paradip Port": 160.0}, as on the REST endpoint
     """
-    req = PortGravitySimulationRequest(alpha=alpha, beta=beta)
+    req = PortGravitySimulationRequest(alpha=alpha, beta=beta, custom_port_capacities=custom_port_capacities)
     store = get_data_store()
     res = _domain_call(simulate_port_gravity, req=req, store=store)
     return [_to_dict(item) for item in res]

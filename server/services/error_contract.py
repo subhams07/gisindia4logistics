@@ -76,3 +76,25 @@ def domain_error_from_status(status: int) -> Exception:
            422: InvalidLocationError, 404: LocationNotFoundError,
            503: DataIntegrityError}.get(status, RuntimeError)
     return cls(route_error_contract(cls(""))["message"])
+
+
+_HTTP_CODES = {400: "bad_request", 404: "not_found", 405: "method_not_allowed", 409: "ambiguous_location",
+               422: "invalid_request", 503: "data_unavailable"}
+
+
+def http_error_contract(status: int, detail: Any) -> dict[str, Any]:
+    """The structured error body for an HTTPException raised by a router.
+
+    Same keys as route_error_contract: status, code, message (the router's own
+    fixed text), plus allowlisted candidates for a 409 that carries them.
+    """
+    result = dict(status=status, code=_HTTP_CODES.get(status, "http_error" if status < 500 else "internal_error"))
+    if isinstance(detail, str) and detail:
+        result["message"] = detail
+    elif isinstance(detail, dict) and isinstance(detail.get("message"), str):
+        result["message"] = detail["message"]
+    else:
+        result["message"] = "Request failed." if status < 500 else "The service is unavailable."
+    if isinstance(detail, dict) and "candidates" in detail:
+        result["candidates"] = _safe_candidates(detail["candidates"])
+    return result

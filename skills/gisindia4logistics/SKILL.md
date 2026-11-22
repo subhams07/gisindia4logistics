@@ -33,7 +33,7 @@ Use to simulate financial freight cost (INR/tonne) and transit time across Road 
 ```json
 {
   "origin_district": "Indore",
-  "target_port": "Jawaharlal Nehru Port (JNPT)",
+  "target_port": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
   "payload_tons": 24.0,
   "road_linehaul_rate": 3.60,
   "toll_cost_per_plaza": 400.0,

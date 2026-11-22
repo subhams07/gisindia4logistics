@@ -93,7 +93,12 @@ TOOLS_METADATA = [
             "type": "object",
             "properties": {
                 "alpha": {"type": "number", "description": "Port throughput capacity sensitivity exponent (default: 0.85)"},
-                "beta": {"type": "number", "description": "Highway drive-time distance decay friction exponent (default: 1.65)"}
+                "beta": {"type": "number", "description": "Highway drive-time distance decay friction exponent (default: 1.65)"},
+                "custom_port_capacities": {
+                    "type": "object",
+                    "additionalProperties": {"type": "number", "exclusiveMinimum": 0},
+                    "description": "Optional capacity overrides in MT keyed by port name, e.g. {\"Paradip Port\": 160}; names as in the results (earlier labels such as 'Jawaharlal Nehru Port (JNPT)' accepted)"
+                }
             }
         }
     },
@@ -178,6 +183,12 @@ def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> No
         for variant in variants:
             kind = variant.get("type")
             types.extend(kind if isinstance(kind, list) else [kind])
+        if type(value) is dict and "object" in types:
+            # A name -> positive number mapping (custom_port_capacities).
+            for key, item in value.items():
+                if type(key) is not str or type(item) not in (int, float) or not math.isfinite(item) or item <= 0:
+                    raise ValueError(f"{name} must map names to finite positive numbers")
+            continue
         valid = (
             (value is None and "null" in types)
             or (type(value) is str and "string" in types)

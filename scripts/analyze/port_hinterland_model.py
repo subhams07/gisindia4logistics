@@ -28,9 +28,9 @@ from scripts.clean.standardize import DATA_DIR
 PORT_MATRIX_DATA = {
     "drive_hours_to_paradip": ("Paradip Port", 145.38),
     "drive_hours_to_deendayal_(kandla)": ("Deendayal Port (Kandla)", 132.50),
-    "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT)", 86.00),
+    "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT/Navi Mumbai)", 86.00),
     "drive_hours_to_visakhapatnam": ("Visakhapatnam Port", 81.00),
-    "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Syama Prasad Mookerjee Port (Kolkata/Haldia)", 66.00),
+    "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex", 66.00),
     "drive_hours_to_mumbai": ("Mumbai Port", 65.00),
     "drive_hours_to_chennai": ("Chennai Port", 54.50),
     "drive_hours_to_kamarajar_(ennore)": ("Kamarajar Port (Ennore)", 48.00),
@@ -39,6 +39,20 @@ PORT_MATRIX_DATA = {
     "drive_hours_to_cochin": ("Cochin Port", 36.50),
     "drive_hours_to_mormugao": ("Mormugao Port", 20.50),
 }
+
+
+def canonical_port_capacities(capacities: dict) -> dict:
+    """Capacity overrides keyed by canonical port label (aliases such as the earlier
+    "Jawaharlal Nehru Port (JNPT)" accepted); two keys naming one port are an error."""
+    from scripts.clean.standardize import canonical_port_label
+
+    out = {}
+    for key, value in capacities.items():
+        label = canonical_port_label(key)
+        if label in out:
+            raise ValueError("Duplicate custom port capacity key")
+        out[label] = value
+    return out
 
 
 def _number(value, name, *, positive=False):
@@ -154,6 +168,7 @@ def run_port_gravity_model(alpha=0.85, beta=1.65, custom_capacities=None, output
         if not isinstance(custom_capacities, dict):
             raise ValueError("Port capacities must be a mapping")
         names = {name: col for col, (name, _) in PORT_MATRIX_DATA.items()}
+        custom_capacities = canonical_port_capacities(custom_capacities)
         if set(custom_capacities) - set(names):
             raise ValueError("Unknown custom port capacity key")
         overrides = {names[name]: value for name, value in custom_capacities.items()}

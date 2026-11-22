@@ -105,6 +105,31 @@ def clean_state_name(name: str) -> str | None:
     return CANONICAL_STATE_NAMES.get(key)
 
 
+# Major-port labels: every endpoint and output uses the name in
+# data/logistics_hubs/ports.csv (the port matrix columns derive from it).
+# Earlier labels and short names stay accepted as request aliases.
+PORT_NAME_ALIASES = {
+    "Jawaharlal Nehru Port (JNPT)": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+    "Nhava Sheva": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+    "Syama Prasad Mookerjee Port (Kolkata/Haldia)": "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex",
+    "Mumbai": "Mumbai Port",
+}
+
+
+def _port_key(value) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(value).lower())
+
+
+_PORT_ALIAS_KEYS = {_port_key(alias): label for alias, label in PORT_NAME_ALIASES.items()}
+
+
+def canonical_port_label(name):
+    """The canonical label for a known alias (case and punctuation ignored); other names unchanged."""
+    if not isinstance(name, str):
+        return name
+    return _PORT_ALIAS_KEYS.get(_port_key(name), name)
+
+
 def to_wgs84(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     if gdf.crs and gdf.crs.to_epsg() != 4326:
         gdf = gdf.to_crs(4326)

@@ -159,12 +159,14 @@ def tool_plan_highway_route(
     return serialize_result(plan_highway_route(request=request, store=_get_store()))
 
 
-def tool_simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65) -> list[dict[str, Any]]:
+def tool_simulate_port_catchment(alpha: float = 0.85, beta: float = 1.65,
+                                 custom_port_capacities: dict[str, float] | None = None) -> list[dict[str, Any]]:
     """
     Simulates national port hinterland market share and captured population across
-    all 12 Major Commercial Ports using the Huff/Reilly gravity model.
+    all 12 Major Commercial Ports using the Huff/Reilly gravity model; optional
+    per-port capacity overrides (MT), as on the REST endpoint.
     """
-    req = PortGravitySimulationRequest(alpha=alpha, beta=beta)
+    req = PortGravitySimulationRequest(alpha=alpha, beta=beta, custom_port_capacities=custom_port_capacities)
     res = simulate_port_gravity(req=req, store=_get_store())
     return serialize_tool_result(res)
 
