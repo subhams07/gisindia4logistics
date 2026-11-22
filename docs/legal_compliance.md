@@ -65,9 +65,18 @@ Grounds and mitigations:
 - Attribution is preserved per file; raw SoI zips/rars are NOT committed —
   only standardized derivatives (reprojected to EPSG:4326, simplified
   ≥50 m, which stays within the source's ±12.5 m RMSE at district+ scales).
-- Nine border/NE states are not published by SoI at village level; treat
-  that gap as deliberate and do not source those boundaries elsewhere
-  without checking terms.
+- The nine border/NE states (Arunachal Pradesh, Assam, Himachal Pradesh,
+  Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram, Nagaland) are not on
+  SoI's village portal. Their village polygons come from SoI's own files as
+  published by the National Water Informatics Centre (Ministry of Jal
+  Shakti) on the National Water Data Portal ("Village Boundary" dataset,
+  https://nwdp.nwic.gov.in/dataset/9bad17f2-9d88-428d-98ad-831ef01ae2e4;
+  source agency "Survey of India (SOI)" in every file). Maintainer decision
+  (2026-11-21): treat them as Government of India open data and credit
+  Survey of India and NWIC in each file's attribution. The portal's licence
+  page could not be read when the files were fetched (expired TLS
+  certificate); re-check it when the portal is reachable. Do not source
+  these boundaries from third-party re-hosts.
 
 ## License obligations per dataset
 

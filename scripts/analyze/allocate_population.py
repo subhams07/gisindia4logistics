@@ -19,8 +19,13 @@ Validation: children sum back to each parent +-0.5%; national total equals
 1,210,854,977 exactly (up to the 14 unmatched 2011 districts documented in
 the audit).
 
+Where the village files carry village-level Census 2011 population (the nine
+NWDP states, scripts/fetch/fetch_village_boundaries_nwdp.py), every
+district's population is the sum of the villages inside it
+(method=village_census); for unchanged districts that equals the census figure.
+
 Outputs data/demographic/district_population_estimates.csv with per-row
-method in {census2011, area_share, blended}.
+method in {census2011, village_census, area_share, blended}.
 
 Usage: python scripts/analyze/allocate_population.py
 """
@@ -79,20 +84,28 @@ def load_parents() -> gpd.GeoDataFrame:
                  "district_key": "p_key", "Population": "p_pop"})
 
 
-def village_counts(current: gpd.GeoDataFrame) -> pd.Series:
-    """SoI villages per current district (LGD code), by representative point in polygon.
+def village_stats(current: gpd.GeoDataFrame) -> tuple[pd.Series, pd.Series]:
+    """SoI villages per current district (LGD code), by representative point in polygon:
+    (village count, summed Census 2011 village population where the file carries it).
 
     The village files' own district codes mix Census 2011, LGD and older
     numbering, so they are not used. LGD district codes are unique nationally.
     """
     polys = current.to_crs(4326)[["district_code", "geometry"]]
-    counts = []
+    counts, pops = [], []
     for f in glob.glob(str(DATA_DIR / "administrative" / "villages" / "*_soi_villages.geojson")):
-        pts = gpd.read_file(f, columns=[]).representative_point()
-        hit = gpd.sjoin(gpd.GeoDataFrame(geometry=pts, crs=4326), polys, predicate="within")
-        counts.append(hit[~hit.index.duplicated(keep="first")].district_code)
+        cols = [c for c in ("population_2011",) if c in gpd.read_file(f, rows=1).columns]
+        v = gpd.read_file(f, columns=cols)
+        pts = gpd.GeoDataFrame(v[cols], geometry=v.representative_point(), crs=4326)
+        hit = gpd.sjoin(pts, polys, predicate="within")
+        hit = hit[~hit.index.duplicated(keep="first")]
+        counts.append(hit.district_code)
+        if cols:  # NWDP files: village-level Census 2011 population
+            pops.append(hit[["district_code", "population_2011"]])
     allv = pd.concat(counts).dropna().astype("Float64")
-    return allv.groupby(allv).size()
+    vpop = pd.concat(pops).dropna(subset=["district_code"]) if pops else pd.DataFrame(columns=["district_code", "population_2011"])
+    vpop = vpop.groupby(vpop.district_code.astype("Float64")).population_2011.sum()
+    return allv.groupby(allv).size(), vpop
 
 
 def main() -> None:
@@ -145,7 +158,7 @@ def main() -> None:
     # intersection pair gets a FRACTION of the child's villages proportional
     # to the pair's area share of the child, so boundary slivers from
     # neighbouring parents cannot claim the child's whole village count
-    vcount = village_counts(current)
+    vcount, vpop = village_stats(current)
     area_alloc["villages"] = area_alloc.district_code.astype("Float64").map(vcount).fillna(0)
     inter_codes = inter[["state", "district_code", "p_key", "inter_area",
                          "area_frac_of_current"]].copy()
@@ -195,6 +208,15 @@ def main() -> None:
             capped += 1
     if capped:
         print(f"final cap applied to {capped} name-matched districts")
+
+    # where the village files carry Census 2011 village population (the NWDP
+    # states), a district's population is the sum of its villages; this also
+    # replaces "exact" rows, whose area-overlap sum can differ from the census
+    # figure where the 2011 and current outlines disagree (Leh)
+    has_vpop = df.district_code.astype("Float64").map(vpop).notna()
+    df.loc[has_vpop, "pop_2011"] = df.loc[has_vpop, "district_code"].astype("Float64").map(vpop).astype(float)
+    df.loc[has_vpop, "method"] = "village_census"
+    print(f"village_census (summed village populations): {int(has_vpop.sum())} districts")
 
     # ---- validation ----
     national = df.pop_2011.sum()

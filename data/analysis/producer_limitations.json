@@ -1,12 +1,12 @@
 {
   "artifact_sha256": {
-    "district_freight_modal_split.csv": "003cec3aac742a22703d8671ee13b3584f06f4898144e820f28078989eb278f2",
-    "district_port_hinterland_catchment.csv": "14b97dfe1494036967ace41f01e7e504ad9624570f0d15f23f088fc43a80f7ba",
+    "district_freight_modal_split.csv": "135234c1d0ee6df3dfd7981b70c4bebe051ab9ac2da30db459c81f69b443e6ee",
+    "district_port_hinterland_catchment.csv": "7be481997a03a1221954c2af61a552ec6136b46f3d117c31909b1669313c0d2f",
     "major_ports_isochrones.geojson": "6f7141515637afec9bb5907702c83be14e0754ec48a16436aaabc28ffba32abe",
     "mmlp_isochrones.geojson": "b0f73c54fa0ccf0763c0a09660344e1a1432016ed028b0f13eaf72151eacbe8f",
     "nh_district_port_matrix.csv": "2216d573b774207625bdadbb8d12aa878f682cb2cd2fcb5d0bec01e2ec4b04c2",
-    "nh_district_travel_time_summary.csv": "db1c1189aeae936d33392c0c3a3ebd9d10bbad7c5c7f699c0e2e87110091436d",
-    "nh_district_travel_time_summary.parquet": "19a393698c19e606492766be227e9a6623cf9e1a49862c26d815569a9bf27f88"
+    "nh_district_travel_time_summary.csv": "944b8ab696a8271d06650feaee9cdf5a67d2047ecff31cf2dae46a206faff213",
+    "nh_district_travel_time_summary.parquet": "b635555f7bb4cbbee7e2a3963049e4fda1748f04b3814f0ad82cc72fc9a7d253"
   },
   "column_classification": {
     "district_freight_modal_split.csv": [
@@ -1524,7 +1524,7 @@
     ]
   },
   "resource_measurement_method": "resource.ru_maxrss_kib_times_1024",
-  "run_id": "linux-2026-11-21-run2",
+  "run_id": "linux-2026-11-21-run3",
   "schema_version": 2,
   "source_identity_disclosures": []
 }

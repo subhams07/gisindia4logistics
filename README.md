@@ -27,7 +27,7 @@
 Logistics analysis in India usually starts with weeks of data plumbing: fragmented shapefiles, district names that never match, Census boundaries from 2011, and hub lists scattered across ministry PDFs. This project does that plumbing once, in the open, and publishes the evidence alongside the data.
 
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326, and metric work uses EPSG:7755.
-- **National coverage.** 780 current districts and 621,105 villages and settlements in all 36 States/UTs, each with a precomputed accessibility profile. In the 9 border/NE States/UTs where Survey of India publishes no village polygons, OSM settlement points stand in, and their coverage is partial.
+- **National coverage.** 780 current districts and 658,248 Survey of India village polygons in all 36 States/UTs, each with a precomputed accessibility profile. The 9 border/NE States/UTs that SoI's village portal does not publish come from SoI's own files on the National Water Data Portal.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
 - **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. v1.1.0 passes a 5,367-check national audit with 0 failures.
 - **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known limitations](#known-limitations).
@@ -40,14 +40,14 @@ Headline figures computed from the committed v1.1.0 outputs:
 
 | Indicator | Value |
 |---|---|
-| Median distance from a village or settlement to the nearest National Highway | **6.7 km** (65.2% within 10 km) |
-| Median distance from a village or settlement to the nearest railway station | **13.5 km** (39.3% within 10 km) |
+| Median distance from a village to the nearest National Highway | **6.6 km** (66.3% within 10 km) |
+| Median distance from a village to the nearest railway station | **13.4 km** (39.5% within 10 km) |
 | Median district drive time to the nearest Gati Shakti cargo terminal | **3.1 h** |
 | Median district drive time to the nearest ICD / CFS | **3.7 h** |
 | Median district drive time to the nearest major port | **12.2 h** |
 | Districts captive to a single major port (gravity model) | **29 of 780** (688 are contested between ports) |
 
-Village figures are geodesic straight-line distances over all 621,105 settlements. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
+Village figures are geodesic straight-line distances over all 658,248 villages. Drive times run over the National Highway network for the 777 mainland districts. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
 
 ---
 
@@ -203,8 +203,8 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🏛️ **States** | LGD-coded boundaries | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏡 **Villages** | LGD-coded village polygons | **586,151** in 27 States/UTs | Survey of India | SoI copyright; redistribution unresolved |
-| 🏡 **Habitations** | Settlement points where SoI publishes no polygons | **34,954** in 9 border/NE States/UTs | OpenStreetMap | ODbL |
+| 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
+| 🏡 **Habitations** | OSM settlement points for the 9 border/NE States/UTs (superseded by the village polygons above; kept for reference) | **34,954** | OpenStreetMap | ODbL |
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
@@ -280,7 +280,7 @@ These limitations are disclosed with v1.1.0; details are in the [CHANGELOG](CHAN
 - **Isochrone snapping.** Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km. This is a modelling policy.
 - **Tolls.** Toll figures are distance-based estimates, not FASTag/NHAI tariffs.
 - **API warnings.** API responses do not yet carry these routing limitations at the point of use; read `producer_limitations.json`.
-- **Reference vintages and coverage.** Rail stations are a 2016 base, and some hub coordinates are city-level approximations (flagged per row). The GCT list is the 2023 identified roster. OSM settlement coverage in the 9 border/NE States/UTs is partial.
+- **Reference vintages and coverage.** Rail stations are a 2016 base, and some hub coordinates are city-level approximations (flagged per row). The GCT list is the 2023 identified roster.
 
 ---
 

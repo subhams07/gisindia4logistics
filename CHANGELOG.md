@@ -4,6 +4,13 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Added — village polygons for the 9 border/NE states
+
+- Survey of India village polygons for Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh, Manipur, Meghalaya, Mizoram and Nagaland (72,097 villages), from SoI's files on the National Water Data Portal (NWIC, Ministry of Jal Shakti), standardized by `scripts/fetch/fetch_village_boundaries_nwdp.py` into the same `*_soi_villages` schema plus Census 2011 `population_2011` and `households_2011`. Village populations sum to the Census 2011 state totals. All 36 states/UTs are now analysed at village level (658,248 villages); the OSM habitation points remain in the repo but are no longer used.
+- Population estimates: in these 9 states a district's population is now the sum of its villages' Census 2011 populations (`village_census`, 153 districts), replacing area/village-count blends that were far off (e.g. Srinagar 0.32 M -> 1.23 M, Leh 186 k -> 133 k; Census 2011: 1.24 M and 133 k).
+- Headlines now cover all 36 states: population-weighted mean distance to a rail station 15.9 km and to an ICD 131.2 km (previously quoted for 27 states); village medians 6.6 km to a National Highway and 13.4 km to a railway station.
+- Audit: expects village files for all 36 states and checks NWDP village populations against Census 2011 state totals; district coverage is counted from the spatial assignment.
+
 ### Fixed — district codes are now official LGD codes
 
 - `district_code` in the current boundary layers was not the LGD code: the SoI ABDB source numbers 635 of 780 districts by their Census 2011 code and 142 newer ones by a scheme of its own; only 10 carried their real LGD code. Checked against the Local Government Directory's own district list (790 districts, lgdirectory.gov.in web service). Example: Pune is LGD 490 (Census 521); Himachal's Bilaspur is LGD 15 (Census 30); Puducherry's Karaikal is LGD 598, the number the old layer gave Kerala's Alappuzha (Census 598, LGD 554).

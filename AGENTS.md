@@ -246,8 +246,8 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
 
 ## Known gaps / debt
 
-1. 9 border/NE states have no village boundaries (SoI doesn't publish; do not
-   source elsewhere without checking terms — deliberate gap).
+1. ~~9 border/NE states have no village boundaries~~ — resolved in Phase J:
+   SoI's own files from the National Water Data Portal (NWIC).
 2. Rail stations base table: 2016 vintage, zone 45% filled. Categories now
    covered (5,941 NSG via community source — data.gov.in remains the
    authoritative upgrade). Freight terminals cover the 2023 GCT annexure
@@ -265,8 +265,8 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
    would enforce the quality bar.
 8. Accessibility is straight-line only (EPSG:7755); road-network travel time
    via OSRM/Valhalla is the planned upgrade.
-9. The 9 border/NE states' accessibility uses district centroids (no village
-   data exists); re-run when SoI publishes those states.
+9. ~~The 9 border/NE states' accessibility uses district centroids~~ —
+   resolved in Phase J (village level everywhere).
 
 ### Phase 8: all-India accessibility (2026-08-23)
 32. `nearest_facility.py --all` covers ALL 36 states/UTs. 27 at village
@@ -463,6 +463,26 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     Census codes are not the same numbers (Karaikal is LGD 598, Alappuzha is
     Census 598). Remaining gaps vs LGD: Ladakh's 2025 districts, Delhi's
     2025 reorganisation, a few other 2025 formations (catalog notes).
+
+### Phase J: village polygons for the 9 border/NE states (2026-11-21)
+45. The maintainer downloaded SoI's "Village Boundary" files for Arunachal,
+    Assam, HP, J&K, Ladakh, Manipur, Meghalaya, Mizoram and Nagaland (plus
+    Puducherry, unused) from the National Water Data Portal (NWIC, Ministry
+    of Jal Shakti; nwdp.nwic.gov.in — its TLS certificate was expired, so no
+    scripted download) into `data/raw/nwdp_villages/vb_soi_<ab>_geojson.zip`
+    (gitignored). `scripts/fetch/fetch_village_boundaries_nwdp.py`
+    standardizes them to the SoI village schema (EPSG:7755 -> 4326, same
+    simplify/grid-snap/make_valid pipeline via the shared `robust_prep`),
+    adds `population_2011` / `households_2011`, nulls code 999999, and
+    writes `<state>_soi_villages.geojson` + Parquet. 72,097 villages; their
+    populations sum to the Census 2011 state totals (exact for 5 states).
+    NWDP column names end in "\n" — strip them. A third-party re-host
+    (bharatviz) exists but is simplified and lacks district codes; do not use
+    it. Consequences: all 36 states are now at village level (658,248
+    villages); allocate_population.py sums village populations per current
+    district where the files carry them (`village_census`, 153 districts),
+    which also fixes Leh and Srinagar. Audit expects village files for all
+    36 states and checks NWDP population sums against Census.
 
 ## Enhancement backlog (suggested next steps)
 
