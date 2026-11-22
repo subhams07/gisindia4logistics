@@ -1,7 +1,7 @@
 # ADR 004: Calibrated Spatial Toll Plaza Matching and Tariff Transparency
 
 ## Status
-Accepted
+Proposed — not implemented. Today tolls are still estimated as one plaza per 65 km of route (`server/services/routing_facade.py`).
 
 ## Context
 Previous toll calculations relied on a synthetic heuristic (`distance / 65`), which estimated toll counts without identifying actual plazas or their locations. A naive spatial buffer query (e.g. 1–2 km) falsely captures toll plazas on intersecting bypasses, parallel expressways, or state highways. Furthermore, full official toll tariffs for all Indian plazas are not published in a single static open dataset.

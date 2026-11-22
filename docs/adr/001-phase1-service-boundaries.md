@@ -1,7 +1,7 @@
 # ADR 001: Phase 1 Service Boundaries and Pure Domain Layer
 
 ## Status
-Accepted
+Accepted, partly implemented. The services that exist are `location_resolver`, `routing_service`, `routing_facade`, `metadata_service`, `graph_snapshot`, `serialization` and `error_contract`; the toll, corridor, comparison and report services described below were not built.
 
 ## Context
 In previous releases, significant analytical logic (e.g. Dijkstra graph traversal, toll heuristics, freight modal calculations) resided directly inside FastAPI router functions (`server/routers/`). This created code duplication and forced non-HTTP consumers (Python SDK, CLI, and MCP tool server) to either re-implement logic, import router functions with dummy FastAPI dependencies, or mock HTTP requests.

@@ -56,8 +56,10 @@ Use to locate the closest logistics infrastructure to any coordinate:
 Use to calculate commercial highway distance, driving hours, and a modelled toll estimate (not an official tariff):
 ```json
 {
-  "origin": [18.5204, 73.8567],
-  "destination": [18.9500, 72.9500],
+  "origin_lat": 18.5204,
+  "origin_lon": 73.8567,
+  "dest_lat": 18.9500,
+  "dest_lon": 72.9500,
   "vehicle_type": "MAV_20T"
 }
 ```
@@ -78,6 +80,17 @@ Use to render village-level accessibility choropleths:
   "state": "Haryana",
   "district": "Ambala",
   "metric": "dist_rail_station_km",
-  "format": "html"
+  "output_format": "html"
+}
+```
+
+### 7. `gis_plan_highway_route`
+Use for a canonical highway route with quality warnings, provenance and optional geometry:
+```json
+{
+  "origin": {"type": "district", "district_code": 490},
+  "destination": {"type": "hub", "hub_type": "port", "name": "JNPT"},
+  "vehicle_type": "LCV",
+  "geometry_detail": "none"
 }
 ```
