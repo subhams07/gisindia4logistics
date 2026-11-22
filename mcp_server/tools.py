@@ -3,8 +3,6 @@ mcp_server/tools.py
 High-level GIS4Logistics tool implementations callable by MCP servers and AI agents.
 """
 
-from contextlib import redirect_stdout
-import sys
 from typing import Any
 from server.models.phase1 import HighwayRoutePlanRequest
 
@@ -180,47 +178,13 @@ def tool_plot_villages_map(
     """
     Generates an interactive Leaflet HTML map or high-resolution PNG map
     displaying all villages in a district colored by accessibility metric.
+    Same implementation, file names and result keys as the SDK's plot_villages.
     """
-    from scripts.analyze.plot_villages import (
-        DATA_DIR,
-        generate_leaflet_html,
-        load_district_villages_gdf,
-        plot_villages_static,
-        safe_filename_component,
-        validate_metric,
-    )
+    from scripts.analyze import plot_villages
 
-    if output_format not in {"html", "png", "both"}:
-        raise ValueError("output_format must be one of: html, png, both")
-    validate_metric(metric)
+    plot_villages.village_map_paths(state, district, metric, output_format, settings.OUTPUT_PATH / "maps")
+    plot_villages.validate_metric(metric)
     state = canonical_state(state)
-    validate_village_map_paths(DATA_DIR, state)
-    
-    gdf = load_district_villages_gdf(state=state, district=district)
-    out_files = {}
-    output_dir = settings.OUTPUT_PATH / "maps"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    district_slug = safe_filename_component(district)
-    state_slug = safe_filename_component(state)
-
-    if output_format in ["html", "both"]:
-        html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
-        html_p = output_dir / f"{state_slug}_{district_slug}_village_{metric}_map.html"
-        with open(html_p, "w", encoding="utf-8") as f:
-            f.write(html_code)
-        out_files["html_map_path"] = str(html_p)
-
-    if output_format in ["png", "both"]:
-        png_p = output_dir / f"{state_slug}_{district_slug}_village_{metric}_map.png"
-        with redirect_stdout(sys.stderr):
-            plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=png_p)
-        out_files["png_map_path"] = str(png_p)
-
-    return {
-        "status": "success",
-        "state": state,
-        "district": district,
-        "villages_count": len(gdf),
-        "metric_plotted": metric,
-        "outputs": out_files
-    }
+    validate_village_map_paths(plot_villages.DATA_DIR, state)
+    return plot_villages.render_village_map(state, district, metric, output_format,
+                                            output_dir=settings.OUTPUT_PATH / "maps")

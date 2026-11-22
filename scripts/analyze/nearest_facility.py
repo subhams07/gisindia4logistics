@@ -326,6 +326,9 @@ def run_one(state: str, args) -> None:
         "source_district": clean_text(villages["district"].values) if "district" in villages else None,
         "source_district_code": (pd.to_numeric(villages["district_code"], errors="coerce").astype("Int64").values
                                  if "district_code" in villages else assigned["district_code"].astype("Int64").values),
+        # the representative point every distance is measured from (WGS 84)
+        "latitude": pts.to_crs(4326).y.round(5).values,
+        "longitude": pts.to_crs(4326).x.round(5).values,
     })
     for kind, gdf in facilities.items():
         best, km = nearest_geodesic(pts, gdf.geometry)

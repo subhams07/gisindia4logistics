@@ -16,6 +16,61 @@ from scipy.spatial import KDTree
 from server.config import settings
 
 LOGGER = logging.getLogger(__name__)
+EQUAL_AREA_CRS = "ESRI:102028"  # Asia South Albers equal-area; never measure km² in EPSG:7755
+
+
+def district_attributes(data_dir) -> pd.DataFrame | None:
+    """state_code, area_sqkm and subdistrict_count per current district from the LGD layers.
+
+    Keyed by (state, district_code), or by (state, district) for the districts without a code.
+    """
+    p_dist = data_dir / "administrative" / "india_districts_lgd.parquet"
+    if not p_dist.exists():
+        return None
+    dist = gpd.read_parquet(p_dist, columns=["state", "state_code", "district", "district_code", "geometry"])
+    dist["area_sqkm"] = (dist.to_crs(EQUAL_AREA_CRS).area / 1e6).round(1)
+    p_sub = data_dir / "administrative" / "india_subdistricts_lgd.parquet"
+    if p_sub.exists():
+        sub = pd.read_parquet(p_sub, columns=["state", "district", "district_code"])
+        coded = sub[sub.district_code.notna()].groupby(["state", "district_code"]).size()
+        named = sub[sub.district_code.isna()].groupby(["state", "district"]).size()
+        dist["subdistrict_count"] = [
+            int(coded.get((s, c), 0)) if pd.notna(c) else int(named.get((s, d), 0))
+            for s, d, c in zip(dist.state, dist.district, dist.district_code)]
+    return pd.DataFrame(dist.drop(columns="geometry"))
+
+
+def with_district_attributes(districts: pd.DataFrame, attributes: pd.DataFrame | None) -> pd.DataFrame:
+    """Attach the layer attributes to the population table on the same keys the producers use."""
+    if attributes is None:
+        return districts
+    cols = [c for c in ("state_code", "area_sqkm", "subdistrict_count") if c in attributes.columns]
+    by_code = {(s, int(c)): row for s, c, row in zip(attributes.state, attributes.district_code,
+                                                     attributes[cols].to_dict("records")) if pd.notna(c)}
+    by_name = {(s, str(d).lower()): row for s, d, c, row in zip(attributes.state, attributes.district,
+               attributes.district_code, attributes[cols].to_dict("records")) if pd.isna(c)}
+    rows = [by_code.get((s, int(c))) if pd.notna(c) else by_name.get((s, str(d).lower()))
+            for s, d, c in zip(districts.state, districts.district, districts.district_code)]
+    out = districts.drop(columns=[c for c in cols if c in districts.columns]).copy()
+    for col in cols:
+        out[col] = [r[col] if r else None for r in rows]
+    if "state_code" in out.columns:
+        out["state_code"] = out["state_code"].astype("Int64")
+    if "subdistrict_count" in out.columns:
+        out["subdistrict_count"] = out["subdistrict_count"].astype("Int64")
+    return out
+
+
+def with_station_categories(stations: pd.DataFrame, data_dir) -> pd.DataFrame:
+    """Add the NSG category from the community roster (unique station codes) to the stations table."""
+    path = data_dir / "rail" / "station_categories.csv"
+    if not path.exists() or "category" in stations.columns:
+        return stations
+    roster = pd.read_csv(path, dtype={"station_code": "string"}).dropna(subset=["station_code"])
+    categories = roster.assign(code=roster.station_code.str.upper()).drop_duplicates("code").set_index("code").category
+    out = stations.copy()
+    out["category"] = out.station_code.astype("string").str.upper().map(categories)
+    return out
 
 class DataStore:
     _instance = None
@@ -111,7 +166,7 @@ class DataStore:
         # 1. Load Districts with Population Estimates
         p_pop = self.data_dir / "demographic" / "district_population_estimates.csv"
         if p_pop.exists():
-            self.districts_df = pd.read_csv(p_pop)
+            self.districts_df = with_district_attributes(pd.read_csv(p_pop), district_attributes(self.data_dir))
         else:
             p_dist = self.data_dir / "administrative" / "india_districts_lgd.geojson"
             if p_dist.exists():
@@ -152,7 +207,7 @@ class DataStore:
         # 4. Load Rail & Tolls
         p_rail = self.data_dir / "rail" / "railway_stations.csv"
         if p_rail.exists():
-            self.rail_stations_df = pd.read_csv(p_rail)
+            self.rail_stations_df = with_station_categories(pd.read_csv(p_rail), self.data_dir)
 
         p_dfc = self.data_dir / "rail" / "dfc_stations.csv"
         if p_dfc.exists():
@@ -171,11 +226,10 @@ class DataStore:
             agg_dict = {"district_count": ("district", "count")}
             if "pop_2011" in self.districts_df.columns:
                 agg_dict["pop_2011_total"] = ("pop_2011", "sum")
-            if "state_code" in self.districts_df.columns:
-                agg_dict["state_code"] = ("state_code", "first")
             states_grp = self.districts_df.groupby("state").agg(**agg_dict).reset_index()
-            if "state_code" not in states_grp.columns:
-                states_grp["state_code"] = None
+            from scripts.clean.standardize import LGD_STATE_CODES, clean_state_name
+            states_grp["state_code"] = [LGD_STATE_CODES.get(str(clean_state_name(s) or "").lower())
+                                        for s in states_grp.state]
 
             # Join village counts from district access rollup if present
             if self.district_access_df is not None and "villages" in self.district_access_df.columns:

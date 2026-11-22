@@ -15,7 +15,7 @@ from server.services.exceptions import AmbiguousLocationError
 from server.services.serialization import serialize_result, serialize_nearest_facilities
 
 from server.dependencies import DataStore
-from server.routers.admin import get_district_scorecard
+from server.routers.admin import canonical_state, get_district_scorecard, validate_village_map_paths
 
 from server.routers.hubs import get_nearest_hubs
 from server.models.schemas import (
@@ -27,13 +27,7 @@ from server.models.schemas import (
     PortGravitySimulationRequest,
 )
 from server.routers.simulation import simulate_freight_cost, simulate_port_gravity
-from scripts.analyze.plot_villages import (
-    load_district_villages_gdf,
-    generate_leaflet_html,
-    plot_villages_static,
-    safe_filename_component,
-    validate_metric,
-)
+from scripts.analyze import plot_villages as _village_maps
 from server.config import settings
 from gisindia4logistics.data_root import DataNotFoundError, require_data_root  # noqa: F401 (re-exported)
 
@@ -249,46 +243,29 @@ def plot_villages(
     """
     Generate an interactive Leaflet HTML map or high-resolution PNG choropleth map
     of all villages in a district color-coded by accessibility metrics.
-    
+
+    Same implementation, file names and result keys as the MCP tool
+    ``gis_plot_villages_map``.
+
     Args:
-        state: State name (e.g. 'Haryana', 'Maharashtra')
+        state: State name (e.g. 'Haryana', 'Maharashtra'); spelling variants are accepted
         district: District name (e.g. 'Ambala', 'Pune')
         metric: one of 'dist_rail_station_km', 'dist_nh_km', 'dist_icd_km',
             'dist_freight_terminal_km', 'dist_port_km', 'dist_air_cargo_km',
             'dist_mmlp_km', 'dist_toll_plaza_km'
         output_format: 'html', 'png', or 'both'
-        output_path: Optional custom destination file path
+        output_path: Optional destination ending in .html or .png (with 'both', the
+            other file takes the same name with the other suffix); default
+            ``<GIS4LOGISTICS_OUTPUT_PATH>/maps/<state>_<district>_village_<metric>_map.<ext>``
+
+    Returns:
+        {"status", "state", "district", "metric", "villages_count",
+         "outputs": {"html_map_path", "png_map_path"}} (keys for the formats written)
     """
-    if output_format not in {"html", "png", "both"}:
-        raise ValueError("output_format must be one of: html, png, both")
-    validate_metric(metric)
+    _village_maps.village_map_paths(state, district, metric, output_format, settings.OUTPUT_PATH / "maps", output_path)
+    _village_maps.validate_metric(metric)
     _ensure_data()
-
-    gdf = load_district_villages_gdf(state=state, district=district)
-    out_files = {}
-
-    out_dir = settings.OUTPUT_PATH / "maps"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    d_slug = safe_filename_component(district)
-    s_slug = safe_filename_component(state)
-
-    if output_format in ["html", "both"]:
-        html_code = generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric)
-        dst_html = Path(output_path) if output_path and str(output_path).endswith(".html") else (out_dir / f"{s_slug}_{d_slug}_{metric}_map.html")
-        with open(dst_html, "w", encoding="utf-8") as f:
-            f.write(html_code)
-        out_files["html"] = str(dst_html)
-
-    if output_format in ["png", "both"]:
-        dst_png = Path(output_path) if output_path and str(output_path).endswith(".png") else (out_dir / f"{s_slug}_{d_slug}_{metric}_map.png")
-        plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=dst_png)
-        out_files["png"] = str(dst_png)
-
-    return {
-        "status": "success",
-        "state": state,
-        "district": district,
-        "metric": metric,
-        "villages_count": len(gdf),
-        "files": out_files
-    }
+    state = _domain_call(canonical_state, state)
+    _domain_call(validate_village_map_paths, _village_maps.DATA_DIR, state)
+    return _village_maps.render_village_map(state, district, metric, output_format,
+                                            output_dir=settings.OUTPUT_PATH / "maps", output_path=output_path)

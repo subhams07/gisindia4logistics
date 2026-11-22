@@ -150,6 +150,7 @@ def cmd_plot_villages(args):
     """Plot village accessibility maps."""
     from gisindia4logistics.data_root import DataNotFoundError
     from gisindia4logistics.sdk import plot_villages
+    from server.services.exceptions import InvalidLocationError, LocationNotFoundError
     try:
         res = plot_villages(
             state=args.state,
@@ -160,13 +161,13 @@ def cmd_plot_villages(args):
         )
     except DataNotFoundError:
         raise
-    except (ValueError, FileNotFoundError) as exc:
-        # Unknown state/district or unsupported metric: a user error, not a crash.
+    except (ValueError, FileNotFoundError, InvalidLocationError, LocationNotFoundError) as exc:
+        # Unknown state/district, unsupported metric or output path: a user error, not a crash.
         print(f"error: {exc}", file=sys.stderr)
         raise SystemExit(2) from None
-    print(f"Successfully generated maps for {res['villages_count']} villages in {args.district}, {args.state}:")
-    for fmt, p in res["files"].items():
-        print(f"  [{fmt.upper()}] -> {p}")
+    print(f"Successfully generated maps for {res['villages_count']} villages in {args.district}, {res['state']}:")
+    for key, p in res["outputs"].items():
+        print(f"  [{key.split('_')[0].upper()}] -> {p}")
 
 
 def cmd_audit(args):
