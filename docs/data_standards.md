@@ -15,7 +15,14 @@ All datasets in this repository follow these conventions.
 - **LGD codes** (Local Government Directory, lgdirectory.gov.in) are the
   canonical identifiers:
   - `state_code` — 2-digit LGD state code
-  - `district_code` — LGD district code (unique nationally)
+  - `district_code` — LGD district code (unique nationally), from the official
+    directory snapshot `data/administrative/lgd_districts.csv`
+    (`scripts/fetch/fetch_lgd_directory.py`). The SoI ABDB source numbers
+    districts differently (Census 2011 codes for older districts, its own scheme
+    for newer ones); the boundary layers keep that value as `abdb_district_code`,
+    and the district layer also carries `census2011_code`. The mapping is
+    `data/administrative/district_code_crosswalk.csv`
+    (`scripts/clean/apply_lgd_codes.py`).
   - `lgd_village_code` — 6-digit village code where available
 - Census 2011 uses its own state/district codes; a crosswalk table is provided
   in `data/administrative/census2011_lgd_crosswalk.csv`.

@@ -108,7 +108,7 @@ def assign_current_districts(units: gpd.GeoDataFrame, state: str,
     district_assignment ("within" or "nearest").
     """
     dist = districts[districts["state"].str.lower() == state.lower()]
-    dist = dist[["district", "district_code", "remarks", "geometry"]].reset_index(drop=True)
+    dist = dist.reindex(columns=["district", "district_code", "abdb_district_code", "remarks", "geometry"]).reset_index(drop=True)
     if not len(dist):
         raise SystemExit(f"No current districts for {state}")
     units = units.to_crs(4326)
@@ -126,7 +126,9 @@ def assign_current_districts(units: gpd.GeoDataFrame, state: str,
     best = cand.groupby(level=0)["overlap"].transform("max")
     cand["tied"] = cand["overlap"] >= best * (1 - OVERLAP_TIE)
     cand["derived"] = cand["remarks"].fillna("").str.startswith("derived")
-    cand["own_code"] = cand["district_code"] == src_code.loc[cand.index]
+    # village files use LGD, Census 2011 or the ABDB source numbering, so match either code
+    own = src_code.loc[cand.index]
+    cand["own_code"] = (cand["district_code"] == own) | (cand["abdb_district_code"] == own)
     cand["_unit"] = cand.index
     cand = cand.sort_values(["_unit", "tied", "derived", "own_code", "district_code"],
                             ascending=[True, False, True, False, True], kind="mergesort")

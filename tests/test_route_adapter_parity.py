@@ -170,7 +170,7 @@ def test_committed_corridor_parity_including_cli(tmp_path, monkeypatch):
 
     store = get_data_store()
     monkeypatch.setattr(tools, 'store', store)
-    request = dict(origin=dict(type='district', district_code=521),
+    request = dict(origin=dict(type='district', district_code=490),  # Pune (LGD)
                    destination=dict(type='hub', hub_type='port', name='JNPT'),
                    vehicle_type='LCV', geometry_detail='simplified')
     before = datetime.now(timezone.utc)

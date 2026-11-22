@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — district codes are now official LGD codes
+
+- `district_code` in the current boundary layers was not the LGD code: the SoI ABDB source numbers 635 of 780 districts by their Census 2011 code and 142 newer ones by a scheme of its own; only 10 carried their real LGD code. Checked against the Local Government Directory's own district list (790 districts, lgdirectory.gov.in web service). Example: Pune is LGD 490 (Census 521); Himachal's Bilaspur is LGD 15 (Census 30); Puducherry's Karaikal is LGD 598, the number the old layer gave Kerala's Alappuzha (Census 598, LGD 554).
+- New `data/administrative/lgd_districts.csv` (official snapshot, `scripts/fetch/fetch_lgd_directory.py`) and `data/administrative/district_code_crosswalk.csv` (`scripts/clean/apply_lgd_codes.py`: 638 districts by Census code, 123 by name, 11 by spelling variant, 8 by hand). `district_code` is now the LGD code in the district and sub-district layers (GeoJSON, Parquet, GPKG) and everything derived from them; the source value is kept as `abdb_district_code`, and the district layer adds `census2011_code`. LGD codes are unique nationally.
+- Dadra & Nagar Haveli and Daman & Diu move to LGD state code 38 (was 26, the pre-2020 Dadra & Nagar Haveli code).
+- Four districts have no LGD code: Mirpur and Muzaffarabad (PoK), Delhi's Nazul, and Shahdara, which the LGD directory no longer lists after Delhi's 2025 reorganisation.
+- Population estimates: villages are now counted per current district by point-in-polygon instead of by the village files' own district codes, which mix Census, LGD and older numbering and had credited villages to the wrong district (e.g. 1,075 villages to Assam's Tamulpur, for which no SoI village file exists). Area shares are measured in an equal-area projection (ESRI:102028) instead of EPSG:7755. 101 districts change by more than 5%; state totals still equal the Census 2011 totals.
+- API examples and schema descriptions now cite Pune as LGD 490.
+- Audit: new checks that every district code is an official LGD code of its state, that `census2011_code` matches the directory, that codes are unique, and that only the four districts above lack one.
+
 ### Fixed — geodesic village distances
 
 - Village and sub-district access distances (`dist_*_km` in `data/analysis/*_village_access.csv`, the district summaries and `india_subdistrict_access.csv`) are now geodesic on the WGS84 ellipsoid. They were measured in EPSG:7755, a conformal projection whose scale runs from ~0.980 (24°N) to ~1.03 (6.7°N), so distances were up to ~2% short in central and north India and up to ~2% long in the far south. Median change +1.9% (1st–99th percentile −0.7% to +2.0%). EPSG:7755 now only narrows the candidates; the nearest facility is the one with the smallest geodesic distance, which changes the named facility for 0.02–0.25% of villages per type.

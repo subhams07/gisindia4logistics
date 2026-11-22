@@ -113,14 +113,14 @@ def test_real_port_alias_code_constraints():
 def test_real_dhule_is_a_single_keyed_boundary_point():
     store = district_store(ROOT, pd.read_csv(ROOT / "demographic/district_population_estimates.csv").to_dict("records"))
     resolver = LocationResolver()
-    by_code = resolver.resolve(DistrictLocation(district_code=498, district="Dhule", state="Maharashtra"), store)
+    by_code = resolver.resolve(DistrictLocation(district_code=474, district="Dhule", state="Maharashtra"), store)
     by_name = resolver.resolve(DistrictLocation(district="Dhule", state="Maharashtra"), store)
     boundary = gpd.read_file(ROOT / "administrative/india_districts_lgd.geojson")
     row = boundary[(boundary.district.str.upper() == "DHULE") & (boundary.state.str.lower() == "maharashtra")]
-    assert row.district_code.tolist() == [498]
+    assert row.district_code.tolist() == [474]
     point = row.to_crs(7755).geometry.representative_point().to_crs(4326).iloc[0]
     for result in (by_code, by_name):
-        assert result.district_code == 498
+        assert result.district_code == 474
         assert (result.latitude, result.longitude) == (round(point.y, 5), round(point.x, 5))
     with pytest.raises(InvalidLocationError):
         resolver.resolve(DistrictLocation(district_code=598, district="Dhule", state="Maharashtra"), store)
@@ -156,10 +156,13 @@ def test_name_can_disambiguate_duplicate_codes(tmp_path):
     assert result.latitude == 21
 
 
-def test_district_name_can_disambiguate_cross_state_code():
+def test_lgd_code_and_name_must_agree():
+    # LGD codes are unique nationally: 554 is Alappuzha; 598 (Alappuzha's Census code) is Karaikal
     store = district_store(ROOT, pd.read_csv(ROOT / "demographic/district_population_estimates.csv").to_dict("records"))
-    result = LocationResolver().resolve(DistrictLocation(district_code=598, district="Alappuzha"), store)
+    result = LocationResolver().resolve(DistrictLocation(district_code=554, district="Alappuzha"), store)
     assert result.state == "Kerala"
+    with pytest.raises(InvalidLocationError):
+        LocationResolver().resolve(DistrictLocation(district_code=598, district="Alappuzha"), store)
 
 
 @pytest.mark.parametrize("value", [float("nan"), float("inf"), None])

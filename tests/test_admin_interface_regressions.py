@@ -337,33 +337,39 @@ def test_real_delhi_listing_preserves_missing_names(api):
     assert sum(row["village"] is None for row in rows) == source.village.isna().sum()
 
 
-def test_real_dhule_is_one_district_and_598_is_alappuzha(api):
-    # The source once tagged Dhule's sub-districts with Alappuzha's code 598,
-    # which produced a duplicate DHULE; process_panindia_boundaries corrects it.
+def test_real_dhule_is_one_district_with_its_lgd_code(api):
+    # The source once tagged Dhule's sub-districts with 598 (Kerala's Alappuzha in
+    # Census numbering), which produced a duplicate DHULE. Codes are now official
+    # LGD codes: Dhule 474 (Census 498), Alappuzha 554, and 598 is Karaikal.
     client, store = api
     real_admin_store(store)
     dhule = store.districts_df[store.districts_df.district.str.upper() == "DHULE"]
-    assert dhule.district_code.tolist() == [498]
-    response = client.get("/api/v1/admin/districts/498", params={"state": " maharashtra "})
+    assert dhule.district_code.tolist() == [474]
+    response = client.get("/api/v1/admin/districts/474", params={"state": " maharashtra "})
     assert response.status_code == 200, response.text
     assert response.json()["district"] == "DHULE"
     by_name = client.get("/api/v1/admin/districts/Dhule", params={"state": "Maharashtra"})
     assert by_name.status_code == 200, by_name.text
     assert by_name.json() == response.json()
-    travel = store.travel_time_df.loc[(store.travel_time_df.district_code == 498) & (store.travel_time_df.state == "Maharashtra")].iloc[0]
+    travel = store.travel_time_df.loc[(store.travel_time_df.district_code == 474) & (store.travel_time_df.state == "Maharashtra")].iloc[0]
     assert response.json()["nearest_highway_km"] == travel.highway_access_dist_km
     # The access rollup is keyed by (state, district_code): DHULE has exactly one row.
     rollup = store.district_access_df
-    access = rollup.loc[(rollup.state == "Maharashtra") & (rollup.district_code == 498)]
+    access = rollup.loc[(rollup.state == "Maharashtra") & (rollup.district_code == 474)]
     assert len(access) == 1
     access = access.iloc[0]
     assert response.json()["share_villages_within_10km_rail"] == access.rail_station_within_10km_pct
     assert response.json()["share_villages_within_5km_rail"] == access.rail_station_within_10km_pct
     assert response.json()["share_villages_within_25km_rail"] == access.rail_station_within_25km_pct
     assert response.json()["share_villages_within_50km_icd"] == access.icd_within_50km_pct
-    alappuzha = client.get("/api/v1/admin/districts/598")
+    # Dhule's Census 2011 code 498 is Wardha's LGD code
+    assert client.get("/api/v1/admin/districts/498").json()["district"] == "WARDHA"
+    alappuzha = client.get("/api/v1/admin/districts/554")
     assert alappuzha.status_code == 200, alappuzha.text
-    assert alappuzha.json()["state"] == "Kerala"
+    assert (alappuzha.json()["state"], alappuzha.json()["district"]) == ("Kerala", "Alappuzha")
+    karaikal = client.get("/api/v1/admin/districts/598")
+    assert karaikal.status_code == 200, karaikal.text
+    assert karaikal.json()["state"] == "Puducherry"
     assert client.get("/api/v1/admin/districts/598", params={"state": "Maharashtra"}).status_code == 422
 
 

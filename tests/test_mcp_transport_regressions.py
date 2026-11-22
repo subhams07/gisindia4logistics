@@ -597,7 +597,7 @@ def test_committed_duplicate_resolution_and_scorecard_state(monkeypatch, committ
     assert _strict_json(ambiguous["result"]["content"][0]["text"])["code"] == "ambiguous_location"
     with pytest.raises(HTTPException):
         tools.tool_get_district_scorecard("Bilaspur")
-    for state, code in (("Chhattisgarh", 406), ("Himachal Pradesh", 30)):
+    for state, code in (("Chhattisgarh", 375), ("Himachal Pradesh", 15)):  # LGD codes
         by_state = _success(server.handle_rpc_request(_rpc(2, "tools/call", {
             "name": "gis_get_district_scorecard", "arguments": {
                 "district_name_or_code": "Bilaspur", "state": state,

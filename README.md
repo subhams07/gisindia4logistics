@@ -120,7 +120,7 @@ print(route["distance_km"], route["drive_time_formatted"], route["estimated_toll
 
 # Rich route: strict location references, quality warnings, provenance, optional geometry
 plan = gis.plan_highway_route(
-    origin={"type": "district", "district_code": 521},
+    origin={"type": "district", "district_code": 490},  # Pune (LGD code)
     destination={"type": "hub", "hub_type": "port", "name": "JNPT"},
     vehicle_type="LCV", geometry_detail="simplified",
 )
@@ -143,7 +143,7 @@ print(ports[0]["port_name"], ports[0]["captured_districts_count"])
 
 ```bash
 gisindia4logistics route --origin 18.5204,73.8567 --dest 18.9500,72.9500 --vehicle MAV_20T
-gisindia4logistics route-plan --origin '{"type":"district","district_code":521}' --dest '{"type":"hub","hub_type":"port","name":"JNPT"}' --vehicle LCV --geometry simplified
+gisindia4logistics route-plan --origin '{"type":"district","district_code":490}' --dest '{"type":"hub","hub_type":"port","name":"JNPT"}' --vehicle LCV --geometry simplified
 gisindia4logistics cost --origin Ludhiana --payload 24.0 --road-rate 3.80
 gisindia4logistics district Pune
 gisindia4logistics serve --port 8000     # REST API
