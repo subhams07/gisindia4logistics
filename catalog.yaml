@@ -138,7 +138,11 @@ datasets:
     National Water Data Portal (72,097 villages with Census 2011 village population; see the NWDP entry); LGD-coded; spot-validated
     Sikkim, Pune, Telangana (33), UP (75); TN/Puducherry Subdist column alias fixed; MP Villl_name typo
     fixed; ~1,000 villages have blank names in SoI source (max Uttarakhand 577, Delhi 315) — flagged in
-    audit; simplified ~50 m with grid-snap validity pipeline
+    audit; simplified ~50 m with grid-snap validity pipeline. One attribute schema across all 36 files
+    (scripts/clean/normalize_village_properties.py, audit-enforced) - state is the LGD spelling on every row,
+    state_code/district_code/sub_district_code/village_code are text, text values have no line breaks or
+    repeated spaces; GeoParquet twins in data/administrative/villages_parquet/ carry the same columns. 15 states
+    keep a Z = 0.0 coordinate from the source (harmless; geometry bytes are left untouched)
 - name: Taluka boundaries (OSM — redistributable)
   category: administrative
   description: Sub-district boundaries assembled from OSM admin relations; level numbering varies by state

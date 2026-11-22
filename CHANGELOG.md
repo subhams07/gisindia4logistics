@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — village files: one attribute schema (audit item 14)
+
+- All 36 village GeoJSONs and their GeoParquet twins now share one attribute schema (`scripts/clean/normalize_village_properties.py`). 26 files changed:
+  - **`state`:** the LGD state name on every row. Before, Chandigarh's file had no `state` column, 14 Maharashtra rows were empty, one Delhi row read `'DELHI\r\n'`, and spellings differed per file (`MAHARASHTRA`, `Lakshadweep-UT`, `DADRA & NAGAR HAVELI & DAMAN & DIU`).
+  - **Codes:** `state_code`, `district_code`, `sub_district_code` and `village_code` are text in every file. Goa's `district_code`, Tripura's `state_code` and Madhya Pradesh's `sub_district_code` were integers, so combining states mixed integers and strings.
+  - **Text values:** line breaks and repeated spaces are collapsed in all of them, including 1,339 village names and 179 village codes (the same values batch C cleaned in the access tables).
+- Geometry is unchanged byte for byte, in the GeoJSON text and in the Parquet WKB; 15 states keep the source's Z = 0.0. The REST village GeoJSON/map endpoints and anyone reading the files directly now see the corrected values.
+- The audit checks all three properties for every file, in both formats.
+- The village access tables and the Stage 4 outputs are unaffected.
+
 ### Changed — audit batch D: API consistency, server packaging, last hub locations (Stage 4 run `linux-2026-11-22-run5`)
 
 - **Breaking for REST clients: one error body.** Router errors and unknown paths now answer `{"detail": {"status", "code", "message"}}`, like domain and validation errors (`candidates` added on a 409). Read `detail.message` where `detail` used to be a string.
@@ -55,7 +65,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - The median drive time to an ICP is 9.44 → 9.46 h.
   - High-circuity pairs go from 368 to 370.
   - Hinterland and modal split are unchanged.
-- **Not done:** #14 (the village files' `state` column, dtypes and Z coordinates). Nothing reads those values, and rewriting the files would add hundreds of MB to the repository history.
+- **Not done here:** #14 (the village files' `state` column and dtypes); done later, see "village files: one attribute schema".
 
 ### Changed — audit batch B (Stage 4 regenerated, run `linux-2026-11-22-run3`)
 

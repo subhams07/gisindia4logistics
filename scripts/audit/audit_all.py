@@ -229,6 +229,7 @@ def audit_villages(source_root=DATA_DIR):
         check("villages", f"{slug}: geometries valid+non-empty", "FAIL",
               bool(g.geometry.is_valid.all()) and not g.geometry.is_empty.any())
         _twin_parity_check("villages", slug, g, pathlib.Path(f))
+        _village_schema_check(slug, state, g, pathlib.Path(f))
         ref = CENSUS_VILLAGES_2011.get(state)
         if ref:
             ratio = len(g) / ref
@@ -246,6 +247,35 @@ def audit_villages(source_root=DATA_DIR):
             check("villages", f"{slug}: districts covered == districts layer", "WARN",
                   nd >= exp - 1, f"{nd}/{exp}")
 
+
+
+VILLAGE_CODE_COLUMNS = ("state_code", "district_code", "sub_district_code", "village_code")
+
+
+def _village_schema_check(slug, state, frame, geojson_path):
+    """One attribute schema for all 36 village files (normalize_village_properties.py):
+    `state` is the file's LGD state spelling on every row, codes are text in the
+    GeoJSON and in the Parquet twin, and no text value has line breaks or
+    repeated spaces."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    values = set(frame["state"].dropna()) if "state" in frame else set()
+    ok = "state" in frame and frame["state"].notna().all() and values == {state}
+    check("villages", f"{slug}: state column == '{state}' on every row", "FAIL", bool(ok),
+          "no state column" if "state" not in frame else f"values {sorted(map(repr, values))[:4]}")
+    twin = _parquet_twin(geojson_path)
+    schema = pq.read_schema(twin) if twin.exists() else None
+    not_text = [c for c in VILLAGE_CODE_COLUMNS if c in frame and (
+        frame[c].dropna().map(lambda v: not isinstance(v, str)).any()
+        or (schema is not None and c in schema.names
+            and not pa.types.is_string(schema.field(c).type) and not pa.types.is_large_string(schema.field(c).type)))]
+    check("villages", f"{slug}: code columns are text (GeoJSON and parquet)", "FAIL", not not_text,
+          ", ".join(not_text))
+    text = [c for c in frame.columns if c != "geometry"
+            and (frame[c].dtype == object or pd.api.types.is_string_dtype(frame[c]))]
+    dirty = {c: int(frame[c].map(lambda v: isinstance(v, str) and v != " ".join(v.split())).sum()) for c in text}
+    dirty = {c: n for c, n in dirty.items() if n}
+    check("villages", f"{slug}: no line breaks or repeated spaces in text", "FAIL", not dirty, str(dirty))
 
 
 def _parquet_twin(geojson_path: pathlib.Path) -> pathlib.Path:
