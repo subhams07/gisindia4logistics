@@ -13,6 +13,7 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 
@@ -38,6 +39,7 @@ KEEP_COLS = ["census_district_code", "state", "district", "Population", "Male",
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     out_dir = DATA_DIR / "demographic"
     out_dir.mkdir(parents=True, exist_ok=True)
     raw_path = out_dir / "census2011_district_raw.csv"

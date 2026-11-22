@@ -81,7 +81,13 @@ def main() -> None:
 
     # --- census row ---
     census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
-    crow = census[(census["district"].str.lower() == args.district.lower())]
+    # district names repeat across states (Aurangabad, Bilaspur, ...) -> filter by state too
+    def norm(s):
+        return " ".join(str(s).lower().replace("&", " and ").split())
+    by_name = census[census["district"].str.lower() == args.district.lower()]
+    crow = by_name[by_name["state"].map(norm) == norm(args.state)]
+    if not len(crow) and len(by_name) == 1:
+        crow = by_name
     if len(crow):
         r = crow.iloc[0]
         print(f"Census 2011: population {r.Population:,}, literate {r.Literate:,}")
@@ -116,7 +122,7 @@ def main() -> None:
     ax.legend(loc="lower left", fontsize=8, framealpha=0.9)
     ax.set_axis_off()
     fig.text(0.99, 0.01,
-             "Boundaries indicative (DataMeet/OSM) — not authoritative "
+             "Boundaries indicative (Survey of India ABDB), not authoritative "
              "depictions; © OpenStreetMap contributors (ODbL)",
              ha="right", fontsize=6, color="#555555")
     png = OUT_DIR / f"{args.district.lower().replace(' ', '_')}_logistics_map.png"

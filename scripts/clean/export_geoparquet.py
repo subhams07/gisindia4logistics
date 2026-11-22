@@ -6,6 +6,7 @@ Converts heavy GeoJSON and GPKG layers to OGC-compliant GeoParquet (.parquet)
 with Snappy compression, measuring file size savings and read speedups.
 """
 
+import argparse
 import sys
 import time
 from pathlib import Path
@@ -13,7 +14,7 @@ from typing import Dict, Any
 import pandas as pd
 import geopandas as gpd
 
-sys.path.insert(0, ".")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from scripts.clean.standardize import DATA_DIR
 
 
@@ -177,4 +178,5 @@ def export_all_geoparquet():
 
 
 if __name__ == "__main__":
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     export_all_geoparquet()

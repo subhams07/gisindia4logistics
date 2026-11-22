@@ -14,6 +14,7 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 import pandas as pd
@@ -22,7 +23,6 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 from standardize import DATA_DIR
 
 FREIGHT_DIR = DATA_DIR / "freight"
-FREIGHT_DIR.mkdir(parents=True, exist_ok=True)
 
 LICENSE_GODL = "GODL-India"
 PIB_RAIL_URL = "https://pib.gov.in/PressReleasePage.aspx?PRID=2016942"
@@ -195,6 +195,8 @@ def build_road_indicators() -> pd.DataFrame:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
+    FREIGHT_DIR.mkdir(parents=True, exist_ok=True)
     print("=== Compiling Freight Flow Tables (Initiative 4) ===")
     df_rail = build_rail_freight()
     df_port = build_port_throughput()

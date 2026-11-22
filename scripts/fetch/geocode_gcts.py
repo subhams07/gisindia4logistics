@@ -8,6 +8,7 @@ Usage: python scripts/fetch/geocode_gcts.py
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import sys
 import time
@@ -37,6 +38,7 @@ def geocode(sess, name: str, state: str) -> tuple | None:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     df = pd.read_csv(PATH)
     need = df[df.latitude.isna() | (df.astype(str).latitude == "")]
     print(f"GCTs needing coordinates: {len(need)}")
