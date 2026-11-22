@@ -233,7 +233,8 @@ def test_synthetic_bridge_disclosure_metadata(routing_service, store):
     assert q.quality in ("network_exact", "modelled_connectivity", "low_confidence")
 
     # Response Metadata
-    assert result.metadata.api_version == "1.0.0"
+    import gisindia4logistics
+    assert result.metadata.api_version == gisindia4logistics.__version__  # data/version_manifest.json follows the package
     assert result.metadata.road_network_vintage is not None
     assert "National Highway" in result.metadata.limitations[0] or "National Highway" in result.metadata.limitations[1]
 

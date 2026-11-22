@@ -177,9 +177,10 @@ def main() -> None:
         else:
             fc = json.loads(gdf.to_json())
             fc["name"] = fname.replace(".geojson", "")
-            fc["attribution"] = ("Administrative boundaries (LGD-coded, current): "
-                                 "PAN INDIA dataset via repo maintainer; "
-                                 "schema consistent with Survey of India / LGD")
+            fc["attribution"] = ("Administrative boundaries: Survey of India, Administrative Boundary "
+                                 "Database (ABDB), 2024-25; district codes: Local Government Directory "
+                                 "(lgdirectory.gov.in). Simplified and indicative; not an authoritative "
+                                 "depiction of India's boundaries")
             path = OUT / fname
             write_geojson(path, fc)
         print(f"[{layer}] wrote {len(gdf)} features, dup {key}={dup}, "

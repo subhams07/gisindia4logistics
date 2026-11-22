@@ -1,8 +1,8 @@
 {
-  "data_version": "2026.08",
-  "api_version": "1.0.0",
+  "data_version": "2026.11",
+  "api_version": "1.1.0",
   "model_version": "phase1-decision-workbench",
-  "generated_at_utc": "2026-08-29T10:00:00Z",
+  "generated_at_utc": "2026-11-22T16:01:43Z",
   "datasets": {
     "states_lgd": {
       "vintage": "2024-25 LGD",
@@ -107,6 +107,12 @@
       "source": "Ministry of Railways / PIB",
       "path": "data/freight/rail_freight_annual.csv",
       "feature_count": 61
+    },
+    "villages": {
+      "vintage": "Survey of India village boundaries (27 states via the SoI portal, 9 via the National Water Data Portal)",
+      "source": "Survey of India",
+      "path": "data/administrative/villages_parquet",
+      "feature_count": 658248
     }
   },
   "legal_compliance": {

@@ -59,9 +59,10 @@ applicable laws." No explicit open-data license is granted.
 **Current repository posture (maintainer, 2026-08):** the public repository
 redistributes standardized derivatives in good faith, based on free,
 login-free availability on a government portal, with attribution in the
-documentation. The ABDB GeoJSONs embed the string "Administrative boundaries
-(LGD-coded, current): PAN INDIA dataset via repo maintainer; schema consistent
-with Survey of India / LGD", the SoI portal village GeoJSONs embed "Village
+documentation. The ABDB GeoJSONs embed "Administrative boundaries: Survey of India,
+Administrative Boundary Database (ABDB), 2024-25; district codes: Local
+Government Directory (lgdirectory.gov.in). Simplified and indicative; not an
+authoritative depiction of India's boundaries", the SoI portal village GeoJSONs embed "Village
 boundaries: Survey of India, Government of India" and the NWDP village GeoJSONs
 name Survey of India and the National Water Data Portal; the Parquet and
 GeoPackage copies and the DataMeet layers embed none. The metadata nevertheless states "copyright" and no written

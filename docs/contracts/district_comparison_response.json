@@ -194,10 +194,10 @@
   "missing_value_policy": "exclude_metric",
   "cohort_size": 3,
   "metadata": {
-    "api_version": "1.0.0",
+    "api_version": "1.1.0",
     "package_version": "1.1.0",
     "model_version": "phase1-decision-workbench",
-    "data_version": "2026.08",
+    "data_version": "2026.11",
     "generated_at_utc": "2026-08-29T12:00:00Z",
     "road_network_vintage": "2026-08",
     "port_capacity_vintage": "FY 2019-20 to FY 2023-24",
