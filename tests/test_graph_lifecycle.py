@@ -250,7 +250,7 @@ def test_raw_stores_revalidate_each_call():
     with patch('scripts.clean.graph_builder.validate_graph_metadata', wraps=validate_graph_metadata) as validation:
         service.calculate_highway_route(origin, destination, store=raw)
         service.calculate_highway_route(origin, destination, store=raw)
-        raw.nh_tree.data[0, 0] += 1
+        raw.nh_node_xy[0, 0] += 1
         with pytest.raises(DataIntegrityError):
             service.calculate_highway_route(origin, destination, store=raw)
         assert validation.call_count == 3

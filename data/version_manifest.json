@@ -43,8 +43,8 @@
       "feature_count": 8697
     },
     "dfc_corridors": {
-      "vintage": "2024",
-      "source": "Dedicated Freight Corridor Corporation of India (DFCCIL)",
+      "vintage": "2026-11",
+      "source": "OpenStreetMap surveyed alignments (relations 12145132 & 11154478, ODbL) + DFCCIL metadata",
       "path": "data/rail/dfc_network.geojson",
       "feature_count": 3
     },
@@ -98,15 +98,15 @@
     },
     "port_throughput_annual": {
       "vintage": "FY 2019-20 to FY 2023-24",
-      "source": "Indian Ports Association (IPA)",
+      "source": "Ministry of Ports, Shipping and Waterways (Basic Port Statistics) / IPA",
       "path": "data/freight/port_throughput_annual.csv",
       "feature_count": 65
     },
     "rail_freight_annual": {
-      "vintage": "FY 2019-20 to FY 2023-24",
-      "source": "Ministry of Railways / PIB",
+      "vintage": "FY 2019-20 to FY 2024-25",
+      "source": "Ministry of Railways via Economic Survey Statistical Appendix Table 1.27A",
       "path": "data/freight/rail_freight_annual.csv",
-      "feature_count": 61
+      "feature_count": 66
     },
     "villages": {
       "vintage": "Survey of India village boundaries (27 states via the SoI portal, 9 via the National Water Data Portal)",

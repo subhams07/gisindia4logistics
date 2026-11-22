@@ -1,20 +1,42 @@
 """
 scripts/fetch/build_dfc_network.py
-Builds Dedicated Freight Corridor (DFC) Network GeoJSON and DFC Junction Stations CSV.
-Covers:
-- Western Dedicated Freight Corridor (WDFC, ~1,506 km Dadri to JNPT)
-- Eastern Dedicated Freight Corridor (EDFC, ~1,337 km Ludhiana to Sonnagar)
+Builds Dedicated Freight Corridor (DFC) Network GeoJSON + GeoParquet and DFC Junction Stations CSV.
+
+Corridors:
+- Western Dedicated Freight Corridor (WDFC, ~1,506 km nominal, Dadri to JNPT)
+  Surveyed alignment from OpenStreetMap relation 12145132 (ODbL).
+- Eastern Dedicated Freight Corridor (EDFC, ~1,337 km nominal, Sahnewal/Ludhiana to Sonnagar)
+  Surveyed alignment from OpenStreetMap relation 11154478 (ODbL).
+- Dadri - Khurja Connecting Link (~46 km nominal, New Dadri to New Khurja)
+  Surveyed alignment from OpenStreetMap relation 11154478 (ODbL).
+
+Usage:
+    python scripts/fetch/build_dfc_network.py
+    python scripts/fetch/build_dfc_network.py --cache-dir path/to/osm_cache
 """
+from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
-import pandas as pd
+
 import geopandas as gpd
-from shapely.geometry import LineString
+import pandas as pd
+import pyproj
+import shapely
+from shapely.geometry import LineString, MultiLineString
+from shapely.ops import linemerge
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from scripts.clean.standardize import DATA_DIR
+from scripts.clean.standardize import DATA_DIR, http_session, write_geojson  # noqa: E402
+
+OSM_API_BASE = "https://api.openstreetmap.org/api/0.6/relation"
+WDFC_RELATION_ID = 12145132
+EDFC_RELATION_ID = 11154478
+SIMPLIFY_TOL_DEG = 0.0005
+
+GEOD = pyproj.Geod(ellps="WGS84")
 
 # Key DFC Junction Stations & Crossing Yards with official coordinates & chainage
 DFC_STATIONS_DATA = [
@@ -78,7 +100,88 @@ DFC_STATIONS_DATA = [
 ]
 
 
-def build_dfc():
+def _fetch_osm_relation(rel_id: int, cache_dir: Path | None = None) -> dict:
+    cache_file = cache_dir / f"osm_rel_{rel_id}.json" if cache_dir else None
+    if cache_file and cache_file.exists():
+        return json.loads(cache_file.read_text(encoding="utf-8"))
+    url = f"{OSM_API_BASE}/{rel_id}/full.json"
+    print(f"Fetching OSM relation {rel_id} from {url} ...")
+    resp = http_session().get(url, timeout=120)
+    resp.raise_for_status()
+    data = resp.json()
+    if cache_file:
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        cache_file.write_text(json.dumps(data), encoding="utf-8")
+    return data
+
+
+def _merged_parts_from_relation(data: dict, rel_id: int) -> list[LineString]:
+    nodes = {e["id"]: (e["lon"], e["lat"]) for e in data["elements"] if e["type"] == "node"}
+    ways = {e["id"]: e for e in data["elements"] if e["type"] == "way"}
+    rel = next(e for e in data["elements"] if e["type"] == "relation" and e["id"] == rel_id)
+    lines = []
+    for m in rel["members"]:
+        if m["type"] == "way" and m["ref"] in ways:
+            coords = [nodes[nid] for nid in ways[m["ref"]].get("nodes", []) if nid in nodes]
+            if len(coords) >= 2:
+                lines.append(LineString(coords))
+    merged = linemerge(lines)
+    parts = [merged] if isinstance(merged, LineString) else list(merged.geoms)
+    return sorted(parts, key=lambda g: -GEOD.geometry_length(g))
+
+
+def _prep_line(geom: LineString | MultiLineString) -> LineString | MultiLineString:
+    cleaned = geom.simplify(SIMPLIFY_TOL_DEG, preserve_topology=True)
+    cleaned = shapely.set_precision(cleaned, 1e-5)
+    cleaned = shapely.make_valid(cleaned)
+    if not cleaned.is_valid or cleaned.is_empty:
+        raise ValueError("DFC geometry failed validity check after simplification")
+    return cleaned
+
+
+def _extract_corridor_geometries(wdfc_data: dict, edfc_data: dict) -> tuple[LineString, MultiLineString, LineString]:
+    """Extract clean single-track centerlines for WDFC, EDFC (Sahnewal-Sonnagar), and Dadri-Khurja link."""
+    wdfc_parts = _merged_parts_from_relation(wdfc_data, WDFC_RELATION_ID)
+    edfc_parts = _merged_parts_from_relation(edfc_data, EDFC_RELATION_ID)
+
+    # 1. WDFC: longest continuous surveyed centerline (JNPT <-> New Dadri, ~1,461 km)
+    wdfc_line = _prep_line(wdfc_parts[0])
+
+    # 2. Dadri-Khurja Link: part connecting New Dadri (~28.526, 77.548) to New Khurja (~28.215, 77.811)
+    link_candidates = [
+        p for p in edfc_parts
+        if 30_000 <= GEOD.geometry_length(p) <= 60_000
+        and any(28.48 <= lat <= 28.58 and 77.50 <= lon <= 77.62 for lon, lat in (p.coords[0], p.coords[-1]))
+        and any(28.15 <= lat <= 28.28 and 77.75 <= lon <= 77.88 for lon, lat in (p.coords[0], p.coords[-1]))
+    ]
+    if not link_candidates:
+        raise ValueError("Could not locate Dadri-Khurja connecting link in OSM EDFC relation")
+    link_line = _prep_line(link_candidates[0])
+
+    # 3. EDFC mainline (Sahnewal/Ludhiana -> Pilkhani -> Khurja -> Kanpur -> Prayagraj -> DDU -> Sonnagar):
+    # Trim the Dadri-Khurja spur off the longest Sonnagar-Dadri line at New Khurja (~28.215, 77.811)
+    edfc_main = edfc_parts[0]
+    coords = list(edfc_main.coords)
+    khurja_lon, khurja_lat = 77.811, 28.215
+    split_idx = min(range(len(coords)), key=lambda i: (coords[i][0] - khurja_lon) ** 2 + (coords[i][1] - khurja_lat) ** 2)
+    # Keep the longer side (Sonnagar -> Khurja, ~855 km)
+    seg_a = LineString(coords[: split_idx + 1])
+    seg_b = LineString(coords[split_idx:])
+    edfc_south = seg_a if GEOD.geometry_length(seg_a) >= GEOD.geometry_length(seg_b) else seg_b
+
+    # Khurja -> Pilkhani (~211 km) and Pilkhani -> Sahnewal/Ludhiana (~192 km)
+    north_parts = [
+        p for p in edfc_parts[1:]
+        if GEOD.geometry_length(p) >= 150_000
+        and max(lat for _, lat in p.coords) > 29.5
+    ]
+    if len(north_parts) < 2:
+        raise ValueError(f"Expected Khurja-Pilkhani and Pilkhani-Sahnewal EDFC segments, found {len(north_parts)}")
+    edfc_geom = _prep_line(MultiLineString([edfc_south] + north_parts[:2]))
+    return wdfc_line, edfc_geom, link_line
+
+
+def build_dfc(cache_dir: Path | None = None) -> None:
     out_dir_rail = DATA_DIR / "rail"
     out_dir_rail.mkdir(parents=True, exist_ok=True)
 
@@ -88,27 +191,62 @@ def build_dfc():
     df_st.to_csv(csv_path, index=False)
     print(f"Wrote {len(df_st)} DFC stations -> {csv_path}")
 
-    # 2. Build DFC Network LineStrings
-    wdfc_pts = df_st[df_st.corridor == "WDFC"][["longitude", "latitude"]].values
-    edfc_pts = df_st[df_st.corridor == "EDFC"][["longitude", "latitude"]].values
+    # 2. Fetch real surveyed DFC alignments from OpenStreetMap
+    wdfc_data = _fetch_osm_relation(WDFC_RELATION_ID, cache_dir=cache_dir)
+    edfc_data = _fetch_osm_relation(EDFC_RELATION_ID, cache_dir=cache_dir)
+    wdfc_geom, edfc_geom, link_geom = _extract_corridor_geometries(wdfc_data, edfc_data)
 
-    # Dadri-Khurja link (connects WDFC Dadri to EDFC Khurja)
-    dadri_pt = df_st[df_st.station_code == "NDAD"][["longitude", "latitude"]].values[0]
-    khurja_pt = df_st[df_st.station_code == "NKRJ"][["longitude", "latitude"]].values[0]
-    link_pts = [dadri_pt, khurja_pt]
-
-    lines = [
-        {"name": "Western Dedicated Freight Corridor (WDFC)", "corridor": "WDFC", "route": "Dadri - Rewari - Phulera - Palanpur - Sanand - Surat - JNPT", "length_km": 1506, "status": "Operational / Commissioned", "geometry": LineString(wdfc_pts)},
-        {"name": "Eastern Dedicated Freight Corridor (EDFC)", "corridor": "EDFC", "route": "Sahnewal (Ludhiana) - Khurja - Kanpur - Prayagraj - DDU - Sonnagar", "length_km": 1337, "status": "Operational / Commissioned", "geometry": LineString(edfc_pts)},
-        {"name": "Dadri - Khurja DFC Connecting Link", "corridor": "WDFC-EDFC Link", "route": "New Dadri to New Khurja", "length_km": 46, "status": "Operational", "geometry": LineString(link_pts)},
+    rows = [
+        {
+            "name": "Western Dedicated Freight Corridor (WDFC)",
+            "corridor": "WDFC",
+            "route": "Dadri - Rewari - Phulera - Palanpur - Sanand - Surat - JNPT",
+            "length_km": round(GEOD.geometry_length(wdfc_geom) / 1000.0, 1),
+            "official_length_km": 1506,
+            "status": "Operational / Commissioned (Vaitarna-JNPT final link)",
+            "geometry_source": f"OpenStreetMap relation {WDFC_RELATION_ID} (ODbL)",
+            "geometry": wdfc_geom,
+        },
+        {
+            "name": "Eastern Dedicated Freight Corridor (EDFC)",
+            "corridor": "EDFC",
+            "route": "Sahnewal (Ludhiana) - Khurja - Kanpur - Prayagraj - DDU - Sonnagar",
+            "length_km": round(GEOD.geometry_length(edfc_geom) / 1000.0, 1),
+            "official_length_km": 1337,
+            "status": "Operational / Commissioned",
+            "geometry_source": f"OpenStreetMap relation {EDFC_RELATION_ID} (ODbL)",
+            "geometry": edfc_geom,
+        },
+        {
+            "name": "Dadri - Khurja DFC Connecting Link",
+            "corridor": "WDFC-EDFC Link",
+            "route": "New Dadri to New Khurja",
+            "length_km": round(GEOD.geometry_length(link_geom) / 1000.0, 1),
+            "official_length_km": 46,
+            "status": "Operational",
+            "geometry_source": f"OpenStreetMap relation {EDFC_RELATION_ID} (ODbL)",
+            "geometry": link_geom,
+        },
     ]
 
-    gdf_lines = gpd.GeoDataFrame(lines, crs="EPSG:4326")
+    gdf_lines = gpd.GeoDataFrame(rows, crs="EPSG:4326")
     geojson_path = out_dir_rail / "dfc_network.geojson"
-    gdf_lines.to_file(geojson_path, driver="GeoJSON")
-    print(f"Wrote {len(gdf_lines)} DFC corridors -> {geojson_path}")
+    parquet_path = out_dir_rail / "dfc_network.parquet"
+    write_geojson(geojson_path, json.loads(gdf_lines.to_json(drop_id=True)))
+    gdf_lines.to_parquet(parquet_path, engine="pyarrow", compression="snappy", index=False)
+
+    # Re-read both outputs and verify geometry validity
+    re_gj = gpd.read_file(geojson_path)
+    re_pq = gpd.read_parquet(parquet_path)
+    assert len(re_gj) == len(re_pq) == 3, "Row count mismatch after write"
+    assert bool(re_gj.geometry.is_valid.all()) and bool(re_pq.geometry.is_valid.all()), "Invalid DFC geometry on re-read"
+    for r in re_gj.itertuples():
+        print(f"  {r.corridor:16s} | geodesic={r.length_km:6.1f} km (official {r.official_length_km} km) | valid={r.geometry.is_valid}")
+    print(f"Wrote {len(re_gj)} DFC corridors -> {geojson_path} & {parquet_path}")
 
 
 if __name__ == "__main__":
-    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
-    build_dfc()
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--cache-dir", type=Path, default=None, help="Optional directory to cache OSM relation JSON responses")
+    args = ap.parse_args()
+    build_dfc(cache_dir=args.cache_dir)
