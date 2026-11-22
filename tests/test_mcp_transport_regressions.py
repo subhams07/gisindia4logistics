@@ -651,3 +651,10 @@ def test_model_field_serializer_cannot_hide_invalid_calculation():
     assert result.model_dump() == {"cost": None}
     with pytest.raises(ValueError, match="Non-finite value"):
         serialize_result(result)
+
+
+def test_mcp_server_info_reports_the_package_version():
+    import gisindia4logistics
+    from mcp_server.server import handle_rpc_request
+    init = handle_rpc_request({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}})
+    assert init["result"]["serverInfo"] == {"name": "gisindia4logistics", "version": gisindia4logistics.__version__}
