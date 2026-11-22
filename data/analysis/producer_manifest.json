@@ -1,7 +1,7 @@
 {
   "artifacts": {
     "district_freight_modal_split.csv": {
-      "bytes": 116302,
+      "bytes": 116303,
       "columns": [
         "state",
         "district",
@@ -21,7 +21,7 @@
       ],
       "path": "district_freight_modal_split.csv",
       "rows": 780,
-      "sha256": "11e1c23d303e8396efbe1488fb6b4e9bec5f7bcc24f1b9a85479dbd5251aa7b0",
+      "sha256": "6772ddc5865acf2c8a06933ed642ad96015bdf046c405d77d9b54845773ace94",
       "type": "csv"
     },
     "district_port_hinterland_catchment.csv": {
@@ -97,7 +97,7 @@
       "type": "csv"
     },
     "nh_district_travel_time_summary.csv": {
-      "bytes": 345308,
+      "bytes": 344665,
       "columns": [
         "state",
         "district",
@@ -154,11 +154,11 @@
       ],
       "path": "nh_district_travel_time_summary.csv",
       "rows": 780,
-      "sha256": "7e5b174d1b6c1959d35afa37ec79e8e3eca8e81adc82dd7a39aa8aee95d20cdb",
+      "sha256": "f72e1865b91aaceb693583b8d6572aa59e862192ebead4a8261be28062643865",
       "type": "csv"
     },
     "nh_district_travel_time_summary.parquet": {
-      "bytes": 216344,
+      "bytes": 216358,
       "columns": [
         "state",
         "district",
@@ -215,46 +215,46 @@
       ],
       "path": "nh_district_travel_time_summary.parquet",
       "rows": 780,
-      "sha256": "90edcf133d119c48a15ebb312a7c664e43821545fe772831e31c5e19fa771e59",
+      "sha256": "dd512f4aaefdc3a60bcde3edfa5777e31bbc8ef0b168d4dc1e787d82e2b68bea",
       "type": "parquet"
     }
   },
   "code_hashes": {
     "gisindia4logistics/__init__.py": "6f8b41db8ffd1356f21cb5e2953d7bf4448a9ad51aeeae962857d4c307df20be",
     "scripts/analyze/freight_cost_core.py": "402b4325e38c5cceb206e1f93bd7a48ad648a78c92f0647b686716dff230f8c6",
-    "scripts/analyze/generate_isochrones.py": "9ef09164305d2b4f6513592edec3800e1200597f3c038ee3cdc7e20c4e84d42f",
+    "scripts/analyze/generate_isochrones.py": "2e5d9f8f77eee86df11a5c5fe37617f830efede2b4fde332894f7947530808a5",
     "scripts/analyze/highway_pair_kernel.py": "c55198289a564a3a6a5fe42337d2a03b00110f435b3580fad1521ebc4f259c79",
-    "scripts/analyze/intermodal_cost_engine.py": "58d8ccf3cbe34756d1e8f545e588478ca19831fa06253f76be24c19b9a9bb3c0",
+    "scripts/analyze/intermodal_cost_engine.py": "834ad35189edceee93dcbfe7643569067bda480fd57d58466c7ddb19a3befa9a",
     "scripts/analyze/isochrone_coverage.py": "3885371d2388ebafe319a85698261ac66ebeb5f4c503768123dd0113c48207a4",
-    "scripts/analyze/nh_travel_matrix.py": "f8014354e75ad262e6c987d487a90cbd52dfc9c83d0efd9e037fb7144eadc9c9",
-    "scripts/analyze/plot_villages.py": "d40fe8251da3076fc186eee7dd1ef7ac64fbef318429b0be735f5a8d1609e1f7",
-    "scripts/analyze/port_hinterland_model.py": "fec9ad55468b2df8a6b75581d48ba7caf87924411e6f076993eb66e131f25f84",
-    "scripts/analyze/producer_io.py": "0203e0dbb1fe68e8ea89044e2397b4c61f60b1c0a04eef5a87f963002c7e8d1e",
-    "scripts/analyze/producer_limitations.py": "c471dc4bc03045022046921c5fcbaf9d425d8edc051db7d5330cdd5b599a8294",
+    "scripts/analyze/nh_travel_matrix.py": "ea1d97bf495b474868144444dbf47cb5c0492b0f709ca6172e6d1ff7a70e1b2e",
+    "scripts/analyze/plot_villages.py": "1066f7baeffd4a1be1508f81fcbd02b71a04ca661f8751ee66a02267b5c2e7e4",
+    "scripts/analyze/port_hinterland_model.py": "3e35b6f3fc882ab8731c1e14571475558d2e0b927299539187aa3d44dce1efd7",
+    "scripts/analyze/producer_io.py": "2a1672cd77b8ec4cf6bac7b269cbd6c58be98cd796223c075ab532753ae0eeef",
+    "scripts/analyze/producer_limitations.py": "71313beac8489251064e9e68d1bc522e1e943b6036046719637596d0fa77a70c",
     "scripts/analyze/producer_manifest.py": "46eb5e15a9f13e194b1acbdb341d5a47c7ea6eb4bdd82cfad8b5445860a7ea28",
-    "scripts/analyze/stage4_generate.py": "3f7d488c94c101ff691024fae6fd1dd6b81a40c0e7adba65c4cb7631c44097fa",
+    "scripts/analyze/stage4_generate.py": "a62b41268d53c42f02f6e6868136687ab00d7893869ad5571888ea7aeab810de",
     "scripts/audit/identity_contract.py": "a7427f430c8d4758359d29ec884e2dbc0f9d94e0f01b26078f8b514488614346",
     "scripts/clean/graph_builder.py": "d0513ffee4062e51893628308cc6e139e184ec962eafaf4ee7fe95e73910c7c4",
     "scripts/clean/standardize.py": "2f1caf3a6b120fc347e934af60a06fe506685dbef92c914c2ba2113d2f9d1b47",
     "server/__init__.py": "decb8bada8965fc7ae452aab12df0bb3147acebfd2a204b87aac400dd8971691",
-    "server/app.py": "effab0842e832c6cca251f8a9b584630806a7107051eaf801fd20def1fa19fa6",
+    "server/app.py": "faad9ca498c217bba41d6cc3625c2da45c425c05340d8a229acec91d9fcabab7",
     "server/config.py": "c397619e88d0071b8af72df08ebb1ba45bcd783e99210984542c39993636d4c6",
-    "server/dependencies.py": "00ad93199e6ed29e293be3c66c2012dc1128dc3bcfd0dc562229136bc938d780",
+    "server/dependencies.py": "2e78035befcee4fda2bdad80f31619e84fb21d30daec88f469b1c840336b27d8",
     "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
     "server/models/phase1.py": "1dbe4e46718a8422fdcce25bf188adc4751190042a8986385dba45f3e29dd59a",
-    "server/models/schemas.py": "bd929eb3b341fe222b328d18db4180a477ab441d791c88dde59ec528afe0b65a",
+    "server/models/schemas.py": "70cc218daa33dbec1528f42bb81a78a55e1f80c54aad80083e1137f1cc2cfa68",
     "server/routers/__init__.py": "e7fa915392e982063a995334d2bee6b7910ea988a16e8cd5ac8e09867331bebf",
-    "server/routers/admin.py": "74711ed9ce045e3f01a2998b2f8f6f1c15736fe9cdf05be0dfb7ccc361172ea3",
-    "server/routers/hubs.py": "ba0582c882c5c97723f41e7ef562edccce6079cd8471baf555bd709e2b7b92c0",
+    "server/routers/admin.py": "9ae7fc109b85fc52a23493bb1a199f1072fe2ab7bc3fdf710ca5e572a446db9a",
+    "server/routers/hubs.py": "d8991556fb2b334f4afbfb34df3125a745f9f062fd291efc97216ff49a934d8e",
     "server/routers/routing.py": "bbf26826e05c34c39bb6eb0016ef1e10c183df2419aed7f0829393e8fb77a38b",
-    "server/routers/simulation.py": "6387bee35a0ff58c3d17b6ed83befcebd8fbf7af2c5443ad2875840bdffb6b3f",
+    "server/routers/simulation.py": "689a412f0b9db6f095c241a07f8080eb0d4fbd9fe568fe719af5f9abebc7695c",
     "server/services/__init__.py": "98f669904aeefbb80e1b5c0903ed6d31394364de8a3ed61ce548a12fc637a99d",
     "server/services/error_contract.py": "542127dd3be2f78464df731c890c15c8f6eebf420df6b71b858128a157d95da7",
     "server/services/exceptions.py": "cb481fdcb78a538f78847ac56a19f99e8b48175165cd69e791be95337d088f3a",
     "server/services/graph_snapshot.py": "4df091070be3cb9bf931f2e187e4d9057d7cd6e5d5a2902612840abff1aa45c3",
-    "server/services/location_resolver.py": "f0b54cfb746c03236fdc44f0045145f03de1e186268a616bcfc1cc01ef7d59ea",
-    "server/services/metadata_service.py": "9f4434be8e543e6ebaaca420497a5ba8fb1a24b4fae6d00c0df73412bfeb73b5",
-    "server/services/routing_facade.py": "440d40417591e71ff83de9447bc23bc9d230b8e62b4c8333f1be4b79a74d1b18",
+    "server/services/location_resolver.py": "d56c7f44c94be392eb7e32c778bddb7d39f579c6110fddbf304b3a482dbf7b85",
+    "server/services/metadata_service.py": "446f3725fbcc958f8e525effaaffca13e613ffd8348bb68bb0b62f721bfd499c",
+    "server/services/routing_facade.py": "d71678fcc344447e0a79b4859d98d2d071c50ea0b9bee5089d51b102338a6c28",
     "server/services/routing_service.py": "18ec6b1d4c0a2832d51e77ea8d433bc416bce1d8ab7441561082fb56f7b7190b",
     "server/services/serialization.py": "914a1436c0085fe057cb2df9bb723d5cd749b5e0596ac2dd9bc6f1c7efce1c0e"
   },
@@ -378,8 +378,8 @@
       "sha256": "35eaa08a7214c432f4a08d807318f68fb594d98d3eaae1ffcadea6b1800bb3df"
     },
     "rail/freight_terminals.csv": {
-      "bytes": 16307,
-      "sha256": "4e6ed0ae220f7b4735b35519cd445769a8ca7663acbe0f8b0386ace0b21e9a77"
+      "bytes": 16923,
+      "sha256": "207784700bd83fc29f0729f29aa3103feb94ed0f9ec5f486f443bd7679fad872"
     },
     "rail/railway_stations.csv": {
       "bytes": 551507,
@@ -404,10 +404,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 1186.7233865849998,
-    "peak_memory_bytes": 712282112
+    "elapsed_seconds": 1318.415906566,
+    "peak_memory_bytes": 627511296
   },
-  "run_id": "linux-2026-11-22-run2",
+  "run_id": "linux-2026-11-22-run3",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

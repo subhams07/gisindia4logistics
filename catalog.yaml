@@ -621,7 +621,7 @@ datasets:
   path: data/analysis/nh_district_travel_time_summary.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "780 rows (Parquet twin committed); 776 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 372 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit."
+  quality_notes: "780 rows (Parquet twin committed); 776 mainland districts with component-aware Dijkstra drive times; 4 island districts flagged. Disclosed: 368 district-hub pairs have road distance over 3x straight-line; Lakshadweep and Nicobars highway access is over-sea distance beyond the 150 km snap limit."
 - name: District to Major Ports highway drive-time matrix
   category: analysis
   description: 780 districts x 12 major commercial ports drive-time matrix in hours

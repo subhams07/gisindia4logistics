@@ -302,8 +302,8 @@ Karnataka,Bengaluru (Urban),525.0,9609662.0,False,New Mangalore Port,648.9,9.27,
 Karnataka,Chamarajanagara,531.0,1020842.0,False,Cochin Port,490.3,7.25,1940.6,1941.3,,Road Trucking,0.0,0.0,380.0
 Karnataka,Chikkaballapura,630.0,1261307.0,False,New Mangalore Port,408.8,5.81,1639.5,1774.0,,Road Trucking,0.0,0.0,380.0
 Karnataka,Chikkamagaluru,532.0,1144273.0,False,New Mangalore Port,200.9,3.11,878.8,1323.8,,Road Trucking,0.0,0.0,380.0
-Karnataka,Chitradurga,533.0,1667801.0,False,New Mangalore Port,331.3,4.9,1356.7,1419.2,,Road Trucking,0.0,0.0,380.0
-Karnataka,Dakshina Kannada,534.0,2156470.0,False,New Mangalore Port,50.8,0.75,326.6,774.6,,Road Trucking,0.0,0.0,380.0
+Karnataka,Chitradurga,533.0,1667801.0,False,New Mangalore Port,331.3,4.9,1356.7,1606.1,,Road Trucking,0.0,0.0,380.0
+Karnataka,Dakshina Kannada,534.0,2156470.0,False,New Mangalore Port,50.8,0.75,326.6,981.3,,Road Trucking,0.0,0.0,380.0
 Karnataka,Davanagere,535.0,1477798.0,False,Mormugao Port,375.4,5.73,1520.0,1701.6,,Road Trucking,0.0,0.0,380.0
 Karnataka,Dharwad,536.0,1852820.0,False,Mormugao Port,263.5,3.84,1107.3,1459.3,,Road Trucking,0.0,0.0,380.0
 Karnataka,Gadag,537.0,1071790.0,False,Mormugao Port,321.9,4.71,1321.8,1585.8,,Road Trucking,0.0,0.0,380.0
@@ -319,7 +319,7 @@ Karnataka,Raichur,546.0,1939386.0,False,Chennai Port,655.4,9.91,2548.6,2243.5,,C
 Karnataka,Ramanagara,631.0,1083840.0,False,New Mangalore Port,614.5,8.78,2394.4,2168.7,,Conventional Rail,225.8,9.4,380.0
 Karnataka,Shivamogga,547.0,1761260.0,False,New Mangalore Port,256.2,3.74,1080.5,1443.5,,Road Trucking,0.0,0.0,380.0
 Karnataka,Tumakuru,548.0,2687221.0,False,New Mangalore Port,398.2,5.83,1601.9,1751.0,,Road Trucking,0.0,0.0,380.0
-Karnataka,Udupi,549.0,1078442.0,False,New Mangalore Port,96.9,1.6,497.1,1085.6,,Road Trucking,0.0,0.0,380.0
+Karnataka,Udupi,549.0,1078442.0,False,New Mangalore Port,96.9,1.6,497.1,1098.6,,Road Trucking,0.0,0.0,380.0
 Karnataka,Uttara Kannada,550.0,1443482.0,False,Mormugao Port,169.6,2.6,763.5,1256.0,,Road Trucking,0.0,0.0,380.0
 Karnataka,Vijayanagara,738.0,1559077.0,False,New Mangalore Port,429.7,6.63,1720.1,1819.2,,Road Trucking,0.0,0.0,380.0
 Karnataka,Vijayapura,530.0,2191305.0,False,Mormugao Port,467.9,6.76,1857.1,1900.3,,Road Trucking,0.0,0.0,380.0
@@ -328,7 +328,7 @@ Kerala,Alappuzha,554.0,2103988.0,False,Cochin Port,302.8,4.52,1252.3,1544.4,,Roa
 Kerala,Ernakulam,555.0,3389024.0,False,Cochin Port,42.0,0.73,295.1,958.5,,Road Trucking,0.0,0.0,380.0
 Kerala,Idukki,556.0,966731.0,False,Cochin Port,146.6,2.14,678.2,1206.2,,Road Trucking,0.0,0.0,380.0
 Kerala,Kannur,557.0,2536109.0,False,Cochin Port,378.7,5.78,1532.1,1708.8,,Road Trucking,0.0,0.0,380.0
-Kerala,Kasaragod,558.0,1309212.0,False,New Mangalore Port,78.2,1.39,428.9,960.5,,Road Trucking,0.0,0.0,380.0
+Kerala,Kasaragod,558.0,1309212.0,False,New Mangalore Port,78.2,1.39,428.9,1052.1,,Road Trucking,0.0,0.0,380.0
 Kerala,Kollam,559.0,2629060.0,False,Vizhinjam International Seaport,110.7,2.05,549.6,1128.5,,Road Trucking,0.0,0.0,380.0
 Kerala,Kottayam,560.0,1976156.0,False,Cochin Port,276.7,4.09,1156.2,1487.9,,Road Trucking,0.0,0.0,380.0
 Kerala,Kozhikode,561.0,3103997.0,False,Cochin Port,313.3,4.61,1290.4,1567.2,,Road Trucking,0.0,0.0,380.0
@@ -498,21 +498,21 @@ Odisha,DEOGARH,351.0,344217.0,False,Paradip Port,356.5,5.18,1448.5,1660.7,,Road 
 Odisha,DHENKANAL,352.0,1198420.0,False,Paradip Port,176.2,2.7,787.8,1109.9,,Road Trucking,0.0,0.0,380.0
 Odisha,GAJAPATI,353.0,597456.0,False,Gangavaram Port,245.7,3.78,1043.4,1420.8,,Road Trucking,0.0,0.0,380.0
 Odisha,GANJAM,354.0,3509631.0,False,Gangavaram Port,318.8,4.84,1311.7,1579.1,,Road Trucking,0.0,0.0,380.0
-Odisha,JAGATSINGHPUR,355.0,1120368.0,False,Dhamra Port,217.4,3.45,940.2,1262.1,,Road Trucking,0.0,0.0,380.0
+Odisha,JAGATSINGHPUR,355.0,1120368.0,False,Dhamra Port,217.4,3.45,940.2,1339.3,,Road Trucking,0.0,0.0,380.0
 Odisha,JAJAPUR,356.0,1827539.0,False,Dhamra Port,101.0,1.79,513.1,739.5,,Road Trucking,0.0,0.0,380.0
 Odisha,JHARSUGUDA,357.0,576512.0,False,Paradip Port,437.0,6.39,1744.3,1548.2,,Conventional Rail,196.1,11.2,380.0
 Odisha,KALAHANDI,358.0,1587807.0,False,Gangavaram Port,386.3,5.88,1559.9,1725.2,,Road Trucking,0.0,0.0,380.0
 Odisha,KANDHAMAL,359.0,736044.0,False,Gangavaram Port,438.3,6.63,1750.7,1837.8,,Road Trucking,0.0,0.0,380.0
 Odisha,KENDRAPARA,360.0,1435818.0,False,Paradip Port,53.6,1.02,338.5,755.8,,Road Trucking,0.0,0.0,380.0
 Odisha,KEONJHAR (KENDUJHAR),361.0,1813034.0,False,Dhamra Port,198.9,3.08,871.5,1311.9,,Road Trucking,0.0,0.0,380.0
-Odisha,KHORDHA,362.0,2328203.0,False,Dhamra Port,225.8,3.5,970.4,1248.3,,Road Trucking,0.0,0.0,380.0
+Odisha,KHORDHA,362.0,2328203.0,False,Dhamra Port,225.8,3.5,970.4,1377.7,,Road Trucking,0.0,0.0,380.0
 Odisha,KORAPUT,363.0,1331301.0,False,Gangavaram Port,250.4,3.94,1061.4,1404.9,,Road Trucking,0.0,0.0,380.0
 Odisha,MALKANGIRI,364.0,611005.0,False,Gangavaram Port,340.5,5.26,1392.2,1626.1,,Road Trucking,0.0,0.0,380.0
 Odisha,MAYURBHANJ,365.0,2537026.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,267.5,4.2,1124.2,1468.0,,Road Trucking,0.0,0.0,380.0
 Odisha,NABARANGAPUR,366.0,1255642.0,False,Gangavaram Port,338.7,5.55,1387.9,1622.2,,Road Trucking,0.0,0.0,380.0
 Odisha,NAYAGARH,367.0,968483.0,False,Dhamra Port,285.0,4.36,1187.7,1505.9,,Road Trucking,0.0,0.0,380.0
 Odisha,NUAPARHA,368.0,610869.0,False,Gangavaram Port,560.7,8.41,2200.0,2070.2,,Conventional Rail,129.9,5.9,380.0
-Odisha,PURI,369.0,1661299.0,False,Dhamra Port,253.6,3.9,1072.5,1425.3,,Road Trucking,0.0,0.0,380.0
+Odisha,PURI,369.0,1661299.0,False,Dhamra Port,253.6,3.9,1072.5,1437.9,,Road Trucking,0.0,0.0,380.0
 Odisha,RAYAGARHA,370.0,968528.0,False,Gangavaram Port,371.7,5.83,1507.5,1693.6,,Road Trucking,0.0,0.0,380.0
 Odisha,SAMBALPUR,371.0,1018640.0,False,Paradip Port,408.5,6.07,1640.4,1773.3,,Road Trucking,0.0,0.0,380.0
 Odisha,SUBARNAPUR,372.0,609308.0,False,Paradip Port,415.1,6.0,1663.4,1787.6,,Road Trucking,0.0,0.0,380.0
@@ -681,7 +681,7 @@ Uttar Pradesh,BAHRAICH,125.0,3613824.0,False,Kolkata Port (Syama Prasad Mookerje
 Uttar Pradesh,BALLIA,126.0,3236059.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,832.1,11.96,3193.3,2403.2,1635.4,Dedicated Freight Corridor (DFC),1557.9,48.8,210.0
 Uttar Pradesh,BALRAMPUR,127.0,2139375.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1162.1,16.72,4404.3,3111.8,2218.3,Dedicated Freight Corridor (DFC),2186.0,49.6,210.0
 Uttar Pradesh,BANDA,128.0,1745958.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1129.6,16.25,4285.0,3060.5,2177.0,Dedicated Freight Corridor (DFC),2108.0,49.2,210.0
-Uttar Pradesh,BARA BANKI,129.0,3326568.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1170.5,16.83,4435.0,2865.9,1969.8,Dedicated Freight Corridor (DFC),2465.2,55.6,210.0
+Uttar Pradesh,BARA BANKI,129.0,3326568.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1170.5,16.83,4435.0,3062.5,2166.3,Dedicated Freight Corridor (DFC),2268.7,51.2,210.0
 Uttar Pradesh,BAREILLY,130.0,4609181.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1430.3,20.32,5386.5,3322.5,2345.9,Dedicated Freight Corridor (DFC),3040.6,56.4,210.0
 Uttar Pradesh,BASTI,131.0,2383435.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1074.9,15.44,4084.1,2775.0,1908.4,Dedicated Freight Corridor (DFC),2175.7,53.3,210.0
 Uttar Pradesh,BHADOHI,179.0,1579403.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,990.7,14.26,3775.4,2841.1,2000.6,Dedicated Freight Corridor (DFC),1774.8,47.0,210.0
@@ -761,13 +761,13 @@ West Bengal,BANKURA,305.0,3732194.0,False,Kolkata Port (Syama Prasad Mookerjee P
 West Bengal,BIRBH@M,307.0,3626993.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,225.4,3.31,967.6,1374.3,1026.2,Road Trucking,0.0,0.0,210.0
 West Bengal,DAKSHIN DINAJPUR,310.0,1795889.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,398.7,5.81,1603.6,1463.1,959.8,Dedicated Freight Corridor (DFC),643.7,40.1,210.0
 West Bengal,DARJILING,309.0,1222299.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,665.9,9.64,2583.9,2262.7,1588.1,Dedicated Freight Corridor (DFC),995.8,38.5,210.0
-West Bengal,HAORA,313.0,4998562.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,43.9,0.66,301.3,727.8,562.6,Road Trucking,0.0,0.0,210.0
+West Bengal,HAORA,313.0,4998562.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,43.9,0.66,301.3,755.1,589.9,Road Trucking,0.0,0.0,210.0
 West Bengal,HUGLI,312.0,5703426.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,73.6,1.34,412.2,786.1,581.9,Road Trucking,0.0,0.0,210.0
 West Bengal,JALPAIGURI,314.0,2194449.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,639.4,9.28,2486.8,2214.2,1554.5,Dedicated Freight Corridor (DFC),932.4,37.5,210.0
 West Bengal,JHARGRAM,703.0,2028750.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,156.8,2.26,715.4,1228.3,941.6,Road Trucking,0.0,0.0,210.0
 West Bengal,KALIMPONG,702.0,658379.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,837.4,12.11,3213.3,2576.7,1805.9,Dedicated Freight Corridor (DFC),1407.3,43.8,210.0
 West Bengal,KOCH BIHAR,308.0,2896852.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,714.2,10.45,2762.0,2351.2,1649.5,Dedicated Freight Corridor (DFC),1112.6,40.3,210.0
-West Bengal,KOLKATA,315.0,4773938.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,4.7,0.11,157.6,461.9,348.2,Road Trucking,0.0,0.0,210.0
+West Bengal,KOLKATA,315.0,4773938.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,4.7,0.11,157.6,579.9,466.2,Road Trucking,0.0,0.0,210.0
 West Bengal,MALDAH,316.0,4096094.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,343.5,5.02,1401.0,1335.6,881.8,Dedicated Freight Corridor (DFC),519.3,37.1,210.0
 West Bengal,MURSHIDABAD,319.0,7381110.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,332.0,4.84,1358.7,1607.7,1164.1,Dedicated Freight Corridor (DFC),194.6,14.3,210.0
 West Bengal,NADIA,320.0,5288858.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,179.2,2.55,797.4,1276.8,970.1,Road Trucking,0.0,0.0,210.0
@@ -777,5 +777,5 @@ West Bengal,PASCHIM MEDINIPUR,318.0,4140174.0,False,Kolkata Port (Syama Prasad M
 West Bengal,PURBA BARDDHAMAN,306.0,6176302.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,125.6,1.89,601.5,1125.0,866.3,Road Trucking,0.0,0.0,210.0
 West Bengal,PURBA MEDINIPUR,317.0,5248008.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,113.2,2.17,559.4,1133.9,886.3,Road Trucking,0.0,0.0,210.0
 West Bengal,PURULIYA,321.0,3021637.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,336.6,4.82,1375.0,1617.6,1169.9,Dedicated Freight Corridor (DFC),205.0,14.9,210.0
-West Bengal,SOUTH 24PARGANAS,304.0,8744368.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,98.2,1.98,504.6,1093.8,859.6,Road Trucking,0.0,0.0,210.0
+West Bengal,SOUTH 24PARGANAS,304.0,8744368.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,98.2,1.98,504.6,1101.4,867.2,Road Trucking,0.0,0.0,210.0
 West Bengal,UTTAR DINAJPUR,311.0,2973287.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,445.9,6.53,1777.1,1854.3,1308.7,Dedicated Freight Corridor (DFC),468.3,26.4,210.0

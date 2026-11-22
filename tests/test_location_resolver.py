@@ -170,21 +170,27 @@ def test_resolve_hub_by_code(resolver, store):
 
 def test_resolve_freight_terminal_by_exact_name(resolver, store):
     """Verifies resolving a Gati Shakti freight terminal by exact name."""
-    hub = HubLocation(hub_type="freight_terminal", name="Kamalajari")
+    hub = HubLocation(hub_type="freight_terminal", name="Jogighopa")
     res = resolver.resolve(hub, store)
-    assert res.canonical_name == "Kamalajari"
+    assert res.canonical_name == "Jogighopa"
     assert res.match_method == "exact_name"
-    assert res.latitude is not None and 20.0 <= res.latitude <= 21.0
-    assert res.longitude is not None and 85.0 <= res.longitude <= 86.0
+    assert res.latitude is not None and 26.0 <= res.latitude <= 26.5  # Jogighopa, Assam
+    assert res.longitude is not None and 90.3 <= res.longitude <= 90.8
 
 
 def test_resolve_freight_terminal_by_station_code(resolver, store):
     """Verifies resolving a Gati Shakti freight terminal by matched station code."""
-    hub = HubLocation(hub_type="freight_terminal", code="KJR")
+    hub = HubLocation(hub_type="freight_terminal", code="JPZ")
     res = resolver.resolve(hub, store)
-    assert "Kamalajari" in res.canonical_name
+    assert "Jogighopa" in res.canonical_name
     assert res.match_method == "exact_code"
-    assert 20.0 <= res.latitude <= 21.0
+    assert 26.0 <= res.latitude <= 26.5
+
+
+def test_freight_terminal_removed_for_a_wrong_state_match_is_not_routable(resolver, store):
+    """Kamalajari (Assam) once carried an Odisha station's coordinates; it is now coordinate-pending."""
+    with pytest.raises(LocationNotFoundError, match="lacks geographic coordinates"):
+        resolver.resolve(HubLocation(hub_type="freight_terminal", name="Kamalajari"), store)
 
 
 def test_freight_terminal_without_coordinates_is_not_routable(resolver, store):
@@ -201,7 +207,7 @@ def test_every_declared_hub_type_has_valid_resolver_path(resolver, store):
         "port": "Deendayal Port (Kandla)",
         "icd": "ICD Tughlakabad",
         "mmlp": "MMLP Jalna",
-        "freight_terminal": "Kamalajari",
+        "freight_terminal": "Jogighopa",
         "rail_station": "PUNE JN",
         "air_cargo": "Indira Gandhi International Airport (DEL)",
         "iw_terminal": "Varanasi Multi-Modal Terminal",

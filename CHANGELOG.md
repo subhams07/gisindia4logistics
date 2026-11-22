@@ -4,6 +4,27 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — audit batch B (Stage 4 regenerated, run `linux-2026-11-22-run3`)
+
+- **Gati Shakti terminal coordinates.** Five GCTs had coordinates in another state: Kamalajari (Assam) at an Odisha station, Shivpur-Godawari (Jharkhand) in Madhya Pradesh, New Makardhokda (Maharashtra) at a Karnataka port, Ras Babra (Rajasthan) in Kolkata, Barabani (West Bengal) at Barabanki, UP. These are now blank and coordinate-pending. Wadi (Karnataka) moves from a Chitradurga station to Wadi junction (Kalaburagi). Lajkura, Nipania and Samba carry the station's own state rather than the railway division's. 73 of 84 GCTs have coordinates. `build_gct_terminals.py` and `geocode_gcts.py` accept only candidates inside the row's state polygon, and the audit checks every GCT coordinate. Effects:
+  - 86,107 villages (13.1%) get a new freight-terminal distance (median +51 km); the removed points had acted as false nearby terminals.
+  - 73 districts get a new nearest GCT. The median district drive time to a GCT is 3.14 → 3.24 h.
+  - High-circuity district–hub pairs go from 372 to 368.
+- **Modelled tolls per plaza** rise strictly with vehicle class: LMV 120, LCV 195, 2-axle 280, MAV 340, 7-axle 410 INR. LCV, 2-axle and 7-axle previously all paid 220, so a 7-axle paid less than a MAV.
+- **Gravity defaults** in code are now 0.85 / 1.65, the published and live values (they were 1.2 / 1.5). The limitations sidecar no longer contrasts two parameter sets.
+- **Port-gravity simulation** (REST and MCP) joins population like the batch producer: (state, district_code), then (state, district). The four uncoded districts (Nazul, Shahdara, Mirpur, Muzaffarabad; 2.26 M people) were captured by no port before.
+- **Breaking API changes:** `share_villages_within_5km_rail` is removed from scorecards (it carried the 10 km value), and `commodity_name` is removed from the freight-cost SDK and MCP tool (it was ignored).
+- **Standalone producer CLIs** (`nh_travel_matrix`, `generate_isochrones`, `port_hinterland_model`, `intermodal_cost_engine`) write to `$GIS4LOGISTICS_OUTPUT_PATH` or `outputs/`. They refuse a directory holding `producer_manifest.json` unless given `--allow-manifest-dir`.
+- **Server:**
+  - Unloaded tables return 503, not 500.
+  - The toll-plaza NH filter normalises `nh 44` / `NH44` / `44` and no longer matches NH 444.
+  - `DataStore.get_instance` initialises once under a lock.
+  - The store starts without population estimates.
+  - `/admin/villages` caches the last four state tables per file modification time.
+- **CLI and scripts:** `plot-villages` reports user errors without a traceback. `nearest_facility.py --all` does not rebuild the national composite after a failed state.
+- **Audit** adds checks for `hub_type` values per hub file, catalog parse failure, vanished baseline series and GCT state agreement.
+- **Removed:** the 34,954 OSM habitation points and `fetch_border_habitations.py` (superseded by the NWDP village polygons since #12).
+
 ### Changed — project-audit fixes (no Stage 4 regeneration)
 
 - SDK, CLI and MCP raise a clear `DataNotFoundError` when the data directory is missing; the MCP `serverInfo.version` is the package version.
