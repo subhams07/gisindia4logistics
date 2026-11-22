@@ -512,8 +512,9 @@ def test_committed_mcp_quantity_capacity_and_null_fallback(monkeypatch, committe
     capacity = tools.tool_calculate_intermodal_freight_cost("Pune", payload_tons=40, truck_payload_tons=40)
     for mode in ("road", "conventional_rail", "dfc_rail"):
         assert twenty[mode]["cost_per_ton_inr"] == forty[mode]["cost_per_ton_inr"]
+        # Totals are rounded to 0.1 INR: round(2x) and 2 * round(x) differ by up to 0.15.
         assert forty[mode]["total_shipment_cost_inr"] == pytest.approx(
-            2 * twenty[mode]["total_shipment_cost_inr"], abs=0.1,
+            2 * twenty[mode]["total_shipment_cost_inr"], abs=0.15,
         )
     assert capacity["road"]["cost_per_ton_inr"] < forty["road"]["cost_per_ton_inr"]
     assert capacity["conventional_rail"] == forty["conventional_rail"]
