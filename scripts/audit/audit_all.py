@@ -40,7 +40,7 @@ from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
 # dissolved into a duplicate "Malegaon" DHULE). Codes are now official LGD codes
 # (scripts/clean/apply_lgd_codes.py). Documented gaps against the LGD directory:
 # Ladakh predates the 2025 split (2 of 8); Delhi predates its 2025 reorganisation
-# (11 coded + Shahdara and Nazul without LGD codes); J&K = 20 coded + 2 PoK rows.
+# (11 coded + Shahdara and Nazul without LGD codes); J&K = 20 coded + Mirpur and Muzaffarabad (no LGD code).
 EXPECTED_DISTRICTS = {
     "Andhra Pradesh": 26, "Arunachal Pradesh": 27, "Assam": 35, "Bihar": 38,
     "Chhattisgarh": 33, "Goa": 3, "Gujarat": 33, "Haryana": 22,
@@ -98,12 +98,38 @@ def check(dataset: str, name: str, severity: str, ok: bool | None, detail: str =
     print(f"  [{status}] {name}" + (f" — {detail}" if detail else ""))
 
 
+# India's official political map (Survey of India) is the reference: these points
+# must fall inside the named state (operator ruling 2026-11-14).
+POLITICAL_MAP_POINTS = {
+    "Aksai Chin": (79.0, 35.0, "ladakh"),
+    "Gilgit": (74.31, 35.92, "ladakh"),
+    "Muzaffarabad": (73.47, 34.37, "jammu and kashmir"),
+    "Mirpur": (73.75, 33.15, "jammu and kashmir"),
+    "Tawang": (91.86, 27.59, "arunachal pradesh"),
+}
+
+
+def _political_map_checks(dataset, states):
+    from shapely.geometry import Point
+    for place, (lon, lat, expected) in POLITICAL_MAP_POINTS.items():
+        hits = states[states.geometry.contains(Point(lon, lat))]["state"].astype(str)
+        found = [h.strip().lower().replace("&", "and") for h in hits]
+        label = {"ladakh": "Ladakh", "jammu and kashmir": "Jammu and Kashmir",
+                 "arunachal pradesh": "Arunachal Pradesh"}[expected]
+        check(dataset, f"official map: {place} in {label}", "FAIL",
+              found == [expected], ", ".join(hits) or "no state")
+
+
 def audit_boundaries(source_root=DATA_DIR):
     print("\n== LGD boundaries (states/districts/subdistricts) ==")
     states = gpd.read_file(source_root / "administrative" / "india_states_lgd.geojson")
     check("states_lgd", "36 states/UTs", "FAIL", len(states) == 36, f"{len(states)}")
     check("states_lgd", "valid geometries", "FAIL", states.geometry.is_valid.all())
     check("states_lgd", "no null state names", "FAIL", states.state.notna().all())
+    _political_map_checks("states_lgd", states)
+    states_2011 = source_root / "administrative" / "india_states.geojson"
+    if states_2011.exists():
+        _political_map_checks("states_2011", gpd.read_file(states_2011))
 
     dist = gpd.read_file(source_root / "administrative" / "india_districts_lgd.geojson")
     check("districts_lgd", "valid geometries", "FAIL", dist.geometry.is_valid.all())
@@ -116,7 +142,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("districts_lgd", "per-state counts == verified reference", "FAIL",
           not mismatches, str(mismatches) if mismatches else "all 36 match")
     jk = dist[dist.state == "Jammu and Kashmir"]
-    check("districts_lgd", "J&K = 20 coded + 2 PoK (null code)", "FAIL",
+    check("districts_lgd", "J&K = 20 coded + Mirpur and Muzaffarabad (null code)", "FAIL",
           len(jk) == 22 and jk.district_code.isna().sum() == 2,
           f"{len(jk)} rows, {int(jk.district_code.isna().sum())} null-coded")
 
@@ -156,7 +182,7 @@ def audit_boundaries(source_root=DATA_DIR):
     check("districts_lgd", "LGD district codes unique nationally", "FAIL",
           not coded.district_code.duplicated().any())
     uncoded = sorted(dist[dist.district_code.isna()].district)
-    check("districts_lgd", "only Nazul, Shahdara and the 2 PoK rows lack an LGD code", "FAIL",
+    check("districts_lgd", "only Nazul, Shahdara, Mirpur and Muzaffarabad lack an LGD code", "FAIL",
           uncoded == ["MIRPUR", "MUZAFFARABAD", "NAZUL", "SHAHDARA"], str(uncoded))
 
 

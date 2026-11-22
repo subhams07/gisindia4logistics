@@ -14,6 +14,7 @@ datasets produced by fetch scripts.
 - CRS: EPSG:4326 (WGS 84). Join keys: LGD codes (state/district/sub-district/village).
 - Attribute naming: snake_case. `catalog.yaml` is the machine-readable catalog — every dataset has an entry with source, license, vintage, quality_status.
 - Data quality bar: committed datasets must pass validation (counts vs official totals, geometry validity, coordinate sanity). "High quality only" is a maintainer requirement.
+- **India's official political map is the reference** (operator ruling 2026-11-14): all boundaries, maps and territorial wording follow the Survey of India depiction. Aksai Chin and Gilgit-Baltistan are in Ladakh; Mirpur and Muzaffarabad are districts of Jammu and Kashmir; Arunachal Pradesh is shown in full. Never take national or state outlines from sources that draw India differently (OSM admin boundaries, Natural Earth, GADM), and never describe such areas as outside India.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
 ## Repository contents (as of 2026-08-23, after phase 7)
@@ -155,7 +156,7 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
     - States 40 → **36** after dropping 4 "DISPUTED (X & Y)" inter-state
       slivers.
     - Districts 808 → **780** after dropping 28 disputed slivers (rows with
-      NaN state + REMARKS containing DISPUTED). Mirpur & Muzaffarabad (PoK)
+      NaN state + REMARKS containing DISPUTED). Mirpur & Muzaffarabad (J&K)
       kept with null LGD codes ("NOT AVAILABLE" in source).
     - Sub-districts 6,667 → 6,639. 89 rows have null LGD codes in source;
       one genuine code collision (3606 shared by Bari Pattan J&K / Khirkiya MP).
@@ -311,7 +312,7 @@ legal_compliance.md, metadata/abdb/), `catalog.yaml` (25 datasets).
       27 incl. Bichom/Keyi Panyor, Chhattisgarh 33, Goa 3 incl. Kushavati).
     Accepted WARNs: ~1k blank village names (SoI source), revenue-vs-census
     village counting for Delhi/Chandigarh, documented gaps (Ladakh 2,
-    Puducherry 2/4, J&K PoK rows, Delhi Nazul).
+    Puducherry 2/4, J&K Mirpur/Muzaffarabad rows, Delhi Nazul).
     **Audit-script lesson**: naive line-counting breaks on multiline CSV
     names; NaN != "" comparisons don't filter; glob patterns in catalog
     paths need expansion; quote YAML values with colons — THREE separate
