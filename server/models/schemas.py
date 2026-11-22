@@ -47,7 +47,6 @@ class DistrictScorecard(BaseModel):
     
     # Catchment shares
     share_villages_within_10km_rail: Optional[float] = None
-    share_villages_within_5km_rail: Optional[float] = Field(None, deprecated=True, description="Deprecated alias for 10km catchment")
     share_villages_within_25km_rail: Optional[float] = None
     share_villages_within_50km_icd: Optional[float] = None
 

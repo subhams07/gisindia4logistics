@@ -260,7 +260,6 @@ def get_district_scorecard(
             ar = a_row.iloc[0]
             ten_km_val = ar.get("rail_station_within_10km_pct")
             scorecard["share_villages_within_10km_rail"] = ten_km_val
-            scorecard["share_villages_within_5km_rail"] = ten_km_val  # Deprecated backward-compatible alias
             scorecard["share_villages_within_25km_rail"] = ar.get("rail_station_within_25km_pct")
             scorecard["share_villages_within_50km_icd"] = ar.get("icd_within_50km_pct")
 

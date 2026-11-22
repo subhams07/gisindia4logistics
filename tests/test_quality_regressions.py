@@ -39,7 +39,7 @@ def test_scorecard_exposes_ten_km_value_and_deprecated_five_km_alias():
     scorecard = get_district_scorecard("Pune", store=store)
 
     assert scorecard["share_villages_within_10km_rail"] == 42.5
-    assert scorecard["share_villages_within_5km_rail"] == 42.5
+    assert "share_villages_within_5km_rail" not in scorecard
 
 
 def test_unknown_hub_type_is_rejected():
