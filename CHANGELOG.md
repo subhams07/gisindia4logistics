@@ -4,6 +4,34 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — audit batch D: API consistency, server packaging, last hub locations (Stage 4 run `linux-2026-11-22-run5`)
+
+- **Breaking for REST clients: one error body.** Router errors and unknown paths now answer `{"detail": {"status", "code", "message"}}`, like domain and validation errors (`candidates` added on a 409). Read `detail.message` where `detail` used to be a string.
+- **Breaking for SDK users: one village-map implementation.**
+  - `gis.plot_villages`, the MCP tool `gis_plot_villages_map` and `scripts/analyze/plot_villages.py` share `render_village_map`.
+  - File names follow `<state>_<district>_village_<metric>_map.<ext>` under `outputs/maps`.
+  - The result is `{..., "metric", "outputs": {"html_map_path", "png_map_path"}}`; the SDK's `files: {html, png}` is gone.
+  - An `output_path` with a suffix other than `.html`/`.png`, or one the format does not write, is an error instead of being ignored.
+  - The CLI no longer writes into `data/analysis`.
+- **Labels.**
+  - States use the LGD spellings everywhere. `clean_state_name` returned "Andaman And Nicobar Islands"; the Census 2011 state/district layers and the key-indicator table now use the same three spellings as the current layers (state values only).
+  - Major ports use the `ports.csv` names, which the port matrix and `nearest_port_name` already used: "Jawaharlal Nehru Port (JNPT/Navi Mumbai)" and "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex" replace the gravity model's labels in the hinterland output.
+  - The old labels, "Nhava Sheva" and "Mumbai" are accepted as request aliases. An exact name beats a substring match, so "Mumbai" is Mumbai Port.
+- **Filled fields.**
+  - `state_code` (LGD) on `/admin/states` and `/admin/districts`.
+  - District `area_sqkm` (ESRI:102028; India 3.27 M km²) and `subdistrict_count`.
+  - Village `latitude`/`longitude`: the village access tables gain the representative point the distances are measured from.
+  - Station NSG `category` by default (5,491 stations).
+- **`custom_port_capacities`** on `sdk.simulate_port_catchment` and the MCP tool, as on REST.
+- **Server packaging.**
+  - `server/__init__.py` no longer imports the app, so the app, routers and `plot_villages` leave the Stage 4 code closure.
+  - `gisindia4logistics serve` reads `GIS4LOGISTICS_HOST`/`GIS4LOGISTICS_PORT`, and the Dockerfile starts through it, so docker-compose's values apply and the data check runs. The unused `DEBUG` setting is removed.
+- **Last hub locations.**
+  - Five GCTs are placed on OpenStreetMap points inside their state: Kamalajari, Shivpur-Godawari and Ras Babra at their stations; New Makardhokda and Barabani at village level. 78 of 84 GCTs now have coordinates; the 6 greenfield sites remain pending.
+  - Zorinpui ICP is at Hmawngbuchhuah village. Srimantapur ICP is approximated by Sonamura town.
+  - Effects: 52,888 village freight-terminal distances fall (median −22 km) and 1,176 ICP distances fall (median −111 km). 58 districts get a new nearest GCT (median drive time 3.24 → 3.20 h) and 7 a new nearest ICP. 315 districts get a lower DFC cost in the modal split. The hinterland output is unchanged apart from the port labels.
+- **Still open** (need a source): Census sub-district tables, real DFC alignments, re-sourced freight tables, the 6 greenfield GCT sites.
+
 ### Fixed — audit batch C: names, hub and station locations (Stage 4 run `linux-2026-11-22-run4`)
 
 - **District and sub-district names.** The ABDB export's `@` (u) and backslash (i) legacy-font characters are decoded:

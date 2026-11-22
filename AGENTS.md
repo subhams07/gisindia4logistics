@@ -544,9 +544,24 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
       fixes (state column, Z values): each rewrite adds the full files to the
       public repo's history. Clean values where they are written instead
       (`nearest_facility.clean_text`).
-    Still open: Census sub-district tables (#10), DFC alignments, freight-table
-    re-sourcing, the five coordinate-pending GCTs and two ICPs, the API
-    redesign items (#5-7, #21, #22, #24, #25, #29).
+    Still open after this phase: see Phase N.
+
+### Phase N: audit batch D — API consistency and last locations (2026-11-22)
+49. Decision items 5, 6, 7, 21, 22, 24, 25, 29 (Stage 4 run
+    `linux-2026-11-22-run5`) plus the five pending GCTs and two ICPs. Rules:
+    - `server/__init__.py` stays empty: anything it imports joins the Stage 4
+      closure (the app, routers and plot_villages left it in this batch).
+    - Canonical labels: states via `standardize.clean_state_name` (LGD
+      spelling, lower-case "and"); major ports are the `ports.csv` names, with
+      request aliases in `standardize.PORT_NAME_ALIASES`. Never compare
+      against a title-cased literal ("Andaman And Nicobar Islands").
+    - All REST errors are `{"detail": {"status", "code", "message"}}`
+      (`server/services/error_contract.py`; handlers in `server/app.py`).
+    - Village maps go through `plot_villages.render_village_map` only.
+    - Areas served by the API are measured in ESRI:102028
+      (`server/dependencies.district_attributes`).
+    Still open: Census sub-district tables (#10), DFC alignments,
+    freight-table re-sourcing, the 6 greenfield GCT sites.
 
 ## Enhancement backlog (suggested next steps)
 
