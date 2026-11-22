@@ -13,10 +13,7 @@
 > **This is a personal hobby project**, built and maintained in spare time and shared as-is. There is no support commitment, and pull requests and outside contributions are not being accepted. You're welcome to use and fork it under the licences below.
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_rail_access_dark.png">
-    <img src="docs/img/readme_rail_access_light.png" alt="Map of India's districts shaded by the median distance from villages to the nearest railway station" width="640">
-  </picture>
+  <img src="docs/img/social_preview.png" alt="GISIndia4Logistics — Open Geospatial & Logistics Platform for India (780 LGD Districts, 658,248 Survey of India Villages, 141,990 National Highway Segments, Python/CLI/API/MCP)" width="820">
 </p>
 
 ---
@@ -130,14 +127,24 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 
 ## 🗺️ Maps
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_icd_drive_dark.png">
-    <img src="docs/img/readme_icd_drive_light.png" alt="Map of India's districts shaded by highway drive time to the nearest inland container depot" width="640">
-  </picture>
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_rail_access_dark.png">
+        <img src="docs/img/readme_rail_access_light.png" alt="Map of India's districts shaded by the median distance from villages to the nearest railway station" width="100%">
+      </picture>
+    </td>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/img/readme_icd_drive_dark.png">
+        <img src="docs/img/readme_icd_drive_light.png" alt="Map of India's districts shaded by highway drive time to the nearest inland container depot" width="100%">
+      </picture>
+    </td>
+  </tr>
+</table>
 
-The two maps on this page come from `scripts/analyze/make_readme_figures.py`. You can draw village-level maps for any district too:
+The two national maps come from `scripts/analyze/make_readme_figures.py`, styled in a South Odisha (**Koraput × Ganjam**) cartographic palette — *Kotpad Aal* madder for rail access and *Gopalpur Sea* teal for ICD drive time. You can draw village-level maps for any district too:
 
 ```bash
 python scripts/analyze/plot_villages.py --state Haryana --district Ambala --metric dist_rail_station_km --format both

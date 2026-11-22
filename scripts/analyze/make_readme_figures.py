@@ -10,9 +10,12 @@ Maps (780 current LGD districts, EPSG:7755, state outlines overlaid):
    network to the nearest inland container depot
    (``icd_drive_time_hours`` in data/analysis/nh_district_travel_time_summary.csv).
 
-Colour: one sequential blue ramp with 5 fixed, human-readable classes
-(not quantiles). Island districts / districts without a value get a neutral
-grey with its own legend entry. Every map carries the boundary disclaimer.
+Colour: Koraput × Ganjam (South Odisha) cartographic palette — two 5-class
+sequential ramps with fixed, human-readable classes (not quantiles):
+  * Rail access: Kotpad Aal (GI-tagged madder dye on unbleached cotton).
+  * ICD drive time: Gopalpur Sea (Bay of Bengal / Rushikulya coastal teal).
+Island districts / districts without a value get a warm neutral stone grey with
+its own legend entry. Every map carries the boundary disclaimer.
 
 Joins (all on LGD ``district_code``, scoped by state)
 ------------------------------------------------------
@@ -53,29 +56,34 @@ DEFAULT_OUT = REPO_ROOT / "docs" / "img"
 
 PROJ_EPSG = 7755
 FOOTER_LINES = (
-    "Source: GISIndia4Logistics v1.1.0 committed data. Boundaries indicative "
+    "Source: GISIndia4Logistics committed data. Boundaries indicative "
     "(Survey of India ABDB), not authoritative depictions.",
     "Map data \u00a9 OpenStreetMap contributors (ODbL).",
 )
 
-# Sequential single-hue blue ramp, 5 classes, index 0 = smallest values.
-# Light mode: light -> dark = small -> large (more = darker blue).
-# Dark mode: same hue on a dark surface; larger values = lighter/brighter
-# ("more ink" on dark), so light -> dark is reversed relative to value order:
-# dark-mode steps run from the deepest blue (small) to the palest (large).
+# Koraput × Ganjam (South Odisha) sequential ramps, 5 classes, index 0 = smallest values.
+# Light mode (Kotpad unbleached cotton #faf6ee): light -> dark = small -> large.
+# Dark mode (Iron-mordant obsidian #171514): larger values = lighter/brighter ("more ink").
 RAMPS = {
-    "light": ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"],
-    "dark": ["#184f95", "#2a78d6", "#5598e7", "#86b6ef", "#cde2fb"],
+    "kotpad_aal": {
+        "light": ["#f4e8dc", "#dfaa8f", "#c15b47", "#8f2d27", "#4d1716"],
+        "dark": ["#4d1716", "#8f2d27", "#c15b47", "#df9d7a", "#f3dec9"],
+    },
+    "gopalpur_sea": {
+        "light": ["#dcecef", "#8cc1cc", "#2e788e", "#1e5468", "#10313e"],
+        "dark": ["#143a49", "#1e5468", "#2e788e", "#7fb8c4", "#d4eaee"],
+    },
 }
 THEMES = {
-    "light": dict(surface="#fcfcfb", text="#0b0b0b", muted="#52514e", nodata="#d9d8d4"),
-    "dark": dict(surface="#1a1a19", text="#f0efec", muted="#c3c2b7", nodata="#6b6a65"),
+    "light": dict(surface="#faf6ee", text="#1b1917", muted="#6b6158", nodata="#dcd3c6"),
+    "dark": dict(surface="#171514", text="#f5efe2", muted="#b5aa9d", nodata="#4a423c"),
 }
 
 # Fixed class breaks (lower-inclusive: 5 falls in "5-10", 40 in ">=40").
 MAPS = {
     "rail_access": dict(
         stem="readme_rail_access",
+        ramp="kotpad_aal",
         title="How far is the nearest railway station?",
         subtitle="Median straight-line distance from each district's villages to the nearest station",
         legend_title="Median distance, km",
@@ -85,6 +93,7 @@ MAPS = {
     ),
     "icd_drive": dict(
         stem="readme_icd_drive",
+        ramp="gopalpur_sea",
         title="Drive time to the nearest ICD / CFS",
         subtitle="Estimated National Highway drive time from each district to its nearest inland container depot or CFS",
         legend_title="Drive time, hours",
@@ -196,7 +205,7 @@ def classify(values: pd.Series, bins: list[float]) -> np.ndarray:
 
 def render(districts_p: gpd.GeoDataFrame, states_p: gpd.GeoDataFrame, classes: np.ndarray,
            spec: dict, theme: str, out_path: Path, order: pd.Series | None = None) -> None:
-    th, ramp = THEMES[theme], RAMPS[theme]
+    th, ramp = THEMES[theme], RAMPS[spec["ramp"]][theme]
     colors = [th["nodata"] if c < 0 else ramp[c] for c in classes]
     fig = plt.figure(figsize=(FIG_W, FIG_H), dpi=DPI, facecolor=th["surface"])
     ax = fig.add_axes([0.03, 0.075, 0.94, 0.79])
