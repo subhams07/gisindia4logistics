@@ -71,6 +71,10 @@ SIMPLIFY = {"states": 0.001, "districts": 0.0012, "subdistricts": 0.0012}
 # '<' stands for 'a', '>' for 'A', '#' for 'u' (e.g. BR>HMAUR=BRAHMAUR,
 # Dh<rw<d=DHARWAD, Bengal#ru=BENGALURU) — verified on samples across states
 NAME_CHAR_FIXES = {"<": "a", ">": "A", "#": "u"}
+# '@' stands for u (DEHRAD@N=DEHRADUN, P@NCH=PUNCH) and a backslash for i (B<backslash>dar=Bidar);
+# their case follows the neighbouring letters.
+CASED_CHAR_FIXES = {"@": "u", "\\": "i"}
+NAME_OVERRIDES = {"SOUTH 24PARGANAS": "SOUTH 24 PARGANAS"}
 
 # sub-district rows whose DIST_LGD disagrees with the district layer:
 # (state, district, wrong code) -> source code. DIST_LGD is the Census 2011 code
@@ -89,7 +93,14 @@ def fix_mojibake(s):
     s = s.replace("|", "I")  # corrupted I in source names (PURBA MEDIN|PUR)
     for bad, good in NAME_CHAR_FIXES.items():
         s = s.replace(bad, good)
-    return s
+    chars = list(s)
+    for i, ch in enumerate(chars):
+        if ch in CASED_CHAR_FIXES:
+            near = [c for c in (s[i - 1] if i else "", s[i + 1] if i + 1 < len(s) else "") if c.isalpha()]
+            lower = any(c.islower() for c in near)
+            chars[i] = CASED_CHAR_FIXES[ch] if lower else CASED_CHAR_FIXES[ch].upper()
+    s = " ".join("".join(chars).split())
+    return NAME_OVERRIDES.get(s, s)
 
 
 def process(layer: str) -> gpd.GeoDataFrame:
@@ -166,9 +177,10 @@ def main() -> None:
         else:
             fc = json.loads(gdf.to_json())
             fc["name"] = fname.replace(".geojson", "")
-            fc["attribution"] = ("Administrative boundaries (LGD-coded, current): "
-                                 "PAN INDIA dataset via repo maintainer; "
-                                 "schema consistent with Survey of India / LGD")
+            fc["attribution"] = ("Administrative boundaries: Survey of India, Administrative Boundary "
+                                 "Database (ABDB), 2024-25; district codes: Local Government Directory "
+                                 "(lgdirectory.gov.in). Simplified and indicative; not an authoritative "
+                                 "depiction of India's boundaries")
             path = OUT / fname
             write_geojson(path, fc)
         print(f"[{layer}] wrote {len(gdf)} features, dup {key}={dup}, "

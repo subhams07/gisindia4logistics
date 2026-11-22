@@ -423,8 +423,8 @@ SARAIKELA-KHARSAWAN Toll Plaza,national_highway,NH 118,Jharkhand,SARAIKELA-KHARS
 SARAIKELA-KHARSAWAN Toll Plaza,national_highway,NH 43,Jharkhand,SARAIKELA-KHARSAWAN,369.0,22.890113,86.063343,1,https://www.openstreetmap.org
 SARAIKELA-KHARSAWAN Toll Plaza,national_highway,NH 18,Jharkhand,SARAIKELA-KHARSAWAN,369.0,22.929939,86.063924,2,https://www.openstreetmap.org
 WEST SINGHBHUM Toll Plaza,national_highway,NH 43,Jharkhand,WEST SINGHBHUM,368.0,22.6277,85.847769,1,https://www.openstreetmap.org
-B\dar Toll Plaza,national_highway,NH 65,Karnataka,B\dar,558.0,17.745588,77.317841,2,https://www.openstreetmap.org
-B\dar Toll Plaza,national_highway,NH 50,Karnataka,B\dar,558.0,18.095015,77.258407,1,https://www.openstreetmap.org
+B\dar Toll Plaza,national_highway,NH 65,Karnataka,Bidar,558.0,17.745588,77.317841,2,https://www.openstreetmap.org
+B\dar Toll Plaza,national_highway,NH 50,Karnataka,Bidar,558.0,18.095015,77.258407,1,https://www.openstreetmap.org
 Bagalkot Toll Plaza,national_highway,NH 50,Karnataka,Bagalkot,556.0,16.290498,75.923452,2,https://www.openstreetmap.org
 BMC Road Toll,national_highway,NH 150A,Karnataka,Ballari,565.0,15.112268,76.913219,2,https://www.openstreetmap.org
 BMC Road Toll,highway_toll,NH 67,Karnataka,Ballari,565.0,15.131321,76.864113,2,https://www.openstreetmap.org
@@ -1485,11 +1485,11 @@ UNNAO Toll Plaza,national_highway,NH 27,Uttar Pradesh,UNNAO,156.0,26.468461,80.4
 Daffi,national_highway,NH 19,Uttar Pradesh,VARANASI,197.0,25.248276,82.994009,2,https://www.openstreetmap.org
 VARANASI Toll Plaza,national_highway,NH 19,Uttar Pradesh,VARANASI,197.0,25.24948,82.999489,2,https://www.openstreetmap.org
 VARANASI Toll Plaza,national_highway,NH 31,Uttar Pradesh,VARANASI,197.0,25.494769,83.147498,2,https://www.openstreetmap.org
-DEHRAD@N Toll Plaza,national_highway,NH 7,Uttarakhand,DEHRAD@N,60.0,30.209457,78.125434,2,https://www.openstreetmap.org
-DEHRAD@N Toll Plaza,highway_toll,NH 707A,Uttarakhand,DEHRAD@N,60.0,30.375327,78.096951,1,https://www.openstreetmap.org
-DEHRAD@N Toll Plaza,national_highway,NH 707A,Uttarakhand,DEHRAD@N,60.0,30.459902,78.064788,1,https://www.openstreetmap.org
-DEHRAD@N Toll Plaza,national_highway,NH 707A,Uttarakhand,DEHRAD@N,60.0,30.455575,78.080163,1,https://www.openstreetmap.org
-DEHRAD@N Toll Plaza,national_highway,NH 7,Uttarakhand,DEHRAD@N,60.0,30.41223,77.711723,1,https://www.openstreetmap.org
+DEHRAD@N Toll Plaza,national_highway,NH 7,Uttarakhand,DEHRADUN,60.0,30.209457,78.125434,2,https://www.openstreetmap.org
+DEHRAD@N Toll Plaza,highway_toll,NH 707A,Uttarakhand,DEHRADUN,60.0,30.375327,78.096951,1,https://www.openstreetmap.org
+DEHRAD@N Toll Plaza,national_highway,NH 707A,Uttarakhand,DEHRADUN,60.0,30.459902,78.064788,1,https://www.openstreetmap.org
+DEHRAD@N Toll Plaza,national_highway,NH 707A,Uttarakhand,DEHRADUN,60.0,30.455575,78.080163,1,https://www.openstreetmap.org
+DEHRAD@N Toll Plaza,national_highway,NH 7,Uttarakhand,DEHRADUN,60.0,30.41223,77.711723,1,https://www.openstreetmap.org
 HARIDWAR Toll Plaza,national_highway,NH 334,Uttarakhand,HARIDWAR,68.0,29.912139,78.021749,1,https://www.openstreetmap.org
 HARIDWAR Toll Plaza,national_highway,NH 334,Uttarakhand,HARIDWAR,68.0,29.911257,78.019792,1,https://www.openstreetmap.org
 NAINITAL Toll Plaza,national_highway,NH 109,Uttarakhand,NAINITAL,66.0,29.382038,79.463759,1,https://www.openstreetmap.org
@@ -1500,7 +1500,7 @@ Guabari,national_highway,NH 27,West Bengal,ALIPUR DUAR,675.0,26.476622,89.756566
 BANKURA Toll Plaza,highway_toll,NH 314,West Bengal,BANKURA,339.0,23.217902,86.936453,1,https://www.openstreetmap.org
 BANKURA Toll Plaza,national_highway,NH 14,West Bengal,BANKURA,339.0,23.114416,87.246594,1,https://www.openstreetmap.org
 BANKURA Toll Plaza,national_highway,NH 14,West Bengal,BANKURA,339.0,23.537875,87.124629,2,https://www.openstreetmap.org
-BIRBH@M Toll Plaza,national_highway,NH 14,West Bengal,BIRBH@M,334.0,24.248787,87.824955,1,https://www.openstreetmap.org
+BIRBH@M Toll Plaza,national_highway,NH 14,West Bengal,BIRBHUM,334.0,24.248787,87.824955,1,https://www.openstreetmap.org
 DARJILING Toll Plaza,national_highway,NH 27,West Bengal,DARJILING,327.0,26.684022,88.322877,2,https://www.openstreetmap.org
 DARJILING Toll Plaza,national_highway,NH 110,West Bengal,DARJILING,327.0,27.004393,88.262104,1,https://www.openstreetmap.org
 DARJILING Toll Plaza,national_highway,NH 327,West Bengal,DARJILING,327.0,26.687372,88.230487,1,https://www.openstreetmap.org

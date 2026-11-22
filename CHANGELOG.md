@@ -4,6 +4,31 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — audit batch C: names, hub and station locations (Stage 4 run `linux-2026-11-22-run4`)
+
+- **District and sub-district names.** The ABDB export's `@` (u) and backslash (i) legacy-font characters are decoded:
+  - DEHRAD@N → DEHRADUN, BIRBH@M → BIRBHUM, `B\dar` → Bidar and about 100 sub-district names; `SOUTH 24PARGANAS` → SOUTH 24 PARGANAS.
+  - The sub-district layer's district names now come from the district layer by code (295 rows were spelled differently, e.g. AIZWAL, RAYGAD).
+  - `scripts/clean/patch_boundary_names.py` applied this to the committed layers, the population estimates, the code crosswalk and the toll table. Lookups such as `get_district("Dehradun")` now work.
+- **ICPs and other hubs.** Several land-border ICPs sat outside India or in the wrong state:
+  - Rupaidiha (in Nepal), Radhikapur (Bangladesh) and Mankachar (Meghalaya) take OpenStreetMap station or town points inside their state, and Demchok moves about 185 km south to the village.
+  - Zorinpui (in Myanmar) and Srimantapur (which repeated Agartala) have no verified location and are coordinate-pending.
+  - The Badarpur waterway terminal and FCI Niwari move into their own state. A typo in the Surat airport operator name is fixed.
+  - The audit now checks every hub point against its state (5 km tolerance for coastal points). 228,053 village ICP distances change (median −8.5 km).
+- **Railway stations.**
+  - `state` is now the state polygon containing the station (8,695 of 8,697), and the old label is kept as `source_state`. The old labels had left 4,513 stations without a state and 176 in the wrong one, including 83 Telangana stations labelled Andhra Pradesh.
+  - Station-category state spellings are normalised to the 36 canonical names.
+  - Review lists are in `docs/review/`: 189 station rows and 42 category rows.
+- **Access tables:** village names and codes no longer contain line breaks (1,339 names, 179 codes), and the audit fails on any that come back.
+- **Metadata.**
+  - The boundary GeoJSONs name Survey of India's ABDB, the LGD code source and the boundary disclaimer.
+  - `data/version_manifest.json` is refreshed (`scripts/clean/refresh_version_manifest.py`): data version 2026.11, API version 1.1.0 (the package version), current feature counts and the village layer.
+- **Stage 4 run 4:** the four renamed districts carry their new names.
+  - The median drive time to an ICP is 9.44 → 9.46 h.
+  - High-circuity pairs go from 368 to 370.
+  - Hinterland and modal split are unchanged.
+- **Not done:** #14 (the village files' `state` column, dtypes and Z coordinates). Nothing reads those values, and rewriting the files would add hundreds of MB to the repository history.
+
 ### Changed — audit batch B (Stage 4 regenerated, run `linux-2026-11-22-run3`)
 
 - **Gati Shakti terminal coordinates.** Five GCTs had coordinates in another state: Kamalajari (Assam) at an Odisha station, Shivpur-Godawari (Jharkhand) in Madhya Pradesh, New Makardhokda (Maharashtra) at a Karnataka port, Ras Babra (Rajasthan) in Kolkata, Barabani (West Bengal) at Barabanki, UP. These are now blank and coordinate-pending. Wadi (Karnataka) moves from a Chitradurga station to Wadi junction (Kalaburagi). Lajkura, Nipania and Samba carry the station's own state rather than the railway division's. 73 of 84 GCTs have coordinates. `build_gct_terminals.py` and `geocode_gcts.py` accept only candidates inside the row's state polygon, and the audit checks every GCT coordinate. Effects:

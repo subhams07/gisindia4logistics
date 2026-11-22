@@ -345,7 +345,7 @@ def audit_access_districts(source_root, artifact_root, roll):
            for s, d, c in zip(districts.state, districts.district, districts.district_code)}
     states = sorted(districts.state.unique())
     village_dir = source_root / "administrative" / "villages"
-    bad_states, n_rows, n_near = [], 0, 0
+    bad_states, n_rows, n_near, broken_text = [], 0, 0, []
     for st in states:
         slug = st.lower().replace(" ", "_")
         src = village_dir / f"{slug}_soi_villages.geojson"
@@ -353,7 +353,11 @@ def audit_access_districts(source_root, artifact_root, roll):
         av_path = artifact_root / f"{slug}_village_access.csv"
         if src is None or not av_path.exists():
             continue
-        av = pd.read_csv(av_path, usecols=["district", "district_code", "district_assignment"])
+        av = pd.read_csv(av_path, usecols=["village", "village_code", "district", "district_code", "district_assignment"],
+                         dtype={"village": str, "village_code": str})
+        multiline = av[["village", "village_code"]].apply(lambda col: col.str.contains(r"[\r\n]|\s{2}", regex=True, na=False)).any(axis=1)
+        if multiline.any():
+            broken_text.append(f"{slug}: {int(multiline.sum())}")
         vill = gpd.read_file(src, columns=[])
         if len(av) != len(vill):
             bad_states.append(f"{slug}: row count")
@@ -376,6 +380,8 @@ def audit_access_districts(source_root, artifact_root, roll):
         n_rows += len(av)
         if wrong:
             bad_states.append(f"{slug}: {wrong}")
+    check("analysis", "village names and codes carry no line breaks or repeated spaces", "FAIL",
+          not broken_text, "; ".join(broken_text[:5]))
     check("analysis", "village district_code == containing current-district polygon", "FAIL",
           not bad_states and n_rows > 0,
           f"{n_rows} rows checked, {n_near} nearest-polygon fallbacks; bad: {bad_states[:5]}")
@@ -466,6 +472,29 @@ def audit_rail(source_root=DATA_DIR):
               bool(df_dfc_st.longitude.between(68, 97.5).all() and df_dfc_st.latitude.between(6, 37.5).all()))
 
 
+def _hubs_outside_own_state(points: pd.DataFrame, source_root, tolerance_m=5000.0):
+    """Hub rows whose point is not inside, or within tolerance_m (geodesic) of, their state's polygon."""
+    from pyproj import Geod
+    from shapely.geometry import Point
+    from shapely.ops import nearest_points
+    states_path = source_root / "administrative" / "india_states_lgd.geojson"
+    if not states_path.exists() or points.empty:
+        return []
+    key = lambda v: " ".join(str(v).lower().replace("&", " and ").split())  # noqa: E731
+    states = gpd.read_file(states_path)
+    shapes = {key(s): g for s, g in zip(states.state, states.geometry)}
+    geod, bad = Geod(ellps="WGS84"), []
+    for row in points.itertuples():
+        shape, pt = shapes.get(key(row.state)), Point(float(row.longitude), float(row.latitude))
+        if shape is None:
+            bad.append(f"{row.name}: unknown state {row.state}")
+        elif not shape.contains(pt):
+            near = nearest_points(shape, pt)[0]
+            if geod.inv(pt.x, pt.y, near.x, near.y)[2] > tolerance_m:
+                bad.append(f"{row.name} ({row.state})")
+    return bad
+
+
 def audit_hubs(source_root=DATA_DIR):
     print("\n== logistics hubs ==")
     expected = {"ports.csv": (12, {"major_port", "minor_port"}), "icps.csv": (15, {"icp"}),
@@ -484,9 +513,17 @@ def audit_hubs(source_root=DATA_DIR):
                   not unexpected and bool(df.hub_type.notna().all()),
                   f"unexpected {unexpected}" if unexpected else "")
         check("hubs", f"{f}: >= {min_rows} rows", "FAIL", len(df) >= min_rows, f"{len(df)}")
+        have = df.dropna(subset=["latitude", "longitude"])
+        pending = df[df.latitude.isna() | df.longitude.isna()]
         check("hubs", f"{f}: coords in bbox + per-row source", "FAIL",
-              bool(df.longitude.between(68, 97.5).all() and df.latitude.between(6, 37.5).all()
+              bool(have.longitude.between(68, 97.5).all() and have.latitude.between(6, 37.5).all()
                    and df.source_url.notna().all()))
+        check("hubs", f"{f}: rows without coordinates are marked coordinate pending", "FAIL",
+              bool(pending.capacity_notes.astype(str).str.contains("coordinate pending").all()),
+              f"{len(pending)} pending")
+        outside = _hubs_outside_own_state(have, source_root)
+        check("hubs", f"{f}: each point in its own state (5 km coastal tolerance)", "FAIL",
+              not outside, "; ".join(outside[:5]))
 
     # NICDC Industrial Nodes & PM MITRA
     ind_p = source_root / "logistics_hubs" / "industrial_nodes.csv"

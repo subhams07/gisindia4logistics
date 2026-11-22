@@ -1,0 +1,190 @@
+station_code,station_name,source_state,polygon_state,latitude,longitude,reason
+KHH,KICHHA,Uttar Pradesh,Uttarakhand,28.913427,79.519746,source state disagrees with the polygon
+KNNA,Khinaniyan,Haryana,Rajasthan,29.345637263205944,74.7179570607841,source state disagrees with the polygon
+NZB,NIZAMABAD,Andhra Pradesh,Telangana,18.679165,78.103238,source state disagrees with the polygon
+JUP,Jhunpa,Rajasthan,Haryana,28.777449,75.521553,source state disagrees with the polygon
+LKPL,LAKDIKAPUL,Andhra Pradesh,Telangana,17.404048000000003,78.463527,source state disagrees with the polygon
+KTY,Kotturu,Tamil Nadu,Karnataka,14.826788325296278,76.21354088187218,source state disagrees with the polygon
+SDMD,Sudamdih,West Bengal,Jharkhand,23.654478,86.44032,source state disagrees with the polygon
+DBKA,Dabka,Madhya Pradesh,Maharashtra,21.361353,76.720809,source state disagrees with the polygon
+DYE,DAYANAND NAGAR,Andhra Pradesh,Telangana,17.456247,78.53134999999999,source state disagrees with the polygon
+DBV,DABILPUR,Andhra Pradesh,Telangana,17.674226,78.470315,source state disagrees with the polygon
+GIW,Girdharpur,Rajasthan,Madhya Pradesh,25.845508,76.794583,source state disagrees with the polygon
+KAU,Kachna,West Bengal,Bihar,25.6337383216,88.0246425354,source state disagrees with the polygon
+JPS,Jamalpur Shaikhan,Punjab,Haryana,29.699949,75.857438,source state disagrees with the polygon
+KQD,KHAIRATABAD DCN,Andhra Pradesh,Telangana,17.414221,78.46165,source state disagrees with the polygon
+KOHR,Kohir Deccan,Andhra Pradesh,Telangana,17.608886,77.71197699999999,source state disagrees with the polygon
+CRKR,CHAURAKHERI,Rajasthan,Madhya Pradesh,24.567234000000003,77.12201900000001,source state disagrees with the polygon
+MLMG,MALLEMADUGU,Andhra Pradesh,Telangana,17.3251381906,80.1605882117,source state disagrees with the polygon
+ABW,Abutara Halt,West Bengal,West Bengal,26.0707762,89.5868746,shares coordinates with another station
+MJNL,MAJRI NANGAL,Rajasthan,Haryana,28.011997,76.554869,source state disagrees with the polygon
+MTV,Matalkunta,Andhra Pradesh,Telangana,17.768291,77.56294000000001,source state disagrees with the polygon
+KPRR,KOTAPAR ROAD,Chhattisgarh,Odisha,19.041434,82.30895,source state disagrees with the polygon
+PUU,Punalur,Tamil Nadu,Kerala,9.023336,76.916104,source state disagrees with the polygon
+PGP,Panduranga Pura,Andhra Pradesh,Telangana,17.718238,80.76459,source state disagrees with the polygon
+RRP,Rairangpur,Odisha,Odisha,22.440956,86.16420749999999,shares coordinates with another station
+DXK,DHANA KHERLI,Uttar Pradesh,Rajasthan,26.950169,77.53577899999999,source state disagrees with the polygon
+CLE,CHINTALPALLI,Andhra Pradesh,Telangana,17.914855999999997,79.701487,source state disagrees with the polygon
+TPY,Tadakalpudi,Andhra Pradesh,Telangana,17.530163,80.532205,source state disagrees with the polygon
+DBR,DABHAURA,Uttar Pradesh,Madhya Pradesh,25.11793,81.30312500000001,source state disagrees with the polygon
+JJA,JAJAN PATTI,Rajasthan,Uttar Pradesh,27.354894,77.573854,source state disagrees with the polygon
+AGB,AMBAGAON,Chhattisgarh,Odisha,19.062527,82.239507,source state disagrees with the polygon
+BFG,Bagthar,Uttar Pradesh,Rajasthan,26.79623183,77.52218902999999,source state disagrees with the polygon
+BDBP,BASUDEBPUR,Bihar,West Bengal,24.6355270351,87.98253549799999,source state disagrees with the polygon
+BKL,BONA KALU,Andhra Pradesh,Telangana,17.031591000000002,80.261499,source state disagrees with the polygon
+BKWA,BAKAYANWALA,Rajasthan,Punjab,30.143292,73.98581800000001,source state disagrees with the polygon
+BRLI,Barauli,Uttar Pradesh,Rajasthan,26.552056,77.424988,source state disagrees with the polygon
+BRRD,BORDI ROAD,Gujarat,Maharashtra,20.122424,72.766138,source state disagrees with the polygon
+BTPD,Bethampurdi,Andhra Pradesh,Telangana,17.543986,80.573657,source state disagrees with the polygon
+BU,BASWA,Haryana,Rajasthan,27.149686000000003,76.575644,source state disagrees with the polygon
+BSX,BASAR,Andhra Pradesh,Telangana,18.86512,77.938506,source state disagrees with the polygon
+CKKN,CHAK KALAN,Punjab,Himachal Pradesh,32.083103,75.623498,source state disagrees with the polygon
+DON,DERAWAN HALT,Jharkhand,Madhya Pradesh,23.230257,76.104438,source state disagrees with the polygon
+DHR,DHARNAODA,Rajasthan,Madhya Pradesh,24.592205,77.09925299999999,source state disagrees with the polygon
+DHH,Dinhata,West Bengal,West Bengal,26.0707762,89.5868746,shares coordinates with another station
+ENB,Ellenabad,Rajasthan,Haryana,29.44410399265112,74.6579341054894,source state disagrees with the polygon
+DWF,DUDH SAGAR WATER FALLS,Karnataka,Goa,15.31333714,74.31403358,source state disagrees with the polygon
+PNDP,PANDILLAPALLI,Andhra Pradesh,Telangana,17.171933,80.17023400000001,source state disagrees with the polygon
+GJW,Gajuwala,Punjab,Haryana,29.585509,75.871735,source state disagrees with the polygon
+GSDH,GARSANDA HALT,Jharkhand,Bihar,25.142617,86.011307,source state disagrees with the polygon
+GLA,GARLA,Andhra Pradesh,Telangana,17.487076,80.139236,source state disagrees with the polygon
+GWV,GOWDAVALLI,Andhra Pradesh,Telangana,17.609541,78.46819099999999,source state disagrees with the polygon
+GLE,Gajulaguden,Andhra Pradesh,Telangana,17.609727,80.657904,source state disagrees with the polygon
+HYB,HYDERABAD DECCAN,Andhra Pradesh,Telangana,17.393362999999997,78.467377,source state disagrees with the polygon
+IDL,INDALVAI,Andhra Pradesh,Telangana,18.548665,78.244351,source state disagrees with the polygon
+JRBM,JIRIBAM,Assam,Manipur,24.79884918,93.12437581,source state disagrees with the polygon
+JWO,JAWAD ROAD,Rajasthan,Madhya Pradesh,24.557577,74.764389,source state disagrees with the polygon
+KAVI,Kavi,Gujarat,West Bengal,22.47229104660886,88.39808402583003,source state disagrees with the polygon
+KMC,KAMAREDDI,Andhra Pradesh,Telangana,18.32586,78.335858,source state disagrees with the polygon
+KRKN,Karkend,West Bengal,Jharkhand,23.765615,86.369799,source state disagrees with the polygon
+KSAE,KOSAI,Maharashtra,Telangana,19.6395023854,78.334546145,source state disagrees with the polygon
+KTWS,Kathuwas,Haryana,Rajasthan,28.1331067668,76.3437941406,source state disagrees with the polygon
+LING,Ling,Maharashtra,Bihar,25.290391816004583,87.3615834955126,source state disagrees with the polygon
+KUDN,Kudni,Punjab,Haryana,29.7777088167,75.8447011951,source state disagrees with the polygon
+LRI,Lihuri Halt,Andhra Pradesh,Odisha,18.913242,83.849833,source state disagrees with the polygon
+MDR,MADHIRA,Andhra Pradesh,Telangana,16.921826,80.366849,source state disagrees with the polygon
+MAHE,MAHE,Puducherry,Kerala,11.699227,75.546967,source state disagrees with the polygon
+MDGR,Manendragarh,Madhya Pradesh,Chhattisgarh,23.219747,82.197734,source state disagrees with the polygon
+MKD,MARKUNDI,Madhya Pradesh,Uttar Pradesh,25.017393,80.947114,source state disagrees with the polygon
+MSQ,Marwar Ratanpur,Gujarat,Rajasthan,24.67822,72.142853,source state disagrees with the polygon
+MZL,MIRZAPALI,Andhra Pradesh,Telangana,18.017963,78.41529899999999,source state disagrees with the polygon
+NLRD,NECKLACE ROAD,Andhra Pradesh,Telangana,17.423337999999998,78.46287099999999,source state disagrees with the polygon
+AKE,AKANAPET,Andhra Pradesh,Telangana,18.110863,78.39630899999999,source state disagrees with the polygon
+PALI,Pali,Rajasthan,Haryana,28.177004,76.450856,source state disagrees with the polygon
+NVC,NAGALWANCHA,Andhra Pradesh,Telangana,17.07433,80.228517,source state disagrees with the polygon
+NUPR,NURPUR ROAD,Punjab,Himachal Pradesh,32.281043,75.852903,source state disagrees with the polygon
+PAPM,PALAT POTARAM,Andhra Pradesh,Telangana,17.7900915824,78.4544374475,source state disagrees with the polygon
+OND,Aunlajori Junction,Odisha,Odisha,22.440956,86.16420749999999,shares coordinates with another station
+PLWR,Phulwaria,Uttar Pradesh,Bihar,26.4688026951,84.255615343,source state disagrees with the polygon
+PRDL,Paradol,Madhya Pradesh,Chhattisgarh,23.25057,82.188481,source state disagrees with the polygon
+RGLI,RANGAULI,Uttar Pradesh,Madhya Pradesh,25.150233,79.887282,source state disagrees with the polygon
+BMPL,BRAHMANPALLI,Andhra Pradesh,Telangana,17.832927985,78.4501792358,source state disagrees with the polygon
+RUPC,RUDRAPUR CITY,Uttarakhand,Uttar Pradesh,28.969281,79.379212,source state disagrees with the polygon
+SJM,Sajuma,Andhra Pradesh,Haryana,29.726968,76.296444,source state disagrees with the polygon
+SLGE,SULERJAVALGE,Karnataka,Maharashtra,17.45892,75.974841,source state disagrees with the polygon
+SQK,Shankar,Punjab,Delhi,28.560827504028268,77.1402539871633,source state disagrees with the polygon
+SJDA,SANJUJE DA AREY,Goa,Karnataka,15.4374940478,75.5962538599,source state disagrees with the polygon
+SKNR,Shakar Nagar,Andhra Pradesh,Telangana,18.659388000000003,77.905991,source state disagrees with the polygon
+SNPR,SINGARPUR,Rajasthan,Uttar Pradesh,27.116202,77.72370699999999,source state disagrees with the polygon
+SRJ,SHANKARGARH,Madhya Pradesh,Uttar Pradesh,25.1813005966,81.6190324237,source state disagrees with the polygon
+SPRA,Sillipur,Rajasthan,Madhya Pradesh,26.081657,77.031581,source state disagrees with the polygon
+TBX,Tilbhum,Tripura,Assam,24.465833,92.245466,source state disagrees with the polygon
+TKYR,TIKARIA,Madhya Pradesh,Uttar Pradesh,24.99538,80.86436,source state disagrees with the polygon
+TTZ,Tukaithad,Maharashtra,Madhya Pradesh,21.427444,76.670581,source state disagrees with the polygon
+WGA,WAGHODA,Madhya Pradesh,Maharashtra,21.255952,76.08875499999999,source state disagrees with the polygon
+WDR,WADIARAM,Andhra Pradesh,Telangana,17.972607,78.455417,source state disagrees with the polygon
+YP,ERRUPALEM,Andhra Pradesh,Telangana,16.825374,80.471049,source state disagrees with the polygon
+AHD,AHERWADI,Karnataka,Maharashtra,17.504915,75.99559,source state disagrees with the polygon
+YGL,YELGUR,Andhra Pradesh,Telangana,17.860901,79.74703099999999,source state disagrees with the polygon
+ZB,Zahirabad,Andhra Pradesh,Telangana,17.674958,77.61021299999999,source state disagrees with the polygon
+YDP,Yedapalli,Andhra Pradesh,Telangana,18.678662,77.952866,source state disagrees with the polygon
+BMO,BOLARUM,Andhra Pradesh,Telangana,17.5335493,78.5154167,source state disagrees with the polygon
+BHBR,Bathua Bazar,Uttar Pradesh,Bihar,26.4968303633,84.2321793958,source state disagrees with the polygon
+BIB,Birpur,Rajasthan,Madhya Pradesh,26.155568,77.174223,source state disagrees with the polygon
+AWM,Aswapuram,Andhra Pradesh,Telangana,17.821267000000002,80.80126,source state disagrees with the polygon
+DHP,DICHPALLI,Andhra Pradesh,Telangana,18.613288,78.194667,source state disagrees with the polygon
+GUU,GUNDRATIMADUGU,Andhra Pradesh,Telangana,17.532281,80.079953,source state disagrees with the polygon
+HKL,HARKIA KHAL,Rajasthan,Madhya Pradesh,24.363234,74.91966500000001,source state disagrees with the polygon
+GDPL,GUNDLA POCHAMPALLI,Andhra Pradesh,Telangana,17.568097,78.488371,source state disagrees with the polygon
+FLM,Falimari,West Bengal,West Bengal,26.0707762,89.5868746,shares coordinates with another station
+DSR,DHANSIRI,Nagaland,Assam,25.810836,93.613598,source state disagrees with the polygon
+JKM,JANKAMPET JN,Andhra Pradesh,Telangana,18.70264,78.05386,source state disagrees with the polygon
+HMPR,HURMUJPUR HALT,Maharashtra,Uttar Pradesh,25.721525,83.35227499999999,source state disagrees with the polygon
+SWNI,Siwani,Rajasthan,Haryana,28.9148353709,75.6040669287,source state disagrees with the polygon
+MCQ,MIRCHADHORI,Madhya Pradesh,Uttar Pradesh,24.291847,82.793413,source state disagrees with the polygon
+MJHR,MAJHIARI,Uttar Pradesh,Madhya Pradesh,25.1789843066,81.5188330261,source state disagrees with the polygon
+MOB,MANOHARABAD,Andhra Pradesh,Telangana,17.75573,78.45439599999999,source state disagrees with the polygon
+NKD,NEKONDA,Andhra Pradesh,Telangana,17.794877999999997,79.80459300000001,source state disagrees with the polygon
+NEW,NIVARI,Uttar Pradesh,Madhya Pradesh,25.328061,78.82007,source state disagrees with the polygon
+MUGR,Manuguru,Andhra Pradesh,Telangana,17.925272,80.799034,source state disagrees with the polygon
+NIP,Nizampur,Rajasthan,Haryana,27.9667684942,76.0107869,source state disagrees with the polygon
+PPY,PAPATAPALLI,Andhra Pradesh,Telangana,17.373688,80.175744,source state disagrees with the polygon
+PLSG,Palasingi,Andhra Pradesh,Odisha,19.014074,83.805056,source state disagrees with the polygon
+SIM,SHRI AMIRGADH,Rajasthan,Gujarat,24.405948,72.643675,source state disagrees with the polygon
+UMM,UMRAM,Andhra Pradesh,Telangana,19.6615861791,78.4373421246,source state disagrees with the polygon
+TMD,TALMADLA,Andhra Pradesh,Telangana,18.239215,78.356638,source state disagrees with the polygon
+TPO,Tantpur,Rajasthan,Uttar Pradesh,26.83193514,77.47803025,source state disagrees with the polygon
+VTG,Bhetaguri,West Bengal,West Bengal,26.3029681,89.6653098,shares coordinates with another station
+BDCR,Bhadrachalam Road,Andhra Pradesh,Telangana,17.550365,80.616024,source state disagrees with the polygon
+BRND,BORIDAND,Madhya Pradesh,Chhattisgarh,23.267799,82.178765,source state disagrees with the polygon
+BKU,BHIKNUR,Andhra Pradesh,Telangana,18.1644907169,78.39915082280001,source state disagrees with the polygon
+ADB,ADILABAD,Andhra Pradesh,Telangana,19.680104,78.535285,source state disagrees with the polygon
+CHRU,CHAMRUA,Uttarakhand,Uttar Pradesh,28.796206,79.13898800000001,source state disagrees with the polygon
+CJS,CHARAMULA KUSUM,Chhattisgarh,Odisha,19.020403,82.401044,source state disagrees with the polygon
+AMQ,AMMUGUDA,Andhra Pradesh,Telangana,17.487039,78.527215,source state disagrees with the polygon
+ALW,ALWAL,Andhra Pradesh,Telangana,17.505779,78.515006,source state disagrees with the polygon
+BDHN,Bodhan,Andhra Pradesh,Telangana,18.645933,77.8881657,source state disagrees with the polygon
+BED,Baseri,Uttar Pradesh,Rajasthan,26.74699159,77.54301509999999,source state disagrees with the polygon
+BWC,Banwali,Rajasthan,Rajasthan,29.91997899999999,74.029894,shares coordinates with another station
+COB,Cooch Behar,West Bengal,West Bengal,26.3029681,89.6653098,shares coordinates with another station
+DKJ,DORNAKAL JN,Andhra Pradesh,Telangana,17.445987000000002,80.153157,source state disagrees with the polygon
+DWT,Dewan Hat,West Bengal,West Bengal,26.3029681,89.6653098,shares coordinates with another station
+FKB,FAKHRABAD,Andhra Pradesh,Telangana,18.824644,77.974481,source state disagrees with the polygon
+FSW,Fateh Singhwala,Rajasthan,Rajasthan,29.91997899999999,74.029894,shares coordinates with another station
+GNN,GANGINENI,Andhra Pradesh,Telangana,16.781754,80.498954,source state disagrees with the polygon
+KDM,KESAMUDRAM,Andhra Pradesh,Telangana,17.686252,79.89647099999999,source state disagrees with the polygon
+CMW,Chima Pahad,Andhra Pradesh,Telangana,17.516012,80.463656,source state disagrees with the polygon
+CHTT,Chitta Halt,Uttar Pradesh,Telangana,17.823439,77.53707700000001,source state disagrees with the polygon
+CRG,CHURAMAN NAGRI,Rajasthan,Uttar Pradesh,27.40119,77.61766999999999,source state disagrees with the polygon
+CVB,CAVALRY BARRCKS,Andhra Pradesh,Telangana,17.494734,78.518694,source state disagrees with the polygon
+KMT,KHAMMAM,Andhra Pradesh,Telangana,17.249347,80.138491,source state disagrees with the polygon
+KRA,Karepalli,Andhra Pradesh,Telangana,17.511408000000003,80.27186499999999,source state disagrees with the polygon
+LHN,LACHYAN,Maharashtra,Karnataka,17.2795737583,75.9717014606,source state disagrees with the polygon
+MABD,MAHBUBABAD,Andhra Pradesh,Telangana,17.597561,79.999792,source state disagrees with the polygon
+MED,MEDCHAL,Andhra Pradesh,Telangana,17.639335,78.474557,source state disagrees with the polygon
+ME,MASAIPET,Andhra Pradesh,Telangana,17.8805365542,78.4669570667,source state disagrees with the polygon
+MTMI,MOTIMARI,Andhra Pradesh,Telangana,16.956602,80.320896,source state disagrees with the polygon
+MRF,Marpalli,Andhra Pradesh,Telangana,17.54542,77.771485,source state disagrees with the polygon
+NGTG,New Gitaldaha,West Bengal,West Bengal,26.0707762,89.5868746,shares coordinates with another station
+PAQ,PADIYA NAQLA,Uttarakhand,Uttar Pradesh,29.085837,78.90761,source state disagrees with the polygon
+PJK,PANJ KOSI,Rajasthan,Punjab,30.137676000000003,74.057408,source state disagrees with the polygon
+NVT,NAVIPET,Andhra Pradesh,Telangana,18.770457,78.013194,source state disagrees with the polygon
+PVZ,Parvezpur,Rajasthan,Haryana,28.510828,75.728178,source state disagrees with the polygon
+SHAN,SRINIVASA NAGAR,Andhra Pradesh,Telangana,17.9099557799,78.4619205481,source state disagrees with the polygon
+SCP,SIRNAPALLI,Andhra Pradesh,Telangana,18.487478,78.271132,source state disagrees with the polygon
+SFX,SAFILGUDA,Andhra Pradesh,Telangana,17.461671,78.53311000000001,source state disagrees with the polygon
+THPR,TIPPAPUR,Andhra Pradesh,Telangana,18.1941221367,78.3773798279,source state disagrees with the polygon
+TLMG,TALMADUGU,Andhra Pradesh,Telangana,19.6417758258,78.3963542407,source state disagrees with the polygon
+UPW,UPPALAVAI,Andhra Pradesh,Telangana,18.424892,78.316108,source state disagrees with the polygon
+VP,VIRAPUR,Andhra Pradesh,Karnataka,15.158976,77.131692,source state disagrees with the polygon
+WL,WARANGAL,Andhra Pradesh,Telangana,17.972477,79.604929,source state disagrees with the polygon
+TAA,TADLA PUSAPALLI,Andhra Pradesh,Telangana,17.626312868499998,79.9541837128,source state disagrees with the polygon
+BSDR,Bansadhara Halt,Andhra Pradesh,Odisha,18.970276,83.822754,source state disagrees with the polygon
+APJ,Amarpur Jorasi,Rajasthan,Haryana,28.02178,76.07610899999999,source state disagrees with the polygon
+DSN,Darsana,,,23.523411,88.795843,outside every state polygon
+TKA,TEHARKA,Uttar Pradesh,Madhya Pradesh,25.300234,78.917318,source state disagrees with the polygon
+BOZ,BOLARUM BAZAR,Andhra Pradesh,Telangana,17.517847537100003,78.5159651358,source state disagrees with the polygon
+CKN,CHINTA KANI,Andhra Pradesh,Telangana,17.126458999999997,80.201337,source state disagrees with the polygon
+ORC,ORCHHA,Uttar Pradesh,Madhya Pradesh,25.401119,78.644228,source state disagrees with the polygon
+CNDM,Chandi Mandir,Chandigarh,Haryana,30.727071,76.88683900000001,source state disagrees with the polygon
+INK,INTAKANNE,Andhra Pradesh,Telangana,17.727522,79.860507,source state disagrees with the polygon
+PCZ,Pocharam,Andhra Pradesh,Telangana,17.486717000000002,80.234583,source state disagrees with the polygon
+RKO,RAMAKRISHNAPURAM GATE,Andhra Pradesh,Telangana,17.476299,78.52847299999999,source state disagrees with the polygon
+SSPD,Sadashivapet Road,Andhra Pradesh,Telangana,17.4835646427,77.8728203638,source state disagrees with the polygon
+GHPU,Gandhipuram Halt,Andhra Pradesh,Telangana,17.495052,80.31352000000001,source state disagrees with the polygon
+JO,JO JAGABOR,Gujarat,Rajasthan,23.739453,73.45304499999999,source state disagrees with the polygon
+TNGM,TONDALAGOPAVARAM,Andhra Pradesh,Telangana,16.86827,80.43078299999999,source state disagrees with the polygon
+UKR,UDALKACHAR,Madhya Pradesh,Chhattisgarh,23.287243,82.291923,source state disagrees with the polygon
+BIWK,BISALWAS KALAN,Rajasthan,Madhya Pradesh,24.5000353,74.78308399999999,source state disagrees with the polygon
+GOPL,GUNDLA POCHAMPALLI,Andhra Pradesh,Telangana,17.567577,78.48785099999999,source state disagrees with the polygon
+DHCA,Dhaca Cantt.,,,23.815527,90.410617,outside every state polygon

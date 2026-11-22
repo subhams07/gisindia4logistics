@@ -1,7 +1,7 @@
 {
   "artifacts": {
     "district_freight_modal_split.csv": {
-      "bytes": 116303,
+      "bytes": 116304,
       "columns": [
         "state",
         "district",
@@ -21,11 +21,11 @@
       ],
       "path": "district_freight_modal_split.csv",
       "rows": 780,
-      "sha256": "6772ddc5865acf2c8a06933ed642ad96015bdf046c405d77d9b54845773ace94",
+      "sha256": "d3ab15643912cd1c8a866372886db4bd4c35fc3e2a544206675beb67eaa9e2be",
       "type": "csv"
     },
     "district_port_hinterland_catchment.csv": {
-      "bytes": 117311,
+      "bytes": 117312,
       "columns": [
         "state",
         "district",
@@ -43,7 +43,7 @@
       ],
       "path": "district_port_hinterland_catchment.csv",
       "rows": 780,
-      "sha256": "72a4ca0b2bd53f53d8ee7d043b222593b1276d6766e14e29f04bea0b47889018",
+      "sha256": "21afca94ed855e14eca3641791706e71331517729fc28ba6cbc3042759cde1e0",
       "type": "csv"
     },
     "major_ports_isochrones.geojson": {
@@ -61,7 +61,7 @@
       "type": "geojson"
     },
     "nh_district_port_matrix.csv": {
-      "bytes": 139859,
+      "bytes": 139860,
       "columns": [
         "state",
         "district",
@@ -93,11 +93,11 @@
       ],
       "path": "nh_district_port_matrix.csv",
       "rows": 780,
-      "sha256": "4c764c4c251d6e7c53ed99620435eb0fb9194a9b7f7e23e29f27395ac11313a0",
+      "sha256": "d277983f6f8e8e52108fc0442ef20420dd60ae181f4ec441707acb62a3372bc1",
       "type": "csv"
     },
     "nh_district_travel_time_summary.csv": {
-      "bytes": 344665,
+      "bytes": 344722,
       "columns": [
         "state",
         "district",
@@ -154,11 +154,11 @@
       ],
       "path": "nh_district_travel_time_summary.csv",
       "rows": 780,
-      "sha256": "f72e1865b91aaceb693583b8d6572aa59e862192ebead4a8261be28062643865",
+      "sha256": "1c95d55b09de5eb0fd2654fe2df79d8e4c7d19d1075e4235ab5225f2b0ddb065",
       "type": "csv"
     },
     "nh_district_travel_time_summary.parquet": {
-      "bytes": 216358,
+      "bytes": 216344,
       "columns": [
         "state",
         "district",
@@ -215,7 +215,7 @@
       ],
       "path": "nh_district_travel_time_summary.parquet",
       "rows": 780,
-      "sha256": "dd512f4aaefdc3a60bcde3edfa5777e31bbc8ef0b168d4dc1e787d82e2b68bea",
+      "sha256": "32db9b0f6b72cd854dcbafc5074eb513773997c4405c7bd46049971f1ecf86a5",
       "type": "parquet"
     }
   },
@@ -350,24 +350,24 @@
   },
   "inputs": {
     "administrative/india_districts_lgd.geojson": {
-      "bytes": 9362090,
-      "sha256": "bad36e2b60884c142cdf4c6eb02b787f91f51e57431e2d59f5f57a320d3803b2"
+      "bytes": 9362197,
+      "sha256": "ee8837235ccdebd70a32d9a4c18e34d1aa51166be7d1bbc58a6ce3bee244161a"
     },
     "demographic/district_population_estimates.csv": {
-      "bytes": 37289,
-      "sha256": "23389843a05f9ef2e328dbbc146e1426eca3e2eff9de9d2b59510d79fd0689db"
+      "bytes": 37290,
+      "sha256": "226d2bf4cdec5ebe19ccda9035f8fb7f8cb71f014364423d9adade6fa79b59b3"
     },
     "logistics_hubs/air_cargo.csv": {
-      "bytes": 6020,
-      "sha256": "762845248c3bfb20fdc5c98210b606a1644f79ca56cbc0f729864745f637fbec"
+      "bytes": 6021,
+      "sha256": "2a95aa80ecec7e3af0241b1fca2dff8083562be68b37bbcb005bf1416239af51"
     },
     "logistics_hubs/icds.csv": {
       "bytes": 8148,
       "sha256": "229a2bd709561e497efa7e8d8ab15e5759f328e2d9ccd2049a4eff8585634de4"
     },
     "logistics_hubs/icps.csv": {
-      "bytes": 3962,
-      "sha256": "6467dd453c441b2aa1d88eb429eaf6f090edfe367c0d47c7afdc4d98b6ff44eb"
+      "bytes": 4780,
+      "sha256": "fd86987ebc2b71a87804523db12d25108497f508c4e089fdb1678242f756522b"
     },
     "logistics_hubs/mmlps.csv": {
       "bytes": 5260,
@@ -382,8 +382,8 @@
       "sha256": "207784700bd83fc29f0729f29aa3103feb94ed0f9ec5f486f443bd7679fad872"
     },
     "rail/railway_stations.csv": {
-      "bytes": 551507,
-      "sha256": "ff423f4a443179b64cf4041bcd40a1e9ac460c211748899d9cfc8b8fc2ae561b"
+      "bytes": 645026,
+      "sha256": "ed083f90128b1c7260078fd141a4da4a1b8aa4510be10dcd955f0680190987e9"
     },
     "roads/india_nh_network.parquet": {
       "bytes": 8212397,
@@ -391,7 +391,7 @@
     },
     "roads/toll_plazas.csv": {
       "bytes": 185417,
-      "sha256": "03fe1a8567c031c7d8ffffcea6e62a580f66037461cd485d5ce02efe8c7d1aec"
+      "sha256": "c9f457874874c99362ef58ece8c881fefac1be9b537acf0298996be5aae26caa"
     }
   },
   "library_versions": {
@@ -404,10 +404,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 1318.415906566,
-    "peak_memory_bytes": 627511296
+    "elapsed_seconds": 1249.021707027,
+    "peak_memory_bytes": 637591552
   },
-  "run_id": "linux-2026-11-22-run3",
+  "run_id": "linux-2026-11-22-run4",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

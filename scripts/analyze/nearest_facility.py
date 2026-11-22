@@ -78,6 +78,12 @@ STATE_FILE_MAP = {
 _ROADS_CACHE: gpd.GeoDataFrame | None = None
 
 
+def clean_text(values):
+    """Collapse line breaks and repeated spaces in source text (some SoI names and
+    codes carry embedded CR/LF, which breaks CSV readers and joins); None stays None."""
+    return [" ".join(v.split()) if isinstance(v, str) else v for v in values]
+
+
 def villages_geojson_path(state: str):
     """Path to the state's SoI village file, or None."""
     s = state.lower().replace(" ", "_")
@@ -310,14 +316,14 @@ def run_one(state: str, args) -> None:
     print(f"Facility layers: { {k: len(v) for k, v in facilities.items()} }")
 
     base = pd.DataFrame({
-        "village": villages["village"].values,
+        "village": clean_text(villages["village"].values),
         "district": assigned["district"].values,
         "district_code": assigned["district_code"].astype("Int64").values,
-        "village_code": villages["village_code"].values,
+        "village_code": clean_text(villages["village_code"].values),
         "unit": unit,
         "district_assignment": assigned["district_assignment"].values,
         # the village file's own (older SoI scheme) district identity, kept for provenance
-        "source_district": villages["district"].values if "district" in villages else None,
+        "source_district": clean_text(villages["district"].values) if "district" in villages else None,
         "source_district_code": (pd.to_numeric(villages["district_code"], errors="coerce").astype("Int64").values
                                  if "district_code" in villages else assigned["district_code"].astype("Int64").values),
     })

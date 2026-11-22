@@ -293,7 +293,7 @@ Jharkhand,SAHIBGANJ,340.0,1142175.0,False,Syama Prasad Mookerjee Port (Kolkata/H
 Jharkhand,SARAIKELA-KHARSAWAN,341.0,1070375.0,False,Paradip Port,47.9,5.55,Syama Prasad Mookerjee Port (Kolkata/Haldia),30.8,4.83,Highly Contested / Split Hinterland,0.829
 Jharkhand,SIMDEGA,342.0,605300.0,False,Paradip Port,49.7,6.91,Syama Prasad Mookerjee Port (Kolkata/Haldia),18.6,8.35,Highly Contested / Split Hinterland,0.689
 Jharkhand,WEST SINGHBHUM,343.0,1523274.0,False,Paradip Port,47.6,7.85,Syama Prasad Mookerjee Port (Kolkata/Haldia),17.9,9.47,Highly Contested / Split Hinterland,0.702
-Karnataka,B\dar,529.0,1707615.0,False,Jawaharlal Nehru Port (JNPT),24.5,8.66,Mumbai Port,11.9,11.61,Highly Contested / Split Hinterland,0.874
+Karnataka,Bidar,529.0,1707615.0,False,Jawaharlal Nehru Port (JNPT),24.5,8.66,Mumbai Port,11.9,11.61,Highly Contested / Split Hinterland,0.874
 Karnataka,Bagalkot,524.0,1897483.0,False,Jawaharlal Nehru Port (JNPT),23.3,7.83,New Mangalore Port,15.5,7.27,Highly Contested / Split Hinterland,0.922
 Karnataka,Ballari,528.0,1237978.0,False,Chennai Port,16.7,8.12,Kamarajar Port (Ennore),14.6,8.24,Highly Contested / Split Hinterland,0.979
 Karnataka,Belagavi,527.0,4811492.0,False,Jawaharlal Nehru Port (JNPT),28.1,7.26,New Mangalore Port,13.3,8.3,Highly Contested / Split Hinterland,0.851
@@ -747,7 +747,7 @@ Uttarakhand,ALMORA,45.0,647552.0,False,Deendayal Port (Kandla),23.4,22.74,Paradi
 Uttarakhand,BAGESHWAR,46.0,261148.0,False,Deendayal Port (Kandla),22.3,22.85,Paradip Port,19.3,26.12,Highly Contested / Split Hinterland,0.971
 Uttarakhand,CHAMOLI,47.0,404823.0,False,Deendayal Port (Kandla),24.6,22.2,Paradip Port,17.7,28.44,Highly Contested / Split Hinterland,0.931
 Uttarakhand,CHAMPAWAT,48.0,275638.0,False,Paradip Port,20.6,23.23,Deendayal Port (Kandla),19.8,22.67,Highly Contested / Split Hinterland,0.992
-Uttarakhand,DEHRAD@N,49.0,1729458.0,False,Deendayal Port (Kandla),29.8,17.82,Paradip Port,15.4,27.9,Highly Contested / Split Hinterland,0.856
+Uttarakhand,DEHRADUN,49.0,1729458.0,False,Deendayal Port (Kandla),29.8,17.82,Paradip Port,15.4,27.9,Highly Contested / Split Hinterland,0.856
 Uttarakhand,HARIDWAR,50.0,1844391.0,False,Deendayal Port (Kandla),27.0,18.63,Paradip Port,16.4,26.45,Highly Contested / Split Hinterland,0.894
 Uttarakhand,NAINITAL,51.0,950209.0,False,Deendayal Port (Kandla),21.8,24.46,Paradip Port,19.2,27.73,Highly Contested / Split Hinterland,0.974
 Uttarakhand,PAURI GARHWAL,52.0,685807.0,False,Deendayal Port (Kandla),21.5,24.67,Paradip Port,19.0,27.9,Highly Contested / Split Hinterland,0.975
@@ -758,7 +758,7 @@ Uttarakhand,UDHAM SINGH NAGAR,56.0,1554979.0,False,Deendayal Port (Kandla),22.1,
 Uttarakhand,UTTARKASHI,57.0,338282.0,False,Deendayal Port (Kandla),27.2,20.83,Paradip Port,16.1,30.01,Highly Contested / Split Hinterland,0.889
 West Bengal,ALIPUR DUAR,664.0,1816447.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),32.2,10.39,Paradip Port,26.7,17.47,Highly Contested / Split Hinterland,0.945
 West Bengal,BANKURA,305.0,3732194.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),59.2,2.95,Paradip Port,23.8,7.69,Dominant / Mildly Contested,0.646
-West Bengal,BIRBH@M,307.0,3626993.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),61.9,3.31,Paradip Port,20.3,9.78,Dominant / Mildly Contested,0.584
+West Bengal,BIRBHUM,307.0,3626993.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),61.9,3.31,Paradip Port,20.3,9.78,Dominant / Mildly Contested,0.584
 West Bengal,DAKSHIN DINAJPUR,310.0,1795889.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),46.8,5.81,Paradip Port,24.6,12.88,Highly Contested / Split Hinterland,0.778
 West Bengal,DARJILING,309.0,1222299.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),33.5,9.64,Paradip Port,26.4,16.71,Highly Contested / Split Hinterland,0.93
 West Bengal,HAORA,313.0,4998562.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),94.4,0.66,Paradip Port,3.3,7.54,Captive Hinterland,0.089
@@ -777,5 +777,5 @@ West Bengal,PASCHIM MEDINIPUR,318.0,4140174.0,False,Syama Prasad Mookerjee Port 
 West Bengal,PURBA BARDDHAMAN,306.0,6176302.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),80.0,1.89,Paradip Port,10.6,9.67,Captive Hinterland,0.306
 West Bengal,PURBA MEDINIPUR,317.0,5248008.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),72.1,2.17,Paradip Port,16.0,8.13,Dominant / Mildly Contested,0.439
 West Bengal,PURULIYA,321.0,3021637.0,False,Paradip Port,43.3,6.3,Syama Prasad Mookerjee Port (Kolkata/Haldia),34.4,4.82,Highly Contested / Split Hinterland,0.911
-West Bengal,SOUTH 24PARGANAS,304.0,8744368.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),79.6,1.98,Paradip Port,10.6,10.07,Captive Hinterland,0.31
+West Bengal,SOUTH 24 PARGANAS,304.0,8744368.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),79.6,1.98,Paradip Port,10.6,10.07,Captive Hinterland,0.31
 West Bengal,UTTAR DINAJPUR,311.0,2973287.0,False,Syama Prasad Mookerjee Port (Kolkata/Haldia),43.3,6.53,Paradip Port,25.2,13.6,Highly Contested / Split Hinterland,0.82
