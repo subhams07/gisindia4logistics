@@ -31,6 +31,7 @@ Usage: python scripts/analyze/allocate_population.py
 """
 from __future__ import annotations
 
+import argparse
 import glob
 import pathlib
 import re
@@ -109,6 +110,7 @@ def village_stats(current: gpd.GeoDataFrame) -> tuple[pd.Series, pd.Series]:
 
 
 def main() -> None:
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     parents = load_parents()
     current = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson").to_crs(PROJ)
     current["geometry"] = current.geometry.make_valid()

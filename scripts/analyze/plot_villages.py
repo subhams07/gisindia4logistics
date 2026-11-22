@@ -1,6 +1,6 @@
 """
 scripts/analyze/plot_villages.py
-Interactive and Static Map Plotting Engine for India's 578,000+ Villages & Settlements.
+Interactive and Static Map Plotting Engine for India's 658,248 villages.
 
 Generates:
 1. Interactive Leaflet HTML maps with choropleth village polygons, popups, and facility overlays.
@@ -123,22 +123,6 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
                     gdf_dist = merged
 
     return gdf_dist
-
-
-def get_color_for_value(val: float, metric: str) -> str:
-    """Returns hex color based on distance thresholds."""
-    if pd.isna(val):
-        return "#cccccc"
-    if val <= 5.0:
-        return "#1a9850"   # Dark green (excellent)
-    elif val <= 10.0:
-        return "#91cf60"  # Light green (good)
-    elif val <= 25.0:
-        return "#fee08b"  # Yellow (moderate)
-    elif val <= 50.0:
-        return "#fc8d59"  # Orange (distant)
-    else:
-        return "#d73027"   # Red (isolated)
 
 
 def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metric: str = "dist_rail_station_km") -> str:

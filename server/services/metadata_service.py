@@ -14,9 +14,6 @@ from server.models.phase1 import ResponseMetadata
 
 LOGGER = logging.getLogger(__name__)
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-MANIFEST_PATH = REPO_ROOT / "data" / "version_manifest.json"
-
 
 class MetadataService:
     """Singleton service for loading version manifest and constructing ResponseMetadata."""
