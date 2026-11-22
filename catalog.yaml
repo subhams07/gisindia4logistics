@@ -326,7 +326,10 @@ datasets:
   quality_notes: 2016 DataMeet station-location base; later community zone/division enrichment.
     Enrichment vintage is approximate (catalog ~2023 vs script comment 2024); current operational
     status is unverified. Source licensing remains unresolved. Official alternative is data.gov.in
-    station resources (API key required).
+    station resources (API key required). `state` is the current state polygon containing the station
+    (scripts/clean/assign_station_states.py; 8,695 of 8,697, the other 2 lie outside India); the base
+    table's own label is kept as source_state, and the 189 disagreements, outside points and shared
+    coordinates are listed in docs/review/railway_station_state_review.csv.
 - name: Station categories (NSG1-6)
   category: rail
   description: 5,938 committed station-category records (2017+ classification; NSG*P suburban variants)
