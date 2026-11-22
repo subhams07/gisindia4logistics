@@ -1,5 +1,0 @@
-gis4logistics
-gisindia4logistics
-mcp_server
-scripts
-server

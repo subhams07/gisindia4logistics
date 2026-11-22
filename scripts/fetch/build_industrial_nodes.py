@@ -6,7 +6,6 @@ and PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks across India.
 
 import sys
 import pandas as pd
-import geopandas as gpd
 
 sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR

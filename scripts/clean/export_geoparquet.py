@@ -9,7 +9,7 @@ with Snappy compression, measuring file size savings and read speedups.
 import sys
 import time
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 import pandas as pd
 import geopandas as gpd
 
@@ -172,7 +172,7 @@ def export_all_geoparquet():
     print(f"  -> Total Village Size: {round(total_src_mb, 1)} MB GeoJSON -> {round(total_pq_mb, 1)} MB GeoParquet ({round((1.0 - total_pq_mb/total_src_mb)*100, 1)}% smaller)")
 
     print("\n" + "=" * 80)
-    print(f"  GEOPARQUET EXPORT COMPLETED: ALL DATASETS ACCELERATED")
+    print("  GEOPARQUET EXPORT COMPLETED: ALL DATASETS ACCELERATED")
     print("=" * 80)
 
 
