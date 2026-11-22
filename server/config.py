@@ -20,7 +20,6 @@ class Settings(BaseSettings):
     )
     HOST: str = "0.0.0.0"
     PORT: int = 8000
-    DEBUG: bool = False
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:8000"
     CORS_ALLOW_CREDENTIALS: bool = False
     

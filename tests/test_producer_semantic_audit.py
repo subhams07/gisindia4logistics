@@ -321,8 +321,8 @@ def test_nondefault_manifest_freight_parameters_explicit(semantic_bundle, tmp_pa
               "thresholds_hours": {"major_port": [4., 8., 12., 24.], "mmlp": [4., 8., 12.]},
               "buffer_m": 8000., "simplify_m": 500., "alpha": .85, "beta": 1.65,
               "capacities": {"Paradip Port": 145.38, "Deendayal Port (Kandla)": 132.50,
-                             "Jawaharlal Nehru Port (JNPT)": 86.00, "Visakhapatnam Port": 81.00,
-                             "Syama Prasad Mookerjee Port (Kolkata/Haldia)": 66.00, "Mumbai Port": 65.00,
+                             "Jawaharlal Nehru Port (JNPT/Navi Mumbai)": 86.00, "Visakhapatnam Port": 81.00,
+                             "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex": 66.00, "Mumbai Port": 65.00,
                              "Chennai Port": 54.50, "Kamarajar Port (Ennore)": 48.00,
                              "New Mangalore Port": 46.00, "V.O. Chidambaranar Port (Tuticorin)": 41.50,
                              "Cochin Port": 36.50, "Mormugao Port": 20.50}, "freight_parameters": parameters}

@@ -345,3 +345,24 @@ def test_unknown_stored_freight_state_is_503(interfaces):
     store, client = interfaces
     store.travel_time_df["state"] = "Invalid source state"
     assert client.post("/simulate/freight-cost", json={"origin_district_code": 521}).status_code == 503
+
+
+def test_sdk_and_mcp_village_maps_share_names_and_keys(map_data, capsys):
+    from gisindia4logistics import sdk
+    mcp = tools.tool_plot_villages_map("Odisha", "Cuttack", output_format="both")
+    via_sdk = sdk.plot_villages("orissa", "Cuttack", output_format="both")
+    assert via_sdk == mcp
+    assert set(mcp["outputs"]) == {"html_map_path", "png_map_path"}
+    assert Path(mcp["outputs"]["html_map_path"]).name == "odisha_cuttack_village_dist_rail_station_km_map.html"
+    assert capsys.readouterr().out == ""
+
+
+def test_sdk_village_map_output_path_rules(map_data):
+    from gisindia4logistics import sdk
+    target = map_data / "custom" / "cuttack.png"
+    result = sdk.plot_villages("Odisha", "Cuttack", output_format="both", output_path=target)
+    assert result["outputs"] == {"html_map_path": str(target.with_suffix(".html")), "png_map_path": str(target)}
+    with pytest.raises(ValueError, match=r"\.html or \.png"):
+        sdk.plot_villages("Odisha", "Cuttack", output_format="both", output_path=map_data / "cuttack.svg")
+    with pytest.raises(ValueError, match=r"\.png"):
+        sdk.plot_villages("Odisha", "Cuttack", output_format="png", output_path=map_data / "cuttack.html")

@@ -32,8 +32,8 @@ datasets produced by fetch scripts.
 | Toll plazas | clustered OSM toll points | 1,536 | OSM | ODbL |
 | Rail stations | codes/names/coords; state from polygons (source_state kept) | 8,697 | DataMeet railways (2016) | none declared (reference) |
 | Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
-| Freight terminals | Gati Shakti GCTs, 73 geocoded (state-checked) | 84 | PIB PRID 1910049 | GODL-India |
-| Logistics hubs | ports 22, ICPs 19 (2 coordinate-pending), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
+| Freight terminals | Gati Shakti GCTs, 78 geocoded (state-checked; 6 greenfield pending) | 84 | PIB PRID 1910049 | GODL-India |
+| Logistics hubs | ports 22, ICPs 19 (2 approximate: Zorinpui village, Srimantapur town), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
 | Demographics | Census 2011 district indicators; current-district population estimates | 640 / 780 | community digitization (validated) / derived | GODL-India |
 | Analysis | village access (geodesic), district/sub-district summaries, Stage 4 (geodesic NH routing, port matrix, freight modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
 
@@ -544,9 +544,24 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
       fixes (state column, Z values): each rewrite adds the full files to the
       public repo's history. Clean values where they are written instead
       (`nearest_facility.clean_text`).
-    Still open: Census sub-district tables (#10), DFC alignments, freight-table
-    re-sourcing, the five coordinate-pending GCTs and two ICPs, the API
-    redesign items (#5-7, #21, #22, #24, #25, #29).
+    Still open after this phase: see Phase N.
+
+### Phase N: audit batch D — API consistency and last locations (2026-11-22)
+49. Decision items 5, 6, 7, 21, 22, 24, 25, 29 (Stage 4 run
+    `linux-2026-11-22-run5`) plus the five pending GCTs and two ICPs. Rules:
+    - `server/__init__.py` stays empty: anything it imports joins the Stage 4
+      closure (the app, routers and plot_villages left it in this batch).
+    - Canonical labels: states via `standardize.clean_state_name` (LGD
+      spelling, lower-case "and"); major ports are the `ports.csv` names, with
+      request aliases in `standardize.PORT_NAME_ALIASES`. Never compare
+      against a title-cased literal ("Andaman And Nicobar Islands").
+    - All REST errors are `{"detail": {"status", "code", "message"}}`
+      (`server/services/error_contract.py`; handlers in `server/app.py`).
+    - Village maps go through `plot_villages.render_village_map` only.
+    - Areas served by the API are measured in ESRI:102028
+      (`server/dependencies.district_attributes`).
+    Still open: Census sub-district tables (#10), DFC alignments,
+    freight-table re-sourcing, the 6 greenfield GCT sites.
 
 ## Enhancement backlog (suggested next steps)
 

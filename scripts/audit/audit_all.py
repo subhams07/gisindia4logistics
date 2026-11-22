@@ -30,7 +30,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "clean"))
 # Direct `python scripts/audit/audit_all.py` runs need the repository root for `scripts.*` imports.
 if str(pathlib.Path(__file__).resolve().parents[2]) not in sys.path:
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from standardize import DATA_DIR, REPO_ROOT  # noqa: E402
+from standardize import DATA_DIR, REPO_ROOT, clean_state_name  # noqa: E402
 
 # ---------------------------------------------------------------- reference
 # District counts per state/UT in the SoI ABDB layer (incl. 2024-25 formations:
@@ -216,11 +216,7 @@ def audit_villages(source_root=DATA_DIR):
     for f in files:
         g = gpd.read_file(f)
         slug = pathlib.Path(f).stem.replace("_soi_villages", "")
-        state = slug.replace("_", " ").title()
-        fixes = {"Dadra And Nagar Haveli And Daman And Diu": "Dadra and Nagar Haveli and Daman and Diu",
-                 "Andaman And Nicobar Islands": "Andaman and Nicobar Islands",
-                 "Jammu And Kashmir": "Jammu and Kashmir"}
-        state = fixes.get(state, state)
+        state = clean_state_name(slug.replace("_", " "))
         if slug.startswith("pune"):
             continue
         has = {"village", "village_code", "district", "district_code",

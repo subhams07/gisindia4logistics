@@ -18,7 +18,8 @@ from server.models.schemas import (
 )
 from scripts.analyze import freight_cost_core as freight_core
 from scripts.analyze import producer_io
-from scripts.clean.standardize import clean_state_name
+from scripts.analyze.port_hinterland_model import canonical_port_capacities
+from scripts.clean.standardize import canonical_port_label, clean_state_name
 from server.routers.admin import canonical_state
 
 router = APIRouter(prefix="/simulate", tags=["Freight Simulation & Optimization"])
@@ -26,9 +27,9 @@ router = APIRouter(prefix="/simulate", tags=["Freight Simulation & Optimization"
 PORT_MATRIX_DATA = {
     "drive_hours_to_paradip": ("Paradip Port", 145.38),
     "drive_hours_to_deendayal_(kandla)": ("Deendayal Port (Kandla)", 132.50),
-    "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT)", 86.00),
+    "drive_hours_to_jawaharlal_nehru_(jnpt/navi_mumbai)": ("Jawaharlal Nehru Port (JNPT/Navi Mumbai)", 86.00),
     "drive_hours_to_visakhapatnam": ("Visakhapatnam Port", 81.00),
-    "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Syama Prasad Mookerjee Port (Kolkata/Haldia)", 66.00),
+    "drive_hours_to_kolkata_(syama_prasad_mookerjee)_incl._haldia_dock_complex": ("Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex", 66.00),
     "drive_hours_to_mumbai": ("Mumbai Port", 65.00),
     "drive_hours_to_chennai": ("Chennai Port", 54.50),
     "drive_hours_to_kamarajar_(ennore)": ("Kamarajar Port (Ennore)", 48.00),
@@ -76,14 +77,14 @@ def _requested_port_route(
             detail=f"District '{district_row.get('district')}' is an island with no contiguous highway network connection to mainland major ports"
         )
 
-    requested = _normalize_port_name(target_port)
+    requested = _normalize_port_name(canonical_port_label(target_port))
     if not requested:
         raise HTTPException(status_code=422, detail="target_port must contain letters or digits")
-    matches = []
-    for time_column, (display_name, _) in PORT_MATRIX_DATA.items():
-        normalized = _normalize_port_name(display_name)
-        if requested == normalized or requested in normalized or normalized in requested:
-            matches.append((time_column, display_name))
+    exact = [(column, name) for column, (name, _) in PORT_MATRIX_DATA.items()
+             if _normalize_port_name(name) == requested]
+    matches = exact or [
+        (column, name) for column, (name, _) in PORT_MATRIX_DATA.items()
+        if requested in _normalize_port_name(name) or _normalize_port_name(name) in requested]
 
     if len(matches) > 1:
         raise HTTPException(status_code=409, detail="Ambiguous target_port")
@@ -197,7 +198,7 @@ def simulate_freight_cost(req: FreightCostSimulationRequest, store: DataStore = 
 
     # Reject islands for land freight
     island_flag = match.get("is_island", False)
-    if (pd.notna(island_flag) and bool(island_flag)) or clean_state_name(match["state"]) in {"Andaman And Nicobar Islands", "Lakshadweep"}:
+    if (pd.notna(island_flag) and bool(island_flag)) or clean_state_name(match["state"]) in {"Andaman and Nicobar Islands", "Lakshadweep"}:
         raise HTTPException(
             status_code=422,
             detail=f"District '{match['district']} ({match['state']})' is an island with no contiguous highway network connection to mainland major ports"
@@ -285,11 +286,15 @@ def simulate_port_gravity(req: PortGravitySimulationRequest, store: DataStore = 
 
     if req.custom_port_capacities:
         supported = {name for name, _ in port_data.values()}
-        if set(req.custom_port_capacities) - supported:
+        try:
+            custom = canonical_port_capacities(req.custom_port_capacities)
+        except ValueError:
+            raise HTTPException(status_code=422, detail="Duplicate custom port capacity key") from None
+        if set(custom) - supported:
             raise HTTPException(status_code=422, detail="Unrecognized custom port capacity key")
         for k, (p_name, _) in port_data.items():
-            if p_name in req.custom_port_capacities:
-                port_data[k] = (p_name, float(req.custom_port_capacities[p_name]))
+            if p_name in custom:
+                port_data[k] = (p_name, float(custom[p_name]))
 
     capacity_utilities = {
         name: _positive_power(cap, alpha, status_code=422)

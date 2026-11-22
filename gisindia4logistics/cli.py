@@ -53,9 +53,12 @@ def cmd_serve(args):
     """Launch the FastAPI REST API Server."""
     _require_data_or_exit()
     import uvicorn
-    print(f"Starting GISIndia4Logistics REST API Server on http://{args.host}:{args.port} ...")
-    print(f"OpenAPI documentation available at http://{args.host}:{args.port}/docs")
-    uvicorn.run("server.app:app", host=args.host, port=args.port, reload=args.reload)
+    from server.config import settings
+    host = args.host if args.host is not None else settings.HOST
+    port = args.port if args.port is not None else settings.PORT
+    print(f"Starting GISIndia4Logistics REST API Server on http://{host}:{port} ...")
+    print(f"OpenAPI documentation available at http://{host}:{port}/docs")
+    uvicorn.run("server.app:app", host=host, port=port, reload=args.reload)
 
 
 def cmd_mcp(args):
@@ -147,6 +150,7 @@ def cmd_plot_villages(args):
     """Plot village accessibility maps."""
     from gisindia4logistics.data_root import DataNotFoundError
     from gisindia4logistics.sdk import plot_villages
+    from server.services.exceptions import InvalidLocationError, LocationNotFoundError
     try:
         res = plot_villages(
             state=args.state,
@@ -157,13 +161,13 @@ def cmd_plot_villages(args):
         )
     except DataNotFoundError:
         raise
-    except (ValueError, FileNotFoundError) as exc:
-        # Unknown state/district or unsupported metric: a user error, not a crash.
+    except (ValueError, FileNotFoundError, InvalidLocationError, LocationNotFoundError) as exc:
+        # Unknown state/district, unsupported metric or output path: a user error, not a crash.
         print(f"error: {exc}", file=sys.stderr)
         raise SystemExit(2) from None
-    print(f"Successfully generated maps for {res['villages_count']} villages in {args.district}, {args.state}:")
-    for fmt, p in res["files"].items():
-        print(f"  [{fmt.upper()}] -> {p}")
+    print(f"Successfully generated maps for {res['villages_count']} villages in {args.district}, {res['state']}:")
+    for key, p in res["outputs"].items():
+        print(f"  [{key.split('_')[0].upper()}] -> {p}")
 
 
 def cmd_audit(args):
@@ -201,8 +205,10 @@ def main():
 
     # serve
     p_serve = subparsers.add_parser("serve", help="Start the FastAPI REST API Server")
-    p_serve.add_argument("--host", type=str, default="0.0.0.0", help="Host address (default: 0.0.0.0)")
-    p_serve.add_argument("--port", type=int, default=8000, help="Port number (default: 8000)")
+    p_serve.add_argument("--host", type=str, default=None,
+                         help="Host address (default: $GIS4LOGISTICS_HOST or 0.0.0.0)")
+    p_serve.add_argument("--port", type=int, default=None,
+                         help="Port number (default: $GIS4LOGISTICS_PORT or 8000)")
     p_serve.add_argument("--reload", action="store_true", help="Enable auto-reload for dev")
     p_serve.set_defaults(func=cmd_serve)
 
@@ -234,7 +240,7 @@ def main():
     p_cost.add_argument("--truck-payload", type=float, help="Vehicle capacity in tonnes (default: 20; independent of shipment)")
     p_cost.add_argument("--rail-rate", type=float, help="IR base class rate factor")
     p_cost.add_argument("--inventory-rate", type=float, help="Inventory holding rate INR/tonne-hour")
-    p_cost.add_argument("--port", "--target-port", dest="port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT)', 'Paradip Port')")
+    p_cost.add_argument("--port", "--target-port", dest="port", type=str, help="Destination port name (e.g. 'Jawaharlal Nehru Port (JNPT/Navi Mumbai)', 'Paradip Port')")
     p_cost.add_argument("--payload", type=float, default=20.0, help="Payload in tonnes (default: 20.0)")
     p_cost.add_argument("--road-rate", type=float, help="Road linehaul rate INR/t-km")
     p_cost.add_argument("--dfc-rate", type=float, help="DFC linehaul rate INR/t-km")

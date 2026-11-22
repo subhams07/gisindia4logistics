@@ -247,7 +247,7 @@ gisindia4logistics serve --port 8000
 # or (evaluation, not verified for deployment): docker-compose up --build -d
 ```
 
-Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpoints cover district scorecards, highway routes (`/api/v1/route/highway` and the richer `/api/v1/route/highway/plan`), precomputed port and MMLP isochrones, freight-cost and port-gravity simulation, and village maps. Validation errors return a structured `detail`; see the [User Manual](docs/USER_MANUAL.md) for the contract. The server is for evaluation; validate it independently before operational deployment.
+Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpoints cover district scorecards, highway routes (`/api/v1/route/highway` and the richer `/api/v1/route/highway/plan`), precomputed port and MMLP isochrones, freight-cost and port-gravity simulation, and village maps. Every error returns the same structured `detail` (`status`, `code`, `message`); see the [User Manual](docs/USER_MANUAL.md) for the contract. The server is for evaluation; validate it independently before operational deployment.
 
 ### 5. AI agents (Model Context Protocol)
 

@@ -187,10 +187,11 @@ def test_resolve_freight_terminal_by_station_code(resolver, store):
     assert 26.0 <= res.latitude <= 26.5
 
 
-def test_freight_terminal_removed_for_a_wrong_state_match_is_not_routable(resolver, store):
-    """Kamalajari (Assam) once carried an Odisha station's coordinates; it is now coordinate-pending."""
-    with pytest.raises(LocationNotFoundError, match="lacks geographic coordinates"):
-        resolver.resolve(HubLocation(hub_type="freight_terminal", name="Kamalajari"), store)
+def test_freight_terminal_once_matched_in_another_state_now_resolves_in_assam(resolver, store):
+    """Kamalajari (Assam) once carried an Odisha station's coordinates; it now sits at Kamalajari, Kamrup Metro."""
+    res = resolver.resolve(HubLocation(hub_type="freight_terminal", name="Kamalajari"), store)
+    assert 26.0 <= res.latitude <= 26.2
+    assert 91.8 <= res.longitude <= 92.1
 
 
 def test_freight_terminal_without_coordinates_is_not_routable(resolver, store):

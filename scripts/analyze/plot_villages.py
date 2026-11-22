@@ -321,29 +321,80 @@ def plot_villages_static(gdf: gpd.GeoDataFrame, state: str, district: str, metri
     return output_png
 
 
+OUTPUT_FORMATS = {"html": (".html",), "png": (".png",), "both": (".html", ".png")}
+
+
+def village_map_paths(state: str, district: str, metric: str, output_format: str,
+                      output_dir: Path, output_path=None) -> dict:
+    """Destination per output kind ("html", "png").
+
+    Default: ``<output_dir>/<state>_<district>_village_<metric>_map.<ext>``. A given
+    ``output_path`` must end in .html or .png; with ``output_format="both"`` the other
+    file takes the same name with the other suffix. Any other suffix, or a suffix the
+    format does not produce, is an error rather than being ignored.
+    """
+    if output_format not in OUTPUT_FORMATS:
+        raise ValueError("output_format must be one of: html, png, both")
+    suffixes = OUTPUT_FORMATS[output_format]
+    if output_path is None:
+        stem = Path(output_dir) / (f"{safe_filename_component(state)}_{safe_filename_component(district)}"
+                                   f"_village_{metric}_map")
+    else:
+        given = Path(output_path)
+        if given.suffix.lower() not in suffixes:
+            allowed = " or ".join(suffixes)
+            raise ValueError(f"output_path must end in {allowed} for output_format '{output_format}'")
+        stem = given.with_suffix("")
+    return {suffix[1:]: stem.with_suffix(suffix) for suffix in suffixes}
+
+
+def render_village_map(state: str, district: str, metric: str = "dist_rail_station_km",
+                       output_format: str = "html", *, output_dir: Path, output_path=None) -> dict:
+    """Write a district's village accessibility map; the one implementation behind SDK, MCP and CLI.
+
+    ``state`` must already be canonical and its paths validated by the caller.
+    Returns {"status", "state", "district", "metric", "villages_count",
+    "outputs": {"html_map_path"?, "png_map_path"?}}.
+    """
+    from contextlib import redirect_stdout
+
+    validate_metric(metric)
+    paths = village_map_paths(state, district, metric, output_format, output_dir, output_path)
+    gdf = load_district_villages_gdf(state=state, district=district)
+    outputs = {}
+    for kind, path in paths.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if kind == "html":
+            path.write_text(generate_leaflet_html(gdf=gdf, state=state, district=district, metric=metric),
+                            encoding="utf-8")
+        else:
+            with redirect_stdout(sys.stderr):  # stdout may be a JSON-RPC channel
+                plot_villages_static(gdf=gdf, state=state, district=district, metric=metric, output_png=path)
+        outputs[f"{kind}_map_path"] = str(path)
+    return {"status": "success", "state": state, "district": district, "metric": metric,
+            "villages_count": len(gdf), "outputs": outputs}
+
+
 def main():
+    from scripts.analyze.producer_io import standalone_output_dir
+    from scripts.clean.standardize import clean_state_name
+
     parser = argparse.ArgumentParser(description="GIS4Logistics Village Plotting Engine")
     parser.add_argument("--state", type=str, required=True, help="State name (e.g. 'Haryana', 'Maharashtra')")
     parser.add_argument("--district", type=str, required=True, help="District name (e.g. 'Ambala', 'Pune')")
     parser.add_argument("--metric", type=str, default="dist_rail_station_km", help="Accessibility metric column")
     parser.add_argument("--format", type=str, choices=["html", "png", "both"], default="both", help="Output format")
-    parser.add_argument("--output", type=str, help="Output destination path")
-
+    parser.add_argument("--output", type=str, help="Output file (.html or .png); default: outputs/maps/")
     args = parser.parse_args()
 
-    gdf = load_district_villages_gdf(state=args.state, district=args.district)
-    print(f"Loaded {len(gdf)} villages for {args.district}, {args.state}")
-
-    if args.format in ["html", "both"]:
-        html_code = generate_leaflet_html(gdf=gdf, state=args.state, district=args.district, metric=args.metric)
-        out_html = Path(args.output) if args.output and args.output.endswith(".html") else (DATA_DIR / "analysis" / f"{safe_filename_component(args.district)}_village_{args.metric}_map.html")
-        with open(out_html, "w", encoding="utf-8") as f:
-            f.write(html_code)
-        print(f"Wrote interactive Leaflet map -> {out_html}")
-
-    if args.format in ["png", "both"]:
-        out_png = Path(args.output) if args.output and args.output.endswith(".png") else (DATA_DIR / "analysis" / f"{safe_filename_component(args.district)}_village_{args.metric}_map.png")
-        plot_villages_static(gdf=gdf, state=args.state, district=args.district, metric=args.metric, output_png=out_png)
+    state = clean_state_name(args.state)
+    if state is None:
+        raise SystemExit(f"Unknown state '{args.state}'")
+    result = render_village_map(state, args.district, args.metric, args.format,
+                                output_dir=standalone_output_dir() / "maps", output_path=args.output)
+    print(f"Mapped {result['villages_count']} villages for {args.district}, {state}")
+    for path in result["outputs"].values():
+        print(f"Wrote {path}")
 
 
 if __name__ == "__main__":

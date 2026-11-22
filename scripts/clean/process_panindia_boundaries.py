@@ -118,7 +118,7 @@ def process(layer: str) -> gpd.GeoDataFrame:
         rem = gdf["remarks"].astype(str)
         n_disputed = int((gdf["state"].isna() & rem.str.contains("DISPUTED", na=False)).sum())
         gdf = gdf[gdf["state"].notna()]
-    gdf["state"] = gdf["state"].map(clean_state_name).str.title()
+    gdf["state"] = gdf["state"].map(clean_state_name)
     # .title() capitalizes "and" — restore canonical LGD spellings
     gdf["state"] = gdf["state"].str.replace(" And ", " and ", regex=False)
     n_unmapped = int(gdf["state"].isna().sum())

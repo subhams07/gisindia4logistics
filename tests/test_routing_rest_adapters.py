@@ -248,7 +248,8 @@ def test_liveness_and_header_only_are_data_lazy(tmp_path, monkeypatch):
 def test_untouched_http_exception_status(client):
     response = client.get("/api/v1/route/isochrones/ports")
     assert response.status_code == 404
-    assert response.json() == {"detail": "Port isochrones not generated"}
+    assert response.json() == {"detail": {"status": 404, "code": "not_found",
+                                          "message": "Port isochrones not generated"}}
 
 
 @pytest.mark.parametrize("corrupt", [True, False])

@@ -85,13 +85,49 @@ STATE_NAME_FIXES = {
 }
 
 
+# The spelling every data file and endpoint uses (as in india_states_lgd): words
+# capitalised, "and" lower case ("Andaman and Nicobar Islands").
+CANONICAL_STATE_NAMES = {
+    key: " ".join(word if word == "and" else word.capitalize() for word in key.split())
+    for key in LGD_STATE_CODES
+}
+
+
 def clean_state_name(name: str) -> str | None:
-    """Normalize a state name to LGD spelling; return None if unknown."""
+    """Normalize a state name to its canonical LGD spelling; return None if unknown."""
     if name is None:
         return None
     key = str(name).strip().lower()
     key = STATE_NAME_FIXES.get(key, key)
-    return key.title() if key in LGD_STATE_CODES else None
+    if key not in CANONICAL_STATE_NAMES:
+        key = " ".join(key.replace("&", " and ").split())
+        key = STATE_NAME_FIXES.get(key, key)
+    return CANONICAL_STATE_NAMES.get(key)
+
+
+# Major-port labels: every endpoint and output uses the name in
+# data/logistics_hubs/ports.csv (the port matrix columns derive from it).
+# Earlier labels and short names stay accepted as request aliases.
+PORT_NAME_ALIASES = {
+    "Jawaharlal Nehru Port (JNPT)": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+    "Nhava Sheva": "Jawaharlal Nehru Port (JNPT/Navi Mumbai)",
+    "Syama Prasad Mookerjee Port (Kolkata/Haldia)": "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex",
+    "Mumbai": "Mumbai Port",
+}
+
+
+def _port_key(value) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(value).lower())
+
+
+_PORT_ALIAS_KEYS = {_port_key(alias): label for alias, label in PORT_NAME_ALIASES.items()}
+
+
+def canonical_port_label(name):
+    """The canonical label for a known alias (case and punctuation ignored); other names unchanged."""
+    if not isinstance(name, str):
+        return name
+    return _PORT_ALIAS_KEYS.get(_port_key(name), name)
 
 
 def to_wgs84(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:

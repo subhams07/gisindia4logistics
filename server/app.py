@@ -18,7 +18,8 @@ from server.routers.routing import router as routing_router, capture_request_sto
 from server.routers.simulation import router as simulation_router
 from server.services.metadata_service import MetadataService
 from server.services import routing_facade
-from server.services.error_contract import route_error_contract
+from server.services.error_contract import http_error_contract, route_error_contract
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from server.services.exceptions import GISIndia4LogisticsError
 
 
@@ -74,6 +75,14 @@ async def add_version_headers_middleware(request, call_next):
 def safe_error_response(error: Exception):
     contract = route_error_contract(error)
     return JSONResponse(status_code=contract["status"], content={"detail": contract})
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_error_handler(request: Request, error: StarletteHTTPException):
+    # Router errors (and unknown paths) use the same body shape as domain errors.
+    contract = http_error_contract(error.status_code, error.detail)
+    return JSONResponse(status_code=error.status_code, content={"detail": contract},
+                        headers=getattr(error, "headers", None))
 
 
 @app.exception_handler(GISIndia4LogisticsError)
