@@ -27,7 +27,7 @@ This manual provides end-to-end guidance for data scientists, logistics professi
 
 ## 1. Architecture & Core Standards
 
-GIS4Logistics adheres strictly to national Indian spatial standards:
+GISIndia4Logistics adheres strictly to national Indian spatial standards:
 
 * **Coordinate Reference Systems (CRS)**:
   * **Canonical Storage**: `EPSG:4326` (WGS 84, Longitude/Latitude degrees).
@@ -61,11 +61,10 @@ python -m venv venv
 # On Linux/macOS:
 source venv/bin/activate
 
-# 3. Install dependencies & package in editable mode
-pip install -r requirements.txt
-pip install -e .
+# 3. Install the package with development extras (tabulate is needed for the audit report)
+pip install -e ".[dev]"
 
-# 4. Optional fast audit (subset only; writes the audit report)
+# 4. Optional fast audit (subset only; writes docs/audit_report_fast.md)
 # Do not replace full-audit evidence with a fast report for release verification.
 python scripts/audit/audit_all.py --fast
 
@@ -114,6 +113,7 @@ tolls_df = pd.read_parquet("data/roads/toll_plazas.parquet")
 ```
 
 ### 3.3 Querying Multi-Modal Logistics Hubs with DuckDB
+DuckDB is optional and not a project dependency: install it with `pip install duckdb`.
 ```python
 import duckdb
 
@@ -216,7 +216,7 @@ python scripts/analyze/nearest_facility.py --all
 ---
 
 ### 4.5 Drive-Time Isochrone Generation
-Generates 1-hour, 2-hour, 4-hour, and 8-hour drive-time vector catchment polygons around infrastructure assets.
+Generates drive-time vector catchment polygons at 4, 8, 12 and 24 hours around the 12 major ports and at 4, 8 and 12 hours around the 20 MMLPs.
 
 ```bash
 # Generate isochrones for 12 Major Ports and 20 MMLPs
@@ -299,28 +299,29 @@ Public highway routing is implemented for review; the [stabilization plan](archi
 
 ## 7. AI Agent & MCP Plugin Integration
 
-GIS4Logistics includes a native **Model Context Protocol (MCP)** server enabling AI assistants in Antigravity, Codex, Cursor, and Claude Desktop to execute spatial tools directly.
+GISIndia4Logistics includes a native **Model Context Protocol (MCP)** server enabling AI assistants in Antigravity, Codex, Cursor, and Claude Desktop to execute spatial tools directly.
 
 ### Configuration (`mcp_config.json`)
 Add the server definition to your workspace configuration:
 ```json
 {
   "mcpServers": {
-    "gis4logistics": {
-      "command": "python",
+    "gisindia4logistics": {
+      "command": "/path/to/gisindia4logistics/.venv/bin/python",
       "args": ["-m", "mcp_server.server"]
     }
   }
 }
 ```
 
-### The 6 Agent Tools:
+### The 7 Agent Tools:
 1. `gis_get_district_scorecard`: Retrieves full demographic, nearest NH, rail, ICD, and port connectivity.
 2. `gis_calculate_intermodal_freight_cost`: Simulates Road vs Rail vs DFC freight rates and modal shift savings.
 3. `gis_find_nearest_facilities`: Finds closest infrastructure to any latitude/longitude coordinate.
 4. `gis_highway_route_and_tolls`: Calculates strategic driving distance, modelled hours and distance-based toll estimates, not verified FASTag/NHAI tariffs.
 5. `gis_simulate_port_catchment`: Models port market contestability under the Huff gravity model.
 6. `gis_plot_villages_map`: Generates interactive Leaflet HTML or PNG maps for a district.
+7. `gis_plan_highway_route`: Canonical highway route with quality warnings, provenance and optional geometry.
 
 #### Example Agent Prompt:
 > *"Compare the freight cost of shipping 25 tonnes of automotive parts from Pune to JNPT using Road trucking vs DFC Rail assuming a trucking rate of ₹3.80/tonne-km."*
@@ -353,11 +354,11 @@ The **Department of Science and Technology (DST) Guidelines for Acquiring and Pr
 * **Boundary Disclaimer**: Administrative boundaries are indicative analytical derivatives (DataMeet / Survey of India ABDB lineage) published for logistics and economic modeling, not official Survey of India boundary certifications.
 
 ### Required Citations
-When using GIS4Logistics in research, reports, or commercial products, please cite:
+When using GISIndia4Logistics in research, reports, or commercial products, please cite:
 ```bibtex
-@misc{gis4logistics_india_2026,
-  author = {GIS4Logistics Contributors},
-  title = {GIS4Logistics India: Curated Geospatial Data & Analytical Platform for Indian Logistics},
+@misc{gisindia4logistics_2026,
+  author = {Sahu, Subham},
+  title = {GISIndia4Logistics: Curated Geospatial Data and Analytics for Indian Logistics},
   year = {2026},
   publisher = {GitHub},
   url = {https://github.com/subhams07/gisindia4logistics}

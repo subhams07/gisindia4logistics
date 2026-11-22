@@ -47,7 +47,7 @@ Headline figures computed from the committed v1.1.0 outputs:
 | Median district drive time to the nearest major port | **12.4 h** |
 | Districts captive to a single major port (gravity model) | **29 of 780** (690 are contested between ports) |
 
-Village figures are geodesic straight-line distances over all 658,248 villages. Drive times run over the National Highway network for the 777 mainland districts, with geodesic edge lengths. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
+Village figures are geodesic straight-line distances over all 658,248 villages. Drive times run over the National Highway network for the 776 mainland districts, with geodesic edge lengths. The gravity model uses uncalibrated parameters (α = 0.85, β = 1.65).
 
 ---
 
@@ -57,7 +57,7 @@ Village figures are geodesic straight-line distances over all 658,248 villages. 
 |---|---|---|
 | 🛣️ **Highway transit** | *"What is the highway distance and free-flow drive time from Pune to JNPT for a 20-tonne truck?"* | **Strategic highway router.** Speed-weighted, component-aware shortest paths on 141,990 NH segments, with route-quality warnings. Tolls are modelled estimates, not FASTag/NHAI tariffs. |
 | 🚂 **Modal choice** | *"For 24 tonnes from Ludhiana, is rail or DFC cheaper than road, and by how much?"* | **Intermodal cost engine.** Linehaul, first/last-mile, terminal handling and inventory cost for road, conventional rail and (for origins near the corridors) DFC, with your own rate overrides. |
-| 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for the 777 mainland districts (4 island districts flagged) across the 12 major ports, with α/β you can tune. |
+| 🚢 **Port hinterlands** | *"Which districts are captive to Paradip, and which are contested between ports?"* | **Huff gravity model.** Market-share probabilities and contestability for the 776 mainland districts (4 island districts flagged) across the 12 major ports, with α/β you can tune. |
 | 🏭 **Site screening** | *"How far does an 8-hour drive reach from JNPT or the Nagpur MMLP?"* | **Isochrones.** Drive-time catchments at 4, 8, 12 and 24 h around 12 major ports and at 4, 8 and 12 h around 20 MMLPs. |
 | 🌾 **Rural reach** | *"What share of villages in a district are within 10 km of a railway station?"* | **Village access engine.** Nearest NH, expressway, station, terminal, port, ICD, ICP, air cargo, MMLP, waterway terminal, FCI depot and toll plaza for every settlement. |
 | 📋 **District scorecards** | *"How does Pune compare on highway, rail and port access?"* | **District profiles.** Access, drive times, nearest hubs and population for all 780 LGD districts. |
@@ -206,7 +206,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 
 | Layer | Contents | Count | Source | Licence / conditions |
 |---|---|---|---|---|
-| 🏛️ **States** | LGD-coded boundaries | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
+| 🏛️ **States** | State/UT boundaries (name only; no state code) | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
@@ -214,15 +214,15 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
-| ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link | **3 alignments, 54 stations** | DFCCIL | GODL-India |
+| ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link as schematic station-to-station lines | **3 corridors, 54 stations** | DFCCIL | GODL-India |
 | 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (78 geocoded, 6 pending) | **84** | Ministry of Railways / PIB | GODL-India |
 | 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
 | 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
 | 🏬 **MMLPs** | Awarded and planned multimodal logistics parks | **20** | NHLML / PIB | Mixed; per-row terms |
 | ✈️ **Air cargo** | Cargo-handling airports | **25** | AAI / operators | Mixed; per-row terms |
 | 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
-| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | GODL-India |
-| 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | GODL-India |
+| ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
+| 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |
 | 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
 | 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
 | 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
