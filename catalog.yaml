@@ -301,7 +301,7 @@ datasets:
   path: data/analysis/district_port_hinterland_catchment.csv
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "780 districts: Captive Hinterland 29, Dominant / Mildly Contested 57, Highly Contested / Split Hinterland 690, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv (MIRPUR, MUZAFFARABAD, NAZUL are area_share estimates)."
+  quality_notes: "780 districts: Captive Hinterland 29, Dominant / Mildly Contested 57, Highly Contested / Split Hinterland 690, Island / Isolated 4. Gravity parameters alpha 0.85 / beta 1.65 are UNCALIBRATED (sensitivity table in docs/stage4_drift_linux-2026-10-18-run1.md). Populations from data/demographic/district_population_estimates.csv."
 - name: Major Ports & MMLP Drive-Time Isochrones
   category: analysis
   description: Vector drive-time catchment polygons at 4h, 8h, 12h, 24h around 12 Major Commercial Ports and at 4h, 8h, 12h around 20 Multimodal Logistics Parks
@@ -571,7 +571,7 @@ datasets:
   path: data/demographic/district_population_estimates.csv
   fetch_script: scripts/analyze/allocate_population.py
   quality_status: verified
-  quality_notes: "Covers all 780 current districts (487 exact census, 153 summed from NWDP village populations, 136 blended, 4 area-share), keyed by LGD district_code; national sum 1,210,843,803 reconciles to 1,210,854,977 (<0.001% delta). Areas in ESRI:102028 (equal-area); villages counted per current district by point-in-polygon. Known weakness outside the 9 NWDP states: village count is a poor population proxy in tribal agency areas (e.g. Alluri Sitarama Raju is over-estimated); village-level Census population (NWDP) fixes it where available"
+  quality_notes: "Covers all 780 current districts (485 exact census, 155 summed from NWDP village populations, 140 blended), keyed by LGD district_code, or by state + name for the 4 districts without one (Nazul, Shahdara, Mirpur, Muzaffarabad; Mirpur and Muzaffarabad were not enumerated in Census 2011 and carry 0); 2011 parents are keyed by state + name; national sum 1,210,843,808 reconciles to 1,210,854,977 (<0.001% delta). Areas in ESRI:102028 (equal-area); villages counted per current district by point-in-polygon. Known weakness outside the 9 NWDP states: village count is a poor population proxy in tribal agency areas (e.g. Alluri Sitarama Raju is over-estimated); village-level Census population (NWDP) fixes it where available"
 - name: Indian Railways annual freight loading
   category: freight
   description: Revenue-earning originating freight loading by major commodity group (FY 2019-20 through 2024-25, excl. KRCL)
