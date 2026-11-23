@@ -250,6 +250,7 @@ def audit_villages(source_root=DATA_DIR):
 
 
 VILLAGE_CODE_COLUMNS = ("state_code", "district_code", "sub_district_code", "village_code")
+VILLAGE_MISSING_MARKERS = frozenset({"na", "null", "<null>", "not available"})
 
 
 def _village_schema_check(slug, state, frame, geojson_path):
@@ -276,6 +277,11 @@ def _village_schema_check(slug, state, frame, geojson_path):
     dirty = {c: int(frame[c].map(lambda v: isinstance(v, str) and v != " ".join(v.split())).sum()) for c in text}
     dirty = {c: n for c, n in dirty.items() if n}
     check("villages", f"{slug}: no line breaks or repeated spaces in text", "FAIL", not dirty, str(dirty))
+    markers = {c: int(frame[c].map(lambda v: isinstance(v, str) and v.casefold() in VILLAGE_MISSING_MARKERS).sum())
+               for c in text}
+    markers = {c: n for c, n in markers.items() if n}
+    check("villages", f"{slug}: no 'not available' markers stored as text (NA, Null, <Null>)", "FAIL",
+          not markers, str(markers))
 
 
 def _parquet_twin(geojson_path: pathlib.Path) -> pathlib.Path:
@@ -545,7 +551,7 @@ def audit_hubs(source_root=DATA_DIR):
               bool(have.longitude.between(68, 97.5).all() and have.latitude.between(6, 37.5).all()
                    and df.source_url.notna().all()))
         check("hubs", f"{f}: rows without coordinates are marked coordinate pending", "FAIL",
-              bool(pending.capacity_notes.astype(str).str.contains("coordinate pending").all()),
+              bool(pending.capacity_notes.astype("string").str.contains("coordinate pending").fillna(False).all()),
               f"{len(pending)} pending")
         outside = _hubs_outside_own_state(have, source_root)
         check("hubs", f"{f}: each point in its own state (5 km coastal tolerance)", "FAIL",

@@ -578,7 +578,16 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     - Regenerate a Parquet twin with gpd.read_file -> to_parquet (snappy) and
       check its geometry WKB is unchanged (the script refuses otherwise).
     - pandas 3 reads GeoJSON text as StringDtype, not object: a check that
-      filters `dtype == object` silently skips every column.
+      filters `dtype == object` silently skips every column. Use
+      `pd.api.types.is_string_dtype(s) or s.dtype == object`.
+    - Code must give the same result on pandas 2 and 3 (requirements allow
+      >=2.0): use `.astype("string")`, never `.astype(str)`, on columns that
+      can be missing (pandas 2 writes 'nan'); read the village access CSVs
+      with `village_access_io.read_village_access_csv` (default read_csv
+      drops the leading zeros of all-digit village codes, returns them as floats where blanks occur, and turns 'NA'/
+      'null' into missing).
+    - "Not available" markers (NA, Null, <Null>, Not available) are stored
+      as null in the village files; the audit fails on any that return.
     The village access tables and Stage 4 are unaffected (they do not read
     `state`; codes go through `pd.to_numeric`/`clean_text`).
 

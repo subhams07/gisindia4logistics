@@ -141,7 +141,7 @@ datasets:
     audit; simplified ~50 m with grid-snap validity pipeline. One attribute schema across all 36 files
     (scripts/clean/normalize_village_properties.py, audit-enforced) - state is the LGD spelling on every row,
     state_code/district_code/sub_district_code/village_code are text, text values have no line breaks or
-    repeated spaces; GeoParquet twins in data/administrative/villages_parquet/ carry the same columns. 15 states
+    repeated spaces, and "not available" markers (NA, Null, <Null>, Not available) are null; GeoParquet twins in data/administrative/villages_parquet/ carry the same columns. 15 states
     keep a Z = 0.0 coordinate from the source (harmless; geometry bytes are left untouched)
 - name: Taluka boundaries (OSM — redistributable)
   category: administrative
