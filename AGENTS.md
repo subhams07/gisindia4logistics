@@ -42,7 +42,7 @@ Key paths: `data/` (committed data incl. `data/analysis/`), `scripts/fetch/`
 `standardize.py`), `scripts/analyze/` (accessibility toolkit),
 `scripts/make_demo.py` (end-to-end district pipeline → GeoPackage + map PNG),
 `examples/` (notebook), `docs/` (sources.md, data_standards.md,
-legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
+legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
 
 ## Build history — steps taken, in order
 
@@ -675,6 +675,45 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     load `india_districts_lgd.parquet` once across the four node tables with
     safe invalid-coordinate handling, and added unit tests in
     `tests/test_node_districts.py`.
+
+### Phase V: Census 2011 sub-district PCA & LGD sub-district directory (2026-11-24)
+56. Closed open audit item #10 (Census sub-district tables) with zero Stage 4
+    regeneration by adding two official GODL-India sub-district datasets:
+    - **`data/demographic/census2011_subdistrict_key_indicators.csv`** (5,988
+      rows, 30 columns; `scripts/fetch/fetch_subdistrict_census2011.py`):
+      downloaded directly from ORGI Census Digital Library NADA `#42559` (PCA)
+      and `#42526` (Table A-01: area sq. km, inhabited/uninhabited villages,
+      towns) and parsed using stdlib `zipfile` + `xml.etree.ElementTree` (zero
+      extra dependencies; raw `.xlsx` cached in gitignored `data/raw/census2011/`).
+      Primary key is the zero-padded composite
+      `(census_state_code, census_district_code, census_subdistrict_code)`
+      because 30 `"Area not under any Sub-district"` rows share code `99999`
+      (`is_non_subdistrict_area=True`) and 34 distinct non-`99999` sub-district
+      codes span 2–3 districts (32 × 2 + 2 × 3 = 70 rows, +36 extra;
+      `5,922 + 36 + 30 = 5,988`). Worker category totals follow Census PCA convention
+      (`MAIN_*_P + MARG_*_P`). Hard validation gate enforces 5,988 rows,
+      unique composite key, `1,210,854,977` total population, `M+F == P`,
+      `Rural+Urban == P`, literacy/worker identities, and exact `640/640`
+      district sum reconciliation against `census2011_district_key_indicators.csv`
+      (0 diff; 5 Nagaland/Mizoram rows have blank `area_sqkm` matching `'NA'`
+      in ORGI Table A-01).
+    - **`data/administrative/lgd_subdistricts.csv`** (7,112 rows, 7 columns;
+      `scripts/fetch/fetch_lgd_subdistricts.py`): official snapshot from
+      `lgdirectory.gov.in/webservices/lgdws/subdistrictList` across all 790
+      LGD districts (788 populated; urban-only Kolkata `315` and Mumbai `482`
+      have 0 sub-districts in LGD), 36 states/UTs, 7,112 unique
+      `sub_district_code`s, joining `6,427/6,557` coded features (`98.02%`)
+      and `6,427/6,636` all features (`96.85%`) of `india_subdistricts_lgd.gpkg`.
+      `5,568/7,112` rows (`78.29%`) carry a 5-digit zero-padded
+      `census2011_code`, of which `5,567/5,568` (`99.98%`) join directly to
+      `census2011_subdistrict_key_indicators.csv`.
+    - Added validation checks for both tables in `scripts/audit/audit_all.py`
+      (`audit_demographics`), added `"demographic:subdistricts": 5988` to
+      `collect_counts()` and `data/audit_baseline.json`, updated `catalog.yaml`
+      (46 datasets) / `docs/sources.md` / `CHANGELOG.md`, and added unit tests
+      in `tests/test_subdistrict_census.py`.
+    Still open: PR #18 station state review lists in `docs/review/`, the 6
+    greenfield GCT sites, and Audit #50 toll-plaza OSM IDs.
 
 ## Enhancement backlog (suggested next steps)
 

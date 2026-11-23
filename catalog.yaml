@@ -93,6 +93,19 @@ datasets:
   quality_status: verified
   quality_notes: 790 districts across 36 states/UTs; LGD codes unique nationally (the fetcher refuses to write
     otherwise); census codes 0/blank mean none
+- name: LGD sub-district directory & Census 2011 crosswalk (official snapshot)
+  category: administrative
+  description: Official Local Government Directory sub-district master (7,112 sub-districts across 36 states/UTs and 788/790 LGD districts) with 5-digit Census 2011 sub-district codes
+  provider: Ministry of Panchayati Raj — Local Government Directory (lgdirectory.gov.in web service)
+  source_url: https://lgdirectory.gov.in/webservices/lgdws/subdistrictList
+  license: Government of India open data (GODL-India); attribute LGD, Ministry of Panchayati Raj
+  vintage: 2026-11 snapshot
+  resolution: sub-district
+  access: committed
+  path: data/administrative/lgd_subdistricts.csv
+  fetch_script: scripts/fetch/fetch_lgd_subdistricts.py
+  quality_status: verified
+  quality_notes: "7,112 unique LGD sub_district_codes across 36 states/UTs and 788/790 official LGD districts (2 urban-only districts, 315 Kolkata and 482 Mumbai, have 0 sub-districts in LGD). Joins 6,427/6,557 coded features (98.02%) and 6,427/6,636 total features (96.85%) of india_subdistricts_lgd.gpkg. 5,568/7,112 rows (78.29%) carry a 5-digit zero-padded census2011_code (1,544 blank for post-2011 formations), of which 5,567/5,568 (99.98%) join directly to census2011_subdistrict_key_indicators.csv."
 - name: District code crosswalk (SoI ABDB -> LGD)
   category: administrative
   description: Maps each of the 780 boundary-layer districts from its ABDB source code to its LGD code
@@ -565,6 +578,19 @@ datasets:
   quality_status: verified
   quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state
     totals match)
+- name: Census 2011 sub-district key indicators (PCA + Table A-01)
+  category: demographic
+  description: Official Primary Census Abstract (Total/Rural/Urban population, households, 0-6, SC/ST, literacy, workers by category) merged with Table A-01 (area sq. km, inhabited/uninhabited villages, towns) for all 5,988 Census 2011 sub-districts
+  provider: Office of the Registrar General & Census Commissioner, India (ORGI) — Census Digital Library (NADA #42559 & #42526)
+  source_url: https://censusindia.gov.in/nada/index.php/catalog/42559
+  license: GODL-India
+  vintage: 2011
+  resolution: sub-district
+  access: committed
+  path: data/demographic/census2011_subdistrict_key_indicators.csv
+  fetch_script: scripts/fetch/fetch_subdistrict_census2011.py
+  quality_status: verified
+  quality_notes: "5,988 sub-districts across 640 Census 2011 districts (35 2011 states/UTs mapped to canonical LGD spellings; Telangana within Andhra Pradesh, DNH & DD merged to UT spelling). Primary key is composite (census_state_code, census_district_code, census_subdistrict_code) because 30 'Area not under any Sub-district' rows share code 99999 (flagged via is_non_subdistrict_area) and 34 distinct non-99999 sub-district codes span 2-3 districts (32 x 2 + 2 x 3 = 70 rows, +36 extra; 5,922 + 36 + 30 = 5,988). Reconciles 100% exactly: sum(population) == 1,210,854,977; M+F == P; Rural+Urban == P; literates+illiterates == P; workers+non_workers == P; 640/640 districts match census2011_district_key_indicators.csv with 0 diff; 5 Nagaland/Mizoram rows have blank area_sqkm ('NA' in ORGI Table A-01)."
 - name: District population estimates (780 current LGD districts)
   category: demographic
   description: 2011 Census population mapped to all 780 current LGD districts via geometric overlay and village-count blending
