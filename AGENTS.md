@@ -608,6 +608,24 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     greenfield GCT sites. (Audit #14, the village properties, was done in
     Phase O.)
 
+### Phase Q: population keys, hub columns, audit baseline (2026-11-23)
+52. Decision items 10, 47, 51 (Stage 4 run `linux-2026-11-23-run6`).
+    `allocate_population.py` keys every current district by
+    `district_key()` (LGD code, else state + name) and every 2011 parent by
+    state + name. Grouping by (state, district_code) pooled each state's
+    uncoded districts, and the 2011 layer's `district_key` (name only) pooled
+    10 same-name parents across states (Delhi/Sikkim East-North-South-West,
+    Aurangabad, Bilaspur, ...), so Sikkim and Delhi were badly mis-allocated.
+    Rules:
+    - Never key a district by name alone, or by code alone where codes can
+      be null: use (state, name) or `district_key()`. Both scripts now refuse
+      to run if a key is duplicated.
+    - Compare regenerated tables NaN-aware (`DataFrame.compare`); on pandas 3
+      `.astype(str)` keeps NaN, so a string compare flags every missing cell
+      as changed.
+    - `audit_all.py --update-baseline` after any change of row counts; the
+      baseline now covers 142 series.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

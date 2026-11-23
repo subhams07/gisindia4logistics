@@ -4,6 +4,19 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — population allocation keys; empty hub columns; audit baseline (Stage 4 run `linux-2026-11-23-run6`)
+
+- **Population estimates: two pooling bugs in `allocate_population.py`.** State totals are unchanged.
+  - **Uncoded districts were pooled.** Every grouping on (state, district_code) treated all of a state's uncoded districts as one district: Delhi's Nazul and Shahdara, and J&K's Mirpur and Muzaffarabad. Their villages were also never counted. Each current district now has its own key: the LGD code, or state + name where there is no code.
+  - **2011 parents with the same name were pooled across states.** The 2011 parent key was the district name alone, and 10 names belong to districts of two states: Aurangabad, Bijapur, Bilaspur, Hamirpur, Pratapgarh and Raigarh, and Delhi's and Sikkim's East, North, South and West. Their village shares were split across both states, and the parent-population merge counted each pair twice. The key now includes the state.
+  - **Sikkim now sums back to its 2011 parents.** Mangan was 12,481 and is now 41,404 (North Sikkim: 43,709). Gangtok + Pakyong is 280,313 (East: 283,583).
+  - **Other changes:** Delhi's districts move by up to ±50% (they had been pooled with Sikkim), with smaller shifts in Chhattisgarh, Maharashtra and UP.
+  - **Mirpur and Muzaffarabad** now take their J&K villages' Census 2011 population, which is 0: Census 2011 did not enumerate those areas.
+  - **Counts by method:** census2011 485, village_census 155, blended 140.
+- **Empty hub columns dropped:** `freight_terminals.operator` (empty in all 84 rows) and `industrial_nodes.district_code` (filled in 1 of 21 rows, with a non-LGD float). `docs/data_standards.md` now documents the hub file schemas.
+- **Audit baseline:** grows from 96 to 142 series. It now covers toll plazas, DFC stations and network, the NH network, all district and sub-district access summaries, modal split, hinterland and both isochrone files. The new counts are read from file metadata, so no geometry is loaded.
+- **Regenerated:** the access summaries (population weights only; 7 states) and Stage 4 run 6. Only `pop_2011` changes (186 districts); routing, the hinterland categories and primary ports, modal split and isochrones are identical.
+
 ### Changed — real OSM DFC alignments & verified freight tables (Wave 1)
 
 - **Dedicated Freight Corridors (`data/rail/dfc_network.geojson` + `.parquet`).** Replaced the schematic straight-line station-to-station polylines with real surveyed single-track centerlines extracted from OpenStreetMap relations `12145132` (WDFC, 1,460.0 km geodesic vs 1,506 km official) and `11154478` (EDFC, 1,256.6 km geodesic vs 1,337 km official, plus the 43.3 km Dadri–Khurja link). Validated on re-read in both GeoJSON and GeoParquet (`quality_status: verified`, `license: ODbL`).
