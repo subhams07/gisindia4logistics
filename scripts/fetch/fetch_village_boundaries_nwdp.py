@@ -51,9 +51,15 @@ ATTRIBUTION = ("Village boundaries: Survey of India, via the National Water Data
                "(National Water Informatics Centre, Ministry of Jal Shakti), Government of India")
 
 
+def text(series: pd.Series) -> pd.Series:
+    """Stripped text with missing values kept missing (the same on pandas 2 and 3;
+    `.astype(str)` turns them into 'nan' on pandas 2)."""
+    return series.astype("string").str.strip()
+
+
 def code(series: pd.Series) -> pd.Series:
     """Zero-padded code strings ('024') -> '24'; blanks -> None (matches the SoI village files)."""
-    num = pd.to_numeric(series.astype(str).str.strip(), errors="coerce")
+    num = pd.to_numeric(text(series), errors="coerce")
     return num.map(lambda v: None if pd.isna(v) else str(int(v)))
 
 
@@ -65,18 +71,18 @@ def load_standardized(zip_path: pathlib.Path, state: str) -> gpd.GeoDataFrame:
     raw.columns = [c.strip() for c in raw.columns]  # many NWDP column names end in "\n"
     if set(raw.src_agency.unique()) != {"Survey of India (SOI)"}:
         raise SystemExit(f"{zip_path.name}: unexpected source agency {raw.src_agency.unique()}")
-    village_code = raw.vlcode.astype(str).str.strip()
-    category = raw.total_urban_rural.astype(str).str.strip()
+    village_code = text(raw.vlcode)
+    category = text(raw.total_urban_rural)
     gdf = gpd.GeoDataFrame({
         "state": state,
         "state_code": code(raw.stcode),
-        "district": raw.district.astype(str).str.strip(),
+        "district": text(raw.district),
         "district_code": code(raw.dtcode),
-        "sub_district": raw.subdistric.astype(str).str.strip().replace({"Data Not Available": None}),
-        "sub_district_code": code(raw.sdcode).where(raw.sdcode.astype(str).str.strip() != "9999"),
-        "village": raw.village.astype(str).str.strip(),
-        "village_category": category.where(category.isin(["Rural", "Urban"])),
-        "village_code": village_code.where(village_code != NO_CODE),
+        "sub_district": text(raw.subdistric).replace({"Data Not Available": None}),
+        "sub_district_code": code(raw.sdcode).where(text(raw.sdcode).ne("9999").fillna(True).astype(bool)),
+        "village": text(raw.village),
+        "village_category": category.where(category.isin(["Rural", "Urban"]).fillna(False).astype(bool)),
+        "village_code": village_code.where(village_code.ne(NO_CODE).fillna(True).astype(bool)),
         "population_2011": pd.to_numeric(raw.total_population_village, errors="coerce").round().astype("Int64"),
         "households_2011": pd.to_numeric(raw.total_households, errors="coerce").round().astype("Int64"),
     }, geometry=raw.geometry, crs=raw.crs)

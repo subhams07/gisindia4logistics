@@ -540,10 +540,8 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     audit requires that note). Rules:
     - A hub or terminal point must lie in its own state (audit, 5 km coastal
       tolerance); border posts must be on the Indian side.
-    - Do not rewrite the large village GeoJSON/Parquet files for cosmetic
-      fixes (state column, Z values): each rewrite adds the full files to the
-      public repo's history. Clean values where they are written instead
-      (`nearest_facility.clean_text`).
+    - (Superseded in Phase O: a properties-only rewrite of the village files
+      costs ~20 MB of history, not the full file size.)
     Still open after this phase: see Phase N.
 
 ### Phase N: audit batch D — API consistency and last locations (2026-11-22)
@@ -563,8 +561,38 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     Still open: Census sub-district tables (#10), DFC alignments,
     freight-table re-sourcing, the 6 greenfield GCT sites.
 
-### Phase O: real OSM DFC alignments and verified freight tables (2026-11-23)
-50. Replaced schematic DFC polylines (`data/rail/dfc_network.geojson` + `.parquet`)
+### Phase O: village file attribute schema (2026-11-22)
+50. Audit item 14, decided after a measured scratch-clone benchmark (another
+    agent, on main 70f5a0e): `scripts/clean/normalize_village_properties.py`
+    gives all 36 village files one schema - `state` = LGD spelling on every
+    row (Chandigarh had no column, 14 Maharashtra rows were null, Delhi had
+    'DELHI\r\n', spellings differed per file), the four code columns as text
+    (Goa district_code, Tripura state_code and MP sub_district_code were
+    integers), and whitespace collapsed in every text value. 26 files changed.
+    Rules:
+    - Edit village GeoJSON properties only: the files round-trip
+      byte-identically through `json.dumps(separators=(",", ":"))`, so the
+      geometry text stays identical and git delta-compresses the rewrite
+      (benchmark: +21 MB history for all 36 files incl. Parquet twins).
+      Never rewrite the geometry (dropping Z = 0.0 measured +152 MB).
+    - Regenerate a Parquet twin with gpd.read_file -> to_parquet (snappy) and
+      check its geometry WKB is unchanged (the script refuses otherwise).
+    - pandas 3 reads GeoJSON text as StringDtype, not object: a check that
+      filters `dtype == object` silently skips every column. Use
+      `pd.api.types.is_string_dtype(s) or s.dtype == object`.
+    - Code must give the same result on pandas 2 and 3 (requirements allow
+      >=2.0): use `.astype("string")`, never `.astype(str)`, on columns that
+      can be missing (pandas 2 writes 'nan'); read the village access CSVs
+      with `village_access_io.read_village_access_csv` (default read_csv
+      drops the leading zeros of all-digit village codes, returns them as floats where blanks occur, and turns 'NA'/
+      'null' into missing).
+    - "Not available" markers (NA, Null, <Null>, Not available) are stored
+      as null in the village files; the audit fails on any that return.
+    The village access tables and Stage 4 are unaffected (they do not read
+    `state`; codes go through `pd.to_numeric`/`clean_text`).
+
+### Phase P: real OSM DFC alignments and verified freight tables (2026-11-23)
+51. Replaced schematic DFC polylines (`data/rail/dfc_network.geojson` + `.parquet`)
     with surveyed OpenStreetMap alignments fetched via the OSM REST relation API
     (`12145132` WDFC 1,460.0 km, `11154478` EDFC 1,256.6 km + 43.3 km Dadri–Khurja
     link; ODbL, `quality_status: verified`). Re-sourced `data/freight/` from
@@ -576,8 +604,9 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     national totals (<0.05%); `audit_all.py` now enforces freight reconciliation as
     `FAIL` (upgraded from `WARN`) and verifies `dfc_network.parquet` parity. Zero
     Stage 4 closure files touched. Still open: Census sub-district tables (#10),
-    PR #18 station state review lists, Audit #14 village properties cleanup,
-    the 6 greenfield GCT sites.
+    the station state review lists in `docs/review/` (from PR #18), the 6
+    greenfield GCT sites. (Audit #14, the village properties, was done in
+    Phase O.)
 
 ## Enhancement backlog (suggested next steps)
 

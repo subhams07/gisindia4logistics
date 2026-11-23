@@ -14,6 +14,23 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - Every commodity and port breakdown reconciles to its national total within 0.05% (`build_freight_tables.py` enforces a hard gate; `audit_all.py` upgrades freight consistency from `WARN` to `FAIL`; `catalog.yaml` flips both tables from `unverified` to `verified`).
 - **No Stage 4 regeneration required:** neither `dfc_network` nor `data/freight/*` is in Stage 4's input or code closure.
 
+### Fixed — reading village codes and text the same way on pandas 2 and 3
+
+- **API village codes lost their leading zeros.** `/admin/villages` (and the map's code fallback) read the village access CSVs with pandas' defaults. Where a state's codes were all digits, pandas parsed them as numbers, as floats wherever the column also had blanks. Zero-padded codes therefore came back wrong: `071955` was returned as `71955`. That is 27,754 codes: Himachal Pradesh 20,680, J&K 6,425, Uttarakhand 343 (its mixed column was parsed chunk by chunk), Ladakh 241, Delhi 54, Kerala 8 and Lakshadweep 3. `scripts/analyze/village_access_io.read_village_access_csv` now reads these tables with explicit dtypes: text as `string`, district codes as `Int64`, and only empty cells as missing.
+- **"Not available" markers stored as text are now null** in the village files, the way the NWDP files store `999999`. The markers are `NA` (1,929 MP village codes, 8 Haryana categories), `Null` / `<Null>` (Odisha, Gujarat, Puducherry, Uttarakhand, West Bengal) and `Not available` (Karnataka codes; 17 village names in J&K, Karnataka and Uttarakhand): 2,534 values in 9 files. pandas read `NA` and `null` as missing from CSV but as text from Parquet, so the two formats disagreed. Similar-looking real names (Punjab's `NAN` and `NONE`, Hapur's `Nan`) are kept. The audit fails on any marker that comes back.
+- **`.astype(str)` → `.astype("string")`** in the NWDP village fetcher, the station-category enrichment and one audit check. On pandas 2, `.astype(str)` writes a missing value as the text `"nan"`; on pandas 3 it stays missing.
+- The village access tables are regenerated for the 9 states. Only `village`/`village_code` change; distances and summaries are unchanged.
+
+### Fixed — village files: one attribute schema (audit item 14)
+
+- All 36 village GeoJSONs and their GeoParquet twins now share one attribute schema (`scripts/clean/normalize_village_properties.py`). 26 files changed:
+  - **`state`:** the LGD state name on every row. Before, Chandigarh's file had no `state` column, 14 Maharashtra rows were empty, one Delhi row read `'DELHI\r\n'`, and spellings differed per file (`MAHARASHTRA`, `Lakshadweep-UT`, `DADRA & NAGAR HAVELI & DAMAN & DIU`).
+  - **Codes:** `state_code`, `district_code`, `sub_district_code` and `village_code` are text in every file. Goa's `district_code`, Tripura's `state_code` and Madhya Pradesh's `sub_district_code` were integers, so combining states mixed integers and strings.
+  - **Text values:** line breaks and repeated spaces are collapsed in all of them, including 1,339 village names and 179 village codes (the same values batch C cleaned in the access tables).
+- Geometry is unchanged byte for byte, in the GeoJSON text and in the Parquet WKB; 15 states keep the source's Z = 0.0. The REST village GeoJSON/map endpoints and anyone reading the files directly now see the corrected values.
+- The audit checks all three properties for every file, in both formats.
+- The village access tables and the Stage 4 outputs are unaffected.
+
 ### Changed — audit batch D: API consistency, server packaging, last hub locations (Stage 4 run `linux-2026-11-22-run5`)
 
 - **Breaking for REST clients: one error body.** Router errors and unknown paths now answer `{"detail": {"status", "code", "message"}}`, like domain and validation errors (`candidates` added on a 409). Read `detail.message` where `detail` used to be a string.
@@ -65,7 +82,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - The median drive time to an ICP is 9.44 → 9.46 h.
   - High-circuity pairs go from 368 to 370.
   - Hinterland and modal split are unchanged.
-- **Not done:** #14 (the village files' `state` column, dtypes and Z coordinates). Nothing reads those values, and rewriting the files would add hundreds of MB to the repository history.
+- **Not done here:** #14 (the village files' `state` column and dtypes); done later, see "village files: one attribute schema".
 
 ### Changed — audit batch B (Stage 4 regenerated, run `linux-2026-11-22-run3`)
 

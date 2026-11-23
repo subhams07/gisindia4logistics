@@ -78,7 +78,9 @@ def contained_data_path(data_dir: Path, *parts: str) -> Path:
 
 @lru_cache(maxsize=4)
 def _read_village_access_cached(path: str, mtime_ns: int, size: int) -> pd.DataFrame:
-    return pd.read_csv(path)
+    # Explicit dtypes: village codes stay text (zero-padded, alphanumeric) on pandas 2 and 3.
+    from scripts.analyze.village_access_io import read_village_access_csv
+    return read_village_access_csv(path)
 
 
 def read_village_access(path: Path) -> pd.DataFrame:
