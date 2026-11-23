@@ -259,8 +259,10 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
    crosswalk.csv helps; new-district splits after 2011 need LGD parentage).
 5. Roads: PMGSY/NHAI official networks not integrated (documented pointers);
    NH network length stats unreliable (dual carriageways double-counted).
-6. Two village files >50 MB (GitHub warning): UP 72.7 MB, MP 52.3 MB.
-   Options: LFS (needs quota), per-district splits, stronger simplification.
+6. ~~Two village files >50 MB (GitHub warning): UP 72.7 MB, MP 52.3 MB.~~
+   Resolved by maintainer ruling (2026-11-24, see `docs/decision_log.md`):
+   keep both unsplit (under GitHub's 100 MB limit; splitting breaks the
+   1-file-per-state schema and bloats git history).
 7. No CI. A GitHub Action running `yaml.safe_load(catalog.yaml)` + the
    validation checks (census totals, boundary counts, geometry validity)
    would enforce the quality bar.
@@ -675,6 +677,16 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     load `india_districts_lgd.parquet` once across the four node tables with
     safe invalid-coordinate handling, and added unit tests in
     `tests/test_node_districts.py`.
+
+### Phase U: governance archive & housekeeping rulings (2026-11-24)
+56. Archived `docs/adr/007-district-identity-and-population.md` and
+    `docs/decision_log.md` from `veukfs` onto `main` (PR #27) and recorded the
+    2026-11-24 maintainer rulings in `docs/decision_log.md`: keep UP (72.7 MB)
+    and MP (52.3 MB) village GeoJSON files unsplit (under GitHub's 100 MB
+    limit; avoids breaking the 1-file-per-state schema and git history bloat),
+    keep `DSN` (Darsana) and `DHCA` (Dhaca Cantt.) in `railway_stations.csv`
+    as international Maitree Express stations excluded from India-polygon
+    checks, and prune merged remote branches.
 
 ## Enhancement backlog (suggested next steps)
 
