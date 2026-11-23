@@ -81,3 +81,13 @@ def test_precision_rules():
     assert hp.precision(row(""), "mmlps", {(20.0, 78.0)}, set()) == "city"
     assert hp.precision(row(""), "ports", {(20.0, 78.0)}, set()) == "unverified"
     assert hp.precision(row("", name="P"), "ports", set(), {("ports", "P")}) == "site"
+
+
+def test_hubs_endpoint_returns_null_for_blank_unlocode():
+    from fastapi.testclient import TestClient
+    from server.app import app
+    ports = TestClient(app).get("/api/v1/hubs", params={"hub_type": "ports"}).json()
+    by_name = {p["name"]: p for p in ports}
+    assert by_name["Jawaharlal Nehru Port (JNPT/Navi Mumbai)"]["unlocode"] == "INNSA"
+    assert by_name["Mundra Port"]["unlocode"] is None
+    assert by_name["Mundra Port"]["hub_code"].startswith("PRT-") and by_name["Mundra Port"]["coord_precision"]

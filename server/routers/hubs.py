@@ -58,7 +58,8 @@ def list_hubs(
             df["hub_type"] = k
         if state and "state" in df.columns:
             df = df[df.state.map(clean_state_name) == state]
-        results.extend(df.to_dict(orient="records"))
+        # blank optional cells (e.g. unlocode for non-major ports) are NaN: return null
+        results.extend(sanitize_records(df.to_dict(orient="records")))
 
     return results[:limit]
 
