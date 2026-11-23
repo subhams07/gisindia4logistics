@@ -100,7 +100,9 @@ The point files come in two families:
   cold_chain_storages, enam_mandis): `name, state, district, city, latitude,
   longitude, ..., source_url`, with type-specific columns in between
   (`corridor`/`node_type`, `area_acres`, `status`, `capacity_mt`,
-  `commodities`, `market_type`, ...). They carry the district name, not a code.
+  `commodities`, `market_type`, ...). `district` and the LGD `district_code`
+  are the district polygon containing the point
+  (`scripts/clean/assign_node_districts.py`; the audit checks them).
 
 Gati Shakti cargo terminals (`data/rail/freight_terminals.csv`) have their own
 schema: `name, terminal_type, zone, division, state, city, latitude, longitude,

@@ -33,7 +33,7 @@ datasets produced by fetch scripts.
 | Rail stations | codes/names/coords; state from polygons (source_state kept) | 8,697 | DataMeet railways (2016) | none declared (reference) |
 | Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
 | Freight terminals | Gati Shakti GCTs, 78 geocoded (state-checked; 6 greenfield pending) | 84 | PIB PRID 1910049 | GODL-India |
-| Logistics hubs | ports 22, ICPs 19 (2 approximate: Zorinpui village, Srimantapur town), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 21, PM MITRA 7 | 306 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
+| Logistics hubs | ports 22, ICPs 19 (2 approximate: Zorinpui village, Srimantapur town), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 20, PM MITRA 7 | 305 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
 | Demographics | Census 2011 district indicators; current-district population estimates | 640 / 780 | community digitization (validated) / derived | GODL-India |
 | Analysis | village access (geodesic), district/sub-district summaries, Stage 4 (geodesic NH routing, port matrix, freight modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
 
@@ -641,6 +641,20 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
       session; Nominatim is (1.2 s between requests).
     - Extracting inline logic into tested helpers is how the DNH&DD scaling
       bug surfaced; prefer that over testing only the committed output.
+
+### Phase S: industrial nodes review, node districts (2026-11-23)
+54. Audit item 49, partly. The Kakatiya Mega Textile Park row (its own
+    status said "PM MITRA Node"; 2.9 km from the PM MITRA Warangal row) was
+    removed from industrial_nodes.csv (21 -> 20). `assign_node_districts.py`
+    sets `district` and an LGD `district_code` from the polygon containing
+    each point in the four economic/agri node files (Raigarh -> RAIGAD,
+    Alwar -> KOTPUTLI-BEHROR, Aurangabad -> CHHATRAPATI SAMBHAJI NAGAR, ...);
+    the audit checks them. Not verifiable from the cloud session: nicdc.in
+    fails certificate verification behind the proxy, and Wikipedia was not
+    reachable either, so the NICDC project URLs, the corridor labels and the
+    "IMC Praghurajpur / Fatehpur" row stay as they are and the catalog marks
+    the file unverified. Rule: never fix a name or place without a source;
+    flag it.
 
 ## Enhancement backlog (suggested next steps)
 

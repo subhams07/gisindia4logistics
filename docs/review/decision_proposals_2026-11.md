@@ -172,7 +172,7 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 46 | Done (batch F): coord_precision on the 7 transport hub files from evidence; city-level MMLP isochrones named in the catalog (the limitations sidecar schema is unchanged) |
 | 47 | Done (#23) |
 | 48 | Kept instead (decision when porting batch A, #15) |
-| 49 | Open: industrial_nodes.csv still has the Kakatiya duplicate, district 'Raigarh' for Raigad and unverified project URLs |
+| 49 | Partly done: Kakatiya duplicate removed and districts taken from the polygons (Raigad etc.); open until checked against NICDC: project URLs, corridor labels, the 'IMC Praghurajpur / Fatehpur' row |
 | 50 | Open: at the next toll fetch |
 | 51 | Done (#23): 142 baseline series |
 | 52 | Done (batch F): hub_code on every transport hub row, unlocode for the 12 major ports, aliases aligned |

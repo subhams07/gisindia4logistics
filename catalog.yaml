@@ -378,7 +378,7 @@ datasets:
   quality_notes: 54 stations with coordinates bounded in India; chainages are nominal and do not match the coordinates; covers major yards including New Dadri, New Rewari, New Sanand, New Khurja, New Bhaupur, New DDU, New Sonnagar
 - name: Industrial Corridors & NICDC Manufacturing Nodes
   category: logistics_hubs
-  description: 21 smart industrial cities and manufacturing clusters across DMIC, CBIC, AKIC, VCIC, BMIC, and HNIC
+  description: 20 smart industrial cities and manufacturing clusters across DMIC, CBIC, AKIC, VCIC, BMIC, and HNIC
   provider: National Industrial Corridor Development Corporation (NICDC)
   source_url: https://nicdc.in
   license: GODL-India
@@ -387,8 +387,12 @@ datasets:
   access: committed
   path: data/logistics_hubs/industrial_nodes.csv
   fetch_script: scripts/fetch/build_industrial_nodes.py
-  quality_status: verified
-  quality_notes: 21 key nodes with coordinates, corridor, area in acres, status, and operating agency
+  quality_status: unverified
+  quality_notes: "20 nodes with coordinates, corridor, area in acres, status and operating agency; district and LGD district_code
+    are the polygon containing each point (scripts/clean/assign_node_districts.py, audit-checked). Not yet checked against
+    NICDC's own project list (nicdc.in fails certificate verification from the build environment): the per-row nicdc.in/project
+    URLs, the corridor labels and the 'IMC Praghurajpur / Fatehpur' row (no such place found; the point lies in Fatehpur district)
+    are unverified. The Kakatiya Mega Textile Park row was removed as a duplicate of the PM MITRA Warangal park."
 - name: PM MITRA Mega Textile Parks
   category: logistics_hubs
   description: 7 approved PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks across India

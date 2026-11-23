@@ -4,6 +4,17 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — industrial nodes review (audit item 49, partly); LGD districts for the node files
+
+- `industrial_nodes.csv` loses the "Kakatiya Mega Textile Park (Warangal)" row (21 → 20). Its own status read "PM MITRA Node", and it sits 2.9 km from the PM MITRA Warangal park, which `pm_mitra_parks.csv` already lists.
+- `industrial_nodes`, `pm_mitra_parks`, `cold_chain_storages` and `enam_mandis` now carry the current LGD `district` and `district_code` of the polygon each point falls in (`scripts/clean/assign_node_districts.py`). 7 district names change:
+  - Dighi Port: Raigarh (a Chhattisgarh district) → Raigad.
+  - Neemrana: Alwar → Kotputli-Behror (formed 2023).
+  - AURIC: Aurangabad → Chhatrapati Sambhaji Nagar.
+  - Three spelling variants: Tiruvallur, Y.S.R. and Kamrup Metro.
+  - The audit checks every row.
+- Not checked against NICDC, because nicdc.in fails certificate verification from the build environment. The per-row project URLs, the corridor labels and the "IMC Praghurajpur / Fatehpur" row are unchanged; no place of that name could be found. The catalog now marks the file `unverified`.
+
 ### Changed — batch F: hub codes and coordinate precision, test tidying, audit archive (Stage 4 run `linux-2026-11-23-run7`)
 
 - **Hub identifiers (#52).** The 7 transport hub files gain `hub_code`, a stable ID assigned by the repository (`PRT-001`, `ICD-017`, …; not an official code).

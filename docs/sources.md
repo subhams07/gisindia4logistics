@@ -84,7 +84,7 @@ The catalog labels the classification vintage approximately 2023, while the enri
 
 | Dataset & File Path | Scope / Count | Provider & Primary Source URL | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Industrial Nodes (NICDC)**<br>`data/logistics_hubs/industrial_nodes.csv` | **21 Smart Industrial Cities & Clusters** | National Industrial Corridor Development Corporation ([nicdc.in](https://nicdc.in)) — DMIC, CBIC, AKIC, VCIC, BMIC | GODL-India | **verified** |
+| **Industrial Nodes (NICDC)**<br>`data/logistics_hubs/industrial_nodes.csv` | **20 Smart Industrial Cities & Clusters** | National Industrial Corridor Development Corporation ([nicdc.in](https://nicdc.in)) — DMIC, CBIC, AKIC, VCIC, BMIC | GODL-India | **unverified** (project URLs and one AKIC cluster not yet checked against NICDC) |
 | **PM MITRA Mega Textile Parks**<br>`data/logistics_hubs/pm_mitra_parks.csv` | **7 Mega Textile Parks** | Ministry of Textiles ([texmin.nic.in](https://texmin.nic.in)) | GODL-India | **verified** |
 | **Major & Commercial Sea Ports**<br>`data/logistics_hubs/ports.csv` | **22 ports** (12 Major Ports) | IPA roster / public-source compilation; consult per-row URLs | Mixed official references / Wikipedia rows; per-row terms unresolved | **verified** (catalog checks only) |
 | **Inland Container Depots (ICD / CFS)**<br>`data/logistics_hubs/icds.csv` | **44 ICDs / CFSs** | CBIC / CONCOR / public-source compilation; city/depot approximations | Mixed official references / Wikipedia rows; per-row terms unresolved | **community** |
