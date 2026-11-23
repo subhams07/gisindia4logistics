@@ -153,12 +153,12 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 27 | Done (#15) |
 | 28 | Done (#15, with a change) |
 | 29 | Done (#19) |
-| 30 | Partly (#15); the rest in batch F (see CHANGELOG) |
-| 31 | Partly (#15); the rest in batch F |
+| 30 | Done (#15, batch F): shared graph cache; oracle bundles built once per session and copied per test |
+| 31 | Done (#15, batch F): conftest, shared helpers, scripts imported as a package (no sys.path edits) |
 | 32 | Done (#15) |
 | 33 | Done (#15) |
-| 34 | Batch F |
-| 35 | Partly (#15); the rest in batch F |
+| 34 | Reviewed in batch F, nothing removed: the Dhule and Pune-JNPT tests each guard a different layer, and test_package/test_server are the quick check the User Manual documents |
+| 35 | Done (#15, #16, batch F): demographics gate, GCT matcher, population keys, blend and state scaling (which exposed the unscaled DNH&DD) |
 | 36 | Done (#18) |
 | 37 | Done (#15) |
 | 38 | Done (#18); Zorinpui and Srimantapur located in #19 |
@@ -169,13 +169,13 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 43 | Done (#15) |
 | 44 | Done (#18) |
 | 45 | Done (#18) |
-| 46 | Batch F |
+| 46 | Done (batch F): coord_precision on the 7 transport hub files from evidence; city-level MMLP isochrones named in the catalog (the limitations sidecar schema is unchanged) |
 | 47 | Done (#23) |
 | 48 | Kept instead (decision when porting batch A, #15) |
 | 49 | Open: industrial_nodes.csv still has the Kakatiya duplicate, district 'Raigarh' for Raigad and unverified project URLs |
 | 50 | Open: at the next toll fetch |
 | 51 | Done (#23): 142 baseline series |
-| 52 | Batch F |
+| 52 | Done (batch F): hub_code on every transport hub row, unlocode for the 12 major ports, aliases aligned |
 | 53 | Done (#18) |
 | 54 | Done (#15 archive; stage4_source_limitations no longer quotes 1.2/1.5) |
 | 55 | Done: the audit report is regenerated from one run in every batch |
