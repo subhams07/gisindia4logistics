@@ -129,54 +129,54 @@ Bihar,Siwan,222.0,3346259.0,False,Kolkata Port (Syama Prasad Mookerjee Port) inc
 Bihar,Supaul,223.0,2205224.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,602.6,8.73,2351.7,1938.1,1299.0,Dedicated Freight Corridor (DFC),1052.7,44.8,210.0
 Bihar,Vaishali,224.0,3509981.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,801.7,11.63,3082.5,2511.3,1760.6,Dedicated Freight Corridor (DFC),1321.9,42.9,210.0
 Chandigarh,CHANDIGARH,44.0,1055450.0,False,Deendayal Port (Kandla),1246.9,15.76,4699.1,3213.0,,Conventional Rail,1486.1,31.6,380.0
-Chhattisgarh,BALOD,646.0,1303871.0,False,Paradip Port,865.1,12.51,3314.9,2627.4,,Conventional Rail,687.5,20.7,380.0
-Chhattisgarh,BALODA BAZAR,644.0,1286545.0,False,Paradip Port,838.4,12.2,3217.5,2578.5,,Conventional Rail,639.0,19.9,380.0
-Chhattisgarh,BALRAMPUR,649.0,938956.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,691.9,10.02,2679.4,2310.3,,Conventional Rail,369.0,13.8,380.0
-Chhattisgarh,BASTAR,374.0,721996.0,False,Gangavaram Port,350.1,5.43,1427.6,1447.4,,Road Trucking,0.0,0.0,380.0
-Chhattisgarh,BEMETARA,650.0,1101314.0,False,Paradip Port,766.6,11.18,2954.1,2398.8,,Conventional Rail,555.3,18.8,380.0
-Chhattisgarh,BIJAPUR,636.0,249667.0,False,Gangavaram Port,482.7,7.15,1912.8,1927.4,,Road Trucking,0.0,0.0,380.0
-Chhattisgarh,BILASPUR,375.0,1127919.0,False,Paradip Port,698.1,10.05,2701.7,2102.0,,Conventional Rail,599.7,22.2,380.0
-Chhattisgarh,DAKSHIN BASTAR DANTEWARA,376.0,167023.0,False,Gangavaram Port,426.4,6.48,1707.2,1812.1,,Road Trucking,0.0,0.0,380.0
-Chhattisgarh,DHAMTARI,377.0,794972.0,False,Paradip Port,845.5,12.58,3245.6,2591.5,,Conventional Rail,654.1,20.2,380.0
-Chhattisgarh,DURG,378.0,889597.0,False,Paradip Port,729.5,10.49,2816.8,2379.2,,Conventional Rail,437.6,15.5,380.0
-Chhattisgarh,GARIYABAND,645.0,1571864.0,False,Paradip Port,858.4,12.41,3290.3,2615.1,,Conventional Rail,675.2,20.5,380.0
-Chhattisgarh,GAURELA-PENDRA-MARWAHI,734.0,632942.0,False,Paradip Port,1169.6,17.05,4433.5,3123.6,,Conventional Rail,1309.8,29.5,380.0
-Chhattisgarh,JANJGIR - CHAMPA,379.0,920366.0,False,Paradip Port,618.3,8.9,2408.8,2092.4,,Conventional Rail,316.4,13.1,380.0
-Chhattisgarh,JASHPUR,380.0,844770.0,False,Paradip Port,939.8,13.52,3588.5,2760.7,,Conventional Rail,827.9,23.1,380.0
-Chhattisgarh,KAWARDHA (KABIRDHAM),382.0,812368.0,False,Paradip Port,817.8,11.76,3140.8,2540.8,,Conventional Rail,600.0,19.1,380.0
-Chhattisgarh,KHAIRGARH-CHHUIKHADAN-GANDAI,759.0,440141.0,False,Paradip Port,793.3,12.04,3055.7,2496.0,,Conventional Rail,559.7,18.3,380.0
-Chhattisgarh,KONDAGAON,643.0,690639.0,False,Gangavaram Port,408.3,6.25,1641.1,1772.9,,Road Trucking,0.0,0.0,380.0
-Chhattisgarh,KORBA,383.0,1198168.0,False,Paradip Port,778.0,11.25,2995.3,2468.0,,Conventional Rail,527.3,17.6,380.0
-Chhattisgarh,KOREA,384.0,244559.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,843.1,12.18,3234.1,2587.1,,Conventional Rail,647.0,20.0,380.0
-Chhattisgarh,MAHASAMUND,385.0,1018959.0,False,Paradip Port,613.2,8.89,2390.6,2166.3,,Conventional Rail,224.3,9.4,380.0
-Chhattisgarh,MANENDRAGARH-CHIRMIRI-BHARATPUR,760.0,408357.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,881.5,12.86,3375.9,2657.4,,Conventional Rail,718.5,21.3,380.0
-Chhattisgarh,MOHLA-MANPUR-AMBAGARH CHOWKI,761.0,463123.0,False,Paradip Port,916.0,13.33,3502.3,2720.6,,Conventional Rail,781.8,22.3,380.0
-Chhattisgarh,MUNGELI,647.0,875939.0,False,Paradip Port,760.7,11.19,2933.2,2436.3,,Conventional Rail,496.9,16.9,380.0
-Chhattisgarh,NARAYANPUR,637.0,142659.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),1088.5,16.19,4138.2,2995.5,,Conventional Rail,1142.6,27.6,380.0
-Chhattisgarh,RAIGARH,386.0,1159544.0,False,Paradip Port,881.6,13.01,3377.4,2657.6,,Conventional Rail,719.8,21.3,380.0
-Chhattisgarh,RAIPUR,387.0,943046.0,False,Paradip Port,687.8,9.96,2664.3,2302.8,,Conventional Rail,361.5,13.6,380.0
-Chhattisgarh,RAJNANDGAON,388.0,619551.0,False,Paradip Port,801.8,11.53,3082.1,2511.5,,Conventional Rail,570.6,18.5,380.0
-Chhattisgarh,SAKTI,762.0,680528.0,False,Paradip Port,589.8,8.65,2305.5,2123.4,,Conventional Rail,182.0,7.9,380.0
-Chhattisgarh,SARANGARH-BILAIGARH,763.0,804111.0,False,Paradip Port,571.8,8.24,2238.3,2090.5,,Conventional Rail,147.8,6.6,380.0
-Chhattisgarh,SUKMA,642.0,324374.0,False,Gangavaram Port,470.1,7.3,1869.0,1904.3,,Road Trucking,0.0,0.0,380.0
-Chhattisgarh,SURAJPUR,648.0,807966.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,807.4,11.8,3104.1,2521.8,,Conventional Rail,582.3,18.8,380.0
-Chhattisgarh,SURGUJA,389.0,597308.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,789.0,11.45,3035.9,2488.1,,Conventional Rail,547.8,18.0,380.0
-Chhattisgarh,UTTAR BASTAR KANKER,381.0,762054.0,False,Paradip Port,955.0,14.27,3648.3,2784.7,,Conventional Rail,863.6,23.7,380.0
+Chhattisgarh,BALOD,646.0,1306389.0,False,Paradip Port,865.1,12.51,3314.9,2627.4,,Conventional Rail,687.5,20.7,380.0
+Chhattisgarh,BALODA BAZAR,644.0,1289029.0,False,Paradip Port,838.4,12.2,3217.5,2578.5,,Conventional Rail,639.0,19.9,380.0
+Chhattisgarh,BALRAMPUR,649.0,940769.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,691.9,10.02,2679.4,2310.3,,Conventional Rail,369.0,13.8,380.0
+Chhattisgarh,BASTAR,374.0,723391.0,False,Gangavaram Port,350.1,5.43,1427.6,1447.4,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,BEMETARA,650.0,1103441.0,False,Paradip Port,766.6,11.18,2954.1,2398.8,,Conventional Rail,555.3,18.8,380.0
+Chhattisgarh,BIJAPUR,636.0,250149.0,False,Gangavaram Port,482.7,7.15,1912.8,1927.4,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,BILASPUR,375.0,1130097.0,False,Paradip Port,698.1,10.05,2701.7,2102.0,,Conventional Rail,599.7,22.2,380.0
+Chhattisgarh,DAKSHIN BASTAR DANTEWARA,376.0,167345.0,False,Gangavaram Port,426.4,6.48,1707.2,1812.1,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,DHAMTARI,377.0,796507.0,False,Paradip Port,845.5,12.58,3245.6,2591.5,,Conventional Rail,654.1,20.2,380.0
+Chhattisgarh,DURG,378.0,891315.0,False,Paradip Port,729.5,10.49,2816.8,2379.2,,Conventional Rail,437.6,15.5,380.0
+Chhattisgarh,GARIYABAND,645.0,1574899.0,False,Paradip Port,858.4,12.41,3290.3,2615.1,,Conventional Rail,675.2,20.5,380.0
+Chhattisgarh,GAURELA-PENDRA-MARWAHI,734.0,634164.0,False,Paradip Port,1169.6,17.05,4433.5,3123.6,,Conventional Rail,1309.8,29.5,380.0
+Chhattisgarh,JANJGIR - CHAMPA,379.0,922143.0,False,Paradip Port,618.3,8.9,2408.8,2092.4,,Conventional Rail,316.4,13.1,380.0
+Chhattisgarh,JASHPUR,380.0,846401.0,False,Paradip Port,939.8,13.52,3588.5,2760.7,,Conventional Rail,827.9,23.1,380.0
+Chhattisgarh,KAWARDHA (KABIRDHAM),382.0,813937.0,False,Paradip Port,817.8,11.76,3140.8,2540.8,,Conventional Rail,600.0,19.1,380.0
+Chhattisgarh,KHAIRGARH-CHHUIKHADAN-GANDAI,759.0,440991.0,False,Paradip Port,793.3,12.04,3055.7,2496.0,,Conventional Rail,559.7,18.3,380.0
+Chhattisgarh,KONDAGAON,643.0,691973.0,False,Gangavaram Port,408.3,6.25,1641.1,1772.9,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,KORBA,383.0,1200482.0,False,Paradip Port,778.0,11.25,2995.3,2468.0,,Conventional Rail,527.3,17.6,380.0
+Chhattisgarh,KOREA,384.0,245031.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,843.1,12.18,3234.1,2587.1,,Conventional Rail,647.0,20.0,380.0
+Chhattisgarh,MAHASAMUND,385.0,1020927.0,False,Paradip Port,613.2,8.89,2390.6,2166.3,,Conventional Rail,224.3,9.4,380.0
+Chhattisgarh,MANENDRAGARH-CHIRMIRI-BHARATPUR,760.0,409146.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,881.5,12.86,3375.9,2657.4,,Conventional Rail,718.5,21.3,380.0
+Chhattisgarh,MOHLA-MANPUR-AMBAGARH CHOWKI,761.0,464017.0,False,Paradip Port,916.0,13.33,3502.3,2720.6,,Conventional Rail,781.8,22.3,380.0
+Chhattisgarh,MUNGELI,647.0,877631.0,False,Paradip Port,760.7,11.19,2933.2,2436.3,,Conventional Rail,496.9,16.9,380.0
+Chhattisgarh,NARAYANPUR,637.0,142935.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),1088.5,16.19,4138.2,2995.5,,Conventional Rail,1142.6,27.6,380.0
+Chhattisgarh,RAIGARH,386.0,1161783.0,False,Paradip Port,881.6,13.01,3377.4,2657.6,,Conventional Rail,719.8,21.3,380.0
+Chhattisgarh,RAIPUR,387.0,944867.0,False,Paradip Port,687.8,9.96,2664.3,2302.8,,Conventional Rail,361.5,13.6,380.0
+Chhattisgarh,RAJNANDGAON,388.0,620747.0,False,Paradip Port,801.8,11.53,3082.1,2511.5,,Conventional Rail,570.6,18.5,380.0
+Chhattisgarh,SAKTI,762.0,681842.0,False,Paradip Port,589.8,8.65,2305.5,2123.4,,Conventional Rail,182.0,7.9,380.0
+Chhattisgarh,SARANGARH-BILAIGARH,763.0,756337.0,False,Paradip Port,571.8,8.24,2238.3,2090.5,,Conventional Rail,147.8,6.6,380.0
+Chhattisgarh,SUKMA,642.0,325000.0,False,Gangavaram Port,470.1,7.3,1869.0,1904.3,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,SURAJPUR,648.0,809526.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,807.4,11.8,3104.1,2521.8,,Conventional Rail,582.3,18.8,380.0
+Chhattisgarh,SURGUJA,389.0,598461.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,789.0,11.45,3035.9,2488.1,,Conventional Rail,547.8,18.0,380.0
+Chhattisgarh,UTTAR BASTAR KANKER,381.0,763525.0,False,Paradip Port,955.0,14.27,3648.3,2784.7,,Conventional Rail,863.6,23.7,380.0
 Dadra and Nagar Haveli and Daman and Diu,DADRA AND NAGAR HAVELI,465.0,340763.0,False,Hazira Port,178.5,2.62,795.4,1275.3,,Road Trucking,0.0,0.0,380.0
 Dadra and Nagar Haveli and Daman and Diu,DAMAN,463.0,185673.0,False,Hazira Port,148.3,2.16,684.4,1209.9,,Road Trucking,0.0,0.0,380.0
 Dadra and Nagar Haveli and Daman and Diu,DIU,464.0,49354.0,False,Pipavav Port,90.7,1.4,473.5,1084.4,,Road Trucking,0.0,0.0,380.0
-Delhi,CENTRAL,77.0,817170.0,False,Deendayal Port (Kandla),1261.5,17.42,4763.5,2907.6,,Conventional Rail,1855.9,39.0,380.0
-Delhi,EAST,78.0,1138668.0,False,Deendayal Port (Kandla),1270.4,17.58,4796.4,2959.0,,Conventional Rail,1837.4,38.3,380.0
-Delhi,NAZUL,,749039.0,False,Deendayal Port (Kandla),1265.5,17.44,4777.9,2931.1,,Conventional Rail,1846.8,38.7,380.0
-Delhi,NEW DELHI,79.0,199274.0,False,Deendayal Port (Kandla),1176.1,16.2,4450.2,3133.9,,Conventional Rail,1316.3,29.6,380.0
-Delhi,NORTH,80.0,1246099.0,False,Deendayal Port (Kandla),1414.6,18.13,5314.1,3120.9,,Conventional Rail,2193.3,41.3,380.0
-Delhi,NORTH EAST,81.0,2258447.0,False,Deendayal Port (Kandla),1255.4,17.34,4741.2,2905.5,,Conventional Rail,1835.7,38.7,380.0
-Delhi,NORTH WEST,82.0,1749369.0,False,Deendayal Port (Kandla),1158.9,16.09,4388.1,2769.9,,Conventional Rail,1618.2,36.9,380.0
-Delhi,SHAHDARA,,1485289.0,False,Deendayal Port (Kandla),1261.2,17.43,4762.5,2891.6,,Conventional Rail,1871.0,39.3,380.0
-Delhi,SOUTH,83.0,1610949.0,False,Deendayal Port (Kandla),1178.5,16.31,4459.6,3137.7,,Conventional Rail,1321.9,29.6,380.0
-Delhi,SOUTH EAST,670.0,1448809.0,False,Deendayal Port (Kandla),1397.2,19.42,5261.8,3260.9,,Conventional Rail,2000.9,38.0,380.0
-Delhi,SOUTH WEST,84.0,1992654.0,False,Deendayal Port (Kandla),1153.3,16.06,4368.0,2839.2,,Conventional Rail,1528.8,35.0,380.0
-Delhi,WEST,85.0,2092175.0,False,Deendayal Port (Kandla),1165.5,16.15,4412.1,3113.8,,Conventional Rail,1298.3,29.4,380.0
+Delhi,CENTRAL,77.0,758465.0,False,Deendayal Port (Kandla),1261.5,17.42,4763.5,2907.6,,Conventional Rail,1855.9,39.0,380.0
+Delhi,EAST,78.0,1056867.0,False,Deendayal Port (Kandla),1270.4,17.58,4796.4,2959.0,,Conventional Rail,1837.4,38.3,380.0
+Delhi,NAZUL,,390728.0,False,Deendayal Port (Kandla),1265.5,17.44,4777.9,2931.1,,Conventional Rail,1846.8,38.7,380.0
+Delhi,NEW DELHI,79.0,184959.0,False,Deendayal Port (Kandla),1176.1,16.2,4450.2,3133.9,,Conventional Rail,1316.3,29.6,380.0
+Delhi,NORTH,80.0,1156581.0,False,Deendayal Port (Kandla),1414.6,18.13,5314.1,3120.9,,Conventional Rail,2193.3,41.3,380.0
+Delhi,NORTH EAST,81.0,1821122.0,False,Deendayal Port (Kandla),1255.4,17.34,4741.2,2905.5,,Conventional Rail,1835.7,38.7,380.0
+Delhi,NORTH WEST,82.0,1623696.0,False,Deendayal Port (Kandla),1158.9,16.09,4388.1,2769.9,,Conventional Rail,1618.2,36.9,380.0
+Delhi,SHAHDARA,,1233526.0,False,Deendayal Port (Kandla),1261.2,17.43,4762.5,2891.6,,Conventional Rail,1871.0,39.3,380.0
+Delhi,SOUTH,83.0,2114330.0,False,Deendayal Port (Kandla),1178.5,16.31,4459.6,3137.7,,Conventional Rail,1321.9,29.6,380.0
+Delhi,SOUTH EAST,670.0,1344728.0,False,Deendayal Port (Kandla),1397.2,19.42,5261.8,3260.9,,Conventional Rail,2000.9,38.0,380.0
+Delhi,SOUTH WEST,84.0,1849504.0,False,Deendayal Port (Kandla),1153.3,16.06,4368.0,2839.2,,Conventional Rail,1528.8,35.0,380.0
+Delhi,WEST,85.0,3253435.0,False,Deendayal Port (Kandla),1165.5,16.15,4412.1,3113.8,,Conventional Rail,1298.3,29.4,380.0
 Goa,KUSHAVATI,793.0,495145.0,False,Mormugao Port,66.8,1.23,387.1,1022.6,,Road Trucking,0.0,0.0,380.0
 Goa,NORTH GOA,551.0,654786.0,False,Mormugao Port,545.5,7.9,2142.1,2042.3,,Conventional Rail,99.7,4.7,380.0
 Goa,SOUTH GOA,552.0,308614.0,False,Mormugao Port,28.8,0.47,246.1,924.4,,Road Trucking,0.0,0.0,380.0
@@ -247,28 +247,28 @@ Himachal Pradesh,SHIMLA,23.0,814218.0,False,Deendayal Port (Kandla),1517.5,19.75
 Himachal Pradesh,SIRMAUR,24.0,528528.0,False,Deendayal Port (Kandla),1348.3,17.41,5072.6,3405.9,,Conventional Rail,1666.7,32.9,380.0
 Himachal Pradesh,SOLAN,25.0,580468.0,False,Deendayal Port (Kandla),1296.4,16.58,4881.5,3323.9,,Conventional Rail,1557.6,31.9,380.0
 Himachal Pradesh,UNA,26.0,521306.0,False,Deendayal Port (Kandla),1295.4,16.46,4877.1,3026.7,,Conventional Rail,1850.4,37.9,380.0
-Jammu and Kashmir,ANANTNAG,1.0,1063361.0,False,Deendayal Port (Kandla),1791.1,23.51,6695.4,4105.3,,Conventional Rail,2590.1,38.7,380.0
-Jammu and Kashmir,BADGAM,2.0,748966.0,False,Deendayal Port (Kandla),1863.6,24.75,6962.9,4219.8,,Conventional Rail,2743.1,39.4,380.0
-Jammu and Kashmir,BANDIPURA,623.0,406683.0,False,Deendayal Port (Kandla),1891.6,25.36,7067.2,4264.0,,Conventional Rail,2803.2,39.7,380.0
-Jammu and Kashmir,BARAMULA,3.0,999183.0,False,Deendayal Port (Kandla),1900.5,25.08,7096.8,4278.1,,Conventional Rail,2818.7,39.7,380.0
-Jammu and Kashmir,DODA,4.0,406544.0,False,Deendayal Port (Kandla),1580.0,20.49,5920.9,3771.9,,Conventional Rail,2149.0,36.3,380.0
-Jammu and Kashmir,GANDERBAL,626.0,300165.0,False,Deendayal Port (Kandla),1889.0,24.91,7054.6,4259.9,,Conventional Rail,2794.6,39.6,380.0
-Jammu and Kashmir,JAMMU,5.0,1533123.0,False,Deendayal Port (Kandla),1430.1,18.36,5371.1,3325.1,,Conventional Rail,2046.0,38.1,380.0
-Jammu and Kashmir,KATHUA,7.0,615288.0,False,Deendayal Port (Kandla),1355.6,17.59,5099.9,3306.5,,Conventional Rail,1793.4,35.2,380.0
-Jammu and Kashmir,KISHTWAR,620.0,230994.0,False,Deendayal Port (Kandla),1698.0,22.59,6356.9,3958.2,,Conventional Rail,2398.7,37.7,380.0
-Jammu and Kashmir,KULGAM,622.0,437018.0,False,Deendayal Port (Kandla),1826.7,24.09,6826.5,4161.5,,Conventional Rail,2665.0,39.0,380.0
-Jammu and Kashmir,KUPWARA,8.0,860640.0,False,Deendayal Port (Kandla),1932.9,25.74,7217.1,4329.3,,Conventional Rail,2887.9,40.0,380.0
-Jammu and Kashmir,MIRPUR,,21972.0,False,Deendayal Port (Kandla),1572.9,20.95,5899.1,3760.6,,Conventional Rail,2138.4,36.3,380.0
-Jammu and Kashmir,MUZAFFARABAD,,1357.0,False,Deendayal Port (Kandla),2002.2,27.25,7475.3,4438.7,,Conventional Rail,3036.6,40.6,380.0
-Jammu and Kashmir,PULWAMA,11.0,553035.0,False,Deendayal Port (Kandla),1814.1,23.9,6780.2,4141.6,,Conventional Rail,2638.6,38.9,380.0
-Jammu and Kashmir,PUNCH,10.0,475948.0,False,Deendayal Port (Kandla),1649.7,21.58,6177.3,3882.0,,Conventional Rail,2295.4,37.2,380.0
-Jammu and Kashmir,RAJAURI,12.0,639556.0,False,Deendayal Port (Kandla),1555.0,20.17,5829.5,3732.4,,Conventional Rail,2097.1,36.0,380.0
-Jammu and Kashmir,RAMBAN,621.0,292427.0,False,Deendayal Port (Kandla),1835.7,24.15,6859.0,4175.7,,Conventional Rail,2683.3,39.1,380.0
-Jammu and Kashmir,RIASI,627.0,303711.0,False,Deendayal Port (Kandla),1539.2,20.1,5772.7,3707.4,,Conventional Rail,2065.3,35.8,380.0
-Jammu and Kashmir,SAMBA,624.0,318361.0,False,Deendayal Port (Kandla),1386.9,17.77,5212.8,3075.4,,Conventional Rail,2137.4,41.0,380.0
-Jammu and Kashmir,SHUPIYAN,625.0,272082.0,False,Deendayal Port (Kandla),1841.5,24.36,6881.3,4184.9,,Conventional Rail,2696.4,39.2,380.0
-Jammu and Kashmir,SRINAGAR,13.0,1234528.0,False,Deendayal Port (Kandla),1840.0,24.23,6875.0,4182.5,,Conventional Rail,2692.4,39.2,380.0
-Jammu and Kashmir,UDHAMPUR,14.0,552580.0,False,Deendayal Port (Kandla),1519.6,19.81,5700.7,3676.5,,Conventional Rail,2024.2,35.5,380.0
+Jammu and Kashmir,ANANTNAG,1.0,1065343.0,False,Deendayal Port (Kandla),1791.1,23.51,6695.4,4105.3,,Conventional Rail,2590.1,38.7,380.0
+Jammu and Kashmir,BADGAM,2.0,750362.0,False,Deendayal Port (Kandla),1863.6,24.75,6962.9,4219.8,,Conventional Rail,2743.1,39.4,380.0
+Jammu and Kashmir,BANDIPURA,623.0,407441.0,False,Deendayal Port (Kandla),1891.6,25.36,7067.2,4264.0,,Conventional Rail,2803.2,39.7,380.0
+Jammu and Kashmir,BARAMULA,3.0,1001045.0,False,Deendayal Port (Kandla),1900.5,25.08,7096.8,4278.1,,Conventional Rail,2818.7,39.7,380.0
+Jammu and Kashmir,DODA,4.0,407302.0,False,Deendayal Port (Kandla),1580.0,20.49,5920.9,3771.9,,Conventional Rail,2149.0,36.3,380.0
+Jammu and Kashmir,GANDERBAL,626.0,300724.0,False,Deendayal Port (Kandla),1889.0,24.91,7054.6,4259.9,,Conventional Rail,2794.6,39.6,380.0
+Jammu and Kashmir,JAMMU,5.0,1535980.0,False,Deendayal Port (Kandla),1430.1,18.36,5371.1,3325.1,,Conventional Rail,2046.0,38.1,380.0
+Jammu and Kashmir,KATHUA,7.0,616435.0,False,Deendayal Port (Kandla),1355.6,17.59,5099.9,3306.5,,Conventional Rail,1793.4,35.2,380.0
+Jammu and Kashmir,KISHTWAR,620.0,231425.0,False,Deendayal Port (Kandla),1698.0,22.59,6356.9,3958.2,,Conventional Rail,2398.7,37.7,380.0
+Jammu and Kashmir,KULGAM,622.0,437832.0,False,Deendayal Port (Kandla),1826.7,24.09,6826.5,4161.5,,Conventional Rail,2665.0,39.0,380.0
+Jammu and Kashmir,KUPWARA,8.0,862244.0,False,Deendayal Port (Kandla),1932.9,25.74,7217.1,4329.3,,Conventional Rail,2887.9,40.0,380.0
+Jammu and Kashmir,MIRPUR,,0.0,False,Deendayal Port (Kandla),1572.9,20.95,5899.1,3760.6,,Conventional Rail,2138.4,36.3,380.0
+Jammu and Kashmir,MUZAFFARABAD,,0.0,False,Deendayal Port (Kandla),2002.2,27.25,7475.3,4438.7,,Conventional Rail,3036.6,40.6,380.0
+Jammu and Kashmir,PULWAMA,11.0,554066.0,False,Deendayal Port (Kandla),1814.1,23.9,6780.2,4141.6,,Conventional Rail,2638.6,38.9,380.0
+Jammu and Kashmir,PUNCH,10.0,476835.0,False,Deendayal Port (Kandla),1649.7,21.58,6177.3,3882.0,,Conventional Rail,2295.4,37.2,380.0
+Jammu and Kashmir,RAJAURI,12.0,640748.0,False,Deendayal Port (Kandla),1555.0,20.17,5829.5,3732.4,,Conventional Rail,2097.1,36.0,380.0
+Jammu and Kashmir,RAMBAN,621.0,292972.0,False,Deendayal Port (Kandla),1835.7,24.15,6859.0,4175.7,,Conventional Rail,2683.3,39.1,380.0
+Jammu and Kashmir,RIASI,627.0,304277.0,False,Deendayal Port (Kandla),1539.2,20.1,5772.7,3707.4,,Conventional Rail,2065.3,35.8,380.0
+Jammu and Kashmir,SAMBA,624.0,318954.0,False,Deendayal Port (Kandla),1386.9,17.77,5212.8,3075.4,,Conventional Rail,2137.4,41.0,380.0
+Jammu and Kashmir,SHUPIYAN,625.0,272589.0,False,Deendayal Port (Kandla),1841.5,24.36,6881.3,4184.9,,Conventional Rail,2696.4,39.2,380.0
+Jammu and Kashmir,SRINAGAR,13.0,1236829.0,False,Deendayal Port (Kandla),1840.0,24.23,6875.0,4182.5,,Conventional Rail,2692.4,39.2,380.0
+Jammu and Kashmir,UDHAMPUR,14.0,553610.0,False,Deendayal Port (Kandla),1519.6,19.81,5700.7,3676.5,,Conventional Rail,2024.2,35.5,380.0
 Jharkhand,BOKARO,322.0,2090815.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,337.8,4.96,1380.3,1298.5,849.8,Dedicated Freight Corridor (DFC),530.5,38.4,210.0
 Jharkhand,CHATRA,323.0,1084321.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,539.2,7.75,2118.5,1747.7,1144.2,Dedicated Freight Corridor (DFC),974.4,46.0,210.0
 Jharkhand,DEOGHAR,324.0,1504389.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,618.1,9.02,2409.0,2175.2,1527.4,Dedicated Freight Corridor (DFC),881.6,36.6,210.0
@@ -338,8 +338,8 @@ Kerala,Pathanamthitta,564.0,1188743.0,False,Vizhinjam International Seaport,188.
 Kerala,Thiruvananthapuram,565.0,3314327.0,False,Vizhinjam International Seaport,30.4,0.71,253.6,668.6,,Road Trucking,0.0,0.0,380.0
 Kerala,Thrissur,566.0,3130943.0,False,Cochin Port,81.6,1.23,439.8,1060.8,,Road Trucking,0.0,0.0,380.0
 Kerala,Wayanad,567.0,820398.0,False,Cochin Port,362.2,5.31,1469.8,1673.1,,Road Trucking,0.0,0.0,380.0
-Ladakh,KARGIL,6.0,140540.0,False,Deendayal Port (Kandla),2346.6,31.45,8733.4,4982.7,,Conventional Rail,3750.7,42.9,380.0
-Ladakh,LEH,9.0,133239.0,False,Deendayal Port (Kandla),2063.3,28.69,7703.7,4535.2,,Conventional Rail,3168.5,41.1,380.0
+Ladakh,KARGIL,6.0,140802.0,False,Deendayal Port (Kandla),2346.6,31.45,8733.4,4982.7,,Conventional Rail,3750.7,42.9,380.0
+Ladakh,LEH,9.0,133487.0,False,Deendayal Port (Kandla),2063.3,28.69,7703.7,4535.2,,Conventional Rail,3168.5,41.1,380.0
 Lakshadweep,Lakshadweep,553.0,64473.0,True,,,,,,,N/A (Island / Isolated),,,
 Madhya Pradesh,AGAR MALWA,667.0,656993.0,False,Deendayal Port (Kandla),1025.5,14.75,3903.0,2896.0,,Conventional Rail,1007.0,25.8,380.0
 Madhya Pradesh,ALIRAJPUR,639.0,732201.0,False,Hazira Port,422.2,6.1,1689.4,1803.0,,Road Trucking,0.0,0.0,380.0
@@ -396,42 +396,42 @@ Madhya Pradesh,TIKAMGARH,434.0,1071922.0,False,Deendayal Port (Kandla),1227.6,17
 Madhya Pradesh,UJJAIN,435.0,1992615.0,False,Deendayal Port (Kandla),1141.5,16.58,4329.8,3079.2,,Conventional Rail,1250.6,28.9,380.0
 Madhya Pradesh,UMARIA,436.0,646430.0,False,Paradip Port,1214.6,17.64,4598.1,3194.7,,Conventional Rail,1403.4,30.5,380.0
 Madhya Pradesh,VIDISHA,437.0,1469029.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),1141.4,16.41,4328.2,3079.1,,Conventional Rail,1249.1,28.9,380.0
-Maharashtra,AHILYANAGAR,466.0,4595814.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),257.3,3.83,1085.1,1445.9,1069.2,Dedicated Freight Corridor (DFC),15.9,1.5,210.0
-Maharashtra,AKOLA,467.0,1825941.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),643.2,9.34,2500.8,2221.2,1559.3,Dedicated Freight Corridor (DFC),941.5,37.6,210.0
-Maharashtra,AMRAVATI,468.0,2927437.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),730.8,10.65,2822.6,2381.6,1670.5,Dedicated Freight Corridor (DFC),1152.1,40.8,210.0
-Maharashtra,BEED,470.0,2510115.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.3,5.35,1488.3,1684.1,1208.9,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
-Maharashtra,BHANDARA,471.0,1247653.0,False,Paradip Port,915.9,13.21,3501.1,2720.4,1905.6,Dedicated Freight Corridor (DFC),1595.5,45.6,210.0
-Maharashtra,BULDHANA,472.0,2619677.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),544.3,7.89,2137.7,2040.1,1433.7,Dedicated Freight Corridor (DFC),704.0,32.9,210.0
-Maharashtra,CHANDRAPUR,473.0,2232016.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),912.3,13.22,3488.3,2713.8,1901.0,Dedicated Freight Corridor (DFC),1587.3,45.5,210.0
-Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,469.0,3709963.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.4,5.32,1488.4,1684.3,1209.1,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
-Maharashtra,DHARASHIV,488.0,1672361.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),449.6,6.58,1790.6,1862.3,1313.4,Dedicated Freight Corridor (DFC),477.2,26.6,210.0
-Maharashtra,DHULE,474.0,2076996.0,False,Hazira Port,381.6,5.62,1541.2,1715.1,1227.1,Dedicated Freight Corridor (DFC),314.1,20.4,210.0
-Maharashtra,GADCHIROLI,475.0,1087092.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),990.9,14.77,3779.9,2841.4,2000.8,Dedicated Freight Corridor (DFC),1779.1,47.1,210.0
-Maharashtra,GONDIA,476.0,1267465.0,False,Paradip Port,868.3,12.59,3326.9,2633.3,1845.2,Dedicated Freight Corridor (DFC),1481.8,44.5,210.0
-Maharashtra,HINGOLI,477.0,1222607.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),630.0,9.2,2452.8,2197.0,1542.5,Dedicated Freight Corridor (DFC),910.2,37.1,210.0
-Maharashtra,JALGAON,478.0,4280041.0,False,Hazira Port,449.9,6.51,1791.2,1863.0,1313.8,Dedicated Freight Corridor (DFC),477.3,26.6,210.0
-Maharashtra,JALNA,479.0,1947196.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),417.6,6.05,1672.7,1793.0,1272.8,Dedicated Freight Corridor (DFC),399.9,23.9,210.0
-Maharashtra,KOLHAPUR,480.0,3919662.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),419.8,6.41,1683.2,1797.8,1275.6,Dedicated Freight Corridor (DFC),407.6,24.2,210.0
-Maharashtra,LATUR,481.0,2550944.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),523.7,7.61,2062.3,2002.4,1407.5,Dedicated Freight Corridor (DFC),654.7,31.7,210.0
-Maharashtra,MUMBAI,482.0,2299739.0,False,Mumbai Port,20.0,0.57,215.5,901.7,767.9,Road Trucking,0.0,0.0,210.0
-Maharashtra,MUMBAI SUBURBAN,483.0,9021596.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),80.6,1.28,436.7,803.3,589.9,Road Trucking,0.0,0.0,210.0
-Maharashtra,NAGPUR,484.0,4707953.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),848.4,12.21,3253.2,2260.0,1483.0,Dedicated Freight Corridor (DFC),1770.1,54.4,210.0
-Maharashtra,NANDED,485.0,3368639.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),587.3,8.55,2295.8,2118.9,1488.3,Dedicated Freight Corridor (DFC),807.5,35.2,210.0
-Maharashtra,NANDURBAR,486.0,1663109.0,False,Hazira Port,448.5,6.54,1786.4,1859.9,1312.1,Dedicated Freight Corridor (DFC),474.3,26.6,210.0
-Maharashtra,NASHIK,487.0,6188038.0,False,Hazira Port,270.3,4.02,1132.8,1474.1,1085.8,Dedicated Freight Corridor (DFC),47.1,4.2,210.0
-Maharashtra,PALGHAR,665.0,6129891.0,False,Mumbai Port,116.9,1.88,570.4,1141.9,891.0,Road Trucking,0.0,0.0,210.0
-Maharashtra,PARBHANI,489.0,1838535.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),499.6,7.26,1973.8,1958.3,1376.9,Dedicated Freight Corridor (DFC),596.9,30.2,210.0
-Maharashtra,PUNE,490.0,9559828.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),133.3,2.04,630.1,993.9,728.2,Road Trucking,0.0,0.0,210.0
-Maharashtra,RAIGAD,491.0,2603307.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),110.7,1.68,546.9,1045.7,800.3,Road Trucking,0.0,0.0,210.0
-Maharashtra,RATNAGIRI,492.0,1633200.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),412.1,6.08,1653.3,1781.1,1265.8,Dedicated Freight Corridor (DFC),387.5,23.4,210.0
-Maharashtra,SANGLI,493.0,2851463.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),345.3,5.02,1407.4,1636.5,1181.0,Dedicated Freight Corridor (DFC),226.5,16.1,210.0
-Maharashtra,SATARA,494.0,3038086.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),276.6,4.12,1156.0,1487.7,1093.8,Dedicated Freight Corridor (DFC),62.3,5.4,210.0
-Maharashtra,SINDHUDURG,495.0,857756.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),487.7,7.1,1930.2,1936.5,1361.8,Dedicated Freight Corridor (DFC),568.4,29.4,210.0
-Maharashtra,SOLAPUR,496.0,4356423.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),323.8,4.79,1329.2,1589.9,1153.7,Dedicated Freight Corridor (DFC),175.5,13.2,210.0
-Maharashtra,THANE,497.0,5246310.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),118.1,1.76,573.8,1010.1,758.1,Road Trucking,0.0,0.0,210.0
-Maharashtra,WARDHA,498.0,1316377.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),818.5,11.78,3143.5,2306.1,1545.9,Dedicated Freight Corridor (DFC),1597.6,50.8,210.0
-Maharashtra,WASHIM,499.0,1192790.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),580.8,8.47,2272.1,2107.0,1480.1,Dedicated Freight Corridor (DFC),792.0,34.9,210.0
-Maharashtra,YAVATMAL,500.0,2808314.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),823.2,12.21,3163.4,2550.7,1787.9,Dedicated Freight Corridor (DFC),1375.6,43.5,210.0
+Maharashtra,AHILYANAGAR,466.0,4594157.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),257.3,3.83,1085.1,1445.9,1069.2,Dedicated Freight Corridor (DFC),15.9,1.5,210.0
+Maharashtra,AKOLA,467.0,1825283.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),643.2,9.34,2500.8,2221.2,1559.3,Dedicated Freight Corridor (DFC),941.5,37.6,210.0
+Maharashtra,AMRAVATI,468.0,2926382.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),730.8,10.65,2822.6,2381.6,1670.5,Dedicated Freight Corridor (DFC),1152.1,40.8,210.0
+Maharashtra,BEED,470.0,2509210.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.3,5.35,1488.3,1684.1,1208.9,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
+Maharashtra,BHANDARA,471.0,1247203.0,False,Paradip Port,915.9,13.21,3501.1,2720.4,1905.6,Dedicated Freight Corridor (DFC),1595.5,45.6,210.0
+Maharashtra,BULDHANA,472.0,2618732.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),544.3,7.89,2137.7,2040.1,1433.7,Dedicated Freight Corridor (DFC),704.0,32.9,210.0
+Maharashtra,CHANDRAPUR,473.0,2231211.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),912.3,13.22,3488.3,2713.8,1901.0,Dedicated Freight Corridor (DFC),1587.3,45.5,210.0
+Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,469.0,3708626.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.4,5.32,1488.4,1684.3,1209.1,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
+Maharashtra,DHARASHIV,488.0,1671758.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),449.6,6.58,1790.6,1862.3,1313.4,Dedicated Freight Corridor (DFC),477.2,26.6,210.0
+Maharashtra,DHULE,474.0,2076247.0,False,Hazira Port,381.6,5.62,1541.2,1715.1,1227.1,Dedicated Freight Corridor (DFC),314.1,20.4,210.0
+Maharashtra,GADCHIROLI,475.0,1086700.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),990.9,14.77,3779.9,2841.4,2000.8,Dedicated Freight Corridor (DFC),1779.1,47.1,210.0
+Maharashtra,GONDIA,476.0,1267008.0,False,Paradip Port,868.3,12.59,3326.9,2633.3,1845.2,Dedicated Freight Corridor (DFC),1481.8,44.5,210.0
+Maharashtra,HINGOLI,477.0,1222167.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),630.0,9.2,2452.8,2197.0,1542.5,Dedicated Freight Corridor (DFC),910.2,37.1,210.0
+Maharashtra,JALGAON,478.0,4278498.0,False,Hazira Port,449.9,6.51,1791.2,1863.0,1313.8,Dedicated Freight Corridor (DFC),477.3,26.6,210.0
+Maharashtra,JALNA,479.0,1946494.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),417.6,6.05,1672.7,1793.0,1272.8,Dedicated Freight Corridor (DFC),399.9,23.9,210.0
+Maharashtra,KOLHAPUR,480.0,3918249.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),419.8,6.41,1683.2,1797.8,1275.6,Dedicated Freight Corridor (DFC),407.6,24.2,210.0
+Maharashtra,LATUR,481.0,2550024.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),523.7,7.61,2062.3,2002.4,1407.5,Dedicated Freight Corridor (DFC),654.7,31.7,210.0
+Maharashtra,MUMBAI,482.0,2298910.0,False,Mumbai Port,20.0,0.57,215.5,901.7,767.9,Road Trucking,0.0,0.0,210.0
+Maharashtra,MUMBAI SUBURBAN,483.0,9018344.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),80.6,1.28,436.7,803.3,589.9,Road Trucking,0.0,0.0,210.0
+Maharashtra,NAGPUR,484.0,4706255.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),848.4,12.21,3253.2,2260.0,1483.0,Dedicated Freight Corridor (DFC),1770.1,54.4,210.0
+Maharashtra,NANDED,485.0,3367424.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),587.3,8.55,2295.8,2118.9,1488.3,Dedicated Freight Corridor (DFC),807.5,35.2,210.0
+Maharashtra,NANDURBAR,486.0,1662510.0,False,Hazira Port,448.5,6.54,1786.4,1859.9,1312.1,Dedicated Freight Corridor (DFC),474.3,26.6,210.0
+Maharashtra,NASHIK,487.0,6185807.0,False,Hazira Port,270.3,4.02,1132.8,1474.1,1085.8,Dedicated Freight Corridor (DFC),47.1,4.2,210.0
+Maharashtra,PALGHAR,665.0,6127681.0,False,Mumbai Port,116.9,1.88,570.4,1141.9,891.0,Road Trucking,0.0,0.0,210.0
+Maharashtra,PARBHANI,489.0,1837872.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),499.6,7.26,1973.8,1958.3,1376.9,Dedicated Freight Corridor (DFC),596.9,30.2,210.0
+Maharashtra,PUNE,490.0,9556382.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),133.3,2.04,630.1,993.9,728.2,Road Trucking,0.0,0.0,210.0
+Maharashtra,RAIGAD,491.0,2642879.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),110.7,1.68,546.9,1045.7,800.3,Road Trucking,0.0,0.0,210.0
+Maharashtra,RATNAGIRI,492.0,1632611.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),412.1,6.08,1653.3,1781.1,1265.8,Dedicated Freight Corridor (DFC),387.5,23.4,210.0
+Maharashtra,SANGLI,493.0,2850435.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),345.3,5.02,1407.4,1636.5,1181.0,Dedicated Freight Corridor (DFC),226.5,16.1,210.0
+Maharashtra,SATARA,494.0,3036991.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),276.6,4.12,1156.0,1487.7,1093.8,Dedicated Freight Corridor (DFC),62.3,5.4,210.0
+Maharashtra,SINDHUDURG,495.0,857446.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),487.7,7.1,1930.2,1936.5,1361.8,Dedicated Freight Corridor (DFC),568.4,29.4,210.0
+Maharashtra,SOLAPUR,496.0,4354852.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),323.8,4.79,1329.2,1589.9,1153.7,Dedicated Freight Corridor (DFC),175.5,13.2,210.0
+Maharashtra,THANE,497.0,5244419.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),118.1,1.76,573.8,1010.1,758.1,Road Trucking,0.0,0.0,210.0
+Maharashtra,WARDHA,498.0,1315903.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),818.5,11.78,3143.5,2306.1,1545.9,Dedicated Freight Corridor (DFC),1597.6,50.8,210.0
+Maharashtra,WASHIM,499.0,1192360.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),580.8,8.47,2272.1,2107.0,1480.1,Dedicated Freight Corridor (DFC),792.0,34.9,210.0
+Maharashtra,YAVATMAL,500.0,2807302.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),823.2,12.21,3163.4,2550.7,1787.9,Dedicated Freight Corridor (DFC),1375.6,43.5,210.0
 Manipur,BISHNUPUR,252.0,266125.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1636.6,23.54,6145.4,3861.3,,Conventional Rail,2284.1,37.2,380.0
 Manipur,CHANDEL,253.0,81568.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1667.7,24.17,6260.9,3910.4,,Conventional Rail,2350.5,37.5,380.0
 Manipur,CHURACHANDPUR,254.0,225604.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1660.3,23.82,6231.9,3898.7,,Conventional Rail,2333.2,37.4,380.0
@@ -583,12 +583,12 @@ Rajasthan,SIKAR,114.0,2687651.0,False,Deendayal Port (Kandla),1011.4,13.97,3846.
 Rajasthan,SIROHI,115.0,1028416.0,False,Deendayal Port (Kandla),461.5,6.7,1833.9,1888.1,1328.6,Dedicated Freight Corridor (DFC),505.3,27.6,210.0
 Rajasthan,TONK,116.0,1405527.0,False,Deendayal Port (Kandla),921.4,13.33,3521.6,2730.5,1912.6,Dedicated Freight Corridor (DFC),1609.0,45.7,210.0
 Rajasthan,UDAIPUR,117.0,2326226.0,False,Deendayal Port (Kandla),522.0,7.59,2056.0,1999.3,1405.4,Dedicated Freight Corridor (DFC),650.7,31.6,210.0
-Sikkim,GANGTOK,225.0,157506.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,772.9,11.21,2976.8,2458.6,,Conventional Rail,518.2,17.4,380.0
-Sikkim,GYALSHING,228.0,26266.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,811.8,11.97,3121.0,2529.8,,Conventional Rail,591.2,18.9,380.0
-Sikkim,MANGAN,226.0,12481.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,845.1,12.59,3244.3,2590.8,,Conventional Rail,653.5,20.1,380.0
-Sikkim,NAMCHI,227.0,362275.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,776.2,11.22,2988.6,2464.7,,Conventional Rail,524.0,17.5,380.0
-Sikkim,PAKYONG,741.0,39388.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,760.3,11.01,2930.4,2435.6,,Conventional Rail,494.9,16.9,380.0
-Sikkim,SORENG,742.0,12661.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,808.3,11.85,3107.7,2523.4,,Conventional Rail,584.2,18.8,380.0
+Sikkim,GANGTOK,225.0,141388.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,772.9,11.21,2976.8,2458.6,,Conventional Rail,518.2,17.4,380.0
+Sikkim,GYALSHING,228.0,87137.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,811.8,11.97,3121.0,2529.8,,Conventional Rail,591.2,18.9,380.0
+Sikkim,MANGAN,226.0,41404.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,845.1,12.59,3244.3,2590.8,,Conventional Rail,653.5,20.1,380.0
+Sikkim,NAMCHI,227.0,159720.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,776.2,11.22,2988.6,2464.7,,Conventional Rail,524.0,17.5,380.0
+Sikkim,PAKYONG,741.0,138925.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,760.3,11.01,2930.4,2435.6,,Conventional Rail,494.9,16.9,380.0
+Sikkim,SORENG,742.0,42002.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,808.3,11.85,3107.7,2523.4,,Conventional Rail,584.2,18.8,380.0
 Tamil Nadu,ARIYALUR,610.0,751396.0,False,Karaikal Port,127.5,1.84,607.9,1096.4,,Road Trucking,0.0,0.0,380.0
 Tamil Nadu,CHENGALPATTU,730.0,2317192.0,False,Chennai Port,334.0,5.02,1367.2,1378.9,,Road Trucking,0.0,0.0,380.0
 Tamil Nadu,CHENNAI,568.0,4800777.0,False,Chennai Port,11.2,0.31,182.2,515.2,,Road Trucking,0.0,0.0,380.0
@@ -668,81 +668,81 @@ Tripura,SEPAHIJALA,653.0,677812.0,False,Kolkata Port (Syama Prasad Mookerjee Por
 Tripura,SOUTH TRIPURA,271.0,460198.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1674.7,24.03,6284.7,3921.4,,Conventional Rail,2363.3,37.6,380.0
 Tripura,UNAKOTI,655.0,272196.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1446.4,20.78,5447.3,3560.8,,Conventional Rail,1886.4,34.6,380.0
 Tripura,WEST TRIPURA,272.0,634811.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1578.9,22.76,5934.0,3770.1,,Conventional Rail,2163.9,36.5,380.0
-Uttar Pradesh,AGRA,118.0,4413593.0,False,Deendayal Port (Kandla),1258.9,17.45,4754.5,3264.7,2341.2,Dedicated Freight Corridor (DFC),2413.3,50.8,210.0
-Uttar Pradesh,ALIGARH,119.0,3612750.0,False,Deendayal Port (Kandla),1319.4,18.33,4976.6,3272.5,2330.2,Dedicated Freight Corridor (DFC),2646.3,53.2,210.0
-Uttar Pradesh,AMBEDKAR NAGAR,121.0,2380580.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1046.7,14.98,3980.2,2929.5,2071.7,Dedicated Freight Corridor (DFC),1908.5,47.9,210.0
-Uttar Pradesh,AMETHI,640.0,1830504.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1071.1,15.23,4069.0,2905.9,2040.5,Dedicated Freight Corridor (DFC),2028.5,49.9,210.0
-Uttar Pradesh,AMROHA,154.0,1751282.0,False,Deendayal Port (Kandla),1354.4,18.92,5105.6,3415.5,2462.5,Dedicated Freight Corridor (DFC),2643.2,51.8,210.0
-Uttar Pradesh,AURAIYA,122.0,1373336.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1361.8,19.44,5135.9,3427.2,2471.8,Dedicated Freight Corridor (DFC),2664.1,51.9,210.0
-Uttar Pradesh,AYODHYA,140.0,2392974.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1101.4,15.81,4181.3,3015.9,2141.2,Dedicated Freight Corridor (DFC),2040.1,48.8,210.0
-Uttar Pradesh,AZAMGARH,123.0,4575170.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,943.7,13.58,3602.9,2766.8,1940.9,Dedicated Freight Corridor (DFC),1662.0,46.1,210.0
-Uttar Pradesh,BAGHPAT,124.0,1301709.0,False,Deendayal Port (Kandla),1258.7,17.42,4753.6,3014.9,2091.4,Dedicated Freight Corridor (DFC),2662.1,56.0,210.0
-Uttar Pradesh,BAHRAICH,125.0,3613824.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1260.8,18.11,4766.2,3267.7,2343.6,Dedicated Freight Corridor (DFC),2422.6,50.8,210.0
-Uttar Pradesh,BALLIA,126.0,3236059.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,832.1,11.96,3193.3,2403.2,1635.4,Dedicated Freight Corridor (DFC),1557.9,48.8,210.0
-Uttar Pradesh,BALRAMPUR,127.0,2139375.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1162.1,16.72,4404.3,3111.8,2218.3,Dedicated Freight Corridor (DFC),2186.0,49.6,210.0
-Uttar Pradesh,BANDA,128.0,1745958.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1129.6,16.25,4285.0,3060.5,2177.0,Dedicated Freight Corridor (DFC),2108.0,49.2,210.0
-Uttar Pradesh,BARA BANKI,129.0,3326568.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1170.5,16.83,4435.0,3062.5,2166.3,Dedicated Freight Corridor (DFC),2268.7,51.2,210.0
-Uttar Pradesh,BAREILLY,130.0,4609181.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1430.3,20.32,5386.5,3322.5,2345.9,Dedicated Freight Corridor (DFC),3040.6,56.4,210.0
-Uttar Pradesh,BASTI,131.0,2383435.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1074.9,15.44,4084.1,2775.0,1908.4,Dedicated Freight Corridor (DFC),2175.7,53.3,210.0
-Uttar Pradesh,BHADOHI,179.0,1579403.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,990.7,14.26,3775.4,2841.1,2000.6,Dedicated Freight Corridor (DFC),1774.8,47.0,210.0
-Uttar Pradesh,BIJNOR,132.0,3815855.0,False,Deendayal Port (Kandla),1535.0,21.43,5767.7,3700.8,2691.8,Dedicated Freight Corridor (DFC),3075.9,53.3,210.0
-Uttar Pradesh,BUDAUN,133.0,3050527.0,False,Deendayal Port (Kandla),1377.1,19.21,5188.7,3451.4,2491.3,Dedicated Freight Corridor (DFC),2697.4,52.0,210.0
-Uttar Pradesh,BULANDSHAHR,134.0,3625677.0,False,Deendayal Port (Kandla),1347.8,18.87,5081.8,3392.1,2441.1,Dedicated Freight Corridor (DFC),2640.7,52.0,210.0
-Uttar Pradesh,CHANDAULI,135.0,1952364.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,810.6,11.75,3115.1,2527.6,1771.9,Dedicated Freight Corridor (DFC),1343.2,43.1,210.0
-Uttar Pradesh,CHITRAKOOT,136.0,1027584.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1049.0,14.95,3988.2,2933.1,2074.6,Dedicated Freight Corridor (DFC),1913.6,48.0,210.0
-Uttar Pradesh,DEORIA,137.0,3102424.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,924.5,13.29,3532.3,2490.4,1670.8,Dedicated Freight Corridor (DFC),1861.5,52.7,210.0
-Uttar Pradesh,ETAH,138.0,1715437.0,False,Deendayal Port (Kandla),1297.5,18.04,4896.4,2934.6,1999.2,Dedicated Freight Corridor (DFC),2897.2,59.2,210.0
-Uttar Pradesh,ETAWAH,139.0,1571029.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1289.0,18.2,4867.3,3312.2,2379.4,Dedicated Freight Corridor (DFC),2487.9,51.1,210.0
-Uttar Pradesh,FARRUKHABAD,141.0,1883246.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1393.4,19.81,5251.2,3477.1,2512.0,Dedicated Freight Corridor (DFC),2739.2,52.2,210.0
-Uttar Pradesh,FATEHPUR,142.0,2625272.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1056.1,14.9,4013.1,2602.1,1741.3,Dedicated Freight Corridor (DFC),2271.7,56.6,210.0
-Uttar Pradesh,FIROZABAD,143.0,2485699.0,False,Deendayal Port (Kandla),1261.0,17.5,4762.4,3268.0,2343.8,Dedicated Freight Corridor (DFC),2418.5,50.8,210.0
-Uttar Pradesh,GAUTAM BUDDHA NAGAR,144.0,1549776.0,False,Deendayal Port (Kandla),1324.7,18.56,4997.2,3258.6,2314.7,Dedicated Freight Corridor (DFC),2682.5,53.7,210.0
-Uttar Pradesh,GHAZIABAD,145.0,2139833.0,False,Deendayal Port (Kandla),1284.7,17.82,4849.2,3027.4,2095.9,Dedicated Freight Corridor (DFC),2753.3,56.8,210.0
-Uttar Pradesh,GHAZIPUR,146.0,3640435.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,839.6,12.04,3220.6,2580.7,1808.7,Dedicated Freight Corridor (DFC),1411.9,43.8,210.0
-Uttar Pradesh,GONDA,147.0,3435249.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1149.5,16.47,4357.5,3091.9,2202.3,Dedicated Freight Corridor (DFC),2155.3,49.5,210.0
-Uttar Pradesh,GORAKHPUR,148.0,4394279.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,964.0,13.79,3676.7,2612.4,1780.2,Dedicated Freight Corridor (DFC),1896.5,51.6,210.0
-Uttar Pradesh,HAMIRPUR,149.0,1017343.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1235.8,17.96,4676.0,3228.2,2311.8,Dedicated Freight Corridor (DFC),2364.2,50.6,210.0
-Uttar Pradesh,HAPUR,661.0,2813710.0,False,Deendayal Port (Kandla),1324.1,18.35,4993.5,3254.7,2311.0,Dedicated Freight Corridor (DFC),2682.5,53.7,210.0
-Uttar Pradesh,HARDOI,150.0,4115265.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1269.9,18.03,4798.0,3282.1,2355.1,Dedicated Freight Corridor (DFC),2442.9,50.9,210.0
-Uttar Pradesh,HATHRAS,163.0,1607249.0,False,Deendayal Port (Kandla),1278.7,17.8,4827.6,3207.3,2277.7,Dedicated Freight Corridor (DFC),2549.9,52.8,210.0
-Uttar Pradesh,JALAUN,151.0,1700222.0,False,Deendayal Port (Kandla),1238.5,17.97,4685.7,3232.5,2315.3,Dedicated Freight Corridor (DFC),2370.5,50.6,210.0
-Uttar Pradesh,JAUNPUR,152.0,4523934.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,957.3,13.75,3652.6,2788.3,1958.2,Dedicated Freight Corridor (DFC),1694.4,46.4,210.0
-Uttar Pradesh,JHANSI,153.0,1983762.0,False,Deendayal Port (Kandla),1130.0,16.29,4286.7,3061.1,2177.5,Dedicated Freight Corridor (DFC),2109.2,49.2,210.0
-Uttar Pradesh,KANNAUJ,155.0,1657820.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1348.4,19.27,5086.9,3406.0,2454.8,Dedicated Freight Corridor (DFC),2632.1,51.7,210.0
-Uttar Pradesh,KANPUR DEHAT,156.0,1771880.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1202.3,17.07,4550.1,3175.3,2269.3,Dedicated Freight Corridor (DFC),2280.8,50.1,210.0
-Uttar Pradesh,KANPUR NAGAR,157.0,4696861.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1150.9,16.2,4360.5,3094.1,2204.0,Dedicated Freight Corridor (DFC),2156.4,49.5,210.0
-Uttar Pradesh,KASGANJ,633.0,1417177.0,False,Deendayal Port (Kandla),1346.0,18.86,5075.3,3402.3,2451.8,Dedicated Freight Corridor (DFC),2623.5,51.7,210.0
-Uttar Pradesh,KAUSHAMBI,158.0,1422731.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1139.9,16.24,4321.6,3076.7,2190.1,Dedicated Freight Corridor (DFC),2131.5,49.3,210.0
-Uttar Pradesh,KHERI,159.0,4005967.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1406.9,20.44,5304.0,3498.4,2529.1,Dedicated Freight Corridor (DFC),2774.9,52.3,210.0
-Uttar Pradesh,KUSHINAGAR,160.0,3575571.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,979.2,14.11,3733.3,2759.5,1922.6,Dedicated Freight Corridor (DFC),1810.7,48.5,210.0
-Uttar Pradesh,LALITPUR,161.0,1232547.0,False,Deendayal Port (Kandla),1209.5,17.45,4578.6,3186.7,2278.4,Dedicated Freight Corridor (DFC),2300.1,50.2,210.0
-Uttar Pradesh,LUCKNOW,162.0,4609790.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1158.3,16.47,4388.9,2889.9,1997.5,Dedicated Freight Corridor (DFC),2391.3,54.5,210.0
-Uttar Pradesh,MAHOBA,165.0,907627.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1216.1,17.4,4601.7,3197.1,2286.8,Dedicated Freight Corridor (DFC),2314.9,50.3,210.0
-Uttar Pradesh,MAHRAJGANJ,164.0,2773464.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1038.4,15.01,3950.9,2636.3,1781.0,Dedicated Freight Corridor (DFC),2169.9,54.9,210.0
-Uttar Pradesh,MAINPURI,166.0,1936082.0,False,Deendayal Port (Kandla),1367.5,19.17,5154.2,3317.8,2360.6,Dedicated Freight Corridor (DFC),2793.5,54.2,210.0
-Uttar Pradesh,MATHURA,167.0,2543726.0,False,Deendayal Port (Kandla),1279.8,17.75,4831.2,3188.5,2258.5,Dedicated Freight Corridor (DFC),2572.7,53.3,210.0
-Uttar Pradesh,MAU,168.0,2245014.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,883.3,12.71,3381.2,2660.7,1864.2,Dedicated Freight Corridor (DFC),1517.0,44.9,210.0
-Uttar Pradesh,MEERUT,169.0,3349348.0,False,Deendayal Port (Kandla),1290.3,17.9,4869.7,3229.9,2296.6,Dedicated Freight Corridor (DFC),2573.1,52.8,210.0
-Uttar Pradesh,MIRZAPUR,170.0,2450116.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1047.1,15.22,3983.4,2930.1,2072.2,Dedicated Freight Corridor (DFC),1911.2,48.0,210.0
-Uttar Pradesh,MORADABAD,171.0,3075028.0,False,Deendayal Port (Kandla),1420.1,19.81,5346.3,3280.3,2306.9,Dedicated Freight Corridor (DFC),3039.4,56.9,210.0
-Uttar Pradesh,MUZAFFARNAGAR,172.0,2748524.0,False,Deendayal Port (Kandla),1330.9,18.47,5018.6,3378.4,2432.6,Dedicated Freight Corridor (DFC),2586.0,51.5,210.0
-Uttar Pradesh,PILIBHIT,173.0,2104434.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1388.9,19.73,5234.6,3470.0,2506.3,Dedicated Freight Corridor (DFC),2728.3,52.1,210.0
-Uttar Pradesh,PRATAPGARH,174.0,3216239.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1000.8,14.18,3810.7,2857.0,2013.4,Dedicated Freight Corridor (DFC),1797.3,47.2,210.0
-Uttar Pradesh,PRAYAGRAJ,120.0,6226308.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,968.6,13.84,3693.5,2806.2,1972.5,Dedicated Freight Corridor (DFC),1721.0,46.6,210.0
-Uttar Pradesh,RAE BARELI,175.0,2912336.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1078.7,15.31,4096.7,2747.0,1879.2,Dedicated Freight Corridor (DFC),2217.4,54.1,210.0
-Uttar Pradesh,RAMPUR,176.0,2118145.0,False,Deendayal Port (Kandla),1452.6,20.3,5465.7,3341.3,2357.8,Dedicated Freight Corridor (DFC),3107.9,56.9,210.0
-Uttar Pradesh,SAHARANPUR,177.0,3478953.0,False,Deendayal Port (Kandla),1391.2,17.85,5228.7,3473.7,2509.2,Dedicated Freight Corridor (DFC),2719.5,52.0,210.0
-Uttar Pradesh,SAMBHAL,659.0,2487456.0,False,Deendayal Port (Kandla),1400.4,19.55,5274.2,3488.2,2520.9,Dedicated Freight Corridor (DFC),2753.3,52.2,210.0
-Uttar Pradesh,SANT KABIR NAGAR,178.0,1766873.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1013.5,14.51,3858.4,2816.2,1968.6,Dedicated Freight Corridor (DFC),1889.8,49.0,210.0
-Uttar Pradesh,SHAHJAHANPUR,180.0,2768317.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1359.6,19.36,5127.5,3423.7,2469.1,Dedicated Freight Corridor (DFC),2658.4,51.8,210.0
-Uttar Pradesh,SHAMLI,660.0,1337000.0,False,Deendayal Port (Kandla),1347.9,17.17,5069.4,3405.3,2454.2,Dedicated Freight Corridor (DFC),2615.2,51.6,210.0
-Uttar Pradesh,SHRAWASTI,181.0,861835.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1225.7,17.76,4638.6,3212.2,2299.0,Dedicated Freight Corridor (DFC),2339.6,50.4,210.0
-Uttar Pradesh,SIDDHARTHNAGAR,182.0,2567574.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1088.7,15.7,4135.2,2875.3,2004.5,Dedicated Freight Corridor (DFC),2130.7,51.5,210.0
-Uttar Pradesh,SITAPUR,183.0,4521917.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1241.8,17.71,4695.5,3237.7,2319.5,Dedicated Freight Corridor (DFC),2376.1,50.6,210.0
-Uttar Pradesh,SONBHADRA,184.0,1929896.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,703.5,10.24,2722.3,2032.1,1336.4,Dedicated Freight Corridor (DFC),1385.9,50.9,210.0
-Uttar Pradesh,SULTANPUR,185.0,2311370.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1057.8,15.26,4021.8,2947.0,2085.8,Dedicated Freight Corridor (DFC),1936.0,48.1,210.0
-Uttar Pradesh,UNNAO,186.0,3092839.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1174.6,16.6,4447.9,3058.0,2160.6,Dedicated Freight Corridor (DFC),2287.3,51.4,210.0
-Uttar Pradesh,VARANASI,187.0,3649701.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,911.0,13.04,3482.4,2711.4,1899.4,Dedicated Freight Corridor (DFC),1583.0,45.5,210.0
+Uttar Pradesh,AGRA,118.0,4413547.0,False,Deendayal Port (Kandla),1258.9,17.45,4754.5,3264.7,2341.2,Dedicated Freight Corridor (DFC),2413.3,50.8,210.0
+Uttar Pradesh,ALIGARH,119.0,3612713.0,False,Deendayal Port (Kandla),1319.4,18.33,4976.6,3272.5,2330.2,Dedicated Freight Corridor (DFC),2646.3,53.2,210.0
+Uttar Pradesh,AMBEDKAR NAGAR,121.0,2380555.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1046.7,14.98,3980.2,2929.5,2071.7,Dedicated Freight Corridor (DFC),1908.5,47.9,210.0
+Uttar Pradesh,AMETHI,640.0,1830485.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1071.1,15.23,4069.0,2905.9,2040.5,Dedicated Freight Corridor (DFC),2028.5,49.9,210.0
+Uttar Pradesh,AMROHA,154.0,1751264.0,False,Deendayal Port (Kandla),1354.4,18.92,5105.6,3415.5,2462.5,Dedicated Freight Corridor (DFC),2643.2,51.8,210.0
+Uttar Pradesh,AURAIYA,122.0,1373322.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1361.8,19.44,5135.9,3427.2,2471.8,Dedicated Freight Corridor (DFC),2664.1,51.9,210.0
+Uttar Pradesh,AYODHYA,140.0,2392949.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1101.4,15.81,4181.3,3015.9,2141.2,Dedicated Freight Corridor (DFC),2040.1,48.8,210.0
+Uttar Pradesh,AZAMGARH,123.0,4575122.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,943.7,13.58,3602.9,2766.8,1940.9,Dedicated Freight Corridor (DFC),1662.0,46.1,210.0
+Uttar Pradesh,BAGHPAT,124.0,1301696.0,False,Deendayal Port (Kandla),1258.7,17.42,4753.6,3014.9,2091.4,Dedicated Freight Corridor (DFC),2662.1,56.0,210.0
+Uttar Pradesh,BAHRAICH,125.0,3613786.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1260.8,18.11,4766.2,3267.7,2343.6,Dedicated Freight Corridor (DFC),2422.6,50.8,210.0
+Uttar Pradesh,BALLIA,126.0,3236025.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,832.1,11.96,3193.3,2403.2,1635.4,Dedicated Freight Corridor (DFC),1557.9,48.8,210.0
+Uttar Pradesh,BALRAMPUR,127.0,2139353.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1162.1,16.72,4404.3,3111.8,2218.3,Dedicated Freight Corridor (DFC),2186.0,49.6,210.0
+Uttar Pradesh,BANDA,128.0,1745940.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1129.6,16.25,4285.0,3060.5,2177.0,Dedicated Freight Corridor (DFC),2108.0,49.2,210.0
+Uttar Pradesh,BARA BANKI,129.0,3326533.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1170.5,16.83,4435.0,3062.5,2166.3,Dedicated Freight Corridor (DFC),2268.7,51.2,210.0
+Uttar Pradesh,BAREILLY,130.0,4609133.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1430.3,20.32,5386.5,3322.5,2345.9,Dedicated Freight Corridor (DFC),3040.6,56.4,210.0
+Uttar Pradesh,BASTI,131.0,2383410.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1074.9,15.44,4084.1,2775.0,1908.4,Dedicated Freight Corridor (DFC),2175.7,53.3,210.0
+Uttar Pradesh,BHADOHI,179.0,1579386.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,990.7,14.26,3775.4,2841.1,2000.6,Dedicated Freight Corridor (DFC),1774.8,47.0,210.0
+Uttar Pradesh,BIJNOR,132.0,3815815.0,False,Deendayal Port (Kandla),1535.0,21.43,5767.7,3700.8,2691.8,Dedicated Freight Corridor (DFC),3075.9,53.3,210.0
+Uttar Pradesh,BUDAUN,133.0,3050495.0,False,Deendayal Port (Kandla),1377.1,19.21,5188.7,3451.4,2491.3,Dedicated Freight Corridor (DFC),2697.4,52.0,210.0
+Uttar Pradesh,BULANDSHAHR,134.0,3625639.0,False,Deendayal Port (Kandla),1347.8,18.87,5081.8,3392.1,2441.1,Dedicated Freight Corridor (DFC),2640.7,52.0,210.0
+Uttar Pradesh,CHANDAULI,135.0,1952344.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,810.6,11.75,3115.1,2527.6,1771.9,Dedicated Freight Corridor (DFC),1343.2,43.1,210.0
+Uttar Pradesh,CHITRAKOOT,136.0,1027573.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1049.0,14.95,3988.2,2933.1,2074.6,Dedicated Freight Corridor (DFC),1913.6,48.0,210.0
+Uttar Pradesh,DEORIA,137.0,3102392.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,924.5,13.29,3532.3,2490.4,1670.8,Dedicated Freight Corridor (DFC),1861.5,52.7,210.0
+Uttar Pradesh,ETAH,138.0,1715419.0,False,Deendayal Port (Kandla),1297.5,18.04,4896.4,2934.6,1999.2,Dedicated Freight Corridor (DFC),2897.2,59.2,210.0
+Uttar Pradesh,ETAWAH,139.0,1571012.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1289.0,18.2,4867.3,3312.2,2379.4,Dedicated Freight Corridor (DFC),2487.9,51.1,210.0
+Uttar Pradesh,FARRUKHABAD,141.0,1883226.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1393.4,19.81,5251.2,3477.1,2512.0,Dedicated Freight Corridor (DFC),2739.2,52.2,210.0
+Uttar Pradesh,FATEHPUR,142.0,2625245.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1056.1,14.9,4013.1,2602.1,1741.3,Dedicated Freight Corridor (DFC),2271.7,56.6,210.0
+Uttar Pradesh,FIROZABAD,143.0,2485673.0,False,Deendayal Port (Kandla),1261.0,17.5,4762.4,3268.0,2343.8,Dedicated Freight Corridor (DFC),2418.5,50.8,210.0
+Uttar Pradesh,GAUTAM BUDDHA NAGAR,144.0,1549760.0,False,Deendayal Port (Kandla),1324.7,18.56,4997.2,3258.6,2314.7,Dedicated Freight Corridor (DFC),2682.5,53.7,210.0
+Uttar Pradesh,GHAZIABAD,145.0,2142834.0,False,Deendayal Port (Kandla),1284.7,17.82,4849.2,3027.4,2095.9,Dedicated Freight Corridor (DFC),2753.3,56.8,210.0
+Uttar Pradesh,GHAZIPUR,146.0,3640397.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,839.6,12.04,3220.6,2580.7,1808.7,Dedicated Freight Corridor (DFC),1411.9,43.8,210.0
+Uttar Pradesh,GONDA,147.0,3435213.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1149.5,16.47,4357.5,3091.9,2202.3,Dedicated Freight Corridor (DFC),2155.3,49.5,210.0
+Uttar Pradesh,GORAKHPUR,148.0,4394233.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,964.0,13.79,3676.7,2612.4,1780.2,Dedicated Freight Corridor (DFC),1896.5,51.6,210.0
+Uttar Pradesh,HAMIRPUR,149.0,1017332.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1235.8,17.96,4676.0,3228.2,2311.8,Dedicated Freight Corridor (DFC),2364.2,50.6,210.0
+Uttar Pradesh,HAPUR,661.0,2812752.0,False,Deendayal Port (Kandla),1324.1,18.35,4993.5,3254.7,2311.0,Dedicated Freight Corridor (DFC),2682.5,53.7,210.0
+Uttar Pradesh,HARDOI,150.0,4115222.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1269.9,18.03,4798.0,3282.1,2355.1,Dedicated Freight Corridor (DFC),2442.9,50.9,210.0
+Uttar Pradesh,HATHRAS,163.0,1607232.0,False,Deendayal Port (Kandla),1278.7,17.8,4827.6,3207.3,2277.7,Dedicated Freight Corridor (DFC),2549.9,52.8,210.0
+Uttar Pradesh,JALAUN,151.0,1700205.0,False,Deendayal Port (Kandla),1238.5,17.97,4685.7,3232.5,2315.3,Dedicated Freight Corridor (DFC),2370.5,50.6,210.0
+Uttar Pradesh,JAUNPUR,152.0,4523887.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,957.3,13.75,3652.6,2788.3,1958.2,Dedicated Freight Corridor (DFC),1694.4,46.4,210.0
+Uttar Pradesh,JHANSI,153.0,1983741.0,False,Deendayal Port (Kandla),1130.0,16.29,4286.7,3061.1,2177.5,Dedicated Freight Corridor (DFC),2109.2,49.2,210.0
+Uttar Pradesh,KANNAUJ,155.0,1657803.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1348.4,19.27,5086.9,3406.0,2454.8,Dedicated Freight Corridor (DFC),2632.1,51.7,210.0
+Uttar Pradesh,KANPUR DEHAT,156.0,1771861.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1202.3,17.07,4550.1,3175.3,2269.3,Dedicated Freight Corridor (DFC),2280.8,50.1,210.0
+Uttar Pradesh,KANPUR NAGAR,157.0,4696811.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1150.9,16.2,4360.5,3094.1,2204.0,Dedicated Freight Corridor (DFC),2156.4,49.5,210.0
+Uttar Pradesh,KASGANJ,633.0,1417162.0,False,Deendayal Port (Kandla),1346.0,18.86,5075.3,3402.3,2451.8,Dedicated Freight Corridor (DFC),2623.5,51.7,210.0
+Uttar Pradesh,KAUSHAMBI,158.0,1422716.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1139.9,16.24,4321.6,3076.7,2190.1,Dedicated Freight Corridor (DFC),2131.5,49.3,210.0
+Uttar Pradesh,KHERI,159.0,4005925.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1406.9,20.44,5304.0,3498.4,2529.1,Dedicated Freight Corridor (DFC),2774.9,52.3,210.0
+Uttar Pradesh,KUSHINAGAR,160.0,3575534.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,979.2,14.11,3733.3,2759.5,1922.6,Dedicated Freight Corridor (DFC),1810.7,48.5,210.0
+Uttar Pradesh,LALITPUR,161.0,1232534.0,False,Deendayal Port (Kandla),1209.5,17.45,4578.6,3186.7,2278.4,Dedicated Freight Corridor (DFC),2300.1,50.2,210.0
+Uttar Pradesh,LUCKNOW,162.0,4609742.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1158.3,16.47,4388.9,2889.9,1997.5,Dedicated Freight Corridor (DFC),2391.3,54.5,210.0
+Uttar Pradesh,MAHOBA,165.0,907617.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1216.1,17.4,4601.7,3197.1,2286.8,Dedicated Freight Corridor (DFC),2314.9,50.3,210.0
+Uttar Pradesh,MAHRAJGANJ,164.0,2773435.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1038.4,15.01,3950.9,2636.3,1781.0,Dedicated Freight Corridor (DFC),2169.9,54.9,210.0
+Uttar Pradesh,MAINPURI,166.0,1936062.0,False,Deendayal Port (Kandla),1367.5,19.17,5154.2,3317.8,2360.6,Dedicated Freight Corridor (DFC),2793.5,54.2,210.0
+Uttar Pradesh,MATHURA,167.0,2543699.0,False,Deendayal Port (Kandla),1279.8,17.75,4831.2,3188.5,2258.5,Dedicated Freight Corridor (DFC),2572.7,53.3,210.0
+Uttar Pradesh,MAU,168.0,2244991.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,883.3,12.71,3381.2,2660.7,1864.2,Dedicated Freight Corridor (DFC),1517.0,44.9,210.0
+Uttar Pradesh,MEERUT,169.0,3349313.0,False,Deendayal Port (Kandla),1290.3,17.9,4869.7,3229.9,2296.6,Dedicated Freight Corridor (DFC),2573.1,52.8,210.0
+Uttar Pradesh,MIRZAPUR,170.0,2450090.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1047.1,15.22,3983.4,2930.1,2072.2,Dedicated Freight Corridor (DFC),1911.2,48.0,210.0
+Uttar Pradesh,MORADABAD,171.0,3074996.0,False,Deendayal Port (Kandla),1420.1,19.81,5346.3,3280.3,2306.9,Dedicated Freight Corridor (DFC),3039.4,56.9,210.0
+Uttar Pradesh,MUZAFFARNAGAR,172.0,2748495.0,False,Deendayal Port (Kandla),1330.9,18.47,5018.6,3378.4,2432.6,Dedicated Freight Corridor (DFC),2586.0,51.5,210.0
+Uttar Pradesh,PILIBHIT,173.0,2104412.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1388.9,19.73,5234.6,3470.0,2506.3,Dedicated Freight Corridor (DFC),2728.3,52.1,210.0
+Uttar Pradesh,PRATAPGARH,174.0,3216206.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1000.8,14.18,3810.7,2857.0,2013.4,Dedicated Freight Corridor (DFC),1797.3,47.2,210.0
+Uttar Pradesh,PRAYAGRAJ,120.0,6226243.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,968.6,13.84,3693.5,2806.2,1972.5,Dedicated Freight Corridor (DFC),1721.0,46.6,210.0
+Uttar Pradesh,RAE BARELI,175.0,2912306.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1078.7,15.31,4096.7,2747.0,1879.2,Dedicated Freight Corridor (DFC),2217.4,54.1,210.0
+Uttar Pradesh,RAMPUR,176.0,2118122.0,False,Deendayal Port (Kandla),1452.6,20.3,5465.7,3341.3,2357.8,Dedicated Freight Corridor (DFC),3107.9,56.9,210.0
+Uttar Pradesh,SAHARANPUR,177.0,3478916.0,False,Deendayal Port (Kandla),1391.2,17.85,5228.7,3473.7,2509.2,Dedicated Freight Corridor (DFC),2719.5,52.0,210.0
+Uttar Pradesh,SAMBHAL,659.0,2487430.0,False,Deendayal Port (Kandla),1400.4,19.55,5274.2,3488.2,2520.9,Dedicated Freight Corridor (DFC),2753.3,52.2,210.0
+Uttar Pradesh,SANT KABIR NAGAR,178.0,1766854.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1013.5,14.51,3858.4,2816.2,1968.6,Dedicated Freight Corridor (DFC),1889.8,49.0,210.0
+Uttar Pradesh,SHAHJAHANPUR,180.0,2768288.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1359.6,19.36,5127.5,3423.7,2469.1,Dedicated Freight Corridor (DFC),2658.4,51.8,210.0
+Uttar Pradesh,SHAMLI,660.0,1336986.0,False,Deendayal Port (Kandla),1347.9,17.17,5069.4,3405.3,2454.2,Dedicated Freight Corridor (DFC),2615.2,51.6,210.0
+Uttar Pradesh,SHRAWASTI,181.0,861826.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1225.7,17.76,4638.6,3212.2,2299.0,Dedicated Freight Corridor (DFC),2339.6,50.4,210.0
+Uttar Pradesh,SIDDHARTHNAGAR,182.0,2567547.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1088.7,15.7,4135.2,2875.3,2004.5,Dedicated Freight Corridor (DFC),2130.7,51.5,210.0
+Uttar Pradesh,SITAPUR,183.0,4521870.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1241.8,17.71,4695.5,3237.7,2319.5,Dedicated Freight Corridor (DFC),2376.1,50.6,210.0
+Uttar Pradesh,SONBHADRA,184.0,1929876.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,703.5,10.24,2722.3,2032.1,1336.4,Dedicated Freight Corridor (DFC),1385.9,50.9,210.0
+Uttar Pradesh,SULTANPUR,185.0,2311346.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1057.8,15.26,4021.8,2947.0,2085.8,Dedicated Freight Corridor (DFC),1936.0,48.1,210.0
+Uttar Pradesh,UNNAO,186.0,3092807.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1174.6,16.6,4447.9,3058.0,2160.6,Dedicated Freight Corridor (DFC),2287.3,51.4,210.0
+Uttar Pradesh,VARANASI,187.0,3649663.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,911.0,13.04,3482.4,2711.4,1899.4,Dedicated Freight Corridor (DFC),1583.0,45.5,210.0
 Uttarakhand,ALMORA,45.0,647552.0,False,Deendayal Port (Kandla),1735.0,22.74,6489.8,4016.7,,Conventional Rail,2473.1,38.1,380.0
 Uttarakhand,BAGESHWAR,46.0,261148.0,False,Deendayal Port (Kandla),1741.7,22.85,6514.5,4027.3,,Conventional Rail,2487.2,38.2,380.0
 Uttarakhand,CHAMOLI,47.0,404823.0,False,Deendayal Port (Kandla),1694.4,22.2,6341.2,3952.6,,Conventional Rail,2388.6,37.7,380.0
