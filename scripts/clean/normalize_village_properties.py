@@ -17,7 +17,13 @@ This script sets, in every feature's properties:
   as in the boundary layers), added as the first property where missing;
 - state_code / district_code / sub_district_code / village_code as text
   (str(int) for the integer columns; the source values are full-length);
-- every text value with line breaks and repeated spaces collapsed.
+- every text value with line breaks and repeated spaces collapsed;
+- "not available" markers stored as text (NA, Null, <Null>, Not available,
+  any case: 2,534 values in 9 files, mostly village codes) as null, the way
+  the NWDP files store their 999999 code. pandas reads 'NA' and 'null' as
+  missing from CSV but keeps them as text from Parquet, so the two formats
+  disagreed. Real village names that look similar (Punjab's 'NAN', 'NONE',
+  Uttar Pradesh's 'Nan') are kept.
 
 Geometry is not touched: each file is re-serialised with the separators it was
 written with (verified byte-identical on a load/dump round trip before
@@ -44,6 +50,7 @@ from standardize import DATA_DIR, clean_state_name  # noqa: E402
 VILLAGES = DATA_DIR / "administrative" / "villages"
 TWINS = DATA_DIR / "administrative" / "villages_parquet"
 CODE_COLUMNS = ("state_code", "district_code", "sub_district_code", "village_code")
+MISSING_MARKERS = frozenset({"na", "null", "<null>", "not available"})  # compared casefolded
 SERIALISATIONS = (dict(separators=(",", ":")), dict(separators=(",", ":"), ensure_ascii=False))
 
 
@@ -64,6 +71,8 @@ def normalise_properties(props: dict, state: str) -> dict:
             value = str(value)
         if isinstance(value, str):
             value = " ".join(value.split())
+            if value.casefold() in MISSING_MARKERS:
+                value = None
         out[key] = value
     if "state" in props:  # keep the file's own key order
         return {key: out[key] for key in props}

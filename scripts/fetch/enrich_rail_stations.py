@@ -89,12 +89,13 @@ def main() -> None:
 
     # Format station categories dataset
     df = raw.copy()
-    df["station_code"] = df["code"].astype(str).str.strip().str.upper()
-    df["station_name"] = df["station"].astype(str).str.strip()
-    df["category"] = df["new"].astype(str).str.replace(" ", "").str.replace("-", "").str.upper()
+    # "string" keeps missing values missing on pandas 2 and 3 (astype(str) gives 'nan' on 2)
+    df["station_code"] = df["code"].astype("string").str.strip().str.upper()
+    df["station_name"] = df["station"].astype("string").str.strip()
+    df["category"] = df["new"].astype("string").str.replace(" ", "").str.replace("-", "").str.upper()
     df["zone"] = df["zone"].map(clean_zone)
-    df["division"] = df["division"].astype(str).str.strip().str.upper().replace({"NA": None, "NONE": None})
-    df["state"] = df["state"].astype(str).str.strip()
+    df["division"] = df["division"].astype("string").str.strip().str.upper().replace({"NA": None, "NONE": None})
+    df["state"] = df["state"].astype("string").str.strip()
     df["total_passengers"] = pd.to_numeric(df["total_pax"], errors="coerce")
     df["total_revenue"] = pd.to_numeric(df["total_rev"], errors="coerce")
     df["source_url"] = SOURCE_URL
@@ -112,7 +113,7 @@ def main() -> None:
     # Enrich main railway_stations.csv
     print(f"\nEnriching {STATIONS_PATH} ...")
     st = pd.read_csv(STATIONS_PATH)
-    st["code_norm"] = st["station_code"].astype(str).str.strip().str.upper()
+    st["code_norm"] = st["station_code"].astype("string").str.strip().str.upper()
     cat_map = categories.set_index("station_code")
 
     # Fill missing or placeholder zones

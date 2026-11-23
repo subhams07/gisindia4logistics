@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR
+from scripts.analyze.village_access_io import read_village_access_csv
 
 METRIC_LABELS = {
     "dist_rail_station_km": "Distance to Nearest Railway Station (km)",
@@ -80,7 +81,7 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
         raise ValueError("Could not find district column in village dataset")
 
     p_acc = DATA_DIR / "analysis" / f"{slug}_village_access.csv"
-    acc_df = pd.read_csv(p_acc) if p_acc.exists() else None
+    acc_df = read_village_access_csv(p_acc) if p_acc.exists() else None
     wanted = district.lower()
     source_sel = (gdf[d_col].astype("string").str.lower() == wanted).fillna(False).to_numpy()
 
@@ -106,8 +107,8 @@ def load_district_villages_gdf(state: str, district: str) -> gpd.GeoDataFrame:
         acc_dist = acc_df[acc_df.district.astype("string").str.lower() == wanted]
         if not acc_dist.empty:
             if "village_code" in gdf_dist.columns and "village_code" in acc_dist.columns:
-                gdf_dist["vcode_str"] = gdf_dist["village_code"].astype(str)
-                acc_dist["vcode_str"] = acc_dist["village_code"].astype(str)
+                gdf_dist["vcode_str"] = gdf_dist["village_code"].astype("string")
+                acc_dist["vcode_str"] = acc_dist["village_code"].astype("string")
                 merged = gdf_dist.merge(acc_dist, on="vcode_str", how="left", suffixes=("", "_acc"))
                 if not merged.empty:
                     gdf_dist = merged

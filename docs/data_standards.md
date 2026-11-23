@@ -32,6 +32,10 @@ All datasets in this repository follow these conventions.
   - In the village files every code column is text (as the source pads them,
     e.g. `"055"`, `"05614"`), and `state` is the LGD state name on every row
     (`scripts/clean/normalize_village_properties.py`; the audit enforces both).
+    A value that is not available is null, never the text `NA` or `Null`.
+    Read the village access CSVs with
+    `scripts/analyze/village_access_io.read_village_access_csv`, or with
+    `dtype=str`, so zero-padded codes keep their leading zeros.
 - Census 2011 uses its own state/district codes; a crosswalk table is provided
   in `data/administrative/census2011_lgd_crosswalk.csv`.
 - Village rows are assigned to the district polygon that contains them

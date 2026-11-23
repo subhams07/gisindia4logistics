@@ -4,6 +4,13 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — reading village codes and text the same way on pandas 2 and 3
+
+- **API village codes lost their leading zeros.** `/admin/villages` (and the map's code fallback) read the village access CSVs with pandas' defaults. Where a state's codes were all digits, pandas parsed them as numbers, as floats wherever the column also had blanks. Zero-padded codes therefore came back wrong: `071955` was returned as `71955`. That is 27,754 codes: Himachal Pradesh 20,680, J&K 6,425, Uttarakhand 343 (its mixed column was parsed chunk by chunk), Ladakh 241, Delhi 54, Kerala 8 and Lakshadweep 3. `scripts/analyze/village_access_io.read_village_access_csv` now reads these tables with explicit dtypes: text as `string`, district codes as `Int64`, and only empty cells as missing.
+- **"Not available" markers stored as text are now null** in the village files, the way the NWDP files store `999999`. The markers are `NA` (1,929 MP village codes, 8 Haryana categories), `Null` / `<Null>` (Odisha, Gujarat, Puducherry, Uttarakhand, West Bengal) and `Not available` (Karnataka codes; 17 village names in J&K, Karnataka and Uttarakhand): 2,534 values in 9 files. pandas read `NA` and `null` as missing from CSV but as text from Parquet, so the two formats disagreed. Similar-looking real names (Punjab's `NAN` and `NONE`, Hapur's `Nan`) are kept. The audit fails on any marker that comes back.
+- **`.astype(str)` → `.astype("string")`** in the NWDP village fetcher, the station-category enrichment and one audit check. On pandas 2, `.astype(str)` writes a missing value as the text `"nan"`; on pandas 3 it stays missing.
+- The village access tables are regenerated for the 9 states. Only `village`/`village_code` change; distances and summaries are unchanged.
+
 ### Fixed — village files: one attribute schema (audit item 14)
 
 - All 36 village GeoJSONs and their GeoParquet twins now share one attribute schema (`scripts/clean/normalize_village_properties.py`). 26 files changed:
