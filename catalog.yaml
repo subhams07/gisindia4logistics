@@ -352,17 +352,17 @@ datasets:
     remain unresolved; data.gov.in remains the authoritative upgrade path.
 - name: Dedicated Freight Corridor Network (WDFC & EDFC)
   category: rail
-  description: Schematic station-to-station polylines for Western DFC (nominal 1,506 km Dadri-JNPT), Eastern DFC (nominal 1,337 km Ludhiana-Sonnagar), and the Dadri-Khurja link; not surveyed alignments
-  provider: DFCCIL (station roster and nominal lengths)
-  source_url: https://dfccil.com
-  license: GODL-India / Public Information
-  vintage: 2026-08
-  resolution: national rail corridor
+  description: Surveyed OpenStreetMap track alignments for Western DFC (Dadri-JNPT), Eastern DFC (Sahnewal-Sonnagar), and the Dadri-Khurja connecting link, with GeoParquet twin
+  provider: OpenStreetMap contributors (WDFC relation 12145132, EDFC relation 11154478) + DFCCIL corridor metadata
+  source_url: https://www.openstreetmap.org/relation/12145132
+  license: ODbL
+  vintage: 2026-11
+  resolution: national rail corridor (0.0005 deg simplification)
   access: committed
   path: data/rail/dfc_network.geojson
   fetch_script: scripts/fetch/build_dfc_network.py
-  quality_status: sample
-  quality_notes: Straight segments between station points (geodesic 1,384 / 1,183 / 43 km against nominal 1,506 / 1,337 / 46 km); use for topology and station order, not for lengths
+  quality_status: verified
+  quality_notes: Single-track centerlines extracted from OSM relations 12145132 (WDFC) and 11154478 (EDFC + Dadri-Khurja link), geodesic lengths 1,460.0 / 1,256.6 / 43.3 km against DFCCIL official 1,506 / 1,337 / 46 km (difference reflects short unmapped under-construction tail sections near JNPT/Vaitarna and Sahnewal/Pilkhani); valid on re-read in both GeoJSON and GeoParquet
 - name: DFC Junction Stations & Crossing Yards
   category: rail
   description: 54 DFC junction stations, crossing yards, and interchange points with coordinates, corridor, and IR feeder links
@@ -574,39 +574,35 @@ datasets:
   quality_notes: "Covers all 780 current districts (487 exact census, 153 summed from NWDP village populations, 136 blended, 4 area-share), keyed by LGD district_code; national sum 1,210,843,803 reconciles to 1,210,854,977 (<0.001% delta). Areas in ESRI:102028 (equal-area); villages counted per current district by point-in-polygon. Known weakness outside the 9 NWDP states: village count is a poor population proxy in tribal agency areas (e.g. Alluri Sitarama Raju is over-estimated); village-level Census population (NWDP) fixes it where available"
 - name: Indian Railways annual freight loading
   category: freight
-  description: Revenue-earning freight loading by commodity group and operational zone (FY 2019-20 through 2023-24)
-  provider: Ministry of Railways (Railway Board / PIB)
-  source_url: https://pib.gov.in/PressReleasePage.aspx?PRID=2016942
+  description: Revenue-earning originating freight loading by major commodity group (FY 2019-20 through 2024-25, excl. KRCL)
+  provider: Ministry of Railways via Economic Survey of India Statistical Appendix (Table 1.27A)
+  source_url: https://www.indiabudget.gov.in/economicsurvey/doc/stat/tab1.27a.pdf
   license: GODL-India
-  vintage: FY 2019-20 to 2023-24
-  resolution: national / zonal by commodity
+  vintage: FY 2019-20 to 2024-25
+  resolution: national by commodity (10 groups + total)
   access: committed
   path: data/freight/rail_freight_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: unverified
-  quality_notes: '61 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: the FY23-24
-    zone rows sum to 1,697 MT against the 1,591 MT national total (zones are originating loading as compiled, not
-    a partition). Re-source from PIB / Railway Board before analytical use.'
+  quality_status: verified
+  quality_notes: '66 series across 6 FYs (2019-20 from Economic Survey 2023-24 Table 1.27A; 2020-21 to 2024-25 from Economic Survey 2025-26 Table 1.27A; 2024-25 provisional). All 10 commodity groups reconcile to the national ALL_INDIA total within 0.05% every year (1,588.06 MT in FY23-24, 1,614.9 MT in FY24-25 excl. KRCL).'
 - name: Major Ports cargo throughput
   category: freight
   description: Annual cargo traffic handled across all 12 major ports (FY 2019-20 through 2023-24)
-  provider: Indian Ports Association (IPA) / Ministry of Ports, Shipping and Waterways
-  source_url: https://pib.gov.in/PressReleasePage.aspx?PRID=2017001
+  provider: Ministry of Ports, Shipping and Waterways (Basic Port Statistics of India) / Indian Ports Association (IPA)
+  source_url: https://shipmin.gov.in/division/transport-research
   license: GODL-India
   vintage: FY 2019-20 to 2023-24
-  resolution: port-wise (12 ports)
+  resolution: port-wise (12 major ports + national total)
   access: committed
   path: data/freight/port_throughput_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
-  quality_status: unverified
-  quality_notes: '65 series, transcribed by hand; values not re-checked against the cited source. Inconsistent: port rows
-    sum to 822.9 MT in FY23-24 and 783.4 MT in FY22-23 against national rows of 819 and 795 MT. Re-source from IPA
-    before analytical use.'
+  quality_status: verified
+  quality_notes: '65 series across 5 FYs (2019-20 to 2023-24). All 12 major port rows reconcile to the ALL_MAJOR_PORTS national total within 0.01% every year (784.31 MT in FY22-23, 819.23 MT in FY23-24; Paradip #1 at 145.38 MT).'
 - name: MoRTH classified road network indicators
   category: freight
-  description: National and state road lengths across functional classes (NH, SH, MDR, Rural roads)
-  provider: Ministry of Road Transport and Highways (MoRTH Basic Road Statistics)
-  source_url: https://morth.nic.in/basic-road-statistics-india
+  description: National road lengths across functional classes (NH, SH, rural/other roads)
+  provider: Ministry of Road Transport and Highways (Basic Road Statistics / Economic Survey Table 1.28)
+  source_url: https://www.indiabudget.gov.in/economicsurvey/doc/stat/tab1.28.pdf
   license: GODL-India
   vintage: FY 2019-20 to 2023-24
   resolution: national
@@ -614,7 +610,7 @@ datasets:
   path: data/freight/road_indicators_annual.csv
   fetch_script: scripts/fetch/build_freight_tables.py
   quality_status: verified
-  quality_notes: 11 series; validates NH official lengths (~146k km in FY24)
+  quality_notes: 11 series cross-checked against Economic Survey 2025-26 Table 1.28 (FY20-FY22) and MoRTH Annual Report NH totals (146,145 km in FY23-24)
 - name: National Highway district travel-time summary
   category: analysis
   description: Road-network shortest path drive times (hours/min) and distances (km) from 780 district centers to nearest ports, ICDs, MMLPs, air cargo, and ICPs

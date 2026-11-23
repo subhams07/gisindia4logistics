@@ -65,7 +65,7 @@ Quality status definitions:
 
 | Dataset & File Path | Scope / Count | Provider & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Dedicated Freight Corridors (DFC)**<br>`data/rail/dfc_network.geojson` | **3 Corridors** (WDFC 1,506 km, EDFC 1,337 km, Dadri-Khurja Link) | DFCCIL operational alignments | GODL-India / Public | **verified** |
+| **Dedicated Freight Corridors (DFC)**<br>`data/rail/dfc_network.geojson` (+ `.parquet`) | **3 Corridors** (WDFC 1,460 km geodesic, EDFC 1,257 km geodesic, Dadri-Khurja Link 43 km) | OpenStreetMap surveyed track alignments (relations 12145132 & 11154478) + DFCCIL metadata | ODbL | **verified** |
 | **DFC Stations & Yards**<br>`data/rail/dfc_stations.csv` | **54 Junction Stations & Crossing Yards** | DFCCIL station master roster with chainages and IR feeder interchange links | GODL-India / Public | **verified** |
 | **Railway Stations**<br>`data/rail/railway_stations.csv` | **8,697 stations** | DataMeet railways (Indian Railways/erail lineage), **2016 station base**, converted once from DataMeet `stations.json` (no script in the repository rebuilds the base table); later zone/division enrichment via `railway-stations-classification.pages.dev` in `scripts/fetch/enrich_rail_stations.py`. Categories remain a separate roster; enrichment is not a station-location refresh or verification of current operational status | Unclear (no DataMeet license file); reference data, redistribution unresolved | **community** |
 | **Station Categories (NSG1-6)**<br>`data/rail/station_categories.csv` | **5,938 category records; 5,493 joined station codes** | Community classification site `https://railway-stations-classification.pages.dev/` (NSG1–NSG6, passenger footfall & earnings), ~2023 catalog vintage; Ministry of Railways classification lineage, not a direct verified official feed | Unclear per catalog; reference use, cross-check before publication-grade use; public accessibility is not permission | **community** |
@@ -102,9 +102,9 @@ The catalog labels the classification vintage approximately 2023, while the enri
 
 | Dataset & File Path | Series / Dimensions | Primary Anchor & Lineage | License | Quality Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Rail Freight Annual Series**<br>`data/freight/rail_freight_annual.csv` | 61 series across 5 FYs (2019-20 to 2023-24) | Validated against Ministry of Railways / PIB official anchor of **1,591.0 MT** in FY24 | GODL-India | **verified** |
-| **Port Throughput Annual Series**<br>`data/freight/port_throughput_annual.csv` | 65 series across 5 FYs (2019-20 to 2023-24) | Validated against Indian Ports Association official anchor of **819.0 MT** in FY24 (Paradip Port #1 at **145.38 MT**) | GODL-India | **verified** |
-| **Road Network Length Indicators**<br>`data/freight/road_indicators_annual.csv` | 11 series across 5 FYs | Ministry of Road Transport and Highways (MoRTH) Basic Road Statistics | GODL-India | **verified** |
+| **Rail Freight Annual Series**<br>`data/freight/rail_freight_annual.csv` | 66 series across 6 FYs (2019-20 to 2024-25) | Economic Survey Statistical Appendix Table 1.27A (Ministry of Railways, excl. KRCL): **1,588.06 MT** in FY23-24, **1,614.9 MT** in FY24-25 (P); 10 commodity groups reconcile to national total | GODL-India | **verified** |
+| **Port Throughput Annual Series**<br>`data/freight/port_throughput_annual.csv` | 65 series across 5 FYs (2019-20 to 2023-24) | Ministry of Ports, Shipping & Waterways / IPA Basic Port Statistics: **819.23 MT** in FY23-24 (Paradip #1 at **145.38 MT**); all 12 ports reconcile to national total | GODL-India | **verified** |
+| **Road Network Length Indicators**<br>`data/freight/road_indicators_annual.csv` | 11 series across 5 FYs | Economic Survey Table 1.28 & MoRTH Basic Road Statistics (NH length **146,145 km** in FY23-24) | GODL-India | **verified** |
 
 ---
 

@@ -103,7 +103,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
-| ⚡ **Dedicated Freight Corridors** | WDFC, EDFC and the Dadri–Khurja link as schematic station-to-station lines | **3 corridors, 54 stations** | DFCCIL | GODL-India |
+| ⚡ **Dedicated Freight Corridors** | Surveyed OSM alignments for WDFC, EDFC and the Dadri–Khurja link (GeoJSON + GeoParquet) | **3 corridors, 54 stations** | OpenStreetMap / DFCCIL | ODbL / GODL-India |
 | 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (73 geocoded, 11 pending) | **84** | Ministry of Railways / PIB | GODL-India |
 | 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
 | 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
@@ -114,7 +114,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |
 | 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
 | 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
-| 📈 **Freight series** | Rail freight, port throughput, road network, FY20–FY24 | **137 annual records** | PIB / IPA / MoRTH | GODL-India |
+| 📈 **Freight series** | Reconciled rail freight (FY20–FY25), major port throughput (FY20–FY24), road network | **142 annual records** | Economic Survey / MoPSW / MoRTH | GODL-India |
 
 **Analysis outputs** (in `data/analysis/`):
 - Geodesic Stage 4 outputs with a provenance manifest (`producer_manifest.json`):
@@ -157,7 +157,7 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 
 ## 🛡️ Quality You Can Check
 
-**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,489 checks: 5,476 PASS, 13 WARN, 0 FAIL**, and the test suite passes **3,568 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
+**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,492 checks** (with freight reconciliation promoted from `WARN` to `FAIL`, leaving **12 WARN** and **0 FAIL** on Linux), and the test suite passes **3,581 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
 
 **What the audit checks:**
 - ✅ **Boundaries.** 36 states and 780 districts, official political-map reference points, valid geometries on re-read, GeoParquet twin parity across all 36 village files, and LGD joins across layers.
@@ -165,9 +165,9 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 
-**The 13 warnings:**
-- 12 are disclosed source issues (blank village names in SoI files, revenue-vs-census village counts for Delhi and Chandigarh, and documented boundary gaps).
-- 1 is a freight part-vs-total consistency check (annual freight tables are flagged `unverified` in `catalog.yaml`).
+**The 12 warnings:**
+- 11 are disclosed source issues (blank village names in SoI files, revenue-vs-census village counts for Delhi and Chandigarh).
+- 1 is the national-profile note that full code-closure verification runs in `--full` mode.
 
 Passing checks are not proof of operational routing accuracy, data freshness or legal clearance.
 

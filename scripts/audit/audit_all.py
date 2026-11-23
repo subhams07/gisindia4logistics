@@ -493,7 +493,13 @@ def audit_rail(source_root=DATA_DIR):
     if dfc_p.exists():
         gdf_dfc = gpd.read_file(dfc_p)
         check("dfc_network", "valid geometries", "FAIL", bool(gdf_dfc.geometry.is_valid.all()))
-        check("dfc_network", ">= 2 corridors", "FAIL", len(gdf_dfc) >= 2, f"{len(gdf_dfc)}")
+        check("dfc_network", "3 corridors (WDFC, EDFC, Dadri-Khurja link)", "FAIL", len(gdf_dfc) == 3, f"{len(gdf_dfc)}")
+        dfc_pq = source_root / "rail" / "dfc_network.parquet"
+        if dfc_pq.exists():
+            gdf_dfc_pq = gpd.read_parquet(dfc_pq)
+            check("dfc_network", "parquet row count matches GeoJSON", "FAIL",
+                  len(gdf_dfc_pq) == len(gdf_dfc), f"{len(gdf_dfc_pq)} vs {len(gdf_dfc)}")
+            check("dfc_network", "parquet valid geometries", "FAIL", bool(gdf_dfc_pq.geometry.is_valid.all()))
 
     dfc_st_p = source_root / "rail" / "dfc_stations.csv"
     check("dfc_stations", "exists", "FAIL", dfc_st_p.exists())
@@ -655,9 +661,13 @@ def audit_freight(source_root=DATA_DIR):
             "metric", "fy", "entity_type", "entity_code", "commodity_group", "value", "unit", "source_url", "license"])
         check("rail_freight", ">= 50 series", "FAIL", len(rf) >= 50, f"{len(rf)}")
         fy24_all = rf[(rf.fy == "2023-24") & (rf.entity_code == "ALL_INDIA") & (rf.commodity_group == "all")]
-        check("rail_freight", "FY23-24 anchor matches PIB (1,591 MT)", "FAIL",
-              len(fy24_all) == 1 and abs(fy24_all.value.iloc[0] - 1591.0) < 1.0,
+        check("rail_freight", "FY23-24 anchor matches Economic Survey Table 1.27A (1,588.06 MT excl. KRCL)", "FAIL",
+              len(fy24_all) == 1 and abs(fy24_all.value.iloc[0] - 1588.06) < 1.0,
               f"{fy24_all.value.iloc[0] if len(fy24_all) else 'missing'} MT")
+        fy25_all = rf[(rf.fy == "2024-25") & (rf.entity_code == "ALL_INDIA") & (rf.commodity_group == "all")]
+        check("rail_freight", "FY24-25 anchor matches Economic Survey Table 1.27A (1,614.9 MT excl. KRCL)", "FAIL",
+              len(fy25_all) == 1 and abs(fy25_all.value.iloc[0] - 1614.9) < 1.0,
+              f"{fy25_all.value.iloc[0] if len(fy25_all) else 'missing'} MT")
 
     # Port throughput
     pt_p = source_root / "freight" / "port_throughput_annual.csv"
@@ -667,8 +677,8 @@ def audit_freight(source_root=DATA_DIR):
             "metric", "fy", "entity_type", "entity_code", "commodity_group", "value", "unit", "source_url", "license"])
         check("port_throughput", ">= 60 series", "FAIL", len(pt) >= 60, f"{len(pt)}")
         fy24_ports = pt[(pt.fy == "2023-24") & (pt.entity_code == "ALL_MAJOR_PORTS")]
-        check("port_throughput", "FY23-24 anchor matches IPA (819 MT)", "FAIL",
-              len(fy24_ports) == 1 and abs(fy24_ports.value.iloc[0] - 819.0) < 1.0,
+        check("port_throughput", "FY23-24 anchor matches IPA (819.23 MT)", "FAIL",
+              len(fy24_ports) == 1 and abs(fy24_ports.value.iloc[0] - 819.23) < 1.0,
               f"{fy24_ports.value.iloc[0] if len(fy24_ports) else 'missing'} MT")
         paradip_24 = pt[(pt.fy == "2023-24") & (pt.entity_code == "INPRT")].value.iloc[0]
         check("port_throughput", "Paradip is #1 major port (>= 140 MT)", "FAIL",
@@ -677,7 +687,7 @@ def audit_freight(source_root=DATA_DIR):
             sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "fetch"))
             from build_freight_tables import consistency_issues
             issues = consistency_issues(rf, pt)
-            check("freight", "parts add up to national rows (1%; data marked unverified)", "WARN",
+            check("freight", "parts add up to national rows (<1%)", "FAIL",
                   not issues, "; ".join(issues))
 
     # Road indicators

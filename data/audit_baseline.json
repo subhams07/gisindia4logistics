@@ -43,7 +43,7 @@
  "census:districts": 640,
  "demographic:estimates": 780,
  "freight:port_throughput_annual": 65,
- "freight:rail_freight_annual": 61,
+ "freight:rail_freight_annual": 66,
  "freight:road_indicators_annual": 11,
  "hubs:air_cargo": 25,
  "hubs:cold_chain_storages": 15,

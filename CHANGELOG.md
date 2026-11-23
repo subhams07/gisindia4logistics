@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — real OSM DFC alignments & verified freight tables (Wave 1)
+
+- **Dedicated Freight Corridors (`data/rail/dfc_network.geojson` + `.parquet`).** Replaced the schematic straight-line station-to-station polylines with real surveyed single-track centerlines extracted from OpenStreetMap relations `12145132` (WDFC, 1,460.0 km geodesic vs 1,506 km official) and `11154478` (EDFC, 1,256.6 km geodesic vs 1,337 km official, plus the 43.3 km Dadri–Khurja link). Validated on re-read in both GeoJSON and GeoParquet (`quality_status: verified`, `license: ODbL`).
+- **Annual freight flow tables (`data/freight/`).** Re-sourced all three freight tables from authoritative Government of India publications, replacing earlier hand-compiled tables and incorrect PIB PRIDs:
+  - `rail_freight_annual.csv` (66 series, FY 2019-20 to 2024-25): Ministry of Railways revenue-earning originating freight loading by 10 commodity groups from Economic Survey Statistical Appendix Table 1.27A (excl. KRCL; 1,588.06 MT in FY23-24, 1,614.9 MT provisional in FY24-25). Removed the 16 unverified/inconsistent zone rows.
+  - `port_throughput_annual.csv` (65 series, FY 2019-20 to 2023-24): MoPSW Basic Port Statistics / IPA 12 major ports series (784.31 MT in FY22-23, 819.23 MT in FY23-24; Paradip #1 at 145.38 MT).
+  - `road_indicators_annual.csv` (11 series, FY 2019-20 to 2023-24): cross-checked against Economic Survey Table 1.28 and MoRTH Annual Report NH totals (146,145 km in FY23-24).
+  - Every commodity and port breakdown reconciles to its national total within 0.05% (`build_freight_tables.py` enforces a hard gate; `audit_all.py` upgrades freight consistency from `WARN` to `FAIL`; `catalog.yaml` flips both tables from `unverified` to `verified`).
+- **No Stage 4 regeneration required:** neither `dfc_network` nor `data/freight/*` is in Stage 4's input or code closure.
+
 ### Fixed — reading village codes and text the same way on pandas 2 and 3
 
 - **API village codes lost their leading zeros.** `/admin/villages` (and the map's code fallback) read the village access CSVs with pandas' defaults. Where a state's codes were all digits, pandas parsed them as numbers, as floats wherever the column also had blanks. Zero-padded codes therefore came back wrong: `071955` was returned as `71955`. That is 27,754 codes: Himachal Pradesh 20,680, J&K 6,425, Uttarakhand 343 (its mixed column was parsed chunk by chunk), Ladakh 241, Delhi 54, Kerala 8 and Lakshadweep 3. `scripts/analyze/village_access_io.read_village_access_csv` now reads these tables with explicit dtypes: text as `string`, district codes as `Int64`, and only empty cells as missing.

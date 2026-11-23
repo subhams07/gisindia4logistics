@@ -96,11 +96,11 @@ def test_freight_consistency_flags_parts_that_do_not_add_up():
 
 
 @needs_data
-def test_committed_freight_tables_report_their_known_inconsistencies():
+def test_committed_freight_tables_reconcile_parts_to_national_totals():
     ft = _script("fetch", "build_freight_tables")
     issues = ft.consistency_issues(pd.read_csv(DATA / "freight" / "rail_freight_annual.csv"),
                                    pd.read_csv(DATA / "freight" / "port_throughput_annual.csv"))
-    assert any("rail 2023-24 zones" in i for i in issues) and any("ports 2022-23" in i for i in issues)
+    assert issues == []
 
 
 # --- Small helpers ----------------------------------------------------------------------

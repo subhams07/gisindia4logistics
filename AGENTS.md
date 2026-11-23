@@ -591,6 +591,23 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     The village access tables and Stage 4 are unaffected (they do not read
     `state`; codes go through `pd.to_numeric`/`clean_text`).
 
+### Phase P: real OSM DFC alignments and verified freight tables (2026-11-23)
+51. Replaced schematic DFC polylines (`data/rail/dfc_network.geojson` + `.parquet`)
+    with surveyed OpenStreetMap alignments fetched via the OSM REST relation API
+    (`12145132` WDFC 1,460.0 km, `11154478` EDFC 1,256.6 km + 43.3 km Dadri–Khurja
+    link; ODbL, `quality_status: verified`). Re-sourced `data/freight/` from
+    Economic Survey Statistical Appendix Tables 1.27A & 1.28 (`indiabudget.gov.in`)
+    and MoPSW/IPA Basic Port Statistics (`rail_freight_annual.csv` 66 series FY20–FY25
+    excl. KRCL, `port_throughput_annual.csv` 65 series FY20–FY24,
+    `road_indicators_annual.csv` 11 series), removing the unverified zone rows and
+    wrong PIB PRIDs (`2016942`/`2017001`). All commodity and port parts reconcile to
+    national totals (<0.05%); `audit_all.py` now enforces freight reconciliation as
+    `FAIL` (upgraded from `WARN`) and verifies `dfc_network.parquet` parity. Zero
+    Stage 4 closure files touched. Still open: Census sub-district tables (#10),
+    the station state review lists in `docs/review/` (from PR #18), the 6
+    greenfield GCT sites. (Audit #14, the village properties, was done in
+    Phase O.)
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one
