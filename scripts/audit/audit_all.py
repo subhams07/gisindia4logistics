@@ -284,6 +284,26 @@ def _village_schema_check(slug, state, frame, geojson_path):
           not markers, str(markers))
 
 
+def _node_district_mismatches(table, source_root):
+    """Rows of a node file whose district/district_code differ from the LGD polygon
+    containing the point (assign_node_districts.py), or that lie outside their state."""
+    if "district_code" not in table.columns:
+        return ["no district_code column"]
+    districts = gpd.read_parquet(source_root / "administrative" / "india_districts_lgd.parquet",
+                                 columns=["state", "district", "district_code", "geometry"])
+    points = gpd.GeoDataFrame(table[["name", "state", "district", "district_code"]], crs=4326,
+                              geometry=gpd.points_from_xy(pd.to_numeric(table.longitude), pd.to_numeric(table.latitude)))
+    hit = gpd.sjoin(points, districts.rename(columns={"state": "ps", "district": "pd_", "district_code": "pc"}),
+                    predicate="within", how="left")
+    hit = hit[~hit.index.duplicated(keep="first")]
+    bad = []
+    for r in hit.itertuples():
+        code = "" if pd.isna(r.pc) else str(int(r.pc))
+        if r.ps != r.state or r.pd_ != r.district or code != r.district_code:
+            bad.append(f"{r.name}: {r.state}/{r.district}/{r.district_code} vs {r.ps}/{r.pd_}/{code}")
+    return bad
+
+
 def _parquet_twin(geojson_path: pathlib.Path) -> pathlib.Path:
     return geojson_path.parent.parent / "villages_parquet" / f"{geojson_path.stem}.parquet"
 
@@ -578,6 +598,13 @@ def audit_hubs(source_root=DATA_DIR):
               not outside, "; ".join(outside[:5]))
 
     # NICDC Industrial Nodes & PM MITRA
+    for stem in ("industrial_nodes", "pm_mitra_parks", "cold_chain_storages", "enam_mandis"):
+        path = source_root / "logistics_hubs" / f"{stem}.csv"
+        if path.exists():
+            bad = _node_district_mismatches(pd.read_csv(path, dtype=str, keep_default_na=False), source_root)
+            check(stem, "district and LGD district_code = the polygon containing the point, in its own state", "FAIL",
+                  not bad, "; ".join(bad[:4]))
+
     ind_p = source_root / "logistics_hubs" / "industrial_nodes.csv"
     check("industrial_nodes", "exists", "FAIL", ind_p.exists())
     if ind_p.exists():
