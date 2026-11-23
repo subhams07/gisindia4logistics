@@ -656,6 +656,26 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     the file unverified. Rule: never fix a name or place without a source;
     flag it.
 
+### Phase T: industrial nodes verification & builder/audit hardening (2026-11-24)
+55. Completed audit item 49 with zero Stage 4 regeneration. In
+    `data/logistics_hubs/industrial_nodes.csv` (20 rows), replaced the
+    unverifiable "IMC Praghurajpur / Fatehpur" entry with **IMC Prayagraj**
+    (Naini / Prayagraj, 25.37867, 81.87312 — Naini area approximation,
+    PRAYAGRAJ LGD 120, 352 acres per PIB PRID 2232996), aligned Zaheerabad
+    (3,245), JPMIA (1,578), Kopparthy (2,596), and Orvakal (2,621) `area_acres`
+    to Cabinet-approved Phase-1 figures in PIB PRID 2232996, fixed Orvakal
+    Industrial Node's corridor from `VCIC / HBIC` to official `HBIC` (PIB PRID
+    2232996 S. No. 9), and replaced all 19 broken/unverified
+    `nicdc.in/project/...` and `gidb.org/mbsir` URLs with HTTP-200 verified
+    SPV/state portals and official PIB releases (PRIDs 2049312, 2232996,
+    1684631, relid 87421), flipping `catalog.yaml` and `docs/sources.md` back
+    to `verified`. Integrated `assign_node_districts.assign_file()` directly
+    into `build_industrial_nodes.py` and `build_agri_logistics.py` (fixing
+    `Bengaluru Rural` -> `Bengaluru (Rural)`), optimized `audit_all.py` to
+    load `india_districts_lgd.parquet` once across the four node tables with
+    safe invalid-coordinate handling, and added unit tests in
+    `tests/test_node_districts.py`.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

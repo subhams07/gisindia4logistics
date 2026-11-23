@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from scripts.clean.assign_node_districts import assign_file, load_districts
 from scripts.clean.standardize import DATA_DIR
 
 COLD_CHAIN_DATA = [
@@ -21,7 +22,7 @@ COLD_CHAIN_DATA = [
     {"name": "Sonipat Cold Chain & Food Logistics Park", "facility_type": "Integrated Cold Chain Park", "state": "Haryana", "district": "Sonipat", "city": "Rai / Kundli", "latitude": 28.9250, "longitude": 77.0850, "capacity_mt": 40000, "commodities": "Multi-Commodity (NCR Supply)", "operator": "Dev Bhumi Cold Chain / MoFPI", "source_url": "https://mofpi.gov.in"},
     {"name": "Indore Agri Cold Hub", "facility_type": "Multi-Chamber Cold Storage", "state": "Madhya Pradesh", "district": "Indore", "city": "Sanwer / Indore", "latitude": 22.7850, "longitude": 75.8420, "capacity_mt": 35000, "commodities": "Potato, Garlic, Fruits", "operator": "MP Agro Industries", "source_url": "https://nccd.gov.in"},
     {"name": "Ludhiana Multi-Commodity Cold Store", "facility_type": "Grain & Perishable Cold Storage", "state": "Punjab", "district": "Ludhiana", "city": "Ludhiana", "latitude": 30.9050, "longitude": 75.8550, "capacity_mt": 30000, "commodities": "Seed Potato, Dairy, Poultry", "operator": "Punjab Agro", "source_url": "https://nccd.gov.in"},
-    {"name": "Bengaluru Rural Cold Hub (Hosakote)", "facility_type": "Integrated Packhouse & Cold Storage", "state": "Karnataka", "district": "Bengaluru Rural", "city": "Hosakote", "latitude": 13.0720, "longitude": 77.7980, "capacity_mt": 25000, "commodities": "Horticulture, Exotic Fruits, Floriculture", "operator": "Karnataka State Spices Development", "source_url": "https://nccd.gov.in"},
+    {"name": "Bengaluru Rural Cold Hub (Hosakote)", "facility_type": "Integrated Packhouse & Cold Storage", "state": "Karnataka", "district": "Bengaluru (Rural)", "city": "Hosakote", "latitude": 13.0720, "longitude": 77.7980, "capacity_mt": 25000, "commodities": "Horticulture, Exotic Fruits, Floriculture", "operator": "Karnataka State Spices Development", "source_url": "https://nccd.gov.in"},
     {"name": "Ratnagiri Mango Irradiation & Cold Hub", "facility_type": "Vapour Heat & Cold Treatment Facility", "state": "Maharashtra", "district": "Ratnagiri", "city": "Ratnagiri", "latitude": 16.9920, "longitude": 73.3120, "capacity_mt": 15000, "commodities": "Alphonso Mango, Cashew", "operator": "MSAMB / APEDA", "source_url": "https://msamb.com"},
     {"name": "Hooghly Cold Storage Belt (Tarakeswar)", "facility_type": "Large-Scale Potato Cold Store", "state": "West Bengal", "district": "Hugli", "city": "Tarakeswar", "latitude": 22.8850, "longitude": 88.0210, "capacity_mt": 65000, "commodities": "Potato", "operator": "West Bengal Cold Storage Association", "source_url": "https://nccd.gov.in"},
     {"name": "Ahmedabad Cold Hub (Bavla)", "facility_type": "Perishable Export Cold Chain", "state": "Gujarat", "district": "Ahmadabad", "city": "Bavla", "latitude": 22.8350, "longitude": 72.3650, "capacity_mt": 28000, "commodities": "Vegetables, Dairy, Cumin", "operator": "Gujarat Agro Industries Corp", "source_url": "https://nccd.gov.in"},
@@ -49,20 +50,23 @@ ENAM_MANDIS_DATA = [
 ]
 
 
-def build_agri():
-    out_dir = DATA_DIR / "logistics_hubs"
+def build_agri(out_dir: Path | None = None, data_dir: Path = DATA_DIR):
+    out_dir = out_dir or (data_dir / "logistics_hubs")
     out_dir.mkdir(parents=True, exist_ok=True)
+    districts = load_districts(data_dir)
 
     # 1. Cold Chain Storages
     df_cold = pd.DataFrame(COLD_CHAIN_DATA)
     p_cold = out_dir / "cold_chain_storages.csv"
-    df_cold.to_csv(p_cold, index=False)
+    df_cold.to_csv(p_cold, index=False, lineterminator="\n")
+    assign_file(p_cold, districts=districts)
     print(f"Wrote {len(df_cold)} Cold Chain Storage Hubs -> {p_cold}")
 
     # 2. e-NAM Mandis
     df_mandis = pd.DataFrame(ENAM_MANDIS_DATA)
     p_mandis = out_dir / "enam_mandis.csv"
-    df_mandis.to_csv(p_mandis, index=False)
+    df_mandis.to_csv(p_mandis, index=False, lineterminator="\n")
+    assign_file(p_mandis, districts=districts)
     print(f"Wrote {len(df_mandis)} APMC e-NAM Mandi Hubs -> {p_mandis}")
 
 

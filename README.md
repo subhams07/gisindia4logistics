@@ -25,7 +25,7 @@ Logistics analysis in India usually starts with weeks of data plumbing: fragment
 - **One join key for everything.** States, districts, sub-districts and villages carry [Local Government Directory (LGD)](https://lgdirectory.gov.in) codes, so every layer joins cleanly. Coordinates are in EPSG:4326; distances and lengths are geodesic on the WGS84 ellipsoid (EPSG:7755 is used only for indexing and snapping).
 - **National coverage.** 780 current districts and 658,248 Survey of India village polygons in all 36 States/UTs, each with a precomputed accessibility profile. The 9 border/NE States/UTs that SoI's village portal does not publish come from SoI's own files on the National Water Data Portal.
 - **Models, not just maps.** Highway routing and drive times, road vs rail vs DFC freight cost, port hinterland gravity, and drive-time isochrones.
-- **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. The current tree passes a 5,474-check national audit with 0 failures.
+- **Reproducible and audited.** Analysis outputs are produced by committed scripts, and the core routing, cost, gravity and isochrone outputs carry a manifest of input and code hashes. The current tree passes a 5,654-check national audit with 0 failures.
 - **Honest about its limits.** Known limitations and licensing conditions are published, not buried; see [Known Limitations](#known-limitations).
 
 ---
@@ -82,7 +82,7 @@ flowchart LR
     C --> E["CLI"]
     C --> F["REST API"]
     C --> G["MCP tools for AI agents"]
-    H["National audit<br/>5,474 checks"] -.verifies.-> A
+    H["National audit<br/>5,654 checks"] -.verifies.-> A
     H -.verifies.-> C
 ```
 
@@ -112,7 +112,7 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
 | ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
 | 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |
-| 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **21 + 7** | DPIIT / Ministry of Textiles | GODL-India |
+| 🏭 **Industrial clusters** | NICDC nodes and PM MITRA parks | **20 + 7** | DPIIT / Ministry of Textiles | GODL-India |
 | 👥 **Population** | Census 2011, allocated to 780 current districts | **1.21 billion conserved** | ORGI | GODL-India |
 | 📈 **Freight series** | Reconciled rail freight (FY20–FY25), major port throughput (FY20–FY24), road network | **142 annual records** | Economic Survey / MoPSW / MoRTH | GODL-India |
 
@@ -157,7 +157,7 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 
 ## 🛡️ Quality You Can Check
 
-**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,492 checks** (with freight reconciliation promoted from `WARN` to `FAIL`, leaving **12 WARN** and **0 FAIL** on Linux), and the test suite passes **3,581 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
+**Current verification.** The national audit (`scripts/audit/audit_all.py --national`) runs **5,654 checks** (with freight reconciliation promoted from `WARN` to `FAIL`, leaving **13 WARN** and **0 FAIL** on Linux), and the test suite passes **3,581 tests with 0 failures**. Committed report snapshot: [`docs/audit_report.md`](docs/audit_report.md).
 
 **What the audit checks:**
 - ✅ **Boundaries.** 36 states and 780 districts, official political-map reference points, valid geometries on re-read, GeoParquet twin parity across all 36 village files, and LGD joins across layers.
@@ -165,8 +165,8 @@ With the API running, maps are also available at `http://localhost:8000/api/v1/a
 - ✅ **Provenance.** The seven core analysis outputs are hash-matched to the inputs and code recorded in `producer_manifest.json`.
 - ✅ **Independent recomputation.** Graph, route, isochrone and coverage oracles, and freight and hinterland results, are recomputed and compared.
 
-**The 12 warnings:**
-- 11 are disclosed source issues (blank village names in SoI files, revenue-vs-census village counts for Delhi and Chandigarh).
+**The 13 warnings:**
+- 12 are disclosed source issues (blank village names in SoI files, revenue-vs-census village counts for Delhi and Chandigarh).
 - 1 is the national-profile note that full code-closure verification runs in `--full` mode.
 
 Passing checks are not proof of operational routing accuracy, data freshness or legal clearance.

@@ -4,6 +4,17 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — industrial nodes verification (audit item 49, complete); builder/audit hardening & unit tests
+
+- **`industrial_nodes.csv` (20 rows, now `verified` in `catalog.yaml`):**
+  - Replaced "Integrated Manufacturing Cluster (IMC) Praghurajpur / Fatehpur" with **Integrated Manufacturing Cluster (IMC) Prayagraj** (Naini / Prayagraj, `25.37867, 81.87312` — flagged as Naini industrial-area approximation, `PRAYAGRAJ` LGD code `120`, 352 acres; cites PIB PRID 2232996).
+  - Updated Zaheerabad (`12,600 → 3,245`), JPMIA (`6,500 → 1,578`), Kopparthy (`6,700 → 2,596`), and Orvakal (`5,000 → 2,621`) `area_acres` to match Cabinet-approved Phase-1 areas in PIB PRID 2232996 and cited PRID 2232996 on each row.
+  - Corrected Orvakal Industrial Node corridor from `VCIC / HBIC` to official **`HBIC`** (per PIB PRID 2232996 S. No. 9).
+  - Replaced all 19 unverified/broken `nicdc.in/project/...` and `gidb.org/mbsir` URLs with content-verified HTTP-200 official SPV/state portals (`dholera.gujarat.gov.in`, `auric.city`, `vikramudyogpuriujjain.com`, `iitgnl.com`, `gidb.gujarat.gov.in`) and PIB releases (PRIDs 2049312, 2232996, 1684631, relid 87421).
+- **Builders & audit hardening:** `scripts/fetch/build_industrial_nodes.py` and `scripts/fetch/build_agri_logistics.py` now call `assign_node_districts.assign_file()` automatically so rebuilds pass audit (`Bengaluru Rural` → `Bengaluru (Rural)` fixed in `build_agri_logistics.py`). `scripts/audit/audit_all.py` loads `india_districts_lgd.parquet` once across all four node tables and handles invalid coordinates safely.
+- **Tests:** added `tests/test_node_districts.py` covering LGD district assignment, idempotency, invalid/out-of-state coordinate rejection, audit mismatch checks, and end-to-end builder outputs.
+- **No Stage 4 regeneration required:** none of the four node tables or edited scripts are in Stage 4's input or code closure.
+
 ### Fixed — industrial nodes review (audit item 49, partly); LGD districts for the node files
 
 - `industrial_nodes.csv` loses the "Kakatiya Mega Textile Park (Warangal)" row (21 → 20). Its own status read "PM MITRA Node", and it sits 2.9 km from the PM MITRA Warangal park, which `pm_mitra_parks.csv` already lists.
@@ -11,6 +22,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - Dighi Port: Raigarh (a Chhattisgarh district) → Raigad.
   - Neemrana: Alwar → Kotputli-Behror (formed 2023).
   - AURIC: Aurangabad → Chhatrapati Sambhaji Nagar.
+  - Bengaluru Rural Cold Hub (Hosakote): Bengaluru Rural → Bengaluru (Rural).
   - Three spelling variants: Tiruvallur, Y.S.R. and Kamrup Metro.
   - The audit checks every row.
 - Not checked against NICDC, because nicdc.in fails certificate verification from the build environment. The per-row project URLs, the corridor labels and the "IMC Praghurajpur / Fatehpur" row are unchanged; no place of that name could be found. The catalog now marks the file `unverified`.

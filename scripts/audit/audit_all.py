@@ -284,15 +284,21 @@ def _village_schema_check(slug, state, frame, geojson_path):
           not markers, str(markers))
 
 
-def _node_district_mismatches(table, source_root):
+def _node_district_mismatches(table, source_root, districts=None):
     """Rows of a node file whose district/district_code differ from the LGD polygon
     containing the point (assign_node_districts.py), or that lie outside their state."""
     if "district_code" not in table.columns:
         return ["no district_code column"]
-    districts = gpd.read_parquet(source_root / "administrative" / "india_districts_lgd.parquet",
-                                 columns=["state", "district", "district_code", "geometry"])
+    lon = pd.to_numeric(table.longitude, errors="coerce")
+    lat = pd.to_numeric(table.latitude, errors="coerce")
+    bad_xy = table.index[lon.isna() | lat.isna()]
+    if len(bad_xy):
+        return [f"{table.loc[i, 'name']}: invalid coordinates" for i in bad_xy]
+    if districts is None:
+        districts = gpd.read_parquet(source_root / "administrative" / "india_districts_lgd.parquet",
+                                     columns=["state", "district", "district_code", "geometry"])
     points = gpd.GeoDataFrame(table[["name", "state", "district", "district_code"]], crs=4326,
-                              geometry=gpd.points_from_xy(pd.to_numeric(table.longitude), pd.to_numeric(table.latitude)))
+                              geometry=gpd.points_from_xy(lon, lat))
     hit = gpd.sjoin(points, districts.rename(columns={"state": "ps", "district": "pd_", "district_code": "pc"}),
                     predicate="within", how="left")
     hit = hit[~hit.index.duplicated(keep="first")]
@@ -598,10 +604,17 @@ def audit_hubs(source_root=DATA_DIR):
               not outside, "; ".join(outside[:5]))
 
     # NICDC Industrial Nodes & PM MITRA
+    lgd_districts_path = source_root / "administrative" / "india_districts_lgd.parquet"
+    node_districts = (
+        gpd.read_parquet(lgd_districts_path, columns=["state", "district", "district_code", "geometry"])
+        if lgd_districts_path.exists() else None
+    )
     for stem in ("industrial_nodes", "pm_mitra_parks", "cold_chain_storages", "enam_mandis"):
         path = source_root / "logistics_hubs" / f"{stem}.csv"
         if path.exists():
-            bad = _node_district_mismatches(pd.read_csv(path, dtype=str, keep_default_na=False), source_root)
+            bad = _node_district_mismatches(
+                pd.read_csv(path, dtype=str, keep_default_na=False), source_root, districts=node_districts
+            )
             check(stem, "district and LGD district_code = the polygon containing the point, in its own state", "FAIL",
                   not bad, "; ".join(bad[:4]))
 

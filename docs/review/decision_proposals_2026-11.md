@@ -172,7 +172,7 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 46 | Done (batch F): coord_precision on the 7 transport hub files from evidence; city-level MMLP isochrones named in the catalog (the limitations sidecar schema is unchanged) |
 | 47 | Done (#23) |
 | 48 | Kept instead (decision when porting batch A, #15) |
-| 49 | Partly done: Kakatiya duplicate removed and districts taken from the polygons (Raigad etc.); open until checked against NICDC: project URLs, corridor labels, the 'IMC Praghurajpur / Fatehpur' row |
+| 49 | Done (#25 + follow-up): Kakatiya duplicate removed and LGD districts assigned from polygons; IMC Praghurajpur/Fatehpur replaced with IMC Prayagraj (Naini/Prayagraj, 352 acres, PRAYAGRAJ LGD 120), Orvakal corridor set to official HBIC, all per-row source URLs replaced with HTTP-200 verified PIB releases (PRIDs 2049312/2232996/1684631, relid 87421) and SPV/state portals, and `assign_node_districts.assign_file()` integrated into `build_industrial_nodes.py` and `build_agri_logistics.py` |
 | 50 | Open: at the next toll fetch |
 | 51 | Done (#23): 142 baseline series |
 | 52 | Done (batch F): hub_code on every transport hub row, unlocode for the 12 major ports, aliases aligned |
