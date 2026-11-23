@@ -26,7 +26,7 @@ NICDC_NODES_DATA = [
     {"name": "Integrated Industrial Township Greater Noida (IITGN)", "corridor": "DMIC", "node_type": "Smart Industrial City", "state": "Uttar Pradesh", "district": "Gautam Buddha Nagar", "city": "Greater Noida", "latitude": 28.4820, "longitude": 77.5350, "area_acres": 747, "status": "Operational", "operator": "DMIC IITGNL", "source_url": "https://www.iitgnl.com/"},
     {"name": "Manesar Bawal Industrial Area (MBIR)", "corridor": "DMIC", "node_type": "Industrial Region", "state": "Haryana", "district": "Rewari", "city": "Bawal", "latitude": 28.0820, "longitude": 76.5820, "area_acres": 10000, "status": "Under Development", "operator": "HSIIDC", "source_url": PIB_DMIC_NIMZ},
     {"name": "Khushkhera Bhiwadi Neemrana (KBNIR)", "corridor": "DMIC", "node_type": "Investment Region", "state": "Rajasthan", "district": "Kotputli-Behror", "city": "Neemrana", "latitude": 27.9850, "longitude": 76.3850, "area_acres": 14000, "status": "Under Development", "operator": "RIICO", "source_url": PIB_NICDP_2026},
-    {"name": "Jodhpur Pali Marwar Industrial Area (JPMIA)", "corridor": "DMIC", "node_type": "Industrial Area", "state": "Rajasthan", "district": "Pali", "city": "Rohat", "latitude": 25.9850, "longitude": 73.1250, "area_acres": 6500, "status": "Under Implementation", "operator": "RIICO", "source_url": PIB_NICDP_2024},
+    {"name": "Jodhpur Pali Marwar Industrial Area (JPMIA)", "corridor": "DMIC", "node_type": "Industrial Area", "state": "Rajasthan", "district": "Pali", "city": "Rohat", "latitude": 25.9850, "longitude": 73.1250, "area_acres": 1578, "status": "Under Implementation (Phase 1)", "operator": "RIICO", "source_url": PIB_NICDP_2026},
     {"name": "Mandal Bechraji Special Investment Region (MBSIR)", "corridor": "DMIC", "node_type": "Auto & Manufacturing SIR", "state": "Gujarat", "district": "Mahesana", "city": "Becharaji", "latitude": 23.5120, "longitude": 72.0450, "area_acres": 25000, "status": "Operational (Maruti/Honda Cluster)", "operator": "GIDB / GIDC", "source_url": "https://gidb.gujarat.gov.in/"},
     {"name": "Dighi Port Industrial Area", "corridor": "DMIC", "node_type": "Port Industrial Area", "state": "Maharashtra", "district": "Raigad", "city": "Dighi / Roha", "latitude": 18.2850, "longitude": 73.0150, "area_acres": 6000, "status": "Planning / Land Acquisition", "operator": "MIDC", "source_url": PIB_NICDP_2024},
 
@@ -37,21 +37,21 @@ NICDC_NODES_DATA = [
 
     # AKIC (Amritsar - Kolkata)
     {"name": "Integrated Manufacturing Cluster (IMC) Rajpura", "corridor": "AKIC", "node_type": "Integrated Manufacturing Cluster", "state": "Punjab", "district": "Patiala", "city": "Rajpura", "latitude": 30.4850, "longitude": 76.5850, "area_acres": 1100, "status": "Approved / Land Identified", "operator": "PSIEC / NICDIT", "source_url": PIB_NICDP_2024},
-    {"name": "Integrated Manufacturing Cluster (IMC) Prayagraj", "corridor": "AKIC", "node_type": "Integrated Manufacturing Cluster", "state": "Uttar Pradesh", "district": "Prayagraj", "city": "Naini / Prayagraj", "latitude": 25.37867, "longitude": 81.87312, "area_acres": 352, "status": "Approved / Under Implementation", "operator": "UPSIDA / NICDIT", "source_url": PIB_NICDP_2024},
+    {"name": "Integrated Manufacturing Cluster (IMC) Prayagraj", "corridor": "AKIC", "node_type": "Integrated Manufacturing Cluster", "state": "Uttar Pradesh", "district": "Prayagraj", "city": "Naini / Prayagraj", "latitude": 25.37867, "longitude": 81.87312, "area_acres": 352, "status": "Approved / Under Implementation (coordinates approximate: Naini area)", "operator": "UPSIDA / NICDIT", "source_url": PIB_NICDP_2026},
     {"name": "Integrated Manufacturing Cluster (IMC) Gaya", "corridor": "AKIC", "node_type": "Integrated Manufacturing Cluster", "state": "Bihar", "district": "Gaya", "city": "Dobhi", "latitude": 24.5820, "longitude": 84.9520, "area_acres": 1670, "status": "Approved / Master Planning", "operator": "BIADA / NICDIT", "source_url": PIB_NICDP_2024},
     {"name": "Integrated Manufacturing Cluster (IMC) Raghunathpur", "corridor": "AKIC", "node_type": "Integrated Manufacturing Cluster", "state": "West Bengal", "district": "Puruliya", "city": "Raghunathpur", "latitude": 23.5420, "longitude": 86.6720, "area_acres": 2480, "status": "Under Planning", "operator": "WBIDC / NICDIT", "source_url": PIB_NICDP_2026},
 
     # VCIC (Vizag - Chennai)
-    {"name": "Kopparthy Industrial Node", "corridor": "VCIC", "node_type": "Manufacturing Cluster / Mega Industrial Hub", "state": "Andhra Pradesh", "district": "Y.S.R.", "city": "Kopparthy", "latitude": 14.4750, "longitude": 78.7120, "area_acres": 6700, "status": "Under Implementation", "operator": "APIIC / NICDIT", "source_url": PIB_NICDP_2024},
+    {"name": "Kopparthy Industrial Node", "corridor": "VCIC", "node_type": "Manufacturing Cluster / Mega Industrial Hub", "state": "Andhra Pradesh", "district": "Y.S.R.", "city": "Kopparthy", "latitude": 14.4750, "longitude": 78.7120, "area_acres": 2596, "status": "Under Implementation (Phase 1)", "operator": "APIIC / NICDIT", "source_url": PIB_NICDP_2026},
 
     # HBIC (Hyderabad - Bengaluru)
-    {"name": "Orvakal Industrial Node", "corridor": "HBIC", "node_type": "Mega Industrial Park & Airport Node", "state": "Andhra Pradesh", "district": "Kurnool", "city": "Orvakal", "latitude": 15.6820, "longitude": 78.1850, "area_acres": 5000, "status": "Under Implementation", "operator": "APIIC / NICDIT", "source_url": PIB_NICDP_2024},
+    {"name": "Orvakal Industrial Node", "corridor": "HBIC", "node_type": "Mega Industrial Park & Airport Node", "state": "Andhra Pradesh", "district": "Kurnool", "city": "Orvakal", "latitude": 15.6820, "longitude": 78.1850, "area_acres": 2621, "status": "Under Implementation (Phase 1)", "operator": "APIIC / NICDIT", "source_url": PIB_NICDP_2026},
 
     # BMIC (Bengaluru - Mumbai)
     {"name": "Dharwad Industrial Node", "corridor": "BMIC", "node_type": "Manufacturing Cluster", "state": "Karnataka", "district": "Dharwad", "city": "Dharwad", "latitude": 15.4850, "longitude": 75.0120, "area_acres": 6000, "status": "Under Implementation", "operator": "KIADB / NICDIT", "source_url": PIB_NICDP_2026},
 
     # HNIC (Hyderabad - Nagpur)
-    {"name": "Zaheerabad NIMZ (National Investment & Manufacturing Zone)", "corridor": "HNIC", "node_type": "NIMZ / Heavy Industry Hub", "state": "Telangana", "district": "Sangareddy", "city": "Zaheerabad", "latitude": 17.6820, "longitude": 77.6120, "area_acres": 12600, "status": "Under Implementation", "operator": "TGIIC / NICDIT", "source_url": PIB_NICDP_2024},
+    {"name": "Zaheerabad NIMZ (National Investment & Manufacturing Zone)", "corridor": "HNIC", "node_type": "NIMZ / Heavy Industry Hub", "state": "Telangana", "district": "Sangareddy", "city": "Zaheerabad", "latitude": 17.6820, "longitude": 77.6120, "area_acres": 3245, "status": "Under Implementation (Phase 1)", "operator": "TGIIC / NICDIT", "source_url": PIB_NICDP_2026},
 ]
 
 PM_MITRA_PARKS_DATA = [

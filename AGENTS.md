@@ -660,10 +660,12 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
 55. Completed audit item 49 with zero Stage 4 regeneration. In
     `data/logistics_hubs/industrial_nodes.csv` (20 rows), replaced the
     unverifiable "IMC Praghurajpur / Fatehpur" entry with **IMC Prayagraj**
-    (Naini / Prayagraj, 25.37867, 81.87312, PRAYAGRAJ LGD 120, 352 acres,
-    Approved / Under Implementation per PIB PRID 2049312 & OSM Nominatim),
-    fixed Orvakal Industrial Node's corridor from `VCIC / HBIC` to official
-    `HBIC` (PIB PRID 2232996 S. No. 9), and replaced all 19 broken/unverified
+    (Naini / Prayagraj, 25.37867, 81.87312 — Naini area approximation,
+    PRAYAGRAJ LGD 120, 352 acres per PIB PRID 2232996), aligned Zaheerabad
+    (3,245), JPMIA (1,578), Kopparthy (2,596), and Orvakal (2,621) `area_acres`
+    to Cabinet-approved Phase-1 figures in PIB PRID 2232996, fixed Orvakal
+    Industrial Node's corridor from `VCIC / HBIC` to official `HBIC` (PIB PRID
+    2232996 S. No. 9), and replaced all 19 broken/unverified
     `nicdc.in/project/...` and `gidb.org/mbsir` URLs with HTTP-200 verified
     SPV/state portals and official PIB releases (PRIDs 2049312, 2232996,
     1684631, relid 87421), flipping `catalog.yaml` and `docs/sources.md` back
