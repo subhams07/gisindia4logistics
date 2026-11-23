@@ -76,6 +76,28 @@ iw_terminal, foodgodown}. Seven hub files share the columns `name, hub_type,
 state, city, latitude, longitude, operator, capacity_notes, source_url`; the
 cold-chain, e-NAM, industrial-node and PM MITRA files have their own columns.
 
+## Hub file schemas
+
+The point files come in two families:
+
+- **Transport hubs** (`data/logistics_hubs/` ports, icps, icds, air_cargo,
+  mmlps, inland_waterway_terminals, fci_depots): exactly
+  `name, hub_type, state, city, latitude, longitude, operator, capacity_notes, source_url`.
+  The audit enforces this column list. `hub_type` takes the values listed
+  under "Hub types". Precision and status notes go in `capacity_notes`;
+  a row without coordinates says "coordinate pending" there.
+- **Economic and agri nodes** (industrial_nodes, pm_mitra_parks,
+  cold_chain_storages, enam_mandis): `name, state, district, city, latitude,
+  longitude, ..., source_url`, with type-specific columns in between
+  (`corridor`/`node_type`, `area_acres`, `status`, `capacity_mt`,
+  `commodities`, `market_type`, ...). They carry the district name, not a code.
+
+Gati Shakti cargo terminals (`data/rail/freight_terminals.csv`) have their own
+schema: `name, terminal_type, zone, division, state, city, latitude, longitude,
+capacity_notes, source_url, matched_station_code`.
+
+Every point lies in its own state (the audit allows 5 km on the coast).
+
 ## GeoParquet & Hybrid Storage Architecture
 
 To provide both human-readable inspectability and high-throughput analytical query speeds, GISIndia4Logistics uses a **dual-tier hybrid pattern**:

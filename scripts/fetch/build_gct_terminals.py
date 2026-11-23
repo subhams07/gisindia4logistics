@@ -146,7 +146,6 @@ def main() -> None:
                             "division": division, "state": state, "city": loc,
                             "latitude": round(float(rows_hint.latitude), 5),
                             "longitude": round(float(rows_hint.longitude), 5),
-                            "operator": "",
                             "capacity_notes": "coordinate from hub dataset ("
                                               + hub + "); identified/proposed GCT (PIB 2023)",
                             "source_url": SOURCE_URL,
@@ -157,7 +156,7 @@ def main() -> None:
                 rows.append({
                     "name": loc, "terminal_type": "gct", "zone": zone,
                     "division": division, "state": state, "city": loc,
-                    "latitude": "", "longitude": "", "operator": "",
+                    "latitude": "", "longitude": "",
                     "capacity_notes": "identified/proposed GCT (PIB 2023 annexure; tentative); no coordinate match",
                     "source_url": SOURCE_URL, "matched_station_code": "",
                 })
@@ -171,7 +170,6 @@ def main() -> None:
             "city": loc,
             "latitude": round(hit.latitude, 5) if hit is not None else "",
             "longitude": round(hit.longitude, 5) if hit is not None else "",
-            "operator": "",
             "capacity_notes": "identified/proposed GCT (PIB 2023 annexure; tentative)",
             "source_url": SOURCE_URL,
             "matched_station_code": hit.station_code if hit is not None else "",

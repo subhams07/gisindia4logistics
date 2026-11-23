@@ -764,13 +764,32 @@ def collect_counts(source_root=DATA_DIR, artifact_root=None) -> dict:
                    ("rail:freight", "rail/freight_terminals.csv"),
                    ("census:districts", "demographic/census2011_district_key_indicators.csv"),
                    ("demographic:estimates", "demographic/district_population_estimates.csv"),
+                   ("rail:dfc_stations", "rail/dfc_stations.csv"),
+                   ("roads:toll_plazas", "roads/toll_plazas.csv"),
                    ("analysis:nh_summary", "analysis/nh_district_travel_time_summary.csv"),
-                   ("analysis:nh_port_matrix", "analysis/nh_district_port_matrix.csv")]:
+                   ("analysis:nh_port_matrix", "analysis/nh_district_port_matrix.csv"),
+                   ("analysis:freight_modal_split", "analysis/district_freight_modal_split.csv"),
+                   ("analysis:port_hinterland", "analysis/district_port_hinterland_catchment.csv"),
+                   ("analysis:india_district_access_summary", "analysis/india_district_access_summary.csv"),
+                   ("analysis:india_subdistrict_access", "analysis/india_subdistrict_access.csv")]:
         p = artifact_root / f[9:] if f.startswith("analysis/") else source_root / f
         if p.exists():
-            counts[key] = len(pd.read_csv(p))
+            counts[key] = len(pd.read_csv(p, usecols=[0]))
+    # feature counts from file metadata (no geometry is read)
+    import pyarrow.parquet as pq
+    import pyogrio
+    for key, f in [("rail:dfc_network", "rail/dfc_network.parquet"),
+                   ("roads:nh_network", "roads/india_nh_network.parquet")]:
+        if (source_root / f).exists():
+            counts[key] = pq.read_metadata(source_root / f).num_rows
+    for f in ("major_ports_isochrones.geojson", "mmlp_isochrones.geojson"):
+        if (artifact_root / f).exists():
+            counts[f"analysis:{pathlib.Path(f).stem}"] = pyogrio.read_info(artifact_root / f)["features"]
     for f in g.glob(str(artifact_root / "*_village_access.csv")):
         counts[f"analysis:{pathlib.Path(f).stem}"] = len(pd.read_csv(f, usecols=["unit"]))
+    for f in g.glob(str(artifact_root / "*_district_access_summary.csv")):
+        if "india_district" not in f:
+            counts[f"analysis:{pathlib.Path(f).stem}"] = len(pd.read_csv(f, usecols=[0]))
     return counts
 
 
@@ -788,7 +807,7 @@ def check_baseline(source_root=DATA_DIR, artifact_root=None):
     # collect_counts emits are compared (admin:/villages: are deep-mode-only baseline keys);
     # analysis:* is skipped for a separate artifact root, which need not hold every
     # file of the data/analysis layout the baseline was written from.
-    prefixes = ["hubs:", "freight:", "rail:", "census:", "demographic:"]
+    prefixes = ["hubs:", "freight:", "rail:", "roads:", "census:", "demographic:"]
     if artifact_root is None or pathlib.Path(artifact_root) == source_root / "analysis":
         prefixes.append("analysis:")
     vanished = {k for k in base if k not in current and k.startswith(tuple(prefixes))}

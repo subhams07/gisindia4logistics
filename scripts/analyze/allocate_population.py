@@ -79,20 +79,37 @@ def load_parents() -> gpd.GeoDataFrame:
     merged = merged.to_crs(PROJ)
     merged["geometry"] = merged.geometry.make_valid()
     merged["parent_area"] = merged.area
+    # The 2011 layer's district_key is the normalised name alone; 10 names are
+    # shared by districts of two states (Aurangabad Bihar/Maharashtra, Bilaspur,
+    # Bijapur, Hamirpur, Pratapgarh, Raigarh, and Delhi's and Sikkim's East/
+    # North/South/West). Keyed by name only, those parents were pooled: their
+    # village shares were split across both states and the p_pop merge
+    # duplicated every pair. The state makes the key unique.
+    merged["district_key"] = merged.state.str.lower() + "|" + merged.district_key.astype(str)
+    if merged.district_key.duplicated().any():
+        raise SystemExit(f"duplicate 2011 parent keys: {sorted(merged.district_key[merged.district_key.duplicated()])}")
     return merged[["state", "district", "district_key", "Population",
                    "parent_area", "geometry"]].rename(
         columns={"state": "p_state", "district": "p_district",
                  "district_key": "p_key", "Population": "p_pop"})
 
 
+def district_key(state, district, code) -> str:
+    """One identity per current district: the LGD code (unique nationally), or
+    state + name for the four districts without one (Delhi's Nazul and Shahdara,
+    J&K's Mirpur and Muzaffarabad). Grouping by (state, district_code) pooled
+    each state's uncoded districts into a single group."""
+    return f"code:{int(code)}" if pd.notna(code) else f"name:{state}|{district}"
+
+
 def village_stats(current: gpd.GeoDataFrame) -> tuple[pd.Series, pd.Series]:
-    """SoI villages per current district (LGD code), by representative point in polygon:
+    """SoI villages per current district (district_key), by representative point in polygon:
     (village count, summed Census 2011 village population where the file carries it).
 
     The village files' own district codes mix Census 2011, LGD and older
-    numbering, so they are not used. LGD district codes are unique nationally.
+    numbering, so they are not used.
     """
-    polys = current.to_crs(4326)[["district_code", "geometry"]]
+    polys = current.to_crs(4326)[["dkey", "geometry"]]
     counts, pops = [], []
     for f in glob.glob(str(DATA_DIR / "administrative" / "villages" / "*_soi_villages.geojson")):
         cols = [c for c in ("population_2011",) if c in gpd.read_file(f, rows=1).columns]
@@ -100,12 +117,12 @@ def village_stats(current: gpd.GeoDataFrame) -> tuple[pd.Series, pd.Series]:
         pts = gpd.GeoDataFrame(v[cols], geometry=v.representative_point(), crs=4326)
         hit = gpd.sjoin(pts, polys, predicate="within")
         hit = hit[~hit.index.duplicated(keep="first")]
-        counts.append(hit.district_code)
+        counts.append(hit.dkey)
         if cols:  # NWDP files: village-level Census 2011 population
-            pops.append(hit[["district_code", "population_2011"]])
-    allv = pd.concat(counts).dropna().astype("Float64")
-    vpop = pd.concat(pops).dropna(subset=["district_code"]) if pops else pd.DataFrame(columns=["district_code", "population_2011"])
-    vpop = vpop.groupby(vpop.district_code.astype("Float64")).population_2011.sum()
+            pops.append(hit[["dkey", "population_2011"]])
+    allv = pd.concat(counts)
+    vpop = pd.concat(pops) if pops else pd.DataFrame(columns=["dkey", "population_2011"])
+    vpop = vpop.groupby("dkey").population_2011.sum()
     return allv.groupby(allv).size(), vpop
 
 
@@ -115,7 +132,10 @@ def main() -> None:
     current = gpd.read_file(DATA_DIR / "administrative" / "india_districts_lgd.geojson").to_crs(PROJ)
     current["geometry"] = current.geometry.make_valid()
     current["district_code"] = pd.to_numeric(current["district_code"], errors="coerce").astype("Int64")
-    cur = current[["state", "district", "district_code", "geometry"]]
+    current["dkey"] = [district_key(s, d, c) for s, d, c in zip(current.state, current.district, current.district_code)]
+    if current.dkey.duplicated().any():
+        raise SystemExit(f"duplicate district identities: {sorted(current.dkey[current.dkey.duplicated()])}")
+    cur = current[["state", "district", "district_code", "dkey", "geometry"]]
     print(f"parents(2011): {len(parents)} | current: {len(cur)}")
 
     inter = gpd.overlay(cur, parents, how="intersection", keep_geom_type=True)
@@ -124,7 +144,7 @@ def main() -> None:
     # drop boundary-noise slivers: pairs under 2% of BOTH the parent's and
     # the eventual child's area are source-disagreement artifacts, not real
     # splits (e.g. 5 km^2 Thane overlap inside Raigad)
-    child_area = inter.groupby(["state", "district_code"], dropna=False)["inter_area"].transform("sum")
+    child_area = inter.groupby("dkey")["inter_area"].transform("sum")
     inter["child_area_tot"] = child_area
     sliver = (inter["inter_area"] / inter["parent_area"] < 0.02) & (inter["inter_area"] / child_area < 0.02)
     if sliver.any():
@@ -139,7 +159,7 @@ def main() -> None:
     # sources disagree (WB Sundarbans). State-total scaling below restores
     # exact totals robustly instead.
     inter["area_frac_of_current"] = inter["inter_area"] / inter.groupby(
-        ["state", "district_code"], dropna=False)["inter_area"].transform("sum")  # post-sliver-drop
+        "dkey")["inter_area"].transform("sum")  # post-sliver-drop
 
     # exact census rows: one parent covers >=99.5% of the current district AND
     # that parent puts >=99.5% of itself into this current district
@@ -150,22 +170,18 @@ def main() -> None:
     exact_mask = (inter["area_frac_of_current"] >= 0.97) & (inter["parent_out_frac"] >= 0.97)
     exact = inter[exact_mask]
 
-    area_alloc = (inter.groupby(["state", "district", "district_code"], dropna=False)
+    area_alloc = (inter.groupby(["state", "district", "district_code", "dkey"], dropna=False)
                   .agg(pop_area_share=("pop_share", "sum")).reset_index())
-    exact_keys = set(zip(exact["state"], exact["district_code"].astype("Float64")))
-    area_alloc["is_exact"] = [k in exact_keys for k in
-                              zip(area_alloc.state, area_alloc.district_code.astype("Float64"))]
+    area_alloc["is_exact"] = area_alloc.dkey.isin(set(exact["dkey"]))
 
     # blend with village-count share where SoI villages exist — each
     # intersection pair gets a FRACTION of the child's villages proportional
     # to the pair's area share of the child, so boundary slivers from
     # neighbouring parents cannot claim the child's whole village count
     vcount, vpop = village_stats(current)
-    area_alloc["villages"] = area_alloc.district_code.astype("Float64").map(vcount).fillna(0)
-    inter_codes = inter[["state", "district_code", "p_key", "inter_area",
-                         "area_frac_of_current"]].copy()
-    inter_codes["district_code"] = inter_codes.district_code.astype("Float64")
-    inter_codes["v_in_pair"] = (inter_codes.district_code.map(vcount).fillna(0)
+    area_alloc["villages"] = area_alloc.dkey.map(vcount).fillna(0)
+    inter_codes = inter[["dkey", "p_key", "inter_area", "area_frac_of_current"]].copy()
+    inter_codes["v_in_pair"] = (inter_codes.dkey.map(vcount).fillna(0)
                                 * inter_codes.area_frac_of_current)
     pv = inter_codes.groupby("p_key")["v_in_pair"].sum().rename("v_parent_sum")
     inter_codes = inter_codes.merge(pv, on="p_key", how="left")
@@ -173,7 +189,7 @@ def main() -> None:
     inter_codes = inter_codes.merge(
         parents[["p_key", "p_pop"]], on="p_key", how="left")
     inter_codes["pop_vill_share"] = inter_codes["v_share_frac"] * inter_codes["p_pop"]
-    vill_alloc = (inter_codes.groupby(["state", "district_code"], dropna=False)
+    vill_alloc = (inter_codes.groupby("dkey")
                   .agg(pop_vill_share=("pop_vill_share", "sum")).reset_index())
 
     # name-matched pairs for final capping: a current district whose
@@ -186,9 +202,9 @@ def main() -> None:
                           (inter.state.str.lower() == inter.p_state.str.lower())]
     cap_map = {}
     for _, row in matched_pairs.iterrows():
-        cap_map[(row["state"], float(row["district_code"]))] = row["p_pop"]
+        cap_map[row["dkey"]] = row["p_pop"]
 
-    df = area_alloc.merge(vill_alloc, on=["state", "district_code"], how="left")
+    df = area_alloc.merge(vill_alloc, on="dkey", how="left")
     df["method"] = "area_share"
     df.loc[df.is_exact, "method"] = "census2011"
     blendable = (~df.is_exact) & df.pop_vill_share.notna() & (df.pop_vill_share > 0)
@@ -202,9 +218,7 @@ def main() -> None:
     # below redistributes whatever this trims)
     capped = 0
     for i, row in df.iterrows():
-        if pd.isna(row["district_code"]):
-            continue
-        key = (row["state"], float(row["district_code"]))
+        key = row["dkey"]
         if key in cap_map and row["pop_2011"] > cap_map[key] * 1.02:
             df.at[i, "pop_2011"] = cap_map[key] * 1.02
             capped += 1
@@ -215,8 +229,8 @@ def main() -> None:
     # states), a district's population is the sum of its villages; this also
     # replaces "exact" rows, whose area-overlap sum can differ from the census
     # figure where the 2011 and current outlines disagree (Leh)
-    has_vpop = df.district_code.astype("Float64").map(vpop).notna()
-    df.loc[has_vpop, "pop_2011"] = df.loc[has_vpop, "district_code"].astype("Float64").map(vpop).astype(float)
+    has_vpop = df.dkey.map(vpop).notna()
+    df.loc[has_vpop, "pop_2011"] = df.loc[has_vpop, "dkey"].map(vpop).astype(float)
     df.loc[has_vpop, "method"] = "village_census"
     print(f"village_census (summed village populations): {int(has_vpop.sum())} districts")
 
