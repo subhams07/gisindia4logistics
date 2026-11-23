@@ -50,15 +50,39 @@ def refresh(bundle):
     assert pm.validate_manifest(root / pm.MANIFEST_FILENAME, root, source_root=source) == []
 
 
-@pytest.fixture
-def bundle(tmp_path):
-    return build_bundle(tmp_path)
+@pytest.fixture(scope="session")
+def bundle_templates(tmp_path_factory):
+    """Each bundle variant is built once per session; tests get a private copy (they edit it)."""
+    built = {}
+
+    def template(codes):
+        if codes not in built:
+            built[codes] = build_bundle(tmp_path_factory.mktemp("oracle-template"), codes=codes)
+        return built[codes]
+    return template
+
+
+def copied_bundle(template, tmp_path):
+    import copy
+    import shutil
+    source, root, cache, provenance = template
+    paths = []
+    for original, name in ((source, "source"), (root, "artifacts"), (cache, "cache")):
+        target = tmp_path / name
+        shutil.copytree(original, target)
+        paths.append(target)
+    return (*paths, copy.deepcopy(provenance))
 
 
 @pytest.fixture
-def shared_bundle(tmp_path):
+def bundle(tmp_path, bundle_templates):
+    return copied_bundle(bundle_templates((1., 2., 3., None, 5.)), tmp_path)
+
+
+@pytest.fixture
+def shared_bundle(tmp_path, bundle_templates):
     # Rows 0 (Maharashtra) and 4 (Delhi) share code 1: a cross-state source condition.
-    return build_bundle(tmp_path, codes=[1., 2., 3., None, 1.])
+    return copied_bundle(bundle_templates((1., 2., 3., None, 1.)), tmp_path)
 
 
 def build_bundle(tmp_path, codes=(1., 2., 3., None, 5.), categories=False):

@@ -126,6 +126,59 @@ def village_stats(current: gpd.GeoDataFrame) -> tuple[pd.Series, pd.Series]:
     return allv.groupby(allv).size(), vpop
 
 
+# Current states that share one Census 2011 target: AP+Telangana, J&K+Ladakh,
+# DNH+DD (2011 had Dadra and Nagar Haveli, and Daman and Diu, separately).
+STATE_GROUPS = {"telangana": "andhra pradesh", "andhra pradesh": "andhra pradesh",
+                "dadra and nagar haveli and daman and diu": "dadra group",
+                "ladakh": "jammu and kashmir", "jammu and kashmir": "jammu and kashmir",
+                "dadra and nagar haveli": "dadra group", "daman and diu": "dadra group"}
+
+
+def group_key(state: str) -> str:
+    """The Census 2011 state group a (current or 2011) state belongs to."""
+    return STATE_GROUPS.get(state.lower(), state.lower())
+
+
+def blend_estimates(df: pd.DataFrame) -> pd.DataFrame:
+    """Method and pre-scaling estimate per current district.
+
+    census2011: exact rows keep their area-overlap population; blended: the mean
+    of the area share and the village-count share where the latter is positive;
+    area_share: everything else.
+    """
+    df = df.copy()
+    df["method"] = "area_share"
+    df.loc[df.is_exact, "method"] = "census2011"
+    blendable = (~df.is_exact) & df.pop_vill_share.notna() & (df.pop_vill_share > 0)
+    df.loc[blendable, "method"] = "blended"
+    df["pop_2011"] = df["pop_area_share"]
+    df.loc[blendable, "pop_2011"] = 0.5 * df.loc[blendable, "pop_area_share"] + \
+                                    0.5 * df.loc[blendable, "pop_vill_share"]
+    df.loc[df.is_exact, "pop_2011"] = df.loc[df.is_exact, "pop_area_share"]
+    return df
+
+
+def scale_to_state_totals(df: pd.DataFrame, census_state_totals: pd.Series) -> pd.DataFrame:
+    """Scale each state group JOINTLY to its Census 2011 total (AP+TG share one
+    target, so do J&K+Ladakh and DNH+DD; per-state scaling would double-count).
+    `census_state_totals` is indexed by lower-case 2011 state name; groups with
+    no target or no population are left unscaled."""
+    totals = census_state_totals.copy()
+    totals.index = totals.index.map(group_key)
+    totals = totals.groupby(level=0).sum()
+    df = df.copy()
+    df["group"] = df.state.map(group_key)
+    scaled = []
+    for g, grp in df.groupby("group"):
+        tot = grp.pop_2011.sum()
+        tgt = totals.get(g)
+        if tot > 0 and tgt:
+            grp = grp.copy()
+            grp["pop_2011"] = grp.pop_2011 * tgt / tot
+        scaled.append(grp)
+    return pd.concat(scaled, ignore_index=True)
+
+
 def main() -> None:
     argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     parents = load_parents()
@@ -204,15 +257,7 @@ def main() -> None:
     for _, row in matched_pairs.iterrows():
         cap_map[row["dkey"]] = row["p_pop"]
 
-    df = area_alloc.merge(vill_alloc, on="dkey", how="left")
-    df["method"] = "area_share"
-    df.loc[df.is_exact, "method"] = "census2011"
-    blendable = (~df.is_exact) & df.pop_vill_share.notna() & (df.pop_vill_share > 0)
-    df.loc[blendable, "method"] = "blended"
-    df["pop_2011"] = df["pop_area_share"]
-    df.loc[blendable, "pop_2011"] = 0.5 * df.loc[blendable, "pop_area_share"] + \
-                                    0.5 * df.loc[blendable, "pop_vill_share"]
-    df.loc[df.is_exact, "pop_2011"] = df.loc[df.is_exact, "pop_area_share"]
+    df = blend_estimates(area_alloc.merge(vill_alloc, on="dkey", how="left"))
 
     # final cap at parent census population +2% headroom (state-total scaling
     # below redistributes whatever this trims)
@@ -248,38 +293,8 @@ def main() -> None:
     print(outliers[["state", "district", "pop_2011", "method"]].to_string(index=False))
 
     # scale each state group so its total equals the 2011 census state total
-    # (current-state groups map back to 2011 states: AP+TG combined, DNH+DD)
     census = pd.read_csv(DATA_DIR / "demographic" / "census2011_district_key_indicators.csv")
-    group_of = {"telangana": "andhra pradesh", "andhra pradesh": "andhra pradesh",
-                "dadra and nagar haveli and daman and diu": "dadra group",
-                "ladakh": "jammu and kashmir", "jammu and kashmir": "jammu and kashmir"}
-    g11 = {"dadra and nagar haveli": "dadra group", "daman and diu": "dadra group"}
-    state_2011_tot = census.groupby(census.state.str.lower())["Population"].sum()
-    def group_key(s):
-        sl = s.lower()
-        if sl in group_of: return group_of[sl]
-        if sl in g11: return g11[sl]
-        return sl
-    target = {}
-    for s in df.state.unique():
-        gk = group_key(s)
-        target[s] = state_2011_tot.get(gk)
-    # scale JOINTLY per group (AP+TG share one 2011 target; so do J&K+Ladakh,
-    # DNH+DD) — per-state scaling would double-count combined targets
-    df["group"] = df.state.map(lambda s: group_key(s))
-    group_target = {}
-    for g in df.group.unique():
-        if g in state_2011_tot.index:
-            group_target[g] = state_2011_tot[g]
-    scaled = []
-    for g, grp in df.groupby("group"):
-        tot = grp.pop_2011.sum()
-        tgt = group_target.get(g)
-        if tot > 0 and tgt:
-            grp = grp.copy()
-            grp["pop_2011"] = grp.pop_2011 * tgt / tot
-        scaled.append(grp)
-    df = pd.concat(scaled, ignore_index=True)
+    df = scale_to_state_totals(df, census.groupby(census.state.str.lower())["Population"].sum())
 
     out = df[["state", "district", "district_code", "pop_2011", "method",
               "villages"]].sort_values(["state", "district"])
