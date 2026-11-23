@@ -626,6 +626,22 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     - `audit_all.py --update-baseline` after any change of row counts; the
       baseline now covers 142 series.
 
+### Phase R: batch F — hub codes, precision, tests, audit archive (2026-11-23)
+53. Decision items 30, 31, 34, 35, 46, 52 (Stage 4 run `linux-2026-11-23-run7`);
+    the audit findings and proposals now live in `docs/review/` with a
+    resolution table. Rules:
+    - `hub_code` is repository-assigned and never renumbered; add new rows
+      with `scripts/clean/add_hub_codes_precision.py` (it gives them the next
+      number). Alias-registry codes are external codes (UN/LOCODE) and are
+      compared only with external code columns, never with `hub_code`.
+    - `coord_precision` only from evidence; a point shared with another
+      file is a copy (`city`), but the port or airport that owns it is not
+      downgraded.
+    - UNECE (UN/LOCODE list) and Overpass are not reachable from the cloud
+      session; Nominatim is (1.2 s between requests).
+    - Extracting inline logic into tested helpers is how the DNH&DD scaling
+      bug surfaced; prefer that over testing only the committed output.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

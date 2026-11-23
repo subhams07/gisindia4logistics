@@ -21,7 +21,7 @@
       ],
       "path": "district_freight_modal_split.csv",
       "rows": 780,
-      "sha256": "4a6e123ecabf3182412a20e7271a01938316475ce4dce7f1f733a5b0de52902d",
+      "sha256": "5043c8b727ddb72f8a5cd6fbfdb31b07bfb8a31ec9b8a7445047eb6e36e8a97c",
       "type": "csv"
     },
     "district_port_hinterland_catchment.csv": {
@@ -43,21 +43,21 @@
       ],
       "path": "district_port_hinterland_catchment.csv",
       "rows": 780,
-      "sha256": "f61a390f653061968e99b7dc7744766f4bd22c397e2d5cb60c66fc9498a55006",
+      "sha256": "319f3fda7a2bb1dba460dba40eeae303a3cedb7ff57295f92727badab35563b2",
       "type": "csv"
     },
     "major_ports_isochrones.geojson": {
-      "bytes": 99987,
+      "bytes": 103563,
       "features": 48,
       "path": "major_ports_isochrones.geojson",
-      "sha256": "2340e3fe885b323b9cf5a1b713b70a65693eba22810ceb87d74edb1124ba32a5",
+      "sha256": "0c7c8b59498682a5c0f39261164c073dd0231b841d094ca5759fe72042096088",
       "type": "geojson"
     },
     "mmlp_isochrones.geojson": {
-      "bytes": 125544,
+      "bytes": 128694,
       "features": 60,
       "path": "mmlp_isochrones.geojson",
-      "sha256": "d5e4286b2319b23a3ccfe12127acd948c179bf3e2a2b5dd176abd166c89b43d6",
+      "sha256": "901c6cdf4fbb6b66d12735819a8ad9ecbb2bd9975d9d27ed788528f1a501ae62",
       "type": "geojson"
     },
     "nh_district_port_matrix.csv": {
@@ -154,7 +154,7 @@
       ],
       "path": "nh_district_travel_time_summary.csv",
       "rows": 780,
-      "sha256": "3d193726bd374ae07fbdd2cc48effc081f03c81c3d49d2a7e0b18829aa5ede00",
+      "sha256": "f079852919ae8bcae43a477bcf5279c9b350151c4b063d0e5db8a7e1f7fd8b56",
       "type": "csv"
     },
     "nh_district_travel_time_summary.parquet": {
@@ -215,7 +215,7 @@
       ],
       "path": "nh_district_travel_time_summary.parquet",
       "rows": 780,
-      "sha256": "4d258176a922759abb4e2460cfc916fd9d24a2bbc5fa78b5b0b622a6bedbd8f7",
+      "sha256": "af0f23fe6fe18e1d37ff1ac8857b18d5c27f3dd9ebb207910326b6660465dbae",
       "type": "parquet"
     }
   },
@@ -240,12 +240,12 @@
     "server/dependencies.py": "486022fd7ef382a313c9539c1c0be00ad2d0d773b979ceb7f9583bbf4bc2e9d5",
     "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
     "server/models/phase1.py": "1dbe4e46718a8422fdcce25bf188adc4751190042a8986385dba45f3e29dd59a",
-    "server/models/schemas.py": "70cc218daa33dbec1528f42bb81a78a55e1f80c54aad80083e1137f1cc2cfa68",
+    "server/models/schemas.py": "9acaabccc79a66452ce3103cb5adb6385ef47bc5689d851e3c490ee18b586562",
     "server/services/__init__.py": "98f669904aeefbb80e1b5c0903ed6d31394364de8a3ed61ce548a12fc637a99d",
     "server/services/error_contract.py": "bdfa20bc633f1d78528d04a93c2f70eaf3bd76119aa7ddef949f273ae973fc9e",
     "server/services/exceptions.py": "cb481fdcb78a538f78847ac56a19f99e8b48175165cd69e791be95337d088f3a",
     "server/services/graph_snapshot.py": "4df091070be3cb9bf931f2e187e4d9057d7cd6e5d5a2902612840abff1aa45c3",
-    "server/services/location_resolver.py": "d56c7f44c94be392eb7e32c778bddb7d39f579c6110fddbf304b3a482dbf7b85",
+    "server/services/location_resolver.py": "4609753311ada5ec7dd095e20423a42bfb3275f3e5f5ae698dc93d4a076c7d51",
     "server/services/metadata_service.py": "446f3725fbcc958f8e525effaaffca13e613ffd8348bb68bb0b62f721bfd499c",
     "server/services/routing_facade.py": "d71678fcc344447e0a79b4859d98d2d071c50ea0b9bee5089d51b102338a6c28",
     "server/services/routing_service.py": "18ec6b1d4c0a2832d51e77ea8d433bc416bce1d8ab7441561082fb56f7b7190b",
@@ -348,27 +348,27 @@
     },
     "demographic/district_population_estimates.csv": {
       "bytes": 37282,
-      "sha256": "4b0c0d917f9c6f41e7dd6655b0dc76c953ae17e0bf5876e815f24a97ee25ceed"
+      "sha256": "d4e0df35656982f888209cd40d547247f91f1275986ebf4adfc91d533daf6243"
     },
     "logistics_hubs/air_cargo.csv": {
-      "bytes": 6021,
-      "sha256": "2a95aa80ecec7e3af0241b1fca2dff8083562be68b37bbcb005bf1416239af51"
+      "bytes": 6395,
+      "sha256": "3721e13429f9b5e7dd10d973d439deb0992264eb222589ad8d9a40c2d6da57a3"
     },
     "logistics_hubs/icds.csv": {
-      "bytes": 8148,
-      "sha256": "229a2bd709561e497efa7e8d8ab15e5759f328e2d9ccd2049a4eff8585634de4"
+      "bytes": 8871,
+      "sha256": "c67724365531182c0371cfab3f6c30eca8ba23568b0901f6188ae9928776f925"
     },
     "logistics_hubs/icps.csv": {
-      "bytes": 5058,
-      "sha256": "ac40f0872b09d7d3248cce40e07d941cd01dd93cbc98884ed2bbedf9c2171973"
+      "bytes": 5399,
+      "sha256": "aa3c7818a366c8ffd05464e16f989fd9cf2ad7c6239069569d767135cfffa1f5"
     },
     "logistics_hubs/mmlps.csv": {
-      "bytes": 5260,
-      "sha256": "f9925ff2a30158b8284e33c4b02c331cdd70c5fa9eb4adf4a89bc626ebec2dcb"
+      "bytes": 5595,
+      "sha256": "6fccff93413bef0c2a7b23c9a7c58c75b7361e8e6c1b513e0572118e8c0e849a"
     },
     "logistics_hubs/ports.csv": {
-      "bytes": 4713,
-      "sha256": "35eaa08a7214c432f4a08d807318f68fb594d98d3eaae1ffcadea6b1800bb3df"
+      "bytes": 5205,
+      "sha256": "0eec19cc7dc7cc44e7284bc1673b1478bc4a68e313e5a3993903beee997d55fc"
     },
     "rail/freight_terminals.csv": {
       "bytes": 17678,
@@ -397,10 +397,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 1103.571014954,
-    "peak_memory_bytes": 641548288
+    "elapsed_seconds": 1096.702073726,
+    "peak_memory_bytes": 635432960
   },
-  "run_id": "linux-2026-11-23-run6",
+  "run_id": "linux-2026-11-23-run7",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

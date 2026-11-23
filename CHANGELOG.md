@@ -4,6 +4,26 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Changed — batch F: hub codes and coordinate precision, test tidying, audit archive (Stage 4 run `linux-2026-11-23-run7`)
+
+- **Hub identifiers (#52).** The 7 transport hub files gain `hub_code`, a stable ID assigned by the repository (`PRT-001`, `ICD-017`, …; not an official code).
+  - `ports.csv` gains `unlocode` for the 12 major ports. The 10 non-major ports are blank until checked against the UNECE list.
+  - Locations resolve by `hub_code` or UN/LOCODE (e.g. `{"hub_type": "port", "code": "INNSA"}`).
+  - `location_aliases.yaml`: Haldia now carries INCCU (one row covers Kolkata and Haldia), and Mumbai Port/Bombay Port aliases are added.
+- **Coordinate precision (#46).** `coord_precision` says what each point is, and is set from evidence only (`scripts/clean/add_hub_codes_precision.py`):
+  - `site`: 7 ports and 21 airports, each confirmed against an OSM port/harbour or aerodrome feature within 3 km (`docs/review/hub_site_check.csv`).
+  - `station` / `village` / `town`: the OSM node a row was re-located to.
+  - `city`: an approximate point. That covers 76 of 77 FCI depots, 23 of 44 ICDs, and 15 of 20 MMLPs, which share a city-centre point with another hub.
+  - `unverified` otherwise, and `pending` where coordinates are missing.
+  - The catalog names the 15 MMLP isochrones that start from a city point.
+- **Population: DNH&DD was never scaled.** The Census table already uses the merged UT name, which never matched the state-group label, so Dadra and Nagar Haveli and Daman and Diu stayed at 575,790 instead of its 2011 total of 586,956. The national total now matches Census 2011 to rounding (1,210,854,974 vs 1,210,854,977). Found while extracting the blend and scaling steps into tested functions.
+- **Tests.**
+  - The oracle bundles are built once per session (73 s → 35 s for that file).
+  - The audit-batch tests import scripts as a package, with no `sys.path` edits.
+  - The population helpers have unit tests.
+  - The proposed trimming of duplicate tests was reviewed and not done, because each test guards a different layer.
+- **Audit archive.** `docs/review/` now holds the November 2026 audit findings and decision proposals, with a resolution table for all 61 items.
+
 ### Fixed — population allocation keys; empty hub columns; audit baseline (Stage 4 run `linux-2026-11-23-run6`)
 
 - **Population estimates: two pooling bugs in `allocate_population.py`.** State totals are unchanged.

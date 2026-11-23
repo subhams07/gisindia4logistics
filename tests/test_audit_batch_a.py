@@ -1,6 +1,5 @@
 """Checks for the 2026-11 audit batch A changes (data invariants and pure helpers)."""
 import pathlib
-import sys
 
 import geopandas as gpd
 import numpy as np
@@ -14,11 +13,10 @@ needs_data = pytest.mark.skipif(not (DATA / "administrative" / "india_states_lgd
 
 
 def _script(sub, name):
+    """Import a script as part of the scripts namespace package, like the other tests,
+    instead of adding its folder to sys.path for the rest of the session."""
     import importlib
-    path = str(ROOT / "scripts" / sub)
-    if path not in sys.path:
-        sys.path.insert(0, path)
-    return importlib.import_module(name)
+    return importlib.import_module(f"scripts.{sub}.{name}")
 
 
 @pytest.fixture

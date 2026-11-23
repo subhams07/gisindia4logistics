@@ -198,7 +198,7 @@ class LocationResolver:
         key = keys.get(hub_type)
         hubs = getattr(store, "hubs_dict", None)
         df = hubs.get(key) if isinstance(hubs, dict) else None
-        return df, "name", ["code", "unlocode", "station_code"], f"{key}.csv"
+        return df, "name", ["hub_code", "unlocode", "code", "station_code"], f"{key}.csv"
 
     def _check_alias_type(self, entry, query, hub_type):
         if entry.get("type") and entry["type"] != hub_type:
@@ -212,6 +212,10 @@ class LocationResolver:
         df, name_col, code_cols, source = self._hub_frame(loc.hub_type, store)
         if not isinstance(df, pd.DataFrame) or name_col not in df.columns:
             raise DataIntegrityError("Logistics hub identity source is unavailable or invalid")
+        # Registry (alias) codes are external codes such as UN/LOCODEs, never the
+        # repository's own hub_code, so "does this row carry a registry code" looks
+        # only at the external columns; hub_code still matches a literal request.
+        registry_cols = [col for col in code_cols if col != "hub_code"]
         if df.empty:
             raise LocationNotFoundError("Logistics hub identity not found", location_query=loc.model_dump())
         alias = self._aliases.get(name)
@@ -241,7 +245,7 @@ class LocationResolver:
                     mask |= df[col].map(_text) == code
             # Registry codes identify canonical rows where no source code exists.
             uncoded = pd.Series(True, index=df.index)
-            for col in code_cols:
+            for col in registry_cols:
                 if col in df:
                     uncoded &= df[col].map(_text) == ""
             for entry in code_aliases:
@@ -255,7 +259,7 @@ class LocationResolver:
             if alias and alias.get("code"):
                 # Alias name AND its coded identity must agree, where source codes exist.
                 alias_code = _text(alias["code"])
-                available = [col for col in code_cols if col in matches]
+                available = [col for col in registry_cols if col in matches]
                 if available:
                     coded = pd.Series(False, index=matches.index)
                     uncoded = pd.Series(True, index=matches.index)

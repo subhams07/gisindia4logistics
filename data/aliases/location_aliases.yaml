@@ -1,6 +1,9 @@
 # data/aliases/location_aliases.yaml
-# Explicit alias registry for GISIndia4Logistics Decision Workbench location resolution.
-# Maps common acronyms, commercial names, and historical terms to canonical hub entities.
+# Alias registry for GISIndia4Logistics location resolution (server/services/location_resolver.py).
+# Maps common acronyms, commercial names and historical terms to canonical hub rows.
+# Port codes are UN/LOCODEs: for the 12 major ports they match the `unlocode` column of
+# logistics_hubs/ports.csv; the non-major ports' codes are not yet checked against the
+# UNECE list, and match by canonical name (those rows have no unlocode).
 
 # --- Major & Commercial Ports ---
 JNPT:
@@ -47,6 +50,16 @@ Dahej:
   type: port
   canonical_name: "Dahej Port"
   code: "INDAH"
+
+Mumbai Port:
+  type: port
+  canonical_name: "Mumbai Port"
+  code: "INBOM"
+
+Bombay Port:
+  type: port
+  canonical_name: "Mumbai Port"
+  code: "INBOM"
 
 Mormugao:
   type: port
@@ -156,7 +169,7 @@ Kolkata Port:
 Haldia:
   type: port
   canonical_name: "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex"
-  code: "INHAL"
+  code: "INCCU"  # one ports.csv row covers Kolkata and Haldia
 
 Syama Prasad Mookerjee:
   type: port
