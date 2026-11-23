@@ -82,10 +82,20 @@ The point files come in two families:
 
 - **Transport hubs** (`data/logistics_hubs/` ports, icps, icds, air_cargo,
   mmlps, inland_waterway_terminals, fci_depots): exactly
-  `name, hub_type, state, city, latitude, longitude, operator, capacity_notes, source_url`.
-  The audit enforces this column list. `hub_type` takes the values listed
-  under "Hub types". Precision and status notes go in `capacity_notes`;
-  a row without coordinates says "coordinate pending" there.
+  `hub_code, name, hub_type, state, city, latitude, longitude, coord_precision, operator, capacity_notes, source_url`,
+  with `unlocode` after `hub_code` in ports.csv. The audit enforces these
+  column lists. `hub_type` takes the values listed under "Hub types". A row
+  without coordinates says "coordinate pending" in `capacity_notes`.
+  - `hub_code` is assigned by the repository (`PRT`, `ICP`, `ICD`, `AIR`,
+    `MMLP`, `IWT`, `FCI` + three digits), never reused or renumbered; it is
+    not an official code. `unlocode` holds the UN/LOCODE of the 12 major
+    ports only (the others are not yet checked against the UNECE list).
+  - `coord_precision` says what the point is: `site` (confirmed against an
+    OSM port/harbour or aerodrome feature within 3 km;
+    `docs/review/hub_site_check.csv`), `station`, `village` or `town` (the
+    OSM node the row was re-located to), `city` (approximate: a city centre,
+    or another facility's point), `unverified`, or `pending` (no
+    coordinates). Set by `scripts/clean/add_hub_codes_precision.py`.
 - **Economic and agri nodes** (industrial_nodes, pm_mitra_parks,
   cold_chain_storages, enam_mandis): `name, state, district, city, latitude,
   longitude, ..., source_url`, with type-specific columns in between

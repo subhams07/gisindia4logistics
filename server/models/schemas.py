@@ -67,12 +67,15 @@ class VillageItem(BaseModel):
 
 # --- Hub Schemas ---
 class HubItem(BaseModel):
+    hub_code: Optional[str] = Field(None, description="Repository-assigned stable hub identifier, e.g. 'ICD-003' (not an official code)")
+    unlocode: Optional[str] = Field(None, description="UN/LOCODE (major ports only)")
     name: str
     hub_type: str
     state: str
     city: str
     latitude: float
     longitude: float
+    coord_precision: Optional[str] = Field(None, description="What the point represents: site, station, village, town, city (approximate) or unverified")
     operator: Optional[str] = None
     capacity_notes: Optional[str] = None
     source_url: Optional[str] = None

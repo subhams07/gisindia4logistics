@@ -314,7 +314,7 @@ datasets:
   path: data/analysis/*_isochrones.geojson
   fetch_script: scripts/analyze/stage4_generate.py
   quality_status: verified
-  quality_notes: "48 port + 60 MMLP isochrone polygons, all status ok, valid geometries. Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km (modelling policy; per-feature snap_feeder_km and snap_component_node_count recorded). Thresholds changed from 1/2/4/8h in the 2026-08 vintage."
+  quality_notes: "48 port + 60 MMLP isochrone polygons, all status ok, valid geometries. Hubs snap to the nearest highway component of at least 1,000 nodes within 150 km (modelling policy; per-feature snap_feeder_km and snap_component_node_count recorded). Thresholds changed from 1/2/4/8h in the 2026-08 vintage. 15 of the 20 MMLP points are city-level (coord_precision = city in mmlps.csv: Indore, Jogighopa, Varanasi, Nashik, Patna, Hyderabad, Pune, Visakhapatnam, Silchar, Vijayawada, Surat, Kolkata, Coimbatore, Jammu, Sangrur), so their isochrones start from a city point, not the park site."
 - name: Railway stations
   category: rail
   description: ~8,700 stations with code, zone (partial), state, coordinates

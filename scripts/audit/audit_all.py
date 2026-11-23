@@ -539,12 +539,26 @@ def audit_hubs(source_root=DATA_DIR):
                 "icds.csv": (30, {"icd", "cfs"}), "air_cargo.csv": (15, {"air_cargo"}),
                 "mmlps.csv": (15, {"mmlp"}), "inland_waterway_terminals.csv": (30, {"iw_terminal"}),
                 "fci_depots.csv": (40, {"foodgodown"})}
-    cols = ["name", "hub_type", "state", "city", "latitude", "longitude",
-            "operator", "capacity_notes", "source_url"]
+    cols = ["hub_code", "name", "hub_type", "state", "city", "latitude", "longitude",
+            "coord_precision", "operator", "capacity_notes", "source_url"]
+    prefixes = {"ports.csv": "PRT", "icps.csv": "ICP", "icds.csv": "ICD", "air_cargo.csv": "AIR",
+                "mmlps.csv": "MMLP", "inland_waterway_terminals.csv": "IWT", "fci_depots.csv": "FCI"}
+    precision_values = {"site", "station", "village", "town", "city", "unverified", "pending"}
     for f, (min_rows, allowed_types) in expected.items():
         p = source_root / "logistics_hubs" / f
         df = pd.read_csv(p)
-        check("hubs", f"{f}: schema", "FAIL", list(df.columns) == cols)
+        expected_cols = cols[:1] + ["unlocode"] + cols[1:] if f == "ports.csv" else cols
+        check("hubs", f"{f}: schema", "FAIL", list(df.columns) == expected_cols)
+        if "hub_code" in df.columns:
+            codes = df.hub_code.astype("string")
+            check("hubs", f"{f}: hub_code unique, {prefixes[f]}-NNN", "FAIL",
+                  bool(codes.str.fullmatch(rf"{prefixes[f]}-\d{{3}}").fillna(False).all()) and codes.is_unique)
+        if "coord_precision" in df.columns:
+            no_xy = df.latitude.isna() | df.longitude.isna()
+            values = set(df.coord_precision.dropna().astype(str))
+            check("hubs", f"{f}: coord_precision values; pending exactly where coordinates are missing", "FAIL",
+                  values <= precision_values and bool(((df.coord_precision == "pending") == no_xy).all()),
+                  f"values {sorted(values - precision_values)}" if values - precision_values else "")
         if "hub_type" in df.columns:
             unexpected = sorted(set(df.hub_type.dropna().astype(str)) - allowed_types)
             check("hubs", f"{f}: hub_type values", "FAIL",
