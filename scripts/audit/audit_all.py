@@ -494,7 +494,7 @@ def audit_rail(source_root=DATA_DIR):
     st_in = st[~is_intl]
     check("rail_stations", "international stations DSN + DHCA present with blank state", "FAIL",
           set(st[is_intl].station_code) == international
-          and bool(st[is_intl].state.isna().all() or (st[is_intl].state.astype(str).str.strip() == "").all()),
+          and bool(st[is_intl].state.fillna("").astype(str).str.strip().eq("").all()),
           f"{int(is_intl.sum())} found")
     check("rail_stations", "coords in India bbox (international stations excluded)", "FAIL",
           bool(st_in.longitude.between(68, 97.5).all() and st_in.latitude.between(6, 37.5).all()))
@@ -705,18 +705,21 @@ def audit_roads(source_root=DATA_DIR, *, fast=False):
                   "district_code", "latitude", "longitude", "booth_count", "source_url"]
         check("toll_plazas", "schema", "FAIL", list(tp.columns) == t_cols)
         check("toll_plazas", ">= 1,500 rows", "FAIL", len(tp) >= 1500, f"{len(tp)}")
-        tid = tp.toll_id.astype("string")
-        check("toll_plazas", "toll_id unique, TPL-NNNN", "FAIL",
-              bool(tid.str.fullmatch(r"TPL-\d{4}").fillna(False).all()) and tid.is_unique)
-        osm = pd.to_numeric(tp.osm_node_id, errors="coerce")
-        check("toll_plazas", "osm_node_id unique and positive", "FAIL",
-              bool(osm.notna().all() and (osm > 0).all() and osm.is_unique))
-        osm_ok = osm.notna()
-        expect_url = pd.Series("", index=tp.index, dtype="string")
-        expect_url[osm_ok] = osm[osm_ok].astype("int64").astype(str)
-        url_ok = tp.source_url.astype("string").str.extract(r"^https://www\.openstreetmap\.org/(?:node|way)/(\d+)$")[0]
-        check("toll_plazas", "source_url = https://www.openstreetmap.org/(node|way)/<osm_node_id>", "FAIL",
-              bool((url_ok == expect_url).fillna(False).all()))
+        if "toll_id" in tp.columns:
+            tid = tp.toll_id.astype("string")
+            check("toll_plazas", "toll_id unique, TPL-NNNN", "FAIL",
+                  bool(tid.str.fullmatch(r"TPL-\d{4}").fillna(False).all()) and tid.is_unique)
+        if "osm_node_id" in tp.columns:
+            osm = pd.to_numeric(tp.osm_node_id, errors="coerce")
+            check("toll_plazas", "osm_node_id unique and positive", "FAIL",
+                  bool(osm.notna().all() and (osm > 0).all() and osm.is_unique))
+            if "source_url" in tp.columns:
+                osm_ok = osm.notna()
+                expect_url = pd.Series("", index=tp.index, dtype="string")
+                expect_url[osm_ok] = osm[osm_ok].astype("int64").astype(str)
+                url_ok = tp.source_url.astype("string").str.extract(r"^https://www\.openstreetmap\.org/(?:node|way)/(\d+)$")[0]
+                check("toll_plazas", "source_url = https://www.openstreetmap.org/(node|way)/<osm_node_id>", "FAIL",
+                      bool((url_ok == expect_url).fillna(False).all()))
         check("toll_plazas", "coords in India bbox", "FAIL",
               bool(tp.longitude.between(68, 97.5).all() and tp.latitude.between(6, 37.5).all()))
 

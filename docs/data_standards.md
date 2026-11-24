@@ -113,8 +113,9 @@ and verified inside their own state polygon.
 Clustered OSM toll plazas (`data/roads/toll_plazas.csv` and `.parquet`) follow
 a 12-column schema: `toll_id, osm_node_id, name, toll_type, nh_number, state,
 district, district_code, latitude, longitude, booth_count, source_url`.
-- `toll_id` is a deterministic repository ID (`TPL-0001`..`TPL-NNNN`), unique
-  across the table.
+- `toll_id` is a repository ID (`TPL-0001`..`TPL-NNNN`), unique across the table
+  and preserved across Overpass refreshes by `osm_node_id` (newly mapped plazas
+  take the next free code rather than renumbering existing rows).
 - `osm_node_id` is the unique, positive representative OpenStreetMap element ID
   for the cluster (preferring `node` over `way`, closest to the EPSG:7755
   cluster centroid, tie-breaking on lowest ID).

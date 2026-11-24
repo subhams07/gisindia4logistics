@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -88,8 +89,40 @@ def _select_representative_element(grp: pd.DataFrame) -> pd.Series:
     return ranked.iloc[0]
 
 
-def _finalize_plazas_frame(plazas_df: pd.DataFrame) -> pd.DataFrame:
-    """Apply deterministic ordering, ``toll_id`` assignment, dtypes, and canonical column order."""
+_TOLL_ID_RE = re.compile(r"^TPL-(\d{4,})$")
+
+
+def _load_existing_toll_ids(existing_csv: Path | None) -> dict[int, str]:
+    """Read existing ``osm_node_id -> toll_id`` assignments so refreshes preserve IDs."""
+    if existing_csv is None or not existing_csv.exists():
+        return {}
+    existing = pd.read_csv(existing_csv, dtype=str, keep_default_na=False)
+    if not {"osm_node_id", "toll_id"} <= set(existing.columns):
+        return {}
+    mapping: dict[int, str] = {}
+    for osm_raw, tid_raw in zip(existing["osm_node_id"], existing["toll_id"]):
+        tid = tid_raw.strip()
+        if not _TOLL_ID_RE.match(tid):
+            continue
+        try:
+            osm_id = int(osm_raw)
+        except (TypeError, ValueError):
+            continue
+        if osm_id > 0 and osm_id not in mapping:
+            mapping[osm_id] = tid
+    return mapping
+
+
+def _finalize_plazas_frame(
+    plazas_df: pd.DataFrame,
+    existing_ids: dict[int, str] | None = None,
+) -> pd.DataFrame:
+    """Apply deterministic ordering, stable ``toll_id`` assignment, dtypes, and canonical column order.
+
+    When ``existing_ids`` (``osm_node_id -> toll_id``) is supplied, existing plazas retain
+    their previously issued ``toll_id`` and newly mapped plazas receive the next free
+    ``TPL-NNNN`` code rather than shifting existing identifiers.
+    """
     df = plazas_df.copy()
     df["osm_node_id"] = pd.to_numeric(df["osm_node_id"], errors="raise").astype("int64")
     df["booth_count"] = pd.to_numeric(df["booth_count"], errors="raise").astype("int64")
@@ -101,11 +134,37 @@ def _finalize_plazas_frame(plazas_df: pd.DataFrame) -> pd.DataFrame:
         ["state", "district", "name", "latitude", "longitude", "osm_node_id"],
         kind="stable",
     ).reset_index(drop=True)
-    df["toll_id"] = [f"TPL-{idx:04d}" for idx in range(1, len(df) + 1)]
+
+    if existing_ids:
+        valid_existing = {
+            int(k): v for k, v in existing_ids.items() if isinstance(v, str) and _TOLL_ID_RE.match(v)
+        }
+        next_num = max(
+            (int(_TOLL_ID_RE.match(tid).group(1)) for tid in valid_existing.values()),
+            default=0,
+        ) + 1
+        used: set[str] = set()
+        assigned: list[str] = []
+        for osm_id in df["osm_node_id"].tolist():
+            prev = valid_existing.get(int(osm_id))
+            if prev is not None and prev not in used:
+                assigned.append(prev)
+                used.add(prev)
+            else:
+                tid = f"TPL-{next_num:04d}"
+                next_num += 1
+                assigned.append(tid)
+                used.add(tid)
+        df["toll_id"] = assigned
+    else:
+        df["toll_id"] = [f"TPL-{idx:04d}" for idx in range(1, len(df) + 1)]
     return df[OUTPUT_COLUMNS]
 
 
-def build_plazas_from_elements(raw_elements: list[dict]) -> pd.DataFrame:
+def build_plazas_from_elements(
+    raw_elements: list[dict],
+    existing_ids: dict[int, str] | None = None,
+) -> pd.DataFrame:
     """Cluster raw Overpass toll-booth elements, join LGD districts, and snap to NH routes."""
     pts = []
     for e in raw_elements:
@@ -226,10 +285,13 @@ def build_plazas_from_elements(raw_elements: list[dict]) -> pd.DataFrame:
             elif row["nh_dist_m"] < 1000:
                 plazas_df.at[idx, "toll_type"] = "national_highway"
 
-    return _finalize_plazas_frame(plazas_df)
+    return _finalize_plazas_frame(plazas_df, existing_ids=existing_ids)
 
 
-def load_plazas_from_cache(cache_path: Path) -> pd.DataFrame:
+def load_plazas_from_cache(
+    cache_path: Path,
+    existing_ids: dict[int, str] | None = None,
+) -> pd.DataFrame:
     """Rebuild toll plazas deterministically from a saved Overpass cache JSON.
 
     Supports both raw Overpass snapshots (``{"elements": [...]}`` or a JSON list
@@ -243,16 +305,16 @@ def load_plazas_from_cache(cache_path: Path) -> pd.DataFrame:
         missing = sorted(required - set(df.columns))
         if missing:
             raise ValueError(f"Cache records missing required columns: {missing}")
-        return _finalize_plazas_frame(df)
+        return _finalize_plazas_frame(df, existing_ids=existing_ids)
 
     if isinstance(payload, dict) and isinstance(payload.get("elements"), list):
         elements = payload["elements"]
         print(f"Loaded {len(elements)} raw Overpass elements from cache {cache_path}")
-        return build_plazas_from_elements(elements)
+        return build_plazas_from_elements(elements, existing_ids=existing_ids)
 
     if isinstance(payload, list):
         print(f"Loaded {len(payload)} raw Overpass elements from cache {cache_path}")
-        return build_plazas_from_elements(payload)
+        return build_plazas_from_elements(payload, existing_ids=existing_ids)
 
     raise ValueError(
         f"Unsupported cache format in {cache_path}: expected JSON with 'elements' or 'records' list."
@@ -278,19 +340,21 @@ def main(argv: list[str] | None = None) -> None:
     )
     args = parser.parse_args(argv)
 
+    out_csv = args.output
+    existing_ids = _load_existing_toll_ids(out_csv)
+
     if args.from_cache is not None:
         if not args.from_cache.exists():
             print(f"ERROR: Cache file not found: {args.from_cache}")
             sys.exit(1)
-        plazas_df = load_plazas_from_cache(args.from_cache)
+        plazas_df = load_plazas_from_cache(args.from_cache, existing_ids=existing_ids)
     else:
         raw_elements = fetch_raw_toll_booths()
         if not raw_elements:
             print("ERROR: No toll booth elements returned.")
             sys.exit(1)
-        plazas_df = build_plazas_from_elements(raw_elements)
+        plazas_df = build_plazas_from_elements(raw_elements, existing_ids=existing_ids)
 
-    out_csv = args.output
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     plazas_df.to_csv(out_csv, index=False, lineterminator="\n")
     print(f"\nWrote {len(plazas_df)} clustered Toll Plazas -> {out_csv}")

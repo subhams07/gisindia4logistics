@@ -79,6 +79,65 @@ def canonical_state(value, canon: dict) -> str:
     return text
 
 
+HARD_REVIEW_REASONS = (
+    "outside every state polygon",
+    "shares coordinates with another station",
+)
+
+
+def filter_unresolved_station_reviews(
+    live_review: list[dict],
+    resolved_df: pd.DataFrame,
+    cat_resolved_df: pd.DataFrame,
+) -> list[dict]:
+    """Keep live review rows that represent unresolved issues or regressions.
+
+    Hard defects (outside every state polygon, shared coordinates) are never
+    suppressed for non-international stations even if the code was previously
+    reviewed. A source-vs-polygon disagreement is suppressed only when the code
+    already has a recorded resolution.
+    """
+    resolved_codes = set(resolved_df["station_code"]) if len(resolved_df) else set()
+    cat_coords_fixed = (
+        set(cat_resolved_df.loc[cat_resolved_df["resolution"] == "coords_fixed", "station_code"])
+        if len(cat_resolved_df)
+        else set()
+    )
+    suppressed_disagreements = resolved_codes | cat_coords_fixed
+    unresolved: list[dict] = []
+    for row in live_review:
+        reason = str(row.get("reason", ""))
+        if any(hard in reason for hard in HARD_REVIEW_REASONS):
+            unresolved.append(row)
+            continue
+        if row["station_code"] not in suppressed_disagreements:
+            unresolved.append(row)
+    return unresolved
+
+
+def filter_unresolved_category_reviews(
+    live: list[dict],
+    resolved_df: pd.DataFrame,
+) -> list[dict]:
+    """Keep live category-state mismatches unless they match an accepted collision.
+
+    Rows previously resolved via ``label_fixed`` or ``coords_fixed`` are expected
+    to stop disagreeing; if they disagree again later, surface them as regressions.
+    Accepted ``code_collision`` rows stay suppressed only while their exact
+    ``(station_code, category_state, polygon_state)`` triple is unchanged.
+    """
+    accepted_collisions: set[tuple[str, str, str]] = set()
+    if len(resolved_df):
+        coll = resolved_df[resolved_df["resolution"].str.strip() == "code_collision"]
+        for r in coll.itertuples(index=False):
+            accepted_collisions.add((r.station_code, _key(r.category_state), _key(r.polygon_state)))
+    return [
+        row for row in live
+        if (row["station_code"], _key(row["category_state"]), _key(row["polygon_state"]))
+        not in accepted_collisions
+    ]
+
+
 def normalise_categories(polygon_state_by_code: dict, canon: dict) -> tuple[int, int]:
     table = pd.read_csv(CATEGORIES, dtype=str, keep_default_na=False)
     for col in table.columns:
@@ -88,12 +147,12 @@ def normalise_categories(polygon_state_by_code: dict, canon: dict) -> tuple[int,
     table["state"] = [polygon_state_by_code.get(c) or f if _key(f) not in canon else f
                       for c, f in zip(table.station_code, fixed)]
     table.to_csv(CATEGORIES, index=False, lineterminator="\n")
-    resolved_df, resolved_codes = _load_resolved_review(CATEGORY_REVIEW, CATEGORY_REVIEW_COLUMNS)
+    resolved_df, _ = _load_resolved_review(CATEGORY_REVIEW, CATEGORY_REVIEW_COLUMNS)
     live = [{"station_code": r.station_code, "station_name": r.station_name, "category_state": r.state,
              "polygon_state": polygon_state_by_code[r.station_code], "resolution": "", "note": ""}
             for r in table.itertuples()
             if polygon_state_by_code.get(r.station_code) and _key(r.state) != _key(polygon_state_by_code[r.station_code])]
-    new_unresolved = [row for row in live if row["station_code"] not in resolved_codes]
+    new_unresolved = filter_unresolved_category_reviews(live, resolved_df)
     out_df = pd.concat([resolved_df, pd.DataFrame(new_unresolved, columns=CATEGORY_REVIEW_COLUMNS)], ignore_index=True)
     out_df.to_csv(CATEGORY_REVIEW, index=False, lineterminator="\n")
     return len(live), len(new_unresolved)
@@ -115,9 +174,8 @@ def main() -> None:
     # Keep Bangladesh Maitree Express stations' state blank (not an Indian state)
     table.loc[table["station_code"].isin(INTERNATIONAL_STATIONS), "state"] = ""
 
-    resolved_df, resolved_codes = _load_resolved_review(REVIEW, REVIEW_COLUMNS)
+    resolved_df, _ = _load_resolved_review(REVIEW, REVIEW_COLUMNS)
     cat_resolved_df, _ = _load_resolved_review(CATEGORY_REVIEW, CATEGORY_REVIEW_COLUMNS)
-    cat_coords_fixed = set(cat_resolved_df.loc[cat_resolved_df["resolution"] == "coords_fixed", "station_code"])
 
     live_review = []
     shared = table.duplicated(["latitude", "longitude"], keep=False)
@@ -137,8 +195,7 @@ def main() -> None:
                                 "source_state": row.source_state, "polygon_state": row.state,
                                 "latitude": row.latitude, "longitude": row.longitude,
                                 "reason": "; ".join(reasons), "resolution": "", "note": ""})
-    new_unresolved = [r for r in live_review
-                      if r["station_code"] not in resolved_codes and r["station_code"] not in cat_coords_fixed]
+    new_unresolved = filter_unresolved_station_reviews(live_review, resolved_df, cat_resolved_df)
     table.to_csv(STATIONS, index=False, lineterminator="\n")
     REVIEW.parent.mkdir(parents=True, exist_ok=True)
     out_df = pd.concat([resolved_df, pd.DataFrame(new_unresolved, columns=REVIEW_COLUMNS)], ignore_index=True)

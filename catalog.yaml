@@ -232,7 +232,7 @@ datasets:
   quality_status: verified
   quality_notes: "150m clusters of OSM toll booths (1,536 -> 1,585 clusters in the PR #29 refresh).
     Model labels are 1,120 national_highway, 102 expressway_toll and 363 highway_toll
-    records, not verified SH/bridge identities. Every row carries toll_id (TPL-0001..TPL-1585),
+    records, not verified SH/bridge identities. Every row carries toll_id (TPL-0001..TPL-1585; preserved across refreshes by osm_node_id),
     a unique osm_node_id (the representative OSM node, or way when no node exists; 1,550 node / 35 way)
     and source_url = https://www.openstreetmap.org/(node|way)/<osm_node_id>. Missing NH numbers are
     filled from the nearest NH without a distance limit. Treat NH labels as
