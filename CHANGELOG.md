@@ -4,6 +4,18 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Added — Census 2011 sub-district PCA & Table A-01 + LGD sub-district directory (audit item #10)
+
+- **`data/demographic/census2011_subdistrict_key_indicators.csv` (5,988 rows, 30 columns, GODL-India, `verified`):**
+  - Built by `scripts/fetch/fetch_subdistrict_census2011.py` from official ORGI Census Digital Library (NADA) workbooks `#42559` (Primary Census Abstract) and `#42526` (Table A-01: area sq. km, inhabited/uninhabited villages, towns), parsed with Python stdlib `zipfile` + `xml.etree.ElementTree` (zero extra dependencies; raw `.xlsx` cached under gitignored `data/raw/census2011/`).
+  - Joins Total, Rural, and Urban rows per sub-district with composite primary key `(census_state_code, census_district_code, census_subdistrict_code)` (zero-padded 2/3/5-digit strings). Flags the 30 `99999` `"Area not under any Sub-district"` rows via `is_non_subdistrict_area` (34 distinct non-`99999` sub-district codes span 2–3 districts: 32 × 2 + 2 × 3 = 70 rows, +36 extra; `5,922 + 36 + 30 = 5,988`).
+  - Hard validation gate reconciles 100% exactly: `5,988` rows, unique composite key, total population `1,210,854,977`, `male + female == population`, `rural_population + urban_population == population`, literacy/worker identities, and `640/640` districts matching `census2011_district_key_indicators.csv` with `0` diff.
+- **`data/administrative/lgd_subdistricts.csv` (7,112 rows, 7 columns, GODL-India, `verified`):**
+  - Built by `scripts/fetch/fetch_lgd_subdistricts.py` from the official LGD web service (`lgdirectory.gov.in/webservices/lgdws/subdistrictList`) across all 790 official LGD districts (788 populated; urban-only Kolkata `315` and Mumbai `482` have 0 sub-districts in LGD).
+  - Covers `7,112` unique LGD `sub_district_code`s across all 36 states/UTs, joining `6,094/6,215` pure-numeric ABDB sub-district codes (`98.05%`; `6,094/6,557 = 92.94%` of all coded features once Audit Item #18 restores the 342 alphanumeric ABDB carveout codes, vs `6,427/6,557 = 98.02%` prior to #18). `5,568/7,112` rows (`78.29%`) carry a 5-digit zero-padded `census2011_code`, of which `5,567/5,568` (`99.98%`) join directly to `census2011_subdistrict_key_indicators.csv`.
+- **Audit, baseline, and unit tests:** added sub-district PCA and `lgd_subdistricts.csv` checks to `scripts/audit/audit_all.py` (`audit_demographics`), added `"demographic:subdistricts": 5988` to `collect_counts()` and `data/audit_baseline.json` (zero existing counts altered), and added `tests/test_subdistrict_census.py` (8 tests verifying format, keys, reconciliation, and gate rejection on perturbations).
+- **No Stage 4 regeneration required:** neither new dataset nor any edited script is in Stage 4's input or code closure.
+
 ### Changed — governance archive, non-Stage-4 provenance fixes & village map palette (PR #27)
 
 - **Governance docs archived on `main`:** added `docs/adr/007-district-identity-and-population.md` and `docs/decision_log.md` (recording the 2026-11-24 rulings keeping UP/MP village files unsplit, the DSN/DHCA Maitree Express exception, and merged remote branch cleanup).
