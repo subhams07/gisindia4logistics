@@ -676,6 +676,33 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (44 datasets).
     safe invalid-coordinate handling, and added unit tests in
     `tests/test_node_districts.py`.
 
+### Phase X: sub-district ABDB carveout codes restored (2026-11-24)
+56. Resolved Audit Item #18 with zero Stage 4 closure impact. Inspected the raw
+    SoI ABDB `Sub_district Boundary.shp` and traced the 577 colliding
+    sub-district code rows to `process_panindia_boundaries.py` truncating
+    `SUBDIS_LGD` with `str.extract(r"^(\d+)")` and casting to `Int64`, which
+    stripped `N001`–`N009` suffixes off 342 carveout sub-districts (341
+    matching `^\d+N\d+$` plus raw typo `07314NOO1` Sathnala, Adilabad,
+    Telangana). Added `normalize_sub_district_code()` in
+    `scripts/clean/process_panindia_boundaries.py` (pure digits stripped of
+    leading zeros, alphanumeric carveouts preserved verbatim as nullable
+    `"string"`, `"NOT AVAILABLE"`/`"NEW MANDAL"`/blank -> `None`) and added
+    idempotent `scripts/clean/restore_subdistrict_codes.py` to restore
+    `sub_district_code` 1:1 across all 6,636 rows of
+    `india_subdistricts_lgd.{gpkg,parquet}` with zero geometry or other-column
+    changes: 6,557 non-null (79 null), 6,554 unique codes (up from 6,221), 342
+    alphanumeric carveouts preserved, 0 within-state duplicates, and only 3
+    genuine raw ABDB cross-state collisions (`3606` Bari Pattan J&K / Khirkiya
+    MP, `6148` Ramkot J&K / Narwal UP, `6479` raw `"6479"` Khoie J&K / raw
+    `"06479"` Keonjhar Sadar Odisha = 6 rows total). Updated
+    `scripts/analyze/subdistrict_access.py` to keep `sub_district_code` as
+    `"string"` (pure LF, blank `""` for nulls) and regenerated
+    `data/analysis/india_subdistrict_access.csv`. Tightened
+    `scripts/audit/audit_all.py` (`audit_boundaries()`) to enforce 0
+    within-state duplicates, exact cross-state collision set
+    `{"3606", "6148", "6479"}`, and GPKG/Parquet code parity; added
+    `tests/test_subdistrict_codes.py`.
+
 ## Enhancement backlog (suggested next steps)
 
 - Per-state GeoPackage bundles (boundaries + villages + analysis layers, one

@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
+import re
 import sys
 
 import geopandas as gpd
@@ -85,6 +86,30 @@ NAME_OVERRIDES = {"SOUTH 24PARGANAS": "SOUTH 24 PARGANAS"}
 SUBDISTRICT_DISTRICT_CODE_FIXES = {("Maharashtra", "DHULE", 598): 498}
 
 
+SUB_DISTRICT_CODE_PLACEHOLDERS = frozenset({"not available", "new mandal"})
+
+
+def normalize_sub_district_code(value) -> str | None:
+    """Normalize a raw ABDB SUBDIS_LGD value without truncating carveout suffixes.
+
+    - NaN/None/blank and placeholders ('NOT AVAILABLE', 'NEW MANDAL', case-insensitive) -> None
+    - Pure ASCII digits ('00285') -> str(int(s)) ('285') so numeric LGD joins stay intact
+    - Alphanumeric carveout codes ('00285N001', '07314NOO1') -> stripped string verbatim
+    """
+    if value is None or pd.isna(value):
+        return None
+    if isinstance(value, bool):
+        raise TypeError(f"unexpected bool for sub_district_code: {value!r}")
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    s = str(value).strip()
+    if not s or s.casefold() in SUB_DISTRICT_CODE_PLACEHOLDERS:
+        return None
+    if re.fullmatch(r"[0-9]+", s):
+        return str(int(s))
+    return s
+
+
 def fix_mojibake(s):
     import pandas as pd
     if s is None or (isinstance(s, float) and pd.isna(s)):
@@ -124,13 +149,21 @@ def process(layer: str) -> gpd.GeoDataFrame:
     n_unmapped = int(gdf["state"].isna().sum())
     assert n_unmapped == 0, f"[{layer}] unmapped state names remain"
 
-    # LGD codes arrive as zero-padded strings ("095") — normalize to integers;
+    # State and district codes arrive as zero-padded strings ("095") -> Int64;
     # non-numeric values (Mirpur and Muzaffarabad, J&K, carry "NOT AVAILABLE") become <NA>
-    for code_col in ("district_code", "sub_district_code", "state_code"):
+    for code_col in ("district_code", "state_code"):
         if code_col in gdf:
             gdf[code_col] = pd.to_numeric(
-                gdf[code_col].astype(str).str.extract(r"^(\d+)", expand=False),
+                gdf[code_col].astype("string").str.extract(r"^(\d+)", expand=False),
                 errors="coerce").astype("Int64")
+    # Sub-district codes include alphanumeric ABDB carveouts (e.g. "00285N001", "07314NOO1");
+    # preserve them verbatim as nullable strings instead of truncating leading digits to Int64.
+    if "sub_district_code" in gdf:
+        gdf["sub_district_code"] = pd.Series(
+            [normalize_sub_district_code(v) for v in gdf["sub_district_code"]],
+            index=gdf.index,
+            dtype="string",
+        )
 
     for col in ("district", "sub_district"):
         if col in gdf:
