@@ -61,10 +61,13 @@ datasets:
   path: data/administrative/india_subdistricts_lgd.gpkg
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
-  quality_notes: 6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 79 rows have null
-    sub-district codes in source; district_code follows the district layer's LGD code (source value kept
-    as abdb_district_code); SoI RURAL/URBAN pairs legitimately share one LGD code; mojibake fixed; 22 MB
-    GeoPackage as regular git blob
+  quality_notes: '6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 6,557 non-null
+    string sub_district_code values (79 null in source, incl. NOT AVAILABLE and NEW MANDAL) with 6,554
+    unique codes; 342 alphanumeric ABDB carveout codes (341 N001..N009 plus raw 07314NOO1) preserved
+    verbatim via normalize_sub_district_code / scripts/clean/restore_subdistrict_codes.py; 0 within-state
+    duplicates and only 3 genuine raw ABDB cross-state collisions (3606, 6148, 6479 = 6 rows total);
+    district_code follows the district layer''s LGD code (source value kept as abdb_district_code);
+    mojibake fixed; 22 MB GeoPackage as regular git blob with GeoParquet twin'
 - name: India district boundaries (Census 2011)
   category: administrative
   description: 640 districts with census state/district codes and LGD state codes

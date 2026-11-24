@@ -42,7 +42,7 @@ def main() -> None:
         "district": assigned["district"].values,
         "district_code": assigned["district_code"].astype("Int64").values,
         "sub_district": sub["sub_district"].values,
-        "sub_district_code": sub["sub_district_code"].astype("Int64").values,
+        "sub_district_code": sub["sub_district_code"].astype("string").values,
     })
     for kind, gdf in facilities.items():
         best, km = nearest_geodesic(pts, gdf.geometry)
@@ -51,7 +51,7 @@ def main() -> None:
 
     out = DATA_DIR / "analysis" / "india_subdistrict_access.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
-    base.to_csv(out, index=False)
+    base.to_csv(out, index=False, lineterminator="\n")
     print(f"Wrote {len(base)} sub-districts -> {out}")
 
     worst = base.nlargest(8, "dist_rail_station_km")[

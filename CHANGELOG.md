@@ -4,6 +4,16 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Fixed — sub-district ABDB carveout codes preserved (audit item 18)
+
+- **`india_subdistricts_lgd.{gpkg,parquet}` and `india_subdistrict_access.csv` (6,636 rows):**
+  - Root cause: `scripts/clean/process_panindia_boundaries.py` previously truncated `SUBDIS_LGD` with `str.extract(r"^(\d+)")` and cast to `Int64`, stripping `N001`–`N009` carveout suffixes off 342 sub-districts and creating 577 colliding rows across 241 codes.
+  - Added `normalize_sub_district_code()` in `scripts/clean/process_panindia_boundaries.py` (strips leading zeros on pure digits, preserves alphanumeric carveout codes verbatim as nullable strings, maps `"NOT AVAILABLE"` / `"NEW MANDAL"` / blanks to null) and updated `process()` to emit `sub_district_code` as nullable `"string"`.
+  - Added idempotent CLI `scripts/clean/restore_subdistrict_codes.py` to match 100% of the 6,636 committed rows 1:1 against raw SoI ABDB `Sub_district Boundary.shp` and restore `sub_district_code` in both GPKG and Parquet with zero geometry or other-column changes: **6,557** non-null codes (**79** null), **6,554** unique codes (up from 6,221), **342** alphanumeric carveout codes preserved (`341` `^\d+N\d+$` + `1` raw `07314NOO1`), **0** within-state duplicates, and only the **3** genuine raw ABDB cross-state collisions (`3606`, `6148`, `6479` = 6 rows total; `6479` pairs raw `"6479"` Khoie J&K with `"06479"` Keonjhar Sadar Odisha after leading-zero normalization).
+  - Updated `scripts/analyze/subdistrict_access.py` to keep `sub_district_code` as nullable `"string"` (writing pure LF with blank `""` for nulls) and regenerated `data/analysis/india_subdistrict_access.csv`.
+  - Tightened `scripts/audit/audit_all.py` (`audit_boundaries()`) to assert 0 within-state duplicate `sub_district_code`s, national duplicates strictly limited to `{"3606", "6148", "6479"}`, and exact `.gpkg`/`.parquet` code parity; added `tests/test_subdistrict_codes.py`.
+- **No Stage 4 regeneration required:** neither `india_subdistricts_lgd.*` nor `india_subdistrict_access.csv` is in Stage 4's input or code closure.
+
 ### Added — Census 2011 sub-district PCA & Table A-01 + LGD sub-district directory (audit item #10)
 
 - **`data/demographic/census2011_subdistrict_key_indicators.csv` (5,988 rows, 30 columns, GODL-India, `verified`):**
