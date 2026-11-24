@@ -109,3 +109,38 @@ def test_validation_fails_on_district_reconciliation_shift(committed_tables):
     assert checks["male + female == population"]
     assert checks["rural + urban == population"]
     assert not checks["640/640 districts match district table"]
+
+
+def test_lgd_subdistricts_coverage_handles_alphanumeric_abdb_codes(tmp_path, capsys):
+    import geopandas as gpd
+    from shapely.geometry import box
+
+    from scripts.fetch import fetch_lgd_subdistricts as fls
+
+    gpkg_path = tmp_path / "india_subdistricts_lgd.gpkg"
+    gpd.GeoDataFrame(
+        {
+            "state": ["Uttarakhand", "Uttarakhand", "Telangana", "Jammu and Kashmir"],
+            "sub_district_code": pd.Series(["285", "00285N001", "07314NOO1", None], dtype="string"),
+        },
+        geometry=[box(0, 0, 1, 1)] * 4,
+        crs=4326,
+    ).to_file(gpkg_path, layer="subdistricts", driver="GPKG")
+
+    lgd_df = pd.DataFrame(
+        [
+            {
+                "state_code": 5,
+                "state": "Uttarakhand",
+                "district_code": 57,
+                "district": "CHAMOLI",
+                "sub_district_code": 285,
+                "sub_district_name": "Chamoli",
+                "census2011_code": "00285",
+            }
+        ]
+    )
+    fls.print_coverage_stats(lgd_df, districts_count=1, empty_districts=[], gpkg_path=gpkg_path)
+    out = capsys.readouterr().out
+    assert "1 / 3 (33.33%)" in out
+    assert "1 / 1 (100.00%)" in out

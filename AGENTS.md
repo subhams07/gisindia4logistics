@@ -702,8 +702,10 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
       `lgdirectory.gov.in/webservices/lgdws/subdistrictList` across all 790
       LGD districts (788 populated; urban-only Kolkata `315` and Mumbai `482`
       have 0 sub-districts in LGD), 36 states/UTs, 7,112 unique
-      `sub_district_code`s, joining `6,427/6,557` coded features (`98.02%`)
-      and `6,427/6,636` all features (`96.85%`) of `india_subdistricts_lgd.gpkg`.
+      `sub_district_code`s, joining `6,094/6,215` pure-numeric ABDB codes
+      (`98.05%`; `6,094/6,557 = 92.94%` of all coded features once Audit Item #18
+      restores the 342 alphanumeric ABDB carveouts, vs `6,427/6,557 = 98.02%`
+      prior to #18).
       `5,568/7,112` rows (`78.29%`) carry a 5-digit zero-padded
       `census2011_code`, of which `5,567/5,568` (`99.98%`) join directly to
       `census2011_subdistrict_key_indicators.csv`.

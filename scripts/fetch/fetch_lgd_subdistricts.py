@@ -372,17 +372,23 @@ def print_coverage_stats(
         total_features = len(gpkg)
         coded_mask = gpkg["sub_district_code"].notna()
         coded_features = int(coded_mask.sum())
-        gpkg_codes = gpkg.loc[coded_mask, "sub_district_code"].astype("int64")
-        lgd_codes = set(df["sub_district_code"].astype("int64"))
+        raw_codes = gpkg.loc[coded_mask, "sub_district_code"].astype("string").str.strip()
+        # Normalize pure numeric strings (including pre-PR#30 float strings like "285.0")
+        # while preserving alphanumeric ABDB carveouts (e.g. "00285N001", "07314NOO1").
+        gpkg_codes = raw_codes.map(
+            lambda s: str(int(s.split(".", 1)[0])) if re.fullmatch(r"[0-9]+(?:\.0+)?", s) else s
+        )
+        numeric_codes = gpkg_codes[gpkg_codes.str.fullmatch(r"[0-9]+")]
+        lgd_codes = set(df["sub_district_code"].astype("int64").astype(str))
         matched_features = int(gpkg_codes.isin(lgd_codes).sum())
         unique_gpkg_codes = set(gpkg_codes.unique())
         matched_unique_codes = len(unique_gpkg_codes & lgd_codes)
 
-        c2011_int_set = {
-            int(c) for c in df.loc[df["census2011_code"] != "", "census2011_code"]
+        c2011_str_set = {
+            str(int(c)) for c in df.loc[df["census2011_code"] != "", "census2011_code"]
         }
         unmatched_codes = gpkg_codes[~gpkg_codes.isin(lgd_codes)]
-        matched_via_c2011 = int(unmatched_codes.isin(c2011_int_set).sum())
+        matched_via_c2011 = int(unmatched_codes.isin(c2011_str_set).sum())
 
         print(f"\n=== Join Coverage vs {gpkg_path.name} ({total_features:,} features) ===")
         print(
@@ -395,6 +401,12 @@ def print_coverage_stats(
             f"{matched_features:,} / {coded_features:,} "
             f"({100.0 * matched_features / coded_features:.2f}%)"
         )
+        if len(numeric_codes):
+            print(
+                f"Joined by sub_district_code (pure numeric):   "
+                f"{matched_features:,} / {len(numeric_codes):,} "
+                f"({100.0 * matched_features / len(numeric_codes):.2f}%)"
+            )
         print(
             f"Unique gpkg sub_district_code matched:        "
             f"{matched_unique_codes:,} / {len(unique_gpkg_codes):,} "
