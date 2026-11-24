@@ -194,11 +194,28 @@ def test_freight_terminal_once_matched_in_another_state_now_resolves_in_assam(re
     assert 91.8 <= res.longitude <= 92.1
 
 
-def test_freight_terminal_without_coordinates_is_not_routable(resolver, store):
+def test_vadalapudi_gct_now_resolves_in_andhra_pradesh(resolver, store):
+    """Vadalapudi (ECoR/WAT) was previously pending and now resolves in Visakhapatnam, Andhra Pradesh."""
+    res = resolver.resolve(HubLocation(hub_type="freight_terminal", name="Vadalapudi"), store)
+    assert res.canonical_name == "Vadalapudi"
+    assert 17.5 <= res.latitude <= 17.9
+    assert 83.0 <= res.longitude <= 83.4
+
+
+def test_freight_terminal_without_coordinates_is_not_routable(tmp_path):
     """Verifies that a catalogued terminal without coordinates raises LocationNotFoundError."""
-    hub = HubLocation(hub_type="freight_terminal", name="Vadalapudi")
+    from types import SimpleNamespace
+    import pandas as pd
+
+    pending_store = SimpleNamespace(
+        data_dir=tmp_path,
+        freight_terminals_df=pd.DataFrame([
+            {"name": "Pending GCT", "state": "Andhra Pradesh", "latitude": float("nan"), "longitude": float("nan")}
+        ]),
+    )
+    hub = HubLocation(hub_type="freight_terminal", name="Pending GCT")
     with pytest.raises(LocationNotFoundError) as exc_info:
-        resolver.resolve(hub, store)
+        LocationResolver(data_dir=tmp_path).resolve(hub, pending_store)
     assert "lacks geographic coordinates" in str(exc_info.value)
 
 

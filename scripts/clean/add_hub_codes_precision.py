@@ -6,9 +6,9 @@ Audit items 46 and 52. For the seven transport hub files in data/logistics_hubs/
 - `hub_code`: a repository-assigned stable identifier, `<PREFIX>-<NNN>` in row
   order (PRT, ICP, ICD, AIR, MMLP, IWT, FCI). An existing code is never changed;
   new rows get the next free number. It is not an official code.
-- `unlocode` (ports.csv only): the UN/LOCODE of the 12 major ports, as used by
-  data/freight/port_throughput_annual.csv. The 10 non-major ports are left blank
-  until their codes are checked against the UNECE list.
+- `unlocode` (ports.csv only): the official UNECE UN/LOCODE for all 22 ports
+  (12 major ports matching data/freight/port_throughput_annual.csv, plus all 10
+  non-major ports verified against the UNECE UN/LOCODE directory).
 - `coord_precision`: what the point represents, from evidence only:
     pending     no coordinates
     station / town / village   the row's notes say the point is that node
@@ -48,6 +48,13 @@ MAJOR_PORT_UNLOCODES = {
     "Kamarajar Port (Ennore)": "INENR", "Visakhapatnam Port": "INVTZ", "Paradip Port": "INPRT",
     "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex": "INCCU",
 }
+NON_MAJOR_PORT_UNLOCODES = {
+    "Mundra Port": "INMUN", "Pipavav Port": "INPAV", "Hazira Port": "INHZA",
+    "Dahej Port": "INDAH", "Dhamra Port": "INDMQ", "Gangavaram Port": "INGGV",
+    "Krishnapatnam Port": "INKRI", "Karaikal Port": "INKRK",
+    "Vizhinjam International Seaport": "INVZJ", "Kattupalli Port": "INKAT",
+}
+PORT_UNLOCODES = {**MAJOR_PORT_UNLOCODES, **NON_MAJOR_PORT_UNLOCODES}
 PRECISION_VALUES = ("site", "station", "village", "town", "city", "unverified", "pending")
 # A specific node named when the point was re-located (batch C/D) wins over the
 # older generic "coordinates approximate" wording in the same note.
@@ -108,7 +115,7 @@ def main() -> None:
         if stem == "ports":
             if "unlocode" not in table.columns:
                 table.insert(1, "unlocode", "")
-            table["unlocode"] = [MAJOR_PORT_UNLOCODES.get(n, u) for n, u in zip(table["name"], table["unlocode"])]
+            table["unlocode"] = [PORT_UNLOCODES.get(n, u) for n, u in zip(table["name"], table["unlocode"])]
         table["coord_precision"] = [precision(r, stem, shared, sites) for _, r in table.iterrows()]
         cols = [c for c in table.columns if c != "coord_precision"]
         cols.insert(cols.index("longitude") + 1, "coord_precision")

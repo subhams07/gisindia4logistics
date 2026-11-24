@@ -236,22 +236,26 @@ datasets:
     are separate ways — use for geometry/routing, not length statistics
 - name: Clustered OSM Toll Locations (not an official plaza register)
   category: roads
-  description: 1,536 clustered toll plazas across India with NH number, LGD district join, coordinates, and booth counts
+  description: 1,585 clustered toll plazas across India with a stable toll_id, representative OSM element id (osm_node_id), NH number, LGD district join, coordinates, booth counts and a per-row OSM URL
   provider: OpenStreetMap contributors + NH network snap
   source_url: https://www.openstreetmap.org
   license: ODbL
-  vintage: 2026-08 snapshot
+  vintage: 2026-11 Overpass refresh (was 2026-08 snapshot)
   resolution: national point locations
   access: committed
   path: data/roads/toll_plazas.csv
   fetch_script: scripts/fetch/fetch_toll_plazas.py
   quality_status: verified
-  quality_notes: 150m DBSCAN clusters of OSM toll booths; raw input count is not recorded.
-    Model labels are 1,100 national_highway, 101 expressway_toll and 335 unclassified highway_toll
-    records, not verified SH/bridge identities. Missing NH numbers are filled from the nearest
-    NH without a distance limit; all 335 unclassified records have NH labels. Treat NH labels as
+  quality_notes: "150m clusters of OSM toll booths (1,536 -> 1,585 clusters in the PR #29 refresh).
+    Model labels are 1,120 national_highway, 102 expressway_toll and 363 highway_toll
+    records, not verified SH/bridge identities. Every row carries toll_id (TPL-0001..TPL-1585; preserved across refreshes by osm_node_id),
+    a unique osm_node_id (the representative OSM node, or way when no node exists; 1,550 node / 35 way)
+    and source_url = https://www.openstreetmap.org/(node|way)/<osm_node_id>. Missing NH numbers are
+    filled from the nearest NH without a distance limit. Treat NH labels as
     inferred attribution, not trusted plaza identity or passage evidence. Not an official NHAI
-    register and not tariff-verified.
+    register and not tariff-verified. Stage 4 outputs have NOT been regenerated for this file;
+    the SHA-256 input provenance in data/analysis/producer_manifest.json is stale until Stage 4 is
+    regenerated on Linux."
 - name: Village boundaries, border/NE states (Survey of India via NWDP)
   category: administrative
   description: Survey of India village polygons for Arunachal Pradesh, Assam, Himachal Pradesh, Jammu & Kashmir, Ladakh,
@@ -343,13 +347,22 @@ datasets:
   path: data/rail/railway_stations.csv
   fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: 2016 DataMeet station-location base; later community zone/division enrichment.
+  quality_notes: "2016 DataMeet station-location base; later community zone/division enrichment.
     Enrichment vintage is approximate (catalog ~2023 vs script comment 2024); current operational
     status is unverified. Source licensing remains unresolved. Official alternative is data.gov.in
-    station resources (API key required). `state` is the current state polygon containing the station
+    station resources (API key required). state is the current state polygon containing the station
     (scripts/clean/assign_station_states.py; 8,695 of 8,697, the other 2 lie outside India); the base
     table's own label is kept as source_state, and the 189 disagreements, outside points and shared
-    coordinates are listed in docs/review/railway_station_state_review.csv.
+    coordinates are listed in docs/review/railway_station_state_review.csv, each with a recorded
+    resolution. PR #29 resolved all 189 station review rows (169 label_ok_polygon_correct, 18 coords_fixed,
+    2 international_excluded, 0 pending) and all 42 category review rows (32 category labels fixed in
+    station_categories.csv, 9 coords_fixed, 1 code_collision TDK): 23 station coordinates were corrected
+    to OSM railway=station/halt nodes (18 from the state review plus 5 from the category review), ALJ was
+    renamed ALAI -> ALIGANJ, and no two stations now share a (latitude, longitude). DSN (Darsana) and
+    DHCA (Dhaka Cantt.), the 2 Bangladesh Maitree Express stations, are kept with blank state and are
+    excluded from the India bbox/polygon checks. source_state is unchanged. Stage 4 outputs have NOT
+    been regenerated; the SHA-256 input provenance in data/analysis/producer_manifest.json is stale
+    until Stage 4 is regenerated on Linux."
 - name: Station categories (NSG1-6)
   category: rail
   description: 5,938 committed station-category records (2017+ classification; NSG*P suburban variants)
@@ -362,10 +375,12 @@ datasets:
   path: data/rail/station_categories.csv
   fetch_script: scripts/fetch/enrich_rail_stations.py
   quality_status: community
-  quality_notes: 5,493 category codes join to the 2016 station base, out of 5,938 category records.
+  quality_notes: "5,493 category codes join to the 2016 station base, out of 5,938 category records.
     Vintage is approximate (catalog ~2023 vs script comment 2024). The enrichment script can fall
-    back to an agent scrape cache; no verified dated upstream snapshot is recorded. Source terms
-    remain unresolved; data.gov.in remains the authoritative upgrade path.
+    back to an agent scrape cache; no verified dated upstream snapshot is recorded. PR #29 resolved
+    all 42 rows in docs/review/station_category_state_review.csv (32 state labels fixed, 9 station
+    coordinates fixed in railway_stations.csv, 1 documented code collision TDK Tadoki CG vs Taduku AP,
+    0 unresolved). Source terms remain unresolved; data.gov.in remains the authoritative upgrade path."
 - name: Dedicated Freight Corridor Network (WDFC & EDFC)
   category: rail
   description: Surveyed OpenStreetMap track alignments for Western DFC (Dadri-JNPT), Eastern DFC (Sahnewal-Sonnagar), and the Dadri-Khurja connecting link, with GeoParquet twin
@@ -452,7 +467,7 @@ datasets:
   quality_notes: 16 major commodity mandis (Azadpur, Vashi, Unjha, Guntur, Khanna, Lasalgaon, etc.) with annual traded volumes and coordinates
 - name: Freight terminals (Gati Shakti GCTs)
   category: rail
-  description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; 78 with coordinates (6 pending)
+  description: 84 identified Gati Shakti Cargo Terminals with zone/division/state; all 84 geocoded (0 coordinate-pending)
   provider: Ministry of Railways via PIB (Annexure to Lok Sabha answer, PRID 1910049)
   source_url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=1910049
   license: GODL-India
@@ -462,12 +477,16 @@ datasets:
   path: data/rail/freight_terminals.csv
   fetch_script: scripts/fetch/build_gct_terminals.py
   quality_status: verified
-  quality_notes: 78 of 84 have coordinates — 63 joined from the stations table and 2 from hub files for
-    port GCTs by scripts/fetch/build_gct_terminals.py, plus 13 geocoded via Nominatim (station, village or
-    site level, stated in capacity_notes); every point must lie inside the row's state polygon (the audit
-    re-checks this). 6 greenfield sites are coordinate-pending. Lajkura, Nipania and Samba
+  quality_notes: "84 of 84 have coordinates (0 pending) — 63 joined from the stations table and 2 from hub files for
+    port GCTs by scripts/fetch/build_gct_terminals.py, 13 geocoded via Nominatim, and (PR #29) the last 6
+    greenfield sites (Vadalapudi, Ramnagar FCI GCT Terminal, Phulbasiya, Ghuggus, Moorsa, Dinegaon)
+    geocoded to OpenStreetMap features (station, village or site level, stated in capacity_notes, OSM
+    attribution in source_url); every point must lie inside the row's state polygon (the audit
+    re-checks all 84). Lajkura, Nipania and Samba
     carry the station's own state, not the railway division's; 306 GCTs approved / 118+ commissioned
-    per PIB 2025 — list covers the 2023 identification annexure only
+    per PIB 2025 — list covers the 2023 identification annexure only. Stage 4 outputs have NOT been
+    regenerated; the SHA-256 input provenance in data/analysis/producer_manifest.json is stale until
+    Stage 4 is regenerated on Linux."
 - name: Rail lines
   category: rail
   description: Rail network geometry incl. usage/electrification tags
@@ -483,15 +502,15 @@ datasets:
 - name: Ports (major + significant minor)
   category: logistics_hubs
   description: 12 major ports (IPA) + 10 significant private/non-major ports
-  provider: compiled from IPA list + public sources
-  source_url: per-row source_url column (ipa.nic.in reference)
-  license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+  provider: compiled from IPA + official port authority / operator sites
+  source_url: per-row source_url column (official port authority & operator URLs; 0 Wikipedia)
+  license: mixed (GODL-India / official port authority & operator references; per-row terms)
   vintage: 2026
   resolution: national points
   access: committed
   path: data/logistics_hubs/ports.csv
   quality_status: verified
-  quality_notes: 22 rows, coordinates in India bbox, no duplicates
+  quality_notes: "22 rows, coordinates in India bbox, no duplicates. PR #29: 22/22 official (non-Wikipedia) source_url, 22/22 unique UN/LOCODEs in unlocode (10 non-major filled from the UNECE list), coord_precision 17/22 site (8 confirmed against OSM port features at their existing coordinates, 2 relocated) and 5/22 unverified (PRT-007, PRT-013, PRT-014, PRT-017, PRT-020: OSM evidence more than 3 km away). Visakhapatnam (PRT-010) and Gangavaram (PRT-018) were moved onto their OSM port sites inside Andhra Pradesh; the old points were inland/swapped. Stage 4 outputs have NOT been regenerated; the SHA-256 input provenance in data/analysis/producer_manifest.json is stale until Stage 4 is regenerated on Linux."
 - name: Integrated Check Posts (ICPs)
   category: logistics_hubs
   description: Operating land border ports (LPAI)
@@ -520,15 +539,15 @@ datasets:
 - name: Air cargo terminals
   category: logistics_hubs
   description: IATA airports with cargo terminals
-  provider: compiled from AAI + operator sites + Wikipedia
-  source_url: per-row source_url column
-  license: mixed (GODL-India reference / CC BY-SA via Wikipedia)
+  provider: compiled from AAI + official airport operator sites
+  source_url: per-row source_url column (official AAI & airport operator URLs; 0 Wikipedia)
+  license: mixed (GODL-India / official AAI & airport operator references; per-row terms)
   vintage: 2026
   resolution: national points
   access: committed
   path: data/logistics_hubs/air_cargo.csv
   quality_status: verified
-  quality_notes: 25 rows incl. big five (DEL/BOM/BLR/HYD/MAA)
+  quality_notes: "25 rows incl. big five (DEL/BOM/BLR/HYD/MAA). PR #29: 25/25 official (non-Wikipedia) source_url and 25/25 coord_precision site (BLR, HYD, AMD and LKO upgraded after OSM aerodrome checks; evidence in docs/review/hub_site_check.csv). Stage 4 outputs have NOT been regenerated; the SHA-256 input provenance in data/analysis/producer_manifest.json is stale until Stage 4 is regenerated on Linux."
 - name: Multimodal Logistics Parks (MMLPs)
   category: logistics_hubs
   description: 20 MMLP sites — NHLML awarded roster (Jalna operational, Chennai/Bengaluru/Indore/Nagpur/Jogighopa...)

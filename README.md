@@ -101,14 +101,14 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 | 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
 | 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
-| 🏷️ **Toll plazas** | Clustered OSM toll points; not an NHAI register | **1,536** | OpenStreetMap | ODbL |
-| 🚂 **Railway stations** | 2016 base with zone/division enrichment | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
+| 🏷️ **Toll plazas** | Clustered OSM toll points (`toll_id`, `osm_node_id`, per-row OSM URL); not an NHAI register | **1,585** | OpenStreetMap | ODbL |
+| 🚂 **Railway stations** | 2016 base with zone/division enrichment & OSM coordinate cleanup (8,695 in India + 2 international) | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
 | ⚡ **Dedicated Freight Corridors** | Surveyed OSM alignments for WDFC, EDFC and the Dadri–Khurja link (GeoJSON + GeoParquet) | **3 corridors, 54 stations** | OpenStreetMap / DFCCIL | ODbL / GODL-India |
-| 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (73 geocoded, 11 pending) | **84** | Ministry of Railways / PIB | GODL-India |
-| 🚢 **Ports** | Major and non-major cargo ports | **22** | IPA / public sources | Mixed; per-row terms |
+| 🏗️ **Gati Shakti cargo terminals** | 2023 identified GCT roster, not all commissioned (all 84 geocoded, 0 pending) | **84** | Ministry of Railways / PIB | GODL-India |
+| 🚢 **Ports** | Major and non-major cargo ports (22/22 UN/LOCODEs, official URLs, 17/22 `site`) | **22** | IPA / port authorities & operators | Mixed; per-row terms |
 | 📦 **ICDs / CFSs** | Dry ports and freight stations | **44** | CBIC / CONCOR / public sources | Mixed; per-row terms |
 | 🏬 **MMLPs** | Awarded and planned multimodal logistics parks | **20** | NHLML / PIB | Mixed; per-row terms |
-| ✈️ **Air cargo** | Cargo-handling airports | **25** | AAI / operators | Mixed; per-row terms |
+| ✈️ **Air cargo** | Cargo-handling airports (25/25 `site`, official URLs) | **25** | AAI / airport operators | Mixed; per-row terms |
 | 🛂 **Land border ICPs** | Integrated check posts | **19** | LPAI | Mixed; per-row terms |
 | ⛴️ **Inland waterway terminals** | NW-1/2/3/4/5/16 terminals | **40** | IWAI | Mixed; per-row terms |
 | 🌾 **Agri and storage** | FCI depots, e-NAM mandis, cold-chain hubs | **77 + 16 + 15** | FCI / e-NAM / NCCD | Mixed; per-row terms |

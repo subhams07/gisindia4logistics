@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-11-22.
+Read this before making changes. Last updated: 2026-11-24.
 
 ## What this repository is
 
@@ -17,7 +17,7 @@ datasets produced by fetch scripts.
 - **India's official political map is the reference** (operator ruling 2026-11-14): all boundaries, maps and territorial wording follow the Survey of India depiction. Aksai Chin and Gilgit-Baltistan are in Ladakh; Mirpur and Muzaffarabad are districts of Jammu and Kashmir; Arunachal Pradesh is shown in full. Never take national or state outlines from sources that draw India differently (OSM admin boundaries, Natural Earth, GADM), and never describe such areas as outside India.
 - India geospatial law: 2021 DST Guidelines regime; no defence features, no sub-threshold DEM/gravity data, boundary disclaimers on maps. See `docs/legal_compliance.md`.
 
-## Repository contents (as of 2026-11-22)
+## Repository contents (as of 2026-11-24)
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
@@ -29,10 +29,10 @@ datasets produced by fetch scripts.
 | Villages | polygons, all 36 states/UTs (GeoJSON + Parquet) | 658,248 | Survey of India (27 via SoI portal, 9 via NWDP) | same ABDB constraints / GODL (NWDP) |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
 | Roads — NH network | numbered NH routes | 141,990 segments | OSM/Overpass | ODbL |
-| Toll plazas | clustered OSM toll points | 1,536 | OSM | ODbL |
-| Rail stations | codes/names/coords; state from polygons (source_state kept) | 8,697 | DataMeet railways (2016) | none declared (reference) |
+| Toll plazas | clustered OSM toll points (`toll_id`, `osm_node_id`, per-row OSM URL) | 1,585 | OSM | ODbL |
+| Rail stations | codes/names/coords; state from polygons (`source_state` kept; 2 international `DSN`/`DHCA` excluded) | 8,697 | DataMeet railways (2016) | none declared (reference) |
 | Station categories | NSG1-6 (+P variants) | 5,938 | community (railway-stations-classification.pages.dev) | unclear — flagged |
-| Freight terminals | Gati Shakti GCTs, 78 geocoded (state-checked; 6 greenfield pending) | 84 | PIB PRID 1910049 | GODL-India |
+| Freight terminals | Gati Shakti GCTs, 84/84 geocoded (all state-checked; 0 pending) | 84 | PIB PRID 1910049 (+ OSM) | GODL-India / ODbL |
 | Logistics hubs | ports 22, ICPs 19 (2 approximate: Zorinpui village, Srimantapur town), ICDs/CFSs 44, air cargo 25, MMLPs 20, IWAI 40, FCI 77, e-NAM 16, cold chain 15, industrial nodes 20, PM MITRA 7 | 305 points | IPA/LPAI/CBIC/AAI/NHLML/IWAI/FCI + others | mixed, per-row source_url |
 | Demographics | Census 2011 district indicators; current-district population estimates | 640 / 780 | community digitization (validated) / derived | GODL-India |
 | Analysis | village access (geodesic), district/sub-district summaries, Stage 4 (geodesic NH routing, port matrix, freight modal split, hinterland, isochrones) | national | derived in-repo | mixed upstream |
@@ -755,6 +755,39 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
     within-state duplicates, exact cross-state collision set
     `{"3606", "6148", "6479"}`, and GPKG/Parquet code parity; added
     `tests/test_subdistrict_codes.py`.
+
+### Phase X: PR #29 — stations review, ports/airports/GCTs verification & toll-plaza refresh (2026-11-24)
+59. Resolved all PR #18 station and category reviews, verified ports/airports/GCTs,
+    and refreshed OSM toll plazas on `feat/pr29-stations-hubs-tolls-gcts`:
+    - **Railway stations & categories**: fixed 23 station coordinates to OSM
+      `railway=station`/`halt` nodes (18 from state review + 5 from category
+      review; 0 left pending), renamed `ALJ` `ALAI` → `ALIGANJ`, eliminated all
+      duplicate `(latitude, longitude)` pairs, excluded Bangladesh Maitree
+      Express stations `DSN`/`DHCA` (`INTERNATIONAL_STATIONS`) with blank
+      `state`, fixed 32 state labels in `station_categories.csv` (keeping 1
+      documented `code_collision`, `TDK`), regenerated `railway_stations.parquet`,
+      and finalized `docs/review/` (`railway_station_state_review.csv`,
+      `station_category_state_review.csv`, `docs/review/README.md`).
+    - **Ports, air cargo & GCTs**: replaced all Wikipedia URLs in `ports.csv`
+      (22/22) and `air_cargo.csv` (25/25) with official URLs; filled all 10
+      non-major port UN/LOCODEs (22/22 unique; updated `location_aliases.yaml`
+      for Hazira `INHZA` and Dhamra `INDMQ`); relocated Visakhapatnam (`PRT-010`)
+      and Gangavaram (`PRT-018`) onto OSM port features inside AP; upgraded 8
+      existing ports (→ 17/22 `site`, 5 `unverified`) and 4 airports (→ 25/25
+      `site`) with Overpass evidence in `docs/review/hub_site_check.csv`; and
+      geocoded the final 6 greenfield GCTs (`freight_terminals.csv` now 84/84
+      geocoded, 0 pending, all inside their own state).
+    - **Toll plazas**: refreshed Overpass toll plazas **1,536 → 1,585** clusters
+      with 12-column schema (`toll_id`, `osm_node_id`, per-row OSM `source_url`),
+      added `--from-cache` to `fetch_toll_plazas.py`, regenerated
+      `toll_plazas.parquet`, updated `TollPlazaItem` in `server/models/schemas.py`,
+      updated `data/audit_baseline.json` (`roads:toll_plazas`: 1536 → 1585), and
+      enforced all new invariants in `scripts/audit/audit_all.py`.
+    - **Regenerated** (Stage 4 run `linux-2026-11-24-run8`, after merging
+      #27, #28 and #30): village and sub-district access plus Stage 4. Of
+      658,248 villages the nearest rail station distance changed for 2,371,
+      freight terminal 27,827, port 62,677, toll plaza 23,698; 1 district
+      changed its optimal freight mode.
 
 ## Enhancement backlog (suggested next steps)
 

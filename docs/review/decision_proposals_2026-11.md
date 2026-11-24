@@ -135,7 +135,7 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 9 | Moot: the habitation layer was removed (#16) |
 | 10 | Done (#23), together with a second pooling bug: same-name 2011 parents across states |
 | 11 | Done (#16) |
-| 12 | Done (#16); the five blanked GCTs re-located inside their states in #19 |
+| 12 | Done (#16, #19, #29): the five blanked GCTs re-located in #19; remaining 6 greenfield GCTs geocoded inside their own states in #29 (84/84 geocoded, 0 pending) |
 | 13 | Done (#22, Wave 1): re-sourced from the Economic Survey and MoPSW/IPA; reconciliation is a FAIL check |
 | 14 | Done (#20, #21): one attribute schema, text codes, null markers; Z = 0.0 kept by decision (history cost) |
 | 15 | Moot: the habitation layer was removed (#16) |
@@ -162,8 +162,8 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 36 | Done (#18) |
 | 37 | Done (#15) |
 | 38 | Done (#18); Zorinpui and Srimantapur located in #19 |
-| 39 | Done (#18); 189 station and 42 category rows listed in docs/review/ for a human check |
-| 40 | Open: needs IPA/AAI (and other) primary sources |
+| 39 | Done (#18, #29): all 189 station review rows resolved (23 OSM-verified coord fixes incl. 5 from category review, ALJ renamed, 0 shared coords, DSN/DHCA excluded per 2026-11-24 ruling, 0 pending) |
+| 40 | Done for ports & air cargo (#29; FCI & PM MITRA in #27): 22/22 ports and 25/25 air cargo rows cite official port authority / AAI / operator URLs (0 Wikipedia) |
 | 41 | Done (#22, Wave 1): surveyed OSM alignments |
 | 42 | Done (#18) |
 | 43 | Done (#15) |
@@ -173,15 +173,15 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 47 | Done (#23) |
 | 48 | Kept instead (decision when porting batch A, #15) |
 | 49 | Done (#25 + follow-up): Kakatiya duplicate removed and LGD districts assigned from polygons; IMC Praghurajpur/Fatehpur replaced with IMC Prayagraj (Naini/Prayagraj, 352 acres, PRAYAGRAJ LGD 120), Orvakal corridor set to official HBIC, all per-row source URLs replaced with HTTP-200 verified PIB releases (PRIDs 2049312/2232996/1684631, relid 87421) and SPV/state portals, and `assign_node_districts.assign_file()` integrated into `build_industrial_nodes.py` and `build_agri_logistics.py` |
-| 50 | Open: at the next toll fetch |
+| 50 | Done (#29): Overpass refresh to 1,585 clusters with stable `toll_id` (preserved across refreshes by `osm_node_id`), unique `osm_node_id`, per-row OSM `source_url`, and Parquet twin parity |
 | 51 | Done (#23): 142 baseline series |
-| 52 | Done (batch F): hub_code on every transport hub row, unlocode for the 12 major ports, aliases aligned |
+| 52 | Done (batch F, #29): `hub_code` on every transport hub row, UNECE `unlocode` on all 22 ports (10 non-major filled & `location_aliases.yaml` aligned in #29) |
 | 53 | Done (#18) |
 | 54 | Done (#15 archive; stage4_source_limitations no longer quotes 1.2/1.5) |
 | 55 | Done: the audit report is regenerated from one run in every batch |
 | 56 | Done (#15) |
 | 57 | Done (#15) |
 | 58 | Done (#15) |
-| 59 | Done (#18) |
+| 59 | Done (#18, #29): all 42 category review rows resolved (32 category state labels corrected, 9 station coords fixed, 1 `TDK` code collision documented, 0 pending) |
 | 60 | Done (#18) |
 | 61 | Done (#15) |

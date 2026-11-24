@@ -120,7 +120,7 @@ ALMR,Alampar,NSG6,WR,BHAVNAGAR,Gujarat,36707,997825,https://railway-stations-cla
 ALN,Alandi,NSG6,CR,PUNE,Maharashtra,700,24105,https://railway-stations-classification.pages.dev/
 ALNI,ALNIYA,NSG6,WCR,KOTA,Rajasthan,11504,437095,https://railway-stations-classification.pages.dev/
 ALP,Alapakam,NSG6,SR,TPJ,Tamil Nadu,17237,292895,https://railway-stations-classification.pages.dev/
-ALPR,ALAMPUR ROAD,NSG6,SCR,HYB,Andhra Pradesh,2707,106835,https://railway-stations-classification.pages.dev/
+ALPR,ALAMPUR ROAD,NSG6,SCR,HYB,Telangana,2707,106835,https://railway-stations-classification.pages.dev/
 ALS,Amlori Sarsar,NSG6,NER,BSB,Bihar,26862,671080,https://railway-stations-classification.pages.dev/
 ALU,Ariyalur,NSG5,SR,TPJ,Tamil Nadu,898306,89090860,https://railway-stations-classification.pages.dev/
 ALUH,Alauli ###,NSG6,ECR,SPJ,Bihar,0,0,https://railway-stations-classification.pages.dev/
@@ -227,7 +227,7 @@ ATE,Atarra,NSG4,NCR,JHS,Uttar Pradesh,599092,110958727,https://railway-stations-
 ATH,ANTAH,NSG6,WCR,KOTA,Rajasthan,86572,5528759,https://railway-stations-classification.pages.dev/
 ATL,Athmal Gola,NSG6,ECR,DNR,Bihar,167834,2474545,https://railway-stations-classification.pages.dev/
 ATM,Altagram,NSG6,NFR,APDJ,West Bengal,1454,61130,https://railway-stations-classification.pages.dev/
-ATMO,AITHAL,NSG6,NR,MB,Uttar Pradesh,6529,277265,https://railway-stations-classification.pages.dev/
+ATMO,AITHAL,NSG6,NR,MB,Uttarakhand,6529,277265,https://railway-stations-classification.pages.dev/
 ATNR,Awtar Nagar,NSG6,ECR,SEE,Bihar,13124,415230,https://railway-stations-classification.pages.dev/
 ATP,ANANTAPUR,NSG3,SCR,GTL,Andhra Pradesh,1861162,382704611,https://railway-stations-classification.pages.dev/
 ATPA,AWANTIPURA,NSG6,NR,FZR,Jammu and Kashmir,186793,4001787,https://railway-stations-classification.pages.dev/
@@ -279,7 +279,7 @@ BAD,BAAD,NSG6,NCR,AGC,Uttar Pradesh,960,22100,https://railway-stations-classific
 BAE,BALIAKHERI,NSG6,NR,MB,Uttar Pradesh,17909,642275,https://railway-stations-classification.pages.dev/
 BAF,BAP,NSG6,,BKN,Rajasthan,7971,501330,https://railway-stations-classification.pages.dev/
 BAGA,BHAGEGA,NSG6,NWR,JAIPUR,Rajasthan,37195,1418815,https://railway-stations-classification.pages.dev/
-BAGJ,Barharaganj,NSG6,NER,BSB,Bihar,38857,937515,https://railway-stations-classification.pages.dev/
+BAGJ,Barharaganj,NSG6,NER,BSB,Uttar Pradesh,38857,937515,https://railway-stations-classification.pages.dev/
 BAGL,Badagopal,NSG6,ECR,SEE,Bihar,67915,1750709,https://railway-stations-classification.pages.dev/
 BAH,Bhabhar,NSG6,WR,AHMEDABAD,Gujarat,9442,613721,https://railway-stations-classification.pages.dev/
 BAHI,Balenahalli,NSG6,SWR,MYS,Karnataka,112,5525,https://railway-stations-classification.pages.dev/
@@ -336,7 +336,7 @@ BBS,BHUBANESWAR,NSG2,ECoR,KUR,Odisha,12243775,4933466823,https://railway-station
 BBSN,BHUBANESWAR NEW,NSG6,ECoR,KUR,Odisha,7587,453600,https://railway-stations-classification.pages.dev/
 BBTR,Barbatpur,NSG6,CR,NGP,Madhya Pradesh,6262,249565,https://railway-stations-classification.pages.dev/
 BBU,Bhabua Road,NSG4,ECR,DDU,Bihar,1030003,179291110,https://railway-stations-classification.pages.dev/
-BBW,Bodarwar,NSG6,NER,BSB,Bihar,33991,989530,https://railway-stations-classification.pages.dev/
+BBW,Bodarwar,NSG6,NER,BSB,Uttar Pradesh,33991,989530,https://railway-stations-classification.pages.dev/
 BC,Bareilly city,NSG4,NER,IZN,Uttar Pradesh,2269184,124686027,https://railway-stations-classification.pages.dev/
 BCA,Bachwara Jn,NSG5,ECR,SEE,Bihar,365929,17956718,https://railway-stations-classification.pages.dev/
 BCB,Bhowrah,NSG6,SER,ADRA,Jharkhand,86235,2361430,https://railway-stations-classification.pages.dev/
@@ -487,7 +487,7 @@ BHNG,Bhalukpong,NSG6,NFR,RNY,Arunachal Pradesh,11827,146970,https://railway-stat
 BHNS,BHANSI,NSG6,ECoR,WAT,Chhattisgarh,5,1230,https://railway-stations-classification.pages.dev/
 BHP,BOLPUR SHANTINIKETAN,NSG3,ER,HWH,West Bengal,3301556,245116216,https://railway-stations-classification.pages.dev/
 BHPI,BICHHUPALI,NSG6,ECoR,SBP,Odisha,51,1120,https://railway-stations-classification.pages.dev/
-BHRB,Bhairabi,NSG6,NFR,LMG,Assam,25493,535100,https://railway-stations-classification.pages.dev/
+BHRB,Bhairabi,NSG6,NFR,LMG,Mizoram,25493,535100,https://railway-stations-classification.pages.dev/
 BHRJ,Bechraji,NSG4,WR,AHMEDABAD,Gujarat,0,0,https://railway-stations-classification.pages.dev/
 BHRL,BHAROLI Jn,NSG6,NR,FZR,Punjab,19668,734200,https://railway-stations-classification.pages.dev/
 BHRM,Bishramganj,NSG6,NFR,LMG,Tripura,15704,317475,https://railway-stations-classification.pages.dev/
@@ -677,7 +677,7 @@ BNDI,BARUNDANI,NSG6,WCR,KOTA,Rajasthan,16316,875930,https://railway-stations-cla
 BNDM,Bondamunda,NSG6,SER,CKP,Odisha,7483,922211,https://railway-stations-classification.pages.dev/
 BNDP,Buniyadpur,NSG5,NFR,KIR,West Bengal,227303,26006391,https://railway-stations-classification.pages.dev/
 BNE,BOHANI,NSG6,WCR,JBP,Madhya Pradesh,67582,3274596,https://railway-stations-classification.pages.dev/
-BNF,Bandhua,NSG6,ECR,DHN,Jharkhand,12766,885560,https://railway-stations-classification.pages.dev/
+BNF,Bandhua,NSG6,ECR,DHN,Bihar,12766,885560,https://railway-stations-classification.pages.dev/
 BNG,Barnagar,NSG5,WR,RATLAM,Madhya Pradesh,473078,31763088,https://railway-stations-classification.pages.dev/
 BNGL,BHANGALA,NSG6,NR,FZR,Punjab,13335,487523,https://railway-stations-classification.pages.dev/
 BNGM,Bangurgram,NSG6,NWR,AII,Rajasthan,170,6000,https://railway-stations-classification.pages.dev/
@@ -696,8 +696,8 @@ BNP,BHANAPUR,NSG6,SWR,UBL,Karnataka,89181,6775023,https://railway-stations-class
 BNQ,Banarhat,NSG5,NFR,APDJ,West Bengal,130031,12398044,https://railway-stations-classification.pages.dev/
 BNR,Bhagwanpur,NSG5,ECR,SEE,Bihar,479143,13608294,https://railway-stations-classification.pages.dev/
 BNS,Banas,NSG6,,AII,Rajasthan,5154,333000,https://railway-stations-classification.pages.dev/
-BNSA,Banbasa,NSG6,NER,IZN,Uttar Pradesh,128895,3967895,https://railway-stations-classification.pages.dev/
-BNSP,BANSAPAHAR,NSG6,WCR,JBP,Madhya Pradesh,0,0,https://railway-stations-classification.pages.dev/
+BNSA,Banbasa,NSG6,NER,IZN,Uttarakhand,128895,3967895,https://railway-stations-classification.pages.dev/
+BNSP,BANSAPAHAR,NSG6,WCR,JBP,Uttar Pradesh,0,0,https://railway-stations-classification.pages.dev/
 BNSR,BHAGWANSAR,NSG6,NWR,BKN,Rajasthan,23912,835700,https://railway-stations-classification.pages.dev/
 BNT,BHARTHANA,NSG5,NCR,PRYJ,Uttar Pradesh,437416,26170856,https://railway-stations-classification.pages.dev/
 BNTL,Bantwala,NSG5,SWR,MYS,Karnataka,113852,24571637,https://railway-stations-classification.pages.dev/
@@ -841,7 +841,7 @@ BSM,BISANATHAM,NSG6,SWR,SBC,Karnataka,113514,1302160,https://railway-stations-cl
 BSN,Banasandra,NSG6,SWR,MYS,Karnataka,116347,2599280,https://railway-stations-classification.pages.dev/
 BSP,Bilaspur,NSG2,SECR,BSP,Chhattisgarh,6414669,1658844122,https://railway-stations-classification.pages.dev/
 BSPH,BISHANPUR HARYANA,NSG6,NR,DLI,Haryana,52968,1586730,https://railway-stations-classification.pages.dev/
-BSPL,BASAMPALLE,NSG6,SWR,SBC,Karnataka,3539,125855,https://railway-stations-classification.pages.dev/
+BSPL,BASAMPALLE,NSG6,SWR,SBC,Andhra Pradesh,3539,125855,https://railway-stations-classification.pages.dev/
 BSPN,BASSI PATHANAN,NSG6,NR,UMB,Punjab,29924,1247909,https://railway-stations-classification.pages.dev/
 BSPR,Bishrampur,NSG5,SECR,BSP,Chhattisgarh,109124,20655756,https://railway-stations-classification.pages.dev/
 BSPX,Banspani,NSG6,SER,CKP,Odisha,27392,4288382,https://railway-stations-classification.pages.dev/
@@ -951,7 +951,7 @@ BXB,BANGA,NSG6,NR,FZR,Punjab,5273,85556,https://railway-stations-classification.
 BXC,BARWALA,NSG6,NR,UMB,Haryana,226819,6402395,https://railway-stations-classification.pages.dev/
 BXF,Barsuan,NSG6,SER,CKP,Odisha,643,42124,https://railway-stations-classification.pages.dev/
 BXG,Bhanga,NSG6,NFR,LMG,Assam,11970,373122,https://railway-stations-classification.pages.dev/
-BXHT,Boxirhat,NSG6,NFR,APDJ,Assam,8070,426650,https://railway-stations-classification.pages.dev/
+BXHT,Boxirhat,NSG6,NFR,APDJ,West Bengal,8070,426650,https://railway-stations-classification.pages.dev/
 BXJ,Bokajan,NSG5,NFR,LMG,Assam,192747,17011405,https://railway-stations-classification.pages.dev/
 BXK,Bandarkhal,NSG6,NFR,LMG,Assam,4606,248319,https://railway-stations-classification.pages.dev/
 BXLL,Billi Jn,NSG6,ECR,DHN,Uttar Pradesh,14811,799955,https://railway-stations-classification.pages.dev/
@@ -1017,7 +1017,7 @@ CBT,CHARBATIA,NSG6,ECoR,KUR,Odisha,10631,417195,https://railway-stations-classif
 CBU,Chinnababu samudram,NSG6,SR,TPJ,Tamil Nadu,80187,4117475,https://railway-stations-classification.pages.dev/
 CBX,CHAND BHAN,NSG6,NR,FZR,Punjab,39101,589035,https://railway-stations-classification.pages.dev/
 CBY,Khambat,NSG6,WR,VADODARA,Gujarat,713145,9891885,https://railway-stations-classification.pages.dev/
-CBZ,Churaibari,NSG6,NFR,LMG,Assam,78982,2306212,https://railway-stations-classification.pages.dev/
+CBZ,Churaibari,NSG6,NFR,LMG,Tripura,78982,2306212,https://railway-stations-classification.pages.dev/
 CC,Chauri-Chaura,NSG5,NER,BSB,Uttar Pradesh,145296,18375936,https://railway-stations-classification.pages.dev/
 CCA,CHIGICHERLA,NSG6,SCR,GTL,Andhra Pradesh,3452,191895,https://railway-stations-classification.pages.dev/
 CCD,Chichonda,NSG6,CR,NGP,Madhya Pradesh,3874,177335,https://railway-stations-classification.pages.dev/
@@ -1445,8 +1445,8 @@ DLP,DALPATPUR,NSG6,NR,MB,Uttar Pradesh,7548,265400,https://railway-stations-clas
 DLPC,DAULATPUR CHAUK,NSG5,NR,UMB,Himachal Pradesh,133407,31451600,https://railway-stations-classification.pages.dev/
 DLQ,DALELNAGAR,NSG6,NR,MB,Uttar Pradesh,11,475,https://railway-stations-classification.pages.dev/
 DLR,Dullahpur,NSG5,NER,BSB,Uttar Pradesh,465989,34768531,https://railway-stations-classification.pages.dev/
-DLSR,DALHOUSIE ROAD,NSG6,NR,FZR,Himachal Pradesh,0,0,https://railway-stations-classification.pages.dev/
-DLW,Dilwa,NSG6,ECR,DHN,Bihar,3257,130170,https://railway-stations-classification.pages.dev/
+DLSR,DALHOUSIE ROAD,NSG6,NR,FZR,Punjab,0,0,https://railway-stations-classification.pages.dev/
+DLW,Dilwa,NSG6,ECR,DHN,Jharkhand,3257,130170,https://railway-stations-classification.pages.dev/
 DMA,Damodar,NSG6,SER,ADRA,West Bengal,124425,1233240,https://railway-stations-classification.pages.dev/
 DMBR,Dumri Bihar,NSG6,ECR,DHN,Jharkhand,5426,170440,https://railway-stations-classification.pages.dev/
 DMC,Dhemaji,NSG4,NFR,TSK,Assam,204773,33507739,https://railway-stations-classification.pages.dev/
@@ -1608,7 +1608,7 @@ DWX,Dewas,NSG3,WR,RATLAM,Madhya Pradesh,1182493,235355743,https://railway-statio
 DWZ,DANTEWARA,NSG6,ECoR,WAT,Chhattisgarh,25469,8028839,https://railway-stations-classification.pages.dev/
 DXD,DIGOD,NSG6,WCR,KOTA,Rajasthan,6158,309106,https://railway-stations-classification.pages.dev/
 DXG,Dharangaon,NSG5,WR,MUMBAI,Maharashtra,250973,30955624,https://railway-stations-classification.pages.dev/
-DXN,Dudhi Nagar,NSG5,ECR,DHN,Jharkhand,86870,14070055,https://railway-stations-classification.pages.dev/
+DXN,Dudhi Nagar,NSG5,ECR,DHN,Uttar Pradesh,86870,14070055,https://railway-stations-classification.pages.dev/
 DXR,Digsar,NSG6,WR,RAJKOT,Gujarat,138,8605,https://railway-stations-classification.pages.dev/
 DY,DUMARIYA,NSG6,WCR,KOTA,Rajasthan,11390,476070,https://railway-stations-classification.pages.dev/
 DYD,DARYABAD,NSG5,NR,LKO,Uttar Pradesh,200838,20879575,https://railway-stations-classification.pages.dev/
@@ -1774,7 +1774,7 @@ GH,Ghughuli,NSG6,NER,BSB,Uttar Pradesh,119914,6257916,https://railway-stations-c
 GHA,GOLEHWALA,NSG6,NR,FZR,Punjab,10077,343880,https://railway-stations-classification.pages.dev/
 GHAI,GHATIGAON,NSG6,WCR,BPL,Madhya Pradesh,2541,153695,https://railway-stations-classification.pages.dev/
 GHD,Garhwa Road Jn,NSG4,ECR,DHN,Jharkhand,925465,151655903,https://railway-stations-classification.pages.dev/
-GHE,GHEVRA,NSG6,NR,DLI,Haryana,99118,1345675,https://railway-stations-classification.pages.dev/
+GHE,GHEVRA,NSG6,NR,DLI,Delhi,99118,1345675,https://railway-stations-classification.pages.dev/
 GHG,GHAGGHAR,NSG6,NR,UMB,Punjab,52225,1458910,https://railway-stations-classification.pages.dev/
 GHGL,GHAGWAL,NSG6,NR,FZR,Jammu and Kashmir,43837,871092,https://railway-stations-classification.pages.dev/
 GHH,GARHI HARSARU JN,NSG5,NR,DLI,Haryana,971669,24216303,https://railway-stations-classification.pages.dev/
@@ -1945,12 +1945,12 @@ GTM,Ghatampur,NSG5,NCR,JHS,Uttar Pradesh,284686,19967231,https://railway-station
 GTNR,Gomti nagar,NSG3,NER,LJN,Uttar Pradesh,923521,299684539,https://railway-stations-classification.pages.dev/
 GTP,Ghatpuri,NSG6,NER,IZN,Uttar Pradesh,129469,3246690,https://railway-stations-classification.pages.dev/
 GTS,Ghatsila,NSG4,SER,KGP,Jharkhand,918368,59609338,https://railway-stations-classification.pages.dev/
-GTST,Gautam Sthan,NSG6,NER,BSB,Uttar Pradesh,42320,1442465,https://railway-stations-classification.pages.dev/
+GTST,Gautam Sthan,NSG6,NER,BSB,Bihar,42320,1442465,https://railway-stations-classification.pages.dev/
 GTU,GHATNANDUR,NSG6,SCR,SC,Maharashtra,33365,2036211,https://railway-stations-classification.pages.dev/
 GTW,Gatora,NSG6,SECR,BSP,Chhattisgarh,29700,1052600,https://railway-stations-classification.pages.dev/
 GTX,Gothangam,NSG6,WR,VADODARA,Gujarat,20568,347945,https://railway-stations-classification.pages.dev/
 GUA,GUA,NSG6,SER,CKP,Jharkhand,7328,347243,https://railway-stations-classification.pages.dev/
-GUB,Gularbhoj,NSG6,NER,IZN,Uttar Pradesh,212169,4396400,https://railway-stations-classification.pages.dev/
+GUB,Gularbhoj,NSG6,NER,IZN,Uttarakhand,212169,4396400,https://railway-stations-classification.pages.dev/
 GUD,Galudih,NSG6,SER,KGP,Jharkhand,147686,2146790,https://railway-stations-classification.pages.dev/
 GUG,Garhjaipur,NSG6,SER,ADRA,West Bengal,191020,5618659,https://railway-stations-classification.pages.dev/
 GUH,GULDHAR,NSG6,NR,DLI,Uttar Pradesh,80066,833217,https://railway-stations-classification.pages.dev/
@@ -2037,7 +2037,7 @@ HGJ,HARDUAGANJ,NSG6,NCR,PRYJ,Uttar Pradesh,32407,1056280,https://railway-station
 HGL,HARANGUL,NSG5,CR,SUR,Maharashtra,105267,27406555,https://railway-stations-classification.pages.dev/
 HGR,Himgir,NSG6,SECR,BSP,Odisha,26638,1038309,https://railway-stations-classification.pages.dev/
 HGT,Hinganghat,NSG5,CR,NGP,Maharashtra,203014,20092542,https://railway-stations-classification.pages.dev/
-HHD,HUNSIHADGIL,NSG6,CR,SUR,Maharashtra,25,910,https://railway-stations-classification.pages.dev/
+HHD,HUNSIHADGIL,NSG6,CR,SUR,Karnataka,25,910,https://railway-stations-classification.pages.dev/
 HHL,HIREHALLI,NSG6,SWR,SBC,Karnataka,69459,987410,https://railway-stations-classification.pages.dev/
 HHT,Habbanaghatta,NSG6,SWR,MYS,Karnataka,2968,127210,https://railway-stations-classification.pages.dev/
 HIJ,Hijli,NSG3,SER,KGP,West Bengal,283139,215359760,https://railway-stations-classification.pages.dev/
@@ -2124,7 +2124,7 @@ HRV,Harrad,NSG6,SECR,BSP,Madhya Pradesh,23204,904310,https://railway-stations-cl
 HRW,HARRAWALA,NSG6,NR,MB,Uttarakhand,27521,2111042,https://railway-stations-classification.pages.dev/
 HSA,Hasimara,NSG5,NFR,APDJ,West Bengal,248511,62455295,https://railway-stations-classification.pages.dev/
 HSD,HosadurgaRoad,NSG6,SWR,MYS,Karnataka,108363,7740771,https://railway-stations-classification.pages.dev/
-HSDA,HANSDIHA,NSG5,ER,MALDA,Bihar,269708,13918553,https://railway-stations-classification.pages.dev/
+HSDA,HANSDIHA,NSG5,ER,MALDA,Jharkhand,269708,13918553,https://railway-stations-classification.pages.dev/
 HSI,HARSAULI,NSG6,NWR,JAIPUR,Rajasthan,160044,6037714,https://railway-stations-classification.pages.dev/
 HSK,HARISHANKAR ROAD,NSG5,ECoR,SBP,Odisha,136687,22361958,https://railway-stations-classification.pages.dev/
 HSL,Hisvahal,NSG6,CR,BSL,Maharashtra,20,1290,https://railway-stations-classification.pages.dev/
@@ -2378,7 +2378,7 @@ JPL,Japla,NSG4,ECR,DDU,Jharkhand,531719,44465538,https://railway-stations-classi
 JPO,Joraalapur,NSG6,NCR,JHS,Madhya Pradesh,8998,130285,https://railway-stations-classification.pages.dev/
 JPS,JAMALPUR SHAIKHAN,NSG6,NR,UMB,Haryana,222132,6671665,https://railway-stations-classification.pages.dev/
 JPZ,Jogighopa,NSG6,NFR,RNY,Assam,32243,1757447,https://railway-stations-classification.pages.dev/
-JRA,Jaraikela,NSG6,SER,CKP,Jharkhand,9975,1261116,https://railway-stations-classification.pages.dev/
+JRA,Jaraikela,NSG6,SER,CKP,Odisha,9975,1261116,https://railway-stations-classification.pages.dev/
 JRBM,Jiribam,NSG6,NFR,LMG,Manipur,2692,290101,https://railway-stations-classification.pages.dev/
 JRC,JALANDHAR CANTT Jn,NSG3,NR,FZR,Punjab,1401743,597183002,https://railway-stations-classification.pages.dev/
 JREA,JHAREDA,NSG6,NCR,AGC,Rajasthan,12000,814387,https://railway-stations-classification.pages.dev/
@@ -2613,7 +2613,7 @@ KHJ,Khajraha,NSG6,NCR,JHS,Uttar Pradesh,4079,147130,https://railway-stations-cla
 KHKN,KHERA KALAN,NSG6,NR,DLI,Delhi,139509,1260960,https://railway-stations-classification.pages.dev/
 KHKT,Khotkhoti,NSG6,NFR,LMG,Assam,5943,208980,https://railway-stations-classification.pages.dev/
 KHM,Kusmhi,NSG6,NER,BSB,Uttar Pradesh,2440,120210,https://railway-stations-classification.pages.dev/
-KHMA,Khatima,NSG5,NER,IZN,Uttar Pradesh,474053,29428526,https://railway-stations-classification.pages.dev/
+KHMA,Khatima,NSG5,NER,IZN,Uttarakhand,474053,29428526,https://railway-stations-classification.pages.dev/
 KHNM,KUNDA HARNAM GANJ,NSG5,NR,LKO,Uttar Pradesh,380986,60989015,https://railway-stations-classification.pages.dev/
 KHNP,KHANAPUR,NSG6,SCR,SC,Karnataka,22836,1096772,https://railway-stations-classification.pages.dev/
 KHOH,Khoh,NSG6,NCR,JHS,Uttar Pradesh,14696,866605,https://railway-stations-classification.pages.dev/
@@ -2901,7 +2901,7 @@ KRKR,Kurkura,NSG6,SER,RNC,Jharkhand,13918,560550,https://railway-stations-classi
 KRL,Kotarlia,NSG6,SECR,BSP,Chhattisgarh,12455,424890,https://railway-stations-classification.pages.dev/
 KRLA,KORATLA,NSG6,SCR,SC,Telangana,20874,2601228,https://railway-stations-classification.pages.dev/
 KRLI,KURALI,NSG6,NR,UMB,Punjab,94398,5748321,https://railway-stations-classification.pages.dev/
-KRLR,Karaila Road Jn,NSG6,ECR,DHN,Uttar Pradesh,106,7845,https://railway-stations-classification.pages.dev/
+KRLR,Karaila Road Jn,NSG6,ECR,DHN,Madhya Pradesh,106,7845,https://railway-stations-classification.pages.dev/
 KRLS,KURLASI,NSG6,WCR,KOTA,Madhya Pradesh,23286,817805,https://railway-stations-classification.pages.dev/
 KRMA,KARAMTOLA,NSG6,ER,MALDA,Jharkhand,50835,1277015,https://railway-stations-classification.pages.dev/
 KRMD,Kuarmunda,NSG6,SER,CKP,Odisha,136,5375,https://railway-stations-classification.pages.dev/
@@ -3146,7 +3146,7 @@ LHM,LEHRA MUHABBAT,NSG6,NR,UMB,Punjab,1373,64280,https://railway-stations-classi
 LHN,LACHYAN,NSG6,SWR,UBL,Karnataka,86636,2528735,https://railway-stations-classification.pages.dev/
 LHU,LOHARU JN,NSG3,NWR,BKN,Haryana,925526,246880530,https://railway-stations-classification.pages.dev/
 LIG,Linga,NSG6,SECR,NGP,Madhya Pradesh,24615,1161251,https://railway-stations-classification.pages.dev/
-LIJ,Lachmiganj,NSG6,NER,BSB,Bihar,32313,1027170,https://railway-stations-classification.pages.dev/
+LIJ,Lachmiganj,NSG6,NER,BSB,Uttar Pradesh,32313,1027170,https://railway-stations-classification.pages.dev/
 LIR,Lachmipur,NSG6,NER,LJN,Uttar Pradesh,245373,6783840,https://railway-stations-classification.pages.dev/
 LJN,Lucknow jn,NSG2,NER,LJN,Uttar Pradesh,6892990,2990397340,https://railway-stations-classification.pages.dev/
 LJR,LANJIGARH ROAD,NSG6,ECoR,SBP,Odisha,31952,2287221,https://railway-stations-classification.pages.dev/
@@ -3279,7 +3279,7 @@ MAP,Morappur,NSG5,SR,SA,Tamil Nadu,545040,64565856,https://railway-stations-clas
 MAQ,Mangalore Central,NSG2,SR,PGT,Karnataka,4954844,1103238790,https://railway-stations-classification.pages.dev/
 MAR,MULANUR,NSG6,SWR,SBC,Andhra Pradesh,129354,2331268,https://railway-stations-classification.pages.dev/
 MAS,MGR Chennai Central,NSG1,SR,MAS,Tamil Nadu,30595837,12993143870,https://railway-stations-classification.pages.dev/
-MASK,MAISAR KHANA,NSG6,NR,DLI,Uttar Pradesh,3068,125130,https://railway-stations-classification.pages.dev/
+MASK,MAISAR KHANA,NSG6,NR,DLI,Punjab,3068,125130,https://railway-stations-classification.pages.dev/
 MAU,Mau Jn,NSG2,NER,BSB,Uttar Pradesh,3285911,1065597950,https://railway-stations-classification.pages.dev/
 MAUR,MAUR,NSG5,NR,DLI,Punjab,169314,12035539,https://railway-stations-classification.pages.dev/
 MAY,MARIAHU,NSG5,NR,LKO,Uttar Pradesh,125601,46861456,https://railway-stations-classification.pages.dev/
@@ -3535,7 +3535,7 @@ MMPL,MANTAPAMPALLE,NSG6,SCR,GTL,Andhra Pradesh,2720,114405,https://railway-stati
 MMR,Manmad,NSG3,CR,BSL,Maharashtra,3402280,931866632,https://railway-stations-classification.pages.dev/
 MMS,MANDASA ROAD,NSG6,ECoR,KUR,Andhra Pradesh,88871,7126994,https://railway-stations-classification.pages.dev/
 MMU,MUGMA,NSG6,ER,ASN,Jharkhand,100653,2428395,https://railway-stations-classification.pages.dev/
-MMV,Mahalimarup,NSG6,SER,CKP,Odisha,195867,2162524,https://railway-stations-classification.pages.dev/
+MMV,Mahalimarup,NSG6,SER,CKP,Jharkhand,195867,2162524,https://railway-stations-classification.pages.dev/
 MMVR,Murgamahadev Road,NSG6,SER,CKP,Odisha,5297,586844,https://railway-stations-classification.pages.dev/
 MMY,MARWAR MATHANIYA,NSG6,NWR,JU,Rajasthan,40647,2957712,https://railway-stations-classification.pages.dev/
 MMZ,MANDAMARRI,NSG6,SCR,SC,Telangana,65717,4434619,https://railway-stations-classification.pages.dev/
@@ -3981,7 +3981,7 @@ NPNR,Nepanagar,NSG5,CR,BSL,Madhya Pradesh,281098,18496043,https://railway-statio
 NPR,Nepalganj Road,NSG6,NER,LJN,Uttar Pradesh,103188,3473990,https://railway-stations-classification.pages.dev/
 NPS,NAPASAR,NSG5,NWR,BKN,Rajasthan,239646,10276037,https://railway-stations-classification.pages.dev/
 NPV,Narpatganj,NSG6,ECR,SPJ,Bihar,2805,148450,https://railway-stations-classification.pages.dev/
-NPX,NARINDARPURA,NSG6,NR,DLI,Haryana,1387,51050,https://railway-stations-classification.pages.dev/
+NPX,NARINDARPURA,NSG6,NR,DLI,Punjab,1387,51050,https://railway-stations-classification.pages.dev/
 NQH,New Domohani,NSG6,NFR,APDJ,West Bengal,911,39725,https://railway-stations-classification.pages.dev/
 NQR,NARAJ MARTHAPUR,NSG6,ECoR,KUR,Odisha,87640,8311825,https://railway-stations-classification.pages.dev/
 NR,Niphad,NSG5,CR,BSL,Maharashtra,166923,12065137,https://railway-stations-classification.pages.dev/
@@ -4764,7 +4764,7 @@ RUJ,Ranuj,NSG6,WR,AHMEDABAD,Gujarat,94626,834670,https://railway-stations-classi
 RUL,ROULI,NSG6,ECoR,WAT,Odisha,237,16930,https://railway-stations-classification.pages.dev/
 RUM,RUPAMAU,NSG6,NR,LKO,Uttar Pradesh,1055,44790,https://railway-stations-classification.pages.dev/
 RUP,Rupaigaon,NSG6,NFR,LMG,Assam,32947,688885,https://railway-stations-classification.pages.dev/
-RUPC,Rudrapur city,NSG4,NER,IZN,Uttarakhand,666812,155739778,https://railway-stations-classification.pages.dev/
+RUPC,Rudrapur city,NSG4,NER,IZN,Uttar Pradesh,666812,155739778,https://railway-stations-classification.pages.dev/
 RUR,Ranpur,NSG6,WR,BHAVNAGAR,Gujarat,310213,8959614,https://railway-stations-classification.pages.dev/
 RURA,RURA,NSG5,NCR,PRYJ,Uttar Pradesh,576391,27479320,https://railway-stations-classification.pages.dev/
 RUSD,Runni Saidpur,NSG6,ECR,SPJ,Bihar,15179,499694,https://railway-stations-classification.pages.dev/
@@ -5095,7 +5095,7 @@ SMF,SAMAR GOPALPUR,NSG6,NR,DLI,Haryana,89364,776155,https://railway-stations-cla
 SMH,Simraha,NSG6,NFR,KIR,Bihar,139187,3803665,https://railway-stations-classification.pages.dev/
 SMI,Sitamarhi,NSG3,ECR,SPJ,Bihar,1381202,238168337,https://railway-stations-classification.pages.dev/
 SMK,SAMALKHA,NSG5,NR,DLI,Haryana,1093719,30693451,https://railway-stations-classification.pages.dev/
-SMKR,Sham Kauria,NSG6,NER,BSB,Uttar Pradesh,28670,883940,https://railway-stations-classification.pages.dev/
+SMKR,Sham Kauria,NSG6,NER,BSB,Bihar,28670,883940,https://railway-stations-classification.pages.dev/
 SML,SHIMLA,NSG5,NR,UMB,Himachal Pradesh,178014,36410696,https://railway-stations-classification.pages.dev/
 SMLA,Samalaya,NSG6,WR,VADODARA,Gujarat,90280,2265903,https://railway-stations-classification.pages.dev/
 SMLG,SIMILIGUDA,NSG6,ECoR,WAT,Andhra Pradesh,3358,167112,https://railway-stations-classification.pages.dev/
@@ -5318,7 +5318,7 @@ SUT,SATLANA,NSG6,NWR,JU,Rajasthan,65412,958450,https://railway-stations-classifi
 SUU,Sulur road,NSG6,SR,SA,Tamil Nadu,35287,865025,https://railway-stations-classification.pages.dev/
 SUW,SUKHI SEWANIYAN,NSG6,WCR,BPL,Madhya Pradesh,4506,219105,https://railway-stations-classification.pages.dev/
 SUX,Sudiyur,NSG6,SR,MDU,Tamil Nadu,21610,159140,https://railway-stations-classification.pages.dev/
-SV,Siwan Jn,NSG3,NER,BSB,Uttar Pradesh,3319209,843745192,https://railway-stations-classification.pages.dev/
+SV,Siwan Jn,NSG3,NER,BSB,Bihar,3319209,843745192,https://railway-stations-classification.pages.dev/
 SVA,SUWASRA,NSG5,WCR,KOTA,Madhya Pradesh,323114,29348059,https://railway-stations-classification.pages.dev/
 SVB,Savni,NSG6,WR,BHAVNAGAR,Gujarat,6539,203658,https://railway-stations-classification.pages.dev/
 SVD,SARWARI,NSG6,SCR,NED,Maharashtra,2930,145670,https://railway-stations-classification.pages.dev/
@@ -5369,7 +5369,7 @@ SYA,SALAIA,NSG6,WCR,JBP,Madhya Pradesh,58346,2888620,https://railway-stations-cl
 SYC,SARAI CHANDI,NSG6,NR,LKO,Uttar Pradesh,4718,469687,https://railway-stations-classification.pages.dev/
 SYE,Sindewahi,NSG6,SECR,NGP,Maharashtra,83774,3420670,https://railway-stations-classification.pages.dev/
 SYH,Saiyedpur Bhitri,NSG6,NER,BSB,Uttar Pradesh,31311,952965,https://railway-stations-classification.pages.dev/
-SYJ,Saidraja,NSG6,ECR,DDU,Bihar,43826,1291803,https://railway-stations-classification.pages.dev/
+SYJ,Saidraja,NSG6,ECR,DDU,Uttar Pradesh,43826,1291803,https://railway-stations-classification.pages.dev/
 SYK,SAID KHANPUR,NSG6,NR,LKO,Uttar Pradesh,12566,372152,https://railway-stations-classification.pages.dev/
 SYL,SALPURA,NSG6,WCR,KOTA,Rajasthan,93265,5862360,https://railway-stations-classification.pages.dev/
 SYM,SAVALYAPURAM,NSG6,SCR,GNT,Andhra Pradesh,7956,363145,https://railway-stations-classification.pages.dev/
@@ -5507,7 +5507,7 @@ TKI,Takli,NSG6,CR,BSL,Maharashtra,1316,52150,https://railway-stations-classifica
 TKJ,TILAK BRIDGE,NSG6,NR,DLI,Delhi,285751,8442262,https://railway-stations-classification.pages.dev/
 TKLE,TIKANI,NSG6,ER,MALDA,Bihar,59625,705210,https://railway-stations-classification.pages.dev/
 TKMG,Tikamgarh,NSG5,NCR,JHS,Madhya Pradesh,535165,90799468,https://railway-stations-classification.pages.dev/
-TKN,Tankuppa,NSG6,ECR,DHN,Jharkhand,121098,2864756,https://railway-stations-classification.pages.dev/
+TKN,Tankuppa,NSG6,ECR,DHN,Bihar,121098,2864756,https://railway-stations-classification.pages.dev/
 TKP,TAKIPUR,NSG6,ER,HWH,West Bengal,44367,1330380,https://railway-stations-classification.pages.dev/
 TKPY,TURKAPALLI,NSG6,SCR,GTL,Andhra Pradesh,1075,46600,https://railway-stations-classification.pages.dev/
 TKQ,Trikarpur (FLAG),NSG6,SR,PGT,Kerala,363320,8838371,https://railway-stations-classification.pages.dev/
@@ -5929,7 +5929,7 @@ YA,YERRAGUNTLA,NSG4,SCR,GTL,Andhra Pradesh,693017,140382537,https://railway-stat
 YAD,Yeulkhed,NSG6,CR,BSL,Maharashtra,2854,103835,https://railway-stations-classification.pages.dev/
 YADA,YADAVALLI,NSG6,SCR,GNT,Andhra Pradesh,6,530,https://railway-stations-classification.pages.dev/
 YADD,YADADRI,NSG4,SCR,SC,Telangana,29178,1329580,https://railway-stations-classification.pages.dev/
-YDLP,YADLAPUR,NSG6,SCR,GTL,Andhra Pradesh,850,42940,https://railway-stations-classification.pages.dev/
+YDLP,YADLAPUR,NSG6,SCR,GTL,Karnataka,850,42940,https://railway-stations-classification.pages.dev/
 YDM,Yedamangala,NSG6,SWR,MYS,Karnataka,1889,66910,https://railway-stations-classification.pages.dev/
 YFP,Yusufpur,NSG5,NER,BSB,Uttar Pradesh,415061,33431645,https://railway-stations-classification.pages.dev/
 YG,YADGIR,NSG3,SCR,GTL,Karnataka,1514475,307566384,https://railway-stations-classification.pages.dev/
