@@ -4,7 +4,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
-### Fixed & Changed — PR #29: railway stations review, ports/airports/GCTs verification, and toll-plaza refresh (Stage 4 regeneration deferred to Linux)
+### Fixed & Changed — PR #29: railway stations review, ports/airports/GCTs verification, and toll-plaza refresh (Stage 4 run `linux-2026-11-24-run8`)
 
 - **Railway stations & categories (PR #18 review resolved; `data/rail/railway_stations.csv` + `.parquet`, `data/rail/station_categories.csv`, `scripts/clean/assign_station_states.py`, `docs/review/`):**
   - **23** station coordinates fixed to OSM `railway=station`/`halt` nodes (18 from `railway_station_state_review.csv` + 5 from `station_category_state_review.csv`), **0** left pending; `ALJ` renamed `ALAI` → `ALIGANJ`; **0** duplicate `(latitude, longitude)` pairs remain across all 8,697 rows; `source_state` preserved verbatim; `railway_stations.parquet` regenerated.
@@ -20,7 +20,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - **Toll plazas (`data/roads/toll_plazas.csv` + `.parquet`, `scripts/fetch/fetch_toll_plazas.py`, `server/models/schemas.py`):**
   - Overpass refresh **1,536 → 1,585** clusters (`1,120 national_highway`, `102 expressway_toll`, `363 highway_toll`), upgraded to the 12-column schema adding deterministic `toll_id` (`TPL-0001`..`TPL-1585`), unique representative `osm_node_id`, and per-row OSM `source_url` (`https://www.openstreetmap.org/(node|way)/<osm_node_id>`); `--from-cache` CLI option added; `TollPlazaItem` schema updated; `data/audit_baseline.json` updated (`roads:toll_plazas`: `1536 → 1585`).
 - **Audit (`scripts/audit/audit_all.py`):** enforces the 12-column toll schema, `toll_id`/`osm_node_id`/`source_url` invariants and `>= 1,500` rows; checks `DSN`/`DHCA` international exclusion and zero duplicate station coordinates; enforces 84/84 geocoded GCTs, 22/22 port UN/LOCODEs, and zero Wikipedia URLs in `ports.csv` and `air_cargo.csv`.
-- **Stage 4 & village access regeneration (pending on Linux):** villages whose rail-station distance changed = **NOT YET MEASURED**, because Stage 4 and village/sub-district access regeneration is deferred to Linux. Until regenerated on Linux, `data/analysis/producer_manifest.json` carries stale SHA-256 input hashes for `rail/railway_stations.csv`, `rail/freight_terminals.csv`, `logistics_hubs/ports.csv`, `logistics_hubs/air_cargo.csv`, and `roads/toll_plazas.csv`.
+- **Stage 4 & village access regenerated (Stage 4 run `linux-2026-11-24-run8`):** `nearest_facility.py --all`, `subdistrict_access.py` and `stage4_generate` rerun on Linux after merging `main` (#27, #28, #30). Of 658,248 villages, the nearest-facility distance changed for 2,371 (rail station), 27,827 (freight terminal), 62,677 (port) and 23,698 (toll plaza); no other village column changed. Stage 4: 130 of 780 rows of `nh_district_travel_time_summary.csv`, 391 of `district_port_hinterland_catchment.csv` and 50 of `district_freight_modal_split.csv` changed (1 district changed optimal mode); the Visakhapatnam column of `nh_district_port_matrix.csv` moved with the port. `producer_manifest.json` input hashes are current and `source_identity_disclosures` is empty.
 
 ### Fixed — sub-district ABDB carveout codes preserved (audit item 18)
 

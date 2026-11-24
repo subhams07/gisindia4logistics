@@ -783,17 +783,11 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
       `toll_plazas.parquet`, updated `TollPlazaItem` in `server/models/schemas.py`,
       updated `data/audit_baseline.json` (`roads:toll_plazas`: 1536 → 1585), and
       enforced all new invariants in `scripts/audit/audit_all.py`.
-    - **Pending Linux regeneration (REQUIRED before final Stage 4 sync):**
-      `data/analysis/*` and `data/analysis/producer_manifest.json` were NOT
-      regenerated in this Windows PR (their SHA-256 input hashes for
-      `rail/railway_stations.csv`, `rail/freight_terminals.csv`,
-      `logistics_hubs/ports.csv`, `logistics_hubs/air_cargo.csv`, and
-      `roads/toll_plazas.csv` are stale, and villages whose rail-station
-      distance changed are not yet measured). On Linux, run:
-      `python scripts/analyze/nearest_facility.py --all`,
-      `python scripts/analyze/subdistrict_access.py`, then
-      `python -m scripts.analyze.stage4_generate ...`, then copy
-      `<tmp>/analysis/*` to `data/analysis/`.
+    - **Regenerated** (Stage 4 run `linux-2026-11-24-run8`, after merging
+      #27, #28 and #30): village and sub-district access plus Stage 4. Of
+      658,248 villages the nearest rail station distance changed for 2,371,
+      freight terminal 27,827, port 62,677, toll plaza 23,698; 1 district
+      changed its optimal freight mode.
 
 ## Enhancement backlog (suggested next steps)
 

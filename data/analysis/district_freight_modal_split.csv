@@ -2,31 +2,31 @@ state,district,district_code,pop_2011,is_island,target_port,road_distance_km,roa
 Andaman and Nicobar Islands,NICOBARS,603.0,35775.0,True,,,,,,,N/A (Island / Isolated),,,
 Andaman and Nicobar Islands,NORTH AND MIDDLE ANDAMAN,632.0,105935.0,True,,,,,,,N/A (Island / Isolated),,,
 Andaman and Nicobar Islands,SOUTH ANDAMANS,602.0,238871.0,True,,,,,,,N/A (Island / Isolated),,,
-Andhra Pradesh,Alluri Sitarama Raju,745.0,5761468.0,False,Visakhapatnam Port,239.6,3.74,1021.4,1407.6,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Anakapalli,744.0,1494537.0,False,Visakhapatnam Port,62.6,1.28,372.6,1011.8,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Alluri Sitarama Raju,745.0,5761468.0,False,Visakhapatnam Port,237.0,3.75,1012.2,1401.9,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Anakapalli,744.0,1494537.0,False,Gangavaram Port,67.2,1.41,389.9,853.1,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Ananthapuramu,502.0,2155899.0,False,Chennai Port,432.7,6.32,1728.5,1825.7,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Annamayya,753.0,1738926.0,False,Chennai Port,283.1,4.19,1179.7,1501.8,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Bapatla,750.0,1216917.0,False,Visakhapatnam Port,487.3,7.26,1930.0,1935.8,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Bapatla,750.0,1216917.0,False,Gangavaram Port,491.9,7.39,1947.3,1944.2,,Conventional Rail,3.1,0.2,380.0
 Andhra Pradesh,Chittoor,503.0,1828383.0,False,Chennai Port,206.3,3.09,897.9,1335.5,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Dr. B.R. Ambedkar Konaseema,747.0,1127050.0,False,Visakhapatnam Port,278.4,4.21,1163.1,1491.6,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,East Godavari,505.0,1119143.0,False,Visakhapatnam Port,209.0,3.22,908.5,1341.3,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Eluru,748.0,3002033.0,False,Visakhapatnam Port,289.9,4.6,1207.0,1516.5,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Guntur,506.0,1034746.0,False,Visakhapatnam Port,401.4,6.07,1615.1,1757.9,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Kakinada,746.0,1458885.0,False,Visakhapatnam Port,350.5,5.35,1428.4,1647.7,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Krishna,510.0,1958878.0,False,Visakhapatnam Port,421.6,6.28,1688.6,1801.7,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Dr. B.R. Ambedkar Konaseema,747.0,1127050.0,False,Gangavaram Port,283.1,4.34,1180.8,1501.8,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,East Godavari,505.0,1119143.0,False,Gangavaram Port,213.7,3.35,926.2,1351.5,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Eluru,748.0,3002033.0,False,Gangavaram Port,294.5,4.74,1224.4,1526.5,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Guntur,506.0,1034746.0,False,Gangavaram Port,406.1,6.2,1632.8,1768.1,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Kakinada,746.0,1458885.0,False,Gangavaram Port,355.2,5.48,1446.2,1657.9,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Krishna,510.0,1958878.0,False,Gangavaram Port,426.2,6.42,1706.1,1811.6,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Kurnool,511.0,1798965.0,False,Chennai Port,598.6,8.99,2339.4,2139.5,,Conventional Rail,199.8,8.5,380.0
-Andhra Pradesh,NTR,749.0,1701424.0,False,Visakhapatnam Port,504.7,7.42,1993.2,1641.3,,Conventional Rail,351.8,17.7,380.0
+Andhra Pradesh,NTR,749.0,1701424.0,False,Gangavaram Port,509.3,7.55,2010.5,1649.7,,Conventional Rail,360.8,17.9,380.0
 Andhra Pradesh,Nandyal,755.0,2202224.0,False,Krishnapatnam Port,396.4,5.75,1594.9,1747.1,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Palnadu,751.0,3039440.0,False,Visakhapatnam Port,520.0,7.99,2051.9,1820.9,,Conventional Rail,231.0,11.3,380.0
-Andhra Pradesh,Parvathipuram Manyam,743.0,1487136.0,False,Gangavaram Port,152.0,2.99,703.8,1217.9,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Palnadu,751.0,3039440.0,False,Gangavaram Port,524.7,8.12,2069.6,1829.5,,Conventional Rail,240.1,11.6,380.0
+Andhra Pradesh,Parvathipuram Manyam,743.0,1487136.0,False,Visakhapatnam Port,151.1,2.97,700.4,1215.9,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Prakasam,517.0,2719381.0,False,Krishnapatnam Port,384.8,5.55,1552.1,1722.0,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Sri Potti Sriramulu Nellore,515.0,2131903.0,False,Krishnapatnam Port,293.8,4.37,1219.2,1524.9,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Sri Sathya Sai,754.0,1892165.0,False,Chennai Port,375.9,5.67,1521.3,1702.7,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Srikakulam,519.0,1871449.0,False,Gangavaram Port,166.1,2.74,752.1,1248.4,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Srikakulam,519.0,1871449.0,False,Visakhapatnam Port,165.2,2.72,748.8,1246.5,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Tirupati,752.0,2433746.0,False,Krishnapatnam Port,94.6,1.49,488.1,1070.9,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Visakhapatnam,520.0,264599.0,False,Visakhapatnam Port,14.5,0.41,194.7,887.5,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,Vizianagaram,521.0,1594170.0,False,Gangavaram Port,90.8,1.72,476.3,1084.6,,Road Trucking,0.0,0.0,380.0
-Andhra Pradesh,West Godavari,523.0,1102954.0,False,Visakhapatnam Port,327.2,5.02,1343.0,1597.3,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Visakhapatnam,520.0,264599.0,False,Visakhapatnam Port,16.9,0.48,203.8,539.2,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,Vizianagaram,521.0,1594170.0,False,Visakhapatnam Port,89.9,1.7,472.9,1078.5,,Road Trucking,0.0,0.0,380.0
+Andhra Pradesh,West Godavari,523.0,1102954.0,False,Gangavaram Port,331.9,5.15,1360.7,1607.4,,Road Trucking,0.0,0.0,380.0
 Andhra Pradesh,Y.S.R.,504.0,1884738.0,False,Krishnapatnam Port,305.3,4.47,1260.9,1549.8,,Road Trucking,0.0,0.0,380.0
 Arunachal Pradesh,ANJAW,628.0,21176.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,2048.1,30.08,7660.0,4511.2,,Conventional Rail,3148.8,41.1,380.0
 Arunachal Pradesh,BICHOM,787.0,9752.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,2172.4,31.98,8116.9,4707.6,,Conventional Rail,3409.4,42.0,380.0
@@ -60,7 +60,7 @@ Assam,BAKSA,616.0,560843.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl
 Assam,BARPETA,280.0,1278777.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1115.0,16.08,4231.7,3037.4,,Conventional Rail,1194.3,28.2,380.0
 Assam,BISWANATH,705.0,750636.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,2027.4,29.22,7579.8,4478.5,,Conventional Rail,3101.3,40.9,380.0
 Assam,BONGAIGAON,281.0,746036.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,875.7,12.62,3353.5,2284.8,,Conventional Rail,1068.7,31.9,380.0
-Assam,CACHAR,282.0,1736665.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1451.2,20.9,5465.3,3379.0,,Conventional Rail,2086.3,38.2,380.0
+Assam,CACHAR,282.0,1736665.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1451.2,20.9,5465.3,3226.1,,Conventional Rail,2239.1,41.0,380.0
 Assam,CHARAIDEO,708.0,434491.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1769.0,25.42,6631.0,4070.4,,Conventional Rail,2560.6,38.6,380.0
 Assam,CHIRANG,612.0,464963.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,901.5,13.19,3449.7,2478.2,,Conventional Rail,971.5,28.2,380.0
 Assam,DARANG,283.0,889426.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1335.4,19.21,5040.2,3385.5,,Conventional Rail,1654.6,32.8,380.0
@@ -132,11 +132,11 @@ Chandigarh,CHANDIGARH,44.0,1055450.0,False,Deendayal Port (Kandla),1246.9,15.76,
 Chhattisgarh,BALOD,646.0,1306389.0,False,Paradip Port,865.1,12.51,3314.9,2627.4,,Conventional Rail,687.5,20.7,380.0
 Chhattisgarh,BALODA BAZAR,644.0,1289029.0,False,Paradip Port,838.4,12.2,3217.5,2578.5,,Conventional Rail,639.0,19.9,380.0
 Chhattisgarh,BALRAMPUR,649.0,940769.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,691.9,10.02,2679.4,2310.3,,Conventional Rail,369.0,13.8,380.0
-Chhattisgarh,BASTAR,374.0,723391.0,False,Gangavaram Port,350.1,5.43,1427.6,1447.4,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,BASTAR,374.0,723391.0,False,Visakhapatnam Port,349.2,5.41,1424.3,1445.4,,Road Trucking,0.0,0.0,380.0
 Chhattisgarh,BEMETARA,650.0,1103441.0,False,Paradip Port,766.6,11.18,2954.1,2398.8,,Conventional Rail,555.3,18.8,380.0
-Chhattisgarh,BIJAPUR,636.0,250149.0,False,Gangavaram Port,482.7,7.15,1912.8,1927.4,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,BIJAPUR,636.0,250149.0,False,Visakhapatnam Port,481.8,7.14,1909.5,1925.7,,Road Trucking,0.0,0.0,380.0
 Chhattisgarh,BILASPUR,375.0,1130097.0,False,Paradip Port,698.1,10.05,2701.7,2102.0,,Conventional Rail,599.7,22.2,380.0
-Chhattisgarh,DAKSHIN BASTAR DANTEWARA,376.0,167345.0,False,Gangavaram Port,426.4,6.48,1707.2,1812.1,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,DAKSHIN BASTAR DANTEWARA,376.0,167345.0,False,Visakhapatnam Port,425.5,6.46,1703.9,1810.1,,Road Trucking,0.0,0.0,380.0
 Chhattisgarh,DHAMTARI,377.0,796507.0,False,Paradip Port,845.5,12.58,3245.6,2591.5,,Conventional Rail,654.1,20.2,380.0
 Chhattisgarh,DURG,378.0,891315.0,False,Paradip Port,729.5,10.49,2816.8,2379.2,,Conventional Rail,437.6,15.5,380.0
 Chhattisgarh,GARIYABAND,645.0,1574899.0,False,Paradip Port,858.4,12.41,3290.3,2615.1,,Conventional Rail,675.2,20.5,380.0
@@ -145,7 +145,7 @@ Chhattisgarh,JANJGIR - CHAMPA,379.0,922143.0,False,Paradip Port,618.3,8.9,2408.8
 Chhattisgarh,JASHPUR,380.0,846401.0,False,Paradip Port,939.8,13.52,3588.5,2760.7,,Conventional Rail,827.9,23.1,380.0
 Chhattisgarh,KAWARDHA (KABIRDHAM),382.0,813937.0,False,Paradip Port,817.8,11.76,3140.8,2540.8,,Conventional Rail,600.0,19.1,380.0
 Chhattisgarh,KHAIRGARH-CHHUIKHADAN-GANDAI,759.0,440991.0,False,Paradip Port,793.3,12.04,3055.7,2496.0,,Conventional Rail,559.7,18.3,380.0
-Chhattisgarh,KONDAGAON,643.0,691973.0,False,Gangavaram Port,408.3,6.25,1641.1,1772.9,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,KONDAGAON,643.0,691973.0,False,Visakhapatnam Port,407.4,6.23,1637.7,1770.9,,Road Trucking,0.0,0.0,380.0
 Chhattisgarh,KORBA,383.0,1200482.0,False,Paradip Port,778.0,11.25,2995.3,2468.0,,Conventional Rail,527.3,17.6,380.0
 Chhattisgarh,KOREA,384.0,245031.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,843.1,12.18,3234.1,2587.1,,Conventional Rail,647.0,20.0,380.0
 Chhattisgarh,MAHASAMUND,385.0,1020927.0,False,Paradip Port,613.2,8.89,2390.6,2166.3,,Conventional Rail,224.3,9.4,380.0
@@ -158,7 +158,7 @@ Chhattisgarh,RAIPUR,387.0,944867.0,False,Paradip Port,687.8,9.96,2664.3,2302.8,,
 Chhattisgarh,RAJNANDGAON,388.0,620747.0,False,Paradip Port,801.8,11.53,3082.1,2511.5,,Conventional Rail,570.6,18.5,380.0
 Chhattisgarh,SAKTI,762.0,681842.0,False,Paradip Port,589.8,8.65,2305.5,2123.4,,Conventional Rail,182.0,7.9,380.0
 Chhattisgarh,SARANGARH-BILAIGARH,763.0,756337.0,False,Paradip Port,571.8,8.24,2238.3,2090.5,,Conventional Rail,147.8,6.6,380.0
-Chhattisgarh,SUKMA,642.0,325000.0,False,Gangavaram Port,470.1,7.3,1869.0,1904.3,,Road Trucking,0.0,0.0,380.0
+Chhattisgarh,SUKMA,642.0,325000.0,False,Visakhapatnam Port,469.2,7.29,1865.7,1902.7,,Road Trucking,0.0,0.0,380.0
 Chhattisgarh,SURAJPUR,648.0,809526.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,807.4,11.8,3104.1,2521.8,,Conventional Rail,582.3,18.8,380.0
 Chhattisgarh,SURGUJA,389.0,598461.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,789.0,11.45,3035.9,2488.1,,Conventional Rail,547.8,18.0,380.0
 Chhattisgarh,UTTAR BASTAR KANKER,381.0,763525.0,False,Paradip Port,955.0,14.27,3648.3,2784.7,,Conventional Rail,863.6,23.7,380.0
@@ -283,8 +283,8 @@ Jharkhand,HAZARIBAGH,332.0,1803408.0,False,Kolkata Port (Syama Prasad Mookerjee 
 Jharkhand,JAMTARA,333.0,822471.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,255.8,3.84,1079.8,1229.7,854.4,Dedicated Freight Corridor (DFC),225.4,20.9,210.0
 Jharkhand,KHUNTI,606.0,553017.0,False,Paradip Port,414.2,6.01,1660.3,1785.7,1268.5,Dedicated Freight Corridor (DFC),391.8,23.6,210.0
 Jharkhand,KODERMA,334.0,462171.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,856.8,12.47,3285.1,2612.2,1830.6,Dedicated Freight Corridor (DFC),1454.5,44.3,210.0
-Jharkhand,LATEHAR,335.0,729952.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,514.6,7.45,2028.6,1936.2,1346.4,Dedicated Freight Corridor (DFC),682.2,33.6,210.0
-Jharkhand,LOHARDAGA,336.0,466683.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,476.4,6.82,1887.9,1875.9,1307.6,Dedicated Freight Corridor (DFC),580.3,30.7,210.0
+Jharkhand,LATEHAR,335.0,729952.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,514.6,7.45,2028.6,1867.3,1277.6,Dedicated Freight Corridor (DFC),751.1,37.0,210.0
+Jharkhand,LOHARDAGA,336.0,466683.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,476.4,6.82,1887.9,1807.1,1238.7,Dedicated Freight Corridor (DFC),649.2,34.4,210.0
 Jharkhand,PAKUR,337.0,898934.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,608.3,9.03,2374.2,2157.3,1515.0,Dedicated Freight Corridor (DFC),859.2,36.2,210.0
 Jharkhand,PALAMU,338.0,1948229.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,607.0,8.82,2368.0,2154.9,1513.3,Dedicated Freight Corridor (DFC),854.7,36.1,210.0
 Jharkhand,RAMGARH,607.0,978337.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,405.1,5.88,1626.9,1663.9,1154.9,Dedicated Freight Corridor (DFC),472.0,29.0,210.0
@@ -402,15 +402,15 @@ Maharashtra,AMRAVATI,468.0,2926382.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumb
 Maharashtra,BEED,470.0,2509210.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.3,5.35,1488.3,1684.1,1208.9,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
 Maharashtra,BHANDARA,471.0,1247203.0,False,Paradip Port,915.9,13.21,3501.1,2720.4,1905.6,Dedicated Freight Corridor (DFC),1595.5,45.6,210.0
 Maharashtra,BULDHANA,472.0,2618732.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),544.3,7.89,2137.7,2040.1,1433.7,Dedicated Freight Corridor (DFC),704.0,32.9,210.0
-Maharashtra,CHANDRAPUR,473.0,2231211.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),912.3,13.22,3488.3,2713.8,1901.0,Dedicated Freight Corridor (DFC),1587.3,45.5,210.0
-Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,469.0,3708626.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.4,5.32,1488.4,1684.3,1209.1,Dedicated Freight Corridor (DFC),279.3,18.8,210.0
+Maharashtra,CHANDRAPUR,473.0,2231211.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),912.3,13.22,3488.3,2519.3,1706.6,Dedicated Freight Corridor (DFC),1781.8,51.1,210.0
+Maharashtra,CHHATRAPATI SAMBHAJI NAGAR,469.0,3708626.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),367.4,5.32,1488.4,1653.7,1178.4,Dedicated Freight Corridor (DFC),310.0,20.8,210.0
 Maharashtra,DHARASHIV,488.0,1671758.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),449.6,6.58,1790.6,1862.3,1313.4,Dedicated Freight Corridor (DFC),477.2,26.6,210.0
 Maharashtra,DHULE,474.0,2076247.0,False,Hazira Port,381.6,5.62,1541.2,1715.1,1227.1,Dedicated Freight Corridor (DFC),314.1,20.4,210.0
 Maharashtra,GADCHIROLI,475.0,1086700.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),990.9,14.77,3779.9,2841.4,2000.8,Dedicated Freight Corridor (DFC),1779.1,47.1,210.0
 Maharashtra,GONDIA,476.0,1267008.0,False,Paradip Port,868.3,12.59,3326.9,2633.3,1845.2,Dedicated Freight Corridor (DFC),1481.8,44.5,210.0
 Maharashtra,HINGOLI,477.0,1222167.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),630.0,9.2,2452.8,2197.0,1542.5,Dedicated Freight Corridor (DFC),910.2,37.1,210.0
 Maharashtra,JALGAON,478.0,4278498.0,False,Hazira Port,449.9,6.51,1791.2,1863.0,1313.8,Dedicated Freight Corridor (DFC),477.3,26.6,210.0
-Maharashtra,JALNA,479.0,1946494.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),417.6,6.05,1672.7,1793.0,1272.8,Dedicated Freight Corridor (DFC),399.9,23.9,210.0
+Maharashtra,JALNA,479.0,1946494.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),417.6,6.05,1672.7,1436.9,916.7,Dedicated Freight Corridor (DFC),756.0,45.2,210.0
 Maharashtra,KOLHAPUR,480.0,3918249.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),419.8,6.41,1683.2,1797.8,1275.6,Dedicated Freight Corridor (DFC),407.6,24.2,210.0
 Maharashtra,LATUR,481.0,2550024.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),523.7,7.61,2062.3,2002.4,1407.5,Dedicated Freight Corridor (DFC),654.7,31.7,210.0
 Maharashtra,MUMBAI,482.0,2298910.0,False,Mumbai Port,20.0,0.57,215.5,901.7,767.9,Road Trucking,0.0,0.0,210.0
@@ -488,7 +488,7 @@ Nagaland,TUENSANG,249.0,110411.0,False,Kolkata Port (Syama Prasad Mookerjee Port
 Nagaland,WOKHA,250.0,166472.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1550.0,22.47,5828.9,3724.5,,Conventional Rail,2104.4,36.1,380.0
 Nagaland,ZUNHEBOTO,251.0,140172.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1638.0,23.5,6150.0,3863.5,,Conventional Rail,2286.6,37.2,380.0
 Odisha,ANUGUL,344.0,1278364.0,False,Paradip Port,460.0,6.76,1829.0,1884.8,,Road Trucking,0.0,0.0,380.0
-Odisha,BALANGIR,345.0,1656207.0,False,Gangavaram Port,495.1,7.69,1961.0,1950.1,,Conventional Rail,10.9,0.6,380.0
+Odisha,BALANGIR,345.0,1656207.0,False,Visakhapatnam Port,494.2,7.68,1957.7,1948.4,,Conventional Rail,9.3,0.5,380.0
 Odisha,BALASORE,346.0,2288803.0,False,Dhamra Port,184.1,2.89,817.4,1287.4,,Road Trucking,0.0,0.0,380.0
 Odisha,BARGARH,347.0,1489763.0,False,Paradip Port,473.9,6.85,1879.2,1911.3,,Road Trucking,0.0,0.0,380.0
 Odisha,BHADRAK,348.0,1509383.0,False,Dhamra Port,126.0,2.22,605.4,985.2,,Road Trucking,0.0,0.0,380.0
@@ -496,24 +496,24 @@ Odisha,BOUDH,349.0,437709.0,False,Paradip Port,410.3,6.17,1647.6,1777.2,,Road Tr
 Odisha,CUTTACK,350.0,2562401.0,False,Dhamra Port,213.3,3.55,926.3,1138.9,,Road Trucking,0.0,0.0,380.0
 Odisha,DEOGARH,351.0,344217.0,False,Paradip Port,356.5,5.18,1448.5,1660.7,,Road Trucking,0.0,0.0,380.0
 Odisha,DHENKANAL,352.0,1198420.0,False,Paradip Port,176.2,2.7,787.8,1109.9,,Road Trucking,0.0,0.0,380.0
-Odisha,GAJAPATI,353.0,597456.0,False,Gangavaram Port,245.7,3.78,1043.4,1420.8,,Road Trucking,0.0,0.0,380.0
-Odisha,GANJAM,354.0,3509631.0,False,Gangavaram Port,318.8,4.84,1311.7,1579.1,,Road Trucking,0.0,0.0,380.0
+Odisha,GAJAPATI,353.0,597456.0,False,Visakhapatnam Port,244.8,3.77,1040.1,1418.8,,Road Trucking,0.0,0.0,380.0
+Odisha,GANJAM,354.0,3509631.0,False,Visakhapatnam Port,317.9,4.83,1308.4,1577.1,,Road Trucking,0.0,0.0,380.0
 Odisha,JAGATSINGHPUR,355.0,1120368.0,False,Dhamra Port,217.4,3.45,940.2,1339.3,,Road Trucking,0.0,0.0,380.0
 Odisha,JAJAPUR,356.0,1827539.0,False,Dhamra Port,101.0,1.79,513.1,739.5,,Road Trucking,0.0,0.0,380.0
 Odisha,JHARSUGUDA,357.0,576512.0,False,Paradip Port,437.0,6.39,1744.3,1548.2,,Conventional Rail,196.1,11.2,380.0
-Odisha,KALAHANDI,358.0,1587807.0,False,Gangavaram Port,386.3,5.88,1559.9,1725.2,,Road Trucking,0.0,0.0,380.0
-Odisha,KANDHAMAL,359.0,736044.0,False,Gangavaram Port,438.3,6.63,1750.7,1837.8,,Road Trucking,0.0,0.0,380.0
+Odisha,KALAHANDI,358.0,1587807.0,False,Visakhapatnam Port,385.4,5.86,1556.6,1723.3,,Road Trucking,0.0,0.0,380.0
+Odisha,KANDHAMAL,359.0,736044.0,False,Visakhapatnam Port,437.4,6.61,1747.4,1835.9,,Road Trucking,0.0,0.0,380.0
 Odisha,KENDRAPARA,360.0,1435818.0,False,Paradip Port,53.6,1.02,338.5,755.8,,Road Trucking,0.0,0.0,380.0
 Odisha,KEONJHAR (KENDUJHAR),361.0,1813034.0,False,Dhamra Port,198.9,3.08,871.5,1311.9,,Road Trucking,0.0,0.0,380.0
 Odisha,KHORDHA,362.0,2328203.0,False,Dhamra Port,225.8,3.5,970.4,1377.7,,Road Trucking,0.0,0.0,380.0
-Odisha,KORAPUT,363.0,1331301.0,False,Gangavaram Port,250.4,3.94,1061.4,1404.9,,Road Trucking,0.0,0.0,380.0
-Odisha,MALKANGIRI,364.0,611005.0,False,Gangavaram Port,340.5,5.26,1392.2,1626.1,,Road Trucking,0.0,0.0,380.0
+Odisha,KORAPUT,363.0,1331301.0,False,Visakhapatnam Port,249.5,3.93,1058.1,1403.0,,Road Trucking,0.0,0.0,380.0
+Odisha,MALKANGIRI,364.0,611005.0,False,Visakhapatnam Port,339.6,5.24,1388.8,1624.1,,Road Trucking,0.0,0.0,380.0
 Odisha,MAYURBHANJ,365.0,2537026.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,267.5,4.2,1124.2,1468.0,,Road Trucking,0.0,0.0,380.0
-Odisha,NABARANGAPUR,366.0,1255642.0,False,Gangavaram Port,338.7,5.55,1387.9,1622.2,,Road Trucking,0.0,0.0,380.0
+Odisha,NABARANGAPUR,366.0,1255642.0,False,Visakhapatnam Port,337.8,5.53,1384.6,1620.2,,Road Trucking,0.0,0.0,380.0
 Odisha,NAYAGARH,367.0,968483.0,False,Dhamra Port,285.0,4.36,1187.7,1505.9,,Road Trucking,0.0,0.0,380.0
-Odisha,NUAPARHA,368.0,610869.0,False,Gangavaram Port,560.7,8.41,2200.0,2070.2,,Conventional Rail,129.9,5.9,380.0
+Odisha,NUAPARHA,368.0,610869.0,False,Visakhapatnam Port,559.8,8.4,2196.7,2068.5,,Conventional Rail,128.2,5.8,380.0
 Odisha,PURI,369.0,1661299.0,False,Dhamra Port,253.6,3.9,1072.5,1437.9,,Road Trucking,0.0,0.0,380.0
-Odisha,RAYAGARHA,370.0,968528.0,False,Gangavaram Port,371.7,5.83,1507.5,1693.6,,Road Trucking,0.0,0.0,380.0
+Odisha,RAYAGARHA,370.0,968528.0,False,Visakhapatnam Port,370.8,5.82,1504.3,1691.7,,Road Trucking,0.0,0.0,380.0
 Odisha,SAMBALPUR,371.0,1018640.0,False,Paradip Port,408.5,6.07,1640.4,1773.3,,Road Trucking,0.0,0.0,380.0
 Odisha,SUBARNAPUR,372.0,609308.0,False,Paradip Port,415.1,6.0,1663.4,1787.6,,Road Trucking,0.0,0.0,380.0
 Odisha,SUNDARGARH,373.0,2104437.0,False,Paradip Port,383.7,5.6,1548.6,1719.6,,Road Trucking,0.0,0.0,380.0
@@ -628,38 +628,38 @@ Tamil Nadu,VELLORE,595.0,1461111.0,False,Chennai Port,301.7,4.45,1247.9,1542.1,,
 Tamil Nadu,VILUPPURAM,596.0,1936560.0,False,Karaikal Port,196.3,2.96,861.3,1313.8,,Road Trucking,0.0,0.0,380.0
 Tamil Nadu,VIRUDHUNAGAR,597.0,1883529.0,False,V.O. Chidambaranar Port (Tuticorin),155.8,2.41,713.0,1226.1,,Road Trucking,0.0,0.0,380.0
 Telangana,ADILABAD,501.0,674156.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),751.3,11.02,2898.4,2419.1,,Conventional Rail,479.4,16.5,380.0
-Telangana,BHADRADRI KOTHAGUDEM,690.0,1247399.0,False,Gangavaram Port,555.9,8.42,2183.0,2061.4,,Conventional Rail,121.6,5.6,380.0
-Telangana,HANUMAKONDA,686.0,474679.0,False,Visakhapatnam Port,712.8,10.48,2757.3,2348.6,,Conventional Rail,408.7,14.8,380.0
+Telangana,BHADRADRI KOTHAGUDEM,690.0,1247399.0,False,Visakhapatnam Port,555.0,8.4,2179.7,2059.7,,Conventional Rail,119.9,5.5,380.0
+Telangana,HANUMAKONDA,686.0,474679.0,False,Gangavaram Port,717.4,10.62,2774.7,2357.0,,Conventional Rail,417.7,15.1,380.0
 Telangana,HYDERABAD,507.0,3392182.0,False,Krishnapatnam Port,700.8,10.08,2711.5,2326.6,,Conventional Rail,384.9,14.2,380.0
 Telangana,JAGTIAL,681.0,893382.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),768.2,11.04,2958.8,2372.3,,Conventional Rail,586.5,19.8,380.0
-Telangana,JANGAON,689.0,577703.0,False,Visakhapatnam Port,745.0,10.86,2874.8,2407.5,,Conventional Rail,467.2,16.3,380.0
+Telangana,JANGAON,689.0,577703.0,False,Gangavaram Port,749.7,10.99,2892.5,2416.2,,Conventional Rail,476.4,16.5,380.0
 Telangana,JAYASHANKAR BHUPALPALLI,687.0,811331.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),949.8,13.71,3625.6,2776.5,,Conventional Rail,849.1,23.4,380.0
 Telangana,JOGULAMBA GADWAL,695.0,564910.0,False,Chennai Port,614.4,9.14,2396.8,2168.5,,Conventional Rail,228.3,9.5,380.0
 Telangana,KAMAREDDY,685.0,1187358.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),677.2,10.02,2627.0,2283.4,,Conventional Rail,343.6,13.1,380.0
-Telangana,KARIMNAGAR,508.0,674372.0,False,Visakhapatnam Port,755.7,11.04,2914.3,2427.1,,Conventional Rail,487.1,16.7,380.0
-Telangana,KHAMMAM,509.0,742073.0,False,Visakhapatnam Port,510.7,7.82,2017.5,1978.6,,Conventional Rail,38.9,1.9,380.0
+Telangana,KARIMNAGAR,508.0,674372.0,False,Gangavaram Port,760.3,11.18,2931.7,2435.6,,Conventional Rail,496.1,16.9,380.0
+Telangana,KHAMMAM,509.0,742073.0,False,Gangavaram Port,515.3,7.95,2034.9,1987.1,,Conventional Rail,47.8,2.4,380.0
 Telangana,KUMURAM BHEEM,699.0,760426.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),926.3,13.44,3539.9,2739.3,,Conventional Rail,800.5,22.6,380.0
-Telangana,MAHABUBABAD,688.0,920503.0,False,Gangavaram Port,634.4,9.37,2469.7,2205.1,,Conventional Rail,264.6,10.7,380.0
+Telangana,MAHABUBABAD,688.0,920503.0,False,Visakhapatnam Port,633.5,9.35,2466.4,2203.4,,Conventional Rail,262.9,10.7,380.0
 Telangana,MAHBUBNAGAR,512.0,787117.0,False,Krishnapatnam Port,682.9,9.81,2645.7,2293.9,,Conventional Rail,351.9,13.3,380.0
 Telangana,MANCHERIAL,684.0,651377.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),961.1,13.96,3667.7,2794.3,,Conventional Rail,873.4,23.8,380.0
 Telangana,MEDAK,513.0,855523.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),729.4,10.79,2818.7,2379.0,,Conventional Rail,439.7,15.6,380.0
 Telangana,MEDCHAL-MALKAJGIRI,700.0,929902.0,False,Krishnapatnam Port,722.4,10.44,2791.2,2366.2,,Conventional Rail,425.0,15.2,380.0
-Telangana,MULUGU,720.0,999768.0,False,Gangavaram Port,749.0,11.06,2890.5,2414.9,,Conventional Rail,475.7,16.5,380.0
+Telangana,MULUGU,720.0,999768.0,False,Visakhapatnam Port,748.1,11.04,2887.2,2413.2,,Conventional Rail,474.0,16.4,380.0
 Telangana,NAGARKURNOOL,694.0,1365623.0,False,Krishnapatnam Port,577.5,8.35,2259.4,2100.9,,Conventional Rail,158.5,7.0,380.0
-Telangana,NALGONDA,514.0,1763672.0,False,Visakhapatnam Port,658.9,9.74,2559.7,2249.9,,Conventional Rail,309.8,12.1,380.0
+Telangana,NALGONDA,514.0,1763672.0,False,Gangavaram Port,663.6,9.88,2577.5,2258.5,,Conventional Rail,319.0,12.4,380.0
 Telangana,NARAYANPET,721.0,519614.0,False,Chennai Port,729.8,10.73,2819.7,2379.7,,Conventional Rail,440.0,15.6,380.0
 Telangana,NIRMAL,680.0,630668.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),686.5,9.89,2659.2,2194.6,,Conventional Rail,464.6,17.5,380.0
 Telangana,NIZAMABAD,516.0,1325808.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),700.5,10.1,2710.6,2002.3,,Conventional Rail,708.3,26.1,380.0
 Telangana,PEDDAPALLI,682.0,691833.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),870.2,12.85,3335.6,2399.9,,Conventional Rail,935.8,28.1,380.0
-Telangana,RAJANNA SIRCILLA,683.0,574279.0,False,Visakhapatnam Port,865.0,12.68,3315.8,2627.2,,Conventional Rail,688.6,20.8,380.0
+Telangana,RAJANNA SIRCILLA,683.0,574279.0,False,Gangavaram Port,869.7,12.81,3333.5,2635.8,,Conventional Rail,697.7,20.9,380.0
 Telangana,RANGA REDDY,518.0,2873373.0,False,Krishnapatnam Port,675.0,9.82,2617.7,2279.4,,Conventional Rail,338.3,12.9,380.0
 Telangana,SANGAREDDY,691.0,1362895.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),715.7,10.51,2767.8,2353.9,,Conventional Rail,413.9,15.0,380.0
-Telangana,SIDDIPET,692.0,1068817.0,False,Visakhapatnam Port,802.3,11.7,3085.2,2512.4,,Conventional Rail,572.7,18.6,380.0
-Telangana,SURYAPET,696.0,876020.0,False,Visakhapatnam Port,563.7,8.26,2209.6,1837.1,,Conventional Rail,372.5,16.9,380.0
+Telangana,SIDDIPET,692.0,1068817.0,False,Gangavaram Port,807.0,11.83,3102.9,2521.0,,Conventional Rail,581.8,18.8,380.0
+Telangana,SURYAPET,696.0,876020.0,False,Gangavaram Port,568.4,8.39,2227.3,1845.7,,Conventional Rail,381.6,17.1,380.0
 Telangana,VIKARABAD,698.0,2567002.0,False,Jawaharlal Nehru Port (JNPT/Navi Mumbai),726.1,10.58,2805.4,2372.9,,Conventional Rail,432.4,15.4,380.0
 Telangana,WANAPARTHY,693.0,486966.0,False,Chennai Port,630.6,9.23,2455.1,2198.1,,Conventional Rail,257.0,10.5,380.0
-Telangana,WARANGAL,522.0,482466.0,False,Gangavaram Port,672.1,10.03,2608.9,2274.1,,Conventional Rail,334.8,12.8,380.0
-Telangana,YADADRI BHUVANAGIRI,697.0,826422.0,False,Visakhapatnam Port,672.0,9.85,2607.2,2273.9,,Conventional Rail,333.3,12.8,380.0
+Telangana,WARANGAL,522.0,482466.0,False,Visakhapatnam Port,671.2,10.01,2605.6,2272.4,,Conventional Rail,333.1,12.8,380.0
+Telangana,YADADRI BHUVANAGIRI,697.0,826422.0,False,Gangavaram Port,676.7,9.98,2624.9,2282.5,,Conventional Rail,342.4,13.0,380.0
 Tripura,DHALAI,269.0,428864.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1497.6,21.65,5636.1,3641.7,,Conventional Rail,1994.4,35.4,380.0
 Tripura,GOMTI,654.0,531185.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1651.8,23.86,6201.9,3885.3,,Conventional Rail,2316.6,37.4,380.0
 Tripura,KHOWAI,652.0,668098.0,False,Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex,1530.9,22.13,5758.3,3694.3,,Conventional Rail,2064.0,35.8,380.0
