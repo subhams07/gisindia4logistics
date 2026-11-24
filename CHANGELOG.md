@@ -16,6 +16,14 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 - **Audit, baseline, and unit tests:** added sub-district PCA and `lgd_subdistricts.csv` checks to `scripts/audit/audit_all.py` (`audit_demographics`), added `"demographic:subdistricts": 5988` to `collect_counts()` and `data/audit_baseline.json` (zero existing counts altered), and added `tests/test_subdistrict_census.py` (8 tests verifying format, keys, reconciliation, and gate rejection on perturbations).
 - **No Stage 4 regeneration required:** neither new dataset nor any edited script is in Stage 4's input or code closure.
 
+### Changed — governance archive, non-Stage-4 provenance fixes & village map palette (PR #27)
+
+- **Governance docs archived on `main`:** added `docs/adr/007-district-identity-and-population.md` and `docs/decision_log.md` (recording the 2026-11-24 rulings keeping UP/MP village files unsplit, the DSN/DHCA Maitree Express exception, and merged remote branch cleanup).
+- **`pm_mitra_parks.csv` & `scripts/fetch/build_industrial_nodes.py`:** replaced all 7 broken `texmin.nic.in/pm-mitra-*` URLs with content-verified HTTP-200 Ministry of Textiles PIB release `PRID 2297501` (11 Aug 2026 Lok Sabha reply naming all 7 approved sites; original 7-state announcement `PRID 1908052`), keeping `industrial_nodes.csv` unchanged and exact LGD `district` / `district_code` intact.
+- **`fci_depots.csv`:** removed all 10 Instagram links (Safidon, Midnapur, Hirakud, Baripada, Ujjain, Niwari, Shahdol, Durg, Whitefield, Koppal); the rows now cite `https://fci.gov.in/` like the other 67. Their "recognised in FCI best-depot awards" notes came from that social-media post and are flagged as unconfirmed: PIB PRID 2274785 (Depot Darpan felicitation, 18 Jun 2026) names none of these depots.
+- **`scripts/analyze/plot_villages.py`:** replaced the neon `RdYlGn` colors in both the Leaflet interactive map (`getColor(d)` + legend) and Matplotlib static PNG colormap with the **Koraput × Ganjam (South Odisha)** accessibility palette (`#1E5468`, `#3E5C45`, `#D99B38`, `#C15B47`, `#7D2434`, no data `#A89F94`).
+- **No Stage 4 regeneration required:** none of the modified datasets or scripts belong to `data/analysis/producer_manifest.json`'s inputs or `code_hashes`.
+
 ### Fixed — industrial nodes verification (audit item 49, complete); builder/audit hardening & unit tests
 
 - **`industrial_nodes.csv` (20 rows, now `verified` in `catalog.yaml`):**
