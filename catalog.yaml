@@ -541,7 +541,7 @@ datasets:
 - name: FCI food godowns (major depots)
   category: logistics_hubs
   description: 77 notable FCI depots/regional hubs across all 5 zones
-  provider: FCI (fci.gov.in) / Ministry of Consumer Affairs, Food & Public Distribution (PIB)
+  provider: FCI (fci.gov.in)
   source_url: per-row source_url
   license: mixed (official references and secondary sources; per-row terms unresolved)
   vintage: 2026
@@ -550,9 +550,9 @@ datasets:
   path: data/logistics_hubs/fci_depots.csv
   quality_status: community
   quality_notes: "FCI publishes no complete depot register (JS site); city-level coordinates with caveat
-    per row (1 town-level point: Niwari). 67 rows cite https://fci.gov.in/ and 10 Depot Darpan
-    best-depot award-recognised depots cite content-verified HTTP-200 PIB PRID 2274785 (Ministry of
-    Consumer Affairs, Food & Public Distribution, 18 Jun 2026), replacing earlier social-media links."
+    per row (1 town-level point: Niwari). All 77 rows cite https://fci.gov.in/. The 10 rows noted as
+    recognised in FCI best-depot awards took that from an FCI social-media post (link removed); PIB PRID
+    2274785 (Depot Darpan, 18 Jun 2026) names none of these depots, so the award notes are unconfirmed."
 - name: Census 2011 district key indicators
   category: demographic
   description: Population, literacy, workers, education, age structure per district
