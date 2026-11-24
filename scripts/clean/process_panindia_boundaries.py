@@ -105,8 +105,8 @@ def normalize_sub_district_code(value) -> str | None:
     s = str(value).strip()
     if not s or s.casefold() in SUB_DISTRICT_CODE_PLACEHOLDERS:
         return None
-    if re.fullmatch(r"[0-9]+", s):
-        return str(int(s))
+    if re.fullmatch(r"[0-9]+(?:\.0+)?", s):
+        return str(int(s.split(".", 1)[0]))
     return s
 
 

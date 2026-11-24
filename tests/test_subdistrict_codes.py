@@ -38,6 +38,8 @@ needs_data = pytest.mark.skipif(
         ("06479", "6479"),
         (285, "285"),
         (285.0, "285"),
+        ("285.0", "285"),
+        ("00285.0", "285"),
         ("00285N001", "00285N001"),
         ("00288N002", "00288N002"),
         ("00356N001", "00356N001"),
@@ -87,6 +89,50 @@ def test_match_subdistrict_codes_tiebreaks_by_geometry_and_rejects_unmatched():
     missing_raw = raw.iloc[:1].copy()
     with pytest.raises(ValueError, match="only 1 raw rows"):
         restore.match_subdistrict_codes(committed, missing_raw)
+
+
+def test_restore_subdistrict_codes_writes_atomically_and_preserves_wkb(tmp_path):
+    admin = tmp_path / "administrative"
+    admin.mkdir()
+    committed = gpd.GeoDataFrame(
+        {
+            "state": ["Uttarakhand", "Telangana"],
+            "state_code": [5, 36],
+            "district": ["CHAMOLI", "ADILABAD"],
+            "district_code": [57, 501],
+            "abdb_district_code": [57, 532],
+            "sub_district": ["GHAT", "SATHNALA"],
+            "sub_district_code": pd.Series(["285", "7314"], dtype="string"),
+        },
+        geometry=[box(79.0, 30.0, 79.5, 30.5), box(78.5, 19.5, 79.0, 20.0)],
+        crs=4326,
+    )
+    gpkg_path = admin / "india_subdistricts_lgd.gpkg"
+    pq_path = admin / "india_subdistricts_lgd.parquet"
+    committed.to_file(gpkg_path, layer="subdistricts", driver="GPKG")
+    committed.to_parquet(pq_path, engine="pyarrow", compression="snappy", index=False)
+
+    raw_shp = tmp_path / "Sub_district Boundary.shp"
+    raw = gpd.GeoDataFrame(
+        {
+            "STATE_UT": ["UTTARAKHAND", "TELANGANA"],
+            "DISTRICT": ["CHAMOLI", "ADILABAD"],
+            "DIST_LGD": ["057", "532"],
+            "SUB_DIST": ["GHAT", "SATHNALA"],
+            "SUBDIS_LGD": ["00285N001", "07314NOO1"],
+        },
+        geometry=committed.geometry,
+        crs=4326,
+    )
+    raw.to_file(raw_shp)
+
+    summary = restore.restore_subdistrict_codes(raw_shp, data_dir=tmp_path)
+    assert summary["alphanumeric_codes"] == 2
+    assert summary["within_state_dup_rows"] == 0
+    assert not gpkg_path.with_name(f".{gpkg_path.stem}.tmp{gpkg_path.suffix}").exists()
+    assert not pq_path.with_name(f".{pq_path.stem}.tmp{pq_path.suffix}").exists()
+    assert gpd.read_file(gpkg_path)["sub_district_code"].tolist() == ["00285N001", "07314NOO1"]
+    assert gpd.read_parquet(pq_path)["sub_district_code"].tolist() == ["00285N001", "07314NOO1"]
 
 
 # --- Integration tests: committed layers & access CSV ------------------------------------

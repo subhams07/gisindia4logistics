@@ -202,31 +202,49 @@ def restore_subdistrict_codes(raw_shp: pathlib.Path, data_dir: pathlib.Path = DA
     updated = gpkg_before.copy()
     updated["sub_district_code"] = new_codes
 
-    updated.to_file(gpkg_path, layer="subdistricts", driver="GPKG")
-    updated.to_parquet(pq_path, engine="pyarrow", compression="snappy", index=False)
+    gpkg_tmp = gpkg_path.with_name(f".{gpkg_path.stem}.tmp{gpkg_path.suffix}")
+    pq_tmp = pq_path.with_name(f".{pq_path.stem}.tmp{pq_path.suffix}")
+    try:
+        updated.to_file(gpkg_tmp, layer="subdistricts", driver="GPKG")
+        updated.to_parquet(pq_tmp, engine="pyarrow", compression="snappy", index=False)
 
-    # Re-read and verify strict parity and zero unintended mutations.
-    gpkg_after = gpd.read_file(gpkg_path)
-    pq_after = gpd.read_parquet(pq_path)
+        # Re-read staged outputs and verify strict parity and zero unintended mutations
+        # before atomically replacing committed files.
+        gpkg_after = gpd.read_file(gpkg_tmp)
+        pq_after = gpd.read_parquet(pq_tmp)
 
-    assert len(gpkg_after) == len(gpkg_before), "GPKG row count changed"
-    assert len(pq_after) == len(pq_before), "Parquet row count changed"
-    assert list(gpkg_after.columns) == list(gpkg_before.columns), "GPKG columns changed"
-    assert list(pq_after.columns) == list(pq_before.columns), "Parquet columns changed"
-    assert (gpkg_after.geometry.to_wkb() == wkb_before).all(), "GPKG geometries changed"
-    assert (pq_after.geometry.to_wkb() == wkb_before).all(), "Parquet geometries changed"
-    for col in non_code_cols:
-        a = attrs_before[col]
-        b_gpkg = gpkg_after[col]
-        b_pq = pq_after[col]
-        assert ((a == b_gpkg) | (a.isna() & b_gpkg.isna())).all(), f"GPKG column changed: {col}"
-        assert ((a == b_pq) | (a.isna() & b_pq.isna())).all(), f"Parquet column changed: {col}"
+        if len(gpkg_after) != len(gpkg_before):
+            raise ValueError("GPKG row count changed")
+        if len(pq_after) != len(pq_before):
+            raise ValueError("Parquet row count changed")
+        if list(gpkg_after.columns) != list(gpkg_before.columns):
+            raise ValueError("GPKG columns changed")
+        if list(pq_after.columns) != list(pq_before.columns):
+            raise ValueError("Parquet columns changed")
+        if not (gpkg_after.geometry.to_wkb() == wkb_before).all():
+            raise ValueError("GPKG geometries changed")
+        if not (pq_after.geometry.to_wkb() == wkb_before).all():
+            raise ValueError("Parquet geometries changed")
+        for col in non_code_cols:
+            a = attrs_before[col]
+            b_gpkg = gpkg_after[col]
+            b_pq = pq_after[col]
+            if not ((a == b_gpkg) | (a.isna() & b_gpkg.isna())).all():
+                raise ValueError(f"GPKG column changed: {col}")
+            if not ((a == b_pq) | (a.isna() & b_pq.isna())).all():
+                raise ValueError(f"Parquet column changed: {col}")
 
-    gpkg_codes = gpkg_after["sub_district_code"].astype("string")
-    pq_codes = pq_after["sub_district_code"].astype("string")
-    assert ((gpkg_codes == pq_codes) | (gpkg_codes.isna() & pq_codes.isna())).all(), (
-        "GPKG and Parquet sub_district_code differ after write"
-    )
+        gpkg_codes = gpkg_after["sub_district_code"].astype("string")
+        pq_codes = pq_after["sub_district_code"].astype("string")
+        if not ((gpkg_codes == pq_codes) | (gpkg_codes.isna() & pq_codes.isna())).all():
+            raise ValueError("GPKG and Parquet sub_district_code differ after write")
+
+        gpkg_tmp.replace(gpkg_path)
+        pq_tmp.replace(pq_path)
+    finally:
+        for tmp_path in (gpkg_tmp, pq_tmp):
+            if tmp_path.exists():
+                tmp_path.unlink()
 
     coded = gpkg_after.dropna(subset=["sub_district_code"])
     within_state_dups = int(coded.duplicated(["state", "sub_district_code"], keep=False).sum())
