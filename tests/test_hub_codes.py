@@ -39,7 +39,7 @@ def test_major_ports_carry_the_unlocodes_of_the_throughput_table():
     throughput = pd.read_csv(ROOT / "data/freight/port_throughput_annual.csv")
     majors = ports[ports.hub_type == "major_port"]
     assert set(majors.unlocode) == set(throughput.loc[throughput.entity_type == "port", "entity_code"])
-    assert (ports.loc[ports.hub_type != "major_port", "unlocode"] == "").all()
+    assert ports.unlocode.str.fullmatch(r"IN[A-Z]{3}").all() and ports.unlocode.is_unique
 
 
 def test_shared_city_points_are_city_but_the_port_that_owns_one_is_not_downgraded():
@@ -55,7 +55,10 @@ def test_shared_city_points_are_city_but_the_port_that_owns_one_is_not_downgrade
     (dict(hub_type="port", code="PRT-002"), "Mumbai Port"),
     (dict(hub_type="port", name="Bombay Port"), "Mumbai Port"),
     (dict(hub_type="port", name="Haldia"), "Kolkata Port (Syama Prasad Mookerjee Port) incl. Haldia Dock Complex"),
-    (dict(hub_type="port", name="Mundra"), "Mundra Port"),       # registry code, no unlocode in the row
+    (dict(hub_type="port", name="Mundra"), "Mundra Port"),
+    (dict(hub_type="port", code="INMUN"), "Mundra Port"),
+    (dict(hub_type="port", name="Hazira"), "Hazira Port"),
+    (dict(hub_type="port", name="Dhamra"), "Dhamra Port"),
     (dict(hub_type="icd", name="TKD"), "ICD Tughlakabad"),
 ])
 def test_resolve_by_hub_code_unlocode_and_alias(resolver, store, query, expected):
@@ -83,11 +86,14 @@ def test_precision_rules():
     assert hp.precision(row("", name="P"), "ports", set(), {("ports", "P")}) == "site"
 
 
-def test_hubs_endpoint_returns_null_for_blank_unlocode():
+def test_hubs_endpoint_returns_verified_port_unlocodes():
     from fastapi.testclient import TestClient
     from server.app import app
     ports = TestClient(app).get("/api/v1/hubs", params={"hub_type": "ports"}).json()
     by_name = {p["name"]: p for p in ports}
     assert by_name["Jawaharlal Nehru Port (JNPT/Navi Mumbai)"]["unlocode"] == "INNSA"
-    assert by_name["Mundra Port"]["unlocode"] is None
+    assert by_name["Mundra Port"]["unlocode"] == "INMUN"
+    assert by_name["Hazira Port"]["unlocode"] == "INHZA"
+    assert by_name["Dhamra Port"]["unlocode"] == "INDMQ"
+    assert by_name["Vizhinjam International Seaport"]["unlocode"] == "INVZJ"
     assert by_name["Mundra Port"]["hub_code"].startswith("PRT-") and by_name["Mundra Port"]["coord_precision"]

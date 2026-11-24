@@ -88,8 +88,9 @@ The point files come in two families:
   without coordinates says "coordinate pending" in `capacity_notes`.
   - `hub_code` is assigned by the repository (`PRT`, `ICP`, `ICD`, `AIR`,
     `MMLP`, `IWT`, `FCI` + three digits), never reused or renumbered; it is
-    not an official code. `unlocode` holds the UN/LOCODE of the 12 major
-    ports only (the others are not yet checked against the UNECE list).
+    not an official code. `unlocode` holds the official UNECE UN/LOCODE for
+    all 22 ports (12 major and 10 non-major; unique `INXXX`, enforced by the
+    audit).
   - `coord_precision` says what the point is: `site` (confirmed against an
     OSM port/harbour or aerodrome feature within 3 km;
     `docs/review/hub_site_check.csv`), `station`, `village` or `town` (the
@@ -106,7 +107,19 @@ The point files come in two families:
 
 Gati Shakti cargo terminals (`data/rail/freight_terminals.csv`) have their own
 schema: `name, terminal_type, zone, division, state, city, latitude, longitude,
-capacity_notes, source_url, matched_station_code`.
+capacity_notes, source_url, matched_station_code`. All 84 rows are geocoded
+and verified inside their own state polygon.
+
+Clustered OSM toll plazas (`data/roads/toll_plazas.csv` and `.parquet`) follow
+a 12-column schema: `toll_id, osm_node_id, name, toll_type, nh_number, state,
+district, district_code, latitude, longitude, booth_count, source_url`.
+- `toll_id` is a deterministic repository ID (`TPL-0001`..`TPL-NNNN`), unique
+  across the table.
+- `osm_node_id` is the unique, positive representative OpenStreetMap element ID
+  for the cluster (preferring `node` over `way`, closest to the EPSG:7755
+  cluster centroid, tie-breaking on lowest ID).
+- `source_url` matches `https://www.openstreetmap.org/(node|way)/<osm_node_id>`
+  for every row (enforced by `scripts/audit/audit_all.py`).
 
 Every point lies in its own state (the audit allows 5 km on the coast).
 

@@ -1,43 +1,43 @@
-station_code,station_name,category_state,polygon_state
-ALJ,Aliganj,Uttar Pradesh,Uttarakhand
-ALPR,ALAMPUR ROAD,Andhra Pradesh,Telangana
-ATMO,AITHAL,Uttar Pradesh,Uttarakhand
-BAGJ,Barharaganj,Bihar,Uttar Pradesh
-BBW,Bodarwar,Bihar,Uttar Pradesh
-BHRB,Bhairabi,Assam,Mizoram
-BNF,Bandhua,Jharkhand,Bihar
-BNSA,Banbasa,Uttar Pradesh,Uttarakhand
-BNSP,BANSAPAHAR,Madhya Pradesh,Uttar Pradesh
-BSPL,BASAMPALLE,Karnataka,Andhra Pradesh
-BXHT,Boxirhat,Assam,West Bengal
-CBZ,Churaibari,Assam,Tripura
-DKRA,DHUANKHERI,Madhya Pradesh,Rajasthan
-DLSR,DALHOUSIE ROAD,Himachal Pradesh,Punjab
-DLW,Dilwa,Bihar,Jharkhand
-DXN,Dudhi Nagar,Jharkhand,Uttar Pradesh
-GHE,GHEVRA,Haryana,Delhi
-GNN,GANGINENI,Andhra Pradesh,Telangana
-GTST,Gautam Sthan,Uttar Pradesh,Bihar
-GUB,Gularbhoj,Uttar Pradesh,Uttarakhand
-HHD,HUNSIHADGIL,Maharashtra,Karnataka
-HSDA,HANSDIHA,Bihar,Jharkhand
-JDPR,Oro(Jagdishpur),Bihar,Jharkhand
-JRA,Jaraikela,Jharkhand,Odisha
-JUP,JHUNPA,Rajasthan,Haryana
-KAVI,Kavi,Gujarat,West Bengal
-KHMA,Khatima,Uttar Pradesh,Uttarakhand
-KRLR,Karaila Road Jn,Uttar Pradesh,Madhya Pradesh
-LIJ,Lachmiganj,Bihar,Uttar Pradesh
-LKKD,Lakkadkot,Gujarat,Maharashtra
-MASK,MAISAR KHANA,Uttar Pradesh,Punjab
-MJZ,MajholaPakaiya,Uttar Pradesh,Uttarakhand
-MMV,Mahalimarup,Odisha,Jharkhand
-NPX,NARINDARPURA,Haryana,Punjab
-RUPC,Rudrapur city,Uttarakhand,Uttar Pradesh
-SMKR,Sham Kauria,Uttar Pradesh,Bihar
-SQK,SHANKAR,Punjab,Delhi
-SV,Siwan Jn,Uttar Pradesh,Bihar
-SYJ,Saidraja,Bihar,Uttar Pradesh
-TDK,Tadoki,Chhattisgarh,Andhra Pradesh
-TKN,Tankuppa,Jharkhand,Bihar
-YDLP,YADLAPUR,Andhra Pradesh,Karnataka
+station_code,station_name,category_state,polygon_state,resolution,note
+ALJ,Aliganj,Uttar Pradesh,Uttarakhand,coords_fixed,"Same station (NER/IZN Aliganj, Moradabad, UP — NOT Alai in Rajasthan which has code ALAI). railway_stations.csv had both a name corruption ('ALAI') and a 3.52 km N coordinate error into Uttarakhand; fixing ALJ coordinates to OSM ref=ALJ Aliganj (29.11426, 78.91976) places it in Uttar Pradesh matching category_state (also recommend correcting station_name 'ALAI' -> 'ALIGANJ' in railway_stations.csv)."
+ALPR,ALAMPUR ROAD,Andhra Pradesh,Telangana,label_fixed,Verified on OSM in Telangana; category_state 'Andhra Pradesh' reflected railway division (SCR/HYB) or pre-bifurcation state rather than station's actual state (Telangana).
+ATMO,AITHAL,Uttar Pradesh,Uttarakhand,label_fixed,Verified on OSM in Uttarakhand; category_state 'Uttar Pradesh' reflected railway division (NR/MB) or pre-bifurcation state rather than station's actual state (Uttarakhand).
+BAGJ,Barharaganj,Bihar,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Bihar' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+BBW,Bodarwar,Bihar,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Bihar' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+BHRB,Bhairabi,Assam,Mizoram,label_fixed,Verified on OSM in Mizoram; category_state 'Assam' reflected railway division (NFR/LMG) or pre-bifurcation state rather than station's actual state (Mizoram).
+BNF,Bandhua,Jharkhand,Bihar,label_fixed,Verified on OSM in Bihar; category_state 'Jharkhand' reflected railway division (ECR/DHN) or pre-bifurcation state rather than station's actual state (Bihar).
+BNSA,Banbasa,Uttar Pradesh,Uttarakhand,label_fixed,Verified on OSM in Uttarakhand; category_state 'Uttar Pradesh' reflected railway division (NER/IZN) or pre-bifurcation state rather than station's actual state (Uttarakhand).
+BNSP,BANSAPAHAR,Madhya Pradesh,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Madhya Pradesh' reflected railway division (WCR/JBP) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+BSPL,BASAMPALLE,Karnataka,Andhra Pradesh,label_fixed,Verified on OSM in Andhra Pradesh; category_state 'Karnataka' reflected railway division (SWR/SBC) or pre-bifurcation state rather than station's actual state (Andhra Pradesh).
+BXHT,Boxirhat,Assam,West Bengal,label_fixed,Verified on OSM in West Bengal; category_state 'Assam' reflected railway division (NFR/APDJ) or pre-bifurcation state rather than station's actual state (West Bengal).
+CBZ,Churaibari,Assam,Tripura,label_fixed,Verified on OSM in Tripura; category_state 'Assam' reflected railway division (NFR/LMG) or pre-bifurcation state rather than station's actual state (Tripura).
+DKRA,DHUANKHERI,Madhya Pradesh,Rajasthan,coords_fixed,"Fixed by correcting DKRA coordinates in railway_stations.csv from Rajasthan border (1.58 km NE) to OSM railway=station Dhuankheri (Bhanpura, Mandsaur, Madhya Pradesh); polygon_state now matches category_state Madhya Pradesh."
+DLSR,DALHOUSIE ROAD,Himachal Pradesh,Punjab,label_fixed,Verified on OSM in Punjab; category_state 'Himachal Pradesh' reflected railway division (NR/FZR) or pre-bifurcation state rather than station's actual state (Punjab).
+DLW,Dilwa,Bihar,Jharkhand,label_fixed,"Border-straddling station: OSM railway=station Dilwa (24.53798, 85.41956, 0.07 km from existing coord) sits inside Delwa, Nawada, Bihar in SoI village polygons, but 19.7 m (existing coord 75.1 m) south of the SoI ABDB Bihar/Jharkhand line inside Koderma, Jharkhand (within SoI 1:50k ABDB ±12.5 m RMSE); aligning category state to Jharkhand matches india_states_lgd.geojson (or keep Bihar with a border-tolerance exception if preferred)."
+DXN,Dudhi Nagar,Jharkhand,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Jharkhand' reflected railway division (ECR/DHN) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+GHE,GHEVRA,Haryana,Delhi,label_fixed,Verified on OSM in Delhi; category_state 'Haryana' reflected railway division (NR/DLI) or pre-bifurcation state rather than station's actual state (Delhi).
+GNN,GANGINENI,Andhra Pradesh,Telangana,coords_fixed,"Fixed by correcting GNN coordinates in railway_stations.csv from Khammam, Telangana (4.65 km NW) to OSM railway=station Gangineni (G. Konduru, NTR District, Andhra Pradesh); polygon_state now matches category_state Andhra Pradesh."
+GTST,Gautam Sthan,Uttar Pradesh,Bihar,label_fixed,Verified on OSM in Bihar; category_state 'Uttar Pradesh' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Bihar).
+GUB,Gularbhoj,Uttar Pradesh,Uttarakhand,label_fixed,Verified on OSM in Uttarakhand; category_state 'Uttar Pradesh' reflected railway division (NER/IZN) or pre-bifurcation state rather than station's actual state (Uttarakhand).
+HHD,HUNSIHADGIL,Maharashtra,Karnataka,label_fixed,Verified on OSM in Karnataka; category_state 'Maharashtra' reflected railway division (CR/SUR) or pre-bifurcation state rather than station's actual state (Karnataka).
+HSDA,HANSDIHA,Bihar,Jharkhand,label_fixed,Verified on OSM in Jharkhand; category_state 'Bihar' reflected railway division (ER/MALDA) or pre-bifurcation state rather than station's actual state (Jharkhand).
+JDPR,Oro(Jagdishpur),Bihar,Jharkhand,coords_fixed,"Oro (Jagdishpur) (ECR/DNR, Nawada, Bihar) was mis-geocoded in railway_stations.csv onto JGD Jagadishpur in Deoghar, Jharkhand (35 m from existing JGD row, 132.5 km SE). Fixing JDPR coordinates to OSM railway=station Oro Jagdishpur (24.90394, 85.41353, Nardiganj, Nawada, Bihar) places it in Bihar matching category_state."
+JRA,Jaraikela,Jharkhand,Odisha,label_fixed,Verified on OSM in Odisha; category_state 'Jharkhand' reflected railway division (SER/CKP) or pre-bifurcation state rather than station's actual state (Odisha).
+JUP,JHUNPA,Rajasthan,Haryana,coords_fixed,"Fixed by correcting JUP coordinates in railway_stations.csv from Haryana border (1.50 km NE) to OSM railway=station Jhunpa (Churu, Rajasthan); polygon_state now matches category_state Rajasthan."
+KAVI,Kavi,Gujarat,West Bengal,coords_fixed,"Fixed by correcting KAVI coordinates in railway_stations.csv from Kolkata WB to OSM railway=station Kavi (Bharuch, Gujarat); polygon_state now matches category_state Gujarat."
+KHMA,Khatima,Uttar Pradesh,Uttarakhand,label_fixed,Verified on OSM in Uttarakhand; category_state 'Uttar Pradesh' reflected railway division (NER/IZN) or pre-bifurcation state rather than station's actual state (Uttarakhand).
+KRLR,Karaila Road Jn,Uttar Pradesh,Madhya Pradesh,label_fixed,Verified on OSM in Madhya Pradesh; category_state 'Uttar Pradesh' reflected railway division (ECR/DHN) or pre-bifurcation state rather than station's actual state (Madhya Pradesh).
+LIJ,Lachmiganj,Bihar,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Bihar' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+LKKD,Lakkadkot,Gujarat,Maharashtra,coords_fixed,"Fixed by correcting LKKD coordinates in railway_stations.csv from Nandurbar, Maharashtra (1.60 km W) to OSM railway=station Lakkadkot (Uchchhal, Tapi, Gujarat); polygon_state now matches category_state Gujarat."
+MASK,MAISAR KHANA,Uttar Pradesh,Punjab,label_fixed,Verified on OSM in Punjab; category_state 'Uttar Pradesh' reflected railway division (NR/DLI) or pre-bifurcation state rather than station's actual state (Punjab).
+MJZ,MajholaPakaiya,Uttar Pradesh,Uttarakhand,coords_fixed,"Fixed by correcting MJZ coordinates in railway_stations.csv from Udham Singh Nagar, Uttarakhand (1.41 km NE) to OSM railway=station Majhola Pakarya (Pilibhit, Uttar Pradesh); polygon_state now matches category_state Uttar Pradesh."
+MMV,Mahalimarup,Odisha,Jharkhand,label_fixed,Verified on OSM in Jharkhand; category_state 'Odisha' reflected railway division (SER/CKP) or pre-bifurcation state rather than station's actual state (Jharkhand).
+NPX,NARINDARPURA,Haryana,Punjab,label_fixed,Verified on OSM in Punjab; category_state 'Haryana' reflected railway division (NR/DLI) or pre-bifurcation state rather than station's actual state (Punjab).
+RUPC,Rudrapur city,Uttarakhand,Uttar Pradesh,label_fixed,"Physical station (28.96928, 79.37921; OSM 28.96954, 79.37980, 0.06 km away) sits ~95-142 m south of the Uttarakhand border inside Dibdiba (CT), Bilaspur, Rampur, Uttar Pradesh in both SoI ABDB and unsimplified SoI village polygons, though it serves Rudrapur city (Uttarakhand); aligning category state to Uttar Pradesh matches the SoI polygon."
+SMKR,Sham Kauria,Uttar Pradesh,Bihar,label_fixed,Verified on OSM in Bihar; category_state 'Uttar Pradesh' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Bihar).
+SQK,SHANKAR,Punjab,Delhi,coords_fixed,"Fixed by correcting SQK coordinates in railway_stations.csv from New Delhi to OSM railway=station Shankar (Jalandhar, Punjab); polygon_state now matches category_state Punjab."
+SV,Siwan Jn,Uttar Pradesh,Bihar,label_fixed,Verified on OSM in Bihar; category_state 'Uttar Pradesh' reflected railway division (NER/BSB) or pre-bifurcation state rather than station's actual state (Bihar).
+SYJ,Saidraja,Bihar,Uttar Pradesh,label_fixed,Verified on OSM in Uttar Pradesh; category_state 'Bihar' reflected railway division (ECR/DDU) or pre-bifurcation state rather than station's actual state (Uttar Pradesh).
+TDK,Tadoki,Chhattisgarh,Andhra Pradesh,code_collision,"Genuine code collision: station_categories.csv row is Tadoki (SECR/Raipur, Antagarh, Kanker, Chhattisgarh — official Indian Railways code TDOK, mis-coded TDK upstream), whereas railway_stations.csv row TDK is Taduku (Tirupati, Andhra Pradesh, real zone SR/MAS, verified on OSM at 13.49736, 79.53032). Do NOT merge; re-key category row to TDOK (or flag as collision) and note railway_stations.csv TDK wrongly inherited zone=SECR/division=R from this collision."
+TKN,Tankuppa,Jharkhand,Bihar,label_fixed,Verified on OSM in Bihar; category_state 'Jharkhand' reflected railway division (ECR/DHN) or pre-bifurcation state rather than station's actual state (Bihar).
+YDLP,YADLAPUR,Andhra Pradesh,Karnataka,label_fixed,Verified on OSM in Karnataka; category_state 'Andhra Pradesh' reflected railway division (SCR/GTL) or pre-bifurcation state rather than station's actual state (Karnataka).

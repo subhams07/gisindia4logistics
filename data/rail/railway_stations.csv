@@ -39,7 +39,7 @@ MUNDERWA,MND,NER,LJN,Uttar Pradesh,,,26.776435,82.903373
 SAINAGAR SHIRDI,SNSI,CR,PUNE,Maharashtra,Maharashtra,"Near New Bus Stand Shirdi Sainagar, Maharashtra",19.7807923,74.4806877
 DHOLA JN,DLJ,WR,BHAVNAGAR,Gujarat,Gujarat,"Dhola, Gujarat",21.822549,71.738273
 PHAGWARA JN,PGW,NR,FZR,Punjab,,,31.2175557498,75.7655019775
-Jhunpa,JUP,,BKN,Haryana,Rajasthan,"NH 65, Rajasthan",28.777449,75.521553
+Jhunpa,JUP,,BKN,Rajasthan,Rajasthan,"NH 65, Rajasthan",28.76584,75.51377
 JHARSUGUDA JN,JSG,SER,CKP,Odisha,,,21.862274,84.017427
 KARCHHUE,KYW,,,Bihar,,,26.2311244405,84.20715351199999
 MAHENDRANATH,MHRN,,,Bihar,,,26.000739,84.509909
@@ -914,7 +914,7 @@ MAHPUR,MHO,NER,,Uttar Pradesh,Uttar Pradesh,"Mahpur Bhimapar Marg, Uttar Pradesh
 GOSALPUR,GSPR,WCR,JBP,Madhya Pradesh,Madhya Pradesh,"Jabalpur, Madhya Pradesh",23.381806,80.059225
 MADAN MAHAL,MML,WCR,JBP,Madhya Pradesh,Madhya Pradesh,"Jabalpur, Madhya Pradesh",23.159475,79.920425
 MALLAPUR,MLP,SWR,UBL,Karnataka,Karnataka,"State Highway 30, Karnataka",15.672447,75.610219
-Abutara Halt,ABW,NFR,,West Bengal,West Bengal,"Dinhata, West Bengal",26.0707762,89.5868746
+Abutara Halt,ABW,NFR,,West Bengal,West Bengal,"Dinhata, West Bengal",26.06043,89.52957
 VAGHLI,VGL,CR,BSL,Maharashtra,,,20.522649,75.074337
 Mudigubba,MGB,SCR,GTL,Andhra Pradesh,Andhra Pradesh,"Mudigubba, Andhra Pradesh",14.349934,77.994996
 Mokalsar,MKSR,NWR,JU,Rajasthan,Rajasthan,"Mokalsar, Rajasthan",25.625350216,72.5180445245
@@ -1218,7 +1218,7 @@ DIYODAR,DEOR,WR,AHMEDABAD,Gujarat,Gujarat,"Banaskantha, Gujarat",24.113489,71.77
 PIPRALA,PFL,WR,,Gujarat,Gujarat,"National Highway 15, Gujarat",23.652484,71.097619
 KANPUR GOODS MARSHAL,GMC,,,Uttar Pradesh,,,26.452292,80.33955999999999
 RAHIMATPUR,RMP,CR,PUNE,Maharashtra,Maharashtra,"Satara, Maharashtra",17.612152,74.17217
-Rairangpur,RRP,SER,CKP,Odisha,Odisha,"Mayurbhanj, Orissa",22.440956,86.16420749999999
+Rairangpur,RRP,SER,CKP,Odisha,Odisha,"Mayurbhanj, Orissa",22.26423,86.18077
 RAJAMUNDRY,RJY,SCR,BZA,Andhra Pradesh,,,16.984159000000002,81.783901
 Pratabpur,PTPR,NER,,Uttar Pradesh,Uttar Pradesh,"Pilibhit, Uttar Pradesh",28.4764188903,79.8145455212
 Rai Singh Nagar,RSNR,NWR,BKN,Rajasthan,Rajasthan,"Raisinghnagar, Rajasthan",29.535956,73.450472
@@ -2114,7 +2114,7 @@ CHABUA,CHB,NFR,TSK,Assam,Assam,"Chabua, Assam",27.481420709,95.1720581342
 DEOKALI,DEO,NER,,Uttar Pradesh,Uttar Pradesh,"State Highway 90, Uttar Pradesh",27.977317000000003,80.705156
 CHHAN ARORIAN,CHNR,NR,FZR,Jammu and Kashmir,Jammu And Kashmir,"Chhan Arorian, Jammu and Kashmir",32.46131096,75.35904533
 BUDHI,BDHY,NR,FZR,Jammu and Kashmir,Jammu And Kashmir,"Kathua, Jammu and Kashmir",32.440429,75.432931
-CHAK KALAN,CKKN,NR,,Himachal Pradesh,Punjab,"National Highway 1A, Punjab",32.083103,75.623498
+CHAK KALAN,CKKN,NR,,Punjab,Punjab,"National Highway 1A, Punjab",32.06534,75.61986
 BHANGALA,BNGL,NR,FZR,Punjab,Punjab,"National Highway 1A, Punjab",32.0195148161,75.61231335209999
 Chakdaha,CDH,ER,,West Bengal,West Bengal,"Chakdaha, West Bengal",23.078406,88.529672
 CHOLANG,CGH,NR,FZR,Punjab,Punjab,"Adda Cholang, Punjab",31.61726,75.639894
@@ -2162,7 +2162,7 @@ Diyatara Road,DTRD,NWR,BKN,Rajasthan,Rajasthan,"Diyatra, Rajasthan",27.733596247
 IB,IB,SECR,BSP,Odisha,,,21.815777,83.94878100000001
 KHARAGPUR JN,KGP,SER,KGP,West Bengal,,,22.341432,87.32845599999999
 PHULESWAR,FLR,,,West Bengal,,,22.4778756365,88.11604889590001
-Dinhata,DHH,NFR,APDJ,West Bengal,West Bengal,"Dinhata, West Bengal",26.0707762,89.5868746
+Dinhata,DHH,NFR,APDJ,West Bengal,West Bengal,"Dinhata, West Bengal",26.12384,89.46810
 Dakshin Durgapur,DKDP,ER,,West Bengal,West Bengal,"Dakshin Durgapur, West Bengal",22.308871,88.399338
 To Darjeeling,DJRZ,NFR,,West Bengal,West Bengal,"Darjeeling, West Bengal",26.8521353,88.3332302
 DULIAJAN,DJG,NFR,TSK,Assam,Assam,"Duliajan, Assam",27.367712,95.306952
@@ -2562,7 +2562,7 @@ Kukra Khapa,KFP,SECR,,Madhya Pradesh,Madhya Pradesh,"State Highway 19, Madhya Pr
 JEYPORE,JYP,ECoR,WAT,Odisha,Odisha,"Jeypore, Orissa",18.896375,82.55467900000001
 Jakhod Khera,JKHI,NWR,BKN,Haryana,Haryana,"Jakhodlkhera, Haryana",29.209394,75.57373
 Kachhia Bridge,KCO,NER,,Uttar Pradesh,Uttar Pradesh,"State Highway 33, Uttar Pradesh",27.944171,78.863805
-Kavi,KAVI,WR,VADODARA,West Bengal,Gujarat,"Bharuch, Gujarat",22.47229104660886,88.39808402583003
+Kavi,KAVI,WR,VADODARA,Gujarat,Gujarat,"Bharuch, Gujarat",22.19239,72.63046
 Jhinkpani,JNK,SER,CKP,Jharkhand,Jharkhand,"Jorapokhar, Jharkhand",22.4200106276,85.77066197879999
 KAIRLA,KAI,NWR,JU,Rajasthan,Rajasthan,"Pali, Rajasthan",25.8474354519,73.1955095032
 JIYAPURAM,JPM,,,Tamil Nadu,Tamil Nadu,"NH 67, Tamil Nadu",10.873546,78.606343
@@ -2761,7 +2761,7 @@ Lakshmikantpur,LKPR,ER,,West Bengal,West Bengal,"Lakshmikantapur, West Bengal",2
 LUSHALA,LAL,WR,BHAVNAGAR,Gujarat,Gujarat,"State Highway 99, Gujarat",21.3918244015,70.32629040219999
 KHOJEWALA,KWJ,NR,FZR,Punjab,Punjab,"Kapurthala, Punjab",31.359247,75.47495599999999
 KAPURTHALA,KXH,NR,FZR,Punjab,Punjab,"Kapurthala, Punjab",31.366846,75.38272400000001
-Ling,LING,CR,,Bihar,Maharashtra,"Ling, Maharashtra",25.290391816004583,87.3615834955126
+Ling,LING,CR,,Maharashtra,Maharashtra,"Ling, Maharashtra",20.36192,77.96155
 KUAKHERA HALT,KZS,NR,,Uttar Pradesh,Uttar Pradesh,"Chandausi, Uttar Pradesh",28.546471,78.76651700000001
 KAVALANDE,KVE,SWR,,Karnataka,Karnataka,"SH 57, Karnataka",12.033304,76.799272
 KAMPUR,KWM,NFR,LMG,Assam,Assam,"Kampur, Assam",26.1606011328,92.6577872687
@@ -3107,7 +3107,7 @@ NAVAGADH,NUD,WR,BHAVNAGAR,Gujarat,Gujarat,"Jetpur, Gujarat",21.764344,70.6167210
 PIPLI PAKHI KALAN,PKZ,NR,,Punjab,Punjab,"Faridkot, Punjab",30.732663,74.732879
 Parhihara,PIH,NWR,JU,Rajasthan,Rajasthan,"Sujangarh, Rajasthan",27.926801,74.559809
 NAVADE ROAD,NVRD,CR,,Maharashtra,Maharashtra,"Ghotkamp Koyana vele, Maharashtra",19.052389,73.102716
-Aunlajori Junction,OND,SER,CKP,Odisha,Odisha,"Mayurbhanj, Orissa",22.440956,86.16420749999999
+Aunlajori Junction,OND,SER,CKP,Odisha,Odisha,"Mayurbhanj, Orissa",22.33460,86.19596
 NANDIKUR,NAND,,,Karnataka,,,13.133125,74.806474
 NANJANGUD TOWN,NTW,SWR,MYS,Karnataka,Karnataka,"Nanjangudu, Karnataka",12.12211,76.68442999999999
 Mumbai Lower Parel,PL,WR,,Maharashtra,Maharashtra,"Mumbai, Maharashtra",18.994919,72.82961999999999
@@ -3184,7 +3184,7 @@ Phulwaria,PLWR,NER,,Bihar,Uttar Pradesh,"Phulwaria, Uttar Pradesh",26.4688026951
 Padriganj,PNJ,SECR,NGP,Madhya Pradesh,Madhya Pradesh,"Nainpur, Madhya Pradesh",22.3172086118,80.11383797849999
 Rau,RAU,WR,RATLAM,Madhya Pradesh,Madhya Pradesh,"Rau, Madhya Pradesh",22.633145,75.80494999999999
 Tik,TIK,NR,DLI,Haryana,,,29.8508008993,76.52731516850001
-Paradol,PRDL,SECR,BSP,Chhattisgarh,Madhya Pradesh,"Manendragarh, Madhya Pradesh",23.25057,82.188481
+Paradol,PRDL,SECR,BSP,Chhattisgarh,Madhya Pradesh,"Manendragarh, Madhya Pradesh",23.18680,82.26473
 TIRUNNAVAYA,TUA,SR,PGT,Kerala,Kerala,"Thirunavaya, Kerala",10.874721,75.985675
 PUNNAPURA,PNPR,SR,,Kerala,Kerala,"Alappuzha, Kerala",9.449651,76.333771
 PUNNAPRA,PUPR,SR,,Kerala,Kerala,"Alappuzha, Kerala",9.423187,76.342348
@@ -3385,7 +3385,7 @@ SAKHOTI TANDA,SKF,NR,DLI,Uttar Pradesh,Uttar Pradesh,"Meerut, Uttar Pradesh",29.
 SHAMLI,SMQL,NR,DLI,Uttar Pradesh,Uttar Pradesh,"Shamli, Uttar Pradesh",29.444597,77.316231
 SHRI MAHABIRJI,SMBJ,WCR,,Rajasthan,Rajasthan,"Karauli, Rajasthan",26.684155,76.96766400000001
 SASALU,SLU,SWR,MYS,Karnataka,Karnataka,"State Highway 47, Karnataka",14.226683,76.108388
-Shankar,SQK,NR,FZR,Delhi,Punjab,"Jalandhar, Punjab",28.560827504028268,77.1402539871633
+Shankar,SQK,NR,FZR,Punjab,Punjab,"Jalandhar, Punjab",31.14088,75.53987
 SALIYAMANGALAM,SMM,SR,TPJ,Tamil Nadu,Tamil Nadu,"NH 67, Tamil Nadu",10.77933,79.275262
 SAKHPUR,SKR,WR,,Gujarat,Gujarat,"to railway station, Gujarat",21.748997,69.833241
 SONWARSA HALT,SONW,,,Bihar,,,25.0436,85.669157
@@ -3395,7 +3395,7 @@ SANJAN,SJN,WR,MUMBAI,Gujarat,Gujarat,"Sanjan, Gujarat",20.19165,72.820594
 Sukinda Road,SKND,ECoR,KUR,Odisha,Odisha,"Duburi, Orissa",20.971268,86.05375
 SANKVAL,SKVL,SWR,UBL,Goa,Goa,"Sancoale, Goa",15.370791,73.86771300000001
 SURATHKAL,SL,KR,,Karnataka,Karnataka,"Surathkal, Karnataka",12.989191,74.80617699999999
-SANJUJE DA AREY,SJDA,SWR,,Karnataka,Goa,"CURTORIM, Goa",15.4374940478,75.5962538599
+SANJUJE DA AREY,SJDA,SWR,,Goa,Goa,"CURTORIM, Goa",15.26567,74.01080
 Shakar Nagar,SKNR,SCR,,Telangana,Andhra Pradesh,"Bodhan, Andhra Pradesh",18.659388000000003,77.905991
 SANGLI,SLI,CR,PUNE,Maharashtra,Maharashtra,"Sangli, Maharashtra",16.858669000000003,74.588939
 SHIRRAVDE,SIW,CR,PUNE,Maharashtra,Maharashtra,"Satara, Maharashtra",17.3606825795,74.1573548438
@@ -3561,7 +3561,7 @@ Tamluk,TMZ,SER,,West Bengal,West Bengal,"Tamluk, West Bengal",22.275813,87.91914
 Talchhapar,TLC,NWR,JU,Rajasthan,Rajasthan,"Sujangarh, Rajasthan",27.824805,74.487037
 Thara,THR,NCR,,Madhya Pradesh,Madhya Pradesh,"State Highway 2, Madhya Pradesh",26.3568878952,77.8507402155
 Thalera,THEA,WCR,KOTA,Rajasthan,Rajasthan,"Talera, Rajasthan",25.3152769684,75.73774364929999
-ALAI,ALJ,NER,IZN,Uttarakhand,Uttarakhand,"National Highway 74, Uttarakhand",29.143806,78.932709
+ALIGANJ,ALJ,NER,IZN,Uttar Pradesh,Uttarakhand,"National Highway 74, Uttarakhand",29.11426,78.91976
 UNDASA MADHAWPU,UDM,WR,,Madhya Pradesh,Madhya Pradesh,"State Highway 18, Madhya Pradesh",23.087044,75.97927499999999
 TURKI ROAD,TZR,WCR,JBP,Madhya Pradesh,Madhya Pradesh,"Rewa, Madhya Pradesh",24.548879000000003,81.11757300000001
 UPLAI,UPI,CR,,Maharashtra,Maharashtra,"State Highway 77, Maharashtra",18.184369,75.642724
@@ -3821,7 +3821,7 @@ GAURIPUR,GUP,NFR,APDJ,Assam,Assam,"Gauripur, Assam",26.078321,89.952056
 GANKAR,GALE,ER,MALDA,West Bengal,West Bengal,"Gankar, West Bengal",24.4048041196,88.07289439819999
 HARKIA KHAL,HKL,WR,RATLAM,Madhya Pradesh,Rajasthan,"State Highway 31, Rajasthan",24.363234,74.91966500000001
 GUNDLA POCHAMPALLI,GDPL,SCR,,Telangana,Andhra Pradesh,"Rangareddy, Andhra Pradesh",17.568097,78.488371
-Falimari,FLM,NFR,,West Bengal,West Bengal,"Falimari, West Bengal",26.0707762,89.5868746
+Falimari,FLM,NFR,,West Bengal,West Bengal,"Falimari, West Bengal",26.06172,89.47388
 JALNA,J,SCR,NED,Maharashtra,Maharashtra,"Jalna, Maharashtra",19.830781,75.893142
 Jagadishpur,JGD,ER,ASN,Jharkhand,Jharkhand,"Jagadishpur, Jharkhand",24.273027000000003,86.525172
 Ghatwad,GTWD,WR,,Gujarat,Gujarat,"Junagadh, Gujarat",20.92654,70.74961099999999
@@ -3977,7 +3977,7 @@ Mahendragarh,MHRG,NWR,BKN,Haryana,Haryana,"Mahendragarh, Haryana",28.28143300000
 MANDUADIH,MUV,NER,,Uttar Pradesh,Uttar Pradesh,"Varanasi, Uttar Pradesh",25.300001,82.972079
 Mukhtiar Balwar,MKT,WR,RATLAM,Madhya Pradesh,Madhya Pradesh,"SH 27, Madhya Pradesh",22.398362,75.973751
 Melakkonnakkulam,MEKM,SR,MDU,Tamil Nadu,Tamil Nadu,"National Highway 226, Tamil Nadu",9.724593,78.46655700000001
-Majhola Pakarya,MJZ,NER,IZN,Uttarakhand,Uttarakhand,"State Hiughway 29, Uttarakhand",28.831681000000003,79.899341
+Majhola Pakarya,MJZ,NER,IZN,Uttar Pradesh,Uttarakhand,"State Hiughway 29, Uttarakhand",28.82081,79.89187
 Mahngarwal Doaba,MGWD,NR,,Punjab,Punjab,"Mahngarwal Doaba, Punjab",31.325405,76.088969
 Marikuppam,MKM,SWR,SBC,Karnataka,Karnataka,"Kolar Gold Fields, Karnataka",12.918968,78.263789
 Mallividu,MVW,ECoR,WAT,Andhra Pradesh,Andhra Pradesh,"Coastal Andhra Region, Andhra Pradesh",17.971931,83.17285799999999
@@ -4184,7 +4184,7 @@ BHAROLI JUNCTION,BHRL,NR,FZR,Punjab,Punjab,"Bharoli, Punjab",32.27104809,75.6163
 Puniyavant,PQT,WR,,Gujarat,Gujarat,"Vadodara, Gujarat",22.332118,73.95733100000001
 Valavanur,VRA,SR,,Tamil Nadu,Tamil Nadu,"Vallavanur, Tamil Nadu",11.917402,79.573803
 Bikramganj,XBKJ,ECR,DDU,Bihar,Bihar,"Bikramganj, Bihar",25.218914,84.27373100000001
-Bhetaguri,VTG,NFR,,West Bengal,West Bengal,"Bhetaguri, West Bengal",26.3029681,89.6653098
+Bhetaguri,VTG,NFR,,West Bengal,West Bengal,"Bhetaguri, West Bengal",26.20127,89.48234
 Atwa Kursath,ATKS,NR,,Uttar Pradesh,Uttar Pradesh,"Atwa Kursath, Uttar Pradesh",27.1345702672,80.2672099268
 Wanderjatana,WDJ,NR,,Punjab,Punjab,"State Highway 16, Punjab",30.564802,74.740729
 Amravati,AMI,CR,BSL,Maharashtra,Maharashtra,"Amravati, Maharashtra",20.9300829,77.7577863
@@ -4422,7 +4422,7 @@ Dewalgaon,DEW,SECR,NGP,Maharashtra,Maharashtra,"Warsa Rd, Maharashtra",20.891160
 BIJWASAN,BWSN,NR,DLI,Delhi,,"Bijwasan, Delhi NCT",28.536700000000003,77.051292
 DOBBSPET,DBS,SWR,,Karnataka,Karnataka,"Dobbasapete, Karnataka",13.2331801567,77.2491554279
 DHANDHUKA,DCK,WR,BHAVNAGAR,Gujarat,Gujarat,"Dhandhuka, Gujarat",22.384024,71.975613
-Cooch Behar,COB,NFR,APDJ,West Bengal,West Bengal,"Cooch Behar, West Bengal",26.3029681,89.6653098
+Cooch Behar,COB,NFR,APDJ,West Bengal,West Bengal,"Cooch Behar, West Bengal",26.31863,89.45618
 Cherukara,CQA,SR,,Kerala,Kerala,"Cherukara, Kerala",10.929228,76.22811899999999
 DELHI SARAI ROHILLA,DEE,NR,DLI,Delhi,,"New Rohtak road, Delhi NCT",28.662992,77.187106
 DAYA BASTI,DBSI,NR,DLI,Delhi,,"Zakhira, Delhi NCT",28.667329,77.17138999999999
@@ -4463,7 +4463,7 @@ Detroj,DTJ,WR,AHMEDABAD,Gujarat,Gujarat,"State Highway 133, Gujarat",23.33202781
 GURNAY,GRN,NR,UMB,Punjab,Punjab,"MDR 102, Punjab",29.874366637,75.80467660219999
 GILL,GILL,NR,UMB,Punjab,Punjab,"Ludhiana, Punjab",30.840521000000003,75.848169
 DARRITOLA,DTL,SECR,BSP,Chhattisgarh,Chhattisgarh,"National Highway 78, Chhattisgarh",23.289638,82.395751
-Dewan Hat,DWT,NFR,APDJ,West Bengal,West Bengal,"Dewan, West Bengal",26.3029681,89.6653098
+Dewan Hat,DWT,NFR,APDJ,West Bengal,West Bengal,"Dewan, West Bengal",26.23564,89.48267
 FUNGO HALT,FNO,ECR,,Bihar,Bihar,"Fungo, Bihar",25.6187302859,86.6044763025
 FARHEDI,FRD,NR,,Uttar Pradesh,Uttar Pradesh,"Moradabad- Chandausi Rd, Uttar Pradesh",28.711716968,78.7937161591
 GOLAKGANJ,GKJ,NFR,APDJ,Assam,Assam,"Golokganj, Assam",26.108359,89.83064999999999
@@ -4474,7 +4474,7 @@ GURLI RAMGARHWA,GRRG,NER,,Uttar Pradesh,Uttar Pradesh,"Ghughli Bazar, Uttar Prad
 FAKHRABAD,FKB,SCR,,Telangana,Andhra Pradesh,"Basara, Andhra Pradesh",18.824644,77.974481
 GHORPURI,GPR,CR,,Maharashtra,Maharashtra,"Pune, Maharashtra",18.5278209233,73.893448392
 GOLHALLI,GHL,SWR,SBC,Karnataka,Karnataka,"State Highway 74, Karnataka",13.148289,77.413983
-Fateh Singhwala,FSW,NWR,,Rajasthan,Rajasthan,"Sri Ganganagar, Rajasthan",29.91997899999999,74.029894
+Fateh Singhwala,FSW,NWR,,Rajasthan,Rajasthan,"Sri Ganganagar, Rajasthan",29.91265,74.10320
 DUDHIA KHURD,DYK,NER,IZN,Uttar Pradesh,Uttar Pradesh,"State Highway 21, Uttar Pradesh",28.46474,80.19780499999999
 Govindgarh Malikpur,GND,NWR,JAIPUR,Rajasthan,Rajasthan,"Govindgarh, Rajasthan",27.240582,75.64500100000001
 GOREGAON ROAD,GNO,KR,,Maharashtra,Maharashtra,"Raigad, Maharashtra",18.162498,73.30253
@@ -4498,7 +4498,7 @@ Gevra Road,GAD,SECR,BSP,Chhattisgarh,Chhattisgarh,"Korba, Chhattisgarh",22.34852
 Ghori Halt,GHRI,NR,,Uttar Pradesh,Uttar Pradesh,"sharda nehar, Uttar Pradesh",27.373959,80.503293
 Ganjmuradabad,GJMB,NR,,Uttar Pradesh,Uttar Pradesh,"Sharda Nehar, Uttar Pradesh",26.987889000000003,80.177008
 Gaju Halt,GAJU,NR,,Uttar Pradesh,Uttar Pradesh,"State Highway 25, Uttar Pradesh",27.204231,80.37297299999999
-GANGINENI,GNN,SCR,SC,Telangana,Andhra Pradesh,"Yerrupalem, Andhra Pradesh",16.781754,80.498954
+GANGINENI,GNN,SCR,SC,Andhra Pradesh,Andhra Pradesh,"Yerrupalem, Andhra Pradesh",16.74497,80.51964
 HARRAWALA,HRW,NR,MB,Uttarakhand,Uttarakhand,"Dehradun, Uttarakhand",30.260892,78.097705
 NAGROTA SURIYAM,NGRS,NR,FZR,Himachal Pradesh,Himachal Pradesh,"State Highway 22, Himachal Pradesh",32.051899,76.09101
 Hole Narsipur,HLN,SWR,MYS,Karnataka,Karnataka,"Hassan District, Karnataka",12.786495,76.24646
@@ -4775,7 +4775,7 @@ NIBKARORI,NBUE,NCR,PRYJ,Uttar Pradesh,Uttar Pradesh,"Nibkarori, Uttar Pradesh",2
 PARBHANI JN,PBN,SCR,NED,Maharashtra,Maharashtra,"Parbhani, Maharashtra",19.25746,76.774119
 PURNA JN,PAU,SCR,NED,Maharashtra,Maharashtra,"Purna, Maharashtra",19.180527,77.024985
 OSIYAN,OSN,NWR,JU,Rajasthan,Rajasthan,"Osiyan, Rajasthan",26.729223,72.899779
-New Gitaldaha,NGTG,NFR,APDJ,West Bengal,West Bengal,"New Gitaldaha, West Bengal",26.0707762,89.5868746
+New Gitaldaha,NGTG,NFR,APDJ,West Bengal,West Bengal,"New Gitaldaha, West Bengal",26.03493,89.48894
 PAMBAN JN,PBM,SR,MDU,Tamil Nadu,Tamil Nadu,"Pamban, Tamil Nadu",9.279729,79.213482
 ORDI,ORDI,WR,,Rajasthan,Rajasthan,"National Highway 79, Rajasthan",24.8357666299,74.6304202759
 Naimisharanya,NM,NR,MB,Uttar Pradesh,Uttar Pradesh,"MDR 74C, Uttar Pradesh",27.355137,80.484435
@@ -5509,7 +5509,7 @@ RAJGHAT NARORA,RG,NR,MB,Uttar Pradesh,Uttar Pradesh,"Babrala, Uttar Pradesh",28.
 SARSADH,SRDH,,,Haryana,,,29.184058,76.731812
 INGORALA,IGRL,,,Gujarat,,,21.8234176248,71.6869809839
 LAGARGAWAN,LGCE,WCR,JBP,Madhya Pradesh,Madhya Pradesh,"Lagargawan, Madhya Pradesh",24.464248,80.81431
-Jagdishpur,JDPR,ECR,DNR,Jharkhand,Jharkhand,"Giridih, Jharkhand",24.273109,86.52550400000001
+Jagdishpur,JDPR,ECR,DNR,Bihar,Jharkhand,"Giridih, Jharkhand",24.90394,85.41353
 HAUSNAGAR,HSM,,,West Bengal,,,24.646721000000003,87.94988
 BIJAYSOTA,VST,WCR,JBP,Madhya Pradesh,Madhya Pradesh,"State Highway 10, Madhya Pradesh",23.978724,81.11095900000001
 SHRIKALYANPURA,SKPA,WCR,KOTA,Rajasthan,,,25.189878,76.094182
@@ -8382,7 +8382,7 @@ VYARA,VYA,WR,MUMBAI,Gujarat,,,21.118142,73.383847
 KIKAKUI ROAD,KKRD,WR,MUMBAI,Gujarat,,,21.12908,73.481234
 DOSVADA,DSD,,,Gujarat,,,21.130512,73.502728
 UKAI SONGADH,USD,WR,MUMBAI,Gujarat,,,21.147743,73.55554
-LAKKADKOT,LKKD,WR,MUMBAI,Maharashtra,,,21.163562,73.603025
+LAKKADKOT,LKKD,WR,MUMBAI,Gujarat,,,21.16143,73.61824
 BHADBHUNJA,BBAI,WR,MUMBAI,Gujarat,,,21.166264,73.693754
 NAVAPUR,NWU,WR,MUMBAI,Gujarat,,,21.166844,73.771183
 KOLDA,KFF,WR,MUMBAI,Maharashtra,,,21.165523,73.893108
@@ -8545,7 +8545,7 @@ KANWALPURA,KIW,WCR,KOTA,Rajasthan,,,24.788625,75.98301000000001
 MORAK,MKX,WCR,KOTA,Rajasthan,,,24.730953,75.97333900000001
 RAMGANJ MANDI,RMA,WCR,KOTA,Rajasthan,,,24.644606,75.939411
 JHALAWAR ROAD,JHW,WCR,KOTA,Rajasthan,,,24.541893,75.919686
-DHUANKHERI,DKRA,WCR,KOTA,Rajasthan,,,24.504973000000003,75.89805
+DHUANKHERI,DKRA,WCR,KOTA,Madhya Pradesh,,,24.49244,75.89072
 BHAWANI MANDI,BWM,WCR,KOTA,Rajasthan,,,24.419472000000003,75.82981
 KURLAS,KRLS,WCR,KOTA,Madhya Pradesh,,,24.354200582,75.7260090143
 GAROT,GOH,WCR,KOTA,Madhya Pradesh,,,24.2790919912,75.68432197690001

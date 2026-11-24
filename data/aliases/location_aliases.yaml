@@ -1,9 +1,8 @@
 # data/aliases/location_aliases.yaml
 # Alias registry for GISIndia4Logistics location resolution (server/services/location_resolver.py).
 # Maps common acronyms, commercial names and historical terms to canonical hub rows.
-# Port codes are UN/LOCODEs: for the 12 major ports they match the `unlocode` column of
-# logistics_hubs/ports.csv; the non-major ports' codes are not yet checked against the
-# UNECE list, and match by canonical name (those rows have no unlocode).
+# Port codes are official UNECE UN/LOCODEs matching the `unlocode` column of
+# logistics_hubs/ports.csv for all 22 ports (12 major and 10 non-major).
 
 # --- Major & Commercial Ports ---
 JNPT:
@@ -44,7 +43,7 @@ Pipavav:
 Hazira:
   type: port
   canonical_name: "Hazira Port"
-  code: "INHZR"
+  code: "INHZA"
 
 Dahej:
   type: port
@@ -159,7 +158,7 @@ Paradip:
 Dhamra:
   type: port
   canonical_name: "Dhamra Port"
-  code: "INDHM"
+  code: "INDMQ"
 
 Kolkata Port:
   type: port

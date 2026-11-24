@@ -486,8 +486,25 @@ def audit_access_districts(source_root, artifact_root, roll):
 def audit_rail(source_root=DATA_DIR):
     print("\n== rail ==")
     st = pd.read_csv(source_root / "rail" / "railway_stations.csv")
-    check("rail_stations", "coords in India bbox", "FAIL",
-          bool(st.longitude.between(68, 97.5).all() and st.latitude.between(6, 37.5).all()))
+    # DSN (Darsana) and DHCA (Dhaka Cantt.) are the Bangladesh Maitree Express stations
+    # (INTERNATIONAL_STATIONS in scripts/clean/assign_station_states.py): kept in the table
+    # with a blank state, and excluded from the India bbox / polygon checks.
+    international = {"DSN", "DHCA"}
+    is_intl = st.station_code.isin(international)
+    st_in = st[~is_intl]
+    check("rail_stations", "international stations DSN + DHCA present with blank state", "FAIL",
+          set(st[is_intl].station_code) == international
+          and bool(st[is_intl].state.isna().all() or (st[is_intl].state.astype(str).str.strip() == "").all()),
+          f"{int(is_intl.sum())} found")
+    check("rail_stations", "coords in India bbox (international stations excluded)", "FAIL",
+          bool(st_in.longitude.between(68, 97.5).all() and st_in.latitude.between(6, 37.5).all()))
+    check("rail_stations", "every non-international station has a polygon state", "FAIL",
+          bool(st_in.state.notna().all() and (st_in.state.astype(str).str.strip() != "").all()),
+          f"{int(st_in.state.isna().sum())} blank")
+    dup_xy = st.duplicated(subset=["latitude", "longitude"], keep=False)
+    check("rail_stations", "no two stations share identical (latitude, longitude)", "FAIL",
+          not dup_xy.any(),
+          ", ".join(sorted(st[dup_xy].station_code.astype(str))[:10]))
     check("rail_stations", "unique station codes", "WARN",
           st.station_code.duplicated().sum() == 0,
           f"{int(st.station_code.duplicated().sum())} dup codes")
@@ -499,6 +516,8 @@ def audit_rail(source_root=DATA_DIR):
     ft = pd.read_csv(source_root / "rail" / "freight_terminals.csv")
     have = ft[pd.to_numeric(ft.latitude, errors="coerce").notna()]
     check("freight_terminals", "84 GCT rows", "FAIL", len(ft) == 84, f"{len(ft)}")
+    check("freight_terminals", "84/84 geocoded (0 coordinate-pending)", "FAIL", len(have) == 84,
+          f"{len(have)} geocoded")
     check("freight_terminals", "geocoded coords in bbox", "FAIL",
           bool(have.longitude.astype(float).between(68, 97.5).all()
                and have.latitude.astype(float).between(6, 37.5).all()))
@@ -602,6 +621,15 @@ def audit_hubs(source_root=DATA_DIR):
         outside = _hubs_outside_own_state(have, source_root)
         check("hubs", f"{f}: each point in its own state (5 km coastal tolerance)", "FAIL",
               not outside, "; ".join(outside[:5]))
+        if f == "ports.csv" and "unlocode" in df.columns:
+            unl = df.unlocode.astype("string")
+            check("hubs", "ports.csv: unlocode filled for every port, unique, INXXX", "FAIL",
+                  bool(unl.str.fullmatch(r"IN[A-Z0-9]{3}").fillna(False).all()) and unl.is_unique,
+                  f"{int(unl.isna().sum())} blank")
+        if f in ("ports.csv", "air_cargo.csv") and "source_url" in df.columns:
+            wiki = df.source_url.astype("string").str.contains("wikipedia.org", case=False).fillna(False)
+            check("hubs", f"{f}: no Wikipedia source_url (official sources only)", "FAIL",
+                  not wiki.any(), f"{int(wiki.sum())} Wikipedia URLs")
 
     # NICDC Industrial Nodes & PM MITRA
     lgd_districts_path = source_root / "administrative" / "india_districts_lgd.parquet"
@@ -673,9 +701,22 @@ def audit_roads(source_root=DATA_DIR, *, fast=False):
     check("toll_plazas", "exists", "FAIL", t_path.exists())
     if t_path.exists():
         tp = pd.read_csv(t_path)
-        t_cols = ["name", "toll_type", "nh_number", "state", "district", "district_code", "latitude", "longitude", "booth_count", "source_url"]
+        t_cols = ["toll_id", "osm_node_id", "name", "toll_type", "nh_number", "state", "district",
+                  "district_code", "latitude", "longitude", "booth_count", "source_url"]
         check("toll_plazas", "schema", "FAIL", list(tp.columns) == t_cols)
-        check("toll_plazas", ">= 1000 rows", "FAIL", len(tp) >= 1000, f"{len(tp)}")
+        check("toll_plazas", ">= 1,500 rows", "FAIL", len(tp) >= 1500, f"{len(tp)}")
+        tid = tp.toll_id.astype("string")
+        check("toll_plazas", "toll_id unique, TPL-NNNN", "FAIL",
+              bool(tid.str.fullmatch(r"TPL-\d{4}").fillna(False).all()) and tid.is_unique)
+        osm = pd.to_numeric(tp.osm_node_id, errors="coerce")
+        check("toll_plazas", "osm_node_id unique and positive", "FAIL",
+              bool(osm.notna().all() and (osm > 0).all() and osm.is_unique))
+        osm_ok = osm.notna()
+        expect_url = pd.Series("", index=tp.index, dtype="string")
+        expect_url[osm_ok] = osm[osm_ok].astype("int64").astype(str)
+        url_ok = tp.source_url.astype("string").str.extract(r"^https://www\.openstreetmap\.org/(?:node|way)/(\d+)$")[0]
+        check("toll_plazas", "source_url = https://www.openstreetmap.org/(node|way)/<osm_node_id>", "FAIL",
+              bool((url_ok == expect_url).fillna(False).all()))
         check("toll_plazas", "coords in India bbox", "FAIL",
               bool(tp.longitude.between(68, 97.5).all() and tp.latitude.between(6, 37.5).all()))
 

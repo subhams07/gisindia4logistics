@@ -93,6 +93,8 @@ class RailStationItem(BaseModel):
 
 
 class TollPlazaItem(BaseModel):
+    toll_id: Optional[str] = None
+    osm_node_id: Optional[int] = None
     name: str
     toll_type: str
     nh_number: Optional[str] = None
@@ -101,6 +103,7 @@ class TollPlazaItem(BaseModel):
     latitude: float
     longitude: float
     booth_count: Optional[int] = None
+    source_url: Optional[str] = None
 
 
 class NearestFacilitiesRequest(BaseModel):
