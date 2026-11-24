@@ -728,6 +728,53 @@ def audit_demographics(source_root=DATA_DIR):
         check("population_estimates", "valid allocation methods", "FAIL", valid_methods,
               str(est.method.value_counts().to_dict()))
 
+    sub_p = source_root / "demographic" / "census2011_subdistrict_key_indicators.csv"
+    if sub_p.exists():
+        from scripts.fetch.fetch_subdistrict_census2011 import (
+            COMPOSITE_KEY,
+            read_subdistrict_csv,
+            validation_checks as subdist_validation_checks,
+        )
+        sub = read_subdistrict_csv(sub_p)
+        for cname, ok in subdist_validation_checks(sub, c).items():
+            check("census_subdistricts", cname, "FAIL", ok)
+        check(
+            "census_subdistricts",
+            "zero-padded composite keys (2/3/5 digits)",
+            "FAIL",
+            bool(
+                (sub[COMPOSITE_KEY[0]].str.len() == 2).all()
+                and (sub[COMPOSITE_KEY[1]].str.len() == 3).all()
+                and (sub[COMPOSITE_KEY[2]].str.len() == 5).all()
+            ),
+        )
+
+    lgd_sub_p = source_root / "administrative" / "lgd_subdistricts.csv"
+    if lgd_sub_p.exists():
+        lgd_sub = pd.read_csv(lgd_sub_p, dtype={"census2011_code": "string"})
+        expected_cols = [
+            "state_code", "state", "district_code", "district",
+            "sub_district_code", "sub_district_name", "census2011_code",
+        ]
+        check("lgd_subdistricts", "schema", "FAIL",
+              list(lgd_sub.columns) == expected_cols, str(list(lgd_sub.columns)))
+        check("lgd_subdistricts", ">= 6,500 sub-districts across 36 states", "FAIL",
+              len(lgd_sub) >= 6500 and lgd_sub["state_code"].nunique() == 36,
+              f"{len(lgd_sub)} rows, {lgd_sub['state_code'].nunique()} states")
+        check("lgd_subdistricts", "sub_district_code non-null and unique", "FAIL",
+              bool(lgd_sub["sub_district_code"].notna().all()
+                   and not lgd_sub["sub_district_code"].duplicated().any()))
+        c11_codes = lgd_sub["census2011_code"].dropna()
+        c11_codes = c11_codes[c11_codes.str.strip() != ""]
+        check("lgd_subdistricts", "census2011_code values are 5-digit zero-padded strings", "FAIL",
+              bool(c11_codes.str.fullmatch(r"\d{5}").all()), f"{len(c11_codes)} populated")
+        if sub_p.exists():
+            pca_codes = set(sub["census_subdistrict_code"].dropna())
+            matched = int(c11_codes.isin(pca_codes).sum())
+            rate = matched / len(c11_codes) if len(c11_codes) else 0.0
+            check("lgd_subdistricts", "census2011_code joins to Census 2011 sub-district PCA (>= 99%)", "FAIL",
+                  rate >= 0.99, f"{matched}/{len(c11_codes)} ({rate:.2%})")
+
 
 def audit_freight(source_root=DATA_DIR):
     print("\n== freight & transport demand ==")
@@ -842,6 +889,7 @@ def collect_counts(source_root=DATA_DIR, artifact_root=None) -> dict:
                    ("rail:freight", "rail/freight_terminals.csv"),
                    ("census:districts", "demographic/census2011_district_key_indicators.csv"),
                    ("demographic:estimates", "demographic/district_population_estimates.csv"),
+                   ("demographic:subdistricts", "demographic/census2011_subdistrict_key_indicators.csv"),
                    ("rail:dfc_stations", "rail/dfc_stations.csv"),
                    ("roads:toll_plazas", "roads/toll_plazas.csv"),
                    ("analysis:nh_summary", "analysis/nh_district_travel_time_summary.csv"),

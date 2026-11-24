@@ -84,6 +84,7 @@
  "analysis:west_bengal_village_access": 41322,
  "census:districts": 640,
  "demographic:estimates": 780,
+ "demographic:subdistricts": 5988,
  "freight:port_throughput_annual": 65,
  "freight:rail_freight_annual": 66,
  "freight:road_indicators_annual": 11,

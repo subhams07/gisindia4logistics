@@ -14,6 +14,26 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - Tightened `scripts/audit/audit_all.py` (`audit_boundaries()`) to assert 0 within-state duplicate `sub_district_code`s, national duplicates strictly limited to `{"3606", "6148", "6479"}`, and exact `.gpkg`/`.parquet` code parity; added `tests/test_subdistrict_codes.py`.
 - **No Stage 4 regeneration required:** neither `india_subdistricts_lgd.*` nor `india_subdistrict_access.csv` is in Stage 4's input or code closure.
 
+### Added — Census 2011 sub-district PCA & Table A-01 + LGD sub-district directory (audit item #10)
+
+- **`data/demographic/census2011_subdistrict_key_indicators.csv` (5,988 rows, 30 columns, GODL-India, `verified`):**
+  - Built by `scripts/fetch/fetch_subdistrict_census2011.py` from official ORGI Census Digital Library (NADA) workbooks `#42559` (Primary Census Abstract) and `#42526` (Table A-01: area sq. km, inhabited/uninhabited villages, towns), parsed with Python stdlib `zipfile` + `xml.etree.ElementTree` (zero extra dependencies; raw `.xlsx` cached under gitignored `data/raw/census2011/`).
+  - Joins Total, Rural, and Urban rows per sub-district with composite primary key `(census_state_code, census_district_code, census_subdistrict_code)` (zero-padded 2/3/5-digit strings). Flags the 30 `99999` `"Area not under any Sub-district"` rows via `is_non_subdistrict_area` (34 distinct non-`99999` sub-district codes span 2–3 districts: 32 × 2 + 2 × 3 = 70 rows, +36 extra; `5,922 + 36 + 30 = 5,988`).
+  - Hard validation gate reconciles 100% exactly: `5,988` rows, unique composite key, total population `1,210,854,977`, `male + female == population`, `rural_population + urban_population == population`, literacy/worker identities, and `640/640` districts matching `census2011_district_key_indicators.csv` with `0` diff.
+- **`data/administrative/lgd_subdistricts.csv` (7,112 rows, 7 columns, GODL-India, `verified`):**
+  - Built by `scripts/fetch/fetch_lgd_subdistricts.py` from the official LGD web service (`lgdirectory.gov.in/webservices/lgdws/subdistrictList`) across all 790 official LGD districts (788 populated; urban-only Kolkata `315` and Mumbai `482` have 0 sub-districts in LGD).
+  - Covers `7,112` unique LGD `sub_district_code`s across all 36 states/UTs, joining `6,094/6,215` pure-numeric ABDB sub-district codes (`98.05%`; `6,094/6,557 = 92.94%` of all coded features once Audit Item #18 restores the 342 alphanumeric ABDB carveout codes, vs `6,427/6,557 = 98.02%` prior to #18). `5,568/7,112` rows (`78.29%`) carry a 5-digit zero-padded `census2011_code`, of which `5,567/5,568` (`99.98%`) join directly to `census2011_subdistrict_key_indicators.csv`.
+- **Audit, baseline, and unit tests:** added sub-district PCA and `lgd_subdistricts.csv` checks to `scripts/audit/audit_all.py` (`audit_demographics`), added `"demographic:subdistricts": 5988` to `collect_counts()` and `data/audit_baseline.json` (zero existing counts altered), and added `tests/test_subdistrict_census.py` (8 tests verifying format, keys, reconciliation, and gate rejection on perturbations).
+- **No Stage 4 regeneration required:** neither new dataset nor any edited script is in Stage 4's input or code closure.
+
+### Changed — governance archive, non-Stage-4 provenance fixes & village map palette (PR #27)
+
+- **Governance docs archived on `main`:** added `docs/adr/007-district-identity-and-population.md` and `docs/decision_log.md` (recording the 2026-11-24 rulings keeping UP/MP village files unsplit, the DSN/DHCA Maitree Express exception, and merged remote branch cleanup).
+- **`pm_mitra_parks.csv` & `scripts/fetch/build_industrial_nodes.py`:** replaced all 7 broken `texmin.nic.in/pm-mitra-*` URLs with content-verified HTTP-200 Ministry of Textiles PIB release `PRID 2297501` (11 Aug 2026 Lok Sabha reply naming all 7 approved sites; original 7-state announcement `PRID 1908052`), keeping `industrial_nodes.csv` unchanged and exact LGD `district` / `district_code` intact.
+- **`fci_depots.csv`:** removed all 10 Instagram links (Safidon, Midnapur, Hirakud, Baripada, Ujjain, Niwari, Shahdol, Durg, Whitefield, Koppal); the rows now cite `https://fci.gov.in/` like the other 67. Their "recognised in FCI best-depot awards" notes came from that social-media post and are flagged as unconfirmed: PIB PRID 2274785 (Depot Darpan felicitation, 18 Jun 2026) names none of these depots.
+- **`scripts/analyze/plot_villages.py`:** replaced the neon `RdYlGn` colors in both the Leaflet interactive map (`getColor(d)` + legend) and Matplotlib static PNG colormap with the **Koraput × Ganjam (South Odisha)** accessibility palette (`#1E5468`, `#3E5C45`, `#D99B38`, `#C15B47`, `#7D2434`, no data `#A89F94`).
+- **No Stage 4 regeneration required:** none of the modified datasets or scripts belong to `data/analysis/producer_manifest.json`'s inputs or `code_hashes`.
+
 ### Fixed — industrial nodes verification (audit item 49, complete); builder/audit hardening & unit tests
 
 - **`industrial_nodes.csv` (20 rows, now `verified` in `catalog.yaml`):**

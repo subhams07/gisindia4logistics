@@ -17,10 +17,21 @@ from typing import Any
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 sys.path.insert(0, ".")
 from scripts.clean.standardize import DATA_DIR
 from scripts.analyze.village_access_io import read_village_access_csv
+
+# Koraput x Ganjam (South Odisha) accessibility palette
+KORAPUT_GANJAM_COLORS = [
+    "#1E5468",  # < 5 km (Excellent) — Gopalpur Sea
+    "#3E5C45",  # 5-10 km (Good) — Deomali Moss
+    "#D99B38",  # 10-25 km (Moderate) — Kewda / Alasi Gold
+    "#C15B47",  # 25-50 km (Distant) — Laterite Clay
+    "#7D2434",  # > 50 km (Isolated) — Berhampur Maroon
+]
+KORAPUT_GANJAM_NODATA = "#A89F94"  # Eastern Ghats Stone
 
 METRIC_LABELS = {
     "dist_rail_station_km": "Distance to Nearest Railway Station (km)",
@@ -191,11 +202,12 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
     </div>
     <div class="legend">
         <b>{metric_title_html}</b><br>
-        <i style="background: #1a9850"></i> &lt; 5 km (Excellent)<br>
-        <i style="background: #91cf60"></i> 5 &ndash; 10 km (Good)<br>
-        <i style="background: #fee08b"></i> 10 &ndash; 25 km (Moderate)<br>
-        <i style="background: #fc8d59"></i> 25 &ndash; 50 km (Distant)<br>
-        <i style="background: #d73027"></i> &gt; 50 km (Isolated)
+        <i style="background: #1E5468"></i> &lt; 5 km (Excellent)<br>
+        <i style="background: #3E5C45"></i> 5 &ndash; 10 km (Good)<br>
+        <i style="background: #D99B38"></i> 10 &ndash; 25 km (Moderate)<br>
+        <i style="background: #C15B47"></i> 25 &ndash; 50 km (Distant)<br>
+        <i style="background: #7D2434"></i> &gt; 50 km (Isolated)<br>
+        <i style="background: #A89F94"></i> No data
     </div>
 
     <script>
@@ -220,12 +232,12 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
         }}
 
         function getColor(d) {{
-            if (d === undefined || d === null || isNaN(d)) return '#cccccc';
-            return d <= 5  ? '#1a9850' :
-                   d <= 10 ? '#91cf60' :
-                   d <= 25 ? '#fee08b' :
-                   d <= 50 ? '#fc8d59' :
-                             '#d73027';
+            if (d === undefined || d === null || isNaN(d)) return '#A89F94';
+            return d <= 5  ? '#1E5468' :
+                   d <= 10 ? '#3E5C45' :
+                   d <= 25 ? '#D99B38' :
+                   d <= 50 ? '#C15B47' :
+                             '#7D2434';
         }}
 
         function style(feature) {{
@@ -234,7 +246,7 @@ def generate_leaflet_html(gdf: gpd.GeoDataFrame, state: str, district: str, metr
                 fillColor: getColor(val),
                 weight: 1,
                 opacity: 0.8,
-                color: '#475569',
+                color: '#5A5248',
                 fillOpacity: 0.7
             }};
         }}
@@ -302,14 +314,16 @@ def plot_villages_static(gdf: gpd.GeoDataFrame, state: str, district: str, metri
     fig, ax = plt.subplots(figsize=(10, 10), dpi=300)
     metric_title = METRIC_LABELS.get(metric, metric)
 
-    # Plot choropleth
+    # Plot choropleth using Koraput x Ganjam (South Odisha) accessibility ramp
+    cmap = LinearSegmentedColormap.from_list("koraput_ganjam", KORAPUT_GANJAM_COLORS)
     gdf.plot(
         column=metric,
         ax=ax,
-        cmap="RdYlGn_r", # Green = near, Red = far
+        cmap=cmap,
+        missing_kwds={"color": KORAPUT_GANJAM_NODATA},
         legend=True,
         legend_kwds={"label": metric_title, "orientation": "horizontal", "shrink": 0.6, "pad": 0.05},
-        edgecolor="#475569",
+        edgecolor="#5A5248",
         linewidth=0.4
     )
 

@@ -17,6 +17,9 @@ PIB_NICDP_2024 = "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2049312"
 PIB_NICDP_2026 = "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2232996"
 PIB_CBIC_2020 = "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1684631"
 PIB_DMIC_NIMZ = "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=87421"
+# Ministry of Textiles Lok Sabha US Q3802 (11 Aug 2026) explicitly naming all 7 approved
+# PM MITRA sites; original 7-state announcement is PRID 1908052 (17 Mar 2023).
+PIB_PM_MITRA_2026 = "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2297501"
 
 NICDC_NODES_DATA = [
     # DMIC (Delhi - Mumbai)
@@ -55,13 +58,13 @@ NICDC_NODES_DATA = [
 ]
 
 PM_MITRA_PARKS_DATA = [
-    {"name": "PM MITRA Mega Textile Park Virudhunagar", "state": "Tamil Nadu", "district": "Virudhunagar", "city": "Virudhunagar", "latitude": 9.5850, "longitude": 77.9520, "area_acres": 1052, "estimated_investment_inr_crore": 10000, "status": "Approved / Groundbreaking Complete", "operator": "State Industries Promotion Corporation of Tamil Nadu (SIPCOT)", "source_url": "https://texmin.nic.in/pm-mitra-tamil-nadu"},
-    {"name": "PM MITRA Mega Textile Park Warangal", "state": "Telangana", "district": "Warangal", "city": "Warangal", "latitude": 17.9620, "longitude": 79.5950, "area_acres": 1188, "estimated_investment_inr_crore": 10000, "status": "Approved / Operationalizing", "operator": "Telangana Industrial Infrastructure Corporation (TGIIC)", "source_url": "https://texmin.nic.in/pm-mitra-telangana"},
-    {"name": "PM MITRA Mega Textile Park Navsari", "state": "Gujarat", "district": "Navsari", "city": "Vansi Borsi", "latitude": 20.9120, "longitude": 72.8850, "area_acres": 1142, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "Gujarat Industrial Development Corporation (GIDC)", "source_url": "https://texmin.nic.in/pm-mitra-gujarat"},
-    {"name": "PM MITRA Mega Textile Park Kalaburagi", "state": "Karnataka", "district": "Kalaburagi", "city": "Firozabad / Kalaburagi", "latitude": 17.3250, "longitude": 76.8420, "area_acres": 1000, "estimated_investment_inr_crore": 10000, "status": "Approved / Land Handed Over", "operator": "Karnataka Industrial Areas Development Board (KIADB)", "source_url": "https://texmin.nic.in/pm-mitra-karnataka"},
-    {"name": "PM MITRA Mega Textile Park Dhar (Badnawar)", "state": "Madhya Pradesh", "district": "Dhar", "city": "Badnawar", "latitude": 23.0150, "longitude": 75.2250, "area_acres": 1560, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "MP Industrial Development Corporation (MPIDC)", "source_url": "https://texmin.nic.in/pm-mitra-madhya-pradesh"},
-    {"name": "PM MITRA Mega Textile Park Lucknow-Hardoi", "state": "Uttar Pradesh", "district": "Lucknow", "city": "Malihabad / Atrauli", "latitude": 26.9850, "longitude": 80.6850, "area_acres": 1000, "estimated_investment_inr_crore": 10000, "status": "Approved / Land Handed Over", "operator": "Uttar Pradesh State Industrial Development Authority (UPSIDA)", "source_url": "https://texmin.nic.in/pm-mitra-uttar-pradesh"},
-    {"name": "PM MITRA Mega Textile Park Amravati", "state": "Maharashtra", "district": "Amravati", "city": "Nandgaon Peth", "latitude": 21.0250, "longitude": 77.8120, "area_acres": 1020, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "Maharashtra Industrial Development Corporation (MIDC)", "source_url": "https://texmin.nic.in/pm-mitra-maharashtra"},
+    {"name": "PM MITRA Mega Textile Park Virudhunagar", "state": "Tamil Nadu", "district": "Virudhunagar", "city": "Virudhunagar", "latitude": 9.5850, "longitude": 77.9520, "area_acres": 1052, "estimated_investment_inr_crore": 10000, "status": "Approved / Groundbreaking Complete", "operator": "State Industries Promotion Corporation of Tamil Nadu (SIPCOT)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Warangal", "state": "Telangana", "district": "Warangal", "city": "Warangal", "latitude": 17.9620, "longitude": 79.5950, "area_acres": 1188, "estimated_investment_inr_crore": 10000, "status": "Approved / Operationalizing", "operator": "Telangana Industrial Infrastructure Corporation (TGIIC)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Navsari", "state": "Gujarat", "district": "Navsari", "city": "Vansi Borsi", "latitude": 20.9120, "longitude": 72.8850, "area_acres": 1142, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "Gujarat Industrial Development Corporation (GIDC)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Kalaburagi", "state": "Karnataka", "district": "Kalaburagi", "city": "Firozabad / Kalaburagi", "latitude": 17.3250, "longitude": 76.8420, "area_acres": 1000, "estimated_investment_inr_crore": 10000, "status": "Approved / Land Handed Over", "operator": "Karnataka Industrial Areas Development Board (KIADB)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Dhar (Badnawar)", "state": "Madhya Pradesh", "district": "Dhar", "city": "Badnawar", "latitude": 23.0150, "longitude": 75.2250, "area_acres": 1560, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "MP Industrial Development Corporation (MPIDC)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Lucknow-Hardoi", "state": "Uttar Pradesh", "district": "Lucknow", "city": "Malihabad / Atrauli", "latitude": 26.9850, "longitude": 80.6850, "area_acres": 1000, "estimated_investment_inr_crore": 10000, "status": "Approved / Land Handed Over", "operator": "Uttar Pradesh State Industrial Development Authority (UPSIDA)", "source_url": PIB_PM_MITRA_2026},
+    {"name": "PM MITRA Mega Textile Park Amravati", "state": "Maharashtra", "district": "Amravati", "city": "Nandgaon Peth", "latitude": 21.0250, "longitude": 77.8120, "area_acres": 1020, "estimated_investment_inr_crore": 10000, "status": "Approved / Under Development", "operator": "Maharashtra Industrial Development Corporation (MIDC)", "source_url": PIB_PM_MITRA_2026},
 ]
 
 
