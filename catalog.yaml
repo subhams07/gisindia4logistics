@@ -61,10 +61,13 @@ datasets:
   path: data/administrative/india_subdistricts_lgd.gpkg
   fetch_script: scripts/clean/process_panindia_boundaries.py
   quality_status: verified
-  quality_notes: 6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 79 rows have null
-    sub-district codes in source; district_code follows the district layer's LGD code (source value kept
-    as abdb_district_code); SoI RURAL/URBAN pairs legitimately share one LGD code; mojibake fixed; 22 MB
-    GeoPackage as regular git blob
+  quality_notes: '6,636 after dropping 28 disputed slivers and 3 exact duplicate rows; 6,557 non-null
+    string sub_district_code values (79 null in source, incl. NOT AVAILABLE and NEW MANDAL) with 6,554
+    unique codes; 342 alphanumeric ABDB carveout codes (341 N001..N009 plus raw 07314NOO1) preserved
+    verbatim via normalize_sub_district_code / scripts/clean/restore_subdistrict_codes.py; 0 within-state
+    duplicates and only 3 genuine raw ABDB cross-state collisions (3606, 6148, 6479 = 6 rows total);
+    district_code follows the district layer''s LGD code (source value kept as abdb_district_code);
+    mojibake fixed; 22 MB GeoPackage as regular git blob with GeoParquet twin'
 - name: India district boundaries (Census 2011)
   category: administrative
   description: 640 districts with census state/district codes and LGD state codes
@@ -93,6 +96,19 @@ datasets:
   quality_status: verified
   quality_notes: 790 districts across 36 states/UTs; LGD codes unique nationally (the fetcher refuses to write
     otherwise); census codes 0/blank mean none
+- name: LGD sub-district directory & Census 2011 crosswalk (official snapshot)
+  category: administrative
+  description: Official Local Government Directory sub-district master (7,112 sub-districts across 36 states/UTs and 788/790 LGD districts) with 5-digit Census 2011 sub-district codes
+  provider: Ministry of Panchayati Raj — Local Government Directory (lgdirectory.gov.in web service)
+  source_url: https://lgdirectory.gov.in/webservices/lgdws/subdistrictList
+  license: Government of India open data (GODL-India); attribute LGD, Ministry of Panchayati Raj
+  vintage: 2026-11 snapshot
+  resolution: sub-district
+  access: committed
+  path: data/administrative/lgd_subdistricts.csv
+  fetch_script: scripts/fetch/fetch_lgd_subdistricts.py
+  quality_status: verified
+  quality_notes: "7,112 unique LGD sub_district_codes across 36 states/UTs and 788/790 official LGD districts (2 urban-only districts, 315 Kolkata and 482 Mumbai, have 0 sub-districts in LGD). Joins 6,094/6,215 pure-numeric ABDB sub_district_code features (98.05%; 6,094/6,557 = 92.94% of all coded features once Audit Item #18 restores the 342 alphanumeric ABDB carveout codes, vs 6,427/6,557 = 98.02% prior to #18 when truncated carveouts matched parent numeric codes). 5,568/7,112 rows (78.29%) carry a 5-digit zero-padded census2011_code (1,544 blank for post-2011 formations), of which 5,567/5,568 (99.98%) join directly to census2011_subdistrict_key_indicators.csv."
 - name: District code crosswalk (SoI ABDB -> LGD)
   category: administrative
   description: Maps each of the 780 boundary-layer districts from its ABDB source code to its LGD code
@@ -413,8 +429,8 @@ datasets:
 - name: PM MITRA Mega Textile Parks
   category: logistics_hubs
   description: 7 approved PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks across India
-  provider: Ministry of Textiles
-  source_url: https://texmin.nic.in
+  provider: Ministry of Textiles (via PIB)
+  source_url: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2297501
   license: GODL-India
   vintage: 2026-08
   resolution: national points
@@ -422,7 +438,7 @@ datasets:
   path: data/logistics_hubs/pm_mitra_parks.csv
   fetch_script: scripts/fetch/build_industrial_nodes.py
   quality_status: verified
-  quality_notes: 7 parks across Tamil Nadu, Telangana, Gujarat, Karnataka, MP, UP, and Maharashtra with area and estimated investment
+  quality_notes: "7 parks across Tamil Nadu (Virudhunagar), Telangana (Warangal), Gujarat (Navsari), Karnataka (Kalaburagi), MP (Dhar), UP (Lucknow-Hardoi), and Maharashtra (Amravati) with area, estimated investment, and LGD district/district_code assigned via assign_node_districts.py. All 7 per-row URLs cite content-verified HTTP-200 Ministry of Textiles PIB release PRID 2297501 (11 Aug 2026 Lok Sabha US Q3802 naming all 7 sites; original 7-state site announcement is PIB PRID 1908052, 17 Mar 2023)."
 - name: Cold Chain Storage Infrastructure
   category: logistics_hubs
   description: 15 key cold storage, CA store, and integrated packhouse hubs across major horticulture and perishable belts
@@ -568,8 +584,10 @@ datasets:
   access: committed
   path: data/logistics_hubs/fci_depots.csv
   quality_status: community
-  quality_notes: FCI publishes no complete depot register (JS site); city-level coordinates with caveat
-    per row; 10 rows award-verified depots
+  quality_notes: "FCI publishes no complete depot register (JS site); city-level coordinates with caveat
+    per row (1 town-level point: Niwari). All 77 rows cite https://fci.gov.in/. The 10 rows noted as
+    recognised in FCI best-depot awards took that from an FCI social-media post (link removed); PIB PRID
+    2274785 (Depot Darpan, 18 Jun 2026) names none of these depots, so the award notes are unconfirmed."
 - name: Census 2011 district key indicators
   category: demographic
   description: Population, literacy, workers, education, age structure per district
@@ -584,6 +602,19 @@ datasets:
   quality_status: verified
   quality_notes: reconciles exactly with official totals (640 districts; population 1,210,854,977; state
     totals match)
+- name: Census 2011 sub-district key indicators (PCA + Table A-01)
+  category: demographic
+  description: Official Primary Census Abstract (Total/Rural/Urban population, households, 0-6, SC/ST, literacy, workers by category) merged with Table A-01 (area sq. km, inhabited/uninhabited villages, towns) for all 5,988 Census 2011 sub-districts
+  provider: Office of the Registrar General & Census Commissioner, India (ORGI) — Census Digital Library (NADA #42559 & #42526)
+  source_url: https://censusindia.gov.in/nada/index.php/catalog/42559
+  license: GODL-India
+  vintage: 2011
+  resolution: sub-district
+  access: committed
+  path: data/demographic/census2011_subdistrict_key_indicators.csv
+  fetch_script: scripts/fetch/fetch_subdistrict_census2011.py
+  quality_status: verified
+  quality_notes: "5,988 sub-districts across 640 Census 2011 districts (35 2011 states/UTs mapped to canonical LGD spellings; Telangana within Andhra Pradesh, DNH & DD merged to UT spelling). Primary key is composite (census_state_code, census_district_code, census_subdistrict_code) because 30 'Area not under any Sub-district' rows share code 99999 (flagged via is_non_subdistrict_area) and 34 distinct non-99999 sub-district codes span 2-3 districts (32 x 2 + 2 x 3 = 70 rows, +36 extra; 5,922 + 36 + 30 = 5,988). Reconciles 100% exactly: sum(population) == 1,210,854,977; M+F == P; Rural+Urban == P; literates+illiterates == P; workers+non_workers == P; 640/640 districts match census2011_district_key_indicators.csv with 0 diff; 5 Nagaland/Mizoram rows have blank area_sqkm ('NA' in ORGI Table A-01)."
 - name: District population estimates (780 current LGD districts)
   category: demographic
   description: 2011 Census population mapped to all 780 current LGD districts via geometric overlay and village-count blending

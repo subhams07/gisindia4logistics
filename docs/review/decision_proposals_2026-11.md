@@ -141,7 +141,7 @@ Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B),
 | 15 | Moot: the habitation layer was removed (#16) |
 | 16 | Done (#15) |
 | 17 | Done (#15) |
-| 18 | Open: needs the raw ABDB SUBDIS_LGD values |
+| 18 | Done: raw SoI ABDB `SUBDIS_LGD` codes restored as nullable strings across GPKG, Parquet, and `india_subdistrict_access.csv` (342 alphanumeric carveouts preserved, 6,554 unique codes, 0 within-state duplicates, only the 3 genuine raw ABDB cross-state collisions `3606`/`6148`/`6479` = 6 rows, down from 577) |
 | 19 | Done (#15) |
 | 20 | Done (#16) |
 | 21 | Done (#19) |

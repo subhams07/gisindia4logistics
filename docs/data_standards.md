@@ -28,6 +28,15 @@ All datasets in this repository follow these conventions.
     and the district layer also carries `census2011_code`. The mapping is
     `data/administrative/district_code_crosswalk.csv`
     (`scripts/clean/apply_lgd_codes.py`).
+  - `sub_district_code` — stored as nullable text (`string`) in
+    `data/administrative/india_subdistricts_lgd.{gpkg,parquet}` and
+    `data/analysis/india_subdistrict_access.csv`. Pure numeric codes are
+    normalized without leading zeros (e.g. `"00285"` → `"285"`), while the 342
+    alphanumeric SoI ABDB carveout codes (341 `N001`–`N009` suffixes such as
+    `"00285N001"` plus raw `"07314NOO1"`) are preserved verbatim; placeholders
+    (`"NOT AVAILABLE"`, `"NEW MANDAL"`) are null (blank `""` in CSV). Codes are
+    unique within every state (0 within-state duplicates); nationally only 3
+    genuine raw ABDB cross-state collisions exist (`3606`, `6148`, `6479`).
   - `village_code` — the Survey of India village code (LGD) where available
   - In the village files every code column is text (as the source pads them,
     e.g. `"055"`, `"05614"`), and `state` is the LGD state name on every row

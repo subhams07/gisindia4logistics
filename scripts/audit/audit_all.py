@@ -83,6 +83,14 @@ CENSUS_VILLAGES_2011 = {
     # AP/Telangana excluded: no reliable post-split (2022 districts) baseline
 }
 
+# Documented genuine raw SoI ABDB cross-state numeric sub_district_code collisions
+# (all three pair a Jammu & Kashmir sub-district with another state; 6479 pairs raw
+# "6479" Khoie J&K with raw "06479" Keonjhar Sadar Odisha after leading-zero strip):
+#   3606: Bari Pattan (J&K) / Khirkiya (MP)
+#   6148: Ramkot (J&K) / Narwal (UP)
+#   6479: Khoie (J&K) / Keonjhar Sadar (Odisha)
+EXPECTED_SUBDISTRICT_CROSS_STATE_DUP_CODES = frozenset({"3606", "6148", "6479"})
+
 RESULTS: list[dict] = []
 _RESULT_SINK = ContextVar("audit_results", default=None)
 
@@ -155,13 +163,29 @@ def audit_boundaries(source_root=DATA_DIR):
            if (s, c) not in sub_codes]
     check("subdistricts_lgd", "district codes join to districts layer", "FAIL",
           not bad, f"{len(bad)} orphans, e.g. {bad[:3]}" if bad else "")
-    # SoI splits sub-districts into RURAL/URBAN pairs sharing one LGD code —
-    # duplicates are legitimate only in that pattern; null codes excluded
+    # Full ABDB sub_district_code strings preserve alphanumeric carveouts (e.g. 00285N001):
+    # every state must have 0 within-state duplicates, and national cross-state duplicates
+    # must be strictly limited to the documented raw ABDB collisions (null codes excluded).
     base = sub.dropna(subset=["sub_district_code"])
-    real_dups = base.duplicated(
-        ["sub_district_code", "sub_district"], keep=False).sum()
-    check("subdistricts_lgd", "no true duplicate subdistrict codes (RURAL/URBAN pairs OK)", "FAIL",
-          real_dups == 0, f"{int(real_dups)} real dups")
+    base_codes = base["sub_district_code"].astype("string")
+    within_dups = int(base.assign(_code=base_codes).duplicated(["state", "_code"], keep=False).sum())
+    check("subdistricts_lgd", "no within-state duplicate sub_district_code", "FAIL",
+          within_dups == 0, f"{within_dups} within-state dup rows")
+    nat_dup_codes = set(base_codes[base_codes.duplicated(keep=False)].tolist())
+    check("subdistricts_lgd", "national duplicate sub_district_code limited to documented raw ABDB collisions", "FAIL",
+          nat_dup_codes == EXPECTED_SUBDISTRICT_CROSS_STATE_DUP_CODES,
+          f"codes={sorted(nat_dup_codes)}")
+    sub_pq_path = source_root / "administrative" / "india_subdistricts_lgd.parquet"
+    if sub_pq_path.exists():
+        sub_pq = pd.read_parquet(sub_pq_path, columns=["sub_district_code"])
+        g_codes = sub["sub_district_code"].astype("string")
+        p_codes = sub_pq["sub_district_code"].astype("string")
+        codes_match = (
+            len(sub_pq) == len(sub)
+            and bool(((g_codes == p_codes) | (g_codes.isna() & p_codes.isna())).all())
+        )
+        check("subdistricts_lgd", "parquet sub_district_code matches gpkg", "FAIL",
+              codes_match, f"gpkg={len(sub)}, parquet={len(sub_pq)}")
 
     # district_code is the official LGD code (lgd_districts.csv snapshot of
     # lgdirectory.gov.in); census2011_code is LGD's own Census 2011 code for it
@@ -475,7 +499,7 @@ def audit_access_districts(source_root, artifact_root, roll):
 
     sub_path = artifact_root / "india_subdistrict_access.csv"
     if sub_path.exists():
-        sub = pd.read_csv(sub_path)
+        sub = pd.read_csv(sub_path, dtype={"sub_district_code": "string"})
         keys = [(s, None if pd.isna(c) else int(c), d) for s, c, d in zip(sub.state, sub.district_code, sub.district)] \
             if "district_code" in sub else []
         bad = sum(k not in lgd for k in keys) if keys else len(sub)
@@ -748,6 +772,53 @@ def audit_demographics(source_root=DATA_DIR):
         check("population_estimates", "valid allocation methods", "FAIL", valid_methods,
               str(est.method.value_counts().to_dict()))
 
+    sub_p = source_root / "demographic" / "census2011_subdistrict_key_indicators.csv"
+    if sub_p.exists():
+        from scripts.fetch.fetch_subdistrict_census2011 import (
+            COMPOSITE_KEY,
+            read_subdistrict_csv,
+            validation_checks as subdist_validation_checks,
+        )
+        sub = read_subdistrict_csv(sub_p)
+        for cname, ok in subdist_validation_checks(sub, c).items():
+            check("census_subdistricts", cname, "FAIL", ok)
+        check(
+            "census_subdistricts",
+            "zero-padded composite keys (2/3/5 digits)",
+            "FAIL",
+            bool(
+                (sub[COMPOSITE_KEY[0]].str.len() == 2).all()
+                and (sub[COMPOSITE_KEY[1]].str.len() == 3).all()
+                and (sub[COMPOSITE_KEY[2]].str.len() == 5).all()
+            ),
+        )
+
+    lgd_sub_p = source_root / "administrative" / "lgd_subdistricts.csv"
+    if lgd_sub_p.exists():
+        lgd_sub = pd.read_csv(lgd_sub_p, dtype={"census2011_code": "string"})
+        expected_cols = [
+            "state_code", "state", "district_code", "district",
+            "sub_district_code", "sub_district_name", "census2011_code",
+        ]
+        check("lgd_subdistricts", "schema", "FAIL",
+              list(lgd_sub.columns) == expected_cols, str(list(lgd_sub.columns)))
+        check("lgd_subdistricts", ">= 6,500 sub-districts across 36 states", "FAIL",
+              len(lgd_sub) >= 6500 and lgd_sub["state_code"].nunique() == 36,
+              f"{len(lgd_sub)} rows, {lgd_sub['state_code'].nunique()} states")
+        check("lgd_subdistricts", "sub_district_code non-null and unique", "FAIL",
+              bool(lgd_sub["sub_district_code"].notna().all()
+                   and not lgd_sub["sub_district_code"].duplicated().any()))
+        c11_codes = lgd_sub["census2011_code"].dropna()
+        c11_codes = c11_codes[c11_codes.str.strip() != ""]
+        check("lgd_subdistricts", "census2011_code values are 5-digit zero-padded strings", "FAIL",
+              bool(c11_codes.str.fullmatch(r"\d{5}").all()), f"{len(c11_codes)} populated")
+        if sub_p.exists():
+            pca_codes = set(sub["census_subdistrict_code"].dropna())
+            matched = int(c11_codes.isin(pca_codes).sum())
+            rate = matched / len(c11_codes) if len(c11_codes) else 0.0
+            check("lgd_subdistricts", "census2011_code joins to Census 2011 sub-district PCA (>= 99%)", "FAIL",
+                  rate >= 0.99, f"{matched}/{len(c11_codes)} ({rate:.2%})")
+
 
 def audit_freight(source_root=DATA_DIR):
     print("\n== freight & transport demand ==")
@@ -862,6 +933,7 @@ def collect_counts(source_root=DATA_DIR, artifact_root=None) -> dict:
                    ("rail:freight", "rail/freight_terminals.csv"),
                    ("census:districts", "demographic/census2011_district_key_indicators.csv"),
                    ("demographic:estimates", "demographic/district_population_estimates.csv"),
+                   ("demographic:subdistricts", "demographic/census2011_subdistrict_key_indicators.csv"),
                    ("rail:dfc_stations", "rail/dfc_stations.csv"),
                    ("roads:toll_plazas", "roads/toll_plazas.csv"),
                    ("analysis:nh_summary", "analysis/nh_district_travel_time_summary.csv"),
