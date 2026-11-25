@@ -94,3 +94,34 @@ Use for a canonical highway route with quality warnings, provenance and optional
   "geometry_detail": "none"
 }
 ```
+
+### 8. `gis_get_subdistrict_profile`
+Query sub-district infrastructure access metrics and official LGD directory linkage (preserves alphanumeric SoI ABDB carveouts such as `00285N001`):
+```json
+{
+  "state": "Uttarakhand",
+  "district": "Chamoli",
+  "limit": 25
+}
+```
+
+### 9. `gis_get_subdistrict_census`
+Query Census 2011 sub-district PCA and Table A-01 demographic/area indicators (ORGI GODL-India):
+```json
+{
+  "state": "Jammu and Kashmir",
+  "district": "Kupwara",
+  "limit": 10
+}
+```
+
+### 10. `gis_get_freight_statistics`
+Query reconciled annual Indian Railways loading, major port throughput, and MoRTH road length series:
+```json
+{
+  "series": "rail",
+  "fy": "2024-25",
+  "commodity_group": "coal",
+  "limit": 20
+}
+```

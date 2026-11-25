@@ -79,6 +79,7 @@ class DataStore:
     def __init__(self):
         self._graph_lock = RLock()
         self._highway_snapshot = None
+        self._graph_deferred: bool = False
         self.data_dir = settings.DATA_PATH
         self.districts_df: pd.DataFrame | None = None
         self.states_df: pd.DataFrame | None = None
@@ -132,14 +133,23 @@ class DataStore:
                 object.__setattr__(self, name, getattr(snapshot, name))
             self.main_comp_label = main_label
             self._highway_snapshot = snapshot
+            self._graph_deferred = False
             return snapshot
 
+    def ensure_highway_graph(self) -> None:
+        """Build and publish the highway graph on first routing use if deferred."""
+        with self._graph_lock:
+            if self._highway_snapshot is None and self._graph_deferred:
+                self._graph_deferred = False
+                self._build_highway_graph()
+
     def get_highway_snapshot(self):
-        """O(1) coherence check; never revalidate a published immutable graph."""
+        """O(1) coherence check; builds deferred graph on first routing access."""
         from server.services.exceptions import DataIntegrityError
         from server.services.graph_snapshot import GRAPH_FIELDS
 
         with self._graph_lock:
+            self.ensure_highway_graph()
             snapshot = self._highway_snapshot
             if snapshot is None or any(getattr(self, name, None) is not getattr(snapshot, name)
                                        for name in GRAPH_FIELDS):
@@ -159,7 +169,7 @@ class DataStore:
                     cls._instance = instance
         return instance
 
-    def initialize_store(self):
+    def initialize_store(self, *, load_graph: bool = False):
         t0 = time.time()
         LOGGER.info("Initializing GIS4Logistics in-memory store...")
 
@@ -240,8 +250,12 @@ class DataStore:
                 states_grp["village_count"] = 0
             self.states_df = states_grp
 
-        # 6. Build or Lazy Load Highway Graph
-        self._build_highway_graph()
+        # 6. Build or Defer Highway Graph (built on demand for routing calls)
+        if load_graph:
+            self._graph_deferred = False
+            self._build_highway_graph()
+        else:
+            self._graph_deferred = True
         LOGGER.info("DataStore initialized in %.2fs", time.time() - t0)
 
     def _build_highway_graph(self):

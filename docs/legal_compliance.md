@@ -56,22 +56,22 @@ useConstraints = copyright; otherConstraints = "Geospatial Guidelines 2021
 to be followed. Any violation of the Guidelines will be dealt under the
 applicable laws." No explicit open-data license is granted.
 
-**Current repository posture (maintainer, 2026-08):** the public repository
-redistributes standardized derivatives in good faith, based on free,
-login-free availability on a government portal, with attribution in the
-documentation. The ABDB GeoJSONs embed "Administrative boundaries: Survey of India,
-Administrative Boundary Database (ABDB), 2024-25; district codes: Local
-Government Directory (lgdirectory.gov.in). Simplified and indicative; not an
-authoritative depiction of India's boundaries", the SoI portal village GeoJSONs embed "Village
-boundaries: Survey of India, Government of India" and the NWDP village GeoJSONs
-name Survey of India and the National Water Data Portal; the Parquet and
-GeoPackage copies and the DataMeet layers embed none. The metadata nevertheless states "copyright" and no written
-blanket redistribution grant is recorded here. This is therefore an
-**unresolved release-governance item**, not a claim of explicit permission.
-Before a formal public data release, DOI deposit, or broad redistribution
-campaign, the maintainer must obtain written confirmation, record a documented
-legal review, replace the affected data, or move it to a user-side fetch flow.
-If SoI objects, affected files will be removed promptly.
+**Current repository posture (maintainer rulings 2026-08 and 2026-11-26):** all
+Survey of India boundary maps in the repository (ABDB state/district/sub-district
+layers, the 27-state SoI portal village boundaries, and the 9-state NWDP SoI
+village boundaries) are treated as **public data available for distribution**,
+based on their free, login-free publication on official Government of India
+portals under the 2021 DST Geospatial Guidelines and no longer block downstream
+distribution, plugin listings, or hosted services. The ABDB GeoJSONs embed
+"Administrative boundaries: Survey of India, Administrative Boundary Database
+(ABDB), 2024-25; district codes: Local Government Directory (lgdirectory.gov.in).
+Simplified and indicative; not an authoritative depiction of India's boundaries",
+the SoI portal village GeoJSONs embed "Village boundaries: Survey of India,
+Government of India" and the NWDP village GeoJSONs name Survey of India and the
+National Water Data Portal; the Parquet and GeoPackage copies and the DataMeet
+layers embed none. Survey of India attribution, DST 2021 Geospatial Guidelines
+compliance, and the indicative-boundary disclaimer remain mandatory, and if SoI
+objects to any file, affected files will be removed promptly.
 
 Grounds and mitigations:
 - The 2021 Geospatial Data Guidelines (the stated governing constraint)
