@@ -108,7 +108,7 @@ nh_gdf = gpd.read_parquet("data/roads/india_nh_network.parquet")
 # Filter NH-48 (Delhi-Mumbai-Chennai Golden Quadrilateral corridor)
 nh48_gdf = nh_gdf[nh_gdf["ref"].str.contains("NH48", na=False)]
 
-# Load 1,536 Clustered Toll Plazas
+# Load 1,585 Clustered Toll Plazas
 tolls_df = pd.read_parquet("data/roads/toll_plazas.parquet")
 ```
 
@@ -296,7 +296,7 @@ docker-compose down
 | `/api/v1/hubs/nearest` | `GET` | `latitude`, `longitude`, `top_k` | Closest infrastructure across all categories |
 | `/api/v1/hubs/rail/stations` | `GET` | `search`, `zone`, `category` | Query 8,697 railway stations |
 | `/api/v1/hubs/rail/dfc` | `GET` | — | 3 DFC corridors & 54 junction yards |
-| `/api/v1/hubs/roads/toll-plazas` | `GET` | `state`, `nh_number` | Query 1,536 toll plazas |
+| `/api/v1/hubs/roads/toll-plazas` | `GET` | `state`, `nh_number` | Query 1,585 toll plazas |
 | `/api/v1/route/highway` | `POST` | `origin`, `destination`, `vehicle_type` | Legacy strategic highway routing & modelled toll heuristic |
 | `/api/v1/route/highway/plan` | `POST` | Strict location references, vehicle, geometry controls | Canonical route geometry, quality and provenance; no toll fields |
 | `/api/v1/simulate/freight-cost` | `POST` | `origin_district`, `custom_parameters` | Intermodal freight cost optimization |
