@@ -122,6 +122,8 @@ Implemented on the review branch without waiting for the Codex review, because n
 
 Pull requests are on subhams07/gisindia4logistics: #15 (batch A), #16 (batch B), #18 (batch C), #19 (batch D), #20 and #21 (village files), #22 (Wave 1), #23 (batch E). Batch F is the pull request that adds this file.
 
+**Closed 2026-11-24.** All 61 items are resolved: 56 done, 2 kept by maintainer decision (#4, #48), 2 moot (#9, #15: the habitation layer was removed) and 1 reviewed with nothing to change (#34). Later pull requests: #24 (batch F), #25 and #26 (#49), #27 (housekeeping), #28 (#10), #29 (#12, #39, #40, #50, #52, #59; Stage 4 run `linux-2026-11-24-run8`) and #30 (#18). Not verifiable from the cloud session: the 10 non-major port UN/LOCODEs added in #29 (UNECE was unreachable).
+
 | # | Outcome |
 |---|---|
 | 1 | Done (#16): per-class toll table LMV 120, LCV 195, 2-axle 280, MAV 340, 7-axle 410 INR |

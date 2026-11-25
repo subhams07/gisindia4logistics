@@ -252,8 +252,8 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
 2. Rail stations base table: 2016 vintage, zone 45% filled. Categories now
    covered (5,941 NSG via community source — data.gov.in remains the
    authoritative upgrade). Freight terminals cover the 2023 GCT annexure
-   only (306 approved / 118+ commissioned since then); 14 GCT sites lack
-   coordinates.
+   only (306 approved / 118+ commissioned since then); all 84 annexure
+   sites are geocoded (Phase X).
 3. ICD/ICP/FCI coordinates are approximations (flagged in capacity_notes).
 4. Districts-by-decade: census 2011 ↔ current 780 mapping (census2011_lgd_
    crosswalk.csv helps; new-district splits after 2011 need LGD parentage).
