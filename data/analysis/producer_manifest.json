@@ -237,7 +237,7 @@
     "scripts/clean/standardize.py": "f2a50b59d9251c38a7be4b9d2b0af366c3a5d98007e247849ff765243e29ed57",
     "server/__init__.py": "ae56c8bf0ece6f23e24f7a19f105d641dd99c95aeb186c1d162a2c7b0a5a8713",
     "server/config.py": "e1fd23c39885f62db9eea4383650a8d6bed988684638cb4b17d304135677c1a6",
-    "server/dependencies.py": "486022fd7ef382a313c9539c1c0be00ad2d0d773b979ceb7f9583bbf4bc2e9d5",
+    "server/dependencies.py": "2b56808a23477ffd235e781d3acff3cbb325cfca27f4eac2726eee2e3b4b85a1",
     "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
     "server/models/phase1.py": "1dbe4e46718a8422fdcce25bf188adc4751190042a8986385dba45f3e29dd59a",
     "server/models/schemas.py": "aab5fd340497a958ee10e44ad71ffc6e68d157a938caeed3a92e06882b5d19d3",
@@ -397,10 +397,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 1311.823288593,
-    "peak_memory_bytes": 621182976
+    "elapsed_seconds": 1228.2327430619998,
+    "peak_memory_bytes": 635109376
   },
-  "run_id": "linux-2026-11-25-run9",
+  "run_id": "linux-2026-11-26-run10",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }

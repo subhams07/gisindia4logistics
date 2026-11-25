@@ -14,6 +14,7 @@ All notable code, API, data-schema, and documentation changes will be recorded h
   - Negotiates `2024-11-05`, `2025-03-26`, and `2025-06-18` (default `2025-06-18`); attaches standard tool `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) on all 10 tools.
   - `gis_plot_villages_map` preserves `content[0]` JSON metadata and appends an inline MCP `image` content block (`image/png`, base64) when a PNG map is generated.
   - Added stdlib cross-platform `plugins/gisindia4logistics/launch_mcp.py` and wired `plugins/gisindia4logistics/plugin.json` to it so `.venv` and `GIS4LOGISTICS_DATA_PATH` resolve automatically from any working directory.
+- **Stage 4 run `linux-2026-11-26-run10`:** `server/dependencies.py` is a code-closure file, so the manifest was regenerated; all seven artifacts are byte-identical to run9. Measured on Linux: MCP `initialize` 1.0-1.5 s -> 0.2 s, first scorecard call 5.6 s -> 1.3 s, first routing call 5.0 s (graph built on demand).
 - **3 new bounded read-only MCP tools (`mcp_server/tools.py`, `mcp_server/server.py`, `skills/gisindia4logistics/SKILL.md`):** `gis_get_subdistrict_profile`, `gis_get_subdistrict_census`, and `gis_get_freight_statistics`.
 
 ## [2.0.0] - 2026-11-25

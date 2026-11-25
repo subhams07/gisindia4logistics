@@ -814,8 +814,11 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
     - Deferred highway graph building in `server/dependencies.py`
       (`DataStore.initialize_store(load_graph=False)` + `ensure_highway_graph()`
       on first `get_highway_snapshot()`, `/health/ready`, and `/`).
-      Note: `server/dependencies.py` is in Stage 4 `code_hashes`, so Linux
-      Stage 4 (`run10`) must refresh `producer_manifest.json` before merge.
+      `server/dependencies.py` is in Stage 4 `code_hashes`, so Stage 4 was
+      regenerated (run `linux-2026-11-26-run10`; all seven artifacts
+      byte-identical to run9, only the manifest and limitations changed).
+      Measured on Linux: `initialize` 1.0-1.5 s -> 0.2 s, first scorecard
+      5.6 s -> 1.3 s; the first routing call builds the graph (5.0 s).
     - Appended inline base64 `image/png` content block in `gis_plot_villages_map`
       while keeping `content[0]` JSON text backward-compatible; added portable
       cross-platform `plugins/gisindia4logistics/launch_mcp.py` in `plugin.json`.
