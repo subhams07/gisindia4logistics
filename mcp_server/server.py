@@ -4,35 +4,34 @@ Model Context Protocol (MCP) stdio server for Antigravity, Codex, and AI assista
 Exposes GIS4Logistics datasets, routing, and simulation tools via JSON-RPC.
 """
 
+import base64
 import json
 import logging
 import math
+from pathlib import Path
 import sys
 from contextlib import redirect_stdout
 from typing import Any
-from fastapi import HTTPException
 from pydantic import ValidationError
 from server.models.phase1 import HighwayRoutePlanRequest, VehicleType
 from server.models.schemas import CostParametersOverride, FreightCostSimulationRequest, PortGravitySimulationRequest, RouteRequest
-from server.services.error_contract import domain_error_from_status, route_error_contract
-from server.services.exceptions import AmbiguousLocationError, DataIntegrityError
-
-from gisindia4logistics.data_root import DataNotFoundError, data_not_found_contract, require_data_root
-from server.dependencies import DataStore
-
-from mcp_server.tools import (
-    serialize_tool_result,
-    tool_calculate_intermodal_freight_cost,
-    tool_find_nearest_facilities,
-    tool_get_district_scorecard,
-    tool_highway_route_and_tolls,
-    tool_plan_highway_route,
-    tool_simulate_port_catchment,
-)
-from mcp_server import tools as _tools
 
 LOGGER = logging.getLogger(__name__)
-MCP_PROTOCOL_VERSION = "2024-11-05"
+MCP_PROTOCOL_VERSION = "2025-06-18"
+SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05", "2025-03-26", "2025-06-18"}
+
+_READ_ONLY_ANNOTATIONS = {
+    "readOnlyHint": True,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": False,
+}
+_PLOT_ANNOTATIONS = {
+    "readOnlyHint": False,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": False,
+}
 
 TOOLS_METADATA = [
     {
@@ -133,6 +132,67 @@ TOOLS_METADATA.append({
     "inputSchema": HighwayRoutePlanRequest.model_json_schema(),
 })
 
+TOOLS_METADATA.extend([
+    {
+        "name": "gis_get_subdistrict_profile",
+        "description": "Query sub-district infrastructure access metrics and official LGD sub-district directory linkage across India's 6,636 ABDB sub-districts (preserves alphanumeric carveout codes such as 00285N001). Requires at least one location filter.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "state": {"type": ["string", "null"], "description": "State/UT name, e.g. 'Uttarakhand', 'Maharashtra'"},
+                "district": {"type": ["string", "null"], "description": "District name (exact or substring), e.g. 'Chamoli', 'Pune'"},
+                "sub_district": {"type": ["string", "null"], "description": "Sub-district / taluka name (exact or substring), e.g. 'Ghat', 'Mulshi'"},
+                "sub_district_code": {"type": ["string", "null"], "description": "ABDB/LGD sub-district code (e.g. '00285N001', '285')"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 100, "description": "Maximum rows to return (default: 25, max: 100)"},
+            },
+            "anyOf": [
+                {"required": ["state"]},
+                {"required": ["district"]},
+                {"required": ["sub_district"]},
+                {"required": ["sub_district_code"]},
+            ],
+        },
+    },
+    {
+        "name": "gis_get_subdistrict_census",
+        "description": "Query Census 2011 sub-district Primary Census Abstract & Table A-01 indicators (population, literacy, workers, area sq. km, villages, towns) from ORGI GODL-India tables. Requires at least one filter.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "state": {"type": ["string", "null"], "description": "State/UT name"},
+                "district": {"type": ["string", "null"], "description": "Census 2011 district name"},
+                "sub_district": {"type": ["string", "null"], "description": "Census 2011 sub-district name"},
+                "census_subdistrict_code": {"type": ["string", "null"], "description": "Census 2011 5-digit sub-district code (e.g. '00001')"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 100, "description": "Maximum rows to return (default: 25, max: 100)"},
+            },
+            "anyOf": [
+                {"required": ["state"]},
+                {"required": ["district"]},
+                {"required": ["sub_district"]},
+                {"required": ["census_subdistrict_code"]},
+            ],
+        },
+    },
+    {
+        "name": "gis_get_freight_statistics",
+        "description": "Query reconciled annual freight statistics: Indian Railways loading (FY20-FY25), major port throughput (FY20-FY24), and MoRTH road network length indicators.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "series": {
+                    "type": "string",
+                    "enum": ["all", "rail", "port", "road"],
+                    "description": "Freight series filter: 'all', 'rail', 'port', or 'road' (default: 'all')",
+                },
+                "fy": {"type": ["string", "null"], "description": "Fiscal year filter, e.g. '2024-25', '2023-24'"},
+                "entity_code": {"type": ["string", "null"], "description": "Zone/port/national code, e.g. 'ALL_INDIA', 'INPRT', 'NR'"},
+                "commodity_group": {"type": ["string", "null"], "description": "Commodity or road class filter, e.g. 'coal', 'national_highways', 'all'"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 200, "description": "Maximum rows to return (default: 50, max: 200)"},
+            },
+        },
+    },
+])
+
 
 def _freight_input_schema() -> dict[str, Any]:
     # Reuse REST field descriptions/constraints, never import the SDK (which
@@ -154,12 +214,25 @@ def _freight_input_schema() -> dict[str, Any]:
 
 for _tool in TOOLS_METADATA:
     _tool["inputSchema"]["additionalProperties"] = False
+    _tool["annotations"] = (
+        dict(_PLOT_ANNOTATIONS)
+        if _tool["name"] == "gis_plot_villages_map"
+        else dict(_READ_ONLY_ANNOTATIONS)
+    )
     if _tool["name"] == "gis_calculate_intermodal_freight_cost":
         _tool["inputSchema"] = _freight_input_schema()
     elif _tool["name"] == "gis_get_district_scorecard":
         _tool["inputSchema"]["properties"]["state"] = {
             "type": ["string", "null"], "description": "State to disambiguate district names",
         }
+
+
+def _has_filter_value(val: Any) -> bool:
+    if val is None:
+        return False
+    if isinstance(val, str):
+        return bool(val.strip())
+    return True
 
 
 def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> None:
@@ -172,10 +245,11 @@ def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> No
     if missing:
         raise ValueError(f"Missing arguments: {', '.join(sorted(missing))}")
     if "anyOf" in schema and not any(
-        all(args.get(name) is not None for name in option["required"])
+        all(_has_filter_value(args.get(name)) for name in option["required"])
         for option in schema["anyOf"]
     ):
-        raise ValueError("origin_district or origin_district_code is required")
+        options = [" + ".join(option["required"]) for option in schema["anyOf"]]
+        raise ValueError(f"One of {', '.join(options)} is required")
     for name, value in args.items():
         field = properties[name]
         variants = field.get("anyOf", [field])
@@ -210,13 +284,35 @@ def _validate_tool_arguments(schema: dict[str, Any], args: dict[str, Any]) -> No
                 raise ValueError(f"{name} violates {key} {constraints[key]}")
 
 
-SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05"}
-
-
 def _package_version() -> str:
     """Package version for serverInfo; reads the package __init__ only, never the SDK module."""
     from gisindia4logistics import __version__
     return __version__
+
+
+_LAZY_TOOL_ATTRS = frozenset({
+    "serialize_tool_result",
+    "tool_calculate_intermodal_freight_cost",
+    "tool_find_nearest_facilities",
+    "tool_get_district_scorecard",
+    "tool_get_freight_statistics",
+    "tool_get_subdistrict_census",
+    "tool_get_subdistrict_profile",
+    "tool_highway_route_and_tolls",
+    "tool_plan_highway_route",
+    "tool_plot_villages_map",
+    "tool_simulate_port_catchment",
+})
+
+
+def __getattr__(name: str) -> Any:
+    if name in _LAZY_TOOL_ATTRS:
+        from mcp_server import tools as _tools
+        return getattr(_tools, name)
+    if name == "DataStore":
+        from server.dependencies import DataStore
+        return DataStore
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def _tool_failure(req_id: Any, contract: dict[str, Any]) -> dict[str, Any]:
@@ -332,30 +428,51 @@ def handle_rpc_request(req: dict[str, Any]) -> dict[str, Any] | None:
             return _tool_failure(req_id, {
                 "status": 422, "code": "invalid_request", "message": "Request input is invalid.",
             })
+
+        from fastapi import HTTPException
+        from gisindia4logistics.data_root import DataNotFoundError, data_not_found_contract, require_data_root
+        from mcp_server import tools as _tools
+        from server.dependencies import DataStore
+        from server.services.error_contract import domain_error_from_status, route_error_contract
+        from server.services.exceptions import AmbiguousLocationError, DataIntegrityError
+
         try:
             if isinstance(_tools.store, _tools._LazyDataStore) and DataStore._instance is None:
                 require_data_root()
+            handler_names = {
+                "gis_get_district_scorecard": "tool_get_district_scorecard",
+                "gis_calculate_intermodal_freight_cost": "tool_calculate_intermodal_freight_cost",
+                "gis_find_nearest_facilities": "tool_find_nearest_facilities",
+                "gis_highway_route_and_tolls": "tool_highway_route_and_tolls",
+                "gis_plan_highway_route": "tool_plan_highway_route",
+                "gis_simulate_port_catchment": "tool_simulate_port_catchment",
+                "gis_plot_villages_map": "tool_plot_villages_map",
+                "gis_get_subdistrict_profile": "tool_get_subdistrict_profile",
+                "gis_get_subdistrict_census": "tool_get_subdistrict_census",
+                "gis_get_freight_statistics": "tool_get_freight_statistics",
+            }
+            attr_name = handler_names[tool_name]
+            handler = globals().get(attr_name) or getattr(_tools, attr_name)
+            res = handler(**args)
+
+            serialize_fn = globals().get("serialize_tool_result") or _tools.serialize_tool_result
+            content: list[dict[str, Any]] = [{
+                "type": "text",
+                "text": json.dumps(serialize_fn(res), indent=2, allow_nan=False),
+            }]
             if tool_name == "gis_plot_villages_map":
-                from mcp_server.tools import tool_plot_villages_map
-                res = tool_plot_villages_map(**args)
-            else:
-                handlers = {
-                    "gis_get_district_scorecard": tool_get_district_scorecard,
-                    "gis_calculate_intermodal_freight_cost": tool_calculate_intermodal_freight_cost,
-                    "gis_find_nearest_facilities": tool_find_nearest_facilities,
-                    "gis_highway_route_and_tolls": tool_highway_route_and_tolls,
-                    "gis_plan_highway_route": tool_plan_highway_route,
-                    "gis_simulate_port_catchment": tool_simulate_port_catchment,
-                }
-                res = handlers[tool_name](**args)
+                png_path = (res.get("outputs") or {}).get("png_map_path")
+                if png_path and Path(png_path).is_file():
+                    content.append({
+                        "type": "image",
+                        "data": base64.b64encode(Path(png_path).read_bytes()).decode("ascii"),
+                        "mimeType": "image/png",
+                    })
 
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
-                "result": {"content": [{
-                    "type": "text",
-                    "text": json.dumps(serialize_tool_result(res), indent=2, allow_nan=False),
-                }]}
+                "result": {"content": content},
             }
         except Exception as e:
             LOGGER.exception("MCP tool call failed: %s", tool_name)

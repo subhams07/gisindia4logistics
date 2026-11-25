@@ -1,13 +1,13 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-11-25.
+Read this before making changes. Last updated: 2026-11-26.
 
 ## What this repository is
 
 An open, curated GIS data collection and freight analytics platform for logistics/transport analysis in
 India, published at https://github.com/subhams07/gisindia4logistics (PUBLIC canonical repository). It is a **hybrid** repo: small
-and medium datasets committed directly (~460 MB total), larger/regenerable
+and medium datasets committed directly (~1.1 GB `data/`, ~2.3 GB incl. git history), larger/regenerable
 datasets produced by fetch scripts.
 
 **Core standards (do not violate):**
@@ -21,12 +21,12 @@ datasets produced by fetch scripts.
 
 | Layer | What | Count | Source | License |
 |---|---|---|---|---|
-| States (current) | polygons (name only) | 36 | SoI ABDB (provenance via docs/metadata/abdb/) | copyright per metadata; good-faith redistribution |
+| States (current) | polygons (name only) | 36 | SoI ABDB (provenance via docs/metadata/abdb/) | SoI public data (attributed; indicative; 2026-11-26 ruling) |
 | Districts (current) | official LGD codes (abdb_district_code, census2011_code kept) | 780 | SoI ABDB + LGD directory | same |
 | Sub-districts (current) | GPKG + Parquet, district names from the district layer | 6,636 | SoI ABDB | same |
 | LGD district directory | official snapshot + ABDB→LGD crosswalk | 790 / 780 | lgdirectory.gov.in | GODL-India |
 | States + districts (2011) | joins to Census tables | 36 / 640 | DataMeet maps | CC BY 4.0 |
-| Villages | polygons, all 36 states/UTs (GeoJSON + Parquet) | 658,248 | Survey of India (27 via SoI portal, 9 via NWDP) | same ABDB constraints / GODL (NWDP) |
+| Villages | polygons, all 36 states/UTs (GeoJSON + Parquet) | 658,248 | Survey of India (27 via SoI portal, 9 via NWDP) | SoI public data (attributed) / GODL (NWDP) |
 | Talukas (OSM sample) | Pune district | 14 | OSM | ODbL |
 | Roads — NH network | numbered NH routes | 141,990 segments | OSM/Overpass | ODbL |
 | Toll plazas | clustered OSM toll points (`toll_id`, `osm_node_id`, per-row OSM URL) | 1,585 | OSM | ODbL |
@@ -800,6 +800,28 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
     regenerated (run `linux-2026-11-25-run9`). Tagged `v2.0.0`; the PyPI
     workflow is manual-only, so the tag publishes nothing. Rule: a version
     bump is a closure edit; regenerate Stage 4 with it.
+
+### Phase Z: MCP sharing improvements & Survey of India public-data ruling (2026-11-26)
+61. Closed the Survey of India boundary-data redistribution blocker per the
+    2026-11-26 maintainer ruling (`DATA_LICENSE.md`, `docs/legal_compliance.md`,
+    `docs/decision_log.md`, `docs/sources.md`, `catalog.yaml`, `README.md`;
+    attribution, DST 2021 compliance, and indicative-boundary disclaimers kept)
+    and implemented MCP sharing improvements 1–4:
+    - Deferred heavy GIS/FastAPI imports in `mcp_server/server.py` until
+      `tools/call` dispatch; negotiated `2024-11-05` / `2025-03-26` / `2025-06-18`;
+      added `readOnlyHint`/`destructiveHint`/`idempotentHint`/`openWorldHint`
+      annotations on all 10 tools.
+    - Deferred highway graph building in `server/dependencies.py`
+      (`DataStore.initialize_store(load_graph=False)` + `ensure_highway_graph()`
+      on first `get_highway_snapshot()`, `/health/ready`, and `/`).
+      Note: `server/dependencies.py` is in Stage 4 `code_hashes`, so Linux
+      Stage 4 (`run10`) must refresh `producer_manifest.json` before merge.
+    - Appended inline base64 `image/png` content block in `gis_plot_villages_map`
+      while keeping `content[0]` JSON text backward-compatible; added portable
+      cross-platform `plugins/gisindia4logistics/launch_mcp.py` in `plugin.json`.
+    - Added 3 bounded read-only MCP tools: `gis_get_subdistrict_profile`,
+      `gis_get_subdistrict_census`, and `gis_get_freight_statistics`, plus
+      comprehensive regression tests in `tests/test_mcp_sharing_improvements.py`.
 
 ## Enhancement backlog (suggested next steps)
 

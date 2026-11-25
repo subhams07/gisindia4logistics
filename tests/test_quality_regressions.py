@@ -169,7 +169,7 @@ def test_mcp_initialize_and_ping_are_supported():
     ping = handle_rpc_request({"jsonrpc": "2.0", "id": 2, "method": "ping", "params": None})
     notification = handle_rpc_request({"jsonrpc": "2.0", "method": "notifications/initialized"})
 
-    assert initialized["result"]["protocolVersion"] == "2024-11-05"
+    assert initialized["result"]["protocolVersion"] == "2025-06-18"
     assert initialized["result"]["serverInfo"]["name"] == "gisindia4logistics"
     assert "tools" in initialized["result"]["capabilities"]
     assert ping["result"] == {}

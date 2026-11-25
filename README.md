@@ -96,10 +96,10 @@ The licence column is an inventory, not a grant. [DATA_LICENSE.md](DATA_LICENSE.
 
 | Layer | Contents | Count | Source | Licence / conditions |
 |---|---|---|---|---|
-| 🏛️ **States** | State/UT boundaries (name only; no state code) | **36** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | SoI copyright; redistribution unresolved |
-| 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | SoI copyright; redistribution unresolved (NWDP files: government open data, attributed) |
+| 🏛️ **States** | State/UT boundaries (name only; no state code) | **36** | Survey of India ABDB | Survey of India public data (attributed; indicative) |
+| 🏛️ **Districts** | 2024–25 administrative polygons | **780** | Survey of India ABDB | Survey of India public data (attributed; indicative) |
+| 🏛️ **Sub-districts** | Taluka/tehsil polygons | **6,636** | Survey of India ABDB | Survey of India public data (attributed; indicative) |
+| 🏡 **Villages** | LGD-coded village polygons | **658,248** in all 36 States/UTs (72,097 of them in the 9 border/NE States/UTs, via the National Water Data Portal) | Survey of India | Survey of India public data (attributed; indicative; NWDP files: government open data) |
 | 🛣️ **National Highways** | Topological network (motorway/trunk/primary) | **141,990 segments** | OpenStreetMap | ODbL |
 | 🏷️ **Toll plazas** | Clustered OSM toll points (`toll_id`, `osm_node_id`, per-row OSM URL); not an NHAI register | **1,585** | OpenStreetMap | ODbL |
 | 🚂 **Railway stations** | 2016 base with zone/division enrichment & OSM coordinate cleanup (8,695 in India + 2 international) | **8,697** (5,938 category records) | DataMeet + community classification | Unclear; redistribution unresolved |
@@ -254,10 +254,12 @@ Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpo
 ```json
 {
   "mcpServers": {
-    "gisindia4logistics": { "command": "/path/to/gisindia4logistics/.venv/bin/python", "args": ["-m", "mcp_server.server"] }
+    "gisindia4logistics": { "command": "python", "args": ["/path/to/gisindia4logistics/plugins/gisindia4logistics/launch_mcp.py"] }
   }
 }
 ```
+
+The portable launcher resolves `.venv` and sets `GIS4LOGISTICS_DATA_PATH` automatically from any working directory (or run `gisindia4logistics mcp` / `/path/to/.venv/bin/python -m mcp_server.server` inside an editable install).
 
 | Tool | What it does |
 |---|---|
@@ -267,7 +269,10 @@ Interactive docs are served at `http://localhost:8000/docs` (OpenAPI 3.1). Endpo
 | `gis_calculate_intermodal_freight_cost` | Road vs rail vs DFC comparison |
 | `gis_find_nearest_facilities` | Nearest ports, ICDs, MMLPs, other hubs and toll plazas to a point |
 | `gis_simulate_port_catchment` | Gravity-based port contestability |
-| `gis_plot_villages_map` | Leaflet HTML or 300 DPI PNG accessibility map |
+| `gis_plot_villages_map` | Leaflet HTML or 300 DPI PNG accessibility map (returns inline PNG image block) |
+| `gis_get_subdistrict_profile` | Sub-district access metrics + LGD directory linkage (6,636 ABDB sub-districts) |
+| `gis_get_subdistrict_census` | Census 2011 sub-district PCA & Table A-01 demographic/area indicators (5,988 rows) |
+| `gis_get_freight_statistics` | Reconciled annual rail loading, port throughput, and MoRTH road length series (142 records) |
 
 ### 6. QGIS, ArcGIS, Kepler.gl or GeoPandas
 

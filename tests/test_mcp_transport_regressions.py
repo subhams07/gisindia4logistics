@@ -20,6 +20,9 @@ TOOL_NAMES = {
     "gis_plan_highway_route",
     "gis_simulate_port_catchment",
     "gis_plot_villages_map",
+    "gis_get_subdistrict_profile",
+    "gis_get_subdistrict_census",
+    "gis_get_freight_statistics",
 }
 
 

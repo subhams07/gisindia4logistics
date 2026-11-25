@@ -129,6 +129,7 @@ def liveness():
 def readiness(request: Request):
     """Confirm that core data and routing components are loaded."""
     store = DataStore.get_instance()
+    store.ensure_highway_graph()
     request.state.gis_store = store
     missing = _missing_core_components(store)
     payload = {
@@ -143,6 +144,7 @@ def readiness(request: Request):
 @app.get("/", tags=["Health & Status"])
 def root_info(request: Request):
     store = DataStore.get_instance()
+    store.ensure_highway_graph()
     request.state.gis_store = store
     missing = _missing_core_components(store)
     return {

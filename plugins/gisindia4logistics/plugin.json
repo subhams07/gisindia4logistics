@@ -10,7 +10,7 @@
   "mcpServers": {
     "gisindia4logistics": {
       "command": "python",
-      "args": ["-m", "mcp_server.server"]
+      "args": ["plugins/gisindia4logistics/launch_mcp.py"]
     }
   }
 }

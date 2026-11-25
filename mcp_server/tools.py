@@ -3,9 +3,16 @@ mcp_server/tools.py
 High-level GIS4Logistics tool implementations callable by MCP servers and AI agents.
 """
 
+from functools import lru_cache
+from pathlib import Path
+import re
 from typing import Any
+
+import pandas as pd
 from server.models.phase1 import HighwayRoutePlanRequest
 
+from gisindia4logistics.data_root import DataNotFoundError
+from scripts.clean.standardize import clean_state_name
 from server.config import settings
 from server.dependencies import DataStore
 from server.models.schemas import (
@@ -190,3 +197,198 @@ def tool_plot_villages_map(
     validate_village_map_paths(plot_villages.DATA_DIR, state)
     return plot_villages.render_village_map(state, district, metric, output_format,
                                             output_dir=settings.OUTPUT_PATH / "maps")
+
+
+def _tools_data_dir() -> Path:
+    if not isinstance(store, _LazyDataStore) and hasattr(store, "data_dir"):
+        return Path(store.data_dir)
+    if DataStore._instance is not None:
+        return Path(DataStore._instance.data_dir)
+    return Path(settings.DATA_PATH)
+
+
+@lru_cache(maxsize=16)
+def _cached_csv_records(path_str: str, mtime_ns: int, str_cols: tuple[str, ...]) -> pd.DataFrame:
+    dtype_map = {col: "string" for col in str_cols}
+    if str_cols:
+        return pd.read_csv(path_str, dtype=dtype_map, keep_default_na=True)
+    return pd.read_csv(path_str)
+
+
+def _read_data_csv(rel_path: str, str_cols: tuple[str, ...] = ()) -> pd.DataFrame:
+    path = _tools_data_dir() / rel_path
+    if not path.is_file():
+        raise DataNotFoundError(path)
+    return _cached_csv_records(str(path), path.stat().st_mtime_ns, str_cols).copy()
+
+
+def _filter_text_column(df: pd.DataFrame, col: str, query: str, *, allow_substring: bool = True) -> pd.DataFrame:
+    q = query.strip()
+    if not q or col not in df.columns:
+        return df
+    vals = df[col].fillna("").astype(str).str.strip().str.casefold()
+    q_cf = q.casefold()
+    exact = df[vals == q_cf]
+    if not exact.empty or not allow_substring:
+        return exact
+    return df[vals.str.contains(re.escape(q_cf), regex=True, na=False)]
+
+
+def _filter_state_column(df: pd.DataFrame, query: str | None) -> pd.DataFrame:
+    if not query or not query.strip():
+        return df
+    q = query.strip()
+    canon = clean_state_name(q) or q
+    vals = df["state"].fillna("").astype(str).str.strip().str.casefold()
+    return df[vals == canon.casefold()]
+
+
+def tool_get_subdistrict_profile(
+    state: str | None = None,
+    district: str | None = None,
+    sub_district: str | None = None,
+    sub_district_code: str | None = None,
+    limit: int = 25,
+) -> dict[str, Any]:
+    """Query sub-district infrastructure access metrics and optional LGD directory linkage.
+
+    Preserves alphanumeric SoI ABDB carveout codes (e.g. '00285N001', '07314NOO1')
+    and requires at least one location filter with bounded result size.
+    """
+    if not any(isinstance(v, str) and v.strip() for v in (state, district, sub_district, sub_district_code)):
+        raise ValueError("Provide at least one filter: state, district, sub_district, or sub_district_code")
+    if not 1 <= int(limit) <= 100:
+        raise ValueError("limit must be between 1 and 100")
+
+    df = _read_data_csv(
+        "analysis/india_subdistrict_access.csv",
+        str_cols=("district_code", "sub_district_code"),
+    )
+    filtered = _filter_state_column(df, state)
+    if district and district.strip():
+        filtered = _filter_text_column(filtered, "district", district, allow_substring=True)
+    if sub_district and sub_district.strip():
+        filtered = _filter_text_column(filtered, "sub_district", sub_district, allow_substring=True)
+    if sub_district_code and sub_district_code.strip():
+        q_code = sub_district_code.strip()
+        if re.fullmatch(r"[0-9]+", q_code):
+            q_code = str(int(q_code))
+        codes = filtered["sub_district_code"].fillna("").astype(str).str.strip()
+        filtered = filtered[codes.str.casefold() == q_code.casefold()]
+
+    total_matches = int(len(filtered))
+    sliced = filtered.sort_values(["state", "district", "sub_district"], kind="mergesort").head(int(limit)).copy()
+
+    # Attach official LGD sub-district name & Census 2011 code on matching string codes
+    lgd_path = _tools_data_dir() / "administrative" / "lgd_subdistricts.csv"
+    if lgd_path.is_file() and not sliced.empty:
+        lgd = _cached_csv_records(
+            str(lgd_path), lgd_path.stat().st_mtime_ns, ("sub_district_code", "census2011_code")
+        )
+        lgd_map = lgd.set_index("sub_district_code")[["sub_district_name", "census2011_code"]].to_dict("index")
+        extras = [lgd_map.get(str(c).strip() if pd.notna(c) else "") for c in sliced["sub_district_code"]]
+        sliced["lgd_subdistrict_name"] = [e["sub_district_name"] if e else None for e in extras]
+        sliced["census2011_code"] = [e["census2011_code"] if e else None for e in extras]
+
+    records = serialize_result(sliced.to_dict(orient="records"), missing_nan=True)
+    return {
+        "total_matches": total_matches,
+        "returned": len(records),
+        "truncated": total_matches > len(records),
+        "subdistricts": records,
+    }
+
+
+def tool_get_subdistrict_census(
+    state: str | None = None,
+    district: str | None = None,
+    sub_district: str | None = None,
+    census_subdistrict_code: str | None = None,
+    limit: int = 25,
+) -> dict[str, Any]:
+    """Query Census 2011 sub-district PCA & Table A-01 demographic/area indicators (ORGI GODL-India)."""
+    if not any(isinstance(v, str) and v.strip() for v in (state, district, sub_district, census_subdistrict_code)):
+        raise ValueError("Provide at least one filter: state, district, sub_district, or census_subdistrict_code")
+    if not 1 <= int(limit) <= 100:
+        raise ValueError("limit must be between 1 and 100")
+
+    df = _read_data_csv(
+        "demographic/census2011_subdistrict_key_indicators.csv",
+        str_cols=("census_state_code", "census_district_code", "census_subdistrict_code"),
+    )
+    filtered = _filter_state_column(df, state)
+    if district and district.strip():
+        filtered = _filter_text_column(filtered, "district", district, allow_substring=True)
+    if sub_district and sub_district.strip():
+        filtered = _filter_text_column(filtered, "sub_district", sub_district, allow_substring=True)
+    if census_subdistrict_code and census_subdistrict_code.strip():
+        q_code = census_subdistrict_code.strip()
+        if re.fullmatch(r"[0-9]+", q_code):
+            q_code = q_code.zfill(5)
+        codes = filtered["census_subdistrict_code"].fillna("").astype(str).str.strip()
+        filtered = filtered[codes == q_code]
+
+    total_matches = int(len(filtered))
+    sliced = filtered.sort_values(
+        ["population", "census_state_code", "census_district_code", "census_subdistrict_code"],
+        ascending=[False, True, True, True],
+        kind="mergesort",
+    ).head(int(limit))
+    records = serialize_result(sliced.to_dict(orient="records"), missing_nan=True)
+    return {
+        "total_matches": total_matches,
+        "returned": len(records),
+        "truncated": total_matches > len(records),
+        "source": "ORGI Census 2011 PCA & Table A-01 (GODL-India)",
+        "records": records,
+    }
+
+
+FREIGHT_SERIES_FILES = {
+    "rail": "freight/rail_freight_annual.csv",
+    "port": "freight/port_throughput_annual.csv",
+    "road": "freight/road_indicators_annual.csv",
+}
+
+
+def tool_get_freight_statistics(
+    series: str = "all",
+    fy: str | None = None,
+    entity_code: str | None = None,
+    commodity_group: str | None = None,
+    limit: int = 50,
+) -> dict[str, Any]:
+    """Query reconciled annual rail freight, major port throughput, and MoRTH road statistics."""
+    if series not in ("all", "rail", "port", "road"):
+        raise ValueError("series must be one of 'all', 'rail', 'port', 'road'")
+    if not 1 <= int(limit) <= 200:
+        raise ValueError("limit must be between 1 and 200")
+
+    targets = list(FREIGHT_SERIES_FILES.items()) if series == "all" else [(series, FREIGHT_SERIES_FILES[series])]
+    frames = []
+    for name, rel_path in targets:
+        part = _read_data_csv(rel_path)
+        part.insert(0, "series", name)
+        frames.append(part)
+    df = pd.concat(frames, ignore_index=True)
+
+    if fy and fy.strip():
+        df = _filter_text_column(df, "fy", fy, allow_substring=False)
+    if entity_code and entity_code.strip():
+        df = _filter_text_column(df, "entity_code", entity_code, allow_substring=False)
+    if commodity_group and commodity_group.strip():
+        df = _filter_text_column(df, "commodity_group", commodity_group, allow_substring=True)
+
+    total_matches = int(len(df))
+    sliced = df.sort_values(
+        ["fy", "series", "entity_code", "commodity_group"],
+        ascending=[False, True, True, True],
+        kind="mergesort",
+    ).head(int(limit))
+    records = serialize_result(sliced.to_dict(orient="records"), missing_nan=True)
+    return {
+        "total_matches": total_matches,
+        "returned": len(records),
+        "truncated": total_matches > len(records),
+        "records": records,
+    }

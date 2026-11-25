@@ -18,8 +18,7 @@ datasets:
   description: 36 states/UTs from the PAN INDIA LGD-coded dataset
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; redistribution unresolved, not written permission;
-    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
+  license: Survey of India public data (attributed; indicative boundaries; Geospatial Guidelines 2021; see DATA_LICENSE.md)
   vintage: current
   resolution: state
   access: committed
@@ -32,8 +31,7 @@ datasets:
   description: 780 districts with LGD codes — post-2011 districts incl. 2024-25 formations
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; redistribution unresolved, not written permission;
-    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
+  license: Survey of India public data (attributed; indicative boundaries; Geospatial Guidelines 2021; see DATA_LICENSE.md)
   vintage: current (~780 districts)
   resolution: district
   access: committed
@@ -53,8 +51,7 @@ datasets:
   description: 6,636 talukas/tehsils/blocks with LGD codes and type
   provider: Survey of India ABDB (NGDR & UGID) — provider confirmed via official ISO 19115 metadata (docs/metadata/abdb/)
   source_url: https://surveyofindia.gov.in (ABDB; metadata identifiers SOI/ABDB/VECTOR/50000/2025/...)
-  license: copyright per metadata; redistribution unresolved, not written permission;
-    Geospatial Guidelines 2021 are a policy reference (see DATA_LICENSE.md)
+  license: Survey of India public data (attributed; indicative boundaries; Geospatial Guidelines 2021; see DATA_LICENSE.md)
   vintage: current
   resolution: sub-district
   access: committed
@@ -142,8 +139,7 @@ datasets:
     village category Rural/Urban
   provider: Survey of India
   source_url: https://surveyofindia.gov.in/pages/village-boundary-data-base-of-entire-india
-  license: no explicit redistribution license stated; public download and attribution are not
-    written permission; redistribution unresolved (see DATA_LICENSE.md)
+  license: Survey of India public data (attributed; indicative boundaries; Geospatial Guidelines 2021; see DATA_LICENSE.md)
   vintage: current (published by SoI; page updated 2026)
   resolution: village
   access: committed (all 36 state files, 27 from the SoI portal and 9 via the National Water Data Portal)

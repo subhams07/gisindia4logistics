@@ -4,6 +4,18 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+### Added & Changed — MCP sharing improvements & Survey of India public-data ruling (2026-11-26)
+
+- **Maintainer ruling (2026-11-26) on Survey of India boundary maps:** all Survey of India administrative and village boundary products (ABDB and portal/NWDP village boundaries) are treated as public data available for distribution with SoI attribution, DST 2021 Geospatial Guidelines compliance, indicative-boundary disclaimers, and remove-on-request (`DATA_LICENSE.md`, `docs/legal_compliance.md`, `docs/decision_log.md`, `docs/sources.md`, `catalog.yaml`, `README.md`, `AGENTS.md`). The standalone 2016 DataMeet railway station base remains flagged separately as unclear/unresolved.
+- **MCP startup & graph latency (`mcp_server/server.py`, `server/dependencies.py`, `server/app.py`):**
+  - Deferred heavy runtime imports (`fastapi`, `server.dependencies`, `mcp_server.tools`, `geopandas`/`scipy`) in `mcp_server/server.py` until `tools/call` dispatch so `initialize` / `ping` / `tools/list` never load GIS dependencies or touch `DataStore`.
+  - Deferred highway graph construction in `DataStore.initialize_store(load_graph=False)` until first routing access (`DataStore.ensure_highway_graph()` via `get_highway_snapshot()` and `/health/ready` / `/`), removing the ~5–6 s graph build from non-routing MCP tools (requires Stage 4 code-hash manifest refresh on Linux because `server/dependencies.py` is in `code_hashes`).
+- **MCP protocol, annotations, inline images & portable plugin launcher:**
+  - Negotiates `2024-11-05`, `2025-03-26`, and `2025-06-18` (default `2025-06-18`); attaches standard tool `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) on all 10 tools.
+  - `gis_plot_villages_map` preserves `content[0]` JSON metadata and appends an inline MCP `image` content block (`image/png`, base64) when a PNG map is generated.
+  - Added stdlib cross-platform `plugins/gisindia4logistics/launch_mcp.py` and wired `plugins/gisindia4logistics/plugin.json` to it so `.venv` and `GIS4LOGISTICS_DATA_PATH` resolve automatically from any working directory.
+- **3 new bounded read-only MCP tools (`mcp_server/tools.py`, `mcp_server/server.py`, `skills/gisindia4logistics/SKILL.md`):** `gis_get_subdistrict_profile`, `gis_get_subdistrict_census`, and `gis_get_freight_statistics`.
+
 ## [2.0.0] - 2026-11-25
 
 Release after the November 2026 audit (all 61 decision items resolved; see `docs/review/decision_proposals_2026-11.md`). Major version because the REST API, SDK and MCP interfaces changed incompatibly; data version stays `2026.11`. Published outputs are Stage 4 run `linux-2026-11-25-run9` (the version bump edits two Stage 4 code-closure files). Tagged `v2.0.0`; no PyPI release (the publish workflow is manual-only and the Survey of India redistribution question is still open).
