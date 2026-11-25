@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Security fixes are applied to the latest code on the default branch. The only tag is `v1.0.0` (2026-08-29); it and other older commits are not separately supported.
+Security fixes are applied to the latest code on the default branch. Tags are `v1.0.0` (2026-08-29) and `v2.0.0` (2026-11-25); tagged and other older commits are not separately supported.
 
 ## Reporting a vulnerability
 

@@ -1,7 +1,7 @@
 # AGENTS.md — Project Context & Build Log
 
 Context file for AI agents (and humans) working on GIS4Logistics India.
-Read this before making changes. Last updated: 2026-11-24.
+Read this before making changes. Last updated: 2026-11-25.
 
 ## What this repository is
 
@@ -788,6 +788,18 @@ legal_compliance.md, metadata/abdb/, review/), `catalog.yaml` (46 datasets).
       658,248 villages the nearest rail station distance changed for 2,371,
       freight terminal 27,827, port 62,677, toll plaza 23,698; 1 district
       changed its optimal freight mode.
+
+### Phase Y: release 2.0.0 (2026-11-25)
+60. After the November 2026 audit closed (#31: all 61 decision items
+    resolved), version 1.1.0 -> 2.0.0 in `pyproject.toml`,
+    `gisindia4logistics/__init__.py`, `server/config.py`, the plugin
+    manifest, the README badge, the `docs/contracts/` examples and
+    `data/version_manifest.json` (data version stays 2026.11). Major because
+    of the breaking REST/SDK/MCP and schema changes listed in the CHANGELOG.
+    The two code files are in the Stage 4 closure, so Stage 4 was
+    regenerated (run `linux-2026-11-25-run9`). Tagged `v2.0.0`; the PyPI
+    workflow is manual-only, so the tag publishes nothing. Rule: a version
+    bump is a closure edit; regenerate Stage 4 with it.
 
 ## Enhancement backlog (suggested next steps)
 

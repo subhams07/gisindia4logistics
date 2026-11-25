@@ -1,6 +1,6 @@
 # 🇮🇳 GISIndia4Logistics
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](CHANGELOG.md)
 [![Hobby project](https://img.shields.io/badge/project-hobby%20%C2%B7%20as--is-lightgrey.svg)](#about-this-project)
 [![Python](https://img.shields.io/badge/python-3.11%20tested-blue.svg?logo=python)](pyproject.toml)
 [![Code License: MIT](https://img.shields.io/badge/Code%20License-MIT-green.svg)](LICENSE)
