@@ -256,7 +256,7 @@ def test_frozen_contracts_parse_cleanly():
     with open(CONTRACTS_DIR / "response_metadata.json", "r", encoding="utf-8") as f:
         data = json.load(f)
         meta = ResponseMetadata.model_validate(data)
-        assert meta.api_version == "1.1.0"
+        assert meta.api_version == "2.0.0"
 
     # 2. Corridor Plan Request
     with open(CONTRACTS_DIR / "corridor_plan_request.json", "r", encoding="utf-8") as f:

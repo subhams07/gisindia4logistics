@@ -4,6 +4,18 @@ All notable code, API, data-schema, and documentation changes will be recorded h
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-25
+
+Release after the November 2026 audit (all 61 decision items resolved; see `docs/review/decision_proposals_2026-11.md`). Major version because the REST API, SDK and MCP interfaces changed incompatibly; data version stays `2026.11`. Published outputs are Stage 4 run `linux-2026-11-25-run9` (the version bump edits two Stage 4 code-closure files). Tagged `v2.0.0`; no PyPI release (the publish workflow is manual-only and the Survey of India redistribution question is still open).
+
+Breaking changes since 1.1.0 (details in the sections below):
+
+- **REST errors** have one shape, `{"detail": {"status", "code", "message"}}`, for router, domain and validation errors and unknown paths.
+- **Removed:** `share_villages_within_5km_rail` from scorecards (it held the 10 km value; use `..._10km_...`), `commodity_name` from the freight-cost SDK and MCP tool, the OSM habitation layer and `fetch_border_habitations.py`, `india_subdistricts_lgd.geojson`, the `freight_terminals.operator` column (`industrial_nodes.district_code` now holds the LGD code of the containing district).
+- **Village maps:** one implementation (`plot_villages.render_village_map`) shared by SDK and MCP, with the same file names and result keys.
+- **Data schemas:** district codes are official LGD codes; `sub_district_code` is text (342 alphanumeric ABDB codes such as `05330N001`); hub files gain `hub_code`, `coord_precision` and (ports) `unlocode`; toll plazas gain `toll_id`, `osm_node_id` and a per-row OSM `source_url`; village files share one attribute schema with text codes.
+- **Server:** `server/__init__.py` no longer imports the app (import it from `server.app`); `gisindia4logistics serve` reads `GIS4LOGISTICS_HOST` / `GIS4LOGISTICS_PORT`.
+
 ### Fixed & Changed — PR #29: railway stations review, ports/airports/GCTs verification, and toll-plaza refresh (Stage 4 run `linux-2026-11-24-run8`)
 
 - **Railway stations & categories (PR #18 review resolved; `data/rail/railway_stations.csv` + `.parquet`, `data/rail/station_categories.csv`, `scripts/clean/assign_station_states.py`, `docs/review/`):**

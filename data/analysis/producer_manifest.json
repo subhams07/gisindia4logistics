@@ -220,7 +220,7 @@
     }
   },
   "code_hashes": {
-    "gisindia4logistics/__init__.py": "6f8b41db8ffd1356f21cb5e2953d7bf4448a9ad51aeeae962857d4c307df20be",
+    "gisindia4logistics/__init__.py": "a0d313228916e861f0ce2bc5ffe38c210ea036ae9a0f7ceb84df9f3154178f23",
     "scripts/analyze/freight_cost_core.py": "402b4325e38c5cceb206e1f93bd7a48ad648a78c92f0647b686716dff230f8c6",
     "scripts/analyze/generate_isochrones.py": "2e5d9f8f77eee86df11a5c5fe37617f830efede2b4fde332894f7947530808a5",
     "scripts/analyze/highway_pair_kernel.py": "c55198289a564a3a6a5fe42337d2a03b00110f435b3580fad1521ebc4f259c79",
@@ -236,7 +236,7 @@
     "scripts/clean/graph_builder.py": "d0513ffee4062e51893628308cc6e139e184ec962eafaf4ee7fe95e73910c7c4",
     "scripts/clean/standardize.py": "f2a50b59d9251c38a7be4b9d2b0af366c3a5d98007e247849ff765243e29ed57",
     "server/__init__.py": "ae56c8bf0ece6f23e24f7a19f105d641dd99c95aeb186c1d162a2c7b0a5a8713",
-    "server/config.py": "fd30abf837f5d2aa91b04896d17c28661a9cd96bde699e29c1ab7baa5b894065",
+    "server/config.py": "e1fd23c39885f62db9eea4383650a8d6bed988684638cb4b17d304135677c1a6",
     "server/dependencies.py": "486022fd7ef382a313c9539c1c0be00ad2d0d773b979ceb7f9583bbf4bc2e9d5",
     "server/models/__init__.py": "21aa90a7c527b5e1c9c819edc528a08370a72458faa06030a16e066d79780646",
     "server/models/phase1.py": "1dbe4e46718a8422fdcce25bf188adc4751190042a8986385dba45f3e29dd59a",
@@ -397,10 +397,10 @@
     "shapely": "2.2.0"
   },
   "resources": {
-    "elapsed_seconds": 1051.6158251880001,
-    "peak_memory_bytes": 641929216
+    "elapsed_seconds": 1311.823288593,
+    "peak_memory_bytes": 621182976
   },
-  "run_id": "linux-2026-11-24-run8",
+  "run_id": "linux-2026-11-25-run9",
   "schema_version": 1,
   "vintage_statement": "Recomputation does not upgrade source vintage, copyright or licensing claims."
 }
