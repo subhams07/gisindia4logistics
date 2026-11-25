@@ -185,7 +185,7 @@ TOOLS_METADATA.extend([
                     "description": "Freight series filter: 'all', 'rail', 'port', or 'road' (default: 'all')",
                 },
                 "fy": {"type": ["string", "null"], "description": "Fiscal year filter, e.g. '2024-25', '2023-24'"},
-                "entity_code": {"type": ["string", "null"], "description": "Zone/port/national code, e.g. 'ALL_INDIA', 'INPRT', 'NR'"},
+                "entity_code": {"type": ["string", "null"], "description": "National or port code, e.g. 'ALL_INDIA' (rail, road), 'ALL_MAJOR_PORTS' or a port UN/LOCODE such as 'INPRT'"},
                 "commodity_group": {"type": ["string", "null"], "description": "Commodity or road class filter, e.g. 'coal', 'national_highways', 'all'"},
                 "limit": {"type": "integer", "minimum": 1, "maximum": 200, "description": "Maximum rows to return (default: 50, max: 200)"},
             },

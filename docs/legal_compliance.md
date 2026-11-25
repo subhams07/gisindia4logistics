@@ -69,7 +69,7 @@ Simplified and indicative; not an authoritative depiction of India's boundaries"
 the SoI portal village GeoJSONs embed "Village boundaries: Survey of India,
 Government of India" and the NWDP village GeoJSONs name Survey of India and the
 National Water Data Portal; the Parquet and GeoPackage copies and the DataMeet
-layers embed none. Survey of India attribution, GST/DST 2021 Guidelines
+layers embed none. Survey of India attribution, DST 2021 Geospatial Guidelines
 compliance, and the indicative-boundary disclaimer remain mandatory, and if SoI
 objects to any file, affected files will be removed promptly.
 
